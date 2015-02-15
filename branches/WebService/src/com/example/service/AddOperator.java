@@ -1,0 +1,16 @@
+/**
+ * 
+ */
+package com.example.service;
+
+/**
+ * @author matias
+ *
+ */
+public class AddOperator {
+ 
+	public int add(int x,int y)
+	{
+		return x + y;
+	}
+}
