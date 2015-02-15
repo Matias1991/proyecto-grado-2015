@@ -1,0 +1,9 @@
+@import "addons.scss";
+@import "webvaadin.scss";
+
+/* This file prefixes all rules with the theme name to avoid causing conflicts with other themes. */
+/* The actual styles should be defined in webvaadin.scss */
+.webvaadin {
+  @include addons;
+  @include webvaadin;
+}
