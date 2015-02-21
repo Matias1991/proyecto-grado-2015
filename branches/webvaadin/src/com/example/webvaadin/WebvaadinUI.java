@@ -55,6 +55,7 @@ public class WebvaadinUI extends UI {
 		
 		content.addComponent(label_1);
         content.addComponent(myComposite);
+        // commit de prueba
 		
 	}
 
