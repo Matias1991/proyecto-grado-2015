@@ -27,7 +27,9 @@ public class WebvaadinUI extends UI {
 
         // Needed because the composites are full size
         content.setSizeFull();
-
+        
+        //Esto es un comentario
+        
         WebServiceStub service;
         String response = null;
 		try {
