@@ -37,6 +37,8 @@ public class WebvaadinUI extends UI {
 			GetValue operation = new GetValue();
 	        operation.setValue(" Hi, hello world!! Message from server");
 	        response = service.getValue(operation).get_return();
+	        
+	     
 		} catch (AxisFault e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
