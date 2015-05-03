@@ -76,6 +76,38 @@
             public void receiveErrorgetUser(java.lang.Exception e) {
             }
                 
+           /**
+            * auto generated Axis2 call back method for correctLoginFromDB method
+            * override this method for handling normal response from correctLoginFromDB operation
+            */
+           public void receiveResultcorrectLoginFromDB(
+                    com.example.service.TestWSStub.CorrectLoginFromDBResponse result
+                        ) {
+           }
+
+          /**
+           * auto generated Axis2 Error handler
+           * override this method for handling error response from correctLoginFromDB operation
+           */
+            public void receiveErrorcorrectLoginFromDB(java.lang.Exception e) {
+            }
+                
+           /**
+            * auto generated Axis2 call back method for getUserDescriptionFromDB method
+            * override this method for handling normal response from getUserDescriptionFromDB operation
+            */
+           public void receiveResultgetUserDescriptionFromDB(
+                    com.example.service.TestWSStub.GetUserDescriptionFromDBResponse result
+                        ) {
+           }
+
+          /**
+           * auto generated Axis2 Error handler
+           * override this method for handling error response from getUserDescriptionFromDB operation
+           */
+            public void receiveErrorgetUserDescriptionFromDB(java.lang.Exception e) {
+            }
+                
 
 
     }
