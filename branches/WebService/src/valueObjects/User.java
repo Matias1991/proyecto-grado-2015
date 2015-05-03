@@ -1,4 +1,4 @@
-package com.example.service;
+package valueObjects;
 
 import java.io.Serializable;
 
