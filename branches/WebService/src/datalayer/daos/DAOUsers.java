@@ -1,14 +1,10 @@
 package datalayer.daos;
 
-import java.lang.reflect.Field;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.Map;
-
 import datalayer.utils.ManageConnection;
 import servicelayer.entity.businessEntity.User;
 import servicelayer.interfaces.dataLayer.IDAOUsers;
