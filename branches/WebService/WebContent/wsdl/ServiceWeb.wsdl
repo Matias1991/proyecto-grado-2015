@@ -1,0 +1,331 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions targetNamespace="http://service.servicelayer" xmlns:apachesoap="http://xml.apache.org/xml-soap" xmlns:impl="http://service.servicelayer" xmlns:intf="http://service.servicelayer" xmlns:tns1="http://valueObject.entity.servicelayer" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:wsdlsoap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+<!--WSDL created by Apache Axis version: 1.4
+Built on Apr 22, 2006 (06:55:48 PDT)-->
+ <wsdl:types>
+  <schema elementFormDefault="qualified" targetNamespace="http://service.servicelayer" xmlns="http://www.w3.org/2001/XMLSchema">
+   <import namespace="http://valueObject.entity.servicelayer"/>
+   <element name="delete">
+    <complexType>
+     <sequence>
+      <element name="id" type="xsd:int"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="deleteResponse">
+    <complexType/>
+   </element>
+   <element name="insert">
+    <complexType>
+     <sequence>
+      <element name="voUser" type="tns1:VOUser"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="insertResponse">
+    <complexType/>
+   </element>
+   <element name="getAllUsers">
+    <complexType/>
+   </element>
+   <element name="getAllUsersResponse">
+    <complexType>
+     <sequence>
+      <element maxOccurs="unbounded" name="getAllUsersReturn" type="tns1:VOUser"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="exist">
+    <complexType>
+     <sequence>
+      <element name="id" type="xsd:int"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="existResponse">
+    <complexType>
+     <sequence>
+      <element name="existReturn" type="xsd:boolean"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="getUser">
+    <complexType>
+     <sequence>
+      <element name="id" type="xsd:int"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="getUserResponse">
+    <complexType>
+     <sequence>
+      <element name="getUserReturn" type="tns1:VOUser"/>
+     </sequence>
+    </complexType>
+   </element>
+  </schema>
+  <schema elementFormDefault="qualified" targetNamespace="http://valueObject.entity.servicelayer" xmlns="http://www.w3.org/2001/XMLSchema">
+   <complexType name="VOUser">
+    <sequence>
+     <element name="email" nillable="true" type="xsd:string"/>
+     <element name="id" type="xsd:int"/>
+     <element name="lastName" nillable="true" type="xsd:string"/>
+     <element name="name" nillable="true" type="xsd:string"/>
+     <element name="password" nillable="true" type="xsd:string"/>
+     <element name="userName" nillable="true" type="xsd:string"/>
+    </sequence>
+   </complexType>
+  </schema>
+ </wsdl:types>
+
+   <wsdl:message name="insertRequest">
+
+      <wsdl:part element="impl:insert" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="insertResponse">
+
+      <wsdl:part element="impl:insertResponse" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="getAllUsersRequest">
+
+      <wsdl:part element="impl:getAllUsers" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="getUserResponse">
+
+      <wsdl:part element="impl:getUserResponse" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="existRequest">
+
+      <wsdl:part element="impl:exist" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="getUserRequest">
+
+      <wsdl:part element="impl:getUser" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="deleteResponse">
+
+      <wsdl:part element="impl:deleteResponse" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="deleteRequest">
+
+      <wsdl:part element="impl:delete" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="getAllUsersResponse">
+
+      <wsdl:part element="impl:getAllUsersResponse" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="existResponse">
+
+      <wsdl:part element="impl:existResponse" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:portType name="ServiceWeb">
+
+      <wsdl:operation name="delete">
+
+         <wsdl:input message="impl:deleteRequest" name="deleteRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:deleteResponse" name="deleteResponse">
+
+       </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="insert">
+
+         <wsdl:input message="impl:insertRequest" name="insertRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:insertResponse" name="insertResponse">
+
+       </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getAllUsers">
+
+         <wsdl:input message="impl:getAllUsersRequest" name="getAllUsersRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:getAllUsersResponse" name="getAllUsersResponse">
+
+       </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="exist">
+
+         <wsdl:input message="impl:existRequest" name="existRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:existResponse" name="existResponse">
+
+       </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getUser">
+
+         <wsdl:input message="impl:getUserRequest" name="getUserRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:getUserResponse" name="getUserResponse">
+
+       </wsdl:output>
+
+      </wsdl:operation>
+
+   </wsdl:portType>
+
+   <wsdl:binding name="ServiceWebSoapBinding" type="impl:ServiceWeb">
+
+      <wsdlsoap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+
+      <wsdl:operation name="delete">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="deleteRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="deleteResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="insert">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="insertRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="insertResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getAllUsers">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="getAllUsersRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="getAllUsersResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="exist">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="existRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="existResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getUser">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="getUserRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="getUserResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+   </wsdl:binding>
+
+   <wsdl:service name="ServiceWebService">
+
+      <wsdl:port binding="impl:ServiceWebSoapBinding" name="ServiceWeb">
+
+         <wsdlsoap:address location="http://localhost:8080/WebService/services/ServiceWeb"/>
+
+      </wsdl:port>
+
+   </wsdl:service>
+
+</wsdl:definitions>
