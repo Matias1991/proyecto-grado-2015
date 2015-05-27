@@ -35,11 +35,9 @@ public class ServiceWeb {
 		VOUser [] users = getAllUsers();
 		for(VOUser user : users)
 		{
-			if(user.getUserName() == userName && user.getPassword() == password)
+			if(user.getUserName().equals(userName) && user.getPassword().equals(password))
 			{
-				
 				return true;
-				
 			}
 		}
 		return false;
