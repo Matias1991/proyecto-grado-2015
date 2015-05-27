@@ -39,4 +39,9 @@ public class ServiceMobile {
 	    
 	    return arrayVoUser;
 	}
+	
+	
+	public String testWSAndroid(){
+		return "Prueba exitosa, esto es respuesta de webservice";
+	}
 }

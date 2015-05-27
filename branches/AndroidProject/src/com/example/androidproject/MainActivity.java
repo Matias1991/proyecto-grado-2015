@@ -2,6 +2,7 @@ package com.example.androidproject;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -17,15 +18,20 @@ import org.ksoap2.serialization.SoapSerializationEnvelope;
 import org.ksoap2.transport.HttpTransportSE;
 
 public class MainActivity extends Activity {
-	private final String NAMESPACE = "http://localhost:8080/WebService/services/";
-	private final String URL = "http://localhost:8080/WebService/services/ServiceMobile?wsdl";
-	private final String SOAP_ACTION = "http://localhost:8080/WebService/services/getUser";
-	private final String METHOD_NAME = "getUser";
+	private final String NAMESPACE = "http://service.servicelayer";
+	private final String URL = "http://10.0.2.2:8080/WebService/services/ServiceMobile?wsdl";
+	private final String SOAP_ACTION = "urn:testWSAndroid";
+	private final String METHOD_NAME = "testWSAndroid";
 	
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		
+		 StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+	     StrictMode.setThreadPolicy(policy);
+		
+		
 		setContentView(R.layout.activity_main);
 
         final Button button = (Button) findViewById(R.id.button1);
@@ -34,7 +40,7 @@ public class MainActivity extends Activity {
                 // Perform action on click
             	EditText EditText = (EditText) findViewById(R.id.editText2);
                 TextView text = (TextView) findViewById(R.id.TextView02);
-        		//text.setText("Hello " + EditText.getText());
+        		//text.setText("ALOHA:  " + EditText.getText());
         		
         		
         		//Create request
@@ -44,7 +50,7 @@ public class MainActivity extends Activity {
         		//Set Name
         		getUserPI.setName("Id");
         		//Set Value
-        		getUserPI.setValue(text);
+        		getUserPI.setValue(EditText.toString());
         		//Set dataType
         		getUserPI.setType(String.class);
         		//Add the property to request object
