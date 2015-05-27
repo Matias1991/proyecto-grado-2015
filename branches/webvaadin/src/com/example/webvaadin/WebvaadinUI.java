@@ -27,7 +27,6 @@ public class WebvaadinUI extends UI {
 		ComponentContainerViewDisplay viewDisplay = new ComponentContainerViewDisplay(layout);
 		navigator = new Navigator(UI.getCurrent(),viewDisplay);
 		navigator.addView("", new LoginView());
-		navigator.addView(CUSTOMUSERSDESCRIPTION, new customUserDescription());
 		
 		
 		//layout.setSizeFull();
