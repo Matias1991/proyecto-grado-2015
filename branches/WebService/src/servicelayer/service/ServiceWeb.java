@@ -30,6 +30,19 @@ public class ServiceWeb {
 		return IFacadeWeb.ExistUser(id);
 	}
 	
+	public boolean login(String userName,String password)
+	{
+		VOUser [] users = getAllUsers();
+		for(VOUser user : users)
+		{
+			if(user.getUserName() == userName && user.getPassword() == password)
+			{
+				return true;
+			}
+		}
+		return false;
+	}
+	
 	public VOUser[] getAllUsers()
 	{
 		ArrayList<VOUser> voUsers = IFacadeWeb.GetAllUsers();
