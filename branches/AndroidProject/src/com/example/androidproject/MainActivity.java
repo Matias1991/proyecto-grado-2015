@@ -19,9 +19,9 @@ import org.ksoap2.transport.HttpTransportSE;
 
 public class MainActivity extends Activity {
 	private final String NAMESPACE = "http://service.servicelayer";
-	private final String URL = "http://10.0.2.2:8080/WebService/services/ServiceMobile?wsdl";
-	private final String SOAP_ACTION = "urn:testWSAndroid";
-	private final String METHOD_NAME = "testWSAndroid";
+	private final String URL = "http://167.108.190.176:8080/WebService/services/ServiceMobile?wsdl";
+	private final String SOAP_ACTION = "urn:getUser";
+	private final String METHOD_NAME = "getUser";
 	
 
 	@Override
@@ -38,21 +38,31 @@ public class MainActivity extends Activity {
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 // Perform action on click
-            	EditText EditText = (EditText) findViewById(R.id.editText2);
-                TextView text = (TextView) findViewById(R.id.TextView02);
-        		//text.setText("ALOHA:  " + EditText.getText());
-        		
+            	EditText textUserId = (EditText) findViewById(R.id.txtUserId);
+                TextView textName = (TextView) findViewById(R.id.txtName);
+                TextView txtUserName = (TextView) findViewById(R.id.txtUserName);
+                TextView txtLastName = (TextView) findViewById(R.id.txtLastName);
+                TextView txtEmail = (TextView) findViewById(R.id.txtEmail);
+                
+                textName.setText("");
+                txtUserName.setText("");
+                txtLastName.setText("");
+                txtEmail.setText("");
+                
+                //text.setText("ALOHA:  " + EditText.getText());
+        		String valueUserId = textUserId.getText().toString();
+                int userId = Integer.parseInt(valueUserId);
         		
         		//Create request
         		SoapObject request = new SoapObject(NAMESPACE, METHOD_NAME);
         		//Property which holds input parameters
         		PropertyInfo getUserPI = new PropertyInfo();
         		//Set Name
-        		getUserPI.setName("Id");
+        		getUserPI.setName("id");
         		//Set Value
-        		getUserPI.setValue(EditText.toString());
+        		getUserPI.setValue(userId);
         		//Set dataType
-        		getUserPI.setType(String.class);
+        		getUserPI.setType(Integer.class);
         		//Add the property to request object
         		request.addProperty(getUserPI);
         		//Create envelope
@@ -68,9 +78,15 @@ public class MainActivity extends Activity {
         			//Invole web service
         			androidHttpTransport.call(SOAP_ACTION, envelope);
         			//Get the response
-        			SoapPrimitive response = (SoapPrimitive) envelope.getResponse();
+        			VOUser voUser = new VOUser((SoapObject)envelope.getResponse());
+        			
+        			//SoapPrimitive response = (SoapPrimitive) envelope.getResponse();
         			//Assign it to fahren static variable        		
-        			text.setText("Id: " + EditText.getText() + "==> " + response.toString());
+        			//text.setText("Id: " + EditText.getText() + "==> " + voUser.name);
+        			textName.setText(voUser.name);
+        			txtUserName.setText(voUser.userName);
+        			txtLastName.setText(voUser.lastName);
+        			txtEmail.setText(voUser.email);
 
         		} catch (Exception e) {
         			e.printStackTrace();
