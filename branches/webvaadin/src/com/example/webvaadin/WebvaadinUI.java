@@ -14,7 +14,7 @@ import com.vaadin.ui.VerticalLayout;
 public class WebvaadinUI extends UI {
 	
 	public Navigator navigator;
-	public static final String CUSTOMUSERSDESCRIPTION = "customUsersDescription";
+	public static final String CUSTOMUSERSDESCRIPTION = "ManageUsers";
 	
 		
 	@Override
@@ -27,7 +27,7 @@ public class WebvaadinUI extends UI {
 		ComponentContainerViewDisplay viewDisplay = new ComponentContainerViewDisplay(layout);
 		navigator = new Navigator(UI.getCurrent(),viewDisplay);
 		navigator.addView("", new LoginView());
-		
+		navigator.addView(CUSTOMUSERSDESCRIPTION, new customUserDescription());
 		
 		//layout.setSizeFull();
 		
