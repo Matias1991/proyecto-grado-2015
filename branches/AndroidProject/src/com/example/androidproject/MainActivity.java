@@ -1,6 +1,7 @@
 package com.example.androidproject;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.view.Menu;
@@ -19,7 +20,7 @@ import org.ksoap2.transport.HttpTransportSE;
 
 public class MainActivity extends Activity {
 	private final String NAMESPACE = "http://service.servicelayer";
-	private final String URL = "http://167.108.190.176:8080/WebService/services/ServiceMobile?wsdl";
+	private final String URL = "http://10.0.2.2:8080/WebService/services/ServiceMobile?wsdl";
 	private final String SOAP_ACTION = "urn:getUser";
 	private final String METHOD_NAME = "getUser";
 	
@@ -34,7 +35,7 @@ public class MainActivity extends Activity {
 		
 		setContentView(R.layout.activity_main);
 
-        final Button button = (Button) findViewById(R.id.button1);
+        final Button button = (Button) findViewById(R.id.btnLogin);
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 // Perform action on click
@@ -87,6 +88,7 @@ public class MainActivity extends Activity {
         			txtUserName.setText(voUser.userName);
         			txtLastName.setText(voUser.lastName);
         			txtEmail.setText(voUser.email);
+        			
 
         		} catch (Exception e) {
         			e.printStackTrace();
