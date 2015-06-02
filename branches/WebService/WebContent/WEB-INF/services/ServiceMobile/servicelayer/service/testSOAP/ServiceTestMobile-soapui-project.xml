@@ -1,55 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<con:soapui-project id="e13ac6cb-debc-461e-ac27-d5141890f8d2" activeEnvironment="Default" name="ServiceTestMobile" resourceRoot="" soapui-version="5.1.2" xmlns:con="http://eviware.com/soapui/config"><con:settings/><con:interface xsi:type="con:WsdlInterface" id="89d6be65-23bf-4964-8cb8-fb0a590c7593" wsaVersion="NONE" name="ServiceMobileSoap12Binding" type="wsdl" bindingName="{http://service.servicelayer}ServiceMobileSoap12Binding" soapVersion="1_2" anonymous="optional" definition="http://localhost:8080/WebService/services/ServiceMobile?wsdl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:settings/><con:definitionCache/><con:endpoints><con:endpoint>http://localhost:8080/WebService/services/ServiceMobile.ServiceMobileHttpSoap12Endpoint/</con:endpoint></con:endpoints><con:operation id="8576c80f-da8f-4896-804e-d542572a8433" isOneWay="false" action="urn:delete" name="delete" bindingOperationName="delete" type="One-Way" inputName="" sendsAttachments="false" anonymous="optional"><con:settings/><con:call id="cab9d843-9270-4035-8934-aed66e738011" name="Request 1"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/WebService/services/ServiceMobile.ServiceMobileHttpSoap12Endpoint/</con:endpoint><con:request><![CDATA[<soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope" xmlns:ser="http://service.servicelayer">
-   <soap:Header/>
-   <soap:Body>
-      <ser:delete>
-         <!--Optional:-->
-         <ser:id>?</ser:id>
-      </ser:delete>
-   </soap:Body>
-</soap:Envelope>]]></con:request><con:wsaConfig mustUnderstand="NONE" version="200508" action="urn:delete"/></con:call></con:operation><con:operation id="e376b722-fe59-4b97-b69b-849d4e203a36" isOneWay="false" action="urn:exist" name="exist" bindingOperationName="exist" type="Request-Response" inputName="" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call id="af347c88-3dfd-404d-a72d-55a3dc09fc94" name="Request 1"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/WebService/services/ServiceMobile.ServiceMobileHttpSoap12Endpoint/</con:endpoint><con:request><![CDATA[<soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope" xmlns:ser="http://service.servicelayer">
-   <soap:Header/>
-   <soap:Body>
-      <ser:exist>
-         <!--Optional:-->
-         <ser:id>?</ser:id>
-      </ser:exist>
-   </soap:Body>
-</soap:Envelope>]]></con:request><con:wsaConfig mustUnderstand="NONE" version="200508" action="urn:exist"/></con:call></con:operation><con:operation id="00a763fa-1d45-4a41-8e86-0814ef9c035f" isOneWay="false" action="urn:getAllUsers" name="getAllUsers" bindingOperationName="getAllUsers" type="Request-Response" inputName="" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call id="45865809-d6ed-4b35-b644-c8fc8a3d8dcb" name="Request 1"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/WebService/services/ServiceMobile.ServiceMobileHttpSoap12Endpoint/</con:endpoint><con:request><![CDATA[<soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope" xmlns:ser="http://service.servicelayer">
-   <soap:Header/>
-   <soap:Body>
-      <ser:getAllUsers/>
-   </soap:Body>
-</soap:Envelope>]]></con:request><con:wsaConfig mustUnderstand="NONE" version="200508" action="urn:getAllUsers"/></con:call></con:operation><con:operation id="312ea82a-efb4-462c-82fd-c6c0eeacea6e" isOneWay="false" action="urn:getUser" name="getUser" bindingOperationName="getUser" type="Request-Response" inputName="" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call id="562cabb2-723f-4e53-b9c1-9e288ba113b4" name="Request 1"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/WebService/services/ServiceMobile.ServiceMobileHttpSoap12Endpoint/</con:endpoint><con:request><![CDATA[<soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope" xmlns:ser="http://service.servicelayer">
-   <soap:Header/>
-   <soap:Body>
-      <ser:getUser>
-         <!--Optional:-->
-         <ser:id>?</ser:id>
-      </ser:getUser>
-   </soap:Body>
-</soap:Envelope>]]></con:request><con:wsaConfig mustUnderstand="NONE" version="200508" action="urn:getUser"/></con:call></con:operation><con:operation id="5a8636a1-68af-4c2c-9d1b-e46a957dd903" isOneWay="false" action="urn:insert" name="insert" bindingOperationName="insert" type="One-Way" inputName="" sendsAttachments="false" anonymous="optional"><con:settings/><con:call id="7df6fc45-1335-4baa-9d17-0aac3763e7ff" name="Request 1"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/WebService/services/ServiceMobile.ServiceMobileHttpSoap12Endpoint/</con:endpoint><con:request><![CDATA[<soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope" xmlns:ser="http://service.servicelayer" xmlns:xsd="http://valueObject.entity.servicelayer/xsd">
-   <soap:Header/>
-   <soap:Body>
-      <ser:insert>
-         <!--Optional:-->
-         <ser:voUser>
-            <!--Optional:-->
-            <xsd:email>?</xsd:email>
-            <!--Optional:-->
-            <xsd:id>?</xsd:id>
-            <!--Optional:-->
-            <xsd:lastName>?</xsd:lastName>
-            <!--Optional:-->
-            <xsd:name>?</xsd:name>
-            <!--Optional:-->
-            <xsd:password>?</xsd:password>
-            <!--Optional:-->
-            <xsd:userName>?</xsd:userName>
-         </ser:voUser>
-      </ser:insert>
-   </soap:Body>
-</soap:Envelope>]]></con:request><con:wsaConfig mustUnderstand="NONE" version="200508" action="urn:insert"/></con:call></con:operation></con:interface><con:interface xsi:type="con:WsdlInterface" id="d01b52c6-dd6f-4ff1-9458-c3ebfdb6707f" wsaVersion="NONE" name="ServiceMobileSoap11Binding" type="wsdl" bindingName="{http://service.servicelayer}ServiceMobileSoap11Binding" soapVersion="1_1" anonymous="optional" definition="http://localhost:8080/WebService/services/ServiceMobile?wsdl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:settings/><con:definitionCache type="TEXT" rootPart="http://localhost:8080/WebService/services/ServiceMobile?wsdl"><con:part><con:url>http://localhost:8080/WebService/services/ServiceMobile?wsdl</con:url><con:content><![CDATA[<wsdl:definitions targetNamespace="http://service.servicelayer" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:ns1="http://org.apache.axis2/xsd" xmlns:ns="http://service.servicelayer" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:ax21="http://valueObject.entity.servicelayer/xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/">
+<con:soapui-project id="e13ac6cb-debc-461e-ac27-d5141890f8d2" activeEnvironment="Default" name="ServiceTestMobile" resourceRoot="" soapui-version="5.1.2" abortOnError="false" runType="SEQUENTIAL" xmlns:con="http://eviware.com/soapui/config"><con:settings/><con:interface xsi:type="con:WsdlInterface" id="d01b52c6-dd6f-4ff1-9458-c3ebfdb6707f" wsaVersion="NONE" name="ServiceMobileSoap11Binding" type="wsdl" bindingName="{http://service.servicelayer}ServiceMobileSoap11Binding" soapVersion="1_1" anonymous="optional" definition="http://localhost:8080/WebService/services/ServiceMobile?wsdl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:settings/><con:definitionCache type="TEXT" rootPart="http://localhost:8080/WebService/services/ServiceMobile?wsdl"><con:part><con:url>http://localhost:8080/WebService/services/ServiceMobile?wsdl</con:url><con:content><![CDATA[<wsdl:definitions targetNamespace="http://service.servicelayer" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:ns1="http://org.apache.axis2/xsd" xmlns:ns="http://service.servicelayer" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:ax21="http://valueObject.entity.servicelayer/xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/">
   <wsdl:documentation>Please Type your service description here</wsdl:documentation>
   <wsdl:types>
     <xs:schema attributeFormDefault="qualified" elementFormDefault="qualified" targetNamespace="http://service.servicelayer" xmlns:ax22="http://valueObject.entity.servicelayer/xsd">
@@ -68,17 +18,17 @@
           </xs:sequence>
         </xs:complexType>
       </xs:element>
-      <xs:element name="getUser">
+      <xs:element name="exist">
         <xs:complexType>
           <xs:sequence>
             <xs:element minOccurs="0" name="id" type="xs:int"/>
           </xs:sequence>
         </xs:complexType>
       </xs:element>
-      <xs:element name="getUserResponse">
+      <xs:element name="existResponse">
         <xs:complexType>
           <xs:sequence>
-            <xs:element minOccurs="0" name="return" nillable="true" type="ax21:VOUser"/>
+            <xs:element minOccurs="0" name="return" type="xs:boolean"/>
           </xs:sequence>
         </xs:complexType>
       </xs:element>
@@ -94,17 +44,29 @@
           </xs:sequence>
         </xs:complexType>
       </xs:element>
-      <xs:element name="exist">
+      <xs:element name="testWSAndroid">
+        <xs:complexType>
+          <xs:sequence/>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="testWSAndroidResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" name="return" nillable="true" type="xs:string"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="getUser">
         <xs:complexType>
           <xs:sequence>
             <xs:element minOccurs="0" name="id" type="xs:int"/>
           </xs:sequence>
         </xs:complexType>
       </xs:element>
-      <xs:element name="existResponse">
+      <xs:element name="getUserResponse">
         <xs:complexType>
           <xs:sequence>
-            <xs:element minOccurs="0" name="return" type="xs:boolean"/>
+            <xs:element minOccurs="0" name="return" nillable="true" type="ax21:VOUser"/>
           </xs:sequence>
         </xs:complexType>
       </xs:element>
@@ -146,6 +108,12 @@
   <wsdl:message name="insertRequest">
     <wsdl:part name="parameters" element="ns:insert"/>
   </wsdl:message>
+  <wsdl:message name="testWSAndroidRequest">
+    <wsdl:part name="parameters" element="ns:testWSAndroid"/>
+  </wsdl:message>
+  <wsdl:message name="testWSAndroidResponse">
+    <wsdl:part name="parameters" element="ns:testWSAndroidResponse"/>
+  </wsdl:message>
   <wsdl:portType name="ServiceMobilePortType">
     <wsdl:operation name="delete">
       <wsdl:input message="ns:deleteRequest" wsaw:Action="urn:delete"/>
@@ -164,6 +132,10 @@
     </wsdl:operation>
     <wsdl:operation name="insert">
       <wsdl:input message="ns:insertRequest" wsaw:Action="urn:insert"/>
+    </wsdl:operation>
+    <wsdl:operation name="testWSAndroid">
+      <wsdl:input message="ns:testWSAndroidRequest" wsaw:Action="urn:testWSAndroid"/>
+      <wsdl:output message="ns:testWSAndroidResponse" wsaw:Action="urn:testWSAndroidResponse"/>
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="ServiceMobileSoap11Binding" type="ns:ServiceMobilePortType">
@@ -207,6 +179,15 @@
         <soap:body use="literal"/>
       </wsdl:input>
     </wsdl:operation>
+    <wsdl:operation name="testWSAndroid">
+      <soap:operation soapAction="urn:testWSAndroid" style="document"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
   </wsdl:binding>
   <wsdl:binding name="ServiceMobileSoap12Binding" type="ns:ServiceMobilePortType">
     <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
@@ -249,6 +230,15 @@
         <soap12:body use="literal"/>
       </wsdl:input>
     </wsdl:operation>
+    <wsdl:operation name="testWSAndroid">
+      <soap12:operation soapAction="urn:testWSAndroid" style="document"/>
+      <wsdl:input>
+        <soap12:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
   </wsdl:binding>
   <wsdl:binding name="ServiceMobileHttpBinding" type="ns:ServiceMobilePortType">
     <http:binding verb="POST"/>
@@ -290,6 +280,15 @@
       <wsdl:input>
         <mime:content type="application/xml" part="parameters"/>
       </wsdl:input>
+    </wsdl:operation>
+    <wsdl:operation name="testWSAndroid">
+      <http:operation location="testWSAndroid"/>
+      <wsdl:input>
+        <mime:content type="application/xml" part="parameters"/>
+      </wsdl:input>
+      <wsdl:output>
+        <mime:content type="application/xml" part="parameters"/>
+      </wsdl:output>
     </wsdl:operation>
   </wsdl:binding>
   <wsdl:service name="ServiceMobile">
@@ -353,4 +352,9 @@
          </ser:voUser>
       </ser:insert>
    </soapenv:Body>
-</soapenv:Envelope>]]></con:request><con:wsaConfig mustUnderstand="NONE" version="200508" action="urn:insert"/></con:call></con:operation></con:interface><con:properties/><con:wssContainer/><con:oAuth2ProfileContainer/></con:soapui-project>
+</soapenv:Envelope>]]></con:request><con:wsaConfig mustUnderstand="NONE" version="200508" action="urn:insert"/></con:call></con:operation><con:operation id="349fd162-dc9d-4cf5-a8da-ceec515dad75" isOneWay="false" action="urn:testWSAndroid" name="testWSAndroid" bindingOperationName="testWSAndroid" type="Request-Response" inputName="" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call id="f02ab19f-9529-4d34-8d8b-f2a786354457" name="Request 1"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/WebService/services/ServiceMobile.ServiceMobileHttpSoap11Endpoint/</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ser="http://service.servicelayer">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <ser:testWSAndroid/>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:wsaConfig mustUnderstand="NONE" version="200508" action="urn:testWSAndroid"/></con:call></con:operation></con:interface><con:properties/><con:wssContainer/><con:oAuth2ProfileContainer/></con:soapui-project>

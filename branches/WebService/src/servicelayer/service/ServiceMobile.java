@@ -40,8 +40,16 @@ public class ServiceMobile {
 	    return arrayVoUser;
 	}
 	
-	
-	public String testWSAndroid(){
-		return "Prueba exitosa, esto es respuesta de webservice";
-	}
+	public boolean login(String userName,String password)
+	{
+		VOUser [] users = getAllUsers();
+		for(VOUser user : users)
+		{
+			if(user.getUserName().equals(userName) && user.getPassword().equals(password))
+			{
+				return true;
+			}
+		}
+		return false;
+	}	
 }
