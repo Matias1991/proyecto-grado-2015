@@ -19,7 +19,7 @@ import org.ksoap2.transport.HttpTransportSE;
 
 public class MainActivity extends Activity {
 	private final String NAMESPACE = "http://service.servicelayer";
-	private final String URL = "http://167.108.190.176:8080/WebService/services/ServiceMobile?wsdl";
+	private final String URL = "http://192.168.1.98:8080/WebService/services/ServiceMobile?wsdl";
 	private final String SOAP_ACTION = "urn:getUser";
 	private final String METHOD_NAME = "getUser";
 	
@@ -75,14 +75,9 @@ public class MainActivity extends Activity {
         		HttpTransportSE androidHttpTransport = new HttpTransportSE(URL);
 
         		try {
-        			//Invole web service
         			androidHttpTransport.call(SOAP_ACTION, envelope);
-        			//Get the response
         			VOUser voUser = new VOUser((SoapObject)envelope.getResponse());
-        			
-        			//SoapPrimitive response = (SoapPrimitive) envelope.getResponse();
-        			//Assign it to fahren static variable        		
-        			//text.setText("Id: " + EditText.getText() + "==> " + voUser.name);
+        
         			textName.setText(voUser.name);
         			txtUserName.setText(voUser.userName);
         			txtLastName.setText(voUser.lastName);
