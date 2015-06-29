@@ -64,7 +64,7 @@ public class LoginView extends CustomComponent implements View, Button.ClickList
 					
 					if(usersDescriptionService.login(correctLogin).get_return()){
 						System.out.println("Inicio correcto");
-						getUI().getNavigator().navigateTo(WebvaadinUI.CUSTOMUSERSDESCRIPTION);
+						getUI().getNavigator().navigateTo(WebvaadinUI.SEARCHUSERSDESCRIPTION);
 					}else{
 						System.out.println("Inicio INCORRECTO!!!");
 					}
@@ -95,12 +95,12 @@ public class LoginView extends CustomComponent implements View, Button.ClickList
 		// common part: create layout
 		mainLayout = new AbsoluteLayout();
 		mainLayout.setImmediate(false);
-		mainLayout.setWidth("100%");
-		mainLayout.setHeight("100%");
+		mainLayout.setWidth("340px");
+		mainLayout.setHeight("180px");
 		
 		// top-level component properties
-		setWidth("100.0%");
-		setHeight("100.0%");
+		setWidth("340px");
+		setHeight("180px");
 		
 		// lblUsername
 		lblUsername = new Label();
@@ -108,29 +108,29 @@ public class LoginView extends CustomComponent implements View, Button.ClickList
 		lblUsername.setWidth("-1px");
 		lblUsername.setHeight("-1px");
 		lblUsername.setValue("Usuario:");
-		mainLayout.addComponent(lblUsername, "top:82.0px;left:80.0px;");
+		mainLayout.addComponent(lblUsername, "top:20.0px;left:73.0px;");
 		
 		// lblPassword
 		lblPassword = new Label();
 		lblPassword.setImmediate(false);
 		lblPassword.setWidth("-1px");
 		lblPassword.setHeight("-1px");
-		lblPassword.setValue("Password: ");
-		mainLayout.addComponent(lblPassword, "top:122.0px;left:80.0px;");
+		lblPassword.setValue("Contraseña:");
+		mainLayout.addComponent(lblPassword, "top:60.0px;left:52.0px;");
 		
 		// txtUsername
 		txtUsername = new TextField();
 		txtUsername.setImmediate(false);
 		txtUsername.setWidth("-1px");
 		txtUsername.setHeight("-1px");
-		mainLayout.addComponent(txtUsername, "top:76.0px;left:180.0px;");
+		mainLayout.addComponent(txtUsername, "top:20.0px;left:144.0px;");
 		
 		// txtPassword
 		txtPassword = new PasswordField();
 		txtPassword.setImmediate(false);
 		txtPassword.setWidth("-1px");
 		txtPassword.setHeight("-1px");
-		mainLayout.addComponent(txtPassword, "top:116.0px;left:180.0px;");
+		mainLayout.addComponent(txtPassword, "top:60.0px;left:144.0px;");
 		
 		// btnLogin
 		btnLogin = new Button();
@@ -138,7 +138,7 @@ public class LoginView extends CustomComponent implements View, Button.ClickList
 		btnLogin.setImmediate(true);
 		btnLogin.setWidth("100px");
 		btnLogin.setHeight("-1px");
-		mainLayout.addComponent(btnLogin, "top:158.0px;left:80.0px;");
+		mainLayout.addComponent(btnLogin, "top:100.0px;left:60.0px;");
 		
 		// btnCancel
 		btnCancel = new Button();
@@ -146,7 +146,7 @@ public class LoginView extends CustomComponent implements View, Button.ClickList
 		btnCancel.setImmediate(true);
 		btnCancel.setWidth("100px");
 		btnCancel.setHeight("-1px");
-		mainLayout.addComponent(btnCancel, "top:158.0px;left:220.0px;");
+		mainLayout.addComponent(btnCancel, "top:100.0px;left:180.0px;");
 		
 		return mainLayout;
 	}

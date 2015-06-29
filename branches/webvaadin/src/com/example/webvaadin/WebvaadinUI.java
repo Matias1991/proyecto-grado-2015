@@ -1,11 +1,13 @@
 package com.example.webvaadin;
 
 import views.LoginView;
+import views.SearchUserDescription;
 
 import com.vaadin.annotations.Theme;
 import com.vaadin.navigator.Navigator;
 import com.vaadin.navigator.Navigator.ComponentContainerViewDisplay;
 import com.vaadin.server.VaadinRequest;
+import com.vaadin.ui.Alignment;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 
@@ -14,7 +16,7 @@ import com.vaadin.ui.VerticalLayout;
 public class WebvaadinUI extends UI {
 	
 	public Navigator navigator;
-	public static final String CUSTOMUSERSDESCRIPTION = "ManageUsers";
+	public static final String SEARCHUSERSDESCRIPTION = "SearchUserDescription";
 	
 		
 	@Override
@@ -23,25 +25,15 @@ public class WebvaadinUI extends UI {
 		layout.setMargin(true);
 		layout.setSpacing(true);
 		layout.setSizeFull();
+		layout.setDefaultComponentAlignment(Alignment.MIDDLE_CENTER);
 		setContent(layout);
+		
+							
 		ComponentContainerViewDisplay viewDisplay = new ComponentContainerViewDisplay(layout);
 		navigator = new Navigator(UI.getCurrent(),viewDisplay);
-		navigator.addView("", new LoginView());
-		navigator.addView(CUSTOMUSERSDESCRIPTION, new customUserDescription());
+		navigator.addView("", new LoginView());	
+		navigator.addView(SEARCHUSERSDESCRIPTION, new SearchUserDescription());
 		
-		//layout.setSizeFull();
 		
-		/*
-		
-		// Create the content root layout for the UI
-        VerticalLayout content = new VerticalLayout();
-        setContent(content);
-
-        // Needed because the composites are full size
-        content.setSizeFull();
-
-        custom myComposite = new custom();
-        content.addComponent(myComposite);
-        */
 	}
 }
