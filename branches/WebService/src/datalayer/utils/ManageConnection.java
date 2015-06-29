@@ -12,15 +12,11 @@ public class ManageConnection {
 
 	private static Connection connection = null;
 	
-	public Connection GetConnection() throws ClassNotFoundException, SQLException
+	public Connection GetConnection() throws ClassNotFoundException, SQLException, IOException
 	{
 		Class.forName("com.mysql.jdbc.Driver");
-		try {
-			connection = DriverManager.getConnection(GetValueProperty("DB_URL"), GetValueProperty("USER"), GetValueProperty("PASSWORD"));
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		connection = DriverManager.getConnection(GetValueProperty("DB_URL"), GetValueProperty("USER"), GetValueProperty("PASSWORD"));
+		connection.setAutoCommit(false);
 		
 		return connection;
 	}

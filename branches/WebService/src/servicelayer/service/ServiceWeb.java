@@ -2,32 +2,76 @@ package servicelayer.service;
 
 import java.util.ArrayList;
 
+import javax.annotation.Resource;
+import javax.xml.ws.WebServiceContext;
+import javax.xml.ws.handler.MessageContext;
+
 import servicelayer.entity.valueObject.VOUser;
+import servicelayer.exceptions.ServiceLayerException;
 import servicelayer.facade.FacadeWeb;
 import servicelayer.interfaces.facade.IFacadeWeb;
 
 public class ServiceWeb {
 
-	private IFacadeWeb IFacadeWeb = FacadeWeb.GetInstance();
+	private IFacadeWeb IFacadeWeb;
+	
+	public ServiceWeb()
+	{
+		try {
+			IFacadeWeb = FacadeWeb.GetInstance();
+		} catch (ServiceLayerException e) {
+			throw new RuntimeException("Error when try to connect db");
+		} catch (Exception e) {
+			throw new RuntimeException("Error generico, no controlado");
+		}
+	}
 	
 	public void insert(VOUser voUser)
 	{
-		IFacadeWeb.InsertUser(voUser);
+		try {
+			IFacadeWeb.InsertUser(voUser);
+		} catch (ServiceLayerException e) {
+			throw new RuntimeException("Error in opertion insert");
+		} catch (Exception e) {
+			throw new RuntimeException("Error generico, no controlado");
+		}
 	}
 	
 	public VOUser getUser(int id)
 	{
-		return IFacadeWeb.GetUser(id);
+		try {
+			return IFacadeWeb.GetUser(id);
+		} catch (ServiceLayerException e) {
+			throw new RuntimeException(e.getMessage());
+		} catch (Exception e) {
+			throw new RuntimeException("Error generico, no controlado");
+		}
 	}
 	
-	public void delete(int id)
+	public boolean delete(int id)
 	{
-		IFacadeWeb.DeleteUser(id);
+		try {
+			IFacadeWeb.DeleteUser(id);
+			
+			return true;
+			
+		} catch (ServiceLayerException e) {
+			throw new RuntimeException(e.getMessage());
+		} catch (Exception e) {
+			throw new RuntimeException("Error generico, no controlado");
+		}
 	}
 	
 	public boolean exist(int id)
 	{
-		return IFacadeWeb.ExistUser(id);
+		try {
+			return IFacadeWeb.ExistUser(id);
+		} catch (ServiceLayerException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return false;
 	}
 	
 	public boolean login(String userName,String password)
@@ -45,11 +89,18 @@ public class ServiceWeb {
 	
 	public VOUser[] getAllUsers()
 	{
-		ArrayList<VOUser> voUsers = IFacadeWeb.GetAllUsers();
+		ArrayList<VOUser> voUsers;
+		try {
+			voUsers = IFacadeWeb.GetAllUsers();
+			VOUser [] arrayVoUser = new VOUser[voUsers.size()];
+		    voUsers.toArray(arrayVoUser);
+		    return arrayVoUser;
+		    
+		} catch (ServiceLayerException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
-		VOUser [] arrayVoUser = new VOUser[voUsers.size()];
-	    voUsers.toArray(arrayVoUser);
-	    
-	    return arrayVoUser;
+	    return null;
 	}
 }

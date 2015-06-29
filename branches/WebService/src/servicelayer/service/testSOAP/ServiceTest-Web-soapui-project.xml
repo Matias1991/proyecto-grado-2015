@@ -1,5 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<con:soapui-project id="75674963-e7ed-4062-9607-a11d178f427a" activeEnvironment="Default" name="ServiceTestWeb" resourceRoot="" soapui-version="5.1.2" abortOnError="false" runType="SEQUENTIAL" xmlns:con="http://eviware.com/soapui/config"><con:settings/><con:interface xsi:type="con:WsdlInterface" id="7b8c4727-8db8-48b1-a1fa-d676fe100b04" wsaVersion="NONE" name="ServiceWebSoap11Binding" type="wsdl" bindingName="{http://service.servicelayer}ServiceWebSoap11Binding" soapVersion="1_1" anonymous="optional" definition="http://localhost:8080/WebService/services/ServiceWeb?wsdl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:settings/><con:definitionCache type="TEXT" rootPart="http://localhost:8080/WebService/services/ServiceWeb?wsdl"><con:part><con:url>http://localhost:8080/WebService/services/ServiceWeb?wsdl</con:url><con:content><![CDATA[<wsdl:definitions targetNamespace="http://service.servicelayer" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:ns1="http://org.apache.axis2/xsd" xmlns:ns="http://service.servicelayer" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:ax23="http://valueObject.entity.servicelayer/xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/">
+<con:soapui-project id="75674963-e7ed-4062-9607-a11d178f427a" activeEnvironment="Default" name="ServiceTestWeb" resourceRoot="" soapui-version="5.1.2" abortOnError="false" runType="SEQUENTIAL" xmlns:con="http://eviware.com/soapui/config"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.actions.iface.tools.soapui.TestRunnerAction@values-local"><![CDATA[<xml-fragment xmlns:con="http://eviware.com/soapui/config">
+  <con:entry key="Environment" value="Default"/>
+  <con:entry key="Global Properties" value=""/>
+  <con:entry key="TestSuite" value="&lt;all>"/>
+  <con:entry key="Password" value=""/>
+  <con:entry key="TestRunner Path" value=""/>
+  <con:entry key="Tool Args" value=""/>
+  <con:entry key="Ignore Errors" value="false"/>
+  <con:entry key="Host:Port" value=""/>
+  <con:entry key="user-settings.xml Password" value=""/>
+  <con:entry key="WSS Password Type" value=""/>
+  <con:entry key="Save Project" value="false"/>
+  <con:entry key="Enable UI" value="false"/>
+  <con:entry key="System Properties" value=""/>
+  <con:entry key="Domain" value=""/>
+  <con:entry key="Coverage Report" value="false"/>
+  <con:entry key="Export JUnit Results" value="false"/>
+  <con:entry key="Open Report" value="false"/>
+  <con:entry key="Project Properties" value=""/>
+  <con:entry key="Export All" value="false"/>
+  <con:entry key="Project Password" value=""/>
+  <con:entry key="Report Format(s)" value=""/>
+  <con:entry key="TestCase" value="&lt;all>"/>
+  <con:entry key="Print Report" value="false"/>
+  <con:entry key="Username" value=""/>
+  <con:entry key="Root Folder" value=""/>
+  <con:entry key="Save After" value="false"/>
+  <con:entry key="Add Settings" value="false"/>
+  <con:entry key="Endpoint" value=""/>
+  <con:entry key="Select Report Type" value=""/>
+</xml-fragment>]]></con:setting></con:settings><con:interface xsi:type="con:WsdlInterface" id="7b8c4727-8db8-48b1-a1fa-d676fe100b04" wsaVersion="NONE" name="ServiceWebSoap11Binding" type="wsdl" bindingName="{http://service.servicelayer}ServiceWebSoap11Binding" soapVersion="1_1" anonymous="optional" definition="http://localhost:8080/WebService/services/ServiceWeb?wsdl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:settings/><con:definitionCache type="TEXT" rootPart="http://localhost:8080/WebService/services/ServiceWeb?wsdl"><con:part><con:url>http://localhost:8080/WebService/services/ServiceWeb?wsdl</con:url><con:content><![CDATA[<wsdl:definitions targetNamespace="http://service.servicelayer" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:ns1="http://org.apache.axis2/xsd" xmlns:ns="http://service.servicelayer" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:ax23="http://valueObject.entity.servicelayer/xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/">
   <wsdl:documentation>Please Type your service description here</wsdl:documentation>
   <wsdl:types>
     <xs:schema attributeFormDefault="qualified" elementFormDefault="qualified" targetNamespace="http://service.servicelayer" xmlns:ax24="http://valueObject.entity.servicelayer/xsd">
@@ -310,18 +340,18 @@
    <soapenv:Body>
       <ser:delete>
          <!--Optional:-->
-         <ser:id>5</ser:id>
+         <ser:id>1111111</ser:id>
       </ser:delete>
    </soapenv:Body>
-</soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="urn:delete"/><con:wsrmConfig version="1.2"/></con:call></con:operation><con:operation id="8d2a1edc-58b3-4b8b-968a-cb325eaa9e40" isOneWay="false" action="urn:exist" name="exist" bindingOperationName="exist" type="Request-Response" inputName="" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call id="7efa40bd-6c98-4b84-8415-672dd7b770d3" name="Request 1"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/WebService/services/ServiceWeb.ServiceWebHttpSoap12Endpoint/</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ser="http://service.servicelayer">
+</soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="urn:delete"/><con:wsrmConfig version="1.2"/></con:call></con:operation><con:operation id="8d2a1edc-58b3-4b8b-968a-cb325eaa9e40" isOneWay="false" action="urn:exist" name="exist" bindingOperationName="exist" type="Request-Response" inputName="" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call id="7efa40bd-6c98-4b84-8415-672dd7b770d3" name="Request 1"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/WebService/services/ServiceWeb.ServiceWebHttpSoap12Endpoint/</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ser="http://service.servicelayer">
    <soapenv:Header/>
    <soapenv:Body>
       <ser:exist>
          <!--Optional:-->
-         <ser:id>?</ser:id>
+         <ser:id>1234</ser:id>
       </ser:exist>
    </soapenv:Body>
-</soapenv:Envelope>]]></con:request><con:wsaConfig mustUnderstand="NONE" version="200508" action="urn:exist"/></con:call></con:operation><con:operation id="2effcd11-2989-4b64-a6d5-fa97ac190a41" isOneWay="false" action="urn:getAllUsers" name="getAllUsers" bindingOperationName="getAllUsers" type="Request-Response" inputName="" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call id="458bbfa3-0361-4895-985c-1dd47b520c96" name="Request 1"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/WebService/services/ServiceWeb.ServiceWebHttpSoap12Endpoint/</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ser="http://service.servicelayer">
+</soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="urn:exist"/><con:wsrmConfig version="1.2"/></con:call></con:operation><con:operation id="2effcd11-2989-4b64-a6d5-fa97ac190a41" isOneWay="false" action="urn:getAllUsers" name="getAllUsers" bindingOperationName="getAllUsers" type="Request-Response" inputName="" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call id="458bbfa3-0361-4895-985c-1dd47b520c96" name="Request 1"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/WebService/services/ServiceWeb.ServiceWebHttpSoap12Endpoint/</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ser="http://service.servicelayer">
    <soapenv:Header/>
    <soapenv:Body>
       <ser:getAllUsers/>
@@ -343,9 +373,9 @@
             <!--Optional:-->
             <xsd:email>matiasacosta@gmail.com</xsd:email>
             <!--Optional:-->
-            <xsd:lastName>matias</xsd:lastName>
+            <xsd:lastName>MATIAS 3</xsd:lastName>
             <!--Optional:-->
-            <xsd:name>matias</xsd:name>
+            <xsd:name>ACOSTA 3</xsd:name>
             <!--Optional:-->
             <xsd:password>matias</xsd:password>
             <!--Optional:-->

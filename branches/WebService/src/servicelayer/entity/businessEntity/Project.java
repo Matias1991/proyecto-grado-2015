@@ -44,6 +44,7 @@ public class Project {
 		this.notes = notes;
 	}
 	
+	/*
 	public void NewEmployed(Employed employed)
 	{
 		IDAOEmployees.Insert(employed);
@@ -53,4 +54,5 @@ public class Project {
 	{
 		return IDAOEmployees.GetAll();
 	}
+	*/
 }

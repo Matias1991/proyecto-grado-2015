@@ -1,5 +1,6 @@
 package datalayer.daos;
 
+import java.sql.Connection;
 import java.util.ArrayList;
 
 import servicelayer.entity.businessEntity.Employed;
@@ -7,6 +8,16 @@ import servicelayer.interfaces.dataLayer.IDAOEmployees;
 
 public class DAOEmployees implements IDAOEmployees{
 
+	public DAOEmployees()
+	{
+		
+	}
+	
+	public DAOEmployees(Connection connection)
+	{
+		
+	}
+	
 	@Override
 	public void Insert(Employed obj) {
 		// TODO Auto-generated method stub

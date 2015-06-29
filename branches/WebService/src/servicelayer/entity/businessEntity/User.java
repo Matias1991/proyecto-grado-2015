@@ -1,5 +1,7 @@
 package servicelayer.entity.businessEntity;
 
+import servicelayer.entity.valueObject.VOUser;
+
 public class User{
 
 	private int id;
@@ -9,6 +11,20 @@ public class User{
 	private String LastName;
 	private String Email;
 
+	public User()
+	{
+		
+	}
+	
+	public User(VOUser voUser)
+	{
+		this.id = voUser.getId();
+		this.name = voUser.getName();
+		this.LastName = voUser.getPassword();
+		this.Email = voUser.getEmail();
+		this.userName = voUser.getUserName();
+	}
+	
 	public void setId(int i)
 	{
 		id = i;
