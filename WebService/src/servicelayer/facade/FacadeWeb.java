@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import servicelayer.core.CoreUser;
 import servicelayer.entity.valueObject.VOUser;
+import servicelayer.exceptions.DataLayerException;
 import servicelayer.exceptions.ServiceLayerException;
 import servicelayer.interfaces.core.ICoreUser;
 import servicelayer.interfaces.facade.IFacadeWeb;
@@ -29,32 +30,34 @@ public class FacadeWeb implements IFacadeWeb{
 	}
 	
 	@Override
-	public void InsertUser(VOUser voUser) throws ServiceLayerException
+	public void insertUser(VOUser voUser) throws ServiceLayerException
 	{
-		ICoreUser.Insert(voUser);
+		ICoreUser.insert(voUser);
 	}
 
 	@Override
-	public void DeleteUser(int id) throws ServiceLayerException {
-		// TODO Auto-generated method stub
-		ICoreUser.Delete(id);
+	public void deleteUser(int id) throws ServiceLayerException {
+		ICoreUser.delete(id);
 	}
 
 	@Override
-	public VOUser GetUser(int id) throws ServiceLayerException {
-		// TODO Auto-generated method stub
-		return ICoreUser.Get(id);
+	public VOUser getUser(int id) throws ServiceLayerException {
+		return ICoreUser.getUser(id);
 	}
 
 	@Override
-	public boolean ExistUser(int id) throws ServiceLayerException {
-		// TODO Auto-generated method stub
-		return ICoreUser.Exist(id);
+	public boolean existUser(int id) throws ServiceLayerException {
+		return ICoreUser.exist(id);
 	}
 
 	@Override
-	public ArrayList<VOUser> GetAllUsers() throws ServiceLayerException {
-		// TODO Auto-generated method stub
-		return ICoreUser.GetAll();
+	public ArrayList<VOUser> getUsers() throws ServiceLayerException {
+		return ICoreUser.getUsers();
+	}
+	
+	@Override
+	public boolean login(String userName,String password) throws ServiceLayerException
+	{
+		return ICoreUser.login(userName, password);
 	}
 }

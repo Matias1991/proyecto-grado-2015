@@ -23,6 +23,7 @@ public class User{
 		this.LastName = voUser.getPassword();
 		this.Email = voUser.getEmail();
 		this.userName = voUser.getUserName();
+		this.password = voUser.getPassword();
 	}
 	
 	public void setId(int i)

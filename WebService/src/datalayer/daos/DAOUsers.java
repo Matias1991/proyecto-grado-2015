@@ -1,34 +1,35 @@
 package datalayer.daos;
 
-import java.io.IOException;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
+import org.apache.log4j.BasicConfigurator;
+import org.apache.log4j.Logger;
+
 import datalayer.utils.ManageConnection;
 import servicelayer.entity.businessEntity.User;
+import servicelayer.entity.valueObject.VOUser;
 import servicelayer.exceptions.DataLayerException;
 import servicelayer.interfaces.dataLayer.IDAOUsers;
 
 public class DAOUsers implements IDAOUsers {
 
 	private Connection connection;
+	private static Logger log = Logger.getLogger("************ Data access error ********");
 	
 	public DAOUsers() throws DataLayerException
 	{
+		BasicConfigurator.configure();
+		
 		try {
 			this.connection = new ManageConnection().GetConnection();
-			
-		} catch (ClassNotFoundException e) {
-			throw new DataLayerException(e);
-		} catch (SQLException e) {
-			throw new DataLayerException(e);
-		}catch (IOException e) {
-			throw new DataLayerException(e);
+		}catch (Exception e) {
+			log.error(e.getMessage());
+			throw new DataLayerException("Ocurrio una problema al conectarse con la base de datos");
 		}
 	}
 	
@@ -38,109 +39,100 @@ public class DAOUsers implements IDAOUsers {
 	}
 
 	@Override
-	public void Insert(User obj) throws DataLayerException{
-		// TODO Auto-generated method stub     
+	public void insert(User obj) throws DataLayerException{   
 		PreparedStatement preparedStatement = null;
 
 		String insertTableSQL = "INSERT INTO USER (USERNAME, PASSWORD, NAME, LASTNAME, EMAIL) VALUES"
 				+ "(?,?,?,?,?)";
 
 		try {
-			preparedStatement = this.connection.prepareStatement(
-					insertTableSQL);
+			preparedStatement = this.connection.prepareStatement(insertTableSQL);
 
 			preparedStatement.setString(1, obj.getUserName());
 			preparedStatement.setString(2, obj.getPassword());
 			preparedStatement.setString(3, obj.getName());
 			preparedStatement.setString(4, obj.getLastName());
 			preparedStatement.setString(5, obj.getEmail());
-			
-			// execute insert SQL stetement
+
 			preparedStatement.executeUpdate();
 			
 		} catch (SQLException e) {
-			throw new DataLayerException(e);
+			log.error(e.getMessage());
+			throw new DataLayerException("Ocurrio un problema al intentar ingresar un usuario a la base de datos, consulte con el administrador");
 		}
 	}
 
 	@Override
-	public void Delete(int id) throws DataLayerException {
+	public void delete(int id) throws DataLayerException {
 		PreparedStatement preparedStatement = null;
-
-		String insertTableSQL = "DELETE FROM USER WHERE ID = ?";
-
+		
 		try {
-			preparedStatement = this.connection.prepareStatement(
-					insertTableSQL);
-
+		
+			String insertTableSQL = "DELETE FROM USER WHERE ID = ?";
+			preparedStatement = this.connection.prepareStatement(insertTableSQL);
 			preparedStatement.setInt(1, id);
-
-			// execute insert SQL stetement
 			preparedStatement.execute();
 
 		} catch (SQLException e) {
-			throw new DataLayerException(e);
+			log.error(e.getMessage());
+			throw new DataLayerException("Ocurrio un error al intentar eliminar el usuario, consulte con el administrador");
 		} finally {
 
 			if (preparedStatement != null) {
 				try {
 					preparedStatement.close();
 				} catch (SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+					log.error(e.getMessage());
 				}
 			}
 		}
 	}
 
 	@Override
-	public boolean Exist(int id) throws DataLayerException {
-		// TODO Auto-generated method stub
+	public boolean exist(int id) throws DataLayerException {
 		Statement stmt = null;
+		ResultSet rs = null;
 		try {
 
 			stmt = this.connection.createStatement();
 			String sql;
 			sql = "SELECT * FROM user where id = " + id;
-			ResultSet rs = stmt.executeQuery(sql);
+			rs = stmt.executeQuery(sql);
 
-			// STEP 5: Extract data from result set
 			while (rs.next()) {
 				return true;
 			}
-			// STEP 6: Clean-up environment
-			rs.close();
-			stmt.close();
-			
-		} catch (SQLException se) {
-			throw new DataLayerException(se);
+
+		} catch (SQLException e) {
+			log.error(e.getMessage());
+			throw new DataLayerException("Ocurrio un error al intentar validar si existe el usuario, consulte con el administrador");
 		} finally {
-			// finally block used to close resources
 			try {
+				if (rs != null)
+					rs.close();
 				if (stmt != null)
 					stmt.close();
-			} catch (SQLException se2) {
-			}// nothing we can do
-		}// end tryÃ�Ã�
+			} catch (SQLException e) {
+				log.error(e.getMessage());
+			}
+		}
 
 		return false;
 	}
 
 	@Override
-	public User GetObject(int id) throws DataLayerException {
+	public User getObject(int id) throws DataLayerException {
 		User user = null;
 		Statement stmt = null;
+		ResultSet rs = null;
 		try {
-
 			stmt = this.connection.createStatement();
 			String sql;
 			sql = "SELECT * FROM user where id = " + id;
-			ResultSet rs = stmt.executeQuery(sql);
+			rs = stmt.executeQuery(sql);
 
-			// STEP 5: Extract data from result set
 			while (rs.next()) {
 				user = new User();
-				// Retrieve by column name
 				int _id = rs.getInt("id");
 				String userName = rs.getString("userName");
 				String name = rs.getString("name");
@@ -155,38 +147,36 @@ public class DAOUsers implements IDAOUsers {
 				user.setUserName(userName);
 				user.setEmail(email);
 			}
-			// STEP 6: Clean-up environment
-			rs.close();
-			stmt.close();
-		} catch (SQLException se) {
-			throw new DataLayerException(se);
+		} catch (SQLException e) {
+			log.error(e.getMessage());
+			throw new DataLayerException("Ocurrio un error al intentar obtener el usuario, consulte con el administrador");
 		} finally {
-			// finally block used to close resources
 			try {
+				if (rs != null)
+					rs.close();
 				if (stmt != null)
 					stmt.close();
-			} catch (SQLException se2) {
-			}// nothing we can do
-		}// end tryÃ�Ã�
+			} catch (SQLException e) {
+				log.error(e.getMessage());
+			}
+		}
 
 		return user;
 	}
 
 	@Override
-	public ArrayList<User> GetAll() throws DataLayerException {
-		// TODO Auto-generated method stub
+	public ArrayList<User> getObjects() throws DataLayerException {
 		ArrayList<User> users = new ArrayList<User>();
 		Statement stmt = null;
+		ResultSet rs = null;
 		try {
 
 			stmt = this.connection.createStatement();
 			String sql;
 			sql = "SELECT * FROM user";
-			ResultSet rs = stmt.executeQuery(sql);
+			rs = stmt.executeQuery(sql);
 
-			// STEP 5: Extract data from result set
 			while (rs.next()) {
-				// Retrieve by column name
 				int _id = rs.getInt("id");
 				String userName = rs.getString("userName");
 				String name = rs.getString("name");
@@ -203,22 +193,57 @@ public class DAOUsers implements IDAOUsers {
 				user.setEmail(email);
 
 				users.add(user);
-
 			}
-			// STEP 6: Clean-up environment
-			rs.close();
-			stmt.close();
-		} catch (SQLException se) {
-			throw new DataLayerException(se);
+
+		} catch (SQLException e) {
+			log.error(e.getMessage());
+			throw new DataLayerException("Ocurrio un error al intentar obtener los usuarios, consulte con el administrador");
+	
 		} finally {
-			// finally block used to close resources
 			try {
+				if (rs != null)
+					rs.close();
 				if (stmt != null)
 					stmt.close();
-			} catch (SQLException se2) {
-			}// nothing we can do
-		}// end tryÃ�Ã�
+			} catch (SQLException e) {
+				log.error(e.getMessage());
+			}
+		}
 
 		return users;
+	}
+	
+	@Override
+	public boolean login(String userName,String password) throws DataLayerException
+	{
+		PreparedStatement preparedStatement = null;
+		ResultSet rs = null;
+		
+		try
+		{
+			String insertTableSQL = "SELECT id FROM USER WHERE userName = ? and password = ?";
+			preparedStatement = this.connection.prepareStatement(insertTableSQL);
+			preparedStatement.setString(1, userName);
+			preparedStatement.setString(2, password);
+		
+			rs = preparedStatement.executeQuery();
+			if(rs.first())
+				return true;
+			else
+				return false;
+			
+		} catch (SQLException e) {
+			log.error(e.getMessage());
+			throw new DataLayerException("Ocurrio un error al intentar obtener los usuarios, consulte con el administrador");
+		}finally {
+			try {
+				if (preparedStatement != null)
+					preparedStatement.close();
+				if (rs != null)
+					rs.close();
+			} catch (SQLException e) {
+				log.error(e.getMessage());
+			}
+		}
 	}
 }

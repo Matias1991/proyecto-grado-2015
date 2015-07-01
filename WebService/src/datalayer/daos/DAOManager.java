@@ -33,18 +33,18 @@ public class DAOManager implements IDAOManager{
 	}
 	
 	@Override
-	public void Commit() throws SQLException {
+	public void commit() throws SQLException {
 		// TODO Auto-generated method stub
 		this.connection.commit();
 	}
 
 	@Override
-	public void Rollback() throws SQLException {
+	public void rollback() throws SQLException {
 		// TODO Auto-generated method stub
 		this.connection.rollback();
 	}
 	
-	public IDAOUsers GetDAOUsers()
+	public IDAOUsers getDAOUsers()
 	{
 		if(iDAOUsers == null)
 		{
@@ -54,7 +54,7 @@ public class DAOManager implements IDAOManager{
 		return iDAOUsers;
 	}
 	
-	public IDAOEmployees GetDAOEmployees()
+	public IDAOEmployees getDAOEmployees()
 	{
 		if(iDAOUsers == null)
 		{
@@ -65,7 +65,7 @@ public class DAOManager implements IDAOManager{
 	}
 
 	@Override
-	public void Close() throws SQLException {
+	public void close() throws SQLException {
 		// TODO Auto-generated method stub
 		this.connection.close();
 	}

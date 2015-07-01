@@ -7,13 +7,15 @@ import servicelayer.exceptions.ServiceLayerException;
 
 public interface ICoreUser {
 	
-	public void Insert(VOUser voUser) throws ServiceLayerException;
+	public void insert(VOUser voUser) throws ServiceLayerException;
 	
-	public void Delete(int id) throws ServiceLayerException;
+	public void delete(int id) throws ServiceLayerException;
 	
-	public VOUser Get(int id) throws ServiceLayerException;
+	public VOUser getUser(int id) throws ServiceLayerException;
 	
-	public boolean Exist(int id) throws ServiceLayerException;
+	public boolean exist(int id) throws ServiceLayerException;
 	
-	public ArrayList<VOUser> GetAll() throws ServiceLayerException;
+	public ArrayList<VOUser> getUsers() throws ServiceLayerException;
+	
+	public boolean login(String userName, String password) throws ServiceLayerException;
 }

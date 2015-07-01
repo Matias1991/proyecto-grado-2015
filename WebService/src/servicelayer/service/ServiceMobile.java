@@ -24,7 +24,7 @@ public class ServiceMobile {
 	public void insert(VOUser voUser)
 	{
 		try {
-			IFacadeMobile.InsertUser(voUser);
+			IFacadeMobile.insertUser(voUser);
 		} catch (ServiceLayerException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -34,7 +34,7 @@ public class ServiceMobile {
 	public VOUser getUser(int id)
 	{
 		try {
-			return IFacadeMobile.GetUser(id);
+			return IFacadeMobile.getUser(id);
 		} catch (ServiceLayerException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -46,7 +46,7 @@ public class ServiceMobile {
 	public void delete(int id)
 	{
 		try {
-			IFacadeMobile.DeleteUser(id);
+			IFacadeMobile.deleteUser(id);
 		} catch (ServiceLayerException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -56,7 +56,7 @@ public class ServiceMobile {
 	public boolean exist(int id)
 	{
 		try {
-			return IFacadeMobile.ExistUser(id);
+			return IFacadeMobile.existUser(id);
 		} catch (ServiceLayerException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -69,7 +69,7 @@ public class ServiceMobile {
 	{
 		ArrayList<VOUser> voUsers;
 		try {
-			voUsers = IFacadeMobile.GetAllUsers();
+			voUsers = IFacadeMobile.getUsers();
 			VOUser [] arrayVoUser = new VOUser[voUsers.size()];
 		    voUsers.toArray(arrayVoUser);
 		    return arrayVoUser;
