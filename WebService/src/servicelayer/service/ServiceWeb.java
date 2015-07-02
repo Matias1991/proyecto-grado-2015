@@ -27,7 +27,7 @@ public class ServiceWeb {
 		}
 	}
 	
-	public boolean insert(VOUser voUser)
+	public boolean insertUser(VOUser voUser)
 	{
 		try {
 			IFacadeWeb.insertUser(voUser);
@@ -50,7 +50,7 @@ public class ServiceWeb {
 		}
 	}
 	
-	public boolean delete(int id)
+	public boolean deleteUser(int id)
 	{
 		try {
 			IFacadeWeb.deleteUser(id);
@@ -62,7 +62,7 @@ public class ServiceWeb {
 		}
 	}
 	
-	public boolean exist(int id)
+	public boolean existUser(int id)
 	{
 		try {
 			return IFacadeWeb.existUser(id);
@@ -84,7 +84,7 @@ public class ServiceWeb {
 		}
 	}
 	
-	public VOUser[] getAllUsers()
+	public VOUser[] getUsers()
 	{
 		ArrayList<VOUser> voUsers;
 		try {
