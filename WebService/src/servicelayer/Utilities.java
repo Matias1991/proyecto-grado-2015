@@ -13,7 +13,7 @@ public class Utilities {
 
 	public static String Encrypt(String text) {
 		 
-        String secretKey = "qualityinfosolutions"; //llave para encriptar datos
+        String secretKey = "qualityinfosolutions";
         String base64EncryptedString = "";
  
         try {
@@ -38,7 +38,7 @@ public class Utilities {
  
     public static String Decrypt(String text) throws Exception {
  
-        String secretKey = "qualityinfosolutions"; //llave para encriptar datos
+        String secretKey = "qualityinfosolutions";
         String base64EncryptedString = "";
  
         try {
