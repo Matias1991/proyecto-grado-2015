@@ -4,10 +4,15 @@ import views.LoginView;
 import views.SearchUserDescription;
 
 import com.vaadin.annotations.Theme;
+import com.vaadin.annotations.Title;
 import com.vaadin.navigator.Navigator;
 import com.vaadin.navigator.Navigator.ComponentContainerViewDisplay;
+import com.vaadin.server.ThemeResource;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.ui.Alignment;
+import com.vaadin.ui.GridLayout;
+import com.vaadin.ui.Image;
+import com.vaadin.ui.Label;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 
@@ -21,18 +26,29 @@ public class WebvaadinUI extends UI {
 		
 	@Override
 	protected void init(VaadinRequest request) {
-		final VerticalLayout layout = new VerticalLayout();
+		final GridLayout layout = new GridLayout(3,3);
 		layout.setMargin(true);
 		layout.setSpacing(true);
 		layout.setSizeFull();
-		layout.setDefaultComponentAlignment(Alignment.MIDDLE_CENTER);
-		setContent(layout);
+		setContent(layout);		
+		getPage().setTitle(":: Meerkat SYS - MSMP");		
 		
-							
-		ComponentContainerViewDisplay viewDisplay = new ComponentContainerViewDisplay(layout);
-		navigator = new Navigator(UI.getCurrent(),viewDisplay);
-		navigator.addView("", new LoginView());	
+		Image logo = new Image(null, new ThemeResource("./images/logoConFondo.png"));
+		layout.addComponent(logo, 0, 0);		
+		
+		Label lblTitle = new Label ("Bienvenido al sistema de Gestión y Liquidaciones de proyectos");
+		layout.addComponent(lblTitle, 1, 0);
+		
+		
+				
+		VerticalLayout layoutViews = new VerticalLayout();
+		ComponentContainerViewDisplay viewDisplay = new ComponentContainerViewDisplay(layoutViews);
+		layout.addComponent(layoutViews,1,1);	
+		navigator = new Navigator(UI.getCurrent(), viewDisplay);
+		navigator.addView("", new LoginView());
 		navigator.addView(SEARCHUSERSDESCRIPTION, new SearchUserDescription());
+		
+		
 		
 		
 	}
