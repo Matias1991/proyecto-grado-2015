@@ -19,31 +19,31 @@ public class DAOEmployees implements IDAOEmployees{
 	}
 	
 	@Override
-	public void Insert(Employed obj) {
+	public void insert(Employed obj) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void Delete(int id) {
+	public void delete(int id) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public boolean Exist(int id) {
+	public boolean exist(int id) {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
-	public Employed GetObject(int id) {
+	public Employed getObject(int id) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public ArrayList<Employed> GetAll() {
+	public ArrayList<Employed> getObjects() {
 		// TODO Auto-generated method stub
 		return null;
 	}

@@ -29,28 +29,28 @@ public class FacadeMobile implements IFacadeMobile{
 	}
 	
 	@Override
-	public void InsertUser(VOUser voUser) throws ServiceLayerException
+	public void insertUser(VOUser voUser) throws ServiceLayerException
 	{
-		ICoreUser.Insert(voUser);
+		ICoreUser.insert(voUser);
 	}
 
 	@Override
-	public void DeleteUser(int id) throws ServiceLayerException {
-		ICoreUser.Delete(id);
+	public void deleteUser(int id) throws ServiceLayerException {
+		ICoreUser.delete(id);
 	}
 
 	@Override
-	public VOUser GetUser(int id) throws ServiceLayerException {
-		return ICoreUser.Get(id);
+	public VOUser getUser(int id) throws ServiceLayerException {
+		return ICoreUser.getUser(id);
 	}
 
 	@Override
-	public boolean ExistUser(int id) throws ServiceLayerException {
-		return ICoreUser.Exist(id);
+	public boolean existUser(int id) throws ServiceLayerException {
+		return ICoreUser.exist(id);
 	}
 
 	@Override
-	public ArrayList<VOUser> GetAllUsers() throws ServiceLayerException {
-		return ICoreUser.GetAll();
+	public ArrayList<VOUser> getUsers() throws ServiceLayerException {
+		return ICoreUser.getUsers();
 	}
 }

@@ -14,93 +14,89 @@ import servicelayer.interfaces.facade.IFacadeWeb;
 public class ServiceWeb {
 
 	private IFacadeWeb IFacadeWeb;
+	private String errorGeneric = "Ocurrio un error en el sistema, consulte con el administrador";
 	
 	public ServiceWeb()
 	{
 		try {
 			IFacadeWeb = FacadeWeb.GetInstance();
 		} catch (ServiceLayerException e) {
-			throw new RuntimeException("Error when try to connect db");
+			throw new RuntimeException(e.getMessage());
 		} catch (Exception e) {
-			throw new RuntimeException("Error generico, no controlado");
+			throw new RuntimeException(errorGeneric);
 		}
 	}
 	
-	public void insert(VOUser voUser)
+	public boolean insertUser(VOUser voUser)
 	{
 		try {
-			IFacadeWeb.InsertUser(voUser);
+			IFacadeWeb.insertUser(voUser);
+			return true;
 		} catch (ServiceLayerException e) {
-			throw new RuntimeException("Error in opertion insert");
+			throw new RuntimeException(e.getMessage());
 		} catch (Exception e) {
-			throw new RuntimeException("Error generico, no controlado");
+			throw new RuntimeException(errorGeneric);
 		}
 	}
 	
 	public VOUser getUser(int id)
 	{
 		try {
-			return IFacadeWeb.GetUser(id);
+			return IFacadeWeb.getUser(id);
 		} catch (ServiceLayerException e) {
 			throw new RuntimeException(e.getMessage());
 		} catch (Exception e) {
-			throw new RuntimeException("Error generico, no controlado");
+			throw new RuntimeException(errorGeneric);
 		}
 	}
 	
-	public boolean delete(int id)
+	public boolean deleteUser(int id)
 	{
 		try {
-			IFacadeWeb.DeleteUser(id);
-			
+			IFacadeWeb.deleteUser(id);
 			return true;
-			
 		} catch (ServiceLayerException e) {
 			throw new RuntimeException(e.getMessage());
 		} catch (Exception e) {
-			throw new RuntimeException("Error generico, no controlado");
+			throw new RuntimeException(errorGeneric);
 		}
 	}
 	
-	public boolean exist(int id)
+	public boolean existUser(int id)
 	{
 		try {
-			return IFacadeWeb.ExistUser(id);
+			return IFacadeWeb.existUser(id);
 		} catch (ServiceLayerException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			throw new RuntimeException(e.getMessage());
+		} catch (Exception e) {
+			throw new RuntimeException(errorGeneric);
 		}
-		
-		return false;
 	}
 	
 	public boolean login(String userName,String password)
 	{
-		VOUser [] users = getAllUsers();
-		for(VOUser user : users)
-		{
-			if(user.getUserName().equals(userName) && user.getPassword().equals(password))
-			{
-				return true;
-			}
+		try {
+			return IFacadeWeb.login(userName, password);
+		} catch (ServiceLayerException e) {
+			throw new RuntimeException(e.getMessage());
+		} catch (Exception e) {
+			throw new RuntimeException(errorGeneric);
 		}
-		return false;
 	}
 	
-	public VOUser[] getAllUsers()
+	public VOUser[] getUsers()
 	{
 		ArrayList<VOUser> voUsers;
 		try {
-			voUsers = IFacadeWeb.GetAllUsers();
+			voUsers = IFacadeWeb.getUsers();
 			VOUser [] arrayVoUser = new VOUser[voUsers.size()];
 		    voUsers.toArray(arrayVoUser);
 		    return arrayVoUser;
 		    
 		} catch (ServiceLayerException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			throw new RuntimeException(e.getMessage());
+		} catch (Exception e) {
+			throw new RuntimeException(errorGeneric);
 		}
-		
-	    return null;
 	}
 }

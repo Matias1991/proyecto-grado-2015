@@ -3,6 +3,7 @@ package servicelayer.core;
 import java.util.ArrayList;
 
 import datalayer.daos.DAOUsers;
+import servicelayer.Utilities;
 import servicelayer.entity.businessEntity.User;
 import servicelayer.entity.valueObject.VOUser;
 import servicelayer.exceptions.DataLayerException;
@@ -34,11 +35,13 @@ public class CoreUser implements ICoreUser {
 	}
 	
 	@Override
-	public void Insert(VOUser voUser) throws ServiceLayerException {
+	public void insert(VOUser voUser) throws ServiceLayerException {
 		
 		try {
+			String hashPassword = Utilities.Encrypt(voUser.getPassword());
 			User user = new User(voUser);
-			IDAOUsers.Insert(user);
+			user.setPassword(hashPassword);
+			IDAOUsers.insert(user);
 
 		} catch (DataLayerException e) {
 			throw new ServiceLayerException(e);
@@ -46,17 +49,15 @@ public class CoreUser implements ICoreUser {
 	}
 
 	@Override
-	public void Delete(int id) throws ServiceLayerException {
+	public void delete(int id) throws ServiceLayerException {
 		
 		try
 		{
-			User user = IDAOUsers.GetObject(id);
-			
+			User user = IDAOUsers.getObject(id);
 			if(user == null)
-			{
 				throw new ServiceLayerException("No existe un usuario con id blabla");
-			}
-			IDAOUsers.Delete(id);
+			
+			IDAOUsers.delete(id);
 		}
 		catch(DataLayerException dataLayerEx)
 		{
@@ -65,13 +66,13 @@ public class CoreUser implements ICoreUser {
 	}
 
 	@Override
-	public VOUser Get(int id) throws ServiceLayerException {
+	public VOUser getUser(int id) throws ServiceLayerException {
 		
 		User user;
 		VOUser voUser = null;
 		
 		try {
-			user = IDAOUsers.GetObject(id);
+			user = IDAOUsers.getObject(id);
 			if(user != null)
 			{
 				voUser = new VOUser();
@@ -88,31 +89,30 @@ public class CoreUser implements ICoreUser {
 			}
 			
 		} catch (DataLayerException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			throw new ServiceLayerException(e);
 		}
 
 		return voUser;
 	}
 
 	@Override
-	public boolean Exist(int id)  throws ServiceLayerException{
+	public boolean exist(int id)  throws ServiceLayerException{
 
 		try {
-			return IDAOUsers.Exist(id);
+			return IDAOUsers.exist(id);
 		} catch (DataLayerException e) {
 			throw new ServiceLayerException(e);
 		}
 	}
 
 	@Override
-	public ArrayList<VOUser> GetAll() throws ServiceLayerException{
+	public ArrayList<VOUser> getUsers() throws ServiceLayerException{
 		
 		ArrayList<User> users;
 		ArrayList<VOUser> voUsers = null;
 		
 		try {
-			users = IDAOUsers.GetAll();
+			users = IDAOUsers.getObjects();
 			voUsers = new ArrayList<VOUser>(); 
 			
 			for(User user: users)
@@ -121,10 +121,9 @@ public class CoreUser implements ICoreUser {
 				voUser.setId(user.getId());
 				voUser.setName(user.getName());
 				voUser.setUserName(user.getUserName());
-				voUser.setPassword(user.getPassword());
 				voUser.setLastName(user.getLastName());
 				voUser.setEmail(user.getEmail());
-				
+				voUser.setUserType(user.getUserType().getValue());
 				voUsers.add(voUser);
 			}
 		} catch (DataLayerException e) {
@@ -132,5 +131,16 @@ public class CoreUser implements ICoreUser {
 		}
 		
 		return voUsers;
+	}
+	
+	@Override
+	public boolean login(String userName, String password) throws ServiceLayerException
+	{
+		try {
+			String hashPassword = Utilities.Encrypt(password);
+			return IDAOUsers.login(userName, hashPassword);
+		}catch (DataLayerException e) {
+			throw new ServiceLayerException(e);
+		}
 	}
 }
