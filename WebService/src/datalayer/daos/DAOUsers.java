@@ -12,6 +12,7 @@ import org.apache.log4j.Logger;
 
 import datalayer.utils.ManageConnection;
 import servicelayer.entity.businessEntity.User;
+import servicelayer.entity.businessEntity.UserType;
 import servicelayer.entity.valueObject.VOUser;
 import servicelayer.exceptions.DataLayerException;
 import servicelayer.interfaces.dataLayer.IDAOUsers;
@@ -42,8 +43,8 @@ public class DAOUsers implements IDAOUsers {
 	public void insert(User obj) throws DataLayerException{   
 		PreparedStatement preparedStatement = null;
 
-		String insertTableSQL = "INSERT INTO USER (USERNAME, PASSWORD, NAME, LASTNAME, EMAIL) VALUES"
-				+ "(?,?,?,?,?)";
+		String insertTableSQL = "INSERT INTO USER (USERNAME, PASSWORD, NAME, LASTNAME, EMAIL, USERTYPEID) VALUES"
+				+ "(?,?,?,?,?,?)";
 
 		try {
 			preparedStatement = this.connection.prepareStatement(insertTableSQL);
@@ -53,9 +54,10 @@ public class DAOUsers implements IDAOUsers {
 			preparedStatement.setString(3, obj.getName());
 			preparedStatement.setString(4, obj.getLastName());
 			preparedStatement.setString(5, obj.getEmail());
-
-			preparedStatement.executeUpdate();
+			preparedStatement.setInt(6, obj.getUserType().getValue());
 			
+			preparedStatement.executeUpdate();
+			 
 		} catch (SQLException e) {
 			log.error(e.getMessage());
 			throw new DataLayerException("Ocurrio un problema al intentar ingresar un usuario a la base de datos, consulte con el administrador");
@@ -90,14 +92,15 @@ public class DAOUsers implements IDAOUsers {
 
 	@Override
 	public boolean exist(int id) throws DataLayerException {
-		Statement stmt = null;
+		PreparedStatement preparedStatement = null;
 		ResultSet rs = null;
 		try {
 
-			stmt = this.connection.createStatement();
 			String sql;
 			sql = "SELECT * FROM user where id = " + id;
-			rs = stmt.executeQuery(sql);
+			preparedStatement = this.connection.prepareStatement(sql);
+			preparedStatement.setInt(1, id);
+			rs = preparedStatement.executeQuery(sql);
 
 			while (rs.next()) {
 				return true;
@@ -108,10 +111,10 @@ public class DAOUsers implements IDAOUsers {
 			throw new DataLayerException("Ocurrio un error al intentar validar si existe el usuario, consulte con el administrador");
 		} finally {
 			try {
+				if (preparedStatement != null)
+					preparedStatement.close();
 				if (rs != null)
 					rs.close();
-				if (stmt != null)
-					stmt.close();
 			} catch (SQLException e) {
 				log.error(e.getMessage());
 			}
@@ -123,13 +126,15 @@ public class DAOUsers implements IDAOUsers {
 	@Override
 	public User getObject(int id) throws DataLayerException {
 		User user = null;
-		Statement stmt = null;
+		PreparedStatement preparedStatement = null;
 		ResultSet rs = null;
 		try {
-			stmt = this.connection.createStatement();
+
 			String sql;
-			sql = "SELECT * FROM user where id = " + id;
-			rs = stmt.executeQuery(sql);
+			sql = "SELECT * FROM user where id = ?";
+			preparedStatement = this.connection.prepareStatement(sql);
+			preparedStatement.setInt(1, id);
+			rs = preparedStatement.executeQuery(sql);
 
 			while (rs.next()) {
 				user = new User();
@@ -152,10 +157,10 @@ public class DAOUsers implements IDAOUsers {
 			throw new DataLayerException("Ocurrio un error al intentar obtener el usuario, consulte con el administrador");
 		} finally {
 			try {
+				if (preparedStatement != null)
+					preparedStatement.close();
 				if (rs != null)
 					rs.close();
-				if (stmt != null)
-					stmt.close();
 			} catch (SQLException e) {
 				log.error(e.getMessage());
 			}
@@ -167,31 +172,30 @@ public class DAOUsers implements IDAOUsers {
 	@Override
 	public ArrayList<User> getObjects() throws DataLayerException {
 		ArrayList<User> users = new ArrayList<User>();
-		Statement stmt = null;
+		PreparedStatement preparedStatement = null;
 		ResultSet rs = null;
 		try {
 
-			stmt = this.connection.createStatement();
 			String sql;
 			sql = "SELECT * FROM user";
-			rs = stmt.executeQuery(sql);
+			preparedStatement = this.connection.prepareStatement(sql);
+			rs = preparedStatement.executeQuery(sql);
 
 			while (rs.next()) {
 				int _id = rs.getInt("id");
 				String userName = rs.getString("userName");
 				String name = rs.getString("name");
-				String password = rs.getString("password");
 				String lastName = rs.getString("lastName");
 				String email = rs.getString("email");
-
+				int userTypeId = rs.getInt("userTypeId");
+				
 				User user = new User();
 				user.setId(_id);
 				user.setName(name);
 				user.setLastName(lastName);
-				user.setPassword(password);
 				user.setUserName(userName);
 				user.setEmail(email);
-
+				user.setUserType(UserType.getEnum(userTypeId));
 				users.add(user);
 			}
 
@@ -201,10 +205,10 @@ public class DAOUsers implements IDAOUsers {
 	
 		} finally {
 			try {
+				if (preparedStatement != null)
+					preparedStatement.close();
 				if (rs != null)
 					rs.close();
-				if (stmt != null)
-					stmt.close();
 			} catch (SQLException e) {
 				log.error(e.getMessage());
 			}
@@ -227,6 +231,7 @@ public class DAOUsers implements IDAOUsers {
 			preparedStatement.setString(2, password);
 		
 			rs = preparedStatement.executeQuery();
+		
 			if(rs.first())
 				return true;
 			else

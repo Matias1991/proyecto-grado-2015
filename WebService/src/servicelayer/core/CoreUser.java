@@ -3,6 +3,7 @@ package servicelayer.core;
 import java.util.ArrayList;
 
 import datalayer.daos.DAOUsers;
+import servicelayer.Utilities;
 import servicelayer.entity.businessEntity.User;
 import servicelayer.entity.valueObject.VOUser;
 import servicelayer.exceptions.DataLayerException;
@@ -37,7 +38,9 @@ public class CoreUser implements ICoreUser {
 	public void insert(VOUser voUser) throws ServiceLayerException {
 		
 		try {
+			String hashPassword = Utilities.Encrypt(voUser.getPassword());
 			User user = new User(voUser);
+			user.setPassword(hashPassword);
 			IDAOUsers.insert(user);
 
 		} catch (DataLayerException e) {
@@ -118,10 +121,9 @@ public class CoreUser implements ICoreUser {
 				voUser.setId(user.getId());
 				voUser.setName(user.getName());
 				voUser.setUserName(user.getUserName());
-				voUser.setPassword(user.getPassword());
 				voUser.setLastName(user.getLastName());
 				voUser.setEmail(user.getEmail());
-				
+				voUser.setUserType(user.getUserType().getValue());
 				voUsers.add(voUser);
 			}
 		} catch (DataLayerException e) {
@@ -135,7 +137,8 @@ public class CoreUser implements ICoreUser {
 	public boolean login(String userName, String password) throws ServiceLayerException
 	{
 		try {
-			return IDAOUsers.login(userName, password);
+			String hashPassword = Utilities.Encrypt(password);
+			return IDAOUsers.login(userName, hashPassword);
 		}catch (DataLayerException e) {
 			throw new ServiceLayerException(e);
 		}

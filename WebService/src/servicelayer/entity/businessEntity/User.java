@@ -10,7 +10,8 @@ public class User{
 	private String name;
 	private String LastName;
 	private String Email;
-
+    private UserType userType;
+    
 	public User()
 	{
 		
@@ -24,6 +25,7 @@ public class User{
 		this.Email = voUser.getEmail();
 		this.userName = voUser.getUserName();
 		this.password = voUser.getPassword();
+		this.userType =  UserType.getEnum(voUser.getUserType());
 	}
 	
 	public void setId(int i)
@@ -76,5 +78,13 @@ public class User{
 
 	public void setEmail(String email) {
 		Email = email;
+	}
+
+	public UserType getUserType() {
+		return userType;
+	}
+
+	public void setUserType(UserType userType) {
+		this.userType = userType;
 	}
 }
