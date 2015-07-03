@@ -64,7 +64,7 @@ public class LoginView extends CustomComponent implements View, Button.ClickList
 					
 					if(usersDescriptionService.login(correctLogin).get_return()){
 						System.out.println("Inicio correcto");
-						getUI().getNavigator().navigateTo(WebvaadinUI.SEARCHUSERSDESCRIPTION);
+						getUI().getNavigator().navigateTo(WebvaadinUI.CREATE_USER);
 					}else{
 						System.out.println("Inicio INCORRECTO!!!");
 					}

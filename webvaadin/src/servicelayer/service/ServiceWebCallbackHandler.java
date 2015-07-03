@@ -45,19 +45,19 @@
 
         
            /**
-            * auto generated Axis2 call back method for getAllUsers method
-            * override this method for handling normal response from getAllUsers operation
+            * auto generated Axis2 call back method for existUser method
+            * override this method for handling normal response from existUser operation
             */
-           public void receiveResultgetAllUsers(
-                    servicelayer.service.ServiceWebStub.GetAllUsersResponse result
+           public void receiveResultexistUser(
+                    servicelayer.service.ServiceWebStub.ExistUserResponse result
                         ) {
            }
 
           /**
            * auto generated Axis2 Error handler
-           * override this method for handling error response from getAllUsers operation
+           * override this method for handling error response from existUser operation
            */
-            public void receiveErrorgetAllUsers(java.lang.Exception e) {
+            public void receiveErrorexistUser(java.lang.Exception e) {
             }
                 
            /**
@@ -76,9 +76,21 @@
             public void receiveErrorlogin(java.lang.Exception e) {
             }
                 
-               // No methods generated for meps other than in-out
-                
-               // No methods generated for meps other than in-out
+           /**
+            * auto generated Axis2 call back method for deleteUser method
+            * override this method for handling normal response from deleteUser operation
+            */
+           public void receiveResultdeleteUser(
+                    servicelayer.service.ServiceWebStub.DeleteUserResponse result
+                        ) {
+           }
+
+          /**
+           * auto generated Axis2 Error handler
+           * override this method for handling error response from deleteUser operation
+           */
+            public void receiveErrordeleteUser(java.lang.Exception e) {
+            }
                 
            /**
             * auto generated Axis2 call back method for getUser method
@@ -97,19 +109,35 @@
             }
                 
            /**
-            * auto generated Axis2 call back method for exist method
-            * override this method for handling normal response from exist operation
+            * auto generated Axis2 call back method for getUsers method
+            * override this method for handling normal response from getUsers operation
             */
-           public void receiveResultexist(
-                    servicelayer.service.ServiceWebStub.ExistResponse result
+           public void receiveResultgetUsers(
+                    servicelayer.service.ServiceWebStub.GetUsersResponse result
                         ) {
            }
 
           /**
            * auto generated Axis2 Error handler
-           * override this method for handling error response from exist operation
+           * override this method for handling error response from getUsers operation
            */
-            public void receiveErrorexist(java.lang.Exception e) {
+            public void receiveErrorgetUsers(java.lang.Exception e) {
+            }
+                
+           /**
+            * auto generated Axis2 call back method for insertUser method
+            * override this method for handling normal response from insertUser operation
+            */
+           public void receiveResultinsertUser(
+                    servicelayer.service.ServiceWebStub.InsertUserResponse result
+                        ) {
+           }
+
+          /**
+           * auto generated Axis2 Error handler
+           * override this method for handling error response from insertUser operation
+           */
+            public void receiveErrorinsertUser(java.lang.Exception e) {
             }
                 
 

@@ -1,5 +1,6 @@
 package com.example.webvaadin;
 
+import views.CreateUserView;
 import views.LoginView;
 import views.SearchUserDescription;
 
@@ -16,7 +17,8 @@ import com.vaadin.ui.VerticalLayout;
 public class WebvaadinUI extends UI {
 	
 	public Navigator navigator;
-	public static final String SEARCHUSERSDESCRIPTION = "SearchUserDescription";
+//	public static final String SEARCHUSERSDESCRIPTION = "SearchUserDescription";
+	public static final String CREATE_USER = "CreateUserView";
 	
 		
 	@Override
@@ -31,8 +33,8 @@ public class WebvaadinUI extends UI {
 							
 		ComponentContainerViewDisplay viewDisplay = new ComponentContainerViewDisplay(layout);
 		navigator = new Navigator(UI.getCurrent(),viewDisplay);
-		navigator.addView("", new LoginView());	
-		navigator.addView(SEARCHUSERSDESCRIPTION, new SearchUserDescription());
+		navigator.addView("", new CreateUserView());	
+		navigator.addView(CREATE_USER, new CreateUserView());
 		
 		
 	}
