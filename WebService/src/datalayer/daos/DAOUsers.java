@@ -43,11 +43,11 @@ public class DAOUsers implements IDAOUsers {
 	public void insert(User obj) throws DataLayerException{   
 		PreparedStatement preparedStatement = null;
 
-		String insertTableSQL = "INSERT INTO USER (USERNAME, PASSWORD, NAME, LASTNAME, EMAIL, USERTYPEID) VALUES"
+		String insertSQL = "INSERT INTO USER (USERNAME, PASSWORD, NAME, LASTNAME, EMAIL, USERTYPEID) VALUES"
 				+ "(?,?,?,?,?,?)";
 
 		try {
-			preparedStatement = this.connection.prepareStatement(insertTableSQL);
+			preparedStatement = this.connection.prepareStatement(insertSQL);
 
 			preparedStatement.setString(1, obj.getUserName());
 			preparedStatement.setString(2, obj.getPassword());
@@ -70,8 +70,8 @@ public class DAOUsers implements IDAOUsers {
 		
 		try {
 		
-			String insertTableSQL = "DELETE FROM USER WHERE ID = ?";
-			preparedStatement = this.connection.prepareStatement(insertTableSQL);
+			String deleteSQL = "DELETE FROM USER WHERE ID = ?";
+			preparedStatement = this.connection.prepareStatement(deleteSQL);
 			preparedStatement.setInt(1, id);
 			preparedStatement.execute();
 
@@ -96,12 +96,11 @@ public class DAOUsers implements IDAOUsers {
 		ResultSet rs = null;
 		try {
 
-			String sql;
-			sql = "SELECT * FROM user where id = " + id;
-			preparedStatement = this.connection.prepareStatement(sql);
+			String getSQL = "SELECT * FROM USER WHERE id = ?";
+			preparedStatement = this.connection.prepareStatement(getSQL);
 			preparedStatement.setInt(1, id);
-			rs = preparedStatement.executeQuery(sql);
-
+			rs = preparedStatement.executeQuery();
+			
 			while (rs.next()) {
 				return true;
 			}
@@ -130,25 +129,22 @@ public class DAOUsers implements IDAOUsers {
 		ResultSet rs = null;
 		try {
 
-			String sql;
-			sql = "SELECT * FROM user where id = ?";
-			preparedStatement = this.connection.prepareStatement(sql);
+			String getSQL = "SELECT * FROM USER WHERE id = ?";
+			preparedStatement = this.connection.prepareStatement(getSQL);
 			preparedStatement.setInt(1, id);
-			rs = preparedStatement.executeQuery(sql);
+			rs = preparedStatement.executeQuery();
 
 			while (rs.next()) {
 				user = new User();
 				int _id = rs.getInt("id");
 				String userName = rs.getString("userName");
 				String name = rs.getString("name");
-				String password = rs.getString("password");
 				String lastName = rs.getString("lastName");
 				String email = rs.getString("email");
 
 				user.setId(_id);
 				user.setName(name);
 				user.setLastName(lastName);
-				user.setPassword(password);
 				user.setUserName(userName);
 				user.setEmail(email);
 			}
@@ -225,8 +221,8 @@ public class DAOUsers implements IDAOUsers {
 		
 		try
 		{
-			String insertTableSQL = "SELECT id FROM USER WHERE userName = ? and password = ?";
-			preparedStatement = this.connection.prepareStatement(insertTableSQL);
+			String getSQL = "SELECT id FROM USER WHERE userName = ? and password = ?";
+			preparedStatement = this.connection.prepareStatement(getSQL);
 			preparedStatement.setString(1, userName);
 			preparedStatement.setString(2, password);
 		

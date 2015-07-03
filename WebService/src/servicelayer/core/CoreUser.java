@@ -79,7 +79,6 @@ public class CoreUser implements ICoreUser {
 				voUser.setId(user.getId());
 				voUser.setName(user.getName());
 				voUser.setUserName(user.getUserName());
-				voUser.setPassword(user.getPassword());
 				voUser.setLastName(user.getLastName());
 				voUser.setEmail(user.getEmail());
 			}
