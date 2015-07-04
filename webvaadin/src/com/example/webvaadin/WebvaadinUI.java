@@ -1,8 +1,8 @@
 package com.example.webvaadin;
 
-import views.CreateUser;
+import views.CreateUserView;
 import views.LoginView;
-import views.MainMenu;
+import views.MainMenuView;
 import views.SearchUserDescription;
 
 import com.vaadin.annotations.Theme;
@@ -25,8 +25,8 @@ public class WebvaadinUI extends UI {
 	public Navigator navigator;
 	//public static final String SEARCHUSERSDESCRIPTION = "SearchUserDescription";
 	private static Label lblTitle = new Label("");
-	public static final String MAINMENU = "MainMenu";
-	public static final String CREATEUSER = "CreateUser";
+	public static final String MAINMENU = "MainMenuView";
+	public static final String CREATEUSER = "CreateUserView";
 	
 	public static void setTitle(String newTitle){
 		lblTitle.setValue(newTitle);
@@ -63,8 +63,8 @@ public class WebvaadinUI extends UI {
 		navigator = new Navigator(UI.getCurrent(), viewDisplay);
 		navigator.addView("", new LoginView());
 		//navigator.addView(SEARCHUSERSDESCRIPTION, new SearchUserDescription());
-		navigator.addView(MAINMENU, new MainMenu());
-		navigator.addView(CREATEUSER, new CreateUser());
+		navigator.addView(MAINMENU, new MainMenuView());
+		navigator.addView(CREATEUSER, new CreateUserView());
 		
 		
 	}
