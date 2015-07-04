@@ -1,6 +1,7 @@
 package com.example.webvaadin;
 
 import views.LoginView;
+import views.MainMenu;
 import views.SearchUserDescription;
 
 import com.vaadin.annotations.Theme;
@@ -21,33 +22,37 @@ import com.vaadin.ui.VerticalLayout;
 public class WebvaadinUI extends UI {
 	
 	public Navigator navigator;
-	public static final String SEARCHUSERSDESCRIPTION = "SearchUserDescription";
+	//public static final String SEARCHUSERSDESCRIPTION = "SearchUserDescription";
+	public static final String MAINMENU = "MainMenu";
 	
 		
 	@Override
 	protected void init(VaadinRequest request) {
-		final GridLayout layout = new GridLayout(3,3);
+		final GridLayout layout = new GridLayout(12,12);
 		layout.setMargin(true);
 		layout.setSpacing(true);
-		layout.setSizeFull();
+		layout.setSizeFull();		
 		setContent(layout);		
 		getPage().setTitle(":: Meerkat SYS - MSMP");		
 		
 		Image logo = new Image(null, new ThemeResource("./images/logoConFondo.png"));
-		layout.addComponent(logo, 0, 0);		
+		logo.setWidthUndefined();
+		logo.setHeightUndefined();
+		layout.addComponent(logo,0,0);
 		
-		Label lblTitle = new Label ("Bienvenido al sistema de Gestión y Liquidaciones de proyectos");
-		layout.addComponent(lblTitle, 1, 0);
-		
+		Label lblTitle = new Label ("Sistema de Gestión y Liquidaciones de Proyectos");
+		layout.addComponent(lblTitle, 2, 0, 8, 0);
 		
 				
 		VerticalLayout layoutViews = new VerticalLayout();
+		layoutViews.setDefaultComponentAlignment(Alignment.TOP_CENTER);
 		ComponentContainerViewDisplay viewDisplay = new ComponentContainerViewDisplay(layoutViews);
-		layout.addComponent(layoutViews,1,1);	
+		layout.addComponent(layoutViews,0,1, 11,1);
+		//layout.setComponentAlignment(layoutViews, Alignment.TOP_CENTER);
 		navigator = new Navigator(UI.getCurrent(), viewDisplay);
 		navigator.addView("", new LoginView());
-		navigator.addView(SEARCHUSERSDESCRIPTION, new SearchUserDescription());
-		
+		//navigator.addView(SEARCHUSERSDESCRIPTION, new SearchUserDescription());
+		navigator.addView(MAINMENU, new MainMenu());
 		
 		
 		

@@ -13,8 +13,10 @@ import com.vaadin.server.BrowserWindowOpener;
 import com.vaadin.ui.AbsoluteLayout;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
+import com.vaadin.ui.Notification.Type;
 import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.JavaScript;
+import com.vaadin.ui.Notification;
 import com.vaadin.ui.PasswordField;
 import com.vaadin.ui.TextField;
 
@@ -57,9 +59,13 @@ public class LoginView extends CustomComponent implements View, Button.ClickList
 					
 					
 					if(usersDescriptionService.login(correctLogin).get_return()){
-						getUI().getNavigator().navigateTo(WebvaadinUI.SEARCHUSERSDESCRIPTION);
+						//getUI().getNavigator().navigateTo(WebvaadinUI.SEARCHUSERSDESCRIPTION);
+						txtUsername.setValue("");
+						txtPassword.setValue("");
+						txtUsername.focus();
+						getUI().getNavigator().navigateTo(WebvaadinUI.MAINMENU);
 					}else{
-						JavaScript.getCurrent().execute("alert('¡Usuario y/o clave incorrecto!')");
+						Notification.show("ERROR:", "Usuario y/o contraseña incorrecta", Type.ERROR_MESSAGE);
 						txtUsername.setValue("");
 						txtPassword.setValue("");
 						txtUsername.focus();
