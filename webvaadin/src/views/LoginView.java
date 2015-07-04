@@ -83,7 +83,8 @@ public class LoginView extends CustomComponent implements View, Button.ClickList
 	@Override
 	public void enter(ViewChangeEvent event) {
 		// TODO Auto-generated method stub
-		
+		WebvaadinUI.setTitle("Sistema de Gestión y Liquidaciones de Proyectos");
+		this.txtUsername.focus();
 	}
 
 	@Override
