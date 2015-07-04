@@ -1,25 +1,28 @@
 package servicelayer.core;
 
 import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 import datalayer.daos.DAOUsers;
-import servicelayer.Utilities;
 import servicelayer.entity.businessEntity.User;
 import servicelayer.entity.valueObject.VOUser;
-import servicelayer.exceptions.DataLayerException;
-import servicelayer.exceptions.ServiceLayerException;
-import servicelayer.interfaces.core.ICoreUser;
-import servicelayer.interfaces.dataLayer.IDAOUsers;
+import servicelayer.utilities.HashMD5;
+import shared.exceptions.DataLayerException;
+import shared.exceptions.ServiceLayerException;
+import shared.interfaces.core.ICoreUser;
+import shared.interfaces.dataLayer.IDAOUsers;
 
 public class CoreUser implements ICoreUser {
 	
 	private static CoreUser instance = null;
-	private IDAOUsers IDAOUsers;
-	
+	private IDAOUsers iDAOUsers;
+
 	private CoreUser() throws ServiceLayerException
 	{
 		try {
-			IDAOUsers = new DAOUsers();
+			iDAOUsers = new DAOUsers();
 		} catch (DataLayerException e) {
 			throw new ServiceLayerException(e);
 		}
@@ -35,13 +38,20 @@ public class CoreUser implements ICoreUser {
 	}
 	
 	@Override
-	public void insert(VOUser voUser) throws ServiceLayerException {
+	public void insertUser(VOUser voUser) throws ServiceLayerException {
 		
 		try {
-			String hashPassword = Utilities.Encrypt(voUser.getPassword());
-			User user = new User(voUser);
-			user.setPassword(hashPassword);
-			IDAOUsers.insert(user);
+			
+			if(iDAOUsers.getUserByUserName(voUser.getUserName()) == null)
+			{
+				//primer contrasena es el nombre de usuario
+				String hashPassword = HashMD5.Encrypt(voUser.getUserName());
+				User user = new User(voUser);
+				user.setPassword(hashPassword);
+				iDAOUsers.insert(user);
+			}
+			else
+				throw new ServiceLayerException("Ya existe un usuario con este nombre de usuario");
 
 		} catch (DataLayerException e) {
 			throw new ServiceLayerException(e);
@@ -49,15 +59,15 @@ public class CoreUser implements ICoreUser {
 	}
 
 	@Override
-	public void delete(int id) throws ServiceLayerException {
+	public void deleteUser(int id) throws ServiceLayerException {
 		
 		try
 		{
-			User user = IDAOUsers.getObject(id);
+			User user = iDAOUsers.getObject(id);
 			if(user == null)
 				throw new ServiceLayerException("No existe un usuario con id blabla");
 			
-			IDAOUsers.delete(id);
+			iDAOUsers.delete(id);
 		}
 		catch(DataLayerException dataLayerEx)
 		{
@@ -72,21 +82,19 @@ public class CoreUser implements ICoreUser {
 		VOUser voUser = null;
 		
 		try {
-			user = IDAOUsers.getObject(id);
+			user = iDAOUsers.getObject(id);
 			if(user != null)
 			{
 				voUser = new VOUser();
 				voUser.setId(user.getId());
 				voUser.setName(user.getName());
 				voUser.setUserName(user.getUserName());
-				voUser.setPassword(user.getPassword());
 				voUser.setLastName(user.getLastName());
 				voUser.setEmail(user.getEmail());
+				voUser.setUserType(user.getUserType().getValue());
 			}
 			else
-			{
 				throw new ServiceLayerException("No existe un usuario con ese id");
-			}
 			
 		} catch (DataLayerException e) {
 			throw new ServiceLayerException(e);
@@ -96,10 +104,10 @@ public class CoreUser implements ICoreUser {
 	}
 
 	@Override
-	public boolean exist(int id)  throws ServiceLayerException{
+	public boolean existUser(int id)  throws ServiceLayerException{
 
 		try {
-			return IDAOUsers.exist(id);
+			return iDAOUsers.exist(id);
 		} catch (DataLayerException e) {
 			throw new ServiceLayerException(e);
 		}
@@ -112,7 +120,7 @@ public class CoreUser implements ICoreUser {
 		ArrayList<VOUser> voUsers = null;
 		
 		try {
-			users = IDAOUsers.getObjects();
+			users = iDAOUsers.getObjects();
 			voUsers = new ArrayList<VOUser>(); 
 			
 			for(User user: users)
@@ -137,8 +145,23 @@ public class CoreUser implements ICoreUser {
 	public boolean login(String userName, String password) throws ServiceLayerException
 	{
 		try {
-			String hashPassword = Utilities.Encrypt(password);
-			return IDAOUsers.login(userName, hashPassword);
+			String hashPassword = HashMD5.Encrypt(password);
+			return iDAOUsers.login(userName, hashPassword);
+		}catch (DataLayerException e) {
+			throw new ServiceLayerException(e);
+		}
+	}
+
+	@Override
+	public VOUser update(int id, VOUser voUser) throws ServiceLayerException {
+		
+		try {
+			
+			User user = new User(voUser);
+			iDAOUsers.update(id, user);
+		
+			return getUser(id);
+			
 		}catch (DataLayerException e) {
 			throw new ServiceLayerException(e);
 		}

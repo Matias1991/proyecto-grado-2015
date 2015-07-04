@@ -4,7 +4,8 @@ import java.sql.Connection;
 import java.util.ArrayList;
 
 import servicelayer.entity.businessEntity.Employed;
-import servicelayer.interfaces.dataLayer.IDAOEmployees;
+import shared.exceptions.DataLayerException;
+import shared.interfaces.dataLayer.IDAOEmployees;
 
 public class DAOEmployees implements IDAOEmployees{
 
@@ -46,6 +47,12 @@ public class DAOEmployees implements IDAOEmployees{
 	public ArrayList<Employed> getObjects() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public void update(int id, Employed obj) throws DataLayerException {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
