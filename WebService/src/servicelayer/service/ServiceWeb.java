@@ -1,86 +1,153 @@
 package servicelayer.service;
 
 import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
 
-import javax.annotation.Resource;
-import javax.xml.ws.WebServiceContext;
-import javax.xml.ws.handler.MessageContext;
-
+import servicelayer.core.CoreUser;
 import servicelayer.entity.valueObject.VOUser;
-import servicelayer.exceptions.ServiceLayerException;
-import servicelayer.facade.FacadeWeb;
-import servicelayer.interfaces.facade.IFacadeWeb;
+import servicelayer.utilities.Constants;
+import shared.exceptions.ServiceLayerException;
+import shared.interfaces.core.ICoreUser;
 
-public class ServiceWeb {
+////IMPORTANTE:
+////transactionLock.tryLock -> utilizar esto para brindar un buen manejo sincronizado, con esta sentencia se abre el bloque de exlusicion con un limite de 10 segundos de espera
+////definir para cada operation del servico try{}catch{}finally{}
+////finally{} siempre liberar el transactionLock
+public class ServiceWeb extends ServiceBase{
 
-	private IFacadeWeb IFacadeWeb;
-	private String errorGeneric = "Ocurrio un error en el sistema, consulte con el administrador";
+	private ICoreUser iCoreUser = null;
 	
 	public ServiceWeb()
 	{
 		try {
-			IFacadeWeb = FacadeWeb.GetInstance();
+			transactionLock.tryLock(Constants.DEFAULT_TRANSACTION_TIME , TimeUnit.SECONDS);
+			
+			iCoreUser = CoreUser.GetInstance();
 		} catch (ServiceLayerException e) {
 			throw new RuntimeException(e.getMessage());
 		} catch (Exception e) {
-			throw new RuntimeException(errorGeneric);
+			throw new RuntimeException(Constants.GENERIC_ERROR);
+		}
+		finally
+		{
+			transactionLock.unlock();
 		}
 	}
 	
 	public boolean insertUser(VOUser voUser)
 	{
 		try {
-			IFacadeWeb.insertUser(voUser);
+			transactionLock.tryLock(Constants.DEFAULT_TRANSACTION_TIME, TimeUnit.SECONDS);
+			
+			iCoreUser.insertUser(voUser);
+			
 			return true;
 		} catch (ServiceLayerException e) {
 			throw new RuntimeException(e.getMessage());
+		} catch (InterruptedException e) {
+			throw new RuntimeException(Constants.TRANSACTION_ERROR);
 		} catch (Exception e) {
-			throw new RuntimeException(errorGeneric);
+			throw new RuntimeException(Constants.GENERIC_ERROR);
+		}
+		finally
+		{
+			transactionLock.unlock();
 		}
 	}
 	
 	public VOUser getUser(int id)
 	{
 		try {
-			return IFacadeWeb.getUser(id);
+			transactionLock.tryLock(Constants.DEFAULT_TRANSACTION_TIME, TimeUnit.SECONDS);
+			
+			return iCoreUser.getUser(id);
 		} catch (ServiceLayerException e) {
 			throw new RuntimeException(e.getMessage());
+		}catch (InterruptedException e) {
+				throw new RuntimeException(Constants.TRANSACTION_ERROR);	
 		} catch (Exception e) {
-			throw new RuntimeException(errorGeneric);
+			throw new RuntimeException(Constants.GENERIC_ERROR);
+		}
+		finally
+		{
+			transactionLock.unlock();
 		}
 	}
 	
 	public boolean deleteUser(int id)
 	{
 		try {
-			IFacadeWeb.deleteUser(id);
+			transactionLock.tryLock(Constants.DEFAULT_TRANSACTION_TIME, TimeUnit.SECONDS);
+			
+			iCoreUser.deleteUser(id);
 			return true;
 		} catch (ServiceLayerException e) {
 			throw new RuntimeException(e.getMessage());
+		} catch (InterruptedException e) {
+				throw new RuntimeException(Constants.TRANSACTION_ERROR);	
 		} catch (Exception e) {
-			throw new RuntimeException(errorGeneric);
+			throw new RuntimeException(Constants.GENERIC_ERROR);
+		}
+		finally
+		{
+			transactionLock.unlock();
+		}
+	}
+	
+	public VOUser updateUser(int id, VOUser voUser)
+	{
+		try {
+			transactionLock.tryLock(Constants.DEFAULT_TRANSACTION_TIME, TimeUnit.SECONDS);
+			
+			return iCoreUser.update(id, voUser);
+		} catch (ServiceLayerException e) {
+			throw new RuntimeException(e.getMessage());
+		} catch (InterruptedException e) {
+				throw new RuntimeException(Constants.TRANSACTION_ERROR);	
+		} catch (Exception e) {
+			throw new RuntimeException(Constants.GENERIC_ERROR);
+		}
+		finally
+		{
+			transactionLock.unlock();
 		}
 	}
 	
 	public boolean existUser(int id)
 	{
 		try {
-			return IFacadeWeb.existUser(id);
+			transactionLock.tryLock(Constants.DEFAULT_TRANSACTION_TIME, TimeUnit.SECONDS);
+			
+			return iCoreUser.existUser(id);
 		} catch (ServiceLayerException e) {
 			throw new RuntimeException(e.getMessage());
+		} catch (InterruptedException e) {
+			throw new RuntimeException(Constants.TRANSACTION_ERROR);	
 		} catch (Exception e) {
-			throw new RuntimeException(errorGeneric);
+			throw new RuntimeException(Constants.GENERIC_ERROR);
+		}
+		finally
+		{
+			transactionLock.unlock();
 		}
 	}
 	
 	public boolean login(String userName,String password)
 	{
 		try {
-			return IFacadeWeb.login(userName, password);
+			transactionLock.tryLock(Constants.DEFAULT_TRANSACTION_TIME, TimeUnit.SECONDS);
+			
+			return iCoreUser.login(userName, password);
 		} catch (ServiceLayerException e) {
 			throw new RuntimeException(e.getMessage());
+		} catch (InterruptedException e) {
+			throw new RuntimeException(Constants.TRANSACTION_ERROR);
 		} catch (Exception e) {
-			throw new RuntimeException(errorGeneric);
+			throw new RuntimeException(Constants.GENERIC_ERROR);
+		}
+		finally
+		{
+			transactionLock.unlock();
 		}
 	}
 	
@@ -88,15 +155,23 @@ public class ServiceWeb {
 	{
 		ArrayList<VOUser> voUsers;
 		try {
-			voUsers = IFacadeWeb.getUsers();
+			transactionLock.tryLock(Constants.DEFAULT_TRANSACTION_TIME, TimeUnit.SECONDS);
+			
+			voUsers = iCoreUser.getUsers();
 			VOUser [] arrayVoUser = new VOUser[voUsers.size()];
 		    voUsers.toArray(arrayVoUser);
 		    return arrayVoUser;
 		    
 		} catch (ServiceLayerException e) {
 			throw new RuntimeException(e.getMessage());
+		} catch (InterruptedException e) {
+			throw new RuntimeException(Constants.TRANSACTION_ERROR);
 		} catch (Exception e) {
-			throw new RuntimeException(errorGeneric);
+			throw new RuntimeException(Constants.GENERIC_ERROR);
+		}
+		finally
+		{
+			transactionLock.unlock();
 		}
 	}
 }

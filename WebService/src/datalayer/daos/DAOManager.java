@@ -4,10 +4,10 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
 
-import servicelayer.interfaces.core.IDAOManager;
-import servicelayer.interfaces.dataLayer.IDAOEmployees;
-import servicelayer.interfaces.dataLayer.IDAOUsers;
-import datalayer.utils.ManageConnection;
+import shared.interfaces.core.IDAOManager;
+import shared.interfaces.dataLayer.IDAOEmployees;
+import shared.interfaces.dataLayer.IDAOUsers;
+import datalayer.utilities.ManageConnection;
 
 public class DAOManager implements IDAOManager{
 

@@ -10,12 +10,12 @@ import java.util.ArrayList;
 import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.Logger;
 
-import datalayer.utils.ManageConnection;
+import datalayer.utilities.ManageConnection;
 import servicelayer.entity.businessEntity.User;
 import servicelayer.entity.businessEntity.UserType;
 import servicelayer.entity.valueObject.VOUser;
-import servicelayer.exceptions.DataLayerException;
-import servicelayer.interfaces.dataLayer.IDAOUsers;
+import shared.exceptions.DataLayerException;
+import shared.interfaces.dataLayer.IDAOUsers;
 
 public class DAOUsers implements IDAOUsers {
 
@@ -141,12 +141,14 @@ public class DAOUsers implements IDAOUsers {
 				String name = rs.getString("name");
 				String lastName = rs.getString("lastName");
 				String email = rs.getString("email");
-
+				int userTypeId = rs.getInt("userTypeId");
+				
 				user.setId(_id);
 				user.setName(name);
 				user.setLastName(lastName);
 				user.setUserName(userName);
 				user.setEmail(email);
+				user.setUserType(UserType.getEnum(userTypeId));
 			}
 		} catch (SQLException e) {
 			log.error(e.getMessage());
@@ -246,5 +248,81 @@ public class DAOUsers implements IDAOUsers {
 				log.error(e.getMessage());
 			}
 		}
+	}
+
+	@Override
+	public User getUserByUserName(String userName) throws DataLayerException
+	{
+		User user = null;
+		PreparedStatement preparedStatement = null;
+		ResultSet rs = null;
+		
+		try
+		{
+			String getSQL = "SELECT * FROM USER WHERE userName = ?";
+			preparedStatement = this.connection.prepareStatement(getSQL);
+			preparedStatement.setString(1, userName);
+			
+			rs = preparedStatement.executeQuery();
+		
+			while (rs.next()) {
+				user = new User();
+				int _id = rs.getInt("id");
+				String name = rs.getString("name");
+				String lastName = rs.getString("lastName");
+				String email = rs.getString("email");
+
+				user.setId(_id);
+				user.setName(name);
+				user.setLastName(lastName);
+				user.setUserName(userName);
+				user.setEmail(email);
+			}
+			
+		} catch (SQLException e) {
+			log.error(e.getMessage());
+			throw new DataLayerException("Ocurrio un error al intentar obtener los usuarios, consulte con el administrador");
+		}finally {
+			try {
+				if (preparedStatement != null)
+					preparedStatement.close();
+				if (rs != null)
+					rs.close();
+			} catch (SQLException e) {
+				log.error(e.getMessage());
+			}
+		}
+		
+		return user;
+	}
+
+	@Override
+	public void update(int id, User obj) throws DataLayerException {
+		
+		PreparedStatement preparedStatement = null;
+		
+		String updateSQL = "UPDATE USER "
+				+ "SET name = ?, "
+				+ "lastName = ?, "
+				+ "email = ?, "
+				+ "userTypeId = ? "
+				+ "WHERE id = ?";
+
+		try {
+			preparedStatement = this.connection.prepareStatement(updateSQL);
+
+			preparedStatement.setString(1, obj.getName());
+			preparedStatement.setString(2, obj.getLastName());
+			preparedStatement.setString(3, obj.getEmail());
+			preparedStatement.setInt(4, obj.getUserType().getValue());
+			preparedStatement.setInt(5, id);
+			
+			preparedStatement.executeUpdate();
+			 
+		} catch (SQLException e) {
+			log.error(e.getMessage());
+			throw new DataLayerException("Ocurrio un problema al intentar modificar un usuario en la base de datos, consulte con el administrador");
+		}
+		
 	}
 }

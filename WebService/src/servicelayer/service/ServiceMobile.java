@@ -2,19 +2,20 @@ package servicelayer.service;
 
 import java.util.ArrayList;
 
+import servicelayer.core.CoreUser;
 import servicelayer.entity.valueObject.VOUser;
-import servicelayer.exceptions.ServiceLayerException;
-import servicelayer.facade.FacadeMobile;
-import servicelayer.interfaces.facade.IFacadeMobile;
+import servicelayer.utilities.Constants;
+import shared.exceptions.ServiceLayerException;
+import shared.interfaces.core.ICoreUser;
 
 public class ServiceMobile {
 
-	private IFacadeMobile IFacadeMobile;
+	private ICoreUser iCoreUser = null;
 	
 	public ServiceMobile()
 	{
 		try {
-			IFacadeMobile = FacadeMobile.GetInstance();
+			iCoreUser = CoreUser.GetInstance();
 		} catch (ServiceLayerException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -24,7 +25,7 @@ public class ServiceMobile {
 	public void insert(VOUser voUser)
 	{
 		try {
-			IFacadeMobile.insertUser(voUser);
+			iCoreUser.insertUser(voUser);
 		} catch (ServiceLayerException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -34,7 +35,7 @@ public class ServiceMobile {
 	public VOUser getUser(int id)
 	{
 		try {
-			return IFacadeMobile.getUser(id);
+			return iCoreUser.getUser(id);
 		} catch (ServiceLayerException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -46,7 +47,7 @@ public class ServiceMobile {
 	public void delete(int id)
 	{
 		try {
-			IFacadeMobile.deleteUser(id);
+			iCoreUser.deleteUser(id);
 		} catch (ServiceLayerException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -56,7 +57,7 @@ public class ServiceMobile {
 	public boolean exist(int id)
 	{
 		try {
-			return IFacadeMobile.existUser(id);
+			return iCoreUser.existUser(id);
 		} catch (ServiceLayerException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -69,7 +70,7 @@ public class ServiceMobile {
 	{
 		ArrayList<VOUser> voUsers;
 		try {
-			voUsers = IFacadeMobile.getUsers();
+			voUsers = iCoreUser.getUsers();
 			VOUser [] arrayVoUser = new VOUser[voUsers.size()];
 		    voUsers.toArray(arrayVoUser);
 		    return arrayVoUser;
@@ -84,14 +85,12 @@ public class ServiceMobile {
 	
 	public boolean login(String userName,String password)
 	{
-		VOUser [] users = getAllUsers();
-		for(VOUser user : users)
-		{
-			if(user.getUserName().equals(userName) && user.getPassword().equals(password))
-			{
-				return true;
-			}
+		try {
+			return iCoreUser.login(userName, password);
+		} catch (ServiceLayerException e) {
+			throw new RuntimeException(e.getMessage());
+		} catch (Exception e) {
+			throw new RuntimeException(Constants.GENERIC_ERROR);
 		}
-		return false;
 	}	
 }

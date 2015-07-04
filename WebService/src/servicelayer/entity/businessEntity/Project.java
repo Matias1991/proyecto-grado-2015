@@ -3,7 +3,7 @@ package servicelayer.entity.businessEntity;
 import java.util.ArrayList;
 
 import datalayer.daos.DAOEmployees;
-import servicelayer.interfaces.dataLayer.IDAOEmployees;
+import shared.interfaces.dataLayer.IDAOEmployees;
 
 
 public class Project {
