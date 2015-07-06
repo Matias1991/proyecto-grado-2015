@@ -7,5 +7,5 @@ public interface IDAOUsers extends IDAOBase<User>{
 
 	User getUserByUserName(String userName) throws DataLayerException;
 	
-	boolean login(String userName,String password) throws DataLayerException;
+	User login(String userName,String password) throws DataLayerException;
 }

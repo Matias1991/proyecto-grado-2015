@@ -216,28 +216,39 @@ public class DAOUsers implements IDAOUsers {
 	}
 	
 	@Override
-	public boolean login(String userName,String password) throws DataLayerException
+	public User login(String userName,String password) throws DataLayerException
 	{
+		User user = null;
 		PreparedStatement preparedStatement = null;
 		ResultSet rs = null;
 		
 		try
 		{
-			String getSQL = "SELECT id FROM USER WHERE userName = ? and password = ?";
+			String getSQL = "SELECT * FROM USER WHERE userName = ? and password = ?";
 			preparedStatement = this.connection.prepareStatement(getSQL);
 			preparedStatement.setString(1, userName);
 			preparedStatement.setString(2, password);
 		
 			rs = preparedStatement.executeQuery();
-		
-			if(rs.first())
-				return true;
-			else
-				return false;
+			
+			if(rs.next())
+				user = new User();
+				int _id = rs.getInt("id");
+				String name = rs.getString("name");
+				String lastName = rs.getString("lastName");
+				String email = rs.getString("email");
+				int userTypeId = rs.getInt("userTypeId");
+				
+				user.setId(_id);
+				user.setName(name);
+				user.setLastName(lastName);
+				user.setUserName(userName);
+				user.setEmail(email);
+				user.setUserType(UserType.getEnum(userTypeId));
 			
 		} catch (SQLException e) {
 			log.error(e.getMessage());
-			throw new DataLayerException("Ocurrio un error al intentar obtener los usuarios, consulte con el administrador");
+			throw new DataLayerException("Ocurrio un error al intentar obtener el usuario, consulte con el administrador");
 		}finally {
 			try {
 				if (preparedStatement != null)
@@ -248,6 +259,7 @@ public class DAOUsers implements IDAOUsers {
 				log.error(e.getMessage());
 			}
 		}
+		return user;
 	}
 
 	@Override

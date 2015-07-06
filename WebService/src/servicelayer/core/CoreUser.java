@@ -142,14 +142,27 @@ public class CoreUser implements ICoreUser {
 	}
 	
 	@Override
-	public boolean login(String userName, String password) throws ServiceLayerException
+	public VOUser login(String userName, String password) throws ServiceLayerException
 	{
+		VOUser voUser = null;
 		try {
 			String hashPassword = HashMD5.Encrypt(password);
-			return iDAOUsers.login(userName, hashPassword);
+			User user = iDAOUsers.login(userName, hashPassword);
+			if(user != null)
+			{
+				voUser = new VOUser();
+				voUser.setId(user.getId());
+				voUser.setName(user.getName());
+				voUser.setUserName(user.getUserName());
+				voUser.setLastName(user.getLastName());
+				voUser.setEmail(user.getEmail());
+				voUser.setUserType(user.getUserType().getValue());
+			}
 		}catch (DataLayerException e) {
 			throw new ServiceLayerException(e);
 		}
+		
+		return voUser;
 	}
 
 	@Override

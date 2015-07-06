@@ -132,7 +132,7 @@ public class ServiceWeb extends ServiceBase{
 		}
 	}
 	
-	public boolean login(String userName,String password)
+	public VOUser login(String userName,String password)
 	{
 		try {
 			transactionLock.tryLock(Constants.DEFAULT_TRANSACTION_TIME, TimeUnit.SECONDS);
