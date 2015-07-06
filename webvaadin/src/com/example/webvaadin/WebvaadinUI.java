@@ -1,7 +1,8 @@
 package com.example.webvaadin;
 
+import views.CreateUserView;
 import views.LoginView;
-import views.MainMenu;
+import views.MainMenuView;
 import views.SearchUserDescription;
 
 import com.vaadin.annotations.Theme;
@@ -23,8 +24,13 @@ public class WebvaadinUI extends UI {
 	
 	public Navigator navigator;
 	//public static final String SEARCHUSERSDESCRIPTION = "SearchUserDescription";
-	public static final String MAINMENU = "MainMenu";
+	private static Label lblTitle = new Label("");
+	public static final String MAINMENU = "MainMenuView";
+	public static final String CREATEUSER = "CreateUserView";
 	
+	public static void setTitle(String newTitle){
+		lblTitle.setValue(newTitle);
+	}
 		
 	@Override
 	protected void init(VaadinRequest request) {
@@ -35,15 +41,20 @@ public class WebvaadinUI extends UI {
 		setContent(layout);		
 		getPage().setTitle(":: Meerkat SYS - MSMP");		
 		
+		/**
+		 * Logo y titulo
+		 */
 		Image logo = new Image(null, new ThemeResource("./images/logoConFondo.png"));
 		logo.setWidthUndefined();
 		logo.setHeightUndefined();
 		layout.addComponent(logo,0,0);
 		
-		Label lblTitle = new Label ("Sistema de Gestión y Liquidaciones de Proyectos");
+		this.setTitle("Sistema de Gestión y Liquidaciones de Proyectos");
 		layout.addComponent(lblTitle, 2, 0, 8, 0);
 		
-				
+		/**
+		 * Contenedor principal		
+		 */
 		VerticalLayout layoutViews = new VerticalLayout();
 		layoutViews.setDefaultComponentAlignment(Alignment.TOP_CENTER);
 		ComponentContainerViewDisplay viewDisplay = new ComponentContainerViewDisplay(layoutViews);
@@ -52,9 +63,11 @@ public class WebvaadinUI extends UI {
 		navigator = new Navigator(UI.getCurrent(), viewDisplay);
 		navigator.addView("", new LoginView());
 		//navigator.addView(SEARCHUSERSDESCRIPTION, new SearchUserDescription());
-		navigator.addView(MAINMENU, new MainMenu());
-		
+		navigator.addView(MAINMENU, new MainMenuView());
+		navigator.addView(CREATEUSER, new CreateUserView());
 		
 		
 	}
+	
+	
 }
