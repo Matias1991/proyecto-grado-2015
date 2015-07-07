@@ -232,6 +232,7 @@ public class DAOUsers implements IDAOUsers {
 			rs = preparedStatement.executeQuery();
 			
 			if(rs.next())
+			{
 				user = new User();
 				int _id = rs.getInt("id");
 				String name = rs.getString("name");
@@ -245,6 +246,7 @@ public class DAOUsers implements IDAOUsers {
 				user.setUserName(userName);
 				user.setEmail(email);
 				user.setUserType(UserType.getEnum(userTypeId));
+			}
 			
 		} catch (SQLException e) {
 			log.error(e.getMessage());
