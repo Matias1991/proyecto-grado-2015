@@ -3,6 +3,8 @@ package com.example.webvaadin;
 import views.CreateUserView;
 import views.LoginView;
 import views.MainMenu;
+import views.ModifyProfileView;
+
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.Title;
 import com.vaadin.client.ui.Icon;
@@ -29,7 +31,7 @@ public class WebvaadinUI extends UI {
 	//public static final String SEARCHUSERSDESCRIPTION = "SearchUserDescription";
 	public static final String MAINMENU = "MainMenu";
 	public static final String CREATEUSER = "CreateUserView";
-	public static final String MODIFYUSER = "ModifyUserView";
+	public static final String MODIFYPROFILEUSER = "ModifyProfileView";
 	
 	private static GridLayout mainLayout;
 	private static MenuBar mainMenuBar; 
@@ -99,7 +101,8 @@ public class WebvaadinUI extends UI {
 		navigator = new Navigator(UI.getCurrent(), viewDisplay);
 		navigator.addView("", new LoginView());		
 		navigator.addView(MAINMENU, new MainMenu());
-		navigator.addView(CREATEUSER, new CreateUserView());	
+		navigator.addView(CREATEUSER, new CreateUserView());
+		navigator.addView(CREATEUSER, new ModifyProfileView());	
 		
 		
 		return mainLayout;		
@@ -125,7 +128,7 @@ public class WebvaadinUI extends UI {
 						getUI().getNavigator().navigateTo(WebvaadinUI.CREATEUSER);
 					break;
 					case "Modificar usuario":
-						getUI().getNavigator().navigateTo(WebvaadinUI.MODIFYUSER);
+						getUI().getNavigator().navigateTo(WebvaadinUI.MODIFYPROFILEUSER);
 					break;
 					case "Eliminar usuarios":
 						Notification.show(selectedItem.getText());
