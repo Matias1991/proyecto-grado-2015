@@ -3,7 +3,7 @@ package com.example.webvaadin;
 import views.CreateUserView;
 import views.DeleteUsersView;
 import views.LoginView;
-import views.MainMenu;
+import views.MainMenuView;
 
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.Title;
@@ -99,7 +99,7 @@ public class WebvaadinUI extends UI {
 		
 		navigator = new Navigator(UI.getCurrent(), viewDisplay);
 		navigator.addView("", new LoginView());		
-		navigator.addView(MAINMENU, new MainMenu());
+		navigator.addView(MAINMENU, new MainMenuView());
 		navigator.addView(CREATEUSER, new CreateUserView());	
 		navigator.addView(DELETEUSERS, new DeleteUsersView());	
 		
