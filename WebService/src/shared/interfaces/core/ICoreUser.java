@@ -19,5 +19,5 @@ public interface ICoreUser {
 	
 	public ArrayList<VOUser> getUsers() throws ServiceLayerException;
 	
-	public boolean login(String userName, String password) throws ServiceLayerException;
+	public VOUser login(String userName, String password) throws ServiceLayerException;
 }

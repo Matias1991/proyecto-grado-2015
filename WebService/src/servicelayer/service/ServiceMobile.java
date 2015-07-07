@@ -83,7 +83,7 @@ public class ServiceMobile {
 	    return null;
 	}
 	
-	public boolean login(String userName,String password)
+	public VOUser login(String userName,String password)
 	{
 		try {
 			return iCoreUser.login(userName, password);
