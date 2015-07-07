@@ -29,6 +29,7 @@ public class WebvaadinUI extends UI {
 	//public static final String SEARCHUSERSDESCRIPTION = "SearchUserDescription";
 	public static final String MAINMENU = "MainMenu";
 	public static final String CREATEUSER = "CreateUserView";
+	public static final String MODIFYUSER = "ModifyUserView";
 	
 	private static GridLayout mainLayout;
 	private static MenuBar mainMenuBar; 
@@ -124,7 +125,7 @@ public class WebvaadinUI extends UI {
 						getUI().getNavigator().navigateTo(WebvaadinUI.CREATEUSER);
 					break;
 					case "Modificar usuario":
-						Notification.show(selectedItem.getText());
+						getUI().getNavigator().navigateTo(WebvaadinUI.MODIFYUSER);
 					break;
 					case "Eliminar usuarios":
 						Notification.show(selectedItem.getText());
