@@ -2,19 +2,22 @@ package com.example.webvaadin;
 
 import views.CreateUserView;
 import views.LoginView;
-import views.MainMenuView;
-import views.SearchUserDescription;
-
+import views.MainMenu;
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.Title;
+import com.vaadin.client.ui.Icon;
 import com.vaadin.navigator.Navigator;
 import com.vaadin.navigator.Navigator.ComponentContainerViewDisplay;
 import com.vaadin.server.ThemeResource;
 import com.vaadin.server.VaadinRequest;
+import com.vaadin.server.Sizeable.Unit;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.GridLayout;
 import com.vaadin.ui.Image;
 import com.vaadin.ui.Label;
+import com.vaadin.ui.MenuBar;
+import com.vaadin.ui.MenuBar.MenuItem;
+import com.vaadin.ui.Notification;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 
@@ -24,49 +27,190 @@ public class WebvaadinUI extends UI {
 	
 	public Navigator navigator;
 	//public static final String SEARCHUSERSDESCRIPTION = "SearchUserDescription";
-	private static Label lblTitle = new Label("");
-	public static final String MAINMENU = "MainMenuView";
+	public static final String MAINMENU = "MainMenu";
 	public static final String CREATEUSER = "CreateUserView";
 	
-	public static void setTitle(String newTitle){
-		lblTitle.setValue(newTitle);
-	}
-		
+	private static GridLayout mainLayout;
+	private static MenuBar mainMenuBar; 
+	private static MenuBar userMenuBar; 
+	private static Label lblTitle; 
+	
+	
 	@Override
 	protected void init(VaadinRequest request) {
-		final GridLayout layout = new GridLayout(12,12);
-		layout.setMargin(true);
-		layout.setSpacing(true);
-		layout.setSizeFull();		
-		setContent(layout);		
+		
+		buildLayout();				
+	
+	}
+	
+	
+	/**
+	 * Armado del contenedor principal
+	 */
+	private GridLayout buildLayout(){
+		mainLayout = new GridLayout(12,12);
+		
+		mainLayout.setMargin(true);
+		mainLayout.setWidth("1366px");
+		mainLayout.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
+		setContent(mainLayout);		
 		getPage().setTitle(":: Meerkat SYS - MSMP");		
 		
 		/**
-		 * Logo y titulo
+		 * Logo del sitio
 		 */
-		Image logo = new Image(null, new ThemeResource("./images/logoConFondo.png"));
-		logo.setWidthUndefined();
-		logo.setHeightUndefined();
-		layout.addComponent(logo,0,0);
-		
-		this.setTitle("Sistema de Gestión y Liquidaciones de Proyectos");
-		layout.addComponent(lblTitle, 2, 0, 8, 0);
+		Image logo = new Image(null, new ThemeResource("./images/logo.png"));
+		logo.setWidth(100, Unit.PERCENTAGE);
+		logo.setHeight("35px");
+		mainLayout.addComponent(logo,0,0,1,0);
 		
 		/**
-		 * Contenedor principal		
+		 * Titulo Bienvenida
+		 */
+		lblTitle = new Label("Bienvenido al Sistema de Gestión y Liquidaciones de Proyectos");
+		lblTitle.setWidth(80, Unit.PERCENTAGE);
+		lblTitle.setStyleName("titleLabel");
+		changeToLogin();
+		
+		/**
+		 * Barra del menú principal
+		 */		
+		mainMenuBar = new MenuBar();
+		mainMenuBar.setWidth(100, Unit.PERCENTAGE);
+		loadMenuItems(mainMenuBar);
+		
+		/**
+		 * Barra del usuario logueado
+		 */	
+		userMenuBar = new MenuBar();
+		//userMenuBar.setWidth(100,Unit.PERCENTAGE);
+		loadUserMenuItems(userMenuBar);
+				
+								
+		/**
+		 * Contenedor del navigator	
 		 */
 		VerticalLayout layoutViews = new VerticalLayout();
-		layoutViews.setDefaultComponentAlignment(Alignment.TOP_CENTER);
+		layoutViews.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
 		ComponentContainerViewDisplay viewDisplay = new ComponentContainerViewDisplay(layoutViews);
-		layout.addComponent(layoutViews,0,1, 11,1);
-		//layout.setComponentAlignment(layoutViews, Alignment.TOP_CENTER);
+		mainLayout.addComponent(layoutViews,2,2, 11,2);
+		
 		navigator = new Navigator(UI.getCurrent(), viewDisplay);
-		navigator.addView("", new LoginView());
-		//navigator.addView(SEARCHUSERSDESCRIPTION, new SearchUserDescription());
-		navigator.addView(MAINMENU, new MainMenuView());
-		navigator.addView(CREATEUSER, new CreateUserView());
+		navigator.addView("", new LoginView());		
+		navigator.addView(MAINMENU, new MainMenu());
+		navigator.addView(CREATEUSER, new CreateUserView());	
 		
 		
+		return mainLayout;		
+	}
+	
+	
+	
+	/**
+	 * Carga del menu principal segun el rol del sistema
+	 */
+	private void loadMenuItems(MenuBar menuBar){
+		
+		/**
+		 * Acciones al seleccionar un item en el menu
+		 */
+		MenuBar.Command mainMenuBarCommand = new MenuBar.Command() {
+			
+			@Override
+			public void menuSelected(MenuItem selectedItem) {
+				// TODO Auto-generated method stub
+				switch(selectedItem.getText()){
+					case "Crear usuario":						
+						getUI().getNavigator().navigateTo(WebvaadinUI.CREATEUSER);
+					break;
+					case "Modificar usuario":
+						Notification.show(selectedItem.getText());
+					break;
+					case "Eliminar usuarios":
+						Notification.show(selectedItem.getText());
+					break;
+					case "Catálogo usuarios":
+						Notification.show(selectedItem.getText());
+					break;	
+					default:
+						Notification.show("No hay configuracion para el item: " + selectedItem.getText());
+					break;
+				}					
+			}
+		};
+		
+		/**
+		 * Carga del menu principal rol Administrador
+		 */
+		MenuItem users = menuBar.addItem("Usuarios",null,null);
+		MenuItem createUser = users.addItem("Crear usuario",null,mainMenuBarCommand);
+		MenuItem updateUser = users.addItem("Modificar usuario",null,mainMenuBarCommand);
+		MenuItem deleteUser = users.addItem("Eliminar usuario", null,mainMenuBarCommand);
+		MenuItem getUsers = users.addItem("Catálogo usuarios", null,mainMenuBarCommand);
+		
+		/**
+		 * Carga del menu principal rol Socio
+		 */
+		MenuItem employeed = menuBar.addItem("Empleados", null,null);
+		MenuItem createEmployeed = employeed.addItem("Crear empleado",null,mainMenuBarCommand);
+		MenuItem updateEmployeed = employeed.addItem("Modificar empleado",null,mainMenuBarCommand);
+			
+	}
+	
+	/**
+	 * Carga de los items del MenuBar de usuario
+	 */
+	private void loadUserMenuItems(MenuBar menuBar){
+		
+		/**
+		 * Acciones al seleccionar un item en el menu
+		 */
+		MenuBar.Command userMenuBarCommand = new MenuBar.Command() {
+			
+			@Override
+			public void menuSelected(MenuItem selectedItem) {
+				// TODO Auto-generated method stub
+				switch(selectedItem.getText()){
+					case "Salir":
+						getUI().getNavigator().navigateTo("");
+					break;
+					case "Perfil":
+						Notification.show(selectedItem.getText());
+					break;
+					case "Cambiar contraseña":
+						Notification.show(selectedItem.getText());
+					break;
+					default:
+						Notification.show("No hay configuracion para el item: " + selectedItem.getText());
+					break;
+				}
+			}
+		};
+		
+		MenuItem userItem = userMenuBar.addItem("", new ThemeResource("./images/userIcon.png"),null);
+		MenuItem logout = userItem.addItem("Salir", null,userMenuBarCommand);
+		MenuItem profile = userItem.addItem("Perfil",null,userMenuBarCommand);
+		MenuItem changePassword = userItem.addItem("Cambiar contraseña", null,userMenuBarCommand);	
+	
+	}
+	
+		
+	/**
+	 * Cambia del login para el menú principal
+	 */
+	public static void changeToMainMenu(){
+		mainLayout.removeComponent(2, 0);
+		mainLayout.addComponent(mainMenuBar, 2, 0, 9, 0);
+		mainLayout.addComponent(userMenuBar,10,0,11,0);
+	}
+	
+	/**
+	 * Cambia del menu princial para el login
+	 */
+	public static void changeToLogin(){
+		mainLayout.removeComponent(2, 0);
+		mainLayout.removeComponent(10,0);
+		mainLayout.addComponent(lblTitle, 2, 0, 11, 0);		
 	}
 	
 	
