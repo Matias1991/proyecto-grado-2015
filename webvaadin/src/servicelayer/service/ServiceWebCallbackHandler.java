@@ -45,6 +45,22 @@
 
         
            /**
+            * auto generated Axis2 call back method for updateUser method
+            * override this method for handling normal response from updateUser operation
+            */
+           public void receiveResultupdateUser(
+                    servicelayer.service.ServiceWebStub.UpdateUserResponse result
+                        ) {
+           }
+
+          /**
+           * auto generated Axis2 Error handler
+           * override this method for handling error response from updateUser operation
+           */
+            public void receiveErrorupdateUser(java.lang.Exception e) {
+            }
+                
+           /**
             * auto generated Axis2 call back method for existUser method
             * override this method for handling normal response from existUser operation
             */
