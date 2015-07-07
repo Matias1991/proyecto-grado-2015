@@ -8,8 +8,8 @@ public class User{
 	private String userName;
 	private String password;
 	private String name;
-	private String LastName;
-	private String Email;
+	private String lastName;
+	private String email;
     private UserType userType;
     
 	public User()
@@ -21,8 +21,8 @@ public class User{
 	{
 		this.id = voUser.getId();
 		this.name = voUser.getName();
-		this.LastName = voUser.getPassword();
-		this.Email = voUser.getEmail();
+		this.lastName = voUser.getLastName();
+		this.email = voUser.getEmail();
 		this.userName = voUser.getUserName();
 		this.password = voUser.getPassword();
 		this.userType =  UserType.getEnum(voUser.getUserType());
@@ -65,19 +65,19 @@ public class User{
 	}
 
 	public String getLastName() {
-		return LastName;
+		return lastName;
 	}
 
 	public void setLastName(String lastName) {
-		LastName = lastName;
+		this.lastName = lastName;
 	}
 
 	public String getEmail() {
-		return Email;
+		return email;
 	}
 
 	public void setEmail(String email) {
-		Email = email;
+		this.email = email;
 	}
 
 	public UserType getUserType() {

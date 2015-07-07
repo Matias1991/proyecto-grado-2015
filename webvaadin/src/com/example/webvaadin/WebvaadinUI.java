@@ -1,9 +1,9 @@
 package com.example.webvaadin;
 
 import views.CreateUserView;
+import views.DeleteUsersView;
 import views.LoginView;
 import views.MainMenu;
-import views.ModifyProfileView;
 
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.Title;
@@ -31,8 +31,8 @@ public class WebvaadinUI extends UI {
 	//public static final String SEARCHUSERSDESCRIPTION = "SearchUserDescription";
 	public static final String MAINMENU = "MainMenu";
 	public static final String CREATEUSER = "CreateUserView";
-	public static final String MODIFYPROFILEUSER = "ModifyProfileView";
-	
+	public static final String MODIFYUSER = "ModifyUserView";
+	public static final String DELETEUSERS = "DeleteUsersView";
 	private static GridLayout mainLayout;
 	private static MenuBar mainMenuBar; 
 	private static MenuBar userMenuBar; 
@@ -70,13 +70,13 @@ public class WebvaadinUI extends UI {
 		/**
 		 * Titulo Bienvenida
 		 */
-		lblTitle = new Label("Bienvenido al Sistema de Gestión y Liquidaciones de Proyectos");
+		lblTitle = new Label("Bienvenido al Sistema de Gestiï¿½n y Liquidaciones de Proyectos");
 		lblTitle.setWidth(80, Unit.PERCENTAGE);
 		lblTitle.setStyleName("titleLabel");
 		changeToLogin();
 		
 		/**
-		 * Barra del menú principal
+		 * Barra del menï¿½ principal
 		 */		
 		mainMenuBar = new MenuBar();
 		mainMenuBar.setWidth(100, Unit.PERCENTAGE);
@@ -89,7 +89,6 @@ public class WebvaadinUI extends UI {
 		//userMenuBar.setWidth(100,Unit.PERCENTAGE);
 		loadUserMenuItems(userMenuBar);
 				
-								
 		/**
 		 * Contenedor del navigator	
 		 */
@@ -101,9 +100,8 @@ public class WebvaadinUI extends UI {
 		navigator = new Navigator(UI.getCurrent(), viewDisplay);
 		navigator.addView("", new LoginView());		
 		navigator.addView(MAINMENU, new MainMenu());
-		navigator.addView(CREATEUSER, new CreateUserView());
-		navigator.addView(CREATEUSER, new ModifyProfileView());	
-		
+		navigator.addView(CREATEUSER, new CreateUserView());	
+		navigator.addView(DELETEUSERS, new DeleteUsersView());	
 		
 		return mainLayout;		
 	}
@@ -128,12 +126,12 @@ public class WebvaadinUI extends UI {
 						getUI().getNavigator().navigateTo(WebvaadinUI.CREATEUSER);
 					break;
 					case "Modificar usuario":
-						getUI().getNavigator().navigateTo(WebvaadinUI.MODIFYPROFILEUSER);
+						getUI().getNavigator().navigateTo(WebvaadinUI.MODIFYUSER);
 					break;
-					case "Eliminar usuarios":
-						Notification.show(selectedItem.getText());
+					case "Eliminar usuario":
+						getUI().getNavigator().navigateTo(WebvaadinUI.DELETEUSERS);
 					break;
-					case "Catálogo usuarios":
+					case "Catï¿½logo usuarios":
 						Notification.show(selectedItem.getText());
 					break;	
 					default:
@@ -150,7 +148,7 @@ public class WebvaadinUI extends UI {
 		MenuItem createUser = users.addItem("Crear usuario",null,mainMenuBarCommand);
 		MenuItem updateUser = users.addItem("Modificar usuario",null,mainMenuBarCommand);
 		MenuItem deleteUser = users.addItem("Eliminar usuario", null,mainMenuBarCommand);
-		MenuItem getUsers = users.addItem("Catálogo usuarios", null,mainMenuBarCommand);
+		MenuItem getUsers = users.addItem("Catï¿½logo usuarios", null,mainMenuBarCommand);
 		
 		/**
 		 * Carga del menu principal rol Socio
@@ -181,7 +179,7 @@ public class WebvaadinUI extends UI {
 					case "Perfil":
 						Notification.show(selectedItem.getText());
 					break;
-					case "Cambiar contraseña":
+					case "Cambiar contraseï¿½a":
 						Notification.show(selectedItem.getText());
 					break;
 					default:
@@ -194,13 +192,13 @@ public class WebvaadinUI extends UI {
 		MenuItem userItem = userMenuBar.addItem("", new ThemeResource("./images/userIcon.png"),null);
 		MenuItem logout = userItem.addItem("Salir", null,userMenuBarCommand);
 		MenuItem profile = userItem.addItem("Perfil",null,userMenuBarCommand);
-		MenuItem changePassword = userItem.addItem("Cambiar contraseña", null,userMenuBarCommand);	
+		MenuItem changePassword = userItem.addItem("Cambiar contraseï¿½a", null,userMenuBarCommand);	
 	
 	}
 	
 		
 	/**
-	 * Cambia del login para el menú principal
+	 * Cambia del login para el menï¿½ principal
 	 */
 	public static void changeToMainMenu(){
 		mainLayout.removeComponent(2, 0);
