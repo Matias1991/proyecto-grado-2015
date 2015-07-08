@@ -3,7 +3,8 @@ package com.example.webvaadin;
 import views.CreateUserView;
 import views.DeleteUsersView;
 import views.LoginView;
-import views.MainMenu;
+import views.MainMenuView;
+import views.ModifyProfileView;
 
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.Title;
@@ -13,6 +14,8 @@ import com.vaadin.navigator.Navigator.ComponentContainerViewDisplay;
 import com.vaadin.server.ThemeResource;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.server.Sizeable.Unit;
+import com.vaadin.server.VaadinService;
+import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.GridLayout;
 import com.vaadin.ui.Image;
@@ -23,6 +26,9 @@ import com.vaadin.ui.Notification;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 
+import entities.RequestContext;
+import entities.UserData;
+
 @SuppressWarnings("serial")
 @Theme("webvaadin")
 public class WebvaadinUI extends UI {
@@ -31,21 +37,18 @@ public class WebvaadinUI extends UI {
 	//public static final String SEARCHUSERSDESCRIPTION = "SearchUserDescription";
 	public static final String MAINMENU = "MainMenu";
 	public static final String CREATEUSER = "CreateUserView";
-	public static final String MODIFYUSER = "ModifyUserView";
+	public static final String MODIFYPROFILEUSER = "ModifyProfileView";
 	public static final String DELETEUSERS = "DeleteUsersView";
 	private static GridLayout mainLayout;
 	private static MenuBar mainMenuBar; 
 	private static MenuBar userMenuBar; 
 	private static Label lblTitle; 
 	
-	
 	@Override
 	protected void init(VaadinRequest request) {
-		
-		buildLayout();				
-	
+		UserData userData = RequestContext.getRequestContext();
+		buildLayout();
 	}
-	
 	
 	/**
 	 * Armado del contenedor principal
@@ -99,8 +102,9 @@ public class WebvaadinUI extends UI {
 		
 		navigator = new Navigator(UI.getCurrent(), viewDisplay);
 		navigator.addView("", new LoginView());		
-		navigator.addView(MAINMENU, new MainMenu());
+		navigator.addView(MAINMENU, new MainMenuView());
 		navigator.addView(CREATEUSER, new CreateUserView());	
+		navigator.addView(MODIFYPROFILEUSER, new ModifyProfileView());
 		navigator.addView(DELETEUSERS, new DeleteUsersView());	
 		
 		return mainLayout;		
@@ -126,10 +130,11 @@ public class WebvaadinUI extends UI {
 						getUI().getNavigator().navigateTo(WebvaadinUI.CREATEUSER);
 					break;
 					case "Modificar usuario":
-						getUI().getNavigator().navigateTo(WebvaadinUI.MODIFYUSER);
+						getUI().getNavigator().navigateTo(WebvaadinUI.MODIFYPROFILEUSER);
 					break;
 					case "Eliminar usuario":
-						getUI().getNavigator().navigateTo(WebvaadinUI.DELETEUSERS);
+						boolean login = (boolean)VaadinService.getCurrentRequest().getWrappedSession().getAttribute("Login");
+//						getUI().getNavigator().navigateTo(WebvaadinUI.DELETEUSERS);
 					break;
 					case "Cat�logo usuarios":
 						Notification.show(selectedItem.getText());
@@ -203,6 +208,7 @@ public class WebvaadinUI extends UI {
 	public static void changeToMainMenu(){
 		mainLayout.removeComponent(2, 0);
 		mainLayout.addComponent(mainMenuBar, 2, 0, 9, 0);
+		mainLayout.removeComponent(10,0);
 		mainLayout.addComponent(userMenuBar,10,0,11,0);
 	}
 	
