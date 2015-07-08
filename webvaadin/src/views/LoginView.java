@@ -65,7 +65,9 @@ public class LoginView extends CustomComponent implements View, Button.ClickList
 						txtUsername.setValue("");
 						txtPassword.setValue("");
 						txtUsername.focus();
+						getUI().getNavigator().addView(WebvaadinUI.MAINMENU, new MainMenuView());
 						getUI().getNavigator().navigateTo(WebvaadinUI.MAINMENU);
+						
 					}else{
 						Notification.show("ERROR:", "Usuario y/o contraseña incorrecta", Type.ERROR_MESSAGE);
 						txtUsername.setValue("");

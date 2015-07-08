@@ -4,7 +4,9 @@ import views.CreateUserView;
 import views.DeleteUsersView;
 import views.LoginView;
 import views.MainMenuView;
+import views.ModifyProfileView;
 
+import com.google.gwt.validation.client.UserValidationMessagesResolver;
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.Title;
 import com.vaadin.client.ui.Icon;
@@ -33,14 +35,18 @@ public class WebvaadinUI extends UI {
 	public static final String CREATEUSER = "CreateUserView";
 	public static final String MODIFYUSER = "ModifyUserView";
 	public static final String DELETEUSERS = "DeleteUsersView";
+	public static final String MODIFYUSERPROFILE = "ModifyProfileView";
+	
 	private static GridLayout mainLayout;
 	private static MenuBar mainMenuBar; 
 	private static MenuBar userMenuBar; 
 	private static Label lblTitle; 
 	
+	private CreateUserView createUserView = new CreateUserView();
+	
 	
 	@Override
-	protected void init(VaadinRequest request) {
+	protected void init(VaadinRequest request) {	
 		
 		buildLayout();				
 	
@@ -70,13 +76,13 @@ public class WebvaadinUI extends UI {
 		/**
 		 * Titulo Bienvenida
 		 */
-		lblTitle = new Label("Bienvenido al Sistema de Gestiï¿½n y Liquidaciones de Proyectos");
+		lblTitle = new Label("Bienvenido al Sistema de Gestión y Liquidaciones de Proyectos");
 		lblTitle.setWidth(80, Unit.PERCENTAGE);
 		lblTitle.setStyleName("titleLabel");
 		changeToLogin();
 		
 		/**
-		 * Barra del menï¿½ principal
+		 * Barra del menu principal
 		 */		
 		mainMenuBar = new MenuBar();
 		mainMenuBar.setWidth(100, Unit.PERCENTAGE);
@@ -99,9 +105,6 @@ public class WebvaadinUI extends UI {
 		
 		navigator = new Navigator(UI.getCurrent(), viewDisplay);
 		navigator.addView("", new LoginView());		
-		navigator.addView(MAINMENU, new MainMenuView());
-		navigator.addView(CREATEUSER, new CreateUserView());	
-		navigator.addView(DELETEUSERS, new DeleteUsersView());	
 		
 		return mainLayout;		
 	}
@@ -122,13 +125,15 @@ public class WebvaadinUI extends UI {
 			public void menuSelected(MenuItem selectedItem) {
 				// TODO Auto-generated method stub
 				switch(selectedItem.getText()){
-					case "Crear usuario":						
+					case "Crear usuario":	
+						navigator.addView(CREATEUSER, new CreateUserView());
 						getUI().getNavigator().navigateTo(WebvaadinUI.CREATEUSER);
 					break;
 					case "Modificar usuario":
-						getUI().getNavigator().navigateTo(WebvaadinUI.MODIFYUSER);
+						Notification.show(selectedItem.getText());
 					break;
 					case "Eliminar usuario":
+						navigator.addView(DELETEUSERS, new DeleteUsersView());						
 						getUI().getNavigator().navigateTo(WebvaadinUI.DELETEUSERS);
 					break;
 					case "Catï¿½logo usuarios":
@@ -177,9 +182,10 @@ public class WebvaadinUI extends UI {
 						getUI().getNavigator().navigateTo("");
 					break;
 					case "Perfil":
-						Notification.show(selectedItem.getText());
+						navigator.addView(MODIFYUSERPROFILE, new ModifyProfileView());
+						getUI().getNavigator().navigateTo(WebvaadinUI.MODIFYUSERPROFILE);						
 					break;
-					case "Cambiar contraseï¿½a":
+					case "Cambiar contraseña":
 						Notification.show(selectedItem.getText());
 					break;
 					default:
@@ -202,6 +208,7 @@ public class WebvaadinUI extends UI {
 	 */
 	public static void changeToMainMenu(){
 		mainLayout.removeComponent(2, 0);
+		mainLayout.removeComponent(10,0);
 		mainLayout.addComponent(mainMenuBar, 2, 0, 9, 0);
 		mainLayout.addComponent(userMenuBar,10,0,11,0);
 	}
