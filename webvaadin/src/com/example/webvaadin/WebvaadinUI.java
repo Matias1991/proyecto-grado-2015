@@ -33,7 +33,7 @@ public class WebvaadinUI extends UI {
 	//public static final String SEARCHUSERSDESCRIPTION = "SearchUserDescription";
 	public static final String MAINMENU = "MainMenu";
 	public static final String CREATEUSER = "CreateUserView";
-	public static final String MODIFYUSER = "ModifyUserView";
+	public static final String MODIFYPROFILEUSER = "ModifyProfileView";
 	public static final String DELETEUSERS = "DeleteUsersView";
 	public static final String MODIFYUSERPROFILE = "ModifyProfileView";
 	
@@ -76,7 +76,7 @@ public class WebvaadinUI extends UI {
 		/**
 		 * Titulo Bienvenida
 		 */
-		lblTitle = new Label("Bienvenido al Sistema de Gesti�n y Liquidaciones de Proyectos");
+		lblTitle = new Label("Bienvenido al Sistema de Gestión y Liquidaciones de Proyectos");
 		lblTitle.setWidth(80, Unit.PERCENTAGE);
 		lblTitle.setStyleName("titleLabel");
 		changeToLogin();
@@ -126,17 +126,15 @@ public class WebvaadinUI extends UI {
 				// TODO Auto-generated method stub
 				switch(selectedItem.getText()){
 					case "Crear usuario":	
-						navigator.addView(CREATEUSER, new CreateUserView());
-						getUI().getNavigator().navigateTo(WebvaadinUI.CREATEUSER);
+						navigator.addView(CREATEUSER, new CreateUserView());						
 					break;
 					case "Modificar usuario":
-						Notification.show(selectedItem.getText());
+						getUI().getNavigator().navigateTo(WebvaadinUI.MODIFYPROFILEUSER);
 					break;
 					case "Eliminar usuario":
 						navigator.addView(DELETEUSERS, new DeleteUsersView());						
-						getUI().getNavigator().navigateTo(WebvaadinUI.DELETEUSERS);
 					break;
-					case "Cat�logo usuarios":
+					case "Catï¿½logo usuarios":
 						Notification.show(selectedItem.getText());
 					break;	
 					default:
@@ -153,7 +151,7 @@ public class WebvaadinUI extends UI {
 		MenuItem createUser = users.addItem("Crear usuario",null,mainMenuBarCommand);
 		MenuItem updateUser = users.addItem("Modificar usuario",null,mainMenuBarCommand);
 		MenuItem deleteUser = users.addItem("Eliminar usuario", null,mainMenuBarCommand);
-		MenuItem getUsers = users.addItem("Cat�logo usuarios", null,mainMenuBarCommand);
+		MenuItem getUsers = users.addItem("Catï¿½logo usuarios", null,mainMenuBarCommand);
 		
 		/**
 		 * Carga del menu principal rol Socio
@@ -185,7 +183,7 @@ public class WebvaadinUI extends UI {
 						navigator.addView(MODIFYUSERPROFILE, new ModifyProfileView());
 						getUI().getNavigator().navigateTo(WebvaadinUI.MODIFYUSERPROFILE);						
 					break;
-					case "Cambiar contrase�a":
+					case "Cambiar contraseña":
 						Notification.show(selectedItem.getText());
 					break;
 					default:
@@ -198,13 +196,13 @@ public class WebvaadinUI extends UI {
 		MenuItem userItem = userMenuBar.addItem("", new ThemeResource("./images/userIcon.png"),null);
 		MenuItem logout = userItem.addItem("Salir", null,userMenuBarCommand);
 		MenuItem profile = userItem.addItem("Perfil",null,userMenuBarCommand);
-		MenuItem changePassword = userItem.addItem("Cambiar contrase�a", null,userMenuBarCommand);	
+		MenuItem changePassword = userItem.addItem("Cambiar contraseï¿½a", null,userMenuBarCommand);	
 	
 	}
 	
 		
 	/**
-	 * Cambia del login para el men� principal
+	 * Cambia del login para el menï¿½ principal
 	 */
 	public static void changeToMainMenu(){
 		mainLayout.removeComponent(2, 0);
