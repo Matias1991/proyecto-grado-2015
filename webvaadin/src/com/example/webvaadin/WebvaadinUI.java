@@ -14,8 +14,6 @@ import com.vaadin.navigator.Navigator.ComponentContainerViewDisplay;
 import com.vaadin.server.ThemeResource;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.server.Sizeable.Unit;
-import com.vaadin.server.VaadinService;
-import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.GridLayout;
 import com.vaadin.ui.Image;
@@ -25,9 +23,6 @@ import com.vaadin.ui.MenuBar.MenuItem;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
-
-import entities.RequestContext;
-import entities.UserData;
 
 @SuppressWarnings("serial")
 @Theme("webvaadin")
@@ -44,11 +39,14 @@ public class WebvaadinUI extends UI {
 	private static MenuBar userMenuBar; 
 	private static Label lblTitle; 
 	
+	
 	@Override
 	protected void init(VaadinRequest request) {
-		UserData userData = RequestContext.getRequestContext();
-		buildLayout();
+		
+		buildLayout();				
+	
 	}
+	
 	
 	/**
 	 * Armado del contenedor principal
@@ -133,7 +131,6 @@ public class WebvaadinUI extends UI {
 						getUI().getNavigator().navigateTo(WebvaadinUI.MODIFYPROFILEUSER);
 					break;
 					case "Eliminar usuario":
-						boolean login = (boolean)VaadinService.getCurrentRequest().getWrappedSession().getAttribute("Login");
 //						getUI().getNavigator().navigateTo(WebvaadinUI.DELETEUSERS);
 					break;
 					case "Cat�logo usuarios":
@@ -208,7 +205,6 @@ public class WebvaadinUI extends UI {
 	public static void changeToMainMenu(){
 		mainLayout.removeComponent(2, 0);
 		mainLayout.addComponent(mainMenuBar, 2, 0, 9, 0);
-		mainLayout.removeComponent(10,0);
 		mainLayout.addComponent(userMenuBar,10,0,11,0);
 	}
 	
