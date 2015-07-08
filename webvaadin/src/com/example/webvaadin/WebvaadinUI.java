@@ -1,9 +1,9 @@
 package com.example.webvaadin;
 
 import views.CreateUserView;
-import views.DeleteUsersView;
 import views.LoginView;
 import views.MainMenuView;
+import views.ModifyProfileView;
 
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.Title;
@@ -31,7 +31,7 @@ public class WebvaadinUI extends UI {
 	//public static final String SEARCHUSERSDESCRIPTION = "SearchUserDescription";
 	public static final String MAINMENU = "MainMenu";
 	public static final String CREATEUSER = "CreateUserView";
-	public static final String MODIFYUSER = "ModifyUserView";
+	public static final String MODIFYPROFILEUSER = "ModifyProfileView";
 	public static final String DELETEUSERS = "DeleteUsersView";
 	private static GridLayout mainLayout;
 	private static MenuBar mainMenuBar; 
@@ -101,6 +101,7 @@ public class WebvaadinUI extends UI {
 		navigator.addView("", new LoginView());		
 		navigator.addView(MAINMENU, new MainMenuView());
 		navigator.addView(CREATEUSER, new CreateUserView());	
+		navigator.addView(MODIFYPROFILEUSER, new ModifyProfileView());
 		navigator.addView(DELETEUSERS, new DeleteUsersView());	
 		
 		return mainLayout;		
@@ -126,10 +127,10 @@ public class WebvaadinUI extends UI {
 						getUI().getNavigator().navigateTo(WebvaadinUI.CREATEUSER);
 					break;
 					case "Modificar usuario":
-						getUI().getNavigator().navigateTo(WebvaadinUI.MODIFYUSER);
+						getUI().getNavigator().navigateTo(WebvaadinUI.MODIFYPROFILEUSER);
 					break;
 					case "Eliminar usuario":
-						getUI().getNavigator().navigateTo(WebvaadinUI.DELETEUSERS);
+//						getUI().getNavigator().navigateTo(WebvaadinUI.DELETEUSERS);
 					break;
 					case "Cat�logo usuarios":
 						Notification.show(selectedItem.getText());
