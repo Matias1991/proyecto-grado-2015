@@ -25,6 +25,9 @@ import com.vaadin.ui.Notification;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 
+import entities.RequestContext;
+import entities.UserData;
+
 @SuppressWarnings("serial")
 @Theme("webvaadin")
 public class WebvaadinUI extends UI {
@@ -47,6 +50,16 @@ public class WebvaadinUI extends UI {
 	
 	@Override
 	protected void init(VaadinRequest request) {	
+		
+		UserData userData = RequestContext.getRequestContext();
+		if(userData != null)
+		{
+			//main menu
+		}
+		else
+		{
+			//login
+		}
 		
 		buildLayout();				
 	

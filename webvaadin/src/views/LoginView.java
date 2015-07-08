@@ -19,6 +19,9 @@ import com.vaadin.ui.Notification.Type;
 import com.vaadin.ui.PasswordField;
 import com.vaadin.ui.TextField;
 
+import entities.RequestContext;
+import entities.UserData;
+
 
 public class LoginView extends CustomComponent implements View, Button.ClickListener {
 
@@ -65,11 +68,14 @@ public class LoginView extends CustomComponent implements View, Button.ClickList
 						txtUsername.setValue("");
 						txtPassword.setValue("");
 						txtUsername.focus();
+						
+						RequestContext.setRequestContext(new UserData(voUser.getId(), voUser.getName()));
+						
 						getUI().getNavigator().addView(WebvaadinUI.MAINMENU, new MainMenuView());
 						getUI().getNavigator().navigateTo(WebvaadinUI.MAINMENU);
 						
 					}else{
-						Notification.show("ERROR:", "Usuario y/o contraseña incorrecta", Type.ERROR_MESSAGE);
+						Notification.show("ERROR:", "Usuario y/o contraseï¿½a incorrecta", Type.ERROR_MESSAGE);
 						txtUsername.setValue("");
 						txtPassword.setValue("");
 						txtUsername.focus();
@@ -87,7 +93,7 @@ public class LoginView extends CustomComponent implements View, Button.ClickList
 	@Override
 	public void enter(ViewChangeEvent event) {
 		// TODO Auto-generated method stub
-		//WebvaadinUI.setTitle("Sistema de Gestión y Liquidaciones de Proyectos");
+		//WebvaadinUI.setTitle("Sistema de Gestiï¿½n y Liquidaciones de Proyectos");
 		WebvaadinUI.changeToLogin();
 		this.txtUsername.focus();
 	}
@@ -121,7 +127,7 @@ public class LoginView extends CustomComponent implements View, Button.ClickList
 		
 		// txtPassword
 		txtPassword = new PasswordField();
-		txtPassword.setCaption("Contraseña");
+		txtPassword.setCaption("Contraseï¿½a");
 		txtPassword.setImmediate(false);
 		txtPassword.setWidth("220px");
 		txtPassword.setHeight("-1px");
