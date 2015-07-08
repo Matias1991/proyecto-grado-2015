@@ -75,7 +75,7 @@ public class LoginView extends CustomComponent implements View, Button.ClickList
 						getUI().getNavigator().navigateTo(WebvaadinUI.MAINMENU);
 						
 					}else{
-						Notification.show("ERROR:", "Usuario y/o contrase�a incorrecta", Type.ERROR_MESSAGE);
+						Notification.show("ERROR:", "Usuario y/o contrasenia incorrecta", Type.ERROR_MESSAGE);
 						txtUsername.setValue("");
 						txtPassword.setValue("");
 						txtUsername.focus();
@@ -93,7 +93,6 @@ public class LoginView extends CustomComponent implements View, Button.ClickList
 	@Override
 	public void enter(ViewChangeEvent event) {
 		// TODO Auto-generated method stub
-		//WebvaadinUI.setTitle("Sistema de Gesti�n y Liquidaciones de Proyectos");
 		WebvaadinUI.changeToLogin();
 		this.txtUsername.focus();
 	}
@@ -127,7 +126,7 @@ public class LoginView extends CustomComponent implements View, Button.ClickList
 		
 		// txtPassword
 		txtPassword = new PasswordField();
-		txtPassword.setCaption("Contrase�a");
+		txtPassword.setCaption("Contrasenia");
 		txtPassword.setImmediate(false);
 		txtPassword.setWidth("220px");
 		txtPassword.setHeight("-1px");
