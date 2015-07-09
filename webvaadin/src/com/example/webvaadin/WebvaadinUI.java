@@ -3,8 +3,10 @@ package com.example.webvaadin;
 import views.CreateUserView;
 import views.DeleteUsersView;
 import views.LoginView;
+import views.MainMenuView;
 import views.ModifyProfileView;
 
+import com.vaadin.annotations.PreserveOnRefresh;
 import com.vaadin.annotations.Theme;
 import com.vaadin.navigator.Navigator;
 import com.vaadin.navigator.Navigator.ComponentContainerViewDisplay;
@@ -20,46 +22,29 @@ import com.vaadin.ui.Notification;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 
+import entities.RequestContext;
+import entities.UserData;
+
 @SuppressWarnings("serial")
 @Theme("webvaadin")
+@PreserveOnRefresh
 public class WebvaadinUI extends UI {
 	
 	public Navigator navigator;
-	public static final String MAINMENU = "MainMenuView";
+	public static final String MAINMENU = "";
+	public static final String LOGINVIEW = "LoginView";
 	public static final String CREATEUSER = "CreateUserView";
 	public static final String MODIFYPROFILEUSER = "ModifyProfileView";
 	public static final String DELETEUSERS = "DeleteUsersView";
 	
-	
-	//private UserData userData = RequestContext.getRequestContext();
 	private static GridLayout mainLayout;
 	private static MenuBar mainMenuBar; 
 	private static MenuBar userMenuBar; 
 	private static Label lblTitle; 
 	
-	
-	
 	@Override
 	protected void init(VaadinRequest request) {	
-		
-		
-		/*if(userData != null)
-		{
-			//main menu
-			navigator.addView(MAINMENU, new MainMenuView());
-			navigator.navigateTo(MAINMENU);
-			Notification.show("Estoy logueado",Notification.TYPE_ERROR_MESSAGE);
-		}
-		else
-		{
-			//login
-			userData = RequestContext.getRequestContext();
-			//navigator.addView("", new LoginView());
-			//navigator.navigateTo("");
-			Notification.show("NO Estoy logueado",Notification.TYPE_ERROR_MESSAGE);
-		}*/
 		buildLayout();				
-		
 	}
 
 	/**
@@ -88,7 +73,6 @@ public class WebvaadinUI extends UI {
 		lblTitle = new Label("Bienvenido al Sistema de Gestion y Liquidaciones de Proyectos");
 		lblTitle.setWidth(80, Unit.PERCENTAGE);
 		lblTitle.setStyleName("titleLabel");
-		changeToLogin();
 		
 		/**
 		 * Barra del menu principal
@@ -112,8 +96,24 @@ public class WebvaadinUI extends UI {
 		ComponentContainerViewDisplay viewDisplay = new ComponentContainerViewDisplay(layoutViews);
 		mainLayout.addComponent(layoutViews,2,2, 11,2);
 		
-		navigator = new Navigator(UI.getCurrent(), viewDisplay);
-		navigator.addView("", new LoginView());		
+		navigator = new Navigator(this, viewDisplay);
+		
+		navigator.addView("LoginView", new LoginView());
+		navigator.addView("", new MainMenuView());
+		navigator.addView(CREATEUSER, new CreateUserView());
+		navigator.addView(DELETEUSERS, new DeleteUsersView());
+		navigator.addView(MODIFYPROFILEUSER, new ModifyProfileView());
+		
+		if(RequestContext.getRequestContext() == null)
+		{
+			changeToLogin();
+			getUI().getNavigator().navigateTo(LOGINVIEW);
+		}
+		else
+		{
+			changeToMainMenu();
+			getUI().getNavigator().navigateTo("");
+		}
 		
 		return mainLayout;		
 	}
@@ -144,7 +144,6 @@ public class WebvaadinUI extends UI {
 						//navigator.navigateTo(MODIFYUSER);
 					break;
 					case "Eliminar usuario":
-						navigator.addView(DELETEUSERS, new DeleteUsersView());	
 						navigator.navigateTo(DELETEUSERS);
 					break;
 					case "Catalogo usuarios":
@@ -191,11 +190,12 @@ public class WebvaadinUI extends UI {
 			public void menuSelected(MenuItem selectedItem) {
 				// TODO Auto-generated method stub
 				switch(selectedItem.getText()){
-					case "Salir":						
-						getUI().getNavigator().navigateTo("");
+					case "Salir":				
+						RequestContext.setRequestContext(null);
+						getSession().close();
+						getUI().getNavigator().navigateTo("LoginView");
 					break;
 					case "Perfil":
-						navigator.addView(MODIFYPROFILEUSER, new ModifyProfileView());
 						getUI().getNavigator().navigateTo(WebvaadinUI.MODIFYPROFILEUSER);						
 					break;
 					case "Cambiar contrasenia":
