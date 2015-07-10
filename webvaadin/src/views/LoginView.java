@@ -75,7 +75,7 @@ public class LoginView extends BaseView {
 						getUI().getNavigator().navigateTo("");
 						
 					}else{
-						Notification.show("ERROR:", "Usuario y/o contrasenia incorrecta", Type.ERROR_MESSAGE);
+						Notification.show("ERROR:", "Usuario y/o contraseña incorrecta", Type.ERROR_MESSAGE);
 						txtUsername.setValue("");
 						txtPassword.setValue("");
 						txtUsername.focus();
