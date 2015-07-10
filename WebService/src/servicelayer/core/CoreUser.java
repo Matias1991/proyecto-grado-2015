@@ -7,6 +7,7 @@ import java.util.concurrent.locks.ReentrantLock;
 
 import datalayer.daos.DAOUsers;
 import servicelayer.entity.businessEntity.User;
+import servicelayer.entity.businessEntity.UserStatus;
 import servicelayer.entity.valueObject.VOUser;
 import servicelayer.utilities.HashMD5;
 import shared.exceptions.DataLayerException;
@@ -44,10 +45,15 @@ public class CoreUser implements ICoreUser {
 			
 			if(iDAOUsers.getUserByUserName(voUser.getUserName()) == null)
 			{
-				//primer contrasena es el nombre de usuario
-				String hashPassword = HashMD5.Encrypt(voUser.getUserName());
+				//setear el estado del usuario en activo
+				voUser.setUserStatus(UserStatus.ACTIVE.getValue());
 				User user = new User(voUser);
+				
+				//primer contrasena es el nombre de usuario
+				//encriptar el password del usuario
+				String hashPassword = HashMD5.Encrypt(voUser.getUserName());
 				user.setPassword(hashPassword);
+				
 				iDAOUsers.insert(user);
 			}
 			else
@@ -84,15 +90,7 @@ public class CoreUser implements ICoreUser {
 		try {
 			user = iDAOUsers.getObject(id);
 			if(user != null)
-			{
-				voUser = new VOUser();
-				voUser.setId(user.getId());
-				voUser.setName(user.getName());
-				voUser.setUserName(user.getUserName());
-				voUser.setLastName(user.getLastName());
-				voUser.setEmail(user.getEmail());
-				voUser.setUserType(user.getUserType().getValue());
-			}
+				voUser = BuildVoUser(user);
 			else
 				throw new ServiceLayerException("No existe un usuario con ese id");
 			
@@ -125,14 +123,7 @@ public class CoreUser implements ICoreUser {
 			
 			for(User user: users)
 			{
-				VOUser voUser = new VOUser();
-				voUser.setId(user.getId());
-				voUser.setName(user.getName());
-				voUser.setUserName(user.getUserName());
-				voUser.setLastName(user.getLastName());
-				voUser.setEmail(user.getEmail());
-				voUser.setUserType(user.getUserType().getValue());
-				voUsers.add(voUser);
+				voUsers.add(BuildVoUser(user));
 			}
 		} catch (DataLayerException e) {
 			throw new ServiceLayerException(e);
@@ -149,15 +140,8 @@ public class CoreUser implements ICoreUser {
 			String hashPassword = HashMD5.Encrypt(password);
 			User user = iDAOUsers.login(userName, hashPassword);
 			if(user != null)
-			{
-				voUser = new VOUser();
-				voUser.setId(user.getId());
-				voUser.setName(user.getName());
-				voUser.setUserName(user.getUserName());
-				voUser.setLastName(user.getLastName());
-				voUser.setEmail(user.getEmail());
-				voUser.setUserType(user.getUserType().getValue());
-			}
+				voUser = BuildVoUser(user);
+			
 		}catch (DataLayerException e) {
 			throw new ServiceLayerException(e);
 		}
@@ -178,5 +162,19 @@ public class CoreUser implements ICoreUser {
 		}catch (DataLayerException e) {
 			throw new ServiceLayerException(e);
 		}
+	}
+	
+	VOUser BuildVoUser(User user)
+	{
+		VOUser voUser = new VOUser();
+		voUser.setId(user.getId());
+		voUser.setName(user.getName());
+		voUser.setUserName(user.getUserName());
+		voUser.setLastName(user.getLastName());
+		voUser.setEmail(user.getEmail());
+		voUser.setUserType(user.getUserType().getValue());
+		voUser.setUserStatus(user.getUserStatus().getValue());
+		
+		return voUser;
 	}
 }

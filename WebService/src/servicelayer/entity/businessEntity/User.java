@@ -11,6 +11,7 @@ public class User{
 	private String lastName;
 	private String email;
     private UserType userType;
+    private UserStatus userStatus;
     
 	public User()
 	{
@@ -26,6 +27,7 @@ public class User{
 		this.userName = voUser.getUserName();
 		this.password = voUser.getPassword();
 		this.userType =  UserType.getEnum(voUser.getUserType());
+		this.userStatus = UserStatus.getEnum(voUser.getUserStatus());
 	}
 	
 	public void setId(int i)
@@ -86,5 +88,13 @@ public class User{
 
 	public void setUserType(UserType userType) {
 		this.userType = userType;
+	}
+
+	public UserStatus getUserStatus() {
+		return userStatus;
+	}
+
+	public void setUserStatus(UserStatus userStatus) {
+		this.userStatus = userStatus;
 	}
 }

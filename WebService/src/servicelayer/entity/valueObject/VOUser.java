@@ -15,6 +15,7 @@ public class VOUser implements Serializable{
 	private String LastName;
 	private String Email;
 	private int userType;
+	private int userStatus;
 	
 	public void setId(int i)
 	{
@@ -74,5 +75,13 @@ public class VOUser implements Serializable{
 
 	public void setUserType(int userType) {
 		this.userType = userType;
+	}
+
+	public int getUserStatus() {
+		return userStatus;
+	}
+
+	public void setUserStatus(int userStatus) {
+		this.userStatus = userStatus;
 	}
 }

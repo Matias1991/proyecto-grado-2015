@@ -8,6 +8,13 @@ CREATE TABLE UserType
 	PRIMARY KEY (Id)
 );
 
+CREATE TABLE UserStatus
+(
+	Id                   INTEGER NOT NULL,
+	Name                 VARCHAR(20) NOT NULL,
+	PRIMARY KEY (Id)
+);
+
 CREATE TABLE User
 (
 	Id                   INTEGER NOT NULL AUTO_INCREMENT,
@@ -17,8 +24,8 @@ CREATE TABLE User
 	Password             VARCHAR(100) NOT NULL,
 	UserName             VARCHAR(50) NOT NULL,
 	UserTypeId           INTEGER NOT NULL,
+    UserStatusId           INTEGER NOT NULL,
 	PRIMARY KEY (Id),
-	FOREIGN KEY FK_User_UserType (UserTypeId) REFERENCES UserType (Id)
+	FOREIGN KEY FK_User_UserType (UserTypeId) REFERENCES UserType (Id),
+    FOREIGN KEY FK_User_UserStatus (UserStatusId) REFERENCES UserStatus (Id)
 );
-
-

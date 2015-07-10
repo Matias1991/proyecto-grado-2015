@@ -12,6 +12,7 @@ import org.apache.log4j.Logger;
 
 import datalayer.utilities.ManageConnection;
 import servicelayer.entity.businessEntity.User;
+import servicelayer.entity.businessEntity.UserStatus;
 import servicelayer.entity.businessEntity.UserType;
 import servicelayer.entity.valueObject.VOUser;
 import shared.exceptions.DataLayerException;
@@ -43,8 +44,8 @@ public class DAOUsers implements IDAOUsers {
 	public void insert(User obj) throws DataLayerException{   
 		PreparedStatement preparedStatement = null;
 
-		String insertSQL = "INSERT INTO USER (USERNAME, PASSWORD, NAME, LASTNAME, EMAIL, USERTYPEID) VALUES"
-				+ "(?,?,?,?,?,?)";
+		String insertSQL = "INSERT INTO USER (USERNAME, PASSWORD, NAME, LASTNAME, EMAIL, USERTYPEID, USERSTATUSID) VALUES"
+				+ "(?,?,?,?,?,?,?)";
 
 		try {
 			preparedStatement = this.connection.prepareStatement(insertSQL);
@@ -55,6 +56,7 @@ public class DAOUsers implements IDAOUsers {
 			preparedStatement.setString(4, obj.getLastName());
 			preparedStatement.setString(5, obj.getEmail());
 			preparedStatement.setInt(6, obj.getUserType().getValue());
+			preparedStatement.setInt(7, obj.getUserStatus().getValue());
 			
 			preparedStatement.executeUpdate();
 			 
@@ -135,20 +137,7 @@ public class DAOUsers implements IDAOUsers {
 			rs = preparedStatement.executeQuery();
 
 			while (rs.next()) {
-				user = new User();
-				int _id = rs.getInt("id");
-				String userName = rs.getString("userName");
-				String name = rs.getString("name");
-				String lastName = rs.getString("lastName");
-				String email = rs.getString("email");
-				int userTypeId = rs.getInt("userTypeId");
-				
-				user.setId(_id);
-				user.setName(name);
-				user.setLastName(lastName);
-				user.setUserName(userName);
-				user.setEmail(email);
-				user.setUserType(UserType.getEnum(userTypeId));
+				user = BuildUser(rs);
 			}
 		} catch (SQLException e) {
 			log.error(e.getMessage());
@@ -180,21 +169,7 @@ public class DAOUsers implements IDAOUsers {
 			rs = preparedStatement.executeQuery(sql);
 
 			while (rs.next()) {
-				int _id = rs.getInt("id");
-				String userName = rs.getString("userName");
-				String name = rs.getString("name");
-				String lastName = rs.getString("lastName");
-				String email = rs.getString("email");
-				int userTypeId = rs.getInt("userTypeId");
-				
-				User user = new User();
-				user.setId(_id);
-				user.setName(name);
-				user.setLastName(lastName);
-				user.setUserName(userName);
-				user.setEmail(email);
-				user.setUserType(UserType.getEnum(userTypeId));
-				users.add(user);
+				users.add(BuildUser(rs));
 			}
 
 		} catch (SQLException e) {
@@ -232,21 +207,7 @@ public class DAOUsers implements IDAOUsers {
 			rs = preparedStatement.executeQuery();
 			
 			if(rs.next())
-			{
-				user = new User();
-				int _id = rs.getInt("id");
-				String name = rs.getString("name");
-				String lastName = rs.getString("lastName");
-				String email = rs.getString("email");
-				int userTypeId = rs.getInt("userTypeId");
-				
-				user.setId(_id);
-				user.setName(name);
-				user.setLastName(lastName);
-				user.setUserName(userName);
-				user.setEmail(email);
-				user.setUserType(UserType.getEnum(userTypeId));
-			}
+				user = BuildUser(rs);
 			
 		} catch (SQLException e) {
 			log.error(e.getMessage());
@@ -280,17 +241,7 @@ public class DAOUsers implements IDAOUsers {
 			rs = preparedStatement.executeQuery();
 		
 			while (rs.next()) {
-				user = new User();
-				int _id = rs.getInt("id");
-				String name = rs.getString("name");
-				String lastName = rs.getString("lastName");
-				String email = rs.getString("email");
-
-				user.setId(_id);
-				user.setName(name);
-				user.setLastName(lastName);
-				user.setUserName(userName);
-				user.setEmail(email);
+				user = BuildUser(rs);
 			}
 			
 		} catch (SQLException e) {
@@ -337,6 +288,27 @@ public class DAOUsers implements IDAOUsers {
 			log.error(e.getMessage());
 			throw new DataLayerException("Ocurrio un problema al intentar modificar un usuario en la base de datos, consulte con el administrador");
 		}
+	}
+	
+	User BuildUser(ResultSet rs) throws SQLException
+	{
+		int _id = rs.getInt("id");
+		String userName = rs.getString("userName");
+		String name = rs.getString("name");
+		String lastName = rs.getString("lastName");
+		String email = rs.getString("email");
+		int userTypeId = rs.getInt("userTypeId");
+		int userStatusId = rs.getInt("userStatusId");
 		
+		User user = new User();
+		user.setId(_id);
+		user.setName(name);
+		user.setLastName(lastName);
+		user.setUserName(userName);
+		user.setEmail(email);
+		user.setUserType(UserType.getEnum(userTypeId));
+		user.setUserStatus(UserStatus.getEnum(userStatusId));
+		
+		return user;
 	}
 }
