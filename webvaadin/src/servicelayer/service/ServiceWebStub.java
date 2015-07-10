@@ -3797,6 +3797,51 @@
                             
 
                         /**
+                        * field for UserStatus
+                        */
+
+                        
+                                    protected int localUserStatus ;
+                                
+                           /*  This tracker boolean wil be used to detect whether the user called the set method
+                          *   for this attribute. It will be used to determine whether to include this field
+                           *   in the serialized XML
+                           */
+                           protected boolean localUserStatusTracker = false ;
+
+                           public boolean isUserStatusSpecified(){
+                               return localUserStatusTracker;
+                           }
+
+                           
+
+                           /**
+                           * Auto generated getter method
+                           * @return int
+                           */
+                           public  int getUserStatus(){
+                               return localUserStatus;
+                           }
+
+                           
+                        
+                            /**
+                               * Auto generated setter method
+                               * @param param UserStatus
+                               */
+                               public void setUserStatus(int param){
+                            
+                                       // setting primitive attribute tracker to true
+                                       localUserStatusTracker =
+                                       param != java.lang.Integer.MIN_VALUE;
+                                   
+                                            this.localUserStatus=param;
+                                    
+
+                               }
+                            
+
+                        /**
                         * field for UserType
                         */
 
@@ -4000,6 +4045,19 @@
                                                    xmlWriter.writeCharacters(localUserName);
                                             
                                           }
+                                    
+                                   xmlWriter.writeEndElement();
+                             } if (localUserStatusTracker){
+                                    namespace = "http://valueObject.entity.servicelayer/xsd";
+                                    writeStartElement(null, namespace, "userStatus", xmlWriter);
+                             
+                                               if (localUserStatus==java.lang.Integer.MIN_VALUE) {
+                                           
+                                                         throw new org.apache.axis2.databinding.ADBException("userStatus cannot be null!!");
+                                                      
+                                               } else {
+                                                    xmlWriter.writeCharacters(org.apache.axis2.databinding.utils.ConverterUtil.convertToString(localUserStatus));
+                                               }
                                     
                                    xmlWriter.writeEndElement();
                              } if (localUserTypeTracker){
@@ -4231,7 +4289,13 @@
                                  
                                          elementList.add(localUserName==null?null:
                                          org.apache.axis2.databinding.utils.ConverterUtil.convertToString(localUserName));
-                                    } if (localUserTypeTracker){
+                                    } if (localUserStatusTracker){
+                                      elementList.add(new javax.xml.namespace.QName("http://valueObject.entity.servicelayer/xsd",
+                                                                      "userStatus"));
+                                 
+                                elementList.add(
+                                   org.apache.axis2.databinding.utils.ConverterUtil.convertToString(localUserStatus));
+                            } if (localUserTypeTracker){
                                       elementList.add(new javax.xml.namespace.QName("http://valueObject.entity.servicelayer/xsd",
                                                                       "userType"));
                                  
@@ -4466,6 +4530,26 @@
                                 
                                     else {
                                         
+                                    }
+                                
+                                    
+                                    while (!reader.isStartElement() && !reader.isEndElement()) reader.next();
+                                
+                                    if (reader.isStartElement() && new javax.xml.namespace.QName("http://valueObject.entity.servicelayer/xsd","userStatus").equals(reader.getName())){
+                                
+                                    java.lang.String content = reader.getElementText();
+                                    
+                                              object.setUserStatus(
+                                                    org.apache.axis2.databinding.utils.ConverterUtil.convertToInt(content));
+                                              
+                                        reader.next();
+                                    
+                              }  // End of if for expected property start element
+                                
+                                    else {
+                                        
+                                               object.setUserStatus(java.lang.Integer.MIN_VALUE);
+                                           
                                     }
                                 
                                     
