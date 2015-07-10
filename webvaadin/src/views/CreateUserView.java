@@ -51,10 +51,11 @@ public class CreateUserView extends CustomComponent implements View {
 
 			@Override
 			public void buttonClick(ClickEvent event) {
-				txt_createLastName.setValue("");
+				//Yamila: esto me genera que se limpie el formulario y los campos sean persistidos vacios
+				/*txt_createLastName.setValue("");
 				txt_email.setValue("");
 				txt_name.setValue("");
-				txt_userName.setValue("");
+				txt_userName.setValue("");*/
 
 				ServiceWebStub createUserService;
 				// if (validateCreateUser()) {
