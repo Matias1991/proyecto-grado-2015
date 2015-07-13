@@ -150,10 +150,10 @@ public class CreateUserView extends CustomComponent implements View {
 			errors += "El correo electrónico no puede ser vacio\n";
 		}
 		
-		if(userType.getValue().toString().isEmpty()){
-			validate = false;
-			errors += "El tipo de usuario no puede ser vacio\n";
-		}
+//		if(userType.getValue().toString().isEmpty()){
+//			validate = false;
+//			errors += "El tipo de usuario no puede ser vacio\n";
+//		}
 
 		if(!errors.isEmpty()){
 			Notification.show(errors, Notification.TYPE_ERROR_MESSAGE);
