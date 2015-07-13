@@ -174,4 +174,70 @@ public class ServiceWeb extends ServiceBase{
 			transactionLock.unlock();
 		}
 	}
+	
+	public boolean forgotPassword(String userEmail)
+	{
+		
+		try {
+			transactionLock.tryLock(Constants.DEFAULT_TRANSACTION_TIME, TimeUnit.SECONDS);
+			
+			iCoreUser.forgotPassord(userEmail);
+			
+			return true;
+		} catch (ServiceLayerException e) {
+			throw new RuntimeException(e.getMessage());
+		} catch (InterruptedException e) {
+			throw new RuntimeException(Constants.TRANSACTION_ERROR);
+		} catch (Exception e) {
+			throw new RuntimeException(Constants.GENERIC_ERROR);
+		}
+		finally
+		{
+			transactionLock.unlock();
+		}
+	}
+	
+	public boolean resetPassword(int id)
+	{
+		
+		try {
+			transactionLock.tryLock(Constants.DEFAULT_TRANSACTION_TIME, TimeUnit.SECONDS);
+			
+			iCoreUser.resetPassword(id);
+		    
+			return true;
+		} catch (ServiceLayerException e) {
+			throw new RuntimeException(e.getMessage());
+		} catch (InterruptedException e) {
+			throw new RuntimeException(Constants.TRANSACTION_ERROR);
+		} catch (Exception e) {
+			throw new RuntimeException(Constants.GENERIC_ERROR);
+		}
+		finally
+		{
+			transactionLock.unlock();
+		}
+	}
+	
+	public boolean changePassword(int id, String oldPassword, String newPassword)
+	{
+		
+		try {
+			transactionLock.tryLock(Constants.DEFAULT_TRANSACTION_TIME, TimeUnit.SECONDS);
+			
+			iCoreUser.changePassword(id, oldPassword, newPassword);
+		    
+			return true;
+		} catch (ServiceLayerException e) {
+			throw new RuntimeException(e.getMessage());
+		} catch (InterruptedException e) {
+			throw new RuntimeException(Constants.TRANSACTION_ERROR);
+		} catch (Exception e) {
+			throw new RuntimeException(Constants.GENERIC_ERROR);
+		}
+		finally
+		{
+			transactionLock.unlock();
+		}
+	}
 }

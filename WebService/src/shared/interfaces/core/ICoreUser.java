@@ -7,17 +7,23 @@ import shared.exceptions.ServiceLayerException;
 
 public interface ICoreUser {
 	
-	public void insertUser(VOUser voUser) throws ServiceLayerException;
+	void insertUser(VOUser voUser) throws ServiceLayerException;
 	
-	public void deleteUser(int id) throws ServiceLayerException;
+	void deleteUser(int id) throws ServiceLayerException;
 	
-	public VOUser update(int id, VOUser voUser) throws ServiceLayerException;
+	VOUser update(int id, VOUser voUser) throws ServiceLayerException;
 	
-	public VOUser getUser(int id) throws ServiceLayerException;
+	VOUser getUser(int id) throws ServiceLayerException;
 	
-	public boolean existUser(int id) throws ServiceLayerException;
+	boolean existUser(int id) throws ServiceLayerException;
 	
-	public ArrayList<VOUser> getUsers() throws ServiceLayerException;
+	ArrayList<VOUser> getUsers() throws ServiceLayerException;
 	
-	public VOUser login(String userName, String password) throws ServiceLayerException;
+	VOUser login(String userName, String password) throws ServiceLayerException;
+	
+	void forgotPassord(String userEmail) throws ServiceLayerException;
+	
+	void resetPassword(int id) throws ServiceLayerException;
+	
+	void changePassword(int id, String oldPassword, String newPassword) throws ServiceLayerException;
 }

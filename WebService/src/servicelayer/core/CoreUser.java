@@ -1,25 +1,31 @@
 package servicelayer.core;
 
+import java.security.SecureRandom;
 import java.util.ArrayList;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
+import java.util.Random;
 
 import datalayer.daos.DAOUsers;
 import servicelayer.entity.businessEntity.User;
 import servicelayer.entity.businessEntity.UserStatus;
 import servicelayer.entity.valueObject.VOUser;
+import servicelayer.utilities.Email;
 import servicelayer.utilities.HashMD5;
 import shared.exceptions.DataLayerException;
+import shared.exceptions.EmailException;
+import shared.exceptions.MD5Exception;
 import shared.exceptions.ServiceLayerException;
 import shared.interfaces.core.ICoreUser;
 import shared.interfaces.dataLayer.IDAOUsers;
+
 
 public class CoreUser implements ICoreUser {
 	
 	private static CoreUser instance = null;
 	private IDAOUsers iDAOUsers;
 
+	private static final Random RANDOM = new SecureRandom();
+	public static final int PASSWORD_LENGTH = 8;
+	
 	private CoreUser() throws ServiceLayerException
 	{
 		try {
@@ -37,7 +43,7 @@ public class CoreUser implements ICoreUser {
 		}
 		return instance;
 	}
-	
+
 	@Override
 	public void insertUser(VOUser voUser) throws ServiceLayerException {
 		
@@ -49,17 +55,20 @@ public class CoreUser implements ICoreUser {
 				voUser.setUserStatus(UserStatus.ACTIVE.getValue());
 				User user = new User(voUser);
 				
-				//primer contrasena es el nombre de usuario
+				String newPassword = generateRandomPassword();
+				
 				//encriptar el password del usuario
-				String hashPassword = HashMD5.Encrypt(voUser.getUserName());
+				String hashPassword = HashMD5.Encrypt(newPassword);
 				user.setPassword(hashPassword);
 				
 				iDAOUsers.insert(user);
+
+				Email.newUser(user, newPassword);
 			}
 			else
 				throw new ServiceLayerException("Ya existe un usuario con este nombre de usuario");
 
-		} catch (DataLayerException e) {
+		} catch (DataLayerException | EmailException | MD5Exception e) {
 			throw new ServiceLayerException(e);
 		}
 	}
@@ -142,7 +151,7 @@ public class CoreUser implements ICoreUser {
 			if(user != null)
 				voUser = BuildVoUser(user);
 			
-		}catch (DataLayerException e) {
+		}catch (DataLayerException | MD5Exception e) {
 			throw new ServiceLayerException(e);
 		}
 		
@@ -164,6 +173,80 @@ public class CoreUser implements ICoreUser {
 		}
 	}
 	
+	@Override
+	public void forgotPassord(String userEmail) throws ServiceLayerException {
+		
+		try {
+
+			 User user = iDAOUsers.getUserByUserEmail(userEmail);
+		     if(user != null)
+		     {
+		    	 String password = HashMD5.Decrypt(user.getPassword());
+		    	 Email.forgotPassword(user.getEmail(), password);
+		     }
+		     else
+		    	 throw new ServiceLayerException("No existe un usuario con ese correo electronico");
+			
+		}catch (DataLayerException | EmailException| MD5Exception e) {
+			throw new ServiceLayerException(e);
+		}
+	}
+	
+	@Override
+	public void resetPassword(int id) throws ServiceLayerException
+	{
+		try
+		{
+			User user = iDAOUsers.getObject(id);
+			if(user != null)
+			{
+				String newPassword = generateRandomPassword();
+				String hashPassword = HashMD5.Encrypt(newPassword);
+				
+				iDAOUsers.updatePassword(id, hashPassword);
+				
+				Email.resetPassword(user.getEmail(), newPassword);
+			}
+			else
+				throw new ServiceLayerException("No existe un usuario con ese id");
+			
+		}catch (DataLayerException | EmailException | MD5Exception e) {
+			throw new ServiceLayerException(e);
+		}
+	}
+	
+	@Override
+	public void changePassword(int id, String oldPassword, String newPassword) throws ServiceLayerException
+	{
+		try
+		{
+			User user = iDAOUsers.getObject(id);
+			if(user != null)
+			{
+				String hashOldPassword = HashMD5.Encrypt(oldPassword);
+				if(user.getPassword().equals(hashOldPassword))
+				{
+					if(!oldPassword.equals(newPassword))
+					{
+						String hashNewPassword = HashMD5.Encrypt(newPassword);
+						iDAOUsers.updatePassword(id, hashNewPassword);
+						
+						Email.changePassword(user.getEmail(), newPassword);
+					}
+					else
+						throw new ServiceLayerException("La contraseña nueva no puede ser igual a la anterior");
+				}
+				else
+					throw new ServiceLayerException("La contraseña antigua no se corresponde con la ingresada");
+			}
+			else
+				throw new ServiceLayerException("No existe un usuario con ese id");
+				
+		}catch (DataLayerException | EmailException | MD5Exception e) {
+			throw new ServiceLayerException(e);
+		}
+	}
+	
 	VOUser BuildVoUser(User user)
 	{
 		VOUser voUser = new VOUser();
@@ -177,4 +260,17 @@ public class CoreUser implements ICoreUser {
 		
 		return voUser;
 	}
+	
+	String generateRandomPassword()
+    {
+      String letters = "abcdefghjkmnpqrstuvwxyzABCDEFGHJKMNPQRSTUVWXYZ23456789+@";
+
+      String pw = "";
+      for (int i=0; i<PASSWORD_LENGTH; i++)
+      {
+          int index = (int)(RANDOM.nextDouble()*letters.length());
+          pw += letters.substring(index, index+1);
+      }
+      return pw;
+    }
 }

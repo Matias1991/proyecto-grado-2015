@@ -6,9 +6,9 @@ import shared.interfaces.dataLayer.IDAOUsers;
 
 public interface IDAOManager {
 
-	public void commit() throws SQLException;
-	public void rollback() throws SQLException;
-	public void close() throws SQLException;
+	void commit() throws SQLException;
+	void rollback() throws SQLException;
+	void close() throws SQLException;
 	
-	public IDAOUsers getDAOUsers();
+	IDAOUsers getDAOUsers();
 }

@@ -6,15 +6,15 @@ import shared.exceptions.DataLayerException;
 
 public interface IDAOBase<Obj> {
 
-	public void insert(Obj obj) throws DataLayerException;
+	void insert(Obj obj) throws DataLayerException;
 	
-	public void delete(int id) throws DataLayerException;
+	void delete(int id) throws DataLayerException;
 	
-	public void update(int id, Obj obj) throws DataLayerException;
+	void update(int id, Obj obj) throws DataLayerException;
 	
-	public boolean exist(int id) throws DataLayerException;
+    boolean exist(int id) throws DataLayerException;
 	
-	public Obj getObject(int id) throws DataLayerException;
+	Obj getObject(int id) throws DataLayerException;
 	
-	public ArrayList<Obj> getObjects() throws DataLayerException;
+	ArrayList<Obj> getObjects() throws DataLayerException;
 }

@@ -15,13 +15,14 @@ import servicelayer.entity.businessEntity.User;
 import servicelayer.entity.businessEntity.UserStatus;
 import servicelayer.entity.businessEntity.UserType;
 import servicelayer.entity.valueObject.VOUser;
+import shared.LoggerMSMP;
 import shared.exceptions.DataLayerException;
 import shared.interfaces.dataLayer.IDAOUsers;
 
 public class DAOUsers implements IDAOUsers {
 
 	private Connection connection;
-	private static Logger log = Logger.getLogger("************ Data access error ********");
+	private static String logTitleError = "************ Data access error ********";
 	
 	public DAOUsers() throws DataLayerException
 	{
@@ -30,7 +31,7 @@ public class DAOUsers implements IDAOUsers {
 		try {
 			this.connection = new ManageConnection().GetConnection();
 		}catch (Exception e) {
-			log.error(e.getMessage());
+			LoggerMSMP.setLog(logTitleError, e.getMessage());
 			throw new DataLayerException("Ocurrio una problema al conectarse con la base de datos");
 		}
 	}
@@ -61,7 +62,7 @@ public class DAOUsers implements IDAOUsers {
 			preparedStatement.executeUpdate();
 			 
 		} catch (SQLException e) {
-			log.error(e.getMessage());
+			LoggerMSMP.setLog(logTitleError, e.getMessage());
 			throw new DataLayerException("Ocurrio un problema al intentar ingresar un usuario a la base de datos, consulte con el administrador");
 		}
 	}
@@ -78,7 +79,7 @@ public class DAOUsers implements IDAOUsers {
 			preparedStatement.execute();
 
 		} catch (SQLException e) {
-			log.error(e.getMessage());
+			LoggerMSMP.setLog(logTitleError, e.getMessage());
 			throw new DataLayerException("Ocurrio un error al intentar eliminar el usuario, consulte con el administrador");
 		} finally {
 
@@ -86,7 +87,7 @@ public class DAOUsers implements IDAOUsers {
 				try {
 					preparedStatement.close();
 				} catch (SQLException e) {
-					log.error(e.getMessage());
+					LoggerMSMP.setLog(logTitleError, e.getMessage());
 				}
 			}
 		}
@@ -108,7 +109,7 @@ public class DAOUsers implements IDAOUsers {
 			}
 
 		} catch (SQLException e) {
-			log.error(e.getMessage());
+			LoggerMSMP.setLog(logTitleError, e.getMessage());
 			throw new DataLayerException("Ocurrio un error al intentar validar si existe el usuario, consulte con el administrador");
 		} finally {
 			try {
@@ -117,7 +118,7 @@ public class DAOUsers implements IDAOUsers {
 				if (rs != null)
 					rs.close();
 			} catch (SQLException e) {
-				log.error(e.getMessage());
+				LoggerMSMP.setLog(logTitleError, e.getMessage());
 			}
 		}
 
@@ -140,7 +141,7 @@ public class DAOUsers implements IDAOUsers {
 				user = BuildUser(rs);
 			}
 		} catch (SQLException e) {
-			log.error(e.getMessage());
+			LoggerMSMP.setLog(logTitleError, e.getMessage());
 			throw new DataLayerException("Ocurrio un error al intentar obtener el usuario, consulte con el administrador");
 		} finally {
 			try {
@@ -149,7 +150,7 @@ public class DAOUsers implements IDAOUsers {
 				if (rs != null)
 					rs.close();
 			} catch (SQLException e) {
-				log.error(e.getMessage());
+				LoggerMSMP.setLog(logTitleError, e.getMessage());
 			}
 		}
 
@@ -173,7 +174,7 @@ public class DAOUsers implements IDAOUsers {
 			}
 
 		} catch (SQLException e) {
-			log.error(e.getMessage());
+			LoggerMSMP.setLog(logTitleError, e.getMessage());
 			throw new DataLayerException("Ocurrio un error al intentar obtener los usuarios, consulte con el administrador");
 	
 		} finally {
@@ -183,7 +184,7 @@ public class DAOUsers implements IDAOUsers {
 				if (rs != null)
 					rs.close();
 			} catch (SQLException e) {
-				log.error(e.getMessage());
+				LoggerMSMP.setLog(logTitleError, e.getMessage());
 			}
 		}
 
@@ -210,7 +211,7 @@ public class DAOUsers implements IDAOUsers {
 				user = BuildUser(rs);
 			
 		} catch (SQLException e) {
-			log.error(e.getMessage());
+			LoggerMSMP.setLog(logTitleError, e.getMessage());
 			throw new DataLayerException("Ocurrio un error al intentar obtener el usuario, consulte con el administrador");
 		}finally {
 			try {
@@ -219,7 +220,7 @@ public class DAOUsers implements IDAOUsers {
 				if (rs != null)
 					rs.close();
 			} catch (SQLException e) {
-				log.error(e.getMessage());
+				LoggerMSMP.setLog(logTitleError, e.getMessage());
 			}
 		}
 		return user;
@@ -245,7 +246,7 @@ public class DAOUsers implements IDAOUsers {
 			}
 			
 		} catch (SQLException e) {
-			log.error(e.getMessage());
+			LoggerMSMP.setLog(logTitleError, e.getMessage());
 			throw new DataLayerException("Ocurrio un error al intentar obtener los usuarios, consulte con el administrador");
 		}finally {
 			try {
@@ -254,7 +255,43 @@ public class DAOUsers implements IDAOUsers {
 				if (rs != null)
 					rs.close();
 			} catch (SQLException e) {
-				log.error(e.getMessage());
+				LoggerMSMP.setLog(logTitleError, e.getMessage());
+			}
+		}
+		
+		return user;
+	}
+	
+	@Override
+	public User getUserByUserEmail(String userEmail) throws DataLayerException
+	{
+		User user = null;
+		PreparedStatement preparedStatement = null;
+		ResultSet rs = null;
+		
+		try
+		{
+			String getSQL = "SELECT * FROM USER WHERE email = ?";
+			preparedStatement = this.connection.prepareStatement(getSQL);
+			preparedStatement.setString(1, userEmail);
+			
+			rs = preparedStatement.executeQuery();
+		
+			while (rs.next()) {
+				user = BuildUser(rs);
+			}
+			
+		} catch (SQLException e) {
+			LoggerMSMP.setLog(logTitleError, e.getMessage());
+			throw new DataLayerException("Ocurrio un error al intentar obtener los usuarios, consulte con el administrador");
+		}finally {
+			try {
+				if (preparedStatement != null)
+					preparedStatement.close();
+				if (rs != null)
+					rs.close();
+			} catch (SQLException e) {
+				LoggerMSMP.setLog(logTitleError, e.getMessage());
 			}
 		}
 		
@@ -285,8 +322,31 @@ public class DAOUsers implements IDAOUsers {
 			preparedStatement.executeUpdate();
 			 
 		} catch (SQLException e) {
-			log.error(e.getMessage());
+			LoggerMSMP.setLog(logTitleError, e.getMessage());
 			throw new DataLayerException("Ocurrio un problema al intentar modificar un usuario en la base de datos, consulte con el administrador");
+		}
+	}
+	
+	@Override
+	public void updatePassword(int id, String newPassword) throws DataLayerException {
+		
+		PreparedStatement preparedStatement = null;
+		
+		String updatePasswordSQL = "UPDATE USER "
+				+ "SET password = ?"
+				+ "WHERE id = ?";
+
+		try {
+			preparedStatement = this.connection.prepareStatement(updatePasswordSQL);
+
+			preparedStatement.setString(1, newPassword);
+			preparedStatement.setInt(2, id);
+			
+			preparedStatement.executeUpdate();
+			 
+		} catch (SQLException e) {
+			LoggerMSMP.setLog(logTitleError, e.getMessage());
+			throw new DataLayerException("Ocurrio un problema al intentar modificar la contraseña del usuario en la base de datos, consulte con el administrador");
 		}
 	}
 	
@@ -297,6 +357,7 @@ public class DAOUsers implements IDAOUsers {
 		String name = rs.getString("name");
 		String lastName = rs.getString("lastName");
 		String email = rs.getString("email");
+		String password = rs.getString("password");
 		int userTypeId = rs.getInt("userTypeId");
 		int userStatusId = rs.getInt("userStatusId");
 		
@@ -306,6 +367,7 @@ public class DAOUsers implements IDAOUsers {
 		user.setLastName(lastName);
 		user.setUserName(userName);
 		user.setEmail(email);
+		user.setPassword(password);
 		user.setUserType(UserType.getEnum(userTypeId));
 		user.setUserStatus(UserStatus.getEnum(userStatusId));
 		
