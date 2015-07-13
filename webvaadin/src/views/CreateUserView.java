@@ -60,8 +60,7 @@ public class CreateUserView extends CustomComponent implements View {
 
 						InsertUser createUser = new InsertUser();
 						// Creo el ValueObjet cargandolo con los datos carados
-						// por
-						// el usuario
+						// por el usuario
 						VOUser newUser = new VOUser();
 						newUser.setUserName(txtUserName.getValue());
 						newUser.setName(txtName.getValue());
@@ -149,6 +148,11 @@ public class CreateUserView extends CustomComponent implements View {
 		if (email.isEmpty()) {
 			validate = false;
 			errors += "El correo electrónico no puede ser vacio\n";
+		}
+		
+		if(userType.getValue().toString().isEmpty()){
+			validate = false;
+			errors += "El tipo de usuario no puede ser vacio\n";
 		}
 
 		if(!errors.isEmpty()){
