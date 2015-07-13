@@ -22,6 +22,8 @@ import com.vaadin.ui.Notification;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.Button.ClickEvent;
 
+import entities.RequestContext;
+
 public class ModifyProfileView extends CustomComponent implements View {
 
 	/*- VaadinEditorProperties={"grid":"RegularGrid,20","showGrid":true,"snapToGrid":true,"snapToObject":true,"movingGuides":false,"snappingDistance":10} */
@@ -52,10 +54,11 @@ public class ModifyProfileView extends CustomComponent implements View {
 		ServiceWebStub uploadUser;
 		try {
 			uploadUser = new ServiceWebStub();
-			// uploadUser.getUser(...);
-			// harcode hasta que no tengamos el contexto
 			GetUser user = new GetUser();
-			user.setId(1);
+//			if(RequestContext.getRequestContext() == null){
+//				user.setId(RequestContext.getRequestContext().getId());
+//			}
+			
 			GetUserResponse userFromBase = uploadUser.getUser(user);
 
 			final VOUser userToShow = userFromBase.get_return();

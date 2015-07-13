@@ -5,6 +5,7 @@ import views.DeleteUsersView;
 import views.LoginView;
 import views.MainMenuView;
 import views.ModifyProfileView;
+import views.ModifyUserView;
 
 import com.vaadin.annotations.PreserveOnRefresh;
 import com.vaadin.annotations.Theme;
@@ -36,6 +37,7 @@ public class WebvaadinUI extends UI {
 	public static final String CREATEUSER = "CreateUserView";
 	public static final String MODIFYPROFILEUSER = "ModifyProfileView";
 	public static final String DELETEUSERS = "DeleteUsersView";
+	public static final String MODIFYUSER = "ModifyUserView";
 	
 	private static GridLayout mainLayout;
 	private static MenuBar mainMenuBar; 
@@ -103,6 +105,7 @@ public class WebvaadinUI extends UI {
 		navigator.addView(CREATEUSER, new CreateUserView());
 		navigator.addView(DELETEUSERS, new DeleteUsersView());
 		navigator.addView(MODIFYPROFILEUSER, new ModifyProfileView());
+		navigator.addView(MODIFYUSER, new ModifyUserView());
 		
 		if(RequestContext.getRequestContext() == null)
 		{
@@ -139,9 +142,8 @@ public class WebvaadinUI extends UI {
 						navigator.navigateTo(CREATEUSER);
 					break;
 					case "Modificar usuario":
-						Notification.show(selectedItem.getText());
-						//navigator.addView(MODIFYUSER, new ModifyUserView());
-						//navigator.navigateTo(MODIFYUSER);
+						navigator.addView(MODIFYUSER, new ModifyUserView());
+						navigator.navigateTo(MODIFYUSER);
 					break;
 					case "Eliminar usuario":
 						navigator.navigateTo(DELETEUSERS);

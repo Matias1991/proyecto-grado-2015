@@ -9,14 +9,16 @@ public class User {
 	private String lastName;
 	private String email;
 	private String userType;
+	private String userName;
 	
 	public User(VOUser voUser)
 	{
-		this.name = voUser.getLastName();
+		this.name = voUser.getName();
 		this.id = voUser.getId();
 		this.lastName = voUser.getLastName();
 		this.email = voUser.getEmail();
 		this.userType = GetUserType(voUser.getUserType());
+		this.userName = voUser.getUserName();
 	}
 	
 	public int getId() {
@@ -55,6 +57,16 @@ public class User {
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
 	}
+
+	public String getUserName() {
+		return userName;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+	
+	
 	
 	public String GetUserType(int userTypeId)
 	{
