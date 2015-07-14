@@ -46,9 +46,9 @@ public class ModifyProfileView extends BaseView implements View {
 	private TextField txt_name;
 
 	private VOUser userToShow;
-//	private int idUser = RequestContext.getRequestContext().getId();
+	// private int
 	private int idUser = 1;
-			
+
 	private static final long serialVersionUID = 1L;
 
 	public ModifyProfileView() {
@@ -59,23 +59,24 @@ public class ModifyProfileView extends BaseView implements View {
 
 			@Override
 			public void buttonClick(ClickEvent event) {
-				if(validateModifyProfileUser()){
+				if (validateModifyProfileUser()) {
 					ServiceWebStub modifyProfileService;
-					
+
 					UserController modifyUser = new UserController();
-	
+
 					VOUser voUser = new VOUser();
 					voUser.setEmail(txt_email.getValue());
 					voUser.setLastName(txt_lastName.getValue());
 					voUser.setName(txt_name.getValue());
 					voUser.setUserType(userToShow.getUserType());
-	
+
 					modifyUser.modifyUser(voUser, idUser);
-	
-					Notification.show("Aviso: ", "Usuario modificado correctamente",
+
+					Notification.show("Aviso: ",
+							"Usuario modificado correctamente",
 							Notification.TYPE_HUMANIZED_MESSAGE);
 					getUI().getNavigator().navigateTo(WebvaadinUI.MAINMENU);
-	
+
 				}
 			}
 		});
@@ -94,24 +95,33 @@ public class ModifyProfileView extends BaseView implements View {
 	@Override
 	public void enter(ViewChangeEvent event) {
 		super.enter(event);
-		ServiceWebStub uploadUser;
-		try {
-			uploadUser = new ServiceWebStub();
-			GetUser user = new GetUser();
-			user.setId(idUser);
+		if (RequestContext.getRequestContext() != null) {
+			idUser = RequestContext.getRequestContext().getId();
+			ServiceWebStub uploadUser;
+			try {
+				uploadUser = new ServiceWebStub();
+				GetUser user = new GetUser();
+				user.setId(idUser);
 
-			GetUserResponse userFromBase = uploadUser.getUser(user);
+				GetUserResponse userFromBase = uploadUser.getUser(user);
 
-			userToShow = userFromBase.get_return();
+				userToShow = userFromBase.get_return();
 
-			txt_name.setValue(userToShow.getName());
-			txt_lastName.setValue(userToShow.getLastName());
-			txt_email.setValue(userToShow.getEmail());
+				txt_name.setValue(userToShow.getName());
+				txt_lastName.setValue(userToShow.getLastName());
+				txt_email.setValue(userToShow.getEmail());
 
-		} catch (AxisFault e1) {
-			// TODO
-		} catch (RemoteException e1) {
-			// TODO
+			} catch (AxisFault e1) {
+				String error = e1.getMessage().replace("<faultstring>", "");
+				Notification notif = new Notification (error.replace("</faultstring>", ""), Notification.TYPE_ERROR_MESSAGE);
+				notif.setDelayMsec(2000);
+				notif.show(Page.getCurrent());
+			} catch (RemoteException e1) {
+				String error = e1.getMessage().replace("<faultstring>", "");
+				Notification notif = new Notification (error.replace("</faultstring>", ""), Notification.TYPE_ERROR_MESSAGE);
+				notif.setDelayMsec(2000);
+				notif.show(Page.getCurrent());
+			}
 		}
 	}
 
@@ -139,7 +149,8 @@ public class ModifyProfileView extends BaseView implements View {
 		}
 
 		if (!validate) {
-			Notification notif = new Notification(errors, Notification.TYPE_ERROR_MESSAGE);
+			Notification notif = new Notification(errors,
+					Notification.TYPE_ERROR_MESSAGE);
 			notif.setDelayMsec(2000);
 			notif.show(Page.getCurrent());
 		}
