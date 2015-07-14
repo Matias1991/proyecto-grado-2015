@@ -97,13 +97,11 @@ public class LoginView extends BaseView {
 		{
 			WebvaadinUI.changeToLogin();
 			this.txtUsername.focus();
-			Notification.show("Welcome to the Login view");
 		}
 		else
 		{
 			WebvaadinUI.changeToMainMenu();
 			getUI().getNavigator().navigateTo(WebvaadinUI.MAINMENU);
-			Notification.show("Welcome to the Main menu view");
 		}
 	}
 
