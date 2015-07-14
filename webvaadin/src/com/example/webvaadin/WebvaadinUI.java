@@ -1,5 +1,6 @@
 package com.example.webvaadin;
 
+import views.CatalogUsersView;
 import views.CreateUserView;
 import views.DeleteUsersView;
 import views.LoginView;
@@ -38,6 +39,7 @@ public class WebvaadinUI extends UI {
 	public static final String MODIFYPROFILEUSER = "ModifyProfileView";
 	public static final String DELETEUSERS = "DeleteUsersView";
 	public static final String MODIFYUSER = "ModifyUserView";
+	public static final String CATALOGUSERS = "CatalogUsersView";
 	
 	private static GridLayout mainLayout;
 	private static MenuBar mainMenuBar; 
@@ -106,6 +108,7 @@ public class WebvaadinUI extends UI {
 		navigator.addView(DELETEUSERS, new DeleteUsersView());
 		navigator.addView(MODIFYPROFILEUSER, new ModifyProfileView());
 		navigator.addView(MODIFYUSER, new ModifyUserView());
+		navigator.addView(CATALOGUSERS, new CatalogUsersView());
 		
 		if(RequestContext.getRequestContext() == null)
 		{
@@ -150,8 +153,8 @@ public class WebvaadinUI extends UI {
 					break;
 					case "Catalogo usuarios":
 						//navigator.addView(CATALOGUSERS, new CatalogUsersView());
-						//navigator.navigateTo(CATALOGUSERS);
-						Notification.show(selectedItem.getText());
+						navigator.navigateTo(CATALOGUSERS);
+						//Notification.show(selectedItem.getText());
 					break;	
 					default:
 						Notification.show("No hay configuracion para el item: " + selectedItem.getText());
