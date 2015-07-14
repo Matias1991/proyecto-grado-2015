@@ -1,5 +1,7 @@
 package servicelayer.entity.businessEntity;
 
+import java.util.Date;
+
 import servicelayer.entity.valueObject.VOUser;
 
 public class User{
@@ -10,6 +12,8 @@ public class User{
 	private String name;
 	private String lastName;
 	private String email;
+	private int attempts;
+	private Date lastAttemptDateTimeUTC;
     private UserType userType;
     private UserStatus userStatus;
     
@@ -26,8 +30,10 @@ public class User{
 		this.email = voUser.getEmail();
 		this.userName = voUser.getUserName();
 		this.password = voUser.getPassword();
-		this.userType =  UserType.getEnum(voUser.getUserType());
-		this.userStatus = UserStatus.getEnum(voUser.getUserStatus());
+		if(voUser.getUserType() != 0)
+			this.userType =  UserType.getEnum(voUser.getUserType());
+		if(voUser.getUserStatus() != 0)
+			this.userStatus = UserStatus.getEnum(voUser.getUserStatus());
 	}
 	
 	public void setId(int i)
@@ -96,5 +102,21 @@ public class User{
 
 	public void setUserStatus(UserStatus userStatus) {
 		this.userStatus = userStatus;
+	}
+
+	public int getAttempts() {
+		return attempts;
+	}
+
+	public void setAttempts(int attempts) {
+		this.attempts = attempts;
+	}
+
+	public Date getLastAttemptDateTimeUTC() {
+		return lastAttemptDateTimeUTC;
+	}
+
+	public void setLastAttemptDateTimeUTC(Date lastAttemptDateTimeUTC) {
+		this.lastAttemptDateTimeUTC = lastAttemptDateTimeUTC;
 	}
 }
