@@ -46,7 +46,8 @@ public class ModifyProfileView extends BaseView implements View {
 	private TextField txt_name;
 
 	private VOUser userToShow;
-	private int idUser = RequestContext.getRequestContext().getId();
+//	private int idUser = RequestContext.getRequestContext().getId();
+	private int idUser = 1;
 			
 	private static final long serialVersionUID = 1L;
 
