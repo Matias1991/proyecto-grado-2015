@@ -8,12 +8,15 @@ import java.util.List;
 
 import org.apache.axis2.AxisFault;
 
+import com.vaadin.server.Page;
 import com.vaadin.ui.Notification;
-import com.vaadin.ui.Notification.Type;
 
 import servicelayer.service.ServiceWebStub;
 import servicelayer.service.ServiceWebStub.DeleteUser;
+import servicelayer.service.ServiceWebStub.GetUser;
 import servicelayer.service.ServiceWebStub.GetUsers;
+import servicelayer.service.ServiceWebStub.InsertUser;
+import servicelayer.service.ServiceWebStub.UpdateUser;
 import servicelayer.service.ServiceWebStub.VOUser;
 import entities.User;
 
@@ -37,10 +40,16 @@ public class UserController {
 			
 		} catch (AxisFault e) {
 			// TODO Auto-generated catch block
-			Notification.show("Error: ", e.getMessage(), Type.ERROR_MESSAGE);
+			String error = e.getMessage().replace("<faultstring>", "");
+			Notification notif = new Notification(error.replace("</faultstring>", ""), Notification.TYPE_ERROR_MESSAGE);
+			notif.setDelayMsec(2000);
+			notif.show(Page.getCurrent());
 		} catch (RemoteException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			String error = e.getMessage().replace("<faultstring>", "");
+			Notification notif = new Notification(error.replace("</faultstring>", ""), Notification.TYPE_ERROR_MESSAGE);
+			notif.setDelayMsec(2000);
+			notif.show(Page.getCurrent());
 		}
 		
 		return users;
@@ -59,12 +68,72 @@ public class UserController {
 			
 		} catch (AxisFault e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			String error = e.getMessage().replace("<faultstring>", "");
+			Notification notif = new Notification(error.replace("</faultstring>", ""), Notification.TYPE_ERROR_MESSAGE);
+			notif.setDelayMsec(2000);
+			notif.show(Page.getCurrent());
 		} catch (RemoteException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			String error = e.getMessage().replace("<faultstring>", "");
+			Notification notif = new Notification(error.replace("</faultstring>", ""), Notification.TYPE_ERROR_MESSAGE);
+			notif.setDelayMsec(2000);
+			notif.show(Page.getCurrent());
 		}
 		
 		return result;
 	}
+	
+	public static boolean createUser(VOUser newUser)
+	{
+		boolean result = false;
+		try {
+			ServiceWebStub service = new ServiceWebStub();
+			InsertUser createUser = new InsertUser();
+			
+			createUser.setVoUser(newUser);
+			
+			result = service.insertUser(createUser).get_return();
+			
+		} catch (AxisFault e) {
+			String error = e.getMessage().replace("<faultstring>", "");
+			Notification notif = new Notification(error.replace("</faultstring>", ""), Notification.TYPE_ERROR_MESSAGE);
+			notif.setDelayMsec(2000);
+			notif.show(Page.getCurrent());
+		} catch (RemoteException e) {
+			String error = e.getMessage().replace("<faultstring>", "");
+			Notification notif = new Notification (error.replace("</faultstring>", ""), Notification.TYPE_ERROR_MESSAGE);
+			notif.setDelayMsec(2000);
+			notif.show(Page.getCurrent());
+		}
+		
+		return result;
+	}
+	
+	public static VOUser modifyUser(VOUser newUser, int idUser)
+	{
+		VOUser result = new VOUser();
+		try {
+			ServiceWebStub service = new ServiceWebStub();
+			UpdateUser modifyUser = new UpdateUser();
+			
+			modifyUser.setVoUser(newUser);
+			modifyUser.setId(idUser);
+			
+			result = service.updateUser(modifyUser).get_return();
+			
+		} catch (AxisFault e) {
+			String error = e.getMessage().replace("<faultstring>", "");
+			Notification notif = new Notification(error.replace("</faultstring>", ""), Notification.TYPE_ERROR_MESSAGE);
+			notif.setDelayMsec(2000);
+			notif.show(Page.getCurrent());
+		} catch (RemoteException e) {
+			String error = e.getMessage().replace("<faultstring>", "");
+			Notification notif = new Notification (error.replace("</faultstring>", ""), Notification.TYPE_ERROR_MESSAGE);
+			notif.setDelayMsec(2000);
+			notif.show(Page.getCurrent());
+		}
+		
+		return result;
+	}
+
 }
