@@ -93,6 +93,22 @@
             }
                 
            /**
+            * auto generated Axis2 call back method for forgotPassword method
+            * override this method for handling normal response from forgotPassword operation
+            */
+           public void receiveResultforgotPassword(
+                    servicelayer.service.ServiceWebStub.ForgotPasswordResponse result
+                        ) {
+           }
+
+          /**
+           * auto generated Axis2 Error handler
+           * override this method for handling error response from forgotPassword operation
+           */
+            public void receiveErrorforgotPassword(java.lang.Exception e) {
+            }
+                
+           /**
             * auto generated Axis2 call back method for deleteUser method
             * override this method for handling normal response from deleteUser operation
             */
@@ -106,6 +122,38 @@
            * override this method for handling error response from deleteUser operation
            */
             public void receiveErrordeleteUser(java.lang.Exception e) {
+            }
+                
+           /**
+            * auto generated Axis2 call back method for changePassword method
+            * override this method for handling normal response from changePassword operation
+            */
+           public void receiveResultchangePassword(
+                    servicelayer.service.ServiceWebStub.ChangePasswordResponse result
+                        ) {
+           }
+
+          /**
+           * auto generated Axis2 Error handler
+           * override this method for handling error response from changePassword operation
+           */
+            public void receiveErrorchangePassword(java.lang.Exception e) {
+            }
+                
+           /**
+            * auto generated Axis2 call back method for resetPassword method
+            * override this method for handling normal response from resetPassword operation
+            */
+           public void receiveResultresetPassword(
+                    servicelayer.service.ServiceWebStub.ResetPasswordResponse result
+                        ) {
+           }
+
+          /**
+           * auto generated Axis2 Error handler
+           * override this method for handling error response from resetPassword operation
+           */
+            public void receiveErrorresetPassword(java.lang.Exception e) {
             }
                 
            /**
