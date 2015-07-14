@@ -26,4 +26,6 @@ public interface ICoreUser {
 	void resetPassword(int id) throws ServiceLayerException;
 	
 	void changePassword(int id, String oldPassword, String newPassword) throws ServiceLayerException;
+	
+	void unlockUser(int id) throws ServiceLayerException;
 }

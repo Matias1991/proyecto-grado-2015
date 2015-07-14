@@ -1,8 +1,11 @@
 package servicelayer.core;
 
+import java.io.IOException;
 import java.security.SecureRandom;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Random;
+import java.util.concurrent.TimeUnit;
 
 import datalayer.daos.DAOUsers;
 import servicelayer.entity.businessEntity.User;
@@ -10,6 +13,9 @@ import servicelayer.entity.businessEntity.UserStatus;
 import servicelayer.entity.valueObject.VOUser;
 import servicelayer.utilities.Email;
 import servicelayer.utilities.HashMD5;
+import shared.ConfigurationProperties;
+import shared.LoggerMSMP;
+import shared.exceptions.ConfigPropertiesException;
 import shared.exceptions.DataLayerException;
 import shared.exceptions.EmailException;
 import shared.exceptions.MD5Exception;
@@ -69,7 +75,7 @@ public class CoreUser implements ICoreUser {
 				throw new ServiceLayerException("Ya existe un usuario con este nombre de usuario");
 
 		} catch (DataLayerException | EmailException | MD5Exception e) {
-			throw new ServiceLayerException(e);
+			throw new ServiceLayerException(e.getMessage());
 		}
 	}
 
@@ -146,18 +152,63 @@ public class CoreUser implements ICoreUser {
 	{
 		VOUser voUser = null;
 		try {
+			
+			//tOdo: move this to UI
 			String hashPassword = HashMD5.Encrypt(password);
-			User user = iDAOUsers.login(userName, hashPassword);
+			//
+			User user = iDAOUsers.getUserByUserName(userName);
 			if(user != null)
-				voUser = BuildVoUser(user);
+			{
+				if(user.getUserStatus() == UserStatus.ACTIVE)
+				{
+					if(user.getPassword().equals(hashPassword))
+					{
+						voUser = BuildVoUser(user);
+					}
+					else
+					{
+						long diffInMinutes = 0;
+						Date now  = new Date();
+						if(user.getLastAttemptDateTimeUTC() != null)
+						{
+							Date lastAttemptDate = user.getLastAttemptDateTimeUTC();
+							long duration  = now.getTime() - lastAttemptDate.getTime();
+							diffInMinutes = TimeUnit.MILLISECONDS.toMinutes(duration);
+						}
+						
+						if(diffInMinutes > Integer.parseInt(ConfigurationProperties.GetConfigValue("EXPIRATION_TIME_ATTEMPTS_IN_MINUTES")))
+						{
+							iDAOUsers.update(user.getId(), UserStatus.ACTIVE, 1, now);
+						}
+						else
+						{
+							int attempts = user.getAttempts() + 1;
+							
+							int maxAttemptsLogin = Integer.parseInt(ConfigurationProperties.GetConfigValue("MAX_ATTEMPTS_LOGIN"));
+							if(attempts >= maxAttemptsLogin)
+							{
+								iDAOUsers.update(user.getId(), UserStatus.BLOCKED , attempts, now);
+							}
+							else
+							{
+								iDAOUsers.update(user.getId(), UserStatus.ACTIVE, attempts, now);
+							}
+						}
+					}
+				}
+				else
+					throw new ServiceLayerException("El usuario esta bloquedo");
+			}
 			
 		}catch (DataLayerException | MD5Exception e) {
+			throw new ServiceLayerException(e);
+		}catch (ConfigPropertiesException e) {
 			throw new ServiceLayerException(e);
 		}
 		
 		return voUser;
 	}
-
+	
 	@Override
 	public VOUser update(int id, VOUser voUser) throws ServiceLayerException {
 		
@@ -243,6 +294,27 @@ public class CoreUser implements ICoreUser {
 				throw new ServiceLayerException("No existe un usuario con ese id");
 				
 		}catch (DataLayerException | EmailException | MD5Exception e) {
+			throw new ServiceLayerException(e);
+		}
+	}
+	
+	@Override
+	public void unlockUser(int id) throws ServiceLayerException
+	{
+		try
+		{
+			User user = iDAOUsers.getObject(id);
+			if(user != null)
+			{
+				if(user.getUserStatus() == UserStatus.BLOCKED)
+				{
+					iDAOUsers.update(user.getId(), UserStatus.ACTIVE, 0, null);
+				}
+			}
+			else
+				throw new ServiceLayerException("No existe un usuario con ese id");
+			
+		}catch (DataLayerException e) {
 			throw new ServiceLayerException(e);
 		}
 	}

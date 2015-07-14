@@ -1,6 +1,7 @@
 package servicelayer.utilities;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.util.Properties;
 
 import javax.mail.Message;
@@ -19,11 +20,10 @@ import org.apache.commons.httpclient.UsernamePasswordCredentials;
 import servicelayer.entity.businessEntity.User;
 import shared.ConfigurationProperties;
 import shared.LoggerMSMP;
+import shared.exceptions.ConfigPropertiesException;
 import shared.exceptions.EmailException;
 
 public class Email {
-
-	private static String logTitleError = "************ Send email error ********";
 
 	public static void changePassword(String userEmail, String password) throws EmailException{
 		
@@ -105,10 +105,11 @@ public class Email {
 			Transport.send(message);
 
 		} catch (MessagingException e) {
-			LoggerMSMP.setLog(logTitleError, buildSendEmailException(e, fromEmail, toEmail));
-			throw new EmailException("Problemas al enviar el correo con el nuevo usuario, consulte con el Administrador");
-		} catch (IOException e) {
-			LoggerMSMP.setLog(logTitleError, e.getMessage());
+			String numberError = LoggerMSMP.setLog(buildSendEmailException(e, fromEmail, toEmail));
+			throw new EmailException("Problemas al enviar el correo con el nuevo usuario, consulte con el Administrador con el codigo de error: " + numberError);
+		} catch (ConfigPropertiesException e) {
+			throw new EmailException(e.getMessage());
+		} catch (UnsupportedEncodingException e) {
 			throw new EmailException("Problemas al enviar el correo con el nuevo usuario, consulte con el Administrador");
 		}
 	}
@@ -116,8 +117,11 @@ public class Email {
 	static String buildSendEmailException(Exception ex, String fromEmail, String toEmail) {
 		
 		StringBuilder strBuilder = new StringBuilder();
+		strBuilder.append(System.getProperty("line.separator"));
 		strBuilder.append("From email: " + fromEmail);
+		strBuilder.append(System.getProperty("line.separator"));
 		strBuilder.append("To Email:" + toEmail);
+		strBuilder.append(System.getProperty("line.separator"));
 		strBuilder.append("Exeception: " + ex.getMessage());
 
 		return strBuilder.toString();
