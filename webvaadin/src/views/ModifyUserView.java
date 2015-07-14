@@ -290,7 +290,7 @@ public class ModifyUserView extends BaseView {
 		lblTitle.setWidth("-1px");
 		lblTitle.setHeight("-1px");
 		lblTitle.setValue("Modificar usuario");
-		lblTitle.setStyleName(Reindeer.LABEL_H2);
+		lblTitle.setStyleName("titleLabel");
 		mainLayout.addComponent(lblTitle, "top:42px;left:0.0px;");
 
 		// btnAdd

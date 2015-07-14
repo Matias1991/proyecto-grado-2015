@@ -68,7 +68,7 @@ public class CreateUserView extends BaseView {
 					newUser.setPassword(txtUserName.getValue());
 
 					if (UserController.createUser(newUser)) {
-						Notification notif = new Notification("Aviso: ", "Usuario creado correctamente", Notification.TYPE_ERROR_MESSAGE);
+						Notification notif = new Notification("Aviso: ", "Usuario creado correctamente", Notification.TYPE_HUMANIZED_MESSAGE);
 						notif.setDelayMsec(2000);
 						notif.show(Page.getCurrent());
 						// limpio los campos
@@ -193,7 +193,7 @@ public class CreateUserView extends BaseView {
 		lblTitle.setWidth("-1px");
 		lblTitle.setHeight("-1px");
 		lblTitle.setValue("Crear usuario");
-		lblTitle.setStyleName(Reindeer.LABEL_H2);
+		lblTitle.setStyleName("titleLabel");
 		mainLayout.addComponent(lblTitle, "top:42.0px;left:0.0px;");
 
 		// btn_add

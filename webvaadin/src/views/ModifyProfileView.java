@@ -69,11 +69,11 @@ public class ModifyProfileView extends BaseView {
 
 					modifyUser.modifyUser(voUser, idUser);
 
-					Notification.show("Aviso: ",
-							"Usuario modificado correctamente",
-							Notification.TYPE_HUMANIZED_MESSAGE);
+					Notification notif = new Notification("Aviso: ", "Usuario modificado correctamente", Notification.TYPE_HUMANIZED_MESSAGE);
+					notif.setDelayMsec(2000);
+					notif.show(Page.getCurrent());
+					
 					getUI().getNavigator().navigateTo(WebvaadinUI.MAINMENU);
-
 				}
 			}
 		});
