@@ -71,7 +71,7 @@ public class LoginView extends BaseView {
 						
 						RequestContext.setRequestContext(new UserData(voUser.getId(), voUser.getName()));
 						
-						((WebvaadinUI)getUI()).changeToMainMenu();
+						WebvaadinUI.changeToMainMenu();
 						getUI().getNavigator().navigateTo("");
 						
 					}else{

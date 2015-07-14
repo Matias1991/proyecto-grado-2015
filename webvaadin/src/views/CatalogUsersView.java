@@ -33,8 +33,7 @@ public class CatalogUsersView extends BaseView{
 	public CatalogUsersView() {
 		buildMainLayout();
 		setCompositionRoot(mainLayout);
-		//buildGrid();
-
+		
 		// TODO add user code here
 	}
 

@@ -8,6 +8,9 @@ import java.util.List;
 
 import org.apache.axis2.AxisFault;
 
+import com.vaadin.ui.Notification;
+import com.vaadin.ui.Notification.Type;
+
 import servicelayer.service.ServiceWebStub;
 import servicelayer.service.ServiceWebStub.DeleteUser;
 import servicelayer.service.ServiceWebStub.GetUsers;
@@ -34,7 +37,7 @@ public class UserController {
 			
 		} catch (AxisFault e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			Notification.show("Error: ", e.getMessage(), Type.ERROR_MESSAGE);
 		} catch (RemoteException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
