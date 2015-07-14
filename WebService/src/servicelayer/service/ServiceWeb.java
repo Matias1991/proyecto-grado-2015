@@ -240,4 +240,25 @@ public class ServiceWeb extends ServiceBase{
 			transactionLock.unlock();
 		}
 	}
+	
+	public boolean unlockUser(int id)
+	{
+		try {
+			transactionLock.tryLock(Constants.DEFAULT_TRANSACTION_TIME, TimeUnit.SECONDS);
+			
+			iCoreUser.unlockUser(id);
+			
+			return true;
+		} catch (ServiceLayerException e) {
+			throw new RuntimeException(e.getMessage());
+		} catch (InterruptedException e) {
+			throw new RuntimeException(Constants.TRANSACTION_ERROR);
+		} catch (Exception e) {
+			throw new RuntimeException(Constants.GENERIC_ERROR);
+		}
+		finally
+		{
+			transactionLock.unlock();
+		}
+	}
 }

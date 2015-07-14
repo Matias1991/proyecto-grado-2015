@@ -23,6 +23,8 @@ CREATE TABLE User
 	Email                VARCHAR(50) NULL,
 	Password             VARCHAR(100) NOT NULL,
 	UserName             VARCHAR(50) NOT NULL,
+	Attempts             INTEGER(10) NULL,
+	LastAttemptDateTimeUTC TIMESTAMP NULL,
 	UserTypeId           INTEGER NOT NULL,
     UserStatusId           INTEGER NOT NULL,
 	PRIMARY KEY (Id),
