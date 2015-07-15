@@ -1,6 +1,5 @@
 package servicelayer.core;
 
-import java.io.IOException;
 import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.Date;
@@ -10,11 +9,11 @@ import java.util.concurrent.TimeUnit;
 import datalayer.daos.DAOUsers;
 import servicelayer.entity.businessEntity.User;
 import servicelayer.entity.businessEntity.UserStatus;
+import servicelayer.entity.businessEntity.UserType;
 import servicelayer.entity.valueObject.VOUser;
 import servicelayer.utilities.Email;
 import servicelayer.utilities.HashMD5;
 import shared.ConfigurationProperties;
-import shared.LoggerMSMP;
 import shared.exceptions.ConfigPropertiesException;
 import shared.exceptions.DataLayerException;
 import shared.exceptions.EmailException;
@@ -86,13 +85,19 @@ public class CoreUser implements ICoreUser {
 		{
 			User user = iDAOUsers.getObject(id);
 			if(user == null)
-				throw new ServiceLayerException("No existe un usuario con id blabla");
+				throw new ServiceLayerException("No existe un usuario con ese id");
+			
+			if(user.getUserType() == UserType.ADMINISTRATOR & user.getUserStatus() == UserStatus.ACTIVE)
+			{
+				if(IsLastUserAdmin(user))
+					throw new ServiceLayerException("No se puede eliminar este usuario, el sistema debe tener al menos un usuario Administrador");
+			}
 			
 			iDAOUsers.delete(id);
 		}
-		catch(DataLayerException dataLayerEx)
+		catch(DataLayerException e)
 		{
-			throw new ServiceLayerException(dataLayerEx);
+			throw new ServiceLayerException(e.getMessage());
 		}
 	}
 
@@ -110,7 +115,7 @@ public class CoreUser implements ICoreUser {
 				throw new ServiceLayerException("No existe un usuario con ese id");
 			
 		} catch (DataLayerException e) {
-			throw new ServiceLayerException(e);
+			throw new ServiceLayerException(e.getMessage());
 		}
 
 		return voUser;
@@ -122,7 +127,7 @@ public class CoreUser implements ICoreUser {
 		try {
 			return iDAOUsers.exist(id);
 		} catch (DataLayerException e) {
-			throw new ServiceLayerException(e);
+			throw new ServiceLayerException(e.getMessage());
 		}
 	}
 
@@ -141,7 +146,7 @@ public class CoreUser implements ICoreUser {
 				voUsers.add(BuildVoUser(user));
 			}
 		} catch (DataLayerException e) {
-			throw new ServiceLayerException(e);
+			throw new ServiceLayerException(e.getMessage());
 		}
 		
 		return voUsers;
@@ -167,31 +172,34 @@ public class CoreUser implements ICoreUser {
 					}
 					else
 					{
-						long diffInMinutes = 0;
-						Date now  = new Date();
-						if(user.getLastAttemptDateTimeUTC() != null)
+						if(!IsLastUserAdmin(user))
 						{
-							Date lastAttemptDate = user.getLastAttemptDateTimeUTC();
-							long duration  = now.getTime() - lastAttemptDate.getTime();
-							diffInMinutes = TimeUnit.MILLISECONDS.toMinutes(duration);
-						}
-						
-						if(diffInMinutes > Integer.parseInt(ConfigurationProperties.GetConfigValue("EXPIRATION_TIME_ATTEMPTS_IN_MINUTES")))
-						{
-							iDAOUsers.update(user.getId(), UserStatus.ACTIVE, 1, now);
-						}
-						else
-						{
-							int attempts = user.getAttempts() + 1;
-							
-							int maxAttemptsLogin = Integer.parseInt(ConfigurationProperties.GetConfigValue("MAX_ATTEMPTS_LOGIN"));
-							if(attempts >= maxAttemptsLogin)
+							long diffInMinutes = 0;
+							Date now  = new Date();
+							if(user.getLastAttemptDateTimeUTC() != null)
 							{
-								iDAOUsers.update(user.getId(), UserStatus.BLOCKED , attempts, now);
+								Date lastAttemptDate = user.getLastAttemptDateTimeUTC();
+								long duration  = now.getTime() - lastAttemptDate.getTime();
+								diffInMinutes = TimeUnit.MILLISECONDS.toMinutes(duration);
+							}
+							
+							if(diffInMinutes > Integer.parseInt(ConfigurationProperties.GetConfigValue("EXPIRATION_TIME_ATTEMPTS_IN_MINUTES")))
+							{
+								iDAOUsers.update(user.getId(), UserStatus.ACTIVE, 1, now);
 							}
 							else
 							{
-								iDAOUsers.update(user.getId(), UserStatus.ACTIVE, attempts, now);
+								int attempts = user.getAttempts() + 1;
+								
+								int maxAttemptsLogin = Integer.parseInt(ConfigurationProperties.GetConfigValue("MAX_ATTEMPTS_LOGIN"));
+								if(attempts >= maxAttemptsLogin)
+								{
+									iDAOUsers.update(user.getId(), UserStatus.BLOCKED , attempts, now);
+								}
+								else
+								{
+									iDAOUsers.update(user.getId(), UserStatus.ACTIVE, attempts, now);
+								}
 							}
 						}
 					}
@@ -200,10 +208,8 @@ public class CoreUser implements ICoreUser {
 					throw new ServiceLayerException("El usuario esta bloquedo");
 			}
 			
-		}catch (DataLayerException | MD5Exception e) {
-			throw new ServiceLayerException(e);
-		}catch (ConfigPropertiesException e) {
-			throw new ServiceLayerException(e);
+		}catch (DataLayerException | MD5Exception | ConfigPropertiesException e) {
+			throw new ServiceLayerException(e.getMessage());
 		}
 		
 		return voUser;
@@ -215,12 +221,21 @@ public class CoreUser implements ICoreUser {
 		try {
 			
 			User user = new User(voUser);
+			User currentUser = iDAOUsers.getObject(id);
+			
+			if(currentUser.getUserType() == UserType.ADMINISTRATOR & currentUser.getUserStatus() == UserStatus.ACTIVE
+					& currentUser.getUserType() != user.getUserType())
+			{
+				if(IsLastUserAdmin(currentUser))
+					throw new ServiceLayerException("No se puede modificar el tipo de usuario, el sistema debe tener al menos un usuario Administrador");
+			}
+			
 			iDAOUsers.update(id, user);
 		
 			return getUser(id);
 			
 		}catch (DataLayerException e) {
-			throw new ServiceLayerException(e);
+			throw new ServiceLayerException(e.getMessage());
 		}
 	}
 	
@@ -239,7 +254,7 @@ public class CoreUser implements ICoreUser {
 		    	 throw new ServiceLayerException("No existe un usuario con ese correo electronico");
 			
 		}catch (DataLayerException | EmailException| MD5Exception e) {
-			throw new ServiceLayerException(e);
+			throw new ServiceLayerException(e.getMessage());
 		}
 	}
 	
@@ -262,7 +277,7 @@ public class CoreUser implements ICoreUser {
 				throw new ServiceLayerException("No existe un usuario con ese id");
 			
 		}catch (DataLayerException | EmailException | MD5Exception e) {
-			throw new ServiceLayerException(e);
+			throw new ServiceLayerException(e.getMessage());
 		}
 	}
 	
@@ -294,7 +309,7 @@ public class CoreUser implements ICoreUser {
 				throw new ServiceLayerException("No existe un usuario con ese id");
 				
 		}catch (DataLayerException | EmailException | MD5Exception e) {
-			throw new ServiceLayerException(e);
+			throw new ServiceLayerException(e.getMessage());
 		}
 	}
 	
@@ -315,7 +330,7 @@ public class CoreUser implements ICoreUser {
 				throw new ServiceLayerException("No existe un usuario con ese id");
 			
 		}catch (DataLayerException e) {
-			throw new ServiceLayerException(e);
+			throw new ServiceLayerException(e.getMessage());
 		}
 	}
 	
@@ -333,6 +348,29 @@ public class CoreUser implements ICoreUser {
 		return voUser;
 	}
 	
+	boolean IsLastUserAdmin(User user) throws DataLayerException
+	{
+		ArrayList<User> adminUsers = iDAOUsers.getUsersByTypeAndStatus(UserType.ADMINISTRATOR, UserStatus.ACTIVE);
+		
+		int index = 0;
+		
+		for(User adminUser : adminUsers)
+		{
+			if(adminUser.getId() == user.getId())
+				break;
+			
+			index = index + 1;
+		}
+		
+		adminUsers.remove(index);
+		
+		if(adminUsers.size() == 0)
+			return true;
+		else
+			return false;
+		
+	}
+
 	String generateRandomPassword()
     {
       String letters = "abcdefghjkmnpqrstuvwxyzABCDEFGHJKMNPQRSTUVWXYZ23456789+@";

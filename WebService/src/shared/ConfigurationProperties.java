@@ -20,24 +20,26 @@ public class ConfigurationProperties {
 			try {
 				properties.load(inputStream);
 			} catch (IOException e) {
-				String numberError = LoggerMSMP.setLog(e.getMessage());
-				throw new ConfigPropertiesException("Ocurrio un problema al intentar acceder a configuracion del sistema, consulte con el Administrador con el codigo de error: " + numberError);
+				ThrowConfigPropertiesExceptionAndLogError(e, null);
 			}
 		}
 		else	
 		{
-			String notFoundFile = "El archivo " + fileName + " no fue encontrado";
-			String numberError = LoggerMSMP.setLog(notFoundFile);
-			throw new ConfigPropertiesException("Ocurrio un problema al intentar acceder a configuracion del sistema, consulte con el Administrador con el codigo de error: " + numberError);
+			ThrowConfigPropertiesExceptionAndLogError(null, String.format("El archivo %s no fue encontrado", fileName));
 		}
 	
 		if(!properties.containsKey(key))
 		{
-			String notFoudKey = "No se encontro la key " + key + " en el archivo " + fileName;
-			String numberError = LoggerMSMP.setLog(notFoudKey);
-			throw new ConfigPropertiesException("Ocurrio un problema al intentar acceder a configuracion del sistema, consulte con el Administrador con el codigo de error: " + numberError);
+			ThrowConfigPropertiesExceptionAndLogError(null, String.format("No se encontro la key %s en el archivo %s", key, fileName));
 		}
 		
 		return properties.getProperty(key);
+	}
+	
+	static void ThrowConfigPropertiesExceptionAndLogError(Exception ex, String customError) throws ConfigPropertiesException
+	{
+		String messageError = (ex != null)? ex.getMessage() : customError;
+		String numberError = LoggerMSMP.setLog(messageError);
+		throw new ConfigPropertiesException(String.format("Ocurrio un error al acceder a configuracion del sistema, consulte con el Administrador con el codigo de error: %s", numberError));
 	}
 }

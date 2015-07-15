@@ -6,6 +6,8 @@ import java.util.concurrent.TimeUnit;
 import servicelayer.core.CoreUser;
 import servicelayer.entity.valueObject.VOUser;
 import servicelayer.utilities.Constants;
+import shared.LoggerMSMP;
+import shared.exceptions.DataLayerException;
 import shared.exceptions.ServiceLayerException;
 import shared.interfaces.core.ICoreUser;
 
@@ -47,12 +49,13 @@ public class ServiceWeb extends ServiceBase{
 		} catch (InterruptedException e) {
 			throw new RuntimeException(Constants.TRANSACTION_ERROR);
 		} catch (Exception e) {
-			throw new RuntimeException(Constants.GENERIC_ERROR);
+			ThrowGenericExceptionAndLogError(e);
 		}
 		finally
 		{
 			transactionLock.unlock();
 		}
+		return false;
 	}
 	
 	public VOUser getUser(int id)
@@ -66,12 +69,13 @@ public class ServiceWeb extends ServiceBase{
 		}catch (InterruptedException e) {
 				throw new RuntimeException(Constants.TRANSACTION_ERROR);	
 		} catch (Exception e) {
-			throw new RuntimeException(Constants.GENERIC_ERROR);
+			ThrowGenericExceptionAndLogError(e);
 		}
 		finally
 		{
 			transactionLock.unlock();
 		}
+		return null;
 	}
 	
 	public boolean deleteUser(int id)
@@ -86,12 +90,13 @@ public class ServiceWeb extends ServiceBase{
 		} catch (InterruptedException e) {
 				throw new RuntimeException(Constants.TRANSACTION_ERROR);	
 		} catch (Exception e) {
-			throw new RuntimeException(Constants.GENERIC_ERROR);
+			ThrowGenericExceptionAndLogError(e);
 		}
 		finally
 		{
 			transactionLock.unlock();
 		}
+		return false;
 	}
 	
 	public VOUser updateUser(int id, VOUser voUser)
@@ -105,12 +110,13 @@ public class ServiceWeb extends ServiceBase{
 		} catch (InterruptedException e) {
 				throw new RuntimeException(Constants.TRANSACTION_ERROR);	
 		} catch (Exception e) {
-			throw new RuntimeException(Constants.GENERIC_ERROR);
+			ThrowGenericExceptionAndLogError(e);
 		}
 		finally
 		{
 			transactionLock.unlock();
 		}
+		return null;
 	}
 	
 	public boolean existUser(int id)
@@ -124,12 +130,13 @@ public class ServiceWeb extends ServiceBase{
 		} catch (InterruptedException e) {
 			throw new RuntimeException(Constants.TRANSACTION_ERROR);	
 		} catch (Exception e) {
-			throw new RuntimeException(Constants.GENERIC_ERROR);
+			ThrowGenericExceptionAndLogError(e);
 		}
 		finally
 		{
 			transactionLock.unlock();
 		}
+		return false;
 	}
 	
 	public VOUser login(String userName,String password)
@@ -143,12 +150,13 @@ public class ServiceWeb extends ServiceBase{
 		} catch (InterruptedException e) {
 			throw new RuntimeException(Constants.TRANSACTION_ERROR);
 		} catch (Exception e) {
-			throw new RuntimeException(Constants.GENERIC_ERROR);
+			ThrowGenericExceptionAndLogError(e);
 		}
 		finally
 		{
 			transactionLock.unlock();
 		}
+		return null;
 	}
 	
 	public VOUser[] getUsers()
@@ -167,12 +175,13 @@ public class ServiceWeb extends ServiceBase{
 		} catch (InterruptedException e) {
 			throw new RuntimeException(Constants.TRANSACTION_ERROR);
 		} catch (Exception e) {
-			throw new RuntimeException(Constants.GENERIC_ERROR);
+			ThrowGenericExceptionAndLogError(e);
 		}
 		finally
 		{
 			transactionLock.unlock();
 		}
+		return null;
 	}
 	
 	public boolean forgotPassword(String userEmail)
@@ -189,12 +198,13 @@ public class ServiceWeb extends ServiceBase{
 		} catch (InterruptedException e) {
 			throw new RuntimeException(Constants.TRANSACTION_ERROR);
 		} catch (Exception e) {
-			throw new RuntimeException(Constants.GENERIC_ERROR);
+			ThrowGenericExceptionAndLogError(e);
 		}
 		finally
 		{
 			transactionLock.unlock();
 		}
+		return false;
 	}
 	
 	public boolean resetPassword(int id)
@@ -211,12 +221,13 @@ public class ServiceWeb extends ServiceBase{
 		} catch (InterruptedException e) {
 			throw new RuntimeException(Constants.TRANSACTION_ERROR);
 		} catch (Exception e) {
-			throw new RuntimeException(Constants.GENERIC_ERROR);
+			ThrowGenericExceptionAndLogError(e);
 		}
 		finally
 		{
 			transactionLock.unlock();
 		}
+		return false;
 	}
 	
 	public boolean changePassword(int id, String oldPassword, String newPassword)
@@ -233,12 +244,13 @@ public class ServiceWeb extends ServiceBase{
 		} catch (InterruptedException e) {
 			throw new RuntimeException(Constants.TRANSACTION_ERROR);
 		} catch (Exception e) {
-			throw new RuntimeException(Constants.GENERIC_ERROR);
+			ThrowGenericExceptionAndLogError(e);
 		}
 		finally
 		{
 			transactionLock.unlock();
 		}
+		return false;
 	}
 	
 	public boolean unlockUser(int id)
@@ -254,11 +266,12 @@ public class ServiceWeb extends ServiceBase{
 		} catch (InterruptedException e) {
 			throw new RuntimeException(Constants.TRANSACTION_ERROR);
 		} catch (Exception e) {
-			throw new RuntimeException(Constants.GENERIC_ERROR);
+			ThrowGenericExceptionAndLogError(e);
 		}
 		finally
 		{
 			transactionLock.unlock();
 		}
+		return false;
 	}
 }
