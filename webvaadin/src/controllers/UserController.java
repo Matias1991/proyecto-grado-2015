@@ -12,6 +12,7 @@ import com.vaadin.server.Page;
 import com.vaadin.ui.Notification;
 
 import servicelayer.service.ServiceWebStub;
+import servicelayer.service.ServiceWebStub.ChangePassword;
 import servicelayer.service.ServiceWebStub.DeleteUser;
 import servicelayer.service.ServiceWebStub.GetUser;
 import servicelayer.service.ServiceWebStub.GetUsers;
@@ -135,5 +136,33 @@ public class UserController {
 		
 		return result;
 	}
-
+	
+	public static boolean changePassword(int idUser, String oldPassword, String newPassword)
+	{
+		boolean result = false;
+		try {
+			ServiceWebStub service = new ServiceWebStub();
+			ChangePassword changePassword = new ChangePassword();
+			
+			changePassword.setId(idUser);
+			changePassword.setOldPassword(oldPassword);
+			changePassword.setNewPassword(newPassword);
+			
+			result = service.changePassword(changePassword).get_return();
+			
+		} catch (AxisFault e) {
+			String error = e.getMessage().replace("<faultstring>", "");
+			Notification notif = new Notification(error.replace("</faultstring>", ""), Notification.TYPE_ERROR_MESSAGE);
+			notif.setDelayMsec(2000);
+			notif.show(Page.getCurrent());
+		} catch (RemoteException e) {
+			String error = e.getMessage().replace("<faultstring>", "");
+			Notification notif = new Notification (error.replace("</faultstring>", ""), Notification.TYPE_ERROR_MESSAGE);
+			notif.setDelayMsec(2000);
+			notif.show(Page.getCurrent());
+		}
+		
+		return result;
+	}
+	
 }

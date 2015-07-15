@@ -1,6 +1,7 @@
 package com.example.webvaadin;
 
 import views.CatalogUsersView;
+import views.ChangePasswordView;
 import views.CreateUserView;
 import views.DeleteUsersView;
 import views.LoginView;
@@ -40,6 +41,7 @@ public class WebvaadinUI extends UI {
 	public static final String DELETEUSERS = "DeleteUsersView";
 	public static final String MODIFYUSER = "ModifyUserView";
 	public static final String CATALOGUSERS = "CatalogUsersView";
+	public static final String CHANGEPASSWORD = "ChangePasswordView";
 	
 	private static GridLayout mainLayout;
 	private static MenuBar mainMenuBar; 
@@ -109,6 +111,7 @@ public class WebvaadinUI extends UI {
 		navigator.addView(MODIFYPROFILEUSER, new ModifyProfileView());
 		navigator.addView(MODIFYUSER, new ModifyUserView());
 		navigator.addView(CATALOGUSERS, new CatalogUsersView());
+		navigator.addView(CHANGEPASSWORD, new ChangePasswordView());
 		
 		if(RequestContext.getRequestContext() == null)
 		{
@@ -140,12 +143,10 @@ public class WebvaadinUI extends UI {
 			public void menuSelected(MenuItem selectedItem) {
 				// TODO Auto-generated method stub
 				switch(selectedItem.getText()){
-					case "Crear usuario":	
-						navigator.addView(CREATEUSER, new CreateUserView());	
+					case "Crear usuario":
 						navigator.navigateTo(CREATEUSER);
 					break;
 					case "Modificar usuario":
-						navigator.addView(MODIFYUSER, new ModifyUserView());
 						navigator.navigateTo(MODIFYUSER);
 					break;
 					case "Eliminar usuario":
@@ -204,7 +205,7 @@ public class WebvaadinUI extends UI {
 						getUI().getNavigator().navigateTo(WebvaadinUI.MODIFYPROFILEUSER);						
 					break;
 					case "Cambiar contrasenia":
-						Notification.show(selectedItem.getText());
+						getUI().getNavigator().navigateTo(WebvaadinUI.CHANGEPASSWORD);
 					break;
 					default:
 						Notification.show("No hay configuracion para el item: " + selectedItem.getText());
