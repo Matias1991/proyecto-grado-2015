@@ -1,6 +1,7 @@
 package com.example.webvaadin;
 
 import views.CatalogUsersView;
+import views.ChangePasswordView;
 import views.CreateUserView;
 import views.DeleteUsersView;
 import views.ForgotPasswordView;
@@ -42,6 +43,7 @@ public class WebvaadinUI extends UI {
 	public static final String MODIFYUSER = "ModifyUserView";
 	public static final String CATALOGUSERS = "CatalogUsersView";
 	public static final String FORGOTPASSWORD = "ForgotPaswordView";
+	public static final String CHANGEPASSWORD = "ChangePasswordView";
 	
 	private static GridLayout mainLayout;
 	private static MenuBar mainMenuBar; 
@@ -114,6 +116,7 @@ public class WebvaadinUI extends UI {
 		navigator.addView(MODIFYUSER, new ModifyUserView());
 		navigator.addView(CATALOGUSERS, new CatalogUsersView());
 		navigator.addView(FORGOTPASSWORD, new ForgotPasswordView());
+		navigator.addView(CHANGEPASSWORD, new ChangePasswordView());
 		
 		if(RequestContext.getRequestContext() == null)
 		{
@@ -146,20 +149,16 @@ public class WebvaadinUI extends UI {
 				// TODO Auto-generated method stub
 				switch(selectedItem.getText()){
 					case "Crear usuario":	
-						//navigator.addView(CREATEUSER, new CreateUserView());	
 						navigator.navigateTo(CREATEUSER);
 					break;
 					case "Modificar usuario":
-						//navigator.addView(MODIFYUSER, new ModifyUserView());
 						navigator.navigateTo(MODIFYUSER);
 					break;
 					case "Eliminar usuario":
 						navigator.navigateTo(DELETEUSERS);
 					break;
 					case "Catalogo usuarios":
-						//navigator.addView(CATALOGUSERS, new CatalogUsersView());
 						navigator.navigateTo(CATALOGUSERS);
-						//Notification.show(selectedItem.getText());
 					break;	
 					default:
 						Notification.show("No hay configuracion para el item: " + selectedItem.getText());
@@ -209,7 +208,7 @@ public class WebvaadinUI extends UI {
 						getUI().getNavigator().navigateTo(WebvaadinUI.MODIFYPROFILEUSER);						
 					break;
 					case "Cambiar contrasenia":
-						Notification.show(selectedItem.getText());
+						getUI().getNavigator().navigateTo(WebvaadinUI.CHANGEPASSWORD);
 					break;
 					default:
 						Notification.show("No hay configuracion para el item: " + selectedItem.getText());
