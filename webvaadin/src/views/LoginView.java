@@ -19,6 +19,7 @@ import com.vaadin.ui.Notification.Type;
 import com.vaadin.ui.PasswordField;
 import com.vaadin.ui.TextField;
 
+import controllers.UserController;
 import entities.RequestContext;
 import entities.UserData;
 
@@ -61,40 +62,23 @@ public class LoginView extends BaseView {
 			@Override
 			public void buttonClick(ClickEvent event) {
 				// TODO Auto-generated method stub
-				ServiceWebStub usersDescriptionService;
+				VOUser voUser = UserController.loginUser(txtUsername.getValue(), txtPassword.getValue());
 				
-				try{
-					usersDescriptionService = new ServiceWebStub();
+				if(voUser != null){						
+					txtUsername.setValue("");
+					txtPassword.setValue("");
+					txtUsername.focus();
 					
-					Login correctLogin = new Login();
-					correctLogin.setUserName(txtUsername.getValue());
-					correctLogin.setPassword(txtPassword.getValue());
+					RequestContext.setRequestContext(new UserData(voUser.getId(), voUser.getName()));
 					
-					VOUser voUser = usersDescriptionService.login(correctLogin).get_return();
+					getUI().getNavigator().navigateTo("");
 					
-					
-					if(voUser != null){						
-						txtUsername.setValue("");
-						txtPassword.setValue("");
-						txtUsername.focus();
-						
-						RequestContext.setRequestContext(new UserData(voUser.getId(), voUser.getName()));
-						
-						WebvaadinUI.changeToMainMenu();
-						getUI().getNavigator().navigateTo("");
-						
-					}else{
-						Notification.show("ERROR:", "Usuario y/o contraseña incorrecta", Type.ERROR_MESSAGE);
-						txtUsername.setValue("");
-						txtPassword.setValue("");
-						txtUsername.focus();
-					}
-				}catch (AxisFault e) {
-					e.printStackTrace();
-				} catch (java.rmi.RemoteException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}				
+				}else{
+					Notification.show("ERROR:", "Usuario y/o contraseña incorrecta", Type.ERROR_MESSAGE);
+					txtUsername.setValue("");
+					txtPassword.setValue("");
+					txtUsername.focus();
+				}					
 			}			
 		});	
 			
