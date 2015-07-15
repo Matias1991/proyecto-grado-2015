@@ -33,8 +33,7 @@ public class DAOUsers implements IDAOUsers {
 		try {
 			this.connection = new ManageConnection().GetConnection();
 		}catch (Exception e) {
-			LoggerMSMP.setLog(e.getMessage());
-			throw new DataLayerException("Ocurrio una problema al conectarse con la base de datos");
+			ThrowDataLayerExceptionAndLogError(e, "conectarse con la base de datos");
 		}
 	}
 	
@@ -64,8 +63,16 @@ public class DAOUsers implements IDAOUsers {
 			preparedStatement.executeUpdate();
 			 
 		} catch (SQLException e) {
-			String numberError = LoggerMSMP.setLog(e.getMessage());
-			throw new DataLayerException("Ocurrio un problema al intentar ingresar un usuario a la base de datos, consulte con el administrador con el codigo de error: " + numberError);
+			ThrowDataLayerExceptionAndLogError(e, "ingresar el usuario");
+		}finally {
+
+			if (preparedStatement != null) {
+				try {
+					preparedStatement.close();
+				} catch (SQLException e) {
+					LoggerMSMP.setLog(e.getMessage());
+				}
+			}
 		}
 	}
 
@@ -81,8 +88,7 @@ public class DAOUsers implements IDAOUsers {
 			preparedStatement.execute();
 
 		} catch (SQLException e) {
-			LoggerMSMP.setLog(e.getMessage());
-			throw new DataLayerException("Ocurrio un error al intentar eliminar el usuario, consulte con el administrador");
+			ThrowDataLayerExceptionAndLogError(e, "eliminar el usuario");
 		} finally {
 
 			if (preparedStatement != null) {
@@ -111,8 +117,7 @@ public class DAOUsers implements IDAOUsers {
 			}
 
 		} catch (SQLException e) {
-			LoggerMSMP.setLog(e.getMessage());
-			throw new DataLayerException("Ocurrio un error al intentar validar si existe el usuario, consulte con el administrador");
+			ThrowDataLayerExceptionAndLogError(e, "validar si existe el usuario");
 		} finally {
 			try {
 				if (preparedStatement != null)
@@ -143,8 +148,7 @@ public class DAOUsers implements IDAOUsers {
 				user = BuildUser(rs);
 			}
 		} catch (SQLException e) {
-			LoggerMSMP.setLog(e.getMessage());
-			throw new DataLayerException("Ocurrio un error al intentar obtener el usuario, consulte con el administrador");
+			ThrowDataLayerExceptionAndLogError(e, "obtener los datos del usuario");
 		} finally {
 			try {
 				if (preparedStatement != null)
@@ -176,9 +180,42 @@ public class DAOUsers implements IDAOUsers {
 			}
 
 		} catch (SQLException e) {
-			LoggerMSMP.setLog(e.getMessage());
-			throw new DataLayerException("Ocurrio un error al intentar obtener los usuarios, consulte con el administrador");
-	
+			ThrowDataLayerExceptionAndLogError(e, "obtener los datos del los usuarios");
+		} finally {
+			try {
+				if (preparedStatement != null)
+					preparedStatement.close();
+				if (rs != null)
+					rs.close();
+			} catch (SQLException e) {
+				LoggerMSMP.setLog(e.getMessage());
+			}
+		}
+
+		return users;
+	}
+
+	@Override
+	public ArrayList<User> getUsersByTypeAndStatus(UserType userType, UserStatus userStatus) throws DataLayerException
+	{
+		ArrayList<User> users = new ArrayList<User>();
+		PreparedStatement preparedStatement = null;
+		ResultSet rs = null;
+		try {
+
+			String getSQL = "SELECT * FROM USER WHERE userTypeId = ? and userStatusId = ?";
+			preparedStatement = this.connection.prepareStatement(getSQL);
+			preparedStatement.setInt(1, userType.getValue());
+			preparedStatement.setInt(2, userStatus.getValue());
+			
+			rs = preparedStatement.executeQuery();
+
+			while (rs.next()) {
+				users.add(BuildUser(rs));
+			}
+
+		} catch (SQLException e) {
+			ThrowDataLayerExceptionAndLogError(e, "obtener los datos del los usuarios");
 		} finally {
 			try {
 				if (preparedStatement != null)
@@ -193,41 +230,6 @@ public class DAOUsers implements IDAOUsers {
 		return users;
 	}
 	
-	@Override
-	public User login(String userName,String password) throws DataLayerException
-	{
-		User user = null;
-		PreparedStatement preparedStatement = null;
-		ResultSet rs = null;
-		
-		try
-		{
-			String getSQL = "SELECT * FROM USER WHERE userName = ? and password = ?";
-			preparedStatement = this.connection.prepareStatement(getSQL);
-			preparedStatement.setString(1, userName);
-			preparedStatement.setString(2, password);
-		
-			rs = preparedStatement.executeQuery();
-			
-			if(rs.next())
-				user = BuildUser(rs);
-			
-		} catch (SQLException e) {
-			LoggerMSMP.setLog(e.getMessage());
-			throw new DataLayerException("Ocurrio un error al intentar obtener el usuario, consulte con el administrador");
-		}finally {
-			try {
-				if (preparedStatement != null)
-					preparedStatement.close();
-				if (rs != null)
-					rs.close();
-			} catch (SQLException e) {
-				LoggerMSMP.setLog(e.getMessage());
-			}
-		}
-		return user;
-	}
-
 	@Override
 	public User getUserByUserName(String userName) throws DataLayerException
 	{
@@ -248,8 +250,7 @@ public class DAOUsers implements IDAOUsers {
 			}
 			
 		} catch (SQLException e) {
-			LoggerMSMP.setLog(e.getMessage());
-			throw new DataLayerException("Ocurrio un error al intentar obtener los datos del usuario, consulte con el administrador");
+			ThrowDataLayerExceptionAndLogError(e, "obtener los datos del usuario");
 		}finally {
 			try {
 				if (preparedStatement != null)
@@ -284,8 +285,7 @@ public class DAOUsers implements IDAOUsers {
 			}
 			
 		} catch (SQLException e) {
-			LoggerMSMP.setLog(e.getMessage());
-			throw new DataLayerException("Ocurrio un error al intentar obtener los usuarios, consulte con el administrador");
+			ThrowDataLayerExceptionAndLogError(e, "obtener los datos del usuario");
 		}finally {
 			try {
 				if (preparedStatement != null)
@@ -324,8 +324,7 @@ public class DAOUsers implements IDAOUsers {
 			preparedStatement.executeUpdate();
 			 
 		} catch (SQLException e) {
-			LoggerMSMP.setLog(e.getMessage());
-			throw new DataLayerException("Ocurrio un problema al intentar modificar un usuario en la base de datos, consulte con el administrador");
+			ThrowDataLayerExceptionAndLogError(e, "modificar los datos del usuario");
 		}
 	}
 	
@@ -355,8 +354,7 @@ public class DAOUsers implements IDAOUsers {
 			preparedStatement.executeUpdate();
 			 
 		} catch (SQLException e) {
-			LoggerMSMP.setLog(e.getMessage());
-			throw new DataLayerException("Ocurrio un problema al intentar modificar un usuario en la base de datos, consulte con el administrador");
+			ThrowDataLayerExceptionAndLogError(e, "modificar los datos del usuario");
 		}
 	}
 	
@@ -378,8 +376,7 @@ public class DAOUsers implements IDAOUsers {
 			preparedStatement.executeUpdate();
 			 
 		} catch (SQLException e) {
-			LoggerMSMP.setLog(e.getMessage());
-			throw new DataLayerException("Ocurrio un problema al intentar modificar la contraseña del usuario en la base de datos, consulte con el administrador");
+			ThrowDataLayerExceptionAndLogError(e, "modificar la contraseña del usuario");
 		}
 	}
 	
@@ -409,5 +406,11 @@ public class DAOUsers implements IDAOUsers {
 		user.setUserStatus(UserStatus.getEnum(userStatusId));
 		
 		return user;
+	}
+	
+	void ThrowDataLayerExceptionAndLogError(Exception ex, String message) throws DataLayerException
+	{
+		String errorNumber = LoggerMSMP.setLog(ex.getMessage());
+		throw new DataLayerException(String.format("Ocurrio un error al %s, consulte con el Administrador con el codigo de error: %S", message, errorNumber));
 	}
 }

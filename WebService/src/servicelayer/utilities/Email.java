@@ -105,12 +105,11 @@ public class Email {
 			Transport.send(message);
 
 		} catch (MessagingException e) {
-			String numberError = LoggerMSMP.setLog(buildSendEmailException(e, fromEmail, toEmail));
-			throw new EmailException("Problemas al enviar el correo con el nuevo usuario, consulte con el Administrador con el codigo de error: " + numberError);
+			ThrowEmailExceptionAndLogError(null, buildSendEmailException(e, fromEmail, toEmail));
 		} catch (ConfigPropertiesException e) {
-			throw new EmailException(e.getMessage());
+			ThrowEmailExceptionAndLogError(e, null);
 		} catch (UnsupportedEncodingException e) {
-			throw new EmailException("Problemas al enviar el correo con el nuevo usuario, consulte con el Administrador");
+			ThrowEmailExceptionAndLogError(e, null);
 		}
 	}
 
@@ -125,5 +124,12 @@ public class Email {
 		strBuilder.append("Exeception: " + ex.getMessage());
 
 		return strBuilder.toString();
+	}
+	
+	static void ThrowEmailExceptionAndLogError(Exception ex, String customError) throws EmailException
+	{
+		String messageError = (ex != null)? ex.getMessage() : customError;
+		String numberError = LoggerMSMP.setLog(messageError);
+		throw new EmailException(String.format("Ocurrio un error al enviar el correo electronico, consulte con el Administrador con el codigo de error: %s", numberError));
 	}
 }
