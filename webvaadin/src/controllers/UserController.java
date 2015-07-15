@@ -48,10 +48,7 @@ public class UserController {
 			notif.show(Page.getCurrent());
 		} catch (RemoteException e) {
 			// TODO Auto-generated catch block
-			String error = e.getMessage().replace("<faultstring>", "");
-			Notification notif = new Notification(error.replace("</faultstring>", ""), Notification.TYPE_ERROR_MESSAGE);
-			notif.setDelayMsec(2000);
-			notif.show(Page.getCurrent());
+			e.printStackTrace();
 		}
 		
 		return users;
@@ -75,11 +72,7 @@ public class UserController {
 			notif.setDelayMsec(2000);
 			notif.show(Page.getCurrent());
 		} catch (RemoteException e) {
-			// TODO Auto-generated catch block
-			String error = e.getMessage().replace("<faultstring>", "");
-			Notification notif = new Notification(error.replace("</faultstring>", ""), Notification.TYPE_ERROR_MESSAGE);
-			notif.setDelayMsec(2000);
-			notif.show(Page.getCurrent());
+			e.printStackTrace();
 		}
 		
 		return result;
@@ -102,10 +95,7 @@ public class UserController {
 			notif.setDelayMsec(2000);
 			notif.show(Page.getCurrent());
 		} catch (RemoteException e) {
-			String error = e.getMessage().replace("<faultstring>", "");
-			Notification notif = new Notification (error.replace("</faultstring>", ""), Notification.TYPE_ERROR_MESSAGE);
-			notif.setDelayMsec(2000);
-			notif.show(Page.getCurrent());
+			e.printStackTrace();
 		}
 		
 		return result;
@@ -129,10 +119,7 @@ public class UserController {
 			notif.setDelayMsec(2000);
 			notif.show(Page.getCurrent());
 		} catch (RemoteException e) {
-			String error = e.getMessage().replace("<faultstring>", "");
-			Notification notif = new Notification (error.replace("</faultstring>", ""), Notification.TYPE_ERROR_MESSAGE);
-			notif.setDelayMsec(2000);
-			notif.show(Page.getCurrent());
+			e.printStackTrace();
 		}
 		
 		return result;
@@ -157,10 +144,7 @@ public class UserController {
 			notif.setDelayMsec(2000);
 			notif.show(Page.getCurrent());
 		} catch (RemoteException e) {
-			String error = e.getMessage().replace("<faultstring>", "");
-			Notification notif = new Notification (error.replace("</faultstring>", ""), Notification.TYPE_ERROR_MESSAGE);
-			notif.setDelayMsec(2000);
-			notif.show(Page.getCurrent());
+			e.printStackTrace();
 		}
 		
 		return result;
@@ -181,10 +165,7 @@ public class UserController {
 			notif.setDelayMsec(2000);
 			notif.show(Page.getCurrent());
 		} catch (RemoteException e) {
-			String error = e.getMessage().replace("<faultstring>", "");
-			Notification notif = new Notification (error.replace("</faultstring>", ""), Notification.TYPE_ERROR_MESSAGE);
-			notif.setDelayMsec(2000);
-			notif.show(Page.getCurrent());
+			e.printStackTrace();
 		}
 		
 		return result;		

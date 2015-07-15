@@ -6,10 +6,10 @@ import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.server.Page;
 import com.vaadin.ui.AbsoluteLayout;
 import com.vaadin.ui.Button;
-import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.PasswordField;
+import com.vaadin.ui.Button.ClickEvent;
 
 import controllers.UserController;
 import entities.RequestContext;
@@ -123,36 +123,37 @@ public class ChangePasswordView extends BaseView {
 		oldPassword = new PasswordField();
 		oldPassword.setCaption("Contraseña actual");
 		oldPassword.setImmediate(false);
-		oldPassword.setWidth("200px");
+		oldPassword.setWidth("240px");
 		oldPassword.setHeight("-1px");
+		oldPassword.setTabIndex(1);
 		mainLayout.addComponent(oldPassword, "top:100.0px;left:0.0px;");
 		
 		// newPassword
 		newPassword = new PasswordField();
 		newPassword.setCaption("Contraseña nueva");
 		newPassword.setImmediate(false);
-		newPassword.setWidth("200px");
+		newPassword.setWidth("240px");
 		newPassword.setHeight("-1px");
-		newPassword.setTabIndex(1);
+		newPassword.setTabIndex(2);
 		mainLayout.addComponent(newPassword, "top:180.0px;left:0.0px;");
 		
 		// btnModify
 		btnModify = new Button();
 		btnModify.setCaption("Modificar");
-		btnModify.setImmediate(false);
+		btnModify.setImmediate(true);
 		btnModify.setWidth("-1px");
 		btnModify.setHeight("-1px");
-		btnModify.setTabIndex(2);
+		btnModify.setTabIndex(3);
 		mainLayout.addComponent(btnModify, "top:220.0px;left:0.0px;");
 		
 		// btnCancel
 		btnCancel = new Button();
 		btnCancel.setCaption("Cancelar");
-		btnCancel.setImmediate(false);
+		btnCancel.setImmediate(true);
 		btnCancel.setWidth("-1px");
 		btnCancel.setHeight("-1px");
-		btnCancel.setTabIndex(3);
-		mainLayout.addComponent(btnCancel, "top:220.0px;left:104.0px;");
+		btnCancel.setTabIndex(4);
+		mainLayout.addComponent(btnCancel, "top:220.0px;left:164.0px;");
 		
 		return mainLayout;
 	}
