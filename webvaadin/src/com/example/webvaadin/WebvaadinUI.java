@@ -3,6 +3,7 @@ package com.example.webvaadin;
 import views.CatalogUsersView;
 import views.CreateUserView;
 import views.DeleteUsersView;
+import views.ForgotPasswordView;
 import views.LoginView;
 import views.MainMenuView;
 import views.ModifyProfileView;
@@ -40,11 +41,13 @@ public class WebvaadinUI extends UI {
 	public static final String DELETEUSERS = "DeleteUsersView";
 	public static final String MODIFYUSER = "ModifyUserView";
 	public static final String CATALOGUSERS = "CatalogUsersView";
+	public static final String FORGOTPASSWORD = "ForgotPaswordView";
 	
 	private static GridLayout mainLayout;
 	private static MenuBar mainMenuBar; 
 	private static MenuBar userMenuBar; 
 	private static Label lblTitle; 
+	private static Label lblTitle2;
 	
 	@Override
 	protected void init(VaadinRequest request) {	
@@ -77,6 +80,7 @@ public class WebvaadinUI extends UI {
 		lblTitle = new Label("Bienvenido al Sistema de Gestion y Liquidaciones de Proyectos");
 		lblTitle.setWidth(80, Unit.PERCENTAGE);
 		lblTitle.setStyleName("titleLabel");
+		lblTitle2 = new Label("");
 		
 		/**
 		 * Barra del menu principal
@@ -109,6 +113,7 @@ public class WebvaadinUI extends UI {
 		navigator.addView(MODIFYPROFILEUSER, new ModifyProfileView());
 		navigator.addView(MODIFYUSER, new ModifyUserView());
 		navigator.addView(CATALOGUSERS, new CatalogUsersView());
+		navigator.addView(FORGOTPASSWORD, new ForgotPasswordView());
 		
 		if(RequestContext.getRequestContext() == null)
 		{
@@ -141,11 +146,11 @@ public class WebvaadinUI extends UI {
 				// TODO Auto-generated method stub
 				switch(selectedItem.getText()){
 					case "Crear usuario":	
-						navigator.addView(CREATEUSER, new CreateUserView());	
+						//navigator.addView(CREATEUSER, new CreateUserView());	
 						navigator.navigateTo(CREATEUSER);
 					break;
 					case "Modificar usuario":
-						navigator.addView(MODIFYUSER, new ModifyUserView());
+						//navigator.addView(MODIFYUSER, new ModifyUserView());
 						navigator.navigateTo(MODIFYUSER);
 					break;
 					case "Eliminar usuario":
@@ -241,7 +246,8 @@ public class WebvaadinUI extends UI {
 	public static void changeToLogin(){
 		mainLayout.removeComponent(2, 0);
 		mainLayout.removeComponent(10,0);
-		mainLayout.addComponent(lblTitle, 2, 0, 11, 0);		
+		mainLayout.addComponent(lblTitle, 2, 0, 9, 0);	
+		mainLayout.addComponent(lblTitle2, 10,0,11,0);
 	}
 	
 	
