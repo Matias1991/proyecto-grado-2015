@@ -108,8 +108,8 @@ public class WebvaadinUI extends UI {
 		
 		navigator = new Navigator(this, viewDisplay);
 		
-		navigator.addView("LoginView", new LoginView());
 		navigator.addView("", new MainMenuView());
+		navigator.addView(LOGINVIEW, new LoginView());		
 		navigator.addView(CREATEUSER, new CreateUserView());
 		navigator.addView(DELETEUSERS, new DeleteUsersView());
 		navigator.addView(MODIFYPROFILEUSER, new ModifyProfileView());
@@ -244,7 +244,7 @@ public class WebvaadinUI extends UI {
 	 */
 	public static void changeToLogin(){
 		mainLayout.removeComponent(2, 0);
-		mainLayout.removeComponent(10,0);
+		mainLayout.removeComponent(10,0);		
 		mainLayout.addComponent(lblTitle, 2, 0, 9, 0);	
 		mainLayout.addComponent(lblTitle2, 10,0,11,0);
 	}

@@ -122,11 +122,11 @@ public class LoginView extends BaseView {
 		mainLayout = new AbsoluteLayout();
 		mainLayout.setStyleName("loginStyle");
 		mainLayout.setImmediate(false);
-		mainLayout.setWidth("340px");
+		mainLayout.setWidth("280px");
 		mainLayout.setHeight("260px");
 		
 		// top-level component properties
-		setWidth("340px");
+		setWidth("280px");
 		setHeight("260px");
 		
 		// txtUsername
@@ -135,7 +135,7 @@ public class LoginView extends BaseView {
 		txtUsername.setImmediate(false);
 		txtUsername.setWidth("220px");
 		txtUsername.setHeight("-1px");
-		mainLayout.addComponent(txtUsername, "top:40.0px;left:40.0px;");
+		mainLayout.addComponent(txtUsername, "top:40.0px;left:0.0px;");
 		
 		// txtPassword
 		txtPassword = new PasswordField();
@@ -143,7 +143,7 @@ public class LoginView extends BaseView {
 		txtPassword.setImmediate(false);
 		txtPassword.setWidth("220px");
 		txtPassword.setHeight("-1px");
-		mainLayout.addComponent(txtPassword, "top:120.0px;left:40.0px;");
+		mainLayout.addComponent(txtPassword, "top:120.0px;left:0.0px;");
 		
 		// btnLogin
 		btnLogin = new Button();
@@ -151,7 +151,7 @@ public class LoginView extends BaseView {
 		btnLogin.setImmediate(true);
 		btnLogin.setWidth("140px");
 		btnLogin.setHeight("-1px");
-		mainLayout.addComponent(btnLogin, "top:194.0px;left:120.0px;");
+		mainLayout.addComponent(btnLogin, "top:194.0px;left:80.0px;");
 		
 		// lnkForgotPassword
 		lnkForgotPassword = new Link();
@@ -159,7 +159,7 @@ public class LoginView extends BaseView {
 		lnkForgotPassword.setImmediate(false);
 		lnkForgotPassword.setWidth("-1px");
 		lnkForgotPassword.setHeight("-1px");
-		mainLayout.addComponent(lnkForgotPassword, "top:160.0px;left:120.0px;");
+		mainLayout.addComponent(lnkForgotPassword, "top:160.0px;left:80.0px;");
 		
 		return mainLayout;
 	}
