@@ -46,7 +46,7 @@ public class CreateUserView extends BaseView {
 		buildMainLayout();
 		setCompositionRoot(mainLayout);
 
-		userType.addItems("Socio", "Gerente");
+		userType.addItems("Socio", "Gerente", "Administrador");
 		// cargo por defecto Socio
 		userType.select("Socio");
 
@@ -66,8 +66,10 @@ public class CreateUserView extends BaseView {
 					newUser.setEmail(txtEmail.getValue());
 					if (userType.getValue().equals("Socio")) {
 						newUser.setUserType(2);
-					} else {
+					} else if (userType.getValue().equals("Gerente")) {
 						newUser.setUserType(3);
+					} else  if (userType.getValue().equals("Administrador")) {
+						newUser.setUserType(1);
 					}
 
 					if (UserController.createUser(newUser)) {
@@ -132,12 +134,12 @@ public class CreateUserView extends BaseView {
 		} else {
 			Pattern p = Pattern.compile("[A-Za-z0-9ñÑ\\.:,;!\\$&\\-_@]*");
 			Matcher emailFormat = p.matcher(email);
-			if(!emailFormat.matches()){
+			if (!emailFormat.matches()) {
 				validate = false;
 				errors += "El formato del correo electrónico no es correcto\n";
 			}
 		}
-		
+
 		if (!validate) {
 			Notification notif = new Notification(errors,
 					Notification.TYPE_ERROR_MESSAGE);
@@ -216,7 +218,7 @@ public class CreateUserView extends BaseView {
 		btnAdd.setWidth("101px");
 		btnAdd.setHeight("-1px");
 		btnAdd.setTabIndex(6);
-		mainLayout.addComponent(btnAdd, "top:440.0px;left:0.0px;");
+		mainLayout.addComponent(btnAdd, "top:455.0px;left:0.0px;");
 
 		// btnCancel
 		btnCancel = new Button();
@@ -225,7 +227,7 @@ public class CreateUserView extends BaseView {
 		btnCancel.setWidth("100px");
 		btnCancel.setHeight("-1px");
 		btnCancel.setTabIndex(7);
-		mainLayout.addComponent(btnCancel, "top:440.0px;left:139.0px;");
+		mainLayout.addComponent(btnCancel, "top:455.0px;left:139.0px;");
 
 		// userType
 		userType = new OptionGroup();
