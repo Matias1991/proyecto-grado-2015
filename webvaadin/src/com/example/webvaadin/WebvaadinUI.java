@@ -9,6 +9,7 @@ import views.LoginView;
 import views.MainMenuView;
 import views.ModifyProfileView;
 import views.ModifyUserView;
+import views.UnlockUserView;
 
 import com.vaadin.annotations.PreserveOnRefresh;
 import com.vaadin.annotations.Theme;
@@ -120,7 +121,7 @@ public class WebvaadinUI extends UI {
 		navigator.addView(FORGOTPASSWORD, new ForgotPasswordView());
 		navigator.addView(CHANGEPASSWORD, new ChangePasswordView());
 		//navigator.addView(RESETPASSWORD, new ResetPasswordView());
-		//navigator.addView(UNLOCKUSER,new UnlockUserView());
+		navigator.addView(UNLOCKUSER,new UnlockUserView());
 		
 		if(RequestContext.getRequestContext() == null)
 		{
@@ -170,6 +171,7 @@ public class WebvaadinUI extends UI {
 						break;
 					case "Desbloquear usuario":
 						navigator.navigateTo(UNLOCKUSER);
+						break;
 					default:
 						Notification.show("No hay configuracion para el item: " + selectedItem.getText());
 						break;

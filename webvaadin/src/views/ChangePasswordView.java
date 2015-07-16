@@ -6,10 +6,10 @@ import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.server.Page;
 import com.vaadin.ui.AbsoluteLayout;
 import com.vaadin.ui.Button;
+import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.PasswordField;
-import com.vaadin.ui.Button.ClickEvent;
 
 import controllers.UserController;
 import entities.RequestContext;
@@ -41,7 +41,7 @@ public class ChangePasswordView extends BaseView {
 
 			@Override
 			public void buttonClick(ClickEvent event) {
-				if(validateModifyUser()){
+				if(changePasswordValidate()){
 					UserController userController = new UserController();
 					if(userController.changePassword(idUser, oldPassword.getValue(), newPassword.getValue())){
 						Notification notif = new Notification ("Constraseña modificada correctamente", 
@@ -51,6 +51,7 @@ public class ChangePasswordView extends BaseView {
 						//limpio los campos
 						oldPassword.setValue("");
 						newPassword.setValue("");
+						getUI().getNavigator().navigateTo(WebvaadinUI.MAINMENU);
 					}
 				}
 			}
@@ -73,7 +74,7 @@ public class ChangePasswordView extends BaseView {
 		}
 	}
 
-	public boolean validateModifyUser() {
+	public boolean changePasswordValidate() {
 		boolean validate = true;
 		String errors = "";
 		
@@ -141,7 +142,7 @@ public class ChangePasswordView extends BaseView {
 		btnModify = new Button();
 		btnModify.setCaption("Modificar");
 		btnModify.setImmediate(true);
-		btnModify.setWidth("-1px");
+		btnModify.setWidth("60px");
 		btnModify.setHeight("-1px");
 		btnModify.setTabIndex(3);
 		mainLayout.addComponent(btnModify, "top:220.0px;left:0.0px;");
@@ -153,7 +154,7 @@ public class ChangePasswordView extends BaseView {
 		btnCancel.setWidth("-1px");
 		btnCancel.setHeight("-1px");
 		btnCancel.setTabIndex(4);
-		mainLayout.addComponent(btnCancel, "top:220.0px;left:164.0px;");
+		mainLayout.addComponent(btnCancel, "top:220.0px;left:80.0px;");
 		
 		return mainLayout;
 	}
