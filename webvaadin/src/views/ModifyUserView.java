@@ -130,7 +130,6 @@ public class ModifyUserView extends BaseView {
 						Notification.show("Aviso: ",
 								"Usuario modificado correctamente",
 								Notification.TYPE_HUMANIZED_MESSAGE);
-						getUI().getNavigator().navigateTo(WebvaadinUI.MAINMENU);
 					} catch (java.rmi.RemoteException e) {
 						String error = e.getMessage().replace("<faultstring>",
 								"");
