@@ -64,14 +64,12 @@ public class LoginView extends BaseView {
 				// TODO Auto-generated method stub
 				VOUser voUser = UserController.loginUser(txtUsername.getValue(), txtPassword.getValue());
 				
-				//System.out.println(voUser.getUserStatus());
-				
 				if(voUser != null && voUser.getUserStatus() != 0){						
 					txtUsername.setValue("");
 					txtPassword.setValue("");
 					txtUsername.focus();
 					
-					//System.out.println("ACACACACACA");
+					
 					
 					RequestContext.setRequestContext(new UserData(voUser.getId(), voUser.getName(), voUser.getUserType()));
 										
