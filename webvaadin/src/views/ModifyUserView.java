@@ -178,6 +178,7 @@ public class ModifyUserView extends BaseView {
 	@Override
 	public void enter(ViewChangeEvent event) {
 		super.enter(event);
+		comboBoxUsers.focus();
 		if (RequestContext.getRequestContext() != null) {
 			// obtengo todos los usuarios
 			Collection<User> users = UserController.GetUsers();

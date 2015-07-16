@@ -93,6 +93,7 @@ public class ModifyProfileView extends BaseView {
 		super.enter(event);
 		if (RequestContext.getRequestContext() != null) {
 			idUser = RequestContext.getRequestContext().getId();
+			txt_name.focus();
 			ServiceWebStub uploadUser;
 			try {
 				uploadUser = new ServiceWebStub();

@@ -100,6 +100,7 @@ public class CreateUserView extends BaseView {
 	@Override
 	public void enter(ViewChangeEvent event) {
 		super.enter(event);
+		txtName.focus();
 	}
 
 	public boolean validateCreateUser() {
