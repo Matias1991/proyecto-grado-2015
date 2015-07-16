@@ -4,36 +4,32 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 
 import org.apache.log4j.BasicConfigurator;
-import org.apache.log4j.Logger;
 
 import datalayer.utilities.ManageConnection;
 import servicelayer.entity.businessEntity.User;
 import servicelayer.entity.businessEntity.UserStatus;
 import servicelayer.entity.businessEntity.UserType;
-import servicelayer.entity.valueObject.VOUser;
 import shared.LoggerMSMP;
-import shared.exceptions.DataLayerException;
+import shared.exceptions.ServerException;
 import shared.interfaces.dataLayer.IDAOUsers;
 
 public class DAOUsers implements IDAOUsers {
 
 	private Connection connection;
 
-	public DAOUsers() throws DataLayerException
+	public DAOUsers() throws ServerException
 	{
 		BasicConfigurator.configure();
 		
 		try {
 			this.connection = new ManageConnection().GetConnection();
 		}catch (Exception e) {
-			ThrowDataLayerExceptionAndLogError(e, "conectarse con la base de datos");
+			throw new ServerException(e);
 		}
 	}
 	
@@ -43,7 +39,7 @@ public class DAOUsers implements IDAOUsers {
 	}
 
 	@Override
-	public void insert(User obj) throws DataLayerException{   
+	public void insert(User obj) throws ServerException{   
 		PreparedStatement preparedStatement = null;
 
 		String insertSQL = "INSERT INTO USER (USERNAME, PASSWORD, NAME, LASTNAME, EMAIL, USERTYPEID, USERSTATUSID) VALUES"
@@ -63,7 +59,7 @@ public class DAOUsers implements IDAOUsers {
 			preparedStatement.executeUpdate();
 			 
 		} catch (SQLException e) {
-			ThrowDataLayerExceptionAndLogError(e, "ingresar el usuario");
+			throw new ServerException(e);
 		}finally {
 
 			if (preparedStatement != null) {
@@ -77,7 +73,7 @@ public class DAOUsers implements IDAOUsers {
 	}
 
 	@Override
-	public void delete(int id) throws DataLayerException {
+	public void delete(int id) throws ServerException {
 		PreparedStatement preparedStatement = null;
 		
 		try {
@@ -88,7 +84,7 @@ public class DAOUsers implements IDAOUsers {
 			preparedStatement.execute();
 
 		} catch (SQLException e) {
-			ThrowDataLayerExceptionAndLogError(e, "eliminar el usuario");
+			throw new ServerException(e);
 		} finally {
 
 			if (preparedStatement != null) {
@@ -102,7 +98,7 @@ public class DAOUsers implements IDAOUsers {
 	}
 
 	@Override
-	public boolean exist(int id) throws DataLayerException {
+	public boolean exist(int id) throws ServerException {
 		PreparedStatement preparedStatement = null;
 		ResultSet rs = null;
 		try {
@@ -117,7 +113,7 @@ public class DAOUsers implements IDAOUsers {
 			}
 
 		} catch (SQLException e) {
-			ThrowDataLayerExceptionAndLogError(e, "validar si existe el usuario");
+			throw new ServerException(e);
 		} finally {
 			try {
 				if (preparedStatement != null)
@@ -133,7 +129,7 @@ public class DAOUsers implements IDAOUsers {
 	}
 
 	@Override
-	public User getObject(int id) throws DataLayerException {
+	public User getObject(int id) throws ServerException {
 		User user = null;
 		PreparedStatement preparedStatement = null;
 		ResultSet rs = null;
@@ -148,7 +144,7 @@ public class DAOUsers implements IDAOUsers {
 				user = BuildUser(rs);
 			}
 		} catch (SQLException e) {
-			ThrowDataLayerExceptionAndLogError(e, "obtener los datos del usuario");
+			throw new ServerException(e);
 		} finally {
 			try {
 				if (preparedStatement != null)
@@ -164,7 +160,7 @@ public class DAOUsers implements IDAOUsers {
 	}
 
 	@Override
-	public ArrayList<User> getObjects() throws DataLayerException {
+	public ArrayList<User> getObjects() throws ServerException {
 		ArrayList<User> users = new ArrayList<User>();
 		PreparedStatement preparedStatement = null;
 		ResultSet rs = null;
@@ -180,7 +176,7 @@ public class DAOUsers implements IDAOUsers {
 			}
 
 		} catch (SQLException e) {
-			ThrowDataLayerExceptionAndLogError(e, "obtener los datos del los usuarios");
+			throw new ServerException(e);
 		} finally {
 			try {
 				if (preparedStatement != null)
@@ -196,7 +192,7 @@ public class DAOUsers implements IDAOUsers {
 	}
 
 	@Override
-	public ArrayList<User> getUsersByTypeAndStatus(UserType userType, UserStatus userStatus) throws DataLayerException
+	public ArrayList<User> getUsersByTypeAndStatus(UserType userType, UserStatus userStatus) throws ServerException
 	{
 		ArrayList<User> users = new ArrayList<User>();
 		PreparedStatement preparedStatement = null;
@@ -215,7 +211,7 @@ public class DAOUsers implements IDAOUsers {
 			}
 
 		} catch (SQLException e) {
-			ThrowDataLayerExceptionAndLogError(e, "obtener los datos del los usuarios");
+			throw new ServerException(e);
 		} finally {
 			try {
 				if (preparedStatement != null)
@@ -231,7 +227,7 @@ public class DAOUsers implements IDAOUsers {
 	}
 	
 	@Override
-	public User getUserByUserName(String userName) throws DataLayerException
+	public User getUserByUserName(String userName) throws ServerException
 	{
 		User user = null;
 		PreparedStatement preparedStatement = null;
@@ -250,7 +246,7 @@ public class DAOUsers implements IDAOUsers {
 			}
 			
 		} catch (SQLException e) {
-			ThrowDataLayerExceptionAndLogError(e, "obtener los datos del usuario");
+			throw new ServerException(e);
 		}finally {
 			try {
 				if (preparedStatement != null)
@@ -266,7 +262,7 @@ public class DAOUsers implements IDAOUsers {
 	}
 	
 	@Override
-	public User getUserByUserEmail(String userEmail) throws DataLayerException
+	public User getUserByUserEmail(String userEmail) throws ServerException
 	{
 		User user = null;
 		PreparedStatement preparedStatement = null;
@@ -285,7 +281,7 @@ public class DAOUsers implements IDAOUsers {
 			}
 			
 		} catch (SQLException e) {
-			ThrowDataLayerExceptionAndLogError(e, "obtener los datos del usuario");
+			throw new ServerException(e);
 		}finally {
 			try {
 				if (preparedStatement != null)
@@ -301,7 +297,7 @@ public class DAOUsers implements IDAOUsers {
 	}
 
 	@Override
-	public void update(int id, User obj) throws DataLayerException {
+	public void update(int id, User obj) throws ServerException {
 		
 		PreparedStatement preparedStatement = null;
 		
@@ -324,12 +320,12 @@ public class DAOUsers implements IDAOUsers {
 			preparedStatement.executeUpdate();
 			 
 		} catch (SQLException e) {
-			ThrowDataLayerExceptionAndLogError(e, "modificar los datos del usuario");
+			throw new ServerException(e);
 		}
 	}
 	
 	@Override
-	public void update(int id, UserStatus userStatus, int attempts, Date lastAttemptDateTimeUTC) throws DataLayerException {
+	public void update(int id, UserStatus userStatus, int attempts, Date lastAttemptDateTimeUTC) throws ServerException {
 		
 		PreparedStatement preparedStatement = null;
 		
@@ -354,12 +350,12 @@ public class DAOUsers implements IDAOUsers {
 			preparedStatement.executeUpdate();
 			 
 		} catch (SQLException e) {
-			ThrowDataLayerExceptionAndLogError(e, "modificar los datos del usuario");
+			throw new ServerException(e);
 		}
 	}
 	
 	@Override
-	public void updatePassword(int id, String newPassword) throws DataLayerException {
+	public void updatePassword(int id, String newPassword) throws ServerException {
 		
 		PreparedStatement preparedStatement = null;
 		
@@ -376,7 +372,7 @@ public class DAOUsers implements IDAOUsers {
 			preparedStatement.executeUpdate();
 			 
 		} catch (SQLException e) {
-			ThrowDataLayerExceptionAndLogError(e, "modificar la contraseña del usuario");
+			throw new ServerException(e);
 		}
 	}
 	
@@ -406,11 +402,5 @@ public class DAOUsers implements IDAOUsers {
 		user.setUserStatus(UserStatus.getEnum(userStatusId));
 		
 		return user;
-	}
-	
-	void ThrowDataLayerExceptionAndLogError(Exception ex, String message) throws DataLayerException
-	{
-		String errorNumber = LoggerMSMP.setLog(ex.getMessage());
-		throw new DataLayerException(String.format("Ocurrio un error al %s, consulte con el Administrador con el codigo de error: %S", message, errorNumber));
 	}
 }

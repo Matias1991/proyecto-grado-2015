@@ -1,14 +1,14 @@
 package shared.exceptions;
 
-public class DataLayerException extends Exception{
+public class ServerException extends Exception{
 
 	private static final long serialVersionUID = 1L;
 
-	public DataLayerException(String message) {
+	public ServerException(String message) {
         super(message);
     }
 	
-	public DataLayerException(Exception exception) {
+	public ServerException(Exception exception) {
         super(exception);
     }
 }

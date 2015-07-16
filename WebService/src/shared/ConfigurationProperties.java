@@ -4,11 +4,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
-import shared.exceptions.ConfigPropertiesException;
+import shared.exceptions.ServerException;
 
 public class ConfigurationProperties {
 	
-	public static String GetConfigValue(String key) throws ConfigPropertiesException
+	public static String GetConfigValue(String key) throws ServerException
 	{
 		Properties properties = new Properties();
 		String fileName = "config.properties";
@@ -20,26 +20,19 @@ public class ConfigurationProperties {
 			try {
 				properties.load(inputStream);
 			} catch (IOException e) {
-				ThrowConfigPropertiesExceptionAndLogError(e, null);
+				throw new ServerException(e);
 			}
 		}
 		else	
 		{
-			ThrowConfigPropertiesExceptionAndLogError(null, String.format("El archivo %s no fue encontrado", fileName));
+			throw new ServerException(String.format("El archivo %s no fue encontrado", fileName));
 		}
 	
 		if(!properties.containsKey(key))
 		{
-			ThrowConfigPropertiesExceptionAndLogError(null, String.format("No se encontro la key %s en el archivo %s", key, fileName));
+			throw new ServerException(String.format("No se encontro la key %s en el archivo %s", key, fileName));
 		}
 		
 		return properties.getProperty(key);
-	}
-	
-	static void ThrowConfigPropertiesExceptionAndLogError(Exception ex, String customError) throws ConfigPropertiesException
-	{
-		String messageError = (ex != null)? ex.getMessage() : customError;
-		String numberError = LoggerMSMP.setLog(messageError);
-		throw new ConfigPropertiesException(String.format("Ocurrio un error al acceder a configuracion del sistema, consulte con el Administrador con el codigo de error: %s", numberError));
 	}
 }

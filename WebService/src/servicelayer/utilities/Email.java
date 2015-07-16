@@ -1,6 +1,5 @@
 package servicelayer.utilities;
 
-import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.Properties;
 
@@ -15,17 +14,13 @@ import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 
-import org.apache.commons.httpclient.UsernamePasswordCredentials;
-
 import servicelayer.entity.businessEntity.User;
 import shared.ConfigurationProperties;
-import shared.LoggerMSMP;
-import shared.exceptions.ConfigPropertiesException;
-import shared.exceptions.EmailException;
+import shared.exceptions.ServerException;
 
 public class Email {
 
-	public static void changePassword(String userEmail, String password) throws EmailException{
+	public static void changePassword(String userEmail, String password) throws ServerException{
 		
 		StringBuilder strBuilder = new StringBuilder();
 		strBuilder.append("<b>Contraseña: </b>" + password);
@@ -33,7 +28,7 @@ public class Email {
 		sendEmail(userEmail, "[MSMP] - Cambio de Contraseña", strBuilder.toString());
 	}
 
-	public static void resetPassword(String userEmail, String password) throws EmailException{
+	public static void resetPassword(String userEmail, String password) throws ServerException{
 		
 		StringBuilder strBuilder = new StringBuilder();
 		strBuilder.append("<b>Nueva contraseña: </b>" + password);
@@ -41,7 +36,7 @@ public class Email {
 		sendEmail(userEmail, "[MSMP] - Reseteo de Contraseña", strBuilder.toString());
 	}
 	
-	public static void forgotPassword(String userEmail, String password) throws EmailException {
+	public static void forgotPassword(String userEmail, String password) throws ServerException {
 		
 		StringBuilder strBuilder = new StringBuilder();
 		strBuilder.append("<b>Contraseña: </b>" + password);
@@ -49,7 +44,7 @@ public class Email {
 		sendEmail(userEmail, "[MSMP] - Olvido de Contraseña", strBuilder.toString());
 	}
 
-	public static void newUser(User user, String password) throws EmailException {
+	public static void newUser(User user, String password) throws ServerException {
 		
 		StringBuilder strBuilder = new StringBuilder();
 		strBuilder.append("<p><b>Datos del nuevo usuario</b><p>");
@@ -63,7 +58,7 @@ public class Email {
 		sendEmail(user.getEmail(), "[MSMP] - Nuevo usuario", strBuilder.toString());
 	}
 
-	static void sendEmail(String toEmail, String subject, String text)throws EmailException {
+	static void sendEmail(String toEmail, String subject, String text) throws ServerException {
 
 		String fromEmail = null;
 		try {
@@ -105,11 +100,9 @@ public class Email {
 			Transport.send(message);
 
 		} catch (MessagingException e) {
-			ThrowEmailExceptionAndLogError(null, buildSendEmailException(e, fromEmail, toEmail));
-		} catch (ConfigPropertiesException e) {
-			ThrowEmailExceptionAndLogError(e, null);
+			throw new ServerException(buildSendEmailException(e, fromEmail, toEmail));
 		} catch (UnsupportedEncodingException e) {
-			ThrowEmailExceptionAndLogError(e, null);
+			throw new ServerException(e);
 		}
 	}
 
@@ -124,12 +117,5 @@ public class Email {
 		strBuilder.append("Exeception: " + ex.getMessage());
 
 		return strBuilder.toString();
-	}
-	
-	static void ThrowEmailExceptionAndLogError(Exception ex, String customError) throws EmailException
-	{
-		String messageError = (ex != null)? ex.getMessage() : customError;
-		String numberError = LoggerMSMP.setLog(messageError);
-		throw new EmailException(String.format("Ocurrio un error al enviar el correo electronico, consulte con el Administrador con el codigo de error: %s", numberError));
 	}
 }

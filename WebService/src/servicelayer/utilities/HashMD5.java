@@ -9,13 +9,11 @@ import javax.crypto.spec.SecretKeySpec;
 
 import org.apache.commons.codec.binary.Base64;
 
-import shared.LoggerMSMP;
-import shared.exceptions.DataLayerException;
-import shared.exceptions.MD5Exception;
+import shared.exceptions.ServerException;
 
 public class HashMD5 {
 
-	public static String Encrypt(String text) throws MD5Exception {
+	public static String Encrypt(String text) throws ServerException {
 		 
         String secretKey = "qualityinfosolutions";
         String base64EncryptedString = "";
@@ -36,12 +34,12 @@ public class HashMD5 {
             base64EncryptedString = new String(base64Bytes);
  	
         } catch (Exception ex) {
-        	ThrowMD5ExceptionLogError(ex);
+        	throw new ServerException(ex);
 		}
         return base64EncryptedString;
     }
  
-    public static String Decrypt(String text) throws MD5Exception {
+    public static String Decrypt(String text) throws ServerException {
  
         String secretKey = "qualityinfosolutions";
         String base64EncryptedString = "";
@@ -61,14 +59,8 @@ public class HashMD5 {
             base64EncryptedString = new String(plainText, "UTF-8");
  
         } catch (Exception ex) {
-        	ThrowMD5ExceptionLogError(ex);
+        	throw new ServerException(ex);
         }
         return base64EncryptedString;
-    }
-    
-    static void ThrowMD5ExceptionLogError(Exception ex) throws MD5Exception
-    {
-    	String errorNumber = LoggerMSMP.setLog(ex.getMessage());
-		throw new MD5Exception(String.format("Ocurrio un error al procesar la contraseña del usuario, consulte con el Administrador con el codigo de error: %S", errorNumber));
     }
 }

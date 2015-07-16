@@ -1,14 +1,14 @@
 package shared.exceptions;
 
-public class EmailException extends Exception {
-
+public class ClientException extends Exception{
+	
 	private static final long serialVersionUID = 1L;
 
-	public EmailException(String message) {
+	public ClientException(String message) {
         super(message);
     }
 	
-	public EmailException(Exception exception) {
+	public ClientException(Exception exception) {
         super(exception);
     }
 }

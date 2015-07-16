@@ -7,8 +7,8 @@ import servicelayer.core.CoreUser;
 import servicelayer.entity.valueObject.VOUser;
 import servicelayer.utilities.Constants;
 import shared.LoggerMSMP;
-import shared.exceptions.DataLayerException;
-import shared.exceptions.ServiceLayerException;
+import shared.exceptions.ClientException;
+import shared.exceptions.ServerException;
 import shared.interfaces.core.ICoreUser;
 
 ////IMPORTANTE:
@@ -25,10 +25,8 @@ public class ServiceWeb extends ServiceBase{
 			transactionLock.tryLock(Constants.DEFAULT_TRANSACTION_TIME , TimeUnit.SECONDS);
 			
 			iCoreUser = CoreUser.GetInstance();
-		} catch (ServiceLayerException e) {
-			throw new RuntimeException(e.getMessage());
 		} catch (Exception e) {
-			throw new RuntimeException(Constants.GENERIC_ERROR);
+			ThrowGenericExceptionAndLogError(e);
 		}
 		finally
 		{
@@ -44,9 +42,11 @@ public class ServiceWeb extends ServiceBase{
 			iCoreUser.insertUser(voUser);
 			
 			return true;
-		} catch (ServiceLayerException e) {
+		} catch (ServerException e) {
+			ThrowServerExceptionAndLogError(e, "crear el usuario");
+		} catch (ClientException e) {
 			throw new RuntimeException(e.getMessage());
-		} catch (InterruptedException e) {
+		}catch (InterruptedException e) {
 			throw new RuntimeException(Constants.TRANSACTION_ERROR);
 		} catch (Exception e) {
 			ThrowGenericExceptionAndLogError(e);
@@ -64,10 +64,12 @@ public class ServiceWeb extends ServiceBase{
 			transactionLock.tryLock(Constants.DEFAULT_TRANSACTION_TIME, TimeUnit.SECONDS);
 			
 			return iCoreUser.getUser(id);
-		} catch (ServiceLayerException e) {
+		} catch (ServerException e) {
+			ThrowServerExceptionAndLogError(e, "obtener los datos del usuario");
+		} catch (ClientException e) {
 			throw new RuntimeException(e.getMessage());
-		}catch (InterruptedException e) {
-				throw new RuntimeException(Constants.TRANSACTION_ERROR);	
+		} catch (InterruptedException e) {
+			throw new RuntimeException(Constants.TRANSACTION_ERROR);	
 		} catch (Exception e) {
 			ThrowGenericExceptionAndLogError(e);
 		}
@@ -85,10 +87,12 @@ public class ServiceWeb extends ServiceBase{
 			
 			iCoreUser.deleteUser(id);
 			return true;
-		} catch (ServiceLayerException e) {
+		} catch (ServerException e) {
+			ThrowServerExceptionAndLogError(e, "eliminar el usuario");
+		} catch (ClientException e) {
 			throw new RuntimeException(e.getMessage());
 		} catch (InterruptedException e) {
-				throw new RuntimeException(Constants.TRANSACTION_ERROR);	
+			throw new RuntimeException(Constants.TRANSACTION_ERROR);	
 		} catch (Exception e) {
 			ThrowGenericExceptionAndLogError(e);
 		}
@@ -105,10 +109,12 @@ public class ServiceWeb extends ServiceBase{
 			transactionLock.tryLock(Constants.DEFAULT_TRANSACTION_TIME, TimeUnit.SECONDS);
 			
 			return iCoreUser.update(id, voUser);
-		} catch (ServiceLayerException e) {
+		} catch (ServerException e) {
+			ThrowServerExceptionAndLogError(e, "modificar los datos del usuario");
+		} catch (ClientException e) {
 			throw new RuntimeException(e.getMessage());
 		} catch (InterruptedException e) {
-				throw new RuntimeException(Constants.TRANSACTION_ERROR);	
+			throw new RuntimeException(Constants.TRANSACTION_ERROR);	
 		} catch (Exception e) {
 			ThrowGenericExceptionAndLogError(e);
 		}
@@ -125,8 +131,8 @@ public class ServiceWeb extends ServiceBase{
 			transactionLock.tryLock(Constants.DEFAULT_TRANSACTION_TIME, TimeUnit.SECONDS);
 			
 			return iCoreUser.existUser(id);
-		} catch (ServiceLayerException e) {
-			throw new RuntimeException(e.getMessage());
+		} catch (ServerException e) {
+			ThrowServerExceptionAndLogError(e, "validar si existe el usuario");
 		} catch (InterruptedException e) {
 			throw new RuntimeException(Constants.TRANSACTION_ERROR);	
 		} catch (Exception e) {
@@ -145,10 +151,12 @@ public class ServiceWeb extends ServiceBase{
 			transactionLock.tryLock(Constants.DEFAULT_TRANSACTION_TIME, TimeUnit.SECONDS);
 			
 			return iCoreUser.login(userName, password);
-		} catch (ServiceLayerException e) {
+		} catch (ServerException e) {
+			ThrowServerExceptionAndLogError(e, "realizar el ingreso del usuario en el sistema");
+		} catch (ClientException e) {
 			throw new RuntimeException(e.getMessage());
 		} catch (InterruptedException e) {
-			throw new RuntimeException(Constants.TRANSACTION_ERROR);
+			throw new RuntimeException(Constants.TRANSACTION_ERROR);	
 		} catch (Exception e) {
 			ThrowGenericExceptionAndLogError(e);
 		}
@@ -170,8 +178,8 @@ public class ServiceWeb extends ServiceBase{
 		    voUsers.toArray(arrayVoUser);
 		    return arrayVoUser;
 		    
-		} catch (ServiceLayerException e) {
-			throw new RuntimeException(e.getMessage());
+		} catch (ServerException e) {
+			ThrowServerExceptionAndLogError(e, "obtener todos los usuarios");
 		} catch (InterruptedException e) {
 			throw new RuntimeException(Constants.TRANSACTION_ERROR);
 		} catch (Exception e) {
@@ -193,10 +201,12 @@ public class ServiceWeb extends ServiceBase{
 			iCoreUser.forgotPassord(userEmail);
 			
 			return true;
-		} catch (ServiceLayerException e) {
+		} catch (ServerException e) {
+			ThrowServerExceptionAndLogError(e, "realizar la operacion de olvido de contraseña");
+		} catch (ClientException e) {
 			throw new RuntimeException(e.getMessage());
 		} catch (InterruptedException e) {
-			throw new RuntimeException(Constants.TRANSACTION_ERROR);
+			throw new RuntimeException(Constants.TRANSACTION_ERROR);	
 		} catch (Exception e) {
 			ThrowGenericExceptionAndLogError(e);
 		}
@@ -216,10 +226,12 @@ public class ServiceWeb extends ServiceBase{
 			iCoreUser.resetPassword(id);
 		    
 			return true;
-		} catch (ServiceLayerException e) {
+		} catch (ServerException e) {
+			ThrowServerExceptionAndLogError(e, "realizar la operacion de reseteo de contraseña");
+		} catch (ClientException e) {
 			throw new RuntimeException(e.getMessage());
 		} catch (InterruptedException e) {
-			throw new RuntimeException(Constants.TRANSACTION_ERROR);
+			throw new RuntimeException(Constants.TRANSACTION_ERROR);	
 		} catch (Exception e) {
 			ThrowGenericExceptionAndLogError(e);
 		}
@@ -239,10 +251,12 @@ public class ServiceWeb extends ServiceBase{
 			iCoreUser.changePassword(id, oldPassword, newPassword);
 		    
 			return true;
-		} catch (ServiceLayerException e) {
+		} catch (ServerException e) {
+			ThrowServerExceptionAndLogError(e, "realizar la operacion de cambio de contraseña");
+		} catch (ClientException e) {
 			throw new RuntimeException(e.getMessage());
 		} catch (InterruptedException e) {
-			throw new RuntimeException(Constants.TRANSACTION_ERROR);
+			throw new RuntimeException(Constants.TRANSACTION_ERROR);	
 		} catch (Exception e) {
 			ThrowGenericExceptionAndLogError(e);
 		}
@@ -261,10 +275,12 @@ public class ServiceWeb extends ServiceBase{
 			iCoreUser.unlockUser(id);
 			
 			return true;
-		} catch (ServiceLayerException e) {
+		} catch (ServerException e) {
+			ThrowServerExceptionAndLogError(e, "desbloquear el usuario");
+		} catch (ClientException e) {
 			throw new RuntimeException(e.getMessage());
 		} catch (InterruptedException e) {
-			throw new RuntimeException(Constants.TRANSACTION_ERROR);
+			throw new RuntimeException(Constants.TRANSACTION_ERROR);	
 		} catch (Exception e) {
 			ThrowGenericExceptionAndLogError(e);
 		}
