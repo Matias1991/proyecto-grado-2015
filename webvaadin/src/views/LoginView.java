@@ -69,8 +69,8 @@ public class LoginView extends BaseView {
 					txtPassword.setValue("");
 					txtUsername.focus();
 					
-					RequestContext.setRequestContext(new UserData(voUser.getId(), voUser.getName()));
-					
+					RequestContext.setRequestContext(new UserData(voUser.getId(), voUser.getName(), voUser.getUserType()));
+										
 					getUI().getNavigator().navigateTo("");
 					
 				}else{
