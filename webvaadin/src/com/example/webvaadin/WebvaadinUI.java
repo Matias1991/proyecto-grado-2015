@@ -9,6 +9,7 @@ import views.LoginView;
 import views.MainMenuView;
 import views.ModifyProfileView;
 import views.ModifyUserView;
+import views.ResetPasswordView;
 import views.UnlockUserView;
 
 import com.vaadin.annotations.PreserveOnRefresh;
@@ -120,7 +121,7 @@ public class WebvaadinUI extends UI {
 		navigator.addView(CATALOGUSERS, new CatalogUsersView());
 		navigator.addView(FORGOTPASSWORD, new ForgotPasswordView());
 		navigator.addView(CHANGEPASSWORD, new ChangePasswordView());
-		//navigator.addView(RESETPASSWORD, new ResetPasswordView());
+		navigator.addView(RESETPASSWORD, new ResetPasswordView());
 		navigator.addView(UNLOCKUSER,new UnlockUserView());
 		
 		if(RequestContext.getRequestContext() == null)
