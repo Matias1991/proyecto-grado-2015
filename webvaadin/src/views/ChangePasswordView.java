@@ -154,7 +154,7 @@ public class ChangePasswordView extends BaseView {
 		newPassword.setTabIndex(2);
 		mainLayout.addComponent(newPassword, "top:190.0px;left:0.0px;");
 		
-		// passwordField_2
+		// confirmPassword
 		confirmPassword = new PasswordField();
 		confirmPassword.setCaption("Confirmación de la nueva contraseña");
 		confirmPassword.setImmediate(false);
@@ -179,7 +179,7 @@ public class ChangePasswordView extends BaseView {
 		btnCancel.setWidth("100px");
 		btnCancel.setHeight("-1px");
 		btnCancel.setTabIndex(4);
-		mainLayout.addComponent(btnCancel, "top:330.0px;left:120.0px;");
+		mainLayout.addComponent(btnCancel, "top:330.0px;left:140.0px;");
 		
 		return mainLayout;
 	}
