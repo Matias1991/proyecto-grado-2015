@@ -72,7 +72,6 @@ public class ModifyProfileView extends BaseView {
 					notif.setDelayMsec(2000);
 					notif.show(Page.getCurrent());
 					
-					getUI().getNavigator().navigateTo(WebvaadinUI.MAINMENU);
 				}
 			}
 		});
