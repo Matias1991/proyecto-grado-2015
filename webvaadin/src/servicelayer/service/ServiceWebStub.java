@@ -3,7 +3,7 @@
  * ServiceWebStub.java
  *
  * This file was auto-generated from WSDL
- * by the Apache Axis2 version: 1.6.2  Built on : Apr 17, 2012 (05:33:49 IST)
+ * by the Apache Axis2 version: 1.6.0  Built on : May 17, 2011 (04:19:43 IST)
  */
         package servicelayer.service;
 
@@ -334,8 +334,7 @@
                     try{
                         java.lang.String exceptionClassName = (java.lang.String)faultExceptionClassNameMap.get(new org.apache.axis2.client.FaultMapKey(faultElt.getQName(),"updateUser"));
                         java.lang.Class exceptionClass = java.lang.Class.forName(exceptionClassName);
-                        java.lang.reflect.Constructor constructor = exceptionClass.getConstructor(String.class);
-                        java.lang.Exception ex = (java.lang.Exception) constructor.newInstance(f.getMessage());
+                        java.lang.Exception ex = (java.lang.Exception) exceptionClass.newInstance();
                         //message class
                         java.lang.String messageClassName = (java.lang.String)faultMessageMap.get(new org.apache.axis2.client.FaultMapKey(faultElt.getQName(),"updateUser"));
                         java.lang.Class messageClass = java.lang.Class.forName(messageClassName);
@@ -463,8 +462,7 @@
 											try{
 													java.lang.String exceptionClassName = (java.lang.String)faultExceptionClassNameMap.get(new org.apache.axis2.client.FaultMapKey(faultElt.getQName(),"updateUser"));
 													java.lang.Class exceptionClass = java.lang.Class.forName(exceptionClassName);
-													java.lang.reflect.Constructor constructor = exceptionClass.getConstructor(String.class);
-                                                    java.lang.Exception ex = (java.lang.Exception) constructor.newInstance(f.getMessage());
+													java.lang.Exception ex = (java.lang.Exception) exceptionClass.newInstance();
 													//message class
 													java.lang.String messageClassName = (java.lang.String)faultMessageMap.get(new org.apache.axis2.client.FaultMapKey(faultElt.getQName(),"updateUser"));
 														java.lang.Class messageClass = java.lang.Class.forName(messageClassName);
@@ -623,8 +621,7 @@
                     try{
                         java.lang.String exceptionClassName = (java.lang.String)faultExceptionClassNameMap.get(new org.apache.axis2.client.FaultMapKey(faultElt.getQName(),"unlockUser"));
                         java.lang.Class exceptionClass = java.lang.Class.forName(exceptionClassName);
-                        java.lang.reflect.Constructor constructor = exceptionClass.getConstructor(String.class);
-                        java.lang.Exception ex = (java.lang.Exception) constructor.newInstance(f.getMessage());
+                        java.lang.Exception ex = (java.lang.Exception) exceptionClass.newInstance();
                         //message class
                         java.lang.String messageClassName = (java.lang.String)faultMessageMap.get(new org.apache.axis2.client.FaultMapKey(faultElt.getQName(),"unlockUser"));
                         java.lang.Class messageClass = java.lang.Class.forName(messageClassName);
@@ -752,8 +749,7 @@
 											try{
 													java.lang.String exceptionClassName = (java.lang.String)faultExceptionClassNameMap.get(new org.apache.axis2.client.FaultMapKey(faultElt.getQName(),"unlockUser"));
 													java.lang.Class exceptionClass = java.lang.Class.forName(exceptionClassName);
-													java.lang.reflect.Constructor constructor = exceptionClass.getConstructor(String.class);
-                                                    java.lang.Exception ex = (java.lang.Exception) constructor.newInstance(f.getMessage());
+													java.lang.Exception ex = (java.lang.Exception) exceptionClass.newInstance();
 													//message class
 													java.lang.String messageClassName = (java.lang.String)faultMessageMap.get(new org.apache.axis2.client.FaultMapKey(faultElt.getQName(),"unlockUser"));
 														java.lang.Class messageClass = java.lang.Class.forName(messageClassName);
@@ -912,8 +908,7 @@
                     try{
                         java.lang.String exceptionClassName = (java.lang.String)faultExceptionClassNameMap.get(new org.apache.axis2.client.FaultMapKey(faultElt.getQName(),"existUser"));
                         java.lang.Class exceptionClass = java.lang.Class.forName(exceptionClassName);
-                        java.lang.reflect.Constructor constructor = exceptionClass.getConstructor(String.class);
-                        java.lang.Exception ex = (java.lang.Exception) constructor.newInstance(f.getMessage());
+                        java.lang.Exception ex = (java.lang.Exception) exceptionClass.newInstance();
                         //message class
                         java.lang.String messageClassName = (java.lang.String)faultMessageMap.get(new org.apache.axis2.client.FaultMapKey(faultElt.getQName(),"existUser"));
                         java.lang.Class messageClass = java.lang.Class.forName(messageClassName);
@@ -1041,8 +1036,7 @@
 											try{
 													java.lang.String exceptionClassName = (java.lang.String)faultExceptionClassNameMap.get(new org.apache.axis2.client.FaultMapKey(faultElt.getQName(),"existUser"));
 													java.lang.Class exceptionClass = java.lang.Class.forName(exceptionClassName);
-													java.lang.reflect.Constructor constructor = exceptionClass.getConstructor(String.class);
-                                                    java.lang.Exception ex = (java.lang.Exception) constructor.newInstance(f.getMessage());
+													java.lang.Exception ex = (java.lang.Exception) exceptionClass.newInstance();
 													//message class
 													java.lang.String messageClassName = (java.lang.String)faultMessageMap.get(new org.apache.axis2.client.FaultMapKey(faultElt.getQName(),"existUser"));
 														java.lang.Class messageClass = java.lang.Class.forName(messageClassName);
@@ -1201,8 +1195,7 @@
                     try{
                         java.lang.String exceptionClassName = (java.lang.String)faultExceptionClassNameMap.get(new org.apache.axis2.client.FaultMapKey(faultElt.getQName(),"login"));
                         java.lang.Class exceptionClass = java.lang.Class.forName(exceptionClassName);
-                        java.lang.reflect.Constructor constructor = exceptionClass.getConstructor(String.class);
-                        java.lang.Exception ex = (java.lang.Exception) constructor.newInstance(f.getMessage());
+                        java.lang.Exception ex = (java.lang.Exception) exceptionClass.newInstance();
                         //message class
                         java.lang.String messageClassName = (java.lang.String)faultMessageMap.get(new org.apache.axis2.client.FaultMapKey(faultElt.getQName(),"login"));
                         java.lang.Class messageClass = java.lang.Class.forName(messageClassName);
@@ -1330,8 +1323,7 @@
 											try{
 													java.lang.String exceptionClassName = (java.lang.String)faultExceptionClassNameMap.get(new org.apache.axis2.client.FaultMapKey(faultElt.getQName(),"login"));
 													java.lang.Class exceptionClass = java.lang.Class.forName(exceptionClassName);
-													java.lang.reflect.Constructor constructor = exceptionClass.getConstructor(String.class);
-                                                    java.lang.Exception ex = (java.lang.Exception) constructor.newInstance(f.getMessage());
+													java.lang.Exception ex = (java.lang.Exception) exceptionClass.newInstance();
 													//message class
 													java.lang.String messageClassName = (java.lang.String)faultMessageMap.get(new org.apache.axis2.client.FaultMapKey(faultElt.getQName(),"login"));
 														java.lang.Class messageClass = java.lang.Class.forName(messageClassName);
@@ -1490,8 +1482,7 @@
                     try{
                         java.lang.String exceptionClassName = (java.lang.String)faultExceptionClassNameMap.get(new org.apache.axis2.client.FaultMapKey(faultElt.getQName(),"forgotPassword"));
                         java.lang.Class exceptionClass = java.lang.Class.forName(exceptionClassName);
-                        java.lang.reflect.Constructor constructor = exceptionClass.getConstructor(String.class);
-                        java.lang.Exception ex = (java.lang.Exception) constructor.newInstance(f.getMessage());
+                        java.lang.Exception ex = (java.lang.Exception) exceptionClass.newInstance();
                         //message class
                         java.lang.String messageClassName = (java.lang.String)faultMessageMap.get(new org.apache.axis2.client.FaultMapKey(faultElt.getQName(),"forgotPassword"));
                         java.lang.Class messageClass = java.lang.Class.forName(messageClassName);
@@ -1619,8 +1610,7 @@
 											try{
 													java.lang.String exceptionClassName = (java.lang.String)faultExceptionClassNameMap.get(new org.apache.axis2.client.FaultMapKey(faultElt.getQName(),"forgotPassword"));
 													java.lang.Class exceptionClass = java.lang.Class.forName(exceptionClassName);
-													java.lang.reflect.Constructor constructor = exceptionClass.getConstructor(String.class);
-                                                    java.lang.Exception ex = (java.lang.Exception) constructor.newInstance(f.getMessage());
+													java.lang.Exception ex = (java.lang.Exception) exceptionClass.newInstance();
 													//message class
 													java.lang.String messageClassName = (java.lang.String)faultMessageMap.get(new org.apache.axis2.client.FaultMapKey(faultElt.getQName(),"forgotPassword"));
 														java.lang.Class messageClass = java.lang.Class.forName(messageClassName);
@@ -1779,8 +1769,7 @@
                     try{
                         java.lang.String exceptionClassName = (java.lang.String)faultExceptionClassNameMap.get(new org.apache.axis2.client.FaultMapKey(faultElt.getQName(),"deleteUser"));
                         java.lang.Class exceptionClass = java.lang.Class.forName(exceptionClassName);
-                        java.lang.reflect.Constructor constructor = exceptionClass.getConstructor(String.class);
-                        java.lang.Exception ex = (java.lang.Exception) constructor.newInstance(f.getMessage());
+                        java.lang.Exception ex = (java.lang.Exception) exceptionClass.newInstance();
                         //message class
                         java.lang.String messageClassName = (java.lang.String)faultMessageMap.get(new org.apache.axis2.client.FaultMapKey(faultElt.getQName(),"deleteUser"));
                         java.lang.Class messageClass = java.lang.Class.forName(messageClassName);
@@ -1908,8 +1897,7 @@
 											try{
 													java.lang.String exceptionClassName = (java.lang.String)faultExceptionClassNameMap.get(new org.apache.axis2.client.FaultMapKey(faultElt.getQName(),"deleteUser"));
 													java.lang.Class exceptionClass = java.lang.Class.forName(exceptionClassName);
-													java.lang.reflect.Constructor constructor = exceptionClass.getConstructor(String.class);
-                                                    java.lang.Exception ex = (java.lang.Exception) constructor.newInstance(f.getMessage());
+													java.lang.Exception ex = (java.lang.Exception) exceptionClass.newInstance();
 													//message class
 													java.lang.String messageClassName = (java.lang.String)faultMessageMap.get(new org.apache.axis2.client.FaultMapKey(faultElt.getQName(),"deleteUser"));
 														java.lang.Class messageClass = java.lang.Class.forName(messageClassName);
@@ -2068,8 +2056,7 @@
                     try{
                         java.lang.String exceptionClassName = (java.lang.String)faultExceptionClassNameMap.get(new org.apache.axis2.client.FaultMapKey(faultElt.getQName(),"changePassword"));
                         java.lang.Class exceptionClass = java.lang.Class.forName(exceptionClassName);
-                        java.lang.reflect.Constructor constructor = exceptionClass.getConstructor(String.class);
-                        java.lang.Exception ex = (java.lang.Exception) constructor.newInstance(f.getMessage());
+                        java.lang.Exception ex = (java.lang.Exception) exceptionClass.newInstance();
                         //message class
                         java.lang.String messageClassName = (java.lang.String)faultMessageMap.get(new org.apache.axis2.client.FaultMapKey(faultElt.getQName(),"changePassword"));
                         java.lang.Class messageClass = java.lang.Class.forName(messageClassName);
@@ -2197,8 +2184,7 @@
 											try{
 													java.lang.String exceptionClassName = (java.lang.String)faultExceptionClassNameMap.get(new org.apache.axis2.client.FaultMapKey(faultElt.getQName(),"changePassword"));
 													java.lang.Class exceptionClass = java.lang.Class.forName(exceptionClassName);
-													java.lang.reflect.Constructor constructor = exceptionClass.getConstructor(String.class);
-                                                    java.lang.Exception ex = (java.lang.Exception) constructor.newInstance(f.getMessage());
+													java.lang.Exception ex = (java.lang.Exception) exceptionClass.newInstance();
 													//message class
 													java.lang.String messageClassName = (java.lang.String)faultMessageMap.get(new org.apache.axis2.client.FaultMapKey(faultElt.getQName(),"changePassword"));
 														java.lang.Class messageClass = java.lang.Class.forName(messageClassName);
@@ -2357,8 +2343,7 @@
                     try{
                         java.lang.String exceptionClassName = (java.lang.String)faultExceptionClassNameMap.get(new org.apache.axis2.client.FaultMapKey(faultElt.getQName(),"resetPassword"));
                         java.lang.Class exceptionClass = java.lang.Class.forName(exceptionClassName);
-                        java.lang.reflect.Constructor constructor = exceptionClass.getConstructor(String.class);
-                        java.lang.Exception ex = (java.lang.Exception) constructor.newInstance(f.getMessage());
+                        java.lang.Exception ex = (java.lang.Exception) exceptionClass.newInstance();
                         //message class
                         java.lang.String messageClassName = (java.lang.String)faultMessageMap.get(new org.apache.axis2.client.FaultMapKey(faultElt.getQName(),"resetPassword"));
                         java.lang.Class messageClass = java.lang.Class.forName(messageClassName);
@@ -2486,8 +2471,7 @@
 											try{
 													java.lang.String exceptionClassName = (java.lang.String)faultExceptionClassNameMap.get(new org.apache.axis2.client.FaultMapKey(faultElt.getQName(),"resetPassword"));
 													java.lang.Class exceptionClass = java.lang.Class.forName(exceptionClassName);
-													java.lang.reflect.Constructor constructor = exceptionClass.getConstructor(String.class);
-                                                    java.lang.Exception ex = (java.lang.Exception) constructor.newInstance(f.getMessage());
+													java.lang.Exception ex = (java.lang.Exception) exceptionClass.newInstance();
 													//message class
 													java.lang.String messageClassName = (java.lang.String)faultMessageMap.get(new org.apache.axis2.client.FaultMapKey(faultElt.getQName(),"resetPassword"));
 														java.lang.Class messageClass = java.lang.Class.forName(messageClassName);
@@ -2646,8 +2630,7 @@
                     try{
                         java.lang.String exceptionClassName = (java.lang.String)faultExceptionClassNameMap.get(new org.apache.axis2.client.FaultMapKey(faultElt.getQName(),"getUser"));
                         java.lang.Class exceptionClass = java.lang.Class.forName(exceptionClassName);
-                        java.lang.reflect.Constructor constructor = exceptionClass.getConstructor(String.class);
-                        java.lang.Exception ex = (java.lang.Exception) constructor.newInstance(f.getMessage());
+                        java.lang.Exception ex = (java.lang.Exception) exceptionClass.newInstance();
                         //message class
                         java.lang.String messageClassName = (java.lang.String)faultMessageMap.get(new org.apache.axis2.client.FaultMapKey(faultElt.getQName(),"getUser"));
                         java.lang.Class messageClass = java.lang.Class.forName(messageClassName);
@@ -2775,8 +2758,7 @@
 											try{
 													java.lang.String exceptionClassName = (java.lang.String)faultExceptionClassNameMap.get(new org.apache.axis2.client.FaultMapKey(faultElt.getQName(),"getUser"));
 													java.lang.Class exceptionClass = java.lang.Class.forName(exceptionClassName);
-													java.lang.reflect.Constructor constructor = exceptionClass.getConstructor(String.class);
-                                                    java.lang.Exception ex = (java.lang.Exception) constructor.newInstance(f.getMessage());
+													java.lang.Exception ex = (java.lang.Exception) exceptionClass.newInstance();
 													//message class
 													java.lang.String messageClassName = (java.lang.String)faultMessageMap.get(new org.apache.axis2.client.FaultMapKey(faultElt.getQName(),"getUser"));
 														java.lang.Class messageClass = java.lang.Class.forName(messageClassName);
@@ -2935,8 +2917,7 @@
                     try{
                         java.lang.String exceptionClassName = (java.lang.String)faultExceptionClassNameMap.get(new org.apache.axis2.client.FaultMapKey(faultElt.getQName(),"getUsers"));
                         java.lang.Class exceptionClass = java.lang.Class.forName(exceptionClassName);
-                        java.lang.reflect.Constructor constructor = exceptionClass.getConstructor(String.class);
-                        java.lang.Exception ex = (java.lang.Exception) constructor.newInstance(f.getMessage());
+                        java.lang.Exception ex = (java.lang.Exception) exceptionClass.newInstance();
                         //message class
                         java.lang.String messageClassName = (java.lang.String)faultMessageMap.get(new org.apache.axis2.client.FaultMapKey(faultElt.getQName(),"getUsers"));
                         java.lang.Class messageClass = java.lang.Class.forName(messageClassName);
@@ -3064,8 +3045,7 @@
 											try{
 													java.lang.String exceptionClassName = (java.lang.String)faultExceptionClassNameMap.get(new org.apache.axis2.client.FaultMapKey(faultElt.getQName(),"getUsers"));
 													java.lang.Class exceptionClass = java.lang.Class.forName(exceptionClassName);
-													java.lang.reflect.Constructor constructor = exceptionClass.getConstructor(String.class);
-                                                    java.lang.Exception ex = (java.lang.Exception) constructor.newInstance(f.getMessage());
+													java.lang.Exception ex = (java.lang.Exception) exceptionClass.newInstance();
 													//message class
 													java.lang.String messageClassName = (java.lang.String)faultMessageMap.get(new org.apache.axis2.client.FaultMapKey(faultElt.getQName(),"getUsers"));
 														java.lang.Class messageClass = java.lang.Class.forName(messageClassName);
@@ -3224,8 +3204,7 @@
                     try{
                         java.lang.String exceptionClassName = (java.lang.String)faultExceptionClassNameMap.get(new org.apache.axis2.client.FaultMapKey(faultElt.getQName(),"insertUser"));
                         java.lang.Class exceptionClass = java.lang.Class.forName(exceptionClassName);
-                        java.lang.reflect.Constructor constructor = exceptionClass.getConstructor(String.class);
-                        java.lang.Exception ex = (java.lang.Exception) constructor.newInstance(f.getMessage());
+                        java.lang.Exception ex = (java.lang.Exception) exceptionClass.newInstance();
                         //message class
                         java.lang.String messageClassName = (java.lang.String)faultMessageMap.get(new org.apache.axis2.client.FaultMapKey(faultElt.getQName(),"insertUser"));
                         java.lang.Class messageClass = java.lang.Class.forName(messageClassName);
@@ -3353,8 +3332,7 @@
 											try{
 													java.lang.String exceptionClassName = (java.lang.String)faultExceptionClassNameMap.get(new org.apache.axis2.client.FaultMapKey(faultElt.getQName(),"insertUser"));
 													java.lang.Class exceptionClass = java.lang.Class.forName(exceptionClassName);
-													java.lang.reflect.Constructor constructor = exceptionClass.getConstructor(String.class);
-                                                    java.lang.Exception ex = (java.lang.Exception) constructor.newInstance(f.getMessage());
+													java.lang.Exception ex = (java.lang.Exception) exceptionClass.newInstance();
 													//message class
 													java.lang.String messageClassName = (java.lang.String)faultMessageMap.get(new org.apache.axis2.client.FaultMapKey(faultElt.getQName(),"insertUser"));
 														java.lang.Class messageClass = java.lang.Class.forName(messageClassName);
@@ -3740,12 +3718,7 @@
             java.lang.String prefix = xmlWriter.getPrefix(namespace);
             if (prefix == null) {
                 prefix = generatePrefix(namespace);
-                javax.xml.namespace.NamespaceContext nsContext = xmlWriter.getNamespaceContext();
-                while (true) {
-                    java.lang.String uri = nsContext.getNamespaceURI(prefix);
-                    if (uri == null || uri.length() == 0) {
-                        break;
-                    }
+                while (xmlWriter.getNamespaceContext().getNamespaceURI(prefix) != null) {
                     prefix = org.apache.axis2.databinding.utils.BeanUtil.getUniquePrefix();
                 }
                 xmlWriter.writeNamespace(prefix, namespace);
@@ -3855,12 +3828,6 @@
                                 
                                     if (reader.isStartElement() && new javax.xml.namespace.QName("http://service.servicelayer","return").equals(reader.getName())){
                                 
-                                    nillableValue = reader.getAttributeValue("http://www.w3.org/2001/XMLSchema-instance","nil");
-                                    if ("true".equals(nillableValue) || "1".equals(nillableValue)){
-                                        throw new org.apache.axis2.databinding.ADBException("The element: "+"return" +"  cannot be null");
-                                    }
-                                    
-
                                     java.lang.String content = reader.getElementText();
                                     
                                               object.set_return(
@@ -4183,12 +4150,7 @@
             java.lang.String prefix = xmlWriter.getPrefix(namespace);
             if (prefix == null) {
                 prefix = generatePrefix(namespace);
-                javax.xml.namespace.NamespaceContext nsContext = xmlWriter.getNamespaceContext();
-                while (true) {
-                    java.lang.String uri = nsContext.getNamespaceURI(prefix);
-                    if (uri == null || uri.length() == 0) {
-                        break;
-                    }
+                while (xmlWriter.getNamespaceContext().getNamespaceURI(prefix) != null) {
                     prefix = org.apache.axis2.databinding.utils.BeanUtil.getUniquePrefix();
                 }
                 xmlWriter.writeNamespace(prefix, namespace);
@@ -4301,7 +4263,6 @@
                                        nillableValue = reader.getAttributeValue("http://www.w3.org/2001/XMLSchema-instance","nil");
                                        if (!"true".equals(nillableValue) && !"1".equals(nillableValue)){
                                     
-
                                     java.lang.String content = reader.getElementText();
                                     
                                               object.setUserEmail(
@@ -4624,12 +4585,7 @@
             java.lang.String prefix = xmlWriter.getPrefix(namespace);
             if (prefix == null) {
                 prefix = generatePrefix(namespace);
-                javax.xml.namespace.NamespaceContext nsContext = xmlWriter.getNamespaceContext();
-                while (true) {
-                    java.lang.String uri = nsContext.getNamespaceURI(prefix);
-                    if (uri == null || uri.length() == 0) {
-                        break;
-                    }
+                while (xmlWriter.getNamespaceContext().getNamespaceURI(prefix) != null) {
                     prefix = org.apache.axis2.databinding.utils.BeanUtil.getUniquePrefix();
                 }
                 xmlWriter.writeNamespace(prefix, namespace);
@@ -5066,12 +5022,7 @@
             java.lang.String prefix = xmlWriter.getPrefix(namespace);
             if (prefix == null) {
                 prefix = generatePrefix(namespace);
-                javax.xml.namespace.NamespaceContext nsContext = xmlWriter.getNamespaceContext();
-                while (true) {
-                    java.lang.String uri = nsContext.getNamespaceURI(prefix);
-                    if (uri == null || uri.length() == 0) {
-                        break;
-                    }
+                while (xmlWriter.getNamespaceContext().getNamespaceURI(prefix) != null) {
                     prefix = org.apache.axis2.databinding.utils.BeanUtil.getUniquePrefix();
                 }
                 xmlWriter.writeNamespace(prefix, namespace);
@@ -5181,12 +5132,6 @@
                                 
                                     if (reader.isStartElement() && new javax.xml.namespace.QName("http://service.servicelayer","return").equals(reader.getName())){
                                 
-                                    nillableValue = reader.getAttributeValue("http://www.w3.org/2001/XMLSchema-instance","nil");
-                                    if ("true".equals(nillableValue) || "1".equals(nillableValue)){
-                                        throw new org.apache.axis2.databinding.ADBException("The element: "+"return" +"  cannot be null");
-                                    }
-                                    
-
                                     java.lang.String content = reader.getElementText();
                                     
                                               object.set_return(
@@ -5922,12 +5867,7 @@
             java.lang.String prefix = xmlWriter.getPrefix(namespace);
             if (prefix == null) {
                 prefix = generatePrefix(namespace);
-                javax.xml.namespace.NamespaceContext nsContext = xmlWriter.getNamespaceContext();
-                while (true) {
-                    java.lang.String uri = nsContext.getNamespaceURI(prefix);
-                    if (uri == null || uri.length() == 0) {
-                        break;
-                    }
+                while (xmlWriter.getNamespaceContext().getNamespaceURI(prefix) != null) {
                     prefix = org.apache.axis2.databinding.utils.BeanUtil.getUniquePrefix();
                 }
                 xmlWriter.writeNamespace(prefix, namespace);
@@ -6082,7 +6022,6 @@
                                        nillableValue = reader.getAttributeValue("http://www.w3.org/2001/XMLSchema-instance","nil");
                                        if (!"true".equals(nillableValue) && !"1".equals(nillableValue)){
                                     
-
                                     java.lang.String content = reader.getElementText();
                                     
                                               object.setEmail(
@@ -6107,12 +6046,6 @@
                                 
                                     if (reader.isStartElement() && new javax.xml.namespace.QName("http://valueObject.entity.servicelayer/xsd","id").equals(reader.getName())){
                                 
-                                    nillableValue = reader.getAttributeValue("http://www.w3.org/2001/XMLSchema-instance","nil");
-                                    if ("true".equals(nillableValue) || "1".equals(nillableValue)){
-                                        throw new org.apache.axis2.databinding.ADBException("The element: "+"id" +"  cannot be null");
-                                    }
-                                    
-
                                     java.lang.String content = reader.getElementText();
                                     
                                               object.setId(
@@ -6136,7 +6069,6 @@
                                        nillableValue = reader.getAttributeValue("http://www.w3.org/2001/XMLSchema-instance","nil");
                                        if (!"true".equals(nillableValue) && !"1".equals(nillableValue)){
                                     
-
                                     java.lang.String content = reader.getElementText();
                                     
                                               object.setLastName(
@@ -6164,7 +6096,6 @@
                                        nillableValue = reader.getAttributeValue("http://www.w3.org/2001/XMLSchema-instance","nil");
                                        if (!"true".equals(nillableValue) && !"1".equals(nillableValue)){
                                     
-
                                     java.lang.String content = reader.getElementText();
                                     
                                               object.setName(
@@ -6192,7 +6123,6 @@
                                        nillableValue = reader.getAttributeValue("http://www.w3.org/2001/XMLSchema-instance","nil");
                                        if (!"true".equals(nillableValue) && !"1".equals(nillableValue)){
                                     
-
                                     java.lang.String content = reader.getElementText();
                                     
                                               object.setPassword(
@@ -6220,7 +6150,6 @@
                                        nillableValue = reader.getAttributeValue("http://www.w3.org/2001/XMLSchema-instance","nil");
                                        if (!"true".equals(nillableValue) && !"1".equals(nillableValue)){
                                     
-
                                     java.lang.String content = reader.getElementText();
                                     
                                               object.setUserName(
@@ -6245,12 +6174,6 @@
                                 
                                     if (reader.isStartElement() && new javax.xml.namespace.QName("http://valueObject.entity.servicelayer/xsd","userStatus").equals(reader.getName())){
                                 
-                                    nillableValue = reader.getAttributeValue("http://www.w3.org/2001/XMLSchema-instance","nil");
-                                    if ("true".equals(nillableValue) || "1".equals(nillableValue)){
-                                        throw new org.apache.axis2.databinding.ADBException("The element: "+"userStatus" +"  cannot be null");
-                                    }
-                                    
-
                                     java.lang.String content = reader.getElementText();
                                     
                                               object.setUserStatus(
@@ -6271,12 +6194,6 @@
                                 
                                     if (reader.isStartElement() && new javax.xml.namespace.QName("http://valueObject.entity.servicelayer/xsd","userType").equals(reader.getName())){
                                 
-                                    nillableValue = reader.getAttributeValue("http://www.w3.org/2001/XMLSchema-instance","nil");
-                                    if ("true".equals(nillableValue) || "1".equals(nillableValue)){
-                                        throw new org.apache.axis2.databinding.ADBException("The element: "+"userType" +"  cannot be null");
-                                    }
-                                    
-
                                     java.lang.String content = reader.getElementText();
                                     
                                               object.setUserType(
@@ -6599,12 +6516,7 @@
             java.lang.String prefix = xmlWriter.getPrefix(namespace);
             if (prefix == null) {
                 prefix = generatePrefix(namespace);
-                javax.xml.namespace.NamespaceContext nsContext = xmlWriter.getNamespaceContext();
-                while (true) {
-                    java.lang.String uri = nsContext.getNamespaceURI(prefix);
-                    if (uri == null || uri.length() == 0) {
-                        break;
-                    }
+                while (xmlWriter.getNamespaceContext().getNamespaceURI(prefix) != null) {
                     prefix = org.apache.axis2.databinding.utils.BeanUtil.getUniquePrefix();
                 }
                 xmlWriter.writeNamespace(prefix, namespace);
@@ -6714,12 +6626,6 @@
                                 
                                     if (reader.isStartElement() && new javax.xml.namespace.QName("http://service.servicelayer","id").equals(reader.getName())){
                                 
-                                    nillableValue = reader.getAttributeValue("http://www.w3.org/2001/XMLSchema-instance","nil");
-                                    if ("true".equals(nillableValue) || "1".equals(nillableValue)){
-                                        throw new org.apache.axis2.databinding.ADBException("The element: "+"id" +"  cannot be null");
-                                    }
-                                    
-
                                     java.lang.String content = reader.getElementText();
                                     
                                               object.setId(
@@ -7042,12 +6948,7 @@
             java.lang.String prefix = xmlWriter.getPrefix(namespace);
             if (prefix == null) {
                 prefix = generatePrefix(namespace);
-                javax.xml.namespace.NamespaceContext nsContext = xmlWriter.getNamespaceContext();
-                while (true) {
-                    java.lang.String uri = nsContext.getNamespaceURI(prefix);
-                    if (uri == null || uri.length() == 0) {
-                        break;
-                    }
+                while (xmlWriter.getNamespaceContext().getNamespaceURI(prefix) != null) {
                     prefix = org.apache.axis2.databinding.utils.BeanUtil.getUniquePrefix();
                 }
                 xmlWriter.writeNamespace(prefix, namespace);
@@ -7157,12 +7058,6 @@
                                 
                                     if (reader.isStartElement() && new javax.xml.namespace.QName("http://service.servicelayer","id").equals(reader.getName())){
                                 
-                                    nillableValue = reader.getAttributeValue("http://www.w3.org/2001/XMLSchema-instance","nil");
-                                    if ("true".equals(nillableValue) || "1".equals(nillableValue)){
-                                        throw new org.apache.axis2.databinding.ADBException("The element: "+"id" +"  cannot be null");
-                                    }
-                                    
-
                                     java.lang.String content = reader.getElementText();
                                     
                                               object.setId(
@@ -7605,12 +7500,7 @@
             java.lang.String prefix = xmlWriter.getPrefix(namespace);
             if (prefix == null) {
                 prefix = generatePrefix(namespace);
-                javax.xml.namespace.NamespaceContext nsContext = xmlWriter.getNamespaceContext();
-                while (true) {
-                    java.lang.String uri = nsContext.getNamespaceURI(prefix);
-                    if (uri == null || uri.length() == 0) {
-                        break;
-                    }
+                while (xmlWriter.getNamespaceContext().getNamespaceURI(prefix) != null) {
                     prefix = org.apache.axis2.databinding.utils.BeanUtil.getUniquePrefix();
                 }
                 xmlWriter.writeNamespace(prefix, namespace);
@@ -7732,12 +7622,6 @@
                                 
                                     if (reader.isStartElement() && new javax.xml.namespace.QName("http://service.servicelayer","id").equals(reader.getName())){
                                 
-                                    nillableValue = reader.getAttributeValue("http://www.w3.org/2001/XMLSchema-instance","nil");
-                                    if ("true".equals(nillableValue) || "1".equals(nillableValue)){
-                                        throw new org.apache.axis2.databinding.ADBException("The element: "+"id" +"  cannot be null");
-                                    }
-                                    
-
                                     java.lang.String content = reader.getElementText();
                                     
                                               object.setId(
@@ -7761,7 +7645,6 @@
                                        nillableValue = reader.getAttributeValue("http://www.w3.org/2001/XMLSchema-instance","nil");
                                        if (!"true".equals(nillableValue) && !"1".equals(nillableValue)){
                                     
-
                                     java.lang.String content = reader.getElementText();
                                     
                                               object.setOldPassword(
@@ -7789,7 +7672,6 @@
                                        nillableValue = reader.getAttributeValue("http://www.w3.org/2001/XMLSchema-instance","nil");
                                        if (!"true".equals(nillableValue) && !"1".equals(nillableValue)){
                                     
-
                                     java.lang.String content = reader.getElementText();
                                     
                                               object.setNewPassword(
@@ -8178,12 +8060,7 @@
             java.lang.String prefix = xmlWriter.getPrefix(namespace);
             if (prefix == null) {
                 prefix = generatePrefix(namespace);
-                javax.xml.namespace.NamespaceContext nsContext = xmlWriter.getNamespaceContext();
-                while (true) {
-                    java.lang.String uri = nsContext.getNamespaceURI(prefix);
-                    if (uri == null || uri.length() == 0) {
-                        break;
-                    }
+                while (xmlWriter.getNamespaceContext().getNamespaceURI(prefix) != null) {
                     prefix = org.apache.axis2.databinding.utils.BeanUtil.getUniquePrefix();
                 }
                 xmlWriter.writeNamespace(prefix, namespace);
@@ -8302,7 +8179,6 @@
                                        nillableValue = reader.getAttributeValue("http://www.w3.org/2001/XMLSchema-instance","nil");
                                        if (!"true".equals(nillableValue) && !"1".equals(nillableValue)){
                                     
-
                                     java.lang.String content = reader.getElementText();
                                     
                                               object.setUserName(
@@ -8330,7 +8206,6 @@
                                        nillableValue = reader.getAttributeValue("http://www.w3.org/2001/XMLSchema-instance","nil");
                                        if (!"true".equals(nillableValue) && !"1".equals(nillableValue)){
                                     
-
                                     java.lang.String content = reader.getElementText();
                                     
                                               object.setPassword(
@@ -8705,12 +8580,7 @@
             java.lang.String prefix = xmlWriter.getPrefix(namespace);
             if (prefix == null) {
                 prefix = generatePrefix(namespace);
-                javax.xml.namespace.NamespaceContext nsContext = xmlWriter.getNamespaceContext();
-                while (true) {
-                    java.lang.String uri = nsContext.getNamespaceURI(prefix);
-                    if (uri == null || uri.length() == 0) {
-                        break;
-                    }
+                while (xmlWriter.getNamespaceContext().getNamespaceURI(prefix) != null) {
                     prefix = org.apache.axis2.databinding.utils.BeanUtil.getUniquePrefix();
                 }
                 xmlWriter.writeNamespace(prefix, namespace);
@@ -9197,12 +9067,7 @@
             java.lang.String prefix = xmlWriter.getPrefix(namespace);
             if (prefix == null) {
                 prefix = generatePrefix(namespace);
-                javax.xml.namespace.NamespaceContext nsContext = xmlWriter.getNamespaceContext();
-                while (true) {
-                    java.lang.String uri = nsContext.getNamespaceURI(prefix);
-                    if (uri == null || uri.length() == 0) {
-                        break;
-                    }
+                while (xmlWriter.getNamespaceContext().getNamespaceURI(prefix) != null) {
                     prefix = org.apache.axis2.databinding.utils.BeanUtil.getUniquePrefix();
                 }
                 xmlWriter.writeNamespace(prefix, namespace);
@@ -9639,12 +9504,7 @@
             java.lang.String prefix = xmlWriter.getPrefix(namespace);
             if (prefix == null) {
                 prefix = generatePrefix(namespace);
-                javax.xml.namespace.NamespaceContext nsContext = xmlWriter.getNamespaceContext();
-                while (true) {
-                    java.lang.String uri = nsContext.getNamespaceURI(prefix);
-                    if (uri == null || uri.length() == 0) {
-                        break;
-                    }
+                while (xmlWriter.getNamespaceContext().getNamespaceURI(prefix) != null) {
                     prefix = org.apache.axis2.databinding.utils.BeanUtil.getUniquePrefix();
                 }
                 xmlWriter.writeNamespace(prefix, namespace);
@@ -9754,12 +9614,6 @@
                                 
                                     if (reader.isStartElement() && new javax.xml.namespace.QName("http://service.servicelayer","return").equals(reader.getName())){
                                 
-                                    nillableValue = reader.getAttributeValue("http://www.w3.org/2001/XMLSchema-instance","nil");
-                                    if ("true".equals(nillableValue) || "1".equals(nillableValue)){
-                                        throw new org.apache.axis2.databinding.ADBException("The element: "+"return" +"  cannot be null");
-                                    }
-                                    
-
                                     java.lang.String content = reader.getElementText();
                                     
                                               object.set_return(
@@ -10080,12 +9934,7 @@
             java.lang.String prefix = xmlWriter.getPrefix(namespace);
             if (prefix == null) {
                 prefix = generatePrefix(namespace);
-                javax.xml.namespace.NamespaceContext nsContext = xmlWriter.getNamespaceContext();
-                while (true) {
-                    java.lang.String uri = nsContext.getNamespaceURI(prefix);
-                    if (uri == null || uri.length() == 0) {
-                        break;
-                    }
+                while (xmlWriter.getNamespaceContext().getNamespaceURI(prefix) != null) {
                     prefix = org.apache.axis2.databinding.utils.BeanUtil.getUniquePrefix();
                 }
                 xmlWriter.writeNamespace(prefix, namespace);
@@ -10195,12 +10044,6 @@
                                 
                                     if (reader.isStartElement() && new javax.xml.namespace.QName("http://service.servicelayer","id").equals(reader.getName())){
                                 
-                                    nillableValue = reader.getAttributeValue("http://www.w3.org/2001/XMLSchema-instance","nil");
-                                    if ("true".equals(nillableValue) || "1".equals(nillableValue)){
-                                        throw new org.apache.axis2.databinding.ADBException("The element: "+"id" +"  cannot be null");
-                                    }
-                                    
-
                                     java.lang.String content = reader.getElementText();
                                     
                                               object.setId(
@@ -10523,12 +10366,7 @@
             java.lang.String prefix = xmlWriter.getPrefix(namespace);
             if (prefix == null) {
                 prefix = generatePrefix(namespace);
-                javax.xml.namespace.NamespaceContext nsContext = xmlWriter.getNamespaceContext();
-                while (true) {
-                    java.lang.String uri = nsContext.getNamespaceURI(prefix);
-                    if (uri == null || uri.length() == 0) {
-                        break;
-                    }
+                while (xmlWriter.getNamespaceContext().getNamespaceURI(prefix) != null) {
                     prefix = org.apache.axis2.databinding.utils.BeanUtil.getUniquePrefix();
                 }
                 xmlWriter.writeNamespace(prefix, namespace);
@@ -10638,12 +10476,6 @@
                                 
                                     if (reader.isStartElement() && new javax.xml.namespace.QName("http://service.servicelayer","return").equals(reader.getName())){
                                 
-                                    nillableValue = reader.getAttributeValue("http://www.w3.org/2001/XMLSchema-instance","nil");
-                                    if ("true".equals(nillableValue) || "1".equals(nillableValue)){
-                                        throw new org.apache.axis2.databinding.ADBException("The element: "+"return" +"  cannot be null");
-                                    }
-                                    
-
                                     java.lang.String content = reader.getElementText();
                                     
                                               object.set_return(
@@ -10964,12 +10796,7 @@
             java.lang.String prefix = xmlWriter.getPrefix(namespace);
             if (prefix == null) {
                 prefix = generatePrefix(namespace);
-                javax.xml.namespace.NamespaceContext nsContext = xmlWriter.getNamespaceContext();
-                while (true) {
-                    java.lang.String uri = nsContext.getNamespaceURI(prefix);
-                    if (uri == null || uri.length() == 0) {
-                        break;
-                    }
+                while (xmlWriter.getNamespaceContext().getNamespaceURI(prefix) != null) {
                     prefix = org.apache.axis2.databinding.utils.BeanUtil.getUniquePrefix();
                 }
                 xmlWriter.writeNamespace(prefix, namespace);
@@ -11079,12 +10906,6 @@
                                 
                                     if (reader.isStartElement() && new javax.xml.namespace.QName("http://service.servicelayer","return").equals(reader.getName())){
                                 
-                                    nillableValue = reader.getAttributeValue("http://www.w3.org/2001/XMLSchema-instance","nil");
-                                    if ("true".equals(nillableValue) || "1".equals(nillableValue)){
-                                        throw new org.apache.axis2.databinding.ADBException("The element: "+"return" +"  cannot be null");
-                                    }
-                                    
-
                                     java.lang.String content = reader.getElementText();
                                     
                                               object.set_return(
@@ -11459,12 +11280,7 @@
             java.lang.String prefix = xmlWriter.getPrefix(namespace);
             if (prefix == null) {
                 prefix = generatePrefix(namespace);
-                javax.xml.namespace.NamespaceContext nsContext = xmlWriter.getNamespaceContext();
-                while (true) {
-                    java.lang.String uri = nsContext.getNamespaceURI(prefix);
-                    if (uri == null || uri.length() == 0) {
-                        break;
-                    }
+                while (xmlWriter.getNamespaceContext().getNamespaceURI(prefix) != null) {
                     prefix = org.apache.axis2.databinding.utils.BeanUtil.getUniquePrefix();
                 }
                 xmlWriter.writeNamespace(prefix, namespace);
@@ -11581,12 +11397,6 @@
                                 
                                     if (reader.isStartElement() && new javax.xml.namespace.QName("http://service.servicelayer","id").equals(reader.getName())){
                                 
-                                    nillableValue = reader.getAttributeValue("http://www.w3.org/2001/XMLSchema-instance","nil");
-                                    if ("true".equals(nillableValue) || "1".equals(nillableValue)){
-                                        throw new org.apache.axis2.databinding.ADBException("The element: "+"id" +"  cannot be null");
-                                    }
-                                    
-
                                     java.lang.String content = reader.getElementText();
                                     
                                               object.setId(
@@ -11929,12 +11739,7 @@
             java.lang.String prefix = xmlWriter.getPrefix(namespace);
             if (prefix == null) {
                 prefix = generatePrefix(namespace);
-                javax.xml.namespace.NamespaceContext nsContext = xmlWriter.getNamespaceContext();
-                while (true) {
-                    java.lang.String uri = nsContext.getNamespaceURI(prefix);
-                    if (uri == null || uri.length() == 0) {
-                        break;
-                    }
+                while (xmlWriter.getNamespaceContext().getNamespaceURI(prefix) != null) {
                     prefix = org.apache.axis2.databinding.utils.BeanUtil.getUniquePrefix();
                 }
                 xmlWriter.writeNamespace(prefix, namespace);
@@ -12371,12 +12176,7 @@
             java.lang.String prefix = xmlWriter.getPrefix(namespace);
             if (prefix == null) {
                 prefix = generatePrefix(namespace);
-                javax.xml.namespace.NamespaceContext nsContext = xmlWriter.getNamespaceContext();
-                while (true) {
-                    java.lang.String uri = nsContext.getNamespaceURI(prefix);
-                    if (uri == null || uri.length() == 0) {
-                        break;
-                    }
+                while (xmlWriter.getNamespaceContext().getNamespaceURI(prefix) != null) {
                     prefix = org.apache.axis2.databinding.utils.BeanUtil.getUniquePrefix();
                 }
                 xmlWriter.writeNamespace(prefix, namespace);
@@ -12486,12 +12286,6 @@
                                 
                                     if (reader.isStartElement() && new javax.xml.namespace.QName("http://service.servicelayer","id").equals(reader.getName())){
                                 
-                                    nillableValue = reader.getAttributeValue("http://www.w3.org/2001/XMLSchema-instance","nil");
-                                    if ("true".equals(nillableValue) || "1".equals(nillableValue)){
-                                        throw new org.apache.axis2.databinding.ADBException("The element: "+"id" +"  cannot be null");
-                                    }
-                                    
-
                                     java.lang.String content = reader.getElementText();
                                     
                                               object.setId(
@@ -12832,12 +12626,7 @@
             java.lang.String prefix = xmlWriter.getPrefix(namespace);
             if (prefix == null) {
                 prefix = generatePrefix(namespace);
-                javax.xml.namespace.NamespaceContext nsContext = xmlWriter.getNamespaceContext();
-                while (true) {
-                    java.lang.String uri = nsContext.getNamespaceURI(prefix);
-                    if (uri == null || uri.length() == 0) {
-                        break;
-                    }
+                while (xmlWriter.getNamespaceContext().getNamespaceURI(prefix) != null) {
                     prefix = org.apache.axis2.databinding.utils.BeanUtil.getUniquePrefix();
                 }
                 xmlWriter.writeNamespace(prefix, namespace);
@@ -13274,12 +13063,7 @@
             java.lang.String prefix = xmlWriter.getPrefix(namespace);
             if (prefix == null) {
                 prefix = generatePrefix(namespace);
-                javax.xml.namespace.NamespaceContext nsContext = xmlWriter.getNamespaceContext();
-                while (true) {
-                    java.lang.String uri = nsContext.getNamespaceURI(prefix);
-                    if (uri == null || uri.length() == 0) {
-                        break;
-                    }
+                while (xmlWriter.getNamespaceContext().getNamespaceURI(prefix) != null) {
                     prefix = org.apache.axis2.databinding.utils.BeanUtil.getUniquePrefix();
                 }
                 xmlWriter.writeNamespace(prefix, namespace);
@@ -13389,12 +13173,6 @@
                                 
                                     if (reader.isStartElement() && new javax.xml.namespace.QName("http://service.servicelayer","return").equals(reader.getName())){
                                 
-                                    nillableValue = reader.getAttributeValue("http://www.w3.org/2001/XMLSchema-instance","nil");
-                                    if ("true".equals(nillableValue) || "1".equals(nillableValue)){
-                                        throw new org.apache.axis2.databinding.ADBException("The element: "+"return" +"  cannot be null");
-                                    }
-                                    
-
                                     java.lang.String content = reader.getElementText();
                                     
                                               object.set_return(
@@ -13715,12 +13493,7 @@
             java.lang.String prefix = xmlWriter.getPrefix(namespace);
             if (prefix == null) {
                 prefix = generatePrefix(namespace);
-                javax.xml.namespace.NamespaceContext nsContext = xmlWriter.getNamespaceContext();
-                while (true) {
-                    java.lang.String uri = nsContext.getNamespaceURI(prefix);
-                    if (uri == null || uri.length() == 0) {
-                        break;
-                    }
+                while (xmlWriter.getNamespaceContext().getNamespaceURI(prefix) != null) {
                     prefix = org.apache.axis2.databinding.utils.BeanUtil.getUniquePrefix();
                 }
                 xmlWriter.writeNamespace(prefix, namespace);
@@ -13830,12 +13603,6 @@
                                 
                                     if (reader.isStartElement() && new javax.xml.namespace.QName("http://service.servicelayer","id").equals(reader.getName())){
                                 
-                                    nillableValue = reader.getAttributeValue("http://www.w3.org/2001/XMLSchema-instance","nil");
-                                    if ("true".equals(nillableValue) || "1".equals(nillableValue)){
-                                        throw new org.apache.axis2.databinding.ADBException("The element: "+"id" +"  cannot be null");
-                                    }
-                                    
-
                                     java.lang.String content = reader.getElementText();
                                     
                                               object.setId(
@@ -14100,12 +13867,7 @@
             java.lang.String prefix = xmlWriter.getPrefix(namespace);
             if (prefix == null) {
                 prefix = generatePrefix(namespace);
-                javax.xml.namespace.NamespaceContext nsContext = xmlWriter.getNamespaceContext();
-                while (true) {
-                    java.lang.String uri = nsContext.getNamespaceURI(prefix);
-                    if (uri == null || uri.length() == 0) {
-                        break;
-                    }
+                while (xmlWriter.getNamespaceContext().getNamespaceURI(prefix) != null) {
                     prefix = org.apache.axis2.databinding.utils.BeanUtil.getUniquePrefix();
                 }
                 xmlWriter.writeNamespace(prefix, namespace);
@@ -14511,12 +14273,7 @@
             java.lang.String prefix = xmlWriter.getPrefix(namespace);
             if (prefix == null) {
                 prefix = generatePrefix(namespace);
-                javax.xml.namespace.NamespaceContext nsContext = xmlWriter.getNamespaceContext();
-                while (true) {
-                    java.lang.String uri = nsContext.getNamespaceURI(prefix);
-                    if (uri == null || uri.length() == 0) {
-                        break;
-                    }
+                while (xmlWriter.getNamespaceContext().getNamespaceURI(prefix) != null) {
                     prefix = org.apache.axis2.databinding.utils.BeanUtil.getUniquePrefix();
                 }
                 xmlWriter.writeNamespace(prefix, namespace);
@@ -14626,12 +14383,6 @@
                                 
                                     if (reader.isStartElement() && new javax.xml.namespace.QName("http://service.servicelayer","return").equals(reader.getName())){
                                 
-                                    nillableValue = reader.getAttributeValue("http://www.w3.org/2001/XMLSchema-instance","nil");
-                                    if ("true".equals(nillableValue) || "1".equals(nillableValue)){
-                                        throw new org.apache.axis2.databinding.ADBException("The element: "+"return" +"  cannot be null");
-                                    }
-                                    
-
                                     java.lang.String content = reader.getElementText();
                                     
                                               object.set_return(

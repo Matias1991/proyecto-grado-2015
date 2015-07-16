@@ -59,70 +59,47 @@ public class ModifyUserView extends BaseView {
 	public ModifyUserView() {
 		buildMainLayout();
 		setCompositionRoot(mainLayout);
-				
-		
-		comboBoxUsers.addValueChangeListener(new Property.ValueChangeListener() {
-			
-			public void valueChange(ValueChangeEvent event) {
-				// TODO Auto-generated method stub
-				if (comboBoxUsers.getValue() != null) {
-					Collection<User> users = UserController.GetUsers();
-					for (User user : users) {
-						idUserSelected = user.getId();
-						if (user.getUserName().equals(comboBoxUsers.getValue())) {
-							txtName.setValue(user.getName());
-							txtLastName.setValue(user.getLastName());
-							txtEmail.setValue(user.getEmail());
-							txtUserName.setValue(user.getUserName());
-							switch(user.getUserType()){
-							case "SOCIO":
-								userType.select("Socio");
-								break;
-							case "GERENTE":
-								userType.select("Gerente");
-								break;
-							default:
-								userType.select(null);
-								break;
-							}							
+
+		comboBoxUsers
+				.addValueChangeListener(new Property.ValueChangeListener() {
+
+					public void valueChange(ValueChangeEvent event) {
+						// TODO Auto-generated method stub
+						if (comboBoxUsers.getValue() != null) {
+							Collection<User> users = UserController.GetUsers();
+							for (User user : users) {
+								idUserSelected = user.getId();
+								if (user.getUserName().equals(
+										comboBoxUsers.getValue())) {
+									txtName.setValue(user.getName());
+									txtLastName.setValue(user.getLastName());
+									txtEmail.setValue(user.getEmail());
+									txtUserName.setValue(user.getUserName());
+									switch (user.getUserType()) {
+									case "SOCIO":
+										userType.select("Socio");
+										break;
+									case "GERENTE":
+										userType.select("Gerente");
+										break;
+									case "ADMINISTRADOR":
+										userType.select("Administrador");
+										break;
+									default:
+										userType.select(null);
+										break;
+									}
+								}
+							}
+						} else {
+							txtName.setValue("");
+							txtLastName.setValue("");
+							txtEmail.setValue("");
+							txtUserName.setValue("");
+							userType.select(null);
 						}
 					}
-				} else {
-					txtName.setValue("");
-					txtLastName.setValue("");
-					txtEmail.setValue("");
-					txtUserName.setValue("");
-					userType.select(null);
-				}
-			}
-		});
-		
-
-		/*comboBoxUsers.addListener(new Property.ValueChangeListener() {
-
-			public void valueChange(ValueChangeEvent event) {
-
-				if (comboBoxUsers.getValue() != null) {
-					Collection<User> users = UserController.GetUsers();
-					for (User user : users) {
-						idUserSelected = user.getId();
-						if (user.getUserName().equals(comboBoxUsers.getValue())) {
-							txtName.setValue(user.getName());
-							txtLastName.setValue(user.getLastName());
-							txtEmail.setValue(user.getEmail());
-							txtUserName.setValue(user.getUserName());
-							userType.select(user.getUserType());
-						}
-					}
-				} else {
-					txtName.setValue("");
-					txtLastName.setValue("");
-					txtEmail.setValue("");
-					txtUserName.setValue("");
-					userType.setValue("");
-				}
-			}
-		});*/
+				});
 
 		btnModify.addClickListener(new Button.ClickListener() {
 			@Override
@@ -140,8 +117,10 @@ public class ModifyUserView extends BaseView {
 						voUser.setUserName(txtUserName.getValue());
 						if (userType.getValue().equals("Socio")) {
 							voUser.setUserType(2);
-						} else {
+						} else if (userType.getValue().equals("Gerente")) {
 							voUser.setUserType(3);
+						} else if (userType.getValue().equals("Administrador")) {
+							voUser.setUserType(1);
 						}
 
 						modifyUser.setVoUser(voUser);
@@ -151,7 +130,6 @@ public class ModifyUserView extends BaseView {
 						Notification.show("Aviso: ",
 								"Usuario modificado correctamente",
 								Notification.TYPE_HUMANIZED_MESSAGE);
-						getUI().getNavigator().navigateTo(WebvaadinUI.MAINMENU);
 					} catch (java.rmi.RemoteException e) {
 						String error = e.getMessage().replace("<faultstring>",
 								"");
@@ -178,6 +156,8 @@ public class ModifyUserView extends BaseView {
 	@Override
 	public void enter(ViewChangeEvent event) {
 		super.enter(event);
+		comboBoxUsers.focus();
+		userType.addItems("Socio", "Gerente", "Administrador");
 		if (RequestContext.getRequestContext() != null) {
 			// obtengo todos los usuarios
 			Collection<User> users = UserController.GetUsers();
@@ -185,10 +165,9 @@ public class ModifyUserView extends BaseView {
 				comboBoxUsers.addItem(user.getUserName());
 			}
 			comboBoxUsers.addItems();
-			
-			//if(!userTypeSelected.isEmpty()){
-			if(userTypeSelected != ""){
-				userType.select(userTypeSelected);	
+			// if(!userTypeSelected.isEmpty()){
+			if (userTypeSelected != "") {
+				userType.select(userTypeSelected);
 			}
 		}
 	}
@@ -300,7 +279,7 @@ public class ModifyUserView extends BaseView {
 		btnModify.setWidth("101px");
 		btnModify.setHeight("-1px");
 		btnModify.setTabIndex(6);
-		mainLayout.addComponent(btnModify, "top:540.0px;left:0.0px;");
+		mainLayout.addComponent(btnModify, "top:570.0px;left:0.0px;");
 
 		// btnCancel
 		btnCancel = new Button();
@@ -309,7 +288,7 @@ public class ModifyUserView extends BaseView {
 		btnCancel.setWidth("100px");
 		btnCancel.setHeight("-1px");
 		btnCancel.setTabIndex(7);
-		mainLayout.addComponent(btnCancel, "top:540.0px;left:139.0px;");
+		mainLayout.addComponent(btnCancel, "top:570.0px;left:139.0px;");
 
 		// userType
 		userType = new OptionGroup();
@@ -317,16 +296,15 @@ public class ModifyUserView extends BaseView {
 		userType.setImmediate(false);
 		userType.setWidth("-1px");
 		userType.setHeight("-1px");
-		userType.addItems("Socio", "Gerente");
 		userType.setTabIndex(5);
 		mainLayout.addComponent(userType, "top:470.0px;left:0.0px;");
 
 		// comboBoxUsers
 		comboBoxUsers = new ComboBox();
-		comboBoxUsers.setCaption("Seleccione el usuario a modificar");
+		comboBoxUsers.setCaption("Seleccione el usuario");
 		comboBoxUsers.setImmediate(true);
 		comboBoxUsers.setWidth("160px");
-		comboBoxUsers.setHeight("24px");		
+		comboBoxUsers.setHeight("24px");
 		mainLayout.addComponent(comboBoxUsers, "top:120.0px;left:0.0px;");
 
 		return mainLayout;

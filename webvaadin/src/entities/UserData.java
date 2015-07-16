@@ -4,11 +4,13 @@ public class UserData {
 
 	private int id;
 	private String name;
+	private int userType;
 	
-	public UserData(int id, String name)
+	public UserData(int id, String name, int userType)
 	{
 		this.id = id;
 		this.name = name;
+		this.userType = userType;
 	}
 
 	public String getName() {
@@ -25,5 +27,13 @@ public class UserData {
 
 	public void setId(int id) {
 		this.id = id;
+	}
+	
+	public int getUserType(){
+		return userType;
+	}
+	
+	public void setUserType(int userType){
+		this.userType = userType;
 	}
 }

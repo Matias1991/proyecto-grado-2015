@@ -18,6 +18,9 @@ import servicelayer.service.ServiceWebStub.ForgotPassword;
 import servicelayer.service.ServiceWebStub.GetUser;
 import servicelayer.service.ServiceWebStub.GetUsers;
 import servicelayer.service.ServiceWebStub.InsertUser;
+import servicelayer.service.ServiceWebStub.Login;
+import servicelayer.service.ServiceWebStub.ResetPassword;
+import servicelayer.service.ServiceWebStub.UnlockUser;
 import servicelayer.service.ServiceWebStub.UpdateUser;
 import servicelayer.service.ServiceWebStub.VOUser;
 import entities.User;
@@ -170,4 +173,71 @@ public class UserController {
 		
 		return result;		
 	}		
+
+	public static VOUser loginUser(String username, String password){
+		VOUser result = new VOUser();
+	
+		try{
+			ServiceWebStub service = new ServiceWebStub();
+			
+			Login login = new Login();
+			login.setUserName(username);
+			login.setPassword(password);
+			
+			result = service.login(login).get_return();
+			
+		} catch (AxisFault e) {
+			String error = e.getMessage().replace("<faultstring>", "");
+			Notification notif = new Notification(error.replace("</faultstring>", ""), Notification.TYPE_ERROR_MESSAGE);
+			notif.setDelayMsec(2000);
+			notif.show(Page.getCurrent());
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
+		
+		return result;
+	}
+	
+	public static boolean unlockUser(int id){
+		boolean result = false;
+		try{
+			ServiceWebStub service = new ServiceWebStub();
+			UnlockUser unlockUser = new UnlockUser();
+			
+			unlockUser.setId(id);
+			
+			result = service.unlockUser(unlockUser).get_return();
+		} catch (AxisFault e) {
+			String error = e.getMessage().replace("<faultstring>", "");
+			Notification notif = new Notification(error.replace("</faultstring>", ""), Notification.TYPE_ERROR_MESSAGE);
+			notif.setDelayMsec(2000);
+			notif.show(Page.getCurrent());
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
+		
+		return result;		
+	}		
+
+	public static boolean resetPassword(int id){
+		boolean result = false;
+		try{
+			ServiceWebStub service = new ServiceWebStub();
+			ResetPassword resetPassword = new ResetPassword();
+			
+			resetPassword.setId(id);
+			
+			result = service.resetPassword(resetPassword).get_return();
+		} catch (AxisFault e) {
+			String error = e.getMessage().replace("<faultstring>", "");
+			Notification notif = new Notification(error.replace("</faultstring>", ""), Notification.TYPE_ERROR_MESSAGE);
+			notif.setDelayMsec(2000);
+			notif.show(Page.getCurrent());
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
+		
+		return result;		
+	}		
+
 }

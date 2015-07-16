@@ -52,8 +52,8 @@ public class DeleteUsersView extends BaseView{
 		grid.getColumn("name").setHeaderCaption("Nombre");
 		grid.getColumn("lastName").setHeaderCaption("Apellido");
 		grid.getColumn("userName").setHeaderCaption("Usuario");
-		grid.setWidth(70, Unit.PERCENTAGE);
-		grid.setHeight(70, Unit.PERCENTAGE);
+		grid.setWidth(100, Unit.PERCENTAGE);
+		grid.setHeight(100, Unit.PERCENTAGE);
 		grid.setSelectionMode(SelectionMode.SINGLE);
 		grid.getSelectedRows().clear();
 		mainLayout.addComponent(grid, "top:20%;left:0px;");
@@ -117,7 +117,7 @@ public class DeleteUsersView extends BaseView{
 		btn_delete.setImmediate(true);
 		btn_delete.setWidth("-1px");
 		btn_delete.setHeight("-1px");
-		mainLayout.addComponent(btn_delete, "top:50.0px;left:340.0px;");
+		mainLayout.addComponent(btn_delete, "top:50.0px;left:510.0px;");
 		
 		return mainLayout;
 	}

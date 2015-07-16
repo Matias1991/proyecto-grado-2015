@@ -10,6 +10,7 @@ public class User {
 	private String email;
 	private String userType;
 	private String userName;
+	private int userSatus;
 	
 	public User(VOUser voUser)
 	{
@@ -19,6 +20,7 @@ public class User {
 		this.email = voUser.getEmail();
 		this.userType = GetUserType(voUser.getUserType());
 		this.userName = voUser.getUserName();
+		this.userSatus = voUser.getUserStatus();
 	}
 	
 	public int getId() {
@@ -66,6 +68,23 @@ public class User {
 		this.userName = userName;
 	}
 	
+	public int getUserStatus(){
+		return this.userSatus;
+	}
+	
+	public void setUserStatus(int status){
+		this.userSatus = status;
+	}
+	
+	public String getUserStatusToShow(){
+		String userStatusToShow = "";
+		if(userSatus == 1){
+			userStatusToShow = "Activo";
+		} else {
+			userStatusToShow = "Bloqueado";
+		}
+		return userStatusToShow;
+	}
 	
 	
 	public String GetUserType(int userTypeId)
