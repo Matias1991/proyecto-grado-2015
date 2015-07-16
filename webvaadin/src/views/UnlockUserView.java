@@ -57,8 +57,8 @@ public class UnlockUserView extends BaseView{
 		grid.getColumn("lastName").setHeaderCaption("Apellido");
 		grid.getColumn("userName").setHeaderCaption("Usuario");
 		grid.getColumn("userStatusToShow").setHeaderCaption("Estado");
-		grid.setWidth(70, Unit.PERCENTAGE);
-		grid.setHeight(70, Unit.PERCENTAGE);
+		grid.setWidth(100, Unit.PERCENTAGE);
+		grid.setHeight(100, Unit.PERCENTAGE);
 		grid.setSelectionMode(SelectionMode.SINGLE);
 		grid.getSelectedRows().clear();
 		mainLayout.addComponent(grid, "top:20%;left:0px;");
@@ -128,7 +128,7 @@ public class UnlockUserView extends BaseView{
 		btnUnlock.setImmediate(true);
 		btnUnlock.setWidth("-1px");
 		btnUnlock.setHeight("-1px");
-		mainLayout.addComponent(btnUnlock, "top:50.0px;left:340.0px;");
+		mainLayout.addComponent(btnUnlock, "top:50.0px;left:510.0px;");
 		
 		return mainLayout;
 	}
