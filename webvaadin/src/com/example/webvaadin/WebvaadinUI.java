@@ -1,16 +1,16 @@
 package com.example.webvaadin;
 
-import views.CatalogUsersView;
-import views.ChangePasswordView;
-import views.CreateUserView;
-import views.DeleteUsersView;
 import views.ForgotPasswordView;
 import views.LoginView;
 import views.MainMenuView;
-import views.ModifyProfileView;
-import views.ModifyUserView;
-import views.ResetPasswordView;
-import views.UnlockUserView;
+import views.user.CatalogUsersView;
+import views.user.ChangePasswordView;
+import views.user.CreateUserView;
+import views.user.DeleteUsersView;
+import views.user.ModifyProfileView;
+import views.user.ModifyUserView;
+import views.user.ResetPasswordView;
+import views.user.UnlockUserView;
 
 import com.vaadin.annotations.PreserveOnRefresh;
 import com.vaadin.annotations.Theme;
