@@ -73,8 +73,9 @@ public class DeleteUsersView extends BaseView{
 			public void buttonClick(ClickEvent event) {
 				BeanItem<User> item = container.getItem(grid.getSelectedRow());
 				
-				UserController.DeleteUser(item.getBean().getId());
-				grid.getContainerDataSource().removeItem(grid.getSelectedRow());
+				if(UserController.DeleteUser(item.getBean().getId())){
+					grid.getContainerDataSource().removeItem(grid.getSelectedRow());	
+				}
 				
 				btn_delete.setEnabled(false);
 			}
