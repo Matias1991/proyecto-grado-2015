@@ -2,20 +2,13 @@ package controllers;
 
 import java.rmi.RemoteException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
-import java.util.List;
-
 import org.apache.axis2.AxisFault;
-
-import com.vaadin.server.Page;
-import com.vaadin.ui.Notification;
 
 import servicelayer.service.ServiceWebStub;
 import servicelayer.service.ServiceWebStub.ChangePassword;
 import servicelayer.service.ServiceWebStub.DeleteUser;
 import servicelayer.service.ServiceWebStub.ForgotPassword;
-import servicelayer.service.ServiceWebStub.GetUser;
 import servicelayer.service.ServiceWebStub.GetUsers;
 import servicelayer.service.ServiceWebStub.InsertUser;
 import servicelayer.service.ServiceWebStub.Login;
@@ -23,6 +16,7 @@ import servicelayer.service.ServiceWebStub.ResetPassword;
 import servicelayer.service.ServiceWebStub.UnlockUser;
 import servicelayer.service.ServiceWebStub.UpdateUser;
 import servicelayer.service.ServiceWebStub.VOUser;
+import utils.PopupWindow;
 import entities.User;
 
 public class UserController {
@@ -46,9 +40,10 @@ public class UserController {
 		} catch (AxisFault e) {
 			// TODO Auto-generated catch block
 			String error = e.getMessage().replace("<faultstring>", "");
-			Notification notif = new Notification(error.replace("</faultstring>", ""), Notification.TYPE_ERROR_MESSAGE);
-			notif.setDelayMsec(2000);
-			notif.show(Page.getCurrent());
+//			Notification notif = new Notification(error.replace("</faultstring>", ""), Notification.TYPE_ERROR_MESSAGE);
+//			notif.setDelayMsec(2000);
+//			notif.show(Page.getCurrent());
+			PopupWindow popup = new PopupWindow("ERROR", error.replace("</faultstring>", ""));
 		} catch (RemoteException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -71,9 +66,10 @@ public class UserController {
 		} catch (AxisFault e) {
 			// TODO Auto-generated catch block
 			String error = e.getMessage().replace("<faultstring>", "");
-			Notification notif = new Notification(error.replace("</faultstring>", ""), Notification.TYPE_ERROR_MESSAGE);
-			notif.setDelayMsec(2000);
-			notif.show(Page.getCurrent());
+//			Notification notif = new Notification(error.replace("</faultstring>", ""), Notification.TYPE_ERROR_MESSAGE);
+//			notif.setDelayMsec(2000);
+//			notif.show(Page.getCurrent());
+			PopupWindow popup = new PopupWindow("ERROR", error.replace("</faultstring>", ""));
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		}
@@ -94,9 +90,10 @@ public class UserController {
 			
 		} catch (AxisFault e) {
 			String error = e.getMessage().replace("<faultstring>", "");
-			Notification notif = new Notification(error.replace("</faultstring>", ""), Notification.TYPE_ERROR_MESSAGE);
-			notif.setDelayMsec(2000);
-			notif.show(Page.getCurrent());
+//			Notification notif = new Notification(error.replace("</faultstring>", ""), Notification.TYPE_ERROR_MESSAGE);
+//			notif.setDelayMsec(2000);
+//			notif.show(Page.getCurrent());
+			PopupWindow popup = new PopupWindow("ERROR", error.replace("</faultstring>", ""));
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		}
@@ -118,9 +115,10 @@ public class UserController {
 			
 		} catch (AxisFault e) {
 			String error = e.getMessage().replace("<faultstring>", "");
-			Notification notif = new Notification(error.replace("</faultstring>", ""), Notification.TYPE_ERROR_MESSAGE);
-			notif.setDelayMsec(2000);
-			notif.show(Page.getCurrent());
+//			Notification notif = new Notification(error.replace("</faultstring>", ""), Notification.TYPE_ERROR_MESSAGE);
+//			notif.setDelayMsec(2000);
+//			notif.show(Page.getCurrent());
+			PopupWindow popup = new PopupWindow("ERROR", error.replace("</faultstring>", ""));
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		}
@@ -143,9 +141,10 @@ public class UserController {
 			
 		} catch (AxisFault e) {
 			String error = e.getMessage().replace("<faultstring>", "");
-			Notification notif = new Notification(error.replace("</faultstring>", ""), Notification.TYPE_ERROR_MESSAGE);
-			notif.setDelayMsec(2000);
-			notif.show(Page.getCurrent());
+//			Notification notif = new Notification(error.replace("</faultstring>", ""), Notification.TYPE_ERROR_MESSAGE);
+//			notif.setDelayMsec(2000);
+//			notif.show(Page.getCurrent());
+			PopupWindow popup = new PopupWindow("ERROR", error.replace("</faultstring>", ""));
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		}
@@ -164,9 +163,10 @@ public class UserController {
 			result = service.forgotPassword(forgotPassword).get_return();
 		} catch (AxisFault e) {
 			String error = e.getMessage().replace("<faultstring>", "");
-			Notification notif = new Notification(error.replace("</faultstring>", ""), Notification.TYPE_ERROR_MESSAGE);
-			notif.setDelayMsec(2000);
-			notif.show(Page.getCurrent());
+//			Notification notif = new Notification(error.replace("</faultstring>", ""), Notification.TYPE_ERROR_MESSAGE);
+//			notif.setDelayMsec(2000);
+//			notif.show(Page.getCurrent());
+			PopupWindow popup = new PopupWindow("ERROR", error.replace("</faultstring>", ""));
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		}
@@ -188,9 +188,10 @@ public class UserController {
 			
 		} catch (AxisFault e) {
 			String error = e.getMessage().replace("<faultstring>", "");
-			Notification notif = new Notification(error.replace("</faultstring>", ""), Notification.TYPE_ERROR_MESSAGE);
-			notif.setDelayMsec(2000);
-			notif.show(Page.getCurrent());
+//			Notification notif = new Notification(error.replace("</faultstring>", ""), Notification.TYPE_ERROR_MESSAGE);
+//			notif.setDelayMsec(2000);
+//			notif.show(Page.getCurrent());
+			PopupWindow popup = new PopupWindow("ERROR", error.replace("</faultstring>", ""));
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		}
@@ -209,9 +210,10 @@ public class UserController {
 			result = service.unlockUser(unlockUser).get_return();
 		} catch (AxisFault e) {
 			String error = e.getMessage().replace("<faultstring>", "");
-			Notification notif = new Notification(error.replace("</faultstring>", ""), Notification.TYPE_ERROR_MESSAGE);
-			notif.setDelayMsec(2000);
-			notif.show(Page.getCurrent());
+//			Notification notif = new Notification(error.replace("</faultstring>", ""), Notification.TYPE_ERROR_MESSAGE);
+//			notif.setDelayMsec(2000);
+//			notif.show(Page.getCurrent());
+			PopupWindow popup = new PopupWindow("ERROR", error.replace("</faultstring>", ""));
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		}
@@ -230,9 +232,10 @@ public class UserController {
 			result = service.resetPassword(resetPassword).get_return();
 		} catch (AxisFault e) {
 			String error = e.getMessage().replace("<faultstring>", "");
-			Notification notif = new Notification(error.replace("</faultstring>", ""), Notification.TYPE_ERROR_MESSAGE);
-			notif.setDelayMsec(2000);
-			notif.show(Page.getCurrent());
+//			Notification notif = new Notification(error.replace("</faultstring>", ""), Notification.TYPE_ERROR_MESSAGE);
+//			notif.setDelayMsec(2000);
+//			notif.show(Page.getCurrent());
+			PopupWindow popup = new PopupWindow("ERROR", error.replace("</faultstring>", ""));
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		}

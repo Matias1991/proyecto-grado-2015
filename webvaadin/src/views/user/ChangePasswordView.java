@@ -1,5 +1,6 @@
 package views.user;
 
+import utils.PopupWindow;
 import views.BaseView;
 
 import com.example.webvaadin.WebvaadinUI;
@@ -10,7 +11,6 @@ import com.vaadin.ui.AbsoluteLayout;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Label;
-import com.vaadin.ui.Notification;
 import com.vaadin.ui.PasswordField;
 
 import controllers.UserController;
@@ -48,10 +48,11 @@ public class ChangePasswordView extends BaseView {
 				if(changePasswordValidate()){
 					UserController userController = new UserController();
 					if(userController.changePassword(idUser, oldPassword.getValue(), newPassword.getValue())){
-						Notification notif = new Notification ("Constraseña modificada correctamente", 
-								Notification.TYPE_HUMANIZED_MESSAGE);
-						notif.setDelayMsec(2000);
-						notif.show(Page.getCurrent());
+//						Notification notif = new Notification ("Constraseña modificada correctamente", 
+//								Notification.TYPE_HUMANIZED_MESSAGE);
+//						notif.setDelayMsec(2000);
+//						notif.show(Page.getCurrent());
+						PopupWindow popup = new PopupWindow("AVISO", "Constraseña modificada correctamente");
 						//limpio los campos
 						oldPassword.setValue("");
 						newPassword.setValue("");
@@ -109,10 +110,11 @@ public class ChangePasswordView extends BaseView {
 		}
 		
 		if (!validate) {
-			Notification notif = new Notification(errors,
-					Notification.TYPE_ERROR_MESSAGE);
-			notif.setDelayMsec(2000);
-			notif.show(Page.getCurrent());
+//			Notification notif = new Notification(errors,
+//					Notification.TYPE_ERROR_MESSAGE);
+//			notif.setDelayMsec(2000);
+//			notif.show(Page.getCurrent());
+			PopupWindow popup = new PopupWindow("ERROR", errors);
 		}
 		return validate;
 	}

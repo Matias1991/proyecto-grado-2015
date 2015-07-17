@@ -2,6 +2,7 @@ package views.user;
 
 import java.util.Collection;
 
+import utils.PopupWindow;
 import views.BaseView;
 
 import com.example.webvaadin.WebvaadinUI;
@@ -14,7 +15,6 @@ import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.server.Page;
 import com.vaadin.ui.AbsoluteLayout;
 import com.vaadin.ui.Button;
-import com.vaadin.ui.Notification;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Grid;
 import com.vaadin.ui.Grid.SelectionMode;
@@ -81,10 +81,11 @@ public class ResetPasswordView extends BaseView{
 				BeanItem<User> item = container.getItem(grid.getSelectedRow());
 				
 				if(UserController.resetPassword(item.getBean().getId())){
-					Notification notif = new Notification("Contraseña reseteada correctamente",
-							Notification.TYPE_HUMANIZED_MESSAGE);
-					notif.setDelayMsec(200);
-					notif.show(Page.getCurrent());
+//					Notification notif = new Notification("Contraseña reseteada correctamente",
+//							Notification.TYPE_HUMANIZED_MESSAGE);
+//					notif.setDelayMsec(200);
+//					notif.show(Page.getCurrent());
+					PopupWindow popup = new PopupWindow("AVISO", "Contraseña reseteada correctamente");
 					getUI().getNavigator().navigateTo(WebvaadinUI.RESETPASSWORD);
 				}
 				

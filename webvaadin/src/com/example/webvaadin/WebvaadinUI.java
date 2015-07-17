@@ -1,5 +1,6 @@
 package com.example.webvaadin;
 
+import utils.PopupWindow;
 import views.ForgotPasswordView;
 import views.LoginView;
 import views.MainMenuView;
@@ -24,7 +25,6 @@ import com.vaadin.ui.Image;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.MenuBar;
 import com.vaadin.ui.MenuBar.MenuItem;
-import com.vaadin.ui.Notification;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 
@@ -174,7 +174,8 @@ public class WebvaadinUI extends UI {
 						navigator.navigateTo(UNLOCKUSER);
 						break;
 					default:
-						Notification.show("No hay configuracion para el item: " + selectedItem.getText());
+						//Notification.show("No hay configuracion para el item: " + selectedItem.getText());
+						PopupWindow popup = new PopupWindow("AVISO", "No hay configuracion para el item: " + selectedItem.getText());
 						break;
 				}					
 			}
@@ -236,7 +237,8 @@ public class WebvaadinUI extends UI {
 						getUI().getNavigator().navigateTo(WebvaadinUI.CHANGEPASSWORD);
 					break;
 					default:
-						Notification.show("No hay configuracion para el item: " + selectedItem.getText());
+						//Notification.show("No hay configuracion para el item: " + selectedItem.getText());
+						PopupWindow popup = new PopupWindow("AVISO", "No hay configuracion para el item: " + selectedItem.getText());
 					break;
 				}
 			}

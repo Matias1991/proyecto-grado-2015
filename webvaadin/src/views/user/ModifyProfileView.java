@@ -8,6 +8,7 @@ import servicelayer.service.ServiceWebStub;
 import servicelayer.service.ServiceWebStub.GetUser;
 import servicelayer.service.ServiceWebStub.GetUserResponse;
 import servicelayer.service.ServiceWebStub.VOUser;
+import utils.PopupWindow;
 import views.BaseView;
 
 import com.example.webvaadin.WebvaadinUI;
@@ -18,7 +19,6 @@ import com.vaadin.ui.AbsoluteLayout;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Label;
-import com.vaadin.ui.Notification;
 import com.vaadin.ui.TextField;
 
 import controllers.UserController;
@@ -69,9 +69,10 @@ public class ModifyProfileView extends BaseView {
 
 					modifyUser.modifyUser(voUser, idUser);
 
-					Notification notif = new Notification("Aviso: ", "Usuario modificado correctamente", Notification.TYPE_HUMANIZED_MESSAGE);
-					notif.setDelayMsec(2000);
-					notif.show(Page.getCurrent());
+//					Notification notif = new Notification("Aviso: ", "Usuario modificado correctamente", Notification.TYPE_HUMANIZED_MESSAGE);
+//					notif.setDelayMsec(2000);
+//					notif.show(Page.getCurrent());
+					PopupWindow popup = new PopupWindow("AVISO", "Usuario creado correctamente");
 					
 				}
 			}
@@ -110,14 +111,17 @@ public class ModifyProfileView extends BaseView {
 
 			} catch (AxisFault e1) {
 				String error = e1.getMessage().replace("<faultstring>", "");
-				Notification notif = new Notification (error.replace("</faultstring>", ""), Notification.TYPE_ERROR_MESSAGE);
-				notif.setDelayMsec(2000);
-				notif.show(Page.getCurrent());
+//				Notification notif = new Notification (error.replace("</faultstring>", ""), Notification.TYPE_ERROR_MESSAGE);
+//				notif.setDelayMsec(2000);
+//				notif.show(Page.getCurrent());
+				PopupWindow popup = new PopupWindow("ERROR", error.replace("</faultstring>", ""));
 			} catch (RemoteException e1) {
-				String error = e1.getMessage().replace("<faultstring>", "");
-				Notification notif = new Notification (error.replace("</faultstring>", ""), Notification.TYPE_ERROR_MESSAGE);
-				notif.setDelayMsec(2000);
-				notif.show(Page.getCurrent());
+				e1.printStackTrace();
+//				String error = e1.getMessage().replace("<faultstring>", "");
+//				Notification notif = new Notification (error.replace("</faultstring>", ""), Notification.TYPE_ERROR_MESSAGE);
+//				notif.setDelayMsec(2000);
+//				notif.show(Page.getCurrent());
+//				PopupWindow popup = new PopupWindow("ERROR", error.replace("</faultstring>", ""));
 			}
 		}
 	}
@@ -146,10 +150,11 @@ public class ModifyProfileView extends BaseView {
 		}
 
 		if (!validate) {
-			Notification notif = new Notification(errors,
-					Notification.TYPE_ERROR_MESSAGE);
-			notif.setDelayMsec(2000);
-			notif.show(Page.getCurrent());
+//			Notification notif = new Notification(errors,
+//					Notification.TYPE_ERROR_MESSAGE);
+//			notif.setDelayMsec(2000);
+//			notif.show(Page.getCurrent());
+			PopupWindow popup = new PopupWindow("ERROR", errors);
 		}
 		return validate;
 	}

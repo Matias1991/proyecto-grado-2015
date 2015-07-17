@@ -5,6 +5,7 @@ import java.util.Collection;
 import servicelayer.service.ServiceWebStub;
 import servicelayer.service.ServiceWebStub.UpdateUser;
 import servicelayer.service.ServiceWebStub.VOUser;
+import utils.PopupWindow;
 import views.BaseView;
 
 import com.example.webvaadin.WebvaadinUI;
@@ -17,7 +18,6 @@ import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.Label;
-import com.vaadin.ui.Notification;
 import com.vaadin.ui.OptionGroup;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.themes.Reindeer;
@@ -128,17 +128,19 @@ public class ModifyUserView extends BaseView {
 						modifyUser.setId(idUserSelected);
 						modifyService.updateUser(modifyUser);
 
-						Notification.show("Aviso: ",
-								"Usuario modificado correctamente",
-								Notification.TYPE_HUMANIZED_MESSAGE);
+//						Notification.show("Aviso: ",
+//								"Usuario modificado correctamente",
+//								Notification.TYPE_HUMANIZED_MESSAGE);
+						PopupWindow popup = new PopupWindow("AVISO", "Usuario modificado correctamente");
 					} catch (java.rmi.RemoteException e) {
 						String error = e.getMessage().replace("<faultstring>",
 								"");
-						Notification notif = new Notification(error.replace(
-								"</faultstring>", ""),
-								Notification.TYPE_ERROR_MESSAGE);
-						notif.setDelayMsec(2000);
-						notif.show(Page.getCurrent());
+//						Notification notif = new Notification(error.replace(
+//								"</faultstring>", ""),
+//								Notification.TYPE_ERROR_MESSAGE);
+//						notif.setDelayMsec(2000);
+//						notif.show(Page.getCurrent());
+						PopupWindow popup = new PopupWindow("ERROR", error.replace("</faultstring>", ""));
 					}
 				}
 			}
@@ -207,10 +209,11 @@ public class ModifyUserView extends BaseView {
 		}
 
 		if (!validate) {
-			Notification notif = new Notification(errors,
-					Notification.TYPE_ERROR_MESSAGE);
-			notif.setDelayMsec(2000);
-			notif.show(Page.getCurrent());
+//			Notification notif = new Notification(errors,
+//					Notification.TYPE_ERROR_MESSAGE);
+//			notif.setDelayMsec(2000);
+//			notif.show(Page.getCurrent());
+			PopupWindow popup = new PopupWindow("ERROR", errors);
 		}
 		return validate;
 	}

@@ -4,6 +4,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import servicelayer.service.ServiceWebStub.VOUser;
+import utils.PopupWindow;
 import views.BaseView;
 
 import com.example.webvaadin.WebvaadinUI;
@@ -14,7 +15,6 @@ import com.vaadin.ui.AbsoluteLayout;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Label;
-import com.vaadin.ui.Notification;
 import com.vaadin.ui.OptionGroup;
 import com.vaadin.ui.TextField;
 
@@ -74,11 +74,12 @@ public class CreateUserView extends BaseView {
 					}
 
 					if (UserController.createUser(newUser)) {
-						Notification notif = new Notification("Aviso: ",
-								"Usuario creado correctamente",
-								Notification.TYPE_HUMANIZED_MESSAGE);
-						notif.setDelayMsec(2000);
-						notif.show(Page.getCurrent());
+//						Notification notif = new Notification("Aviso: ",
+//								"Usuario creado correctamente",
+//								Notification.TYPE_HUMANIZED_MESSAGE);
+//						notif.setDelayMsec(2000);
+//						notif.show(Page.getCurrent());
+						PopupWindow popup = new PopupWindow("AVISO", "Usuario creado correctamente");
 						// limpio los campos
 						txtName.setValue("");
 						txtEmail.setValue("");
@@ -142,10 +143,11 @@ public class CreateUserView extends BaseView {
 		}
 
 		if (!validate) {
-			Notification notif = new Notification(errors,
-					Notification.TYPE_ERROR_MESSAGE);
-			notif.setDelayMsec(2000);
-			notif.show(Page.getCurrent());
+//			Notification notif = new Notification(errors,
+//					Notification.TYPE_ERROR_MESSAGE);
+//			notif.setDelayMsec(2000);
+//			notif.show(Page.getCurrent());
+			PopupWindow popup = new PopupWindow("ERROR", errors);
 		}
 		return validate;
 	}

@@ -1,9 +1,5 @@
 package views;
 
-import org.apache.axis2.AxisFault;
-
-import servicelayer.service.ServiceWebStub;
-import servicelayer.service.ServiceWebStub.Login;
 import servicelayer.service.ServiceWebStub.VOUser;
 import utils.PopupWindow;
 
@@ -15,8 +11,6 @@ import com.vaadin.ui.AbsoluteLayout;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Link;
-import com.vaadin.ui.Notification;
-import com.vaadin.ui.Notification.Type;
 import com.vaadin.ui.PasswordField;
 import com.vaadin.ui.TextField;
 
