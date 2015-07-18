@@ -22,7 +22,10 @@ public class PopupWindow extends Window{
 		setResizable(true);
 		setWidth("400px");
 		setHeight("200px");
-	
+		if(title == "ERROR"){
+			setStyleName("popupStyle");
+		}
+		
 	WebvaadinUI.getCurrent().addWindow(this);
 	
 	}
