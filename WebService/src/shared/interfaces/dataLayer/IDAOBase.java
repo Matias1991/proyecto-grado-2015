@@ -6,7 +6,7 @@ import shared.exceptions.ServerException;
 
 public interface IDAOBase<Obj> {
 
-	void insert(Obj obj) throws ServerException;
+	int insert(Obj obj) throws ServerException;
 	
 	void delete(int id) throws ServerException;
 	

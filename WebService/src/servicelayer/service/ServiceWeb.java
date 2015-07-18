@@ -3,12 +3,16 @@ package servicelayer.service;
 import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
+import servicelayer.core.CoreEmployed;
 import servicelayer.core.CoreUser;
+import servicelayer.entity.valueObject.VOEmployed;
+import servicelayer.entity.valueObject.VOSalarySummary;
 import servicelayer.entity.valueObject.VOUser;
 import servicelayer.utilities.Constants;
 import shared.LoggerMSMP;
 import shared.exceptions.ClientException;
 import shared.exceptions.ServerException;
+import shared.interfaces.core.ICoreEmployed;
 import shared.interfaces.core.ICoreUser;
 
 ////IMPORTANTE:
@@ -18,6 +22,7 @@ import shared.interfaces.core.ICoreUser;
 public class ServiceWeb extends ServiceBase{
 
 	private ICoreUser iCoreUser = null;
+	private ICoreEmployed iCoreEmployed = null;
 	
 	public ServiceWeb()
 	{
@@ -25,6 +30,7 @@ public class ServiceWeb extends ServiceBase{
 			transactionLock.tryLock(Constants.DEFAULT_TRANSACTION_TIME , TimeUnit.SECONDS);
 			
 			iCoreUser = CoreUser.GetInstance();
+			iCoreEmployed = CoreEmployed.GetInstance();
 		} catch (Exception e) {
 			ThrowGenericExceptionAndLogError(e);
 		}
@@ -289,5 +295,94 @@ public class ServiceWeb extends ServiceBase{
 			transactionLock.unlock();
 		}
 		return false;
+	}
+	
+	public boolean insertEmployed(VOEmployed voEmployed)
+	{
+		try {
+			transactionLock.tryLock(Constants.DEFAULT_TRANSACTION_TIME, TimeUnit.SECONDS);
+			
+			iCoreEmployed.insertEmployed(voEmployed);
+			
+			return true;
+		} catch (ServerException e) {
+			ThrowServerExceptionAndLogError(e, "ingresar el empleado");
+		} catch (InterruptedException e) {
+			throw new RuntimeException(Constants.TRANSACTION_ERROR);	
+		} catch (Exception e) {
+			ThrowGenericExceptionAndLogError(e);
+		}
+		finally
+		{
+			transactionLock.unlock();
+		}
+		return false;
+	}
+	
+	public VOEmployed[] getEmployees()
+	{
+		ArrayList<VOEmployed> voEmployees;
+		try {
+			transactionLock.tryLock(Constants.DEFAULT_TRANSACTION_TIME, TimeUnit.SECONDS);
+			
+			voEmployees = iCoreEmployed.getEmployess();
+			VOEmployed [] arrayVOEmployed = new VOEmployed[voEmployees.size()];
+			voEmployees.toArray(arrayVOEmployed);
+		    return arrayVOEmployed;
+		    
+		} catch (ServerException e) {
+			ThrowServerExceptionAndLogError(e, "obtener todos los empleados");
+		} catch (InterruptedException e) {
+			throw new RuntimeException(Constants.TRANSACTION_ERROR);
+		} catch (Exception e) {
+			ThrowGenericExceptionAndLogError(e);
+		}
+		finally
+		{
+			transactionLock.unlock();
+		}
+		return null;
+	}
+	
+	public VOEmployed getEmployed(int id)
+	{
+		try {
+			transactionLock.tryLock(Constants.DEFAULT_TRANSACTION_TIME, TimeUnit.SECONDS);
+			
+			return iCoreEmployed.getEmployed(id);
+		} catch (ServerException e) {
+			ThrowServerExceptionAndLogError(e, "obtener los datos del empleado");
+		} catch (ClientException e) {
+			throw new RuntimeException(e.getMessage());
+		} catch (InterruptedException e) {
+			throw new RuntimeException(Constants.TRANSACTION_ERROR);	
+		} catch (Exception e) {
+			ThrowGenericExceptionAndLogError(e);
+		}
+		finally
+		{
+			transactionLock.unlock();
+		}
+		return null;
+	}
+	
+	public VOSalarySummary estimateSalarySummary(VOSalarySummary voSalarySummary)
+	{
+		try {
+			transactionLock.tryLock(Constants.DEFAULT_TRANSACTION_TIME, TimeUnit.SECONDS);
+			
+			return iCoreEmployed.estimateSalarySummary(voSalarySummary);
+		} catch (ServerException e) {
+			ThrowServerExceptionAndLogError(e, "estimar el resumen de salario del empleado");
+		} catch (InterruptedException e) {
+			throw new RuntimeException(Constants.TRANSACTION_ERROR);	
+		} catch (Exception e) {
+			ThrowGenericExceptionAndLogError(e);
+		}
+		finally
+		{
+			transactionLock.unlock();
+		}
+		return null;
 	}
 }

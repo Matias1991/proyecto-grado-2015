@@ -4,9 +4,6 @@ import java.io.Serializable;
 
 public class VOUser implements Serializable{
 
-	/**
-	 * prueba comentario
-	 */
 	private static final long serialVersionUID = 1L;
 	private int id;
 	private String userName;

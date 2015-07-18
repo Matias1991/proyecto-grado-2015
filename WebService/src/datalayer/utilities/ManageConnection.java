@@ -16,8 +16,7 @@ public class ManageConnection {
 	{
 		Class.forName("com.mysql.jdbc.Driver");
 		connection = DriverManager.getConnection(GetValueProperty("DB_URL"), GetValueProperty("USER"), GetValueProperty("PASSWORD"));
-		connection.setAutoCommit(Boolean.parseBoolean(GetValueProperty("AUTO_COMMIT")));
-		
+	
 		return connection;
 	}
 	

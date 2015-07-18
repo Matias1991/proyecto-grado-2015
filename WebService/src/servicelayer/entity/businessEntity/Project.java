@@ -1,8 +1,8 @@
 package servicelayer.entity.businessEntity;
 
-import java.util.ArrayList;
 
 import datalayer.daos.DAOEmployees;
+import shared.exceptions.ServerException;
 import shared.interfaces.dataLayer.IDAOEmployees;
 
 
@@ -13,7 +13,7 @@ public class Project {
 	private String notes;
 	private IDAOEmployees IDAOEmployees;
 	
-	public Project()
+	public Project() throws ServerException
 	{
 		IDAOEmployees = new DAOEmployees();
 	}

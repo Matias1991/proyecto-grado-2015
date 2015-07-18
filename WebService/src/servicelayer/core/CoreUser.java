@@ -89,7 +89,7 @@ public class CoreUser implements ICoreUser {
 
 		user = iDAOUsers.getObject(id);
 		if(user != null)
-			voUser = BuildVoUser(user);
+			voUser = BuildVOUser(user);
 		else
 			throw new ClientException("No existe un usuario con ese id");
 
@@ -113,7 +113,7 @@ public class CoreUser implements ICoreUser {
 		
 		for(User user: users)
 		{
-			voUsers.add(BuildVoUser(user));
+			voUsers.add(BuildVOUser(user));
 		}
 		
 		return voUsers;
@@ -134,7 +134,7 @@ public class CoreUser implements ICoreUser {
 			{
 				if(user.getPassword().equals(hashPassword))
 				{
-					voUser = BuildVoUser(user);
+					voUser = BuildVOUser(user);
 				}
 				else
 				{
@@ -264,7 +264,7 @@ public class CoreUser implements ICoreUser {
 			throw new ClientException("No existe un usuario con ese id");
 	}
 	
-	VOUser BuildVoUser(User user)
+	VOUser BuildVOUser(User user)
 	{
 		VOUser voUser = new VOUser();
 		voUser.setId(user.getId());

@@ -24,8 +24,6 @@ public class DAOUsers implements IDAOUsers {
 
 	public DAOUsers() throws ServerException
 	{
-		BasicConfigurator.configure();
-		
 		try {
 			this.connection = new ManageConnection().GetConnection();
 		}catch (Exception e) {
@@ -39,7 +37,7 @@ public class DAOUsers implements IDAOUsers {
 	}
 
 	@Override
-	public void insert(User obj) throws ServerException{   
+	public int insert(User obj) throws ServerException{
 		PreparedStatement preparedStatement = null;
 
 		String insertSQL = "INSERT INTO USER (USERNAME, PASSWORD, NAME, LASTNAME, EMAIL, USERTYPEID, USERSTATUSID) VALUES"
@@ -70,6 +68,8 @@ public class DAOUsers implements IDAOUsers {
 				}
 			}
 		}
+		
+		return 0;
 	}
 
 	@Override
