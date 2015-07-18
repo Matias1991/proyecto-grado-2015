@@ -15,7 +15,7 @@ public class SalarySummary {
 	private double personalFRLContribution;
 	private double employersFRLContribution;
 	private double iRPF;
-	private double TicketsEmployers;
+	private double ticketsEmployers;
 	private double bSE;
 	private double totalDiscounts;
 	private double totalEmployerContributions;
@@ -109,12 +109,6 @@ public class SalarySummary {
 	public void setiRPF(double iRPF) {
 		this.iRPF = iRPF;
 	}
-	public double getTicketsEmployers() {
-		return TicketsEmployers;
-	}
-	public void setTicketsEmployers(double ticketsEmployers) {
-		TicketsEmployers = ticketsEmployers;
-	}
 	public double getbSE() {
 		return bSE;
 	}
@@ -196,5 +190,13 @@ public class SalarySummary {
 
 	public void setHours(int hours) {
 		this.hours = hours;
+	}
+
+	public double getTicketsEmployers() {
+		return ticketsEmployers;
+	}
+
+	public void setTicketsEmployers(double ticketsEmployers) {
+		this.ticketsEmployers = ticketsEmployers;
 	}
 }

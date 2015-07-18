@@ -138,7 +138,7 @@ public class CoreEmployed implements ICoreEmployed{
 		salarySummary.setrET(voSalarySummary.getrET());
 		salarySummary.setHours(voSalarySummary.getHours());
 		salarySummary.setCostSaleHour(voSalarySummary.getCostSaleHour());
-		
+	
 		//aporte jubilatorio personal
 		double personalRetirementContribution = (voSalarySummary.getNominalSalary() * percentage_persoanl_retirement_contribution);
 		salarySummary.setPersonalRetirementContribution(personalRetirementContribution);
@@ -273,6 +273,7 @@ public class CoreEmployed implements ICoreEmployed{
 		voSalarySummary.setCostRealHour(salarySummary.getCostRealHour());
 		voSalarySummary.setCostSaleHour(salarySummary.getCostSaleHour());
 		voSalarySummary.setHours(salarySummary.getHours());
+		voSalarySummary.setPercentageTypeFONASA(voSalarySummary.getPersonalFONASAContribution()/voSalarySummary.getNominalSalary());
 		
 		return voSalarySummary;
 	}
