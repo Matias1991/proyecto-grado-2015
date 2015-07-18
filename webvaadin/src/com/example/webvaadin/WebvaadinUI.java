@@ -112,7 +112,8 @@ public class WebvaadinUI extends UI {
 		
 		navigator = new Navigator(this, viewDisplay);
 		
-		navigator.addView("", new MainMenuView());
+		//navigator.addView("", new MainMenuView());
+		navigator.addView("", new CatalogUsersView());
 		navigator.addView(LOGINVIEW, new LoginView());		
 		navigator.addView(CREATEUSER, new CreateUserView());
 		navigator.addView(DELETEUSERS, new DeleteUsersView());
