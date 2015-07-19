@@ -4,6 +4,8 @@ import java.util.Date;
 import java.util.List;
 
 import servicelayer.service.ServiceWebStub.VOEmployed;
+import servicelayer.service.ServiceWebStub.VOSalarySummary;
+import servicelayer.service.ServiceWebStub.VOUser;
 
 public class Employee {
 
@@ -16,9 +18,9 @@ public class Employee {
 	private Date createdDateTimeUTC;
 	private Date updatedDateTimeUTC;
 	private int employedType;
-//	private VOUser user;
-//	private VOSalarySummary vOSalarySummary;
-//	private List<VOSalarySummary> vOSalarySummaries;
+	private VOUser user;
+	private VOSalarySummary voSalarySummary;
+	private List<VOSalarySummary> voSalarySummaries;
 	
 	public Employee(VOEmployed voEmployee)
 	{
@@ -32,6 +34,10 @@ public class Employee {
 		this.createdDateTimeUTC = voEmployee.getCreatedDateTimeUTC();
 		this.updatedDateTimeUTC = voEmployee.getUpdatedDateTimeUTC();
 		this.employedType = voEmployee.getEmployedType();
+		this.user = voEmployee.getUser();
+		this.voSalarySummary = voEmployee.getVOSalarySummary();
+		this.voSalarySummaries = (List<VOSalarySummary>) voEmployee.getVOSalarySummary();
+		
 	}
 
 	public int getId() {
@@ -105,6 +111,30 @@ public class Employee {
 
 	public void setEmployedType(int employedType) {
 		this.employedType = employedType;
+	}
+
+	public VOUser getUser() {
+		return user;
+	}
+
+	public void setUser(VOUser user) {
+		this.user = user;
+	}
+
+	public VOSalarySummary getVoSalarySummary() {
+		return voSalarySummary;
+	}
+
+	public void setVoSalarySummary(VOSalarySummary voSalarySummary) {
+		this.voSalarySummary = voSalarySummary;
+	}
+
+	public List<VOSalarySummary> getVoSalarySummaries() {
+		return voSalarySummaries;
+	}
+
+	public void setVoSalarySummaries(List<VOSalarySummary> voSalarySummaries) {
+		this.voSalarySummaries = voSalarySummaries;
 	}
 	
 }
