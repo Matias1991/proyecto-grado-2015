@@ -1,10 +1,17 @@
 package com.example.webvaadin;
 
-import views.CreateUserView;
-import views.DeleteUsersView;
+import utils.PopupWindow;
+import views.ForgotPasswordView;
 import views.LoginView;
 import views.MainMenuView;
-import views.ModifyProfileView;
+import views.user.CatalogUsersView;
+import views.user.ChangePasswordView;
+import views.user.CreateUserView;
+import views.user.DeleteUsersView;
+import views.user.ModifyProfileView;
+import views.user.ModifyUserView;
+import views.user.ResetPasswordView;
+import views.user.UnlockUserView;
 
 import com.vaadin.annotations.PreserveOnRefresh;
 import com.vaadin.annotations.Theme;
@@ -18,7 +25,6 @@ import com.vaadin.ui.Image;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.MenuBar;
 import com.vaadin.ui.MenuBar.MenuItem;
-import com.vaadin.ui.Notification;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 
@@ -30,17 +36,24 @@ import entities.UserData;
 @PreserveOnRefresh
 public class WebvaadinUI extends UI {
 	
-	public Navigator navigator;
+	public static Navigator navigator;
 	public static final String MAINMENU = "";
 	public static final String LOGINVIEW = "LoginView";
 	public static final String CREATEUSER = "CreateUserView";
 	public static final String MODIFYPROFILEUSER = "ModifyProfileView";
 	public static final String DELETEUSERS = "DeleteUsersView";
+	public static final String MODIFYUSER = "ModifyUserView";
+	public static final String CATALOGUSERS = "CatalogUsersView";
+	public static final String FORGOTPASSWORD = "ForgotPaswordView";
+	public static final String CHANGEPASSWORD = "ChangePasswordView";
+	public static final String RESETPASSWORD = "ResetPaswordView";
+	public static final String UNLOCKUSER = "UnlockUserView";
 	
 	private static GridLayout mainLayout;
-	private static MenuBar mainMenuBar; 
+	private static MenuBar mainMenuBar;	
 	private static MenuBar userMenuBar; 
 	private static Label lblTitle; 
+	private static Label lblTitle2;
 	
 	@Override
 	protected void init(VaadinRequest request) {	
@@ -73,13 +86,14 @@ public class WebvaadinUI extends UI {
 		lblTitle = new Label("Bienvenido al Sistema de Gestion y Liquidaciones de Proyectos");
 		lblTitle.setWidth(80, Unit.PERCENTAGE);
 		lblTitle.setStyleName("titleLabel");
+		lblTitle2 = new Label("");
 		
 		/**
 		 * Barra del menu principal
 		 */		
 		mainMenuBar = new MenuBar();
 		mainMenuBar.setWidth(100, Unit.PERCENTAGE);
-		loadMenuItems(mainMenuBar);
+		//loadMenuItems(mainMenuBar);
 		
 		/**
 		 * Barra del usuario logueado
@@ -98,11 +112,18 @@ public class WebvaadinUI extends UI {
 		
 		navigator = new Navigator(this, viewDisplay);
 		
-		navigator.addView("LoginView", new LoginView());
-		navigator.addView("", new MainMenuView());
+		//navigator.addView("", new MainMenuView());
+		navigator.addView("", new CatalogUsersView());
+		navigator.addView(LOGINVIEW, new LoginView());		
 		navigator.addView(CREATEUSER, new CreateUserView());
 		navigator.addView(DELETEUSERS, new DeleteUsersView());
 		navigator.addView(MODIFYPROFILEUSER, new ModifyProfileView());
+		navigator.addView(MODIFYUSER, new ModifyUserView());
+		navigator.addView(CATALOGUSERS, new CatalogUsersView());
+		navigator.addView(FORGOTPASSWORD, new ForgotPasswordView());
+		navigator.addView(CHANGEPASSWORD, new ChangePasswordView());
+		navigator.addView(RESETPASSWORD, new ResetPasswordView());
+		navigator.addView(UNLOCKUSER,new UnlockUserView());
 		
 		if(RequestContext.getRequestContext() == null)
 		{
@@ -111,7 +132,8 @@ public class WebvaadinUI extends UI {
 		}
 		else
 		{
-			changeToMainMenu();
+			loadMenuItems(mainMenuBar);
+			changeToMainMenu();			
 			getUI().getNavigator().navigateTo("");
 		}
 		
@@ -123,7 +145,7 @@ public class WebvaadinUI extends UI {
 	/**
 	 * Carga del menu principal segun el rol del sistema
 	 */
-	private void loadMenuItems(MenuBar menuBar){
+	private static void loadMenuItems(MenuBar menuBar){
 		
 		/**
 		 * Acciones al seleccionar un item en el menu
@@ -135,25 +157,27 @@ public class WebvaadinUI extends UI {
 				// TODO Auto-generated method stub
 				switch(selectedItem.getText()){
 					case "Crear usuario":	
-						navigator.addView(CREATEUSER, new CreateUserView());	
 						navigator.navigateTo(CREATEUSER);
-					break;
+						break;
 					case "Modificar usuario":
-						Notification.show(selectedItem.getText());
-						//navigator.addView(MODIFYUSER, new ModifyUserView());
-						//navigator.navigateTo(MODIFYUSER);
-					break;
+						navigator.navigateTo(MODIFYUSER);
+						break;
 					case "Eliminar usuario":
 						navigator.navigateTo(DELETEUSERS);
-					break;
+						break;
 					case "Catalogo usuarios":
-						//navigator.addView(CATALOGUSERS, new CatalogUsersView());
-						//navigator.navigateTo(CATALOGUSERS);
-						Notification.show(selectedItem.getText());
-					break;	
+						navigator.navigateTo(CATALOGUSERS);
+						break;	
+					case "Resetear contraseña":
+						navigator.navigateTo(RESETPASSWORD);
+						break;
+					case "Desbloquear usuario":
+						navigator.navigateTo(UNLOCKUSER);
+						break;
 					default:
-						Notification.show("No hay configuracion para el item: " + selectedItem.getText());
-					break;
+						//Notification.show("No hay configuracion para el item: " + selectedItem.getText());
+						PopupWindow popup = new PopupWindow("AVISO", "No hay configuracion para el item: " + selectedItem.getText());
+						break;
 				}					
 			}
 		};
@@ -161,19 +185,31 @@ public class WebvaadinUI extends UI {
 		/**
 		 * Carga del menu principal rol Administrador
 		 */
-		MenuItem users = menuBar.addItem("Usuarios",null,null);
-		MenuItem createUser = users.addItem("Crear usuario",null,mainMenuBarCommand);
-		MenuItem updateUser = users.addItem("Modificar usuario",null,mainMenuBarCommand);
-		MenuItem deleteUser = users.addItem("Eliminar usuario", null,mainMenuBarCommand);
-		MenuItem getUsers = users.addItem("Catalogo usuarios", null,mainMenuBarCommand);
+		menuBar.removeItems();
 		
-		/**
-		 * Carga del menu principal rol Socio
-		 */
-//		MenuItem employeed = menuBar.addItem("Empleados", null,null);
-//		MenuItem createEmployeed = employeed.addItem("Crear empleado",null,mainMenuBarCommand);
-//		MenuItem updateEmployeed = employeed.addItem("Modificar empleado",null,mainMenuBarCommand);
-			
+		switch(RequestContext.getRequestContext().getUserType()){
+			case 1:
+				//Rol Administrador
+				MenuItem users = menuBar.addItem("Usuarios",null,null);
+				MenuItem createUser = users.addItem("Crear usuario",null,mainMenuBarCommand);
+				MenuItem updateUser = users.addItem("Modificar usuario",null,mainMenuBarCommand);
+				MenuItem deleteUser = users.addItem("Eliminar usuario", null,mainMenuBarCommand);
+				MenuItem getUsers = users.addItem("Catalogo usuarios", null,mainMenuBarCommand);
+				MenuItem resetUserPassword = users.addItem("Resetear contraseña",null,mainMenuBarCommand);
+				MenuItem unlockUserAccess = users.addItem("Desbloquear usuario", null,mainMenuBarCommand);
+				break;
+			case 2:
+				//Rol Socio
+				MenuItem employeed = menuBar.addItem("Empleados", null,null);
+				MenuItem createEmployeed = employeed.addItem("Crear empleado",null,mainMenuBarCommand);
+				MenuItem updateEmployeed = employeed.addItem("Modificar empleado",null,mainMenuBarCommand);
+				break;
+			case 3:
+				//Rol Gerente
+				break;
+			default:
+				break;				
+		}	
 	}
 	
 	/**
@@ -199,10 +235,11 @@ public class WebvaadinUI extends UI {
 						getUI().getNavigator().navigateTo(WebvaadinUI.MODIFYPROFILEUSER);						
 					break;
 					case "Cambiar contrasenia":
-						Notification.show(selectedItem.getText());
+						getUI().getNavigator().navigateTo(WebvaadinUI.CHANGEPASSWORD);
 					break;
 					default:
-						Notification.show("No hay configuracion para el item: " + selectedItem.getText());
+						//Notification.show("No hay configuracion para el item: " + selectedItem.getText());
+						PopupWindow popup = new PopupWindow("AVISO", "No hay configuracion para el item: " + selectedItem.getText());
 					break;
 				}
 			}
@@ -225,7 +262,9 @@ public class WebvaadinUI extends UI {
 		mainLayout.removeComponent(2, 0);
 		mainLayout.removeComponent(10,0);
 		mainLayout.addComponent(mainMenuBar, 2, 0, 9, 0);
-		mainLayout.addComponent(userMenuBar,10,0,11,0);
+		mainLayout.addComponent(userMenuBar,10,0,11,0);	
+		loadMenuItems(mainMenuBar);
+		
 	}
 	
 	/**
@@ -235,8 +274,9 @@ public class WebvaadinUI extends UI {
 	 */
 	public static void changeToLogin(){
 		mainLayout.removeComponent(2, 0);
-		mainLayout.removeComponent(10,0);
-		mainLayout.addComponent(lblTitle, 2, 0, 11, 0);		
+		mainLayout.removeComponent(10,0);		
+		mainLayout.addComponent(lblTitle, 2, 0, 9, 0);	
+		mainLayout.addComponent(lblTitle2, 10,0,11,0);
 	}
 	
 	

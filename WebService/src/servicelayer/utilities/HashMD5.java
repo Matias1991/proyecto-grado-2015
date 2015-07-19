@@ -9,15 +9,17 @@ import javax.crypto.spec.SecretKeySpec;
 
 import org.apache.commons.codec.binary.Base64;
 
+import shared.exceptions.ServerException;
+
 public class HashMD5 {
 
-	public static String Encrypt(String text) {
+	public static String Encrypt(String text) throws ServerException {
 		 
         String secretKey = "qualityinfosolutions";
         String base64EncryptedString = "";
  
-        try {
- 
+        try
+        {
             MessageDigest md = MessageDigest.getInstance("MD5");
             byte[] digestOfPassword = md.digest(secretKey.getBytes("utf-8"));
             byte[] keyBytes = Arrays.copyOf(digestOfPassword, 24);
@@ -30,13 +32,14 @@ public class HashMD5 {
             byte[] buf = cipher.doFinal(plainTextBytes);
             byte[] base64Bytes = Base64.encodeBase64(buf);
             base64EncryptedString = new String(base64Bytes);
- 
+ 	
         } catch (Exception ex) {
-        }
+        	throw new ServerException(ex);
+		}
         return base64EncryptedString;
     }
  
-    public static String Decrypt(String text) throws Exception {
+    public static String Decrypt(String text) throws ServerException {
  
         String secretKey = "qualityinfosolutions";
         String base64EncryptedString = "";
@@ -56,6 +59,7 @@ public class HashMD5 {
             base64EncryptedString = new String(plainText, "UTF-8");
  
         } catch (Exception ex) {
+        	throw new ServerException(ex);
         }
         return base64EncryptedString;
     }

@@ -3,21 +3,30 @@ package shared.interfaces.core;
 import java.util.ArrayList;
 
 import servicelayer.entity.valueObject.VOUser;
-import shared.exceptions.ServiceLayerException;
+import shared.exceptions.ClientException;
+import shared.exceptions.ServerException;
 
 public interface ICoreUser {
 	
-	public void insertUser(VOUser voUser) throws ServiceLayerException;
+	void insertUser(VOUser voUser) throws ServerException, ClientException;
 	
-	public void deleteUser(int id) throws ServiceLayerException;
+	void deleteUser(int id) throws ServerException, ClientException;
 	
-	public VOUser update(int id, VOUser voUser) throws ServiceLayerException;
+	VOUser update(int id, VOUser voUser) throws ServerException, ClientException;
 	
-	public VOUser getUser(int id) throws ServiceLayerException;
+	VOUser getUser(int id) throws ServerException, ClientException;
 	
-	public boolean existUser(int id) throws ServiceLayerException;
+	boolean existUser(int id) throws ServerException;
 	
-	public ArrayList<VOUser> getUsers() throws ServiceLayerException;
+	ArrayList<VOUser> getUsers() throws ServerException;
 	
-	public VOUser login(String userName, String password) throws ServiceLayerException;
+	VOUser login(String userName, String password) throws ServerException, ClientException;
+	
+	void forgotPassord(String userEmail) throws ServerException, ClientException;
+	
+	void resetPassword(int id) throws ServerException, ClientException;
+	
+	void changePassword(int id, String oldPassword, String newPassword) throws ServerException, ClientException;
+	
+	void unlockUser(int id) throws ServerException, ClientException;
 }

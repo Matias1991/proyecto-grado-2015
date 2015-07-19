@@ -2,19 +2,19 @@ package shared.interfaces.dataLayer;
 
 import java.util.ArrayList;
 
-import shared.exceptions.DataLayerException;
+import shared.exceptions.ServerException;
 
 public interface IDAOBase<Obj> {
 
-	public void insert(Obj obj) throws DataLayerException;
+	int insert(Obj obj) throws ServerException;
 	
-	public void delete(int id) throws DataLayerException;
+	void delete(int id) throws ServerException;
 	
-	public void update(int id, Obj obj) throws DataLayerException;
+	void update(int id, Obj obj) throws ServerException;
 	
-	public boolean exist(int id) throws DataLayerException;
+    boolean exist(int id) throws ServerException;
 	
-	public Obj getObject(int id) throws DataLayerException;
+	Obj getObject(int id) throws ServerException;
 	
-	public ArrayList<Obj> getObjects() throws DataLayerException;
+	ArrayList<Obj> getObjects() throws ServerException;
 }

@@ -1,14 +1,15 @@
 package servicelayer.service;
 
-import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
 
 import servicelayer.core.CoreUser;
 import servicelayer.entity.valueObject.VOUser;
 import servicelayer.utilities.Constants;
-import shared.exceptions.ServiceLayerException;
+import shared.exceptions.ClientException;
+import shared.exceptions.ServerException;
 import shared.interfaces.core.ICoreUser;
 
-public class ServiceMobile {
+public class ServiceMobile extends ServiceBase{
 
 	private ICoreUser iCoreUser = null;
 	
@@ -16,81 +17,30 @@ public class ServiceMobile {
 	{
 		try {
 			iCoreUser = CoreUser.GetInstance();
-		} catch (ServiceLayerException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		} catch (Exception e) {
+			ThrowGenericExceptionAndLogError(e);
 		}
-	}
-	
-	public void insert(VOUser voUser)
-	{
-		try {
-			iCoreUser.insertUser(voUser);
-		} catch (ServiceLayerException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
-	
-	public VOUser getUser(int id)
-	{
-		try {
-			return iCoreUser.getUser(id);
-		} catch (ServiceLayerException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		return null;
-	}
-	
-	public void delete(int id)
-	{
-		try {
-			iCoreUser.deleteUser(id);
-		} catch (ServiceLayerException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
-	
-	public boolean exist(int id)
-	{
-		try {
-			return iCoreUser.existUser(id);
-		} catch (ServiceLayerException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		return false;
-	}
-	
-	public VOUser[] getAllUsers()
-	{
-		ArrayList<VOUser> voUsers;
-		try {
-			voUsers = iCoreUser.getUsers();
-			VOUser [] arrayVoUser = new VOUser[voUsers.size()];
-		    voUsers.toArray(arrayVoUser);
-		    return arrayVoUser;
-		    
-		} catch (ServiceLayerException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	
-	    return null;
 	}
 	
 	public VOUser login(String userName,String password)
 	{
 		try {
+			transactionLock.tryLock(Constants.DEFAULT_TRANSACTION_TIME, TimeUnit.SECONDS);
+			
 			return iCoreUser.login(userName, password);
-		} catch (ServiceLayerException e) {
+		} catch (ServerException e) {
+			ThrowServerExceptionAndLogError(e, "realizar el ingreso del usuario en el sistema");
+		} catch (ClientException e) {
 			throw new RuntimeException(e.getMessage());
+		} catch (InterruptedException e) {
+			throw new RuntimeException(Constants.TRANSACTION_ERROR);	
 		} catch (Exception e) {
-			throw new RuntimeException(Constants.GENERIC_ERROR);
+			ThrowGenericExceptionAndLogError(e);
 		}
+		finally
+		{
+			transactionLock.unlock();
+		}
+		return null;
 	}	
 }

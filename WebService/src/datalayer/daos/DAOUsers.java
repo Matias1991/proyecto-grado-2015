@@ -4,34 +4,30 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Date;
 
 import org.apache.log4j.BasicConfigurator;
-import org.apache.log4j.Logger;
 
 import datalayer.utilities.ManageConnection;
 import servicelayer.entity.businessEntity.User;
 import servicelayer.entity.businessEntity.UserStatus;
 import servicelayer.entity.businessEntity.UserType;
-import servicelayer.entity.valueObject.VOUser;
-import shared.exceptions.DataLayerException;
+import shared.LoggerMSMP;
+import shared.exceptions.ServerException;
 import shared.interfaces.dataLayer.IDAOUsers;
 
 public class DAOUsers implements IDAOUsers {
 
 	private Connection connection;
-	private static Logger log = Logger.getLogger("************ Data access error ********");
-	
-	public DAOUsers() throws DataLayerException
+
+	public DAOUsers() throws ServerException
 	{
-		BasicConfigurator.configure();
-		
 		try {
 			this.connection = new ManageConnection().GetConnection();
 		}catch (Exception e) {
-			log.error(e.getMessage());
-			throw new DataLayerException("Ocurrio una problema al conectarse con la base de datos");
+			throw new ServerException(e);
 		}
 	}
 	
@@ -41,7 +37,7 @@ public class DAOUsers implements IDAOUsers {
 	}
 
 	@Override
-	public void insert(User obj) throws DataLayerException{   
+	public int insert(User obj) throws ServerException{
 		PreparedStatement preparedStatement = null;
 
 		String insertSQL = "INSERT INTO USER (USERNAME, PASSWORD, NAME, LASTNAME, EMAIL, USERTYPEID, USERSTATUSID) VALUES"
@@ -61,13 +57,23 @@ public class DAOUsers implements IDAOUsers {
 			preparedStatement.executeUpdate();
 			 
 		} catch (SQLException e) {
-			log.error(e.getMessage());
-			throw new DataLayerException("Ocurrio un problema al intentar ingresar un usuario a la base de datos, consulte con el administrador");
+			throw new ServerException(e);
+		}finally {
+
+			if (preparedStatement != null) {
+				try {
+					preparedStatement.close();
+				} catch (SQLException e) {
+					LoggerMSMP.setLog(e.getMessage());
+				}
+			}
 		}
+		
+		return 0;
 	}
 
 	@Override
-	public void delete(int id) throws DataLayerException {
+	public void delete(int id) throws ServerException {
 		PreparedStatement preparedStatement = null;
 		
 		try {
@@ -78,22 +84,21 @@ public class DAOUsers implements IDAOUsers {
 			preparedStatement.execute();
 
 		} catch (SQLException e) {
-			log.error(e.getMessage());
-			throw new DataLayerException("Ocurrio un error al intentar eliminar el usuario, consulte con el administrador");
+			throw new ServerException(e);
 		} finally {
 
 			if (preparedStatement != null) {
 				try {
 					preparedStatement.close();
 				} catch (SQLException e) {
-					log.error(e.getMessage());
+					LoggerMSMP.setLog(e.getMessage());
 				}
 			}
 		}
 	}
 
 	@Override
-	public boolean exist(int id) throws DataLayerException {
+	public boolean exist(int id) throws ServerException {
 		PreparedStatement preparedStatement = null;
 		ResultSet rs = null;
 		try {
@@ -108,8 +113,7 @@ public class DAOUsers implements IDAOUsers {
 			}
 
 		} catch (SQLException e) {
-			log.error(e.getMessage());
-			throw new DataLayerException("Ocurrio un error al intentar validar si existe el usuario, consulte con el administrador");
+			throw new ServerException(e);
 		} finally {
 			try {
 				if (preparedStatement != null)
@@ -117,7 +121,7 @@ public class DAOUsers implements IDAOUsers {
 				if (rs != null)
 					rs.close();
 			} catch (SQLException e) {
-				log.error(e.getMessage());
+				LoggerMSMP.setLog(e.getMessage());
 			}
 		}
 
@@ -125,7 +129,7 @@ public class DAOUsers implements IDAOUsers {
 	}
 
 	@Override
-	public User getObject(int id) throws DataLayerException {
+	public User getObject(int id) throws ServerException {
 		User user = null;
 		PreparedStatement preparedStatement = null;
 		ResultSet rs = null;
@@ -140,8 +144,7 @@ public class DAOUsers implements IDAOUsers {
 				user = BuildUser(rs);
 			}
 		} catch (SQLException e) {
-			log.error(e.getMessage());
-			throw new DataLayerException("Ocurrio un error al intentar obtener el usuario, consulte con el administrador");
+			throw new ServerException(e);
 		} finally {
 			try {
 				if (preparedStatement != null)
@@ -149,7 +152,7 @@ public class DAOUsers implements IDAOUsers {
 				if (rs != null)
 					rs.close();
 			} catch (SQLException e) {
-				log.error(e.getMessage());
+				LoggerMSMP.setLog(e.getMessage());
 			}
 		}
 
@@ -157,7 +160,7 @@ public class DAOUsers implements IDAOUsers {
 	}
 
 	@Override
-	public ArrayList<User> getObjects() throws DataLayerException {
+	public ArrayList<User> getObjects() throws ServerException {
 		ArrayList<User> users = new ArrayList<User>();
 		PreparedStatement preparedStatement = null;
 		ResultSet rs = null;
@@ -173,9 +176,7 @@ public class DAOUsers implements IDAOUsers {
 			}
 
 		} catch (SQLException e) {
-			log.error(e.getMessage());
-			throw new DataLayerException("Ocurrio un error al intentar obtener los usuarios, consulte con el administrador");
-	
+			throw new ServerException(e);
 		} finally {
 			try {
 				if (preparedStatement != null)
@@ -183,7 +184,42 @@ public class DAOUsers implements IDAOUsers {
 				if (rs != null)
 					rs.close();
 			} catch (SQLException e) {
-				log.error(e.getMessage());
+				LoggerMSMP.setLog(e.getMessage());
+			}
+		}
+
+		return users;
+	}
+
+	@Override
+	public ArrayList<User> getUsersByTypeAndStatus(UserType userType, UserStatus userStatus) throws ServerException
+	{
+		ArrayList<User> users = new ArrayList<User>();
+		PreparedStatement preparedStatement = null;
+		ResultSet rs = null;
+		try {
+
+			String getSQL = "SELECT * FROM USER WHERE userTypeId = ? and userStatusId = ?";
+			preparedStatement = this.connection.prepareStatement(getSQL);
+			preparedStatement.setInt(1, userType.getValue());
+			preparedStatement.setInt(2, userStatus.getValue());
+			
+			rs = preparedStatement.executeQuery();
+
+			while (rs.next()) {
+				users.add(BuildUser(rs));
+			}
+
+		} catch (SQLException e) {
+			throw new ServerException(e);
+		} finally {
+			try {
+				if (preparedStatement != null)
+					preparedStatement.close();
+				if (rs != null)
+					rs.close();
+			} catch (SQLException e) {
+				LoggerMSMP.setLog(e.getMessage());
 			}
 		}
 
@@ -191,42 +227,7 @@ public class DAOUsers implements IDAOUsers {
 	}
 	
 	@Override
-	public User login(String userName,String password) throws DataLayerException
-	{
-		User user = null;
-		PreparedStatement preparedStatement = null;
-		ResultSet rs = null;
-		
-		try
-		{
-			String getSQL = "SELECT * FROM USER WHERE userName = ? and password = ?";
-			preparedStatement = this.connection.prepareStatement(getSQL);
-			preparedStatement.setString(1, userName);
-			preparedStatement.setString(2, password);
-		
-			rs = preparedStatement.executeQuery();
-			
-			if(rs.next())
-				user = BuildUser(rs);
-			
-		} catch (SQLException e) {
-			log.error(e.getMessage());
-			throw new DataLayerException("Ocurrio un error al intentar obtener el usuario, consulte con el administrador");
-		}finally {
-			try {
-				if (preparedStatement != null)
-					preparedStatement.close();
-				if (rs != null)
-					rs.close();
-			} catch (SQLException e) {
-				log.error(e.getMessage());
-			}
-		}
-		return user;
-	}
-
-	@Override
-	public User getUserByUserName(String userName) throws DataLayerException
+	public User getUserByUserName(String userName) throws ServerException
 	{
 		User user = null;
 		PreparedStatement preparedStatement = null;
@@ -245,8 +246,7 @@ public class DAOUsers implements IDAOUsers {
 			}
 			
 		} catch (SQLException e) {
-			log.error(e.getMessage());
-			throw new DataLayerException("Ocurrio un error al intentar obtener los usuarios, consulte con el administrador");
+			throw new ServerException(e);
 		}finally {
 			try {
 				if (preparedStatement != null)
@@ -254,7 +254,42 @@ public class DAOUsers implements IDAOUsers {
 				if (rs != null)
 					rs.close();
 			} catch (SQLException e) {
-				log.error(e.getMessage());
+				LoggerMSMP.setLog(e.getMessage());
+			}
+		}
+		
+		return user;
+	}
+	
+	@Override
+	public User getUserByUserEmail(String userEmail) throws ServerException
+	{
+		User user = null;
+		PreparedStatement preparedStatement = null;
+		ResultSet rs = null;
+		
+		try
+		{
+			String getSQL = "SELECT * FROM USER WHERE email = ?";
+			preparedStatement = this.connection.prepareStatement(getSQL);
+			preparedStatement.setString(1, userEmail);
+			
+			rs = preparedStatement.executeQuery();
+		
+			while (rs.next()) {
+				user = BuildUser(rs);
+			}
+			
+		} catch (SQLException e) {
+			throw new ServerException(e);
+		}finally {
+			try {
+				if (preparedStatement != null)
+					preparedStatement.close();
+				if (rs != null)
+					rs.close();
+			} catch (SQLException e) {
+				LoggerMSMP.setLog(e.getMessage());
 			}
 		}
 		
@@ -262,7 +297,7 @@ public class DAOUsers implements IDAOUsers {
 	}
 
 	@Override
-	public void update(int id, User obj) throws DataLayerException {
+	public void update(int id, User obj) throws ServerException {
 		
 		PreparedStatement preparedStatement = null;
 		
@@ -285,8 +320,59 @@ public class DAOUsers implements IDAOUsers {
 			preparedStatement.executeUpdate();
 			 
 		} catch (SQLException e) {
-			log.error(e.getMessage());
-			throw new DataLayerException("Ocurrio un problema al intentar modificar un usuario en la base de datos, consulte con el administrador");
+			throw new ServerException(e);
+		}
+	}
+	
+	@Override
+	public void update(int id, UserStatus userStatus, int attempts, Date lastAttemptDateTimeUTC) throws ServerException {
+		
+		PreparedStatement preparedStatement = null;
+		
+		String updateSQL = "UPDATE USER "
+				+ "SET attempts = ?, "
+				+ "lastAttemptDateTimeUTC = ?, "
+				+ "userStatusId = ? "
+				+ "WHERE id = ?";
+
+		try {
+			preparedStatement = this.connection.prepareStatement(updateSQL);
+
+			Timestamp _lastAttemptTimestamp = null;
+			if(lastAttemptDateTimeUTC != null)
+				_lastAttemptTimestamp = new Timestamp (lastAttemptDateTimeUTC.getTime());
+			
+			preparedStatement.setInt(1, attempts);
+			preparedStatement.setTimestamp(2, _lastAttemptTimestamp);
+			preparedStatement.setInt(3, userStatus.getValue());
+			preparedStatement.setInt(4, id);
+			
+			preparedStatement.executeUpdate();
+			 
+		} catch (SQLException e) {
+			throw new ServerException(e);
+		}
+	}
+	
+	@Override
+	public void updatePassword(int id, String newPassword) throws ServerException {
+		
+		PreparedStatement preparedStatement = null;
+		
+		String updatePasswordSQL = "UPDATE USER "
+				+ "SET password = ?"
+				+ "WHERE id = ?";
+
+		try {
+			preparedStatement = this.connection.prepareStatement(updatePasswordSQL);
+
+			preparedStatement.setString(1, newPassword);
+			preparedStatement.setInt(2, id);
+			
+			preparedStatement.executeUpdate();
+			 
+		} catch (SQLException e) {
+			throw new ServerException(e);
 		}
 	}
 	
@@ -297,6 +383,9 @@ public class DAOUsers implements IDAOUsers {
 		String name = rs.getString("name");
 		String lastName = rs.getString("lastName");
 		String email = rs.getString("email");
+		String password = rs.getString("password");
+		int attempts = rs.getInt("attempts");
+		Date lastAttemptDateTimeUTC = rs.getTimestamp("lastAttemptDateTimeUTC");
 		int userTypeId = rs.getInt("userTypeId");
 		int userStatusId = rs.getInt("userStatusId");
 		
@@ -306,6 +395,9 @@ public class DAOUsers implements IDAOUsers {
 		user.setLastName(lastName);
 		user.setUserName(userName);
 		user.setEmail(email);
+		user.setPassword(password);
+		user.setAttempts(attempts);
+		user.setLastAttemptDateTimeUTC(lastAttemptDateTimeUTC);
 		user.setUserType(UserType.getEnum(userTypeId));
 		user.setUserStatus(UserStatus.getEnum(userStatusId));
 		
