@@ -4,6 +4,7 @@ import utils.PopupWindow;
 import views.ForgotPasswordView;
 import views.LoginView;
 import views.MainMenuView;
+import views.employees.CatalogEmployeesView;
 import views.user.CatalogUsersView;
 import views.user.ChangePasswordView;
 import views.user.CreateUserView;
@@ -48,6 +49,9 @@ public class WebvaadinUI extends UI {
 	public static final String CHANGEPASSWORD = "ChangePasswordView";
 	public static final String RESETPASSWORD = "ResetPaswordView";
 	public static final String UNLOCKUSER = "UnlockUserView";
+	
+	//Empleados
+	public static final String CATALOGEMPLOYEES = "CatalogEmployees";
 	
 	private static GridLayout mainLayout;
 	private static MenuBar mainMenuBar;	
@@ -124,6 +128,8 @@ public class WebvaadinUI extends UI {
 		navigator.addView(CHANGEPASSWORD, new ChangePasswordView());
 		navigator.addView(RESETPASSWORD, new ResetPasswordView());
 		navigator.addView(UNLOCKUSER,new UnlockUserView());
+		//Empleados
+		navigator.addView(CATALOGEMPLOYEES,new CatalogEmployeesView());
 		
 		if(RequestContext.getRequestContext() == null)
 		{
@@ -174,6 +180,9 @@ public class WebvaadinUI extends UI {
 					case "Desbloquear usuario":
 						navigator.navigateTo(UNLOCKUSER);
 						break;
+					case "Catálogo empleados":
+						navigator.navigateTo(CATALOGEMPLOYEES);
+						break;
 					default:
 						//Notification.show("No hay configuracion para el item: " + selectedItem.getText());
 						PopupWindow popup = new PopupWindow("AVISO", "No hay configuracion para el item: " + selectedItem.getText());
@@ -203,6 +212,7 @@ public class WebvaadinUI extends UI {
 				MenuItem employeed = menuBar.addItem("Empleados", null,null);
 				MenuItem createEmployeed = employeed.addItem("Crear empleado",null,mainMenuBarCommand);
 				MenuItem updateEmployeed = employeed.addItem("Modificar empleado",null,mainMenuBarCommand);
+				MenuItem getEmployees = employeed.addItem("Catálogo empleados",null,mainMenuBarCommand);
 				break;
 			case 3:
 				//Rol Gerente
