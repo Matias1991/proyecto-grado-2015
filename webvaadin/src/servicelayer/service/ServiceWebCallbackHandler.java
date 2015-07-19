@@ -93,6 +93,22 @@
             }
                 
            /**
+            * auto generated Axis2 call back method for getEmployees method
+            * override this method for handling normal response from getEmployees operation
+            */
+           public void receiveResultgetEmployees(
+                    servicelayer.service.ServiceWebStub.GetEmployeesResponse result
+                        ) {
+           }
+
+          /**
+           * auto generated Axis2 Error handler
+           * override this method for handling error response from getEmployees operation
+           */
+            public void receiveErrorgetEmployees(java.lang.Exception e) {
+            }
+                
+           /**
             * auto generated Axis2 call back method for login method
             * override this method for handling normal response from login operation
             */
@@ -173,6 +189,22 @@
             }
                 
            /**
+            * auto generated Axis2 call back method for getEmployed method
+            * override this method for handling normal response from getEmployed operation
+            */
+           public void receiveResultgetEmployed(
+                    servicelayer.service.ServiceWebStub.GetEmployedResponse result
+                        ) {
+           }
+
+          /**
+           * auto generated Axis2 Error handler
+           * override this method for handling error response from getEmployed operation
+           */
+            public void receiveErrorgetEmployed(java.lang.Exception e) {
+            }
+                
+           /**
             * auto generated Axis2 call back method for getUser method
             * override this method for handling normal response from getUser operation
             */
@@ -202,6 +234,38 @@
            * override this method for handling error response from getUsers operation
            */
             public void receiveErrorgetUsers(java.lang.Exception e) {
+            }
+                
+           /**
+            * auto generated Axis2 call back method for estimateSalarySummary method
+            * override this method for handling normal response from estimateSalarySummary operation
+            */
+           public void receiveResultestimateSalarySummary(
+                    servicelayer.service.ServiceWebStub.EstimateSalarySummaryResponse result
+                        ) {
+           }
+
+          /**
+           * auto generated Axis2 Error handler
+           * override this method for handling error response from estimateSalarySummary operation
+           */
+            public void receiveErrorestimateSalarySummary(java.lang.Exception e) {
+            }
+                
+           /**
+            * auto generated Axis2 call back method for insertEmployed method
+            * override this method for handling normal response from insertEmployed operation
+            */
+           public void receiveResultinsertEmployed(
+                    servicelayer.service.ServiceWebStub.InsertEmployedResponse result
+                        ) {
+           }
+
+          /**
+           * auto generated Axis2 Error handler
+           * override this method for handling error response from insertEmployed operation
+           */
+            public void receiveErrorinsertEmployed(java.lang.Exception e) {
             }
                 
            /**
