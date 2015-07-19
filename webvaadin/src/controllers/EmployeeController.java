@@ -8,6 +8,7 @@ import org.apache.axis2.AxisFault;
 
 import servicelayer.service.ServiceWebStub;
 import servicelayer.service.ServiceWebStub.GetEmployees;
+import servicelayer.service.ServiceWebStub.InsertEmployed;
 import servicelayer.service.ServiceWebStub.VOEmployed;
 import utils.PopupWindow;
 import entities.Employee;
@@ -42,4 +43,26 @@ public class EmployeeController {
 		return employees;
 	}
 
+	public static boolean createEmployee(VOEmployed newEmployee){
+		boolean result = false;
+		
+		try{
+			ServiceWebStub service = new ServiceWebStub();
+			InsertEmployed createEmployee = new InsertEmployed();
+			
+			createEmployee.setVoEmployed(newEmployee);
+			
+			result = service.insertEmployed(createEmployee).get_return();
+			
+		}catch(AxisFault e){
+			String error = e.getMessage().replace("<faultstring>", "");
+			PopupWindow popup = new PopupWindow("ERROR", error.replace("</faultstring>", ""));
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return result;
+	}
+	
 }

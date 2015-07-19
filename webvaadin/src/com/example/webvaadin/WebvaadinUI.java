@@ -5,6 +5,7 @@ import views.ForgotPasswordView;
 import views.LoginView;
 import views.MainMenuView;
 import views.employees.CatalogEmployeesView;
+import views.employees.CreateEmployeeView;
 import views.user.CatalogUsersView;
 import views.user.ChangePasswordView;
 import views.user.CreateUserView;
@@ -40,6 +41,8 @@ public class WebvaadinUI extends UI {
 	public static Navigator navigator;
 	public static final String MAINMENU = "";
 	public static final String LOGINVIEW = "LoginView";
+	
+	//Usuarios
 	public static final String CREATEUSER = "CreateUserView";
 	public static final String MODIFYPROFILEUSER = "ModifyProfileView";
 	public static final String DELETEUSERS = "DeleteUsersView";
@@ -52,6 +55,7 @@ public class WebvaadinUI extends UI {
 	
 	//Empleados
 	public static final String CATALOGEMPLOYEES = "CatalogEmployees";
+	public static final String CREATEEMPLOYEE = "CreateEmployeeView";
 	
 	private static GridLayout mainLayout;
 	private static MenuBar mainMenuBar;	
@@ -116,9 +120,10 @@ public class WebvaadinUI extends UI {
 		
 		navigator = new Navigator(this, viewDisplay);
 		
-		//navigator.addView("", new MainMenuView());
-		navigator.addView("", new CatalogUsersView());
+		navigator.addView("", new MainMenuView());
+		//navigator.addView("", new CatalogUsersView());
 		navigator.addView(LOGINVIEW, new LoginView());		
+		//Usuarios
 		navigator.addView(CREATEUSER, new CreateUserView());
 		navigator.addView(DELETEUSERS, new DeleteUsersView());
 		navigator.addView(MODIFYPROFILEUSER, new ModifyProfileView());
@@ -130,6 +135,7 @@ public class WebvaadinUI extends UI {
 		navigator.addView(UNLOCKUSER,new UnlockUserView());
 		//Empleados
 		navigator.addView(CATALOGEMPLOYEES,new CatalogEmployeesView());
+		navigator.addView(CREATEEMPLOYEE, new CreateEmployeeView());
 		
 		if(RequestContext.getRequestContext() == null)
 		{
@@ -182,6 +188,9 @@ public class WebvaadinUI extends UI {
 						break;
 					case "Catálogo empleados":
 						navigator.navigateTo(CATALOGEMPLOYEES);
+						break;
+					case "Crear empleado":
+						navigator.navigateTo(CREATEEMPLOYEE);
 						break;
 					default:
 						//Notification.show("No hay configuracion para el item: " + selectedItem.getText());
