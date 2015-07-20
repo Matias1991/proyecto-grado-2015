@@ -75,7 +75,9 @@ public class ModifyUserView extends BaseView {
 									txtName.setValue(user.getName());
 									txtLastName.setValue(user.getLastName());
 									txtEmail.setValue(user.getEmail());
+									txtUserName.setReadOnly(false);
 									txtUserName.setValue(user.getUserName());
+									txtUserName.setReadOnly(true);
 									switch (user.getUserType()) {
 									case "SOCIO":
 										userType.select("Socio");
@@ -96,6 +98,7 @@ public class ModifyUserView extends BaseView {
 							txtName.setValue("");
 							txtLastName.setValue("");
 							txtEmail.setValue("");
+							txtUserName.setReadOnly(false);
 							txtUserName.setValue("");
 							userType.select(null);
 						}
@@ -265,6 +268,7 @@ public class ModifyUserView extends BaseView {
 		txtUserName.setWidth("240px");
 		txtUserName.setHeight("-1px");
 		txtUserName.setTabIndex(4);
+		txtUserName.setReadOnly(true);
 		mainLayout.addComponent(txtUserName, "top:400.0px;left:0.0px;");
 
 		// lblTitle
