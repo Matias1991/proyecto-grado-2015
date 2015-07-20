@@ -30,8 +30,8 @@ public class EmployeeController {
 
 			for(VOEmployed voEmployee : voEmployees)
 			{
-				Employee eployee = new Employee(voEmployee);
-				employees.add(eployee);
+				Employee employee = new Employee(voEmployee);
+				employees.add(employee);
 			}
 			
 		} catch (AxisFault e) {

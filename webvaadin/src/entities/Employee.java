@@ -36,7 +36,7 @@ public class Employee {
 		this.employedType = voEmployee.getEmployedType();
 		this.user = voEmployee.getUser();
 		this.voSalarySummary = voEmployee.getVOSalarySummary();
-		this.voSalarySummaries = (List<VOSalarySummary>) voEmployee.getVOSalarySummary();
+//		this.voSalarySummaries = (List<VOSalarySummary>) voEmployee.getVOSalarySummary();
 		
 	}
 
