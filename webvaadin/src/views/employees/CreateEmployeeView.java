@@ -113,7 +113,7 @@ public class CreateEmployeeView extends BaseView {
 		txtRet.setImmediate(false);
 		txtRet.setWidth("-1px");
 		txtRet.setHeight("-1px");
-		txtRet.setRequired(true);
+
 		
 		// IRPF
 		txtIrpf = new TextField();
@@ -121,7 +121,7 @@ public class CreateEmployeeView extends BaseView {
 		txtIrpf.setImmediate(false);
 		txtIrpf.setWidth("-1px");
 		txtIrpf.setHeight("-1px");
-		txtIrpf.setRequired(true);
+		
 		
 		// BSE
 		txtBse = new TextField();
@@ -129,7 +129,7 @@ public class CreateEmployeeView extends BaseView {
 		txtBse.setImmediate(false);
 		txtBse.setWidth("-1px");
 		txtBse.setHeight("-1px");
-		txtBse.setRequired(true);
+		
 		
 		// Horas mensuales
 		txtHours = new TextField();
@@ -145,7 +145,7 @@ public class CreateEmployeeView extends BaseView {
 		txtCostSaleHour.setImmediate(false);
 		txtCostSaleHour.setWidth("-1px");
 		txtCostSaleHour.setHeight("-1px");
-		txtCostSaleHour.setRequired(true);
+		
 		
 		// Porcentaje aporte FONASA Personal
 		txtPercentagePersonalFonasaContribution = new TextField();
@@ -288,10 +288,10 @@ public class CreateEmployeeView extends BaseView {
 		tab1.addComponent(txtNominalSalary, 0, 0);
 		tab1.addComponent(txtTickets, 1, 0);		
 		tab1.addComponent(txtPercentagePersonalFonasaContribution, 0,1);
-		tab1.addComponent(txtRet,1,1);
+		tab1.addComponent(txtHours,1,1);
 		tab1.addComponent(txtIrpf,0,2);
 		tab1.addComponent(txtBse,1,2);
-		tab1.addComponent(txtHours,0,3);
+		tab1.addComponent(txtRet,0,3);
 		tab1.addComponent(txtCostSaleHour,1,3);
 		tab1.addComponent(btnEstimate,0,4);
 		tabTaxes.addTab(tab1, "Costos 1");
@@ -339,102 +339,76 @@ public class CreateEmployeeView extends BaseView {
 					estimateSalarySummary.setCostSaleHour(Double.parseDouble(txtCostSaleHour.getValue()));
 					estimateSalarySummary.setPercentageTypeFONASA(Double.parseDouble(txtPercentagePersonalFonasaContribution.getValue()));
 					
-					if(EmployeeController.estimateEmployee(estimateSalarySummary) != null){
-						Double auxDouble = 0.0;
-						Integer auxInteger = 0;
-						auxDouble = estimateSalarySummary.getNominalSalary();
-						txtNominalSalary.setValue(auxDouble.toString());
-						auxDouble = estimateSalarySummary.getTickets();
-						txtTickets.setValue(auxDouble.toString());
-						auxDouble = estimateSalarySummary.getPercentageTypeFONASA();
-						txtPercentagePersonalFonasaContribution.setValue(auxDouble.toString());
-						auxDouble = estimateSalarySummary.getRET();
-						txtRet.setValue(auxDouble.toString());
-						auxDouble = estimateSalarySummary.getIRPF();
-						txtIrpf.setValue(auxDouble.toString());
-						auxDouble = estimateSalarySummary.getBSE();
-						txtBse.setValue(auxDouble.toString());
-						auxInteger = estimateSalarySummary.getHours();
-						txtHours.setValue(auxInteger.toString());
-						auxDouble = estimateSalarySummary.getCostSaleHour();
-						txtCostSaleHour.setValue(auxDouble.toString());
+					
+					VOSalarySummary aux = EmployeeController.estimateEmployee(estimateSalarySummary);
+					if(aux != null){
+						txtNominalSalary.setValue(Double.toString(aux.getNominalSalary()));
+						txtTickets.setValue(Double.toString(aux.getTickets()));
+						txtRet.setValue(Double.toString(aux.getRET()));
+						txtIrpf.setValue(Double.toString(aux.getIRPF()));						
+						txtBse.setValue(Double.toString(aux.getBSE()));						
+						txtHours.setValue(Double.toString(aux.getHours()));
+						txtCostSaleHour.setValue(Double.toString(aux.getCostSaleHour()));						
 						
-						auxDouble = estimateSalarySummary.getPersonalRetirementContribution();
 						txtPersonalRetirementContribution.setReadOnly(false);
-						//txtPersonalRetirementContribution.setValue(auxDouble.toString());
-						txtPersonalRetirementContribution.setValue(Double.toString(estimateSalarySummary.getPersonalRetirementContribution()));
+						txtPersonalRetirementContribution.setValue(Double.toString(aux.getPersonalRetirementContribution()));
 						txtPersonalRetirementContribution.setReadOnly(true);
 						
-						auxDouble = estimateSalarySummary.getEmployersContributionsRetirement();
 						txtEmployerRetirementContribution.setReadOnly(false);
-						txtEmployerRetirementContribution.setValue(auxDouble.toString());
+						txtEmployerRetirementContribution.setValue(Double.toString(aux.getEmployersContributionsRetirement()));
 						txtEmployerRetirementContribution.setReadOnly(true);
 						
-						auxDouble = estimateSalarySummary.getPersonalFRLContribution();
 						txtPersonalFrlContribution.setReadOnly(false);
-						txtPersonalFrlContribution.setValue(auxDouble.toString());
+						txtPersonalFrlContribution.setValue(Double.toString(aux.getPersonalFRLContribution()));
 						txtPersonalFrlContribution.setReadOnly(true);
 						
-						auxDouble = estimateSalarySummary.getEmployersFRLContribution();
 						txtEmployerFrlContribution.setReadOnly(false);
-						txtEmployerFrlContribution.setValue(auxDouble.toString());
+						txtEmployerFrlContribution.setValue(Double.toString(aux.getEmployersFRLContribution()));
 						txtEmployerFrlContribution.setReadOnly(true);
 						
-						auxDouble = estimateSalarySummary.getPersonalFONASAContribution();
 						txtPersonalFonasaContribution.setReadOnly(false);
-						txtPersonalFonasaContribution.setValue(auxDouble.toString());
+						txtPersonalFonasaContribution.setValue(Double.toString(aux.getPersonalFONASAContribution()));
 						txtPersonalFonasaContribution.setReadOnly(true);
 						
-						auxDouble = estimateSalarySummary.getEmployersFONASAContribution();
 						txtEmployerFonasaContribution.setReadOnly(false);
-						txtEmployerFonasaContribution.setValue(auxDouble.toString());
+						txtEmployerFonasaContribution.setValue(Double.toString(aux.getEmployersFONASAContribution()));
 						txtEmployerFonasaContribution.setReadOnly(true);
 						
-						auxDouble = estimateSalarySummary.getTicketsEmployers();
 						txtTicketsEmployer.setReadOnly(false);
-						txtTicketsEmployer.setValue(auxDouble.toString());
+						txtTicketsEmployer.setValue(Double.toString(aux.getTicketsEmployers()));
 						txtTicketsEmployer.setReadOnly(true);
 						
-						auxDouble = estimateSalarySummary.getTotalDiscounts();
 						txtTotalDiscounts.setReadOnly(false);
-						txtTotalDiscounts.setValue(auxDouble.toString());
+						txtTotalDiscounts.setValue(Double.toString(aux.getTotalDiscounts()));
 						txtTotalDiscounts.setReadOnly(true);
 						
-						auxDouble = estimateSalarySummary.getTotalEmployerContributions();
 						txtTotalEmployersContribution.setReadOnly(false);
-						txtTotalEmployersContribution.setValue(auxDouble.toString());
+						txtTotalEmployersContribution.setValue(Double.toString(aux.getTotalEmployerContributions()));
 						txtTotalEmployersContribution.setReadOnly(true);
 						
-						auxDouble = estimateSalarySummary.getNominalWithoutContributions();
 						txtNominalWithoutContribution.setReadOnly(false);
-						txtNominalWithoutContribution.setValue(auxDouble.toString());
+						txtNominalWithoutContribution.setValue(Double.toString(aux.getNominalWithoutContributions()));
 						txtNominalWithoutContribution.setReadOnly(true);
 						
-						auxDouble = estimateSalarySummary.getDismissalPrevention();
 						txtDismisalPrevension.setReadOnly(false);
-						txtDismisalPrevension.setValue(auxDouble.toString());
+						txtDismisalPrevension.setValue(Double.toString(aux.getDismissalPrevention()));
 						txtDismisalPrevension.setReadOnly(true);
 						
-						auxDouble = estimateSalarySummary.getIncidenceSalary();
 						txtIncidenceSalary.setReadOnly(false);
-						txtIncidenceSalary.setValue(auxDouble.toString());
+						txtIncidenceSalary.setValue(Double.toString(aux.getIncidenceSalary()));
 						txtIncidenceSalary.setReadOnly(true);
 						
-						auxDouble = estimateSalarySummary.getSalaryToPay();						
 						txtSalaryToPay.setReadOnly(false);
-						txtSalaryToPay.setValue(auxDouble.toString());
+						txtSalaryToPay.setValue(Double.toString(aux.getSalaryToPay()));
 						txtSalaryToPay.setReadOnly(true);
 						
-						auxDouble = estimateSalarySummary.getCostMonth();
 						txtCostMonth.setReadOnly(false);
-						txtCostMonth.setValue(auxDouble.toString());
+						txtCostMonth.setValue(Double.toString(aux.getCostMonth()));
 						txtCostMonth.setReadOnly(true);
 						
-						auxDouble = estimateSalarySummary.getCostRealHour();
 						txtCostRealHour.setReadOnly(false);
-						txtCostRealHour.setValue(auxDouble.toString());
-						txtCostRealHour.setReadOnly(true);
-						
+						txtCostRealHour.setValue(Double.toString(aux.getCostRealHour()));
+						txtCostRealHour.setReadOnly(true);						
 					}else{					
 						PopupWindow notification = new PopupWindow("ERROR", "No se pudo estimar");			
 					}
@@ -508,27 +482,13 @@ public class CreateEmployeeView extends BaseView {
 		if(txtTickets.getValue().isEmpty()){
 			errors += "Tickets es requerido\n";
 		}
-		
-		if(txtRet.getValue().isEmpty()){
-			errors += "RET es requerido\n";
-		}
-		
-		if(txtIrpf.getValue().isEmpty()){
-			errors += "IRPF es requerido\n";
-		}
-		
-		if(txtBse.getValue().isEmpty()){
-			errors += "BSE es requerido\n";
-		}
+				
 		
 		if(txtHours.getValue().isEmpty()){
 			errors += "Canidad Horas Mensual es requerido\n";
 		}
 		
-		if(txtCostSaleHour.getValue().isEmpty()){
-			errors += "Costo Venta Meerkat es requerido\n";
-		}
-		
+			
 		if(txtPercentagePersonalFonasaContribution.getValue().isEmpty()){
 			errors += "% Aporte FONASA Personal es requerido\n";
 		}
@@ -551,19 +511,7 @@ public class CreateEmployeeView extends BaseView {
 		
 		if(txtTickets.getValue().isEmpty()){
 			errors += "Tickets es requerido\n";
-		}
-		
-		if(txtRet.getValue().isEmpty()){
-			errors += "RET es requerido\n";
-		}
-		
-		if(txtIrpf.getValue().isEmpty()){
-			errors += "IRPF es requerido\n";
-		}
-		
-		if(txtBse.getValue().isEmpty()){
-			errors += "BSE es requerido\n";
-		}
+		}		
 		
 		if(txtHours.getValue().isEmpty()){
 			errors += "Canidad Horas Mensual es requerido\n";
