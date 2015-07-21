@@ -71,6 +71,7 @@ public class ModifyUserView extends BaseView {
 							Collection<User> users = UserController.GetUsers();
 							for (User user : users) {
 								idUserSelected = user.getId();
+								userTypeSelected = user.getUserType();
 								if (user.getUserName().equals(comboBoxUsers.getValue())) {
 									if(user.getName() != null){
 										txtName.setValue(user.getName());
@@ -94,13 +95,13 @@ public class ModifyUserView extends BaseView {
 									txtUserName.setValue(user.getUserName());
 									txtUserName.setReadOnly(true);
 									switch (user.getUserType()) {
-									case "SOCIO":
+									case "Socio":
 										userType.select("Socio");
 										break;
-									case "GERENTE":
+									case "Gerente":
 										userType.select("Gerente");
 										break;
-									case "ADMINISTRADOR":
+									case "Administrador":
 										userType.select("Administrador");
 										break;
 									default:
