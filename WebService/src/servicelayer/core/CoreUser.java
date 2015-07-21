@@ -168,6 +168,7 @@ public class CoreUser implements ICoreUser {
 							}
 						}
 					}
+					throw new ClientException("Usuario y/o constraseña incorrecta");
 				}
 			}
 			else
@@ -242,10 +243,10 @@ public class CoreUser implements ICoreUser {
 					Email.changePassword(user.getEmail(), newPassword);
 				}
 				else
-					throw new ClientException("La contraseÃ±a nueva no puede ser igual a la anterior");
+					throw new ClientException("La contraseña nueva no puede ser igual a la anterior");
 			}
 			else
-				throw new ClientException("La contraseÃ±a antigua no se corresponde con la ingresada");
+				throw new ClientException("La contraseña antigua no se corresponde con la ingresada");
 		}
 		else
 			throw new ClientException("No existe un usuario con ese id");
@@ -281,18 +282,22 @@ public class CoreUser implements ICoreUser {
 	boolean IsLastUserAdmin(User user) throws ServerException
 	{
 		ArrayList<User> adminUsers = iDAOUsers.getUsersByTypeAndStatus(UserType.ADMINISTRATOR, UserStatus.ACTIVE);
-		
+		boolean found = false;
 		int index = 0;
 		
 		for(User adminUser : adminUsers)
 		{
-			if(adminUser.getId() == user.getId())
+			if(adminUser.getId() == user.getId()){
+				found = true;
 				break;
+			}
 			
 			index = index + 1;
 		}
 		
-		adminUsers.remove(index);
+		if(found){
+			adminUsers.remove(index);
+		}		
 		
 		if(adminUsers.size() == 0)
 			return true;

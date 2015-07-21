@@ -5,6 +5,7 @@ import java.util.regex.Pattern;
 
 import servicelayer.service.ServiceWebStub.VOUser;
 import utils.PopupWindow;
+import utils.Utils;
 import views.BaseView;
 
 import com.example.webvaadin.WebvaadinUI;
@@ -134,9 +135,7 @@ public class CreateUserView extends BaseView {
 			validate = false;
 			errors += "Debes ingresar el correo electrónico\n";
 		} else {
-			Pattern p = Pattern.compile("[A-Za-z0-9ñÑ\\.:,;!\\$&\\-_@]*");
-			Matcher emailFormat = p.matcher(email);
-			if (!emailFormat.matches()) {
+			if(!Utils.validateMail(email)){
 				validate = false;
 				errors += "El formato del correo electrónico no es correcto\n";
 			}

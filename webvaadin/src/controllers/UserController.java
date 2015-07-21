@@ -175,7 +175,7 @@ public class UserController {
 	}		
 
 	public static VOUser loginUser(String username, String password){
-		VOUser result = new VOUser();
+		VOUser result = null;
 	
 		try{
 			ServiceWebStub service = new ServiceWebStub();

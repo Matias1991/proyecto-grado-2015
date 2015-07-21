@@ -300,7 +300,7 @@ public class CatalogEmployeesView extends BaseView {
 	public void buildGrid() {
 		Collection<Employee> employees = EmployeeController.GetEmployees();
 
-		if (employees.size() > 0) {
+		if (employees != null && employees.size() > 0) {
 			beanContainer = new BeanItemContainer<Employee>(employees);
 
 			catalogEmployeesGrid = new Grid(beanContainer);
@@ -341,7 +341,7 @@ public class CatalogEmployeesView extends BaseView {
 		} else {
 			// PopupWindow popup = new PopupWindow("Aviso",
 			// "No hay empleados para mostrar");
-			Notification.show("No hya usuarios para mostrar",
+			Notification.show("No hay empleados para mostrar",
 					Notification.TYPE_WARNING_MESSAGE);
 		}
 

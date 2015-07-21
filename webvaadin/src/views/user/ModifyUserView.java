@@ -70,12 +70,28 @@ public class ModifyUserView extends BaseView {
 							Collection<User> users = UserController.GetUsers();
 							for (User user : users) {
 								idUserSelected = user.getId();
-								if (user.getUserName().equals(
-										comboBoxUsers.getValue())) {
-									txtName.setValue(user.getName());
-									txtLastName.setValue(user.getLastName());
-									txtEmail.setValue(user.getEmail());
+								if (user.getUserName().equals(comboBoxUsers.getValue())) {
+									if(user.getName() != null){
+										txtName.setValue(user.getName());
+									} else {
+										txtName.setValue("");
+									}
+									
+									if(user.getLastName() != null){
+										txtLastName.setValue(user.getLastName());
+									} else {
+										txtLastName.setValue("");
+									}
+									
+									if(user.getEmail() != null){
+										txtEmail.setValue(user.getEmail());
+									} else {
+										txtEmail.setValue("");
+									}
+									
+									txtUserName.setReadOnly(false);
 									txtUserName.setValue(user.getUserName());
+									txtUserName.setReadOnly(true);
 									switch (user.getUserType()) {
 									case "SOCIO":
 										userType.select("Socio");
@@ -96,6 +112,7 @@ public class ModifyUserView extends BaseView {
 							txtName.setValue("");
 							txtLastName.setValue("");
 							txtEmail.setValue("");
+							txtUserName.setReadOnly(false);
 							txtUserName.setValue("");
 							userType.select(null);
 						}
@@ -128,18 +145,10 @@ public class ModifyUserView extends BaseView {
 						modifyUser.setId(idUserSelected);
 						modifyService.updateUser(modifyUser);
 
-//						Notification.show("Aviso: ",
-//								"Usuario modificado correctamente",
-//								Notification.TYPE_HUMANIZED_MESSAGE);
 						PopupWindow popup = new PopupWindow("AVISO", "Usuario modificado correctamente");
 					} catch (java.rmi.RemoteException e) {
 						String error = e.getMessage().replace("<faultstring>",
 								"");
-//						Notification notif = new Notification(error.replace(
-//								"</faultstring>", ""),
-//								Notification.TYPE_ERROR_MESSAGE);
-//						notif.setDelayMsec(2000);
-//						notif.show(Page.getCurrent());
 						PopupWindow popup = new PopupWindow("ERROR", error.replace("</faultstring>", ""));
 					}
 				}
@@ -209,10 +218,6 @@ public class ModifyUserView extends BaseView {
 		}
 
 		if (!validate) {
-//			Notification notif = new Notification(errors,
-//					Notification.TYPE_ERROR_MESSAGE);
-//			notif.setDelayMsec(2000);
-//			notif.show(Page.getCurrent());
 			PopupWindow popup = new PopupWindow("ERROR", errors);
 		}
 		return validate;
@@ -265,6 +270,7 @@ public class ModifyUserView extends BaseView {
 		txtUserName.setWidth("240px");
 		txtUserName.setHeight("-1px");
 		txtUserName.setTabIndex(4);
+		txtUserName.setReadOnly(true);
 		mainLayout.addComponent(txtUserName, "top:400.0px;left:0.0px;");
 
 		// lblTitle
