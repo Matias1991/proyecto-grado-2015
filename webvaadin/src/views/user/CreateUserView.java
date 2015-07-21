@@ -108,7 +108,7 @@ public class CreateUserView extends BaseView {
 		txtName.focus();
 	}
 
-	public boolean validateCreateUser() {
+	private boolean validateCreateUser() {
 		boolean validate = true;
 		String errors = "";
 
