@@ -15,6 +15,7 @@ import servicelayer.utilities.Email;
 import servicelayer.utilities.HashMD5;
 import shared.ConfigurationProperties;
 import shared.exceptions.ClientException;
+import shared.exceptions.EmailException;
 import shared.exceptions.ServerException;
 import shared.interfaces.core.ICoreUser;
 import shared.interfaces.dataLayer.IDAOUsers;
@@ -59,7 +60,13 @@ public class CoreUser implements ICoreUser {
 			
 			iDAOUsers.insert(user);
 
-			Email.newUser(user, newPassword);
+			try {
+				
+				Email.newUser(user, newPassword);
+				
+			} catch (EmailException e) {
+				throw new ClientException("El usuario fue creado pero ocurrio un error al enviar el correo electrónico");
+			}
 		}
 		else
 			throw new ClientException("Ya existe un usuario con este nombre de usuario");
@@ -203,7 +210,11 @@ public class CoreUser implements ICoreUser {
 	     if(user != null)
 	     {
 	    	 String password = HashMD5.Decrypt(user.getPassword());
-	    	 Email.forgotPassword(user.getEmail(), password);
+	    	 try {
+				Email.forgotPassword(user.getEmail(), password);
+			} catch (EmailException e) {
+				throw new ClientException("Ocurrio un error al enviar el correo electrónico");
+			}
 	     }
 	     else
 	    	 throw new ClientException("No existe un usuario con ese correo electronico");
@@ -220,7 +231,11 @@ public class CoreUser implements ICoreUser {
 			
 			iDAOUsers.updatePassword(id, hashPassword);
 			
-			Email.resetPassword(user.getEmail(), newPassword);
+			try {
+				Email.resetPassword(user.getEmail(), newPassword);
+			} catch (EmailException e) {
+				throw new ClientException("La contraseña fue reseteada correctamente pero ocurrio un error al enviar el correo electrónico");
+			}
 		}
 		else
 			throw new ClientException("No existe un usuario con ese id");
@@ -240,7 +255,11 @@ public class CoreUser implements ICoreUser {
 					String hashNewPassword = HashMD5.Encrypt(newPassword);
 					iDAOUsers.updatePassword(id, hashNewPassword);
 					
-					Email.changePassword(user.getEmail(), newPassword);
+					try {
+						Email.changePassword(user.getEmail(), newPassword);
+					} catch (EmailException e) {
+						throw new ClientException("La contraseña fue cambiada correctamente pero ocurrio un error al enviar el correo electrónico");
+					}
 				}
 				else
 					throw new ClientException("La contraseña nueva no puede ser igual a la anterior");

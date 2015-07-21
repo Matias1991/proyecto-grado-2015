@@ -16,11 +16,12 @@ import javax.mail.internet.MimeMultipart;
 
 import servicelayer.entity.businessEntity.User;
 import shared.ConfigurationProperties;
+import shared.exceptions.EmailException;
 import shared.exceptions.ServerException;
 
 public class Email {
 
-	public static void changePassword(String userEmail, String password) throws ServerException{
+	public static void changePassword(String userEmail, String password) throws EmailException, ServerException{
 		
 		StringBuilder strBuilder = new StringBuilder();
 		strBuilder.append("<b>Contraseña: </b>" + password);
@@ -28,7 +29,7 @@ public class Email {
 		sendEmail(userEmail, "[MSMP] - Cambio de Contraseña", strBuilder.toString());
 	}
 
-	public static void resetPassword(String userEmail, String password) throws ServerException{
+	public static void resetPassword(String userEmail, String password) throws EmailException, ServerException{
 		
 		StringBuilder strBuilder = new StringBuilder();
 		strBuilder.append("<b>Nueva contraseña: </b>" + password);
@@ -36,7 +37,7 @@ public class Email {
 		sendEmail(userEmail, "[MSMP] - Reseteo de Contraseña", strBuilder.toString());
 	}
 	
-	public static void forgotPassword(String userEmail, String password) throws ServerException {
+	public static void forgotPassword(String userEmail, String password) throws EmailException, ServerException {
 		
 		StringBuilder strBuilder = new StringBuilder();
 		strBuilder.append("<b>Contraseña: </b>" + password);
@@ -44,7 +45,7 @@ public class Email {
 		sendEmail(userEmail, "[MSMP] - Olvido de Contraseña", strBuilder.toString());
 	}
 
-	public static void newUser(User user, String password) throws ServerException {
+	public static void newUser(User user, String password) throws EmailException, ServerException {
 		
 		StringBuilder strBuilder = new StringBuilder();
 		strBuilder.append("<p><b>Datos del nuevo usuario</b><p>");
@@ -58,7 +59,7 @@ public class Email {
 		sendEmail(user.getEmail(), "[MSMP] - Nuevo usuario", strBuilder.toString());
 	}
 
-	static void sendEmail(String toEmail, String subject, String text) throws ServerException {
+	static void sendEmail(String toEmail, String subject, String text) throws EmailException, ServerException {
 
 		String fromEmail = null;
 		try {
@@ -100,9 +101,9 @@ public class Email {
 			Transport.send(message);
 
 		} catch (MessagingException e) {
-			throw new ServerException(buildSendEmailException(e, fromEmail, toEmail));
+			throw new EmailException(buildSendEmailException(e, fromEmail, toEmail));
 		} catch (UnsupportedEncodingException e) {
-			throw new ServerException(e);
+			throw new EmailException(e);
 		}
 	}
 
