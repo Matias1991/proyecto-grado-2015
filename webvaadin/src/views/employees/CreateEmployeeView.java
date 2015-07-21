@@ -331,92 +331,89 @@ public class CreateEmployeeView extends BaseView {
 				if (validateEstimateEmployee()){
 					VOSalarySummary estimateSalarySummary = new VOSalarySummary();					
 					try{
-					estimateSalarySummary.setNominalSalary(Utils.parseDecimal(txtNominalSalary.getValue()));
-					
-					estimateSalarySummary.setTickets(Double.parseDouble(txtTickets.getValue()));
-					
-					estimateSalarySummary.setRET(Utils.parseDecimal(txtRet.getValue()));
-					estimateSalarySummary.setIRPF(Double.parseDouble(txtIrpf.getValue()));
-					
-					estimateSalarySummary.setBSE(Double.parseDouble(txtBse.getValue()));
-					estimateSalarySummary.setHours(Integer.parseInt(txtHours.getValue()));
-					estimateSalarySummary.setCostSaleHour(Double.parseDouble(txtCostSaleHour.getValue()));
-					estimateSalarySummary.setPercentageTypeFONASA(Double.parseDouble(txtPercentagePersonalFonasaContribution.getValue()));
+						estimateSalarySummary.setNominalSalary(Double.parseDouble(txtNominalSalary.getValue()));					
+						estimateSalarySummary.setTickets(Double.parseDouble(txtTickets.getValue()));					
+						estimateSalarySummary.setRET(Utils.parseDecimal(txtRet.getValue()));
+						estimateSalarySummary.setIRPF(Utils.parseDecimal(txtIrpf.getValue()));					
+						estimateSalarySummary.setBSE(Utils.parseDecimal(txtBse.getValue()));
+						estimateSalarySummary.setHours(Integer.parseInt(txtHours.getValue()));
+						estimateSalarySummary.setCostSaleHour(Utils.parseDecimal(txtCostSaleHour.getValue()));
+						estimateSalarySummary.setPercentageTypeFONASA(Double.parseDouble(txtPercentagePersonalFonasaContribution.getValue()));
+										
+						VOSalarySummary aux = EmployeeController.estimateEmployee(estimateSalarySummary);
+						if(aux != null){
+							txtNominalSalary.setValue(Double.toString(aux.getNominalSalary()));
+							txtTickets.setValue(Double.toString(aux.getTickets()));
+							txtRet.setValue(Double.toString(aux.getRET()));
+							txtIrpf.setValue(Double.toString(aux.getIRPF()));						
+							txtBse.setValue(Double.toString(aux.getBSE()));						
+							txtHours.setValue(Double.toString(aux.getHours()));
+							txtCostSaleHour.setValue(Double.toString(aux.getCostSaleHour()));						
+							
+							txtPersonalRetirementContribution.setReadOnly(false);
+							txtPersonalRetirementContribution.setValue(Double.toString(aux.getPersonalRetirementContribution()));
+							txtPersonalRetirementContribution.setReadOnly(true);
+							
+							txtEmployerRetirementContribution.setReadOnly(false);
+							txtEmployerRetirementContribution.setValue(Double.toString(aux.getEmployersContributionsRetirement()));
+							txtEmployerRetirementContribution.setReadOnly(true);
+							
+							txtPersonalFrlContribution.setReadOnly(false);
+							txtPersonalFrlContribution.setValue(Double.toString(aux.getPersonalFRLContribution()));
+							txtPersonalFrlContribution.setReadOnly(true);
+							
+							txtEmployerFrlContribution.setReadOnly(false);
+							txtEmployerFrlContribution.setValue(Double.toString(aux.getEmployersFRLContribution()));
+							txtEmployerFrlContribution.setReadOnly(true);
+							
+							txtPersonalFonasaContribution.setReadOnly(false);
+							txtPersonalFonasaContribution.setValue(Double.toString(aux.getPersonalFONASAContribution()));
+							txtPersonalFonasaContribution.setReadOnly(true);
+							
+							txtEmployerFonasaContribution.setReadOnly(false);
+							txtEmployerFonasaContribution.setValue(Double.toString(aux.getEmployersFONASAContribution()));
+							txtEmployerFonasaContribution.setReadOnly(true);
+							
+							txtTicketsEmployer.setReadOnly(false);
+							txtTicketsEmployer.setValue(Double.toString(aux.getTicketsEmployers()));
+							txtTicketsEmployer.setReadOnly(true);
+							
+							txtTotalDiscounts.setReadOnly(false);
+							txtTotalDiscounts.setValue(Double.toString(aux.getTotalDiscounts()));
+							txtTotalDiscounts.setReadOnly(true);
+							
+							txtTotalEmployersContribution.setReadOnly(false);
+							txtTotalEmployersContribution.setValue(Double.toString(aux.getTotalEmployerContributions()));
+							txtTotalEmployersContribution.setReadOnly(true);
+							
+							txtNominalWithoutContribution.setReadOnly(false);
+							txtNominalWithoutContribution.setValue(Double.toString(aux.getNominalWithoutContributions()));
+							txtNominalWithoutContribution.setReadOnly(true);
+							
+							txtDismisalPrevension.setReadOnly(false);
+							txtDismisalPrevension.setValue(Double.toString(aux.getDismissalPrevention()));
+							txtDismisalPrevension.setReadOnly(true);
+							
+							txtIncidenceSalary.setReadOnly(false);
+							txtIncidenceSalary.setValue(Double.toString(aux.getIncidenceSalary()));
+							txtIncidenceSalary.setReadOnly(true);
+							
+							txtSalaryToPay.setReadOnly(false);
+							txtSalaryToPay.setValue(Double.toString(aux.getSalaryToPay()));
+							txtSalaryToPay.setReadOnly(true);
+							
+							txtCostMonth.setReadOnly(false);
+							txtCostMonth.setValue(Double.toString(aux.getCostMonth()));
+							txtCostMonth.setReadOnly(true);
+							
+							txtCostRealHour.setReadOnly(false);
+							txtCostRealHour.setValue(Double.toString(aux.getCostRealHour()));
+							txtCostRealHour.setReadOnly(true);						
+						}else{					
+							PopupWindow notification = new PopupWindow("ERROR", "No se pudo estimar");			
+						}
 					}catch(ParseException e){
-						e.printStackTrace();
-					}
-					
-					VOSalarySummary aux = EmployeeController.estimateEmployee(estimateSalarySummary);
-					if(aux != null){
-						txtNominalSalary.setValue(Double.toString(aux.getNominalSalary()));
-						txtTickets.setValue(Double.toString(aux.getTickets()));
-						txtRet.setValue(Double.toString(aux.getRET()));
-						txtIrpf.setValue(Double.toString(aux.getIRPF()));						
-						txtBse.setValue(Double.toString(aux.getBSE()));						
-						txtHours.setValue(Double.toString(aux.getHours()));
-						txtCostSaleHour.setValue(Double.toString(aux.getCostSaleHour()));						
-						
-						txtPersonalRetirementContribution.setReadOnly(false);
-						txtPersonalRetirementContribution.setValue(Double.toString(aux.getPersonalRetirementContribution()));
-						txtPersonalRetirementContribution.setReadOnly(true);
-						
-						txtEmployerRetirementContribution.setReadOnly(false);
-						txtEmployerRetirementContribution.setValue(Double.toString(aux.getEmployersContributionsRetirement()));
-						txtEmployerRetirementContribution.setReadOnly(true);
-						
-						txtPersonalFrlContribution.setReadOnly(false);
-						txtPersonalFrlContribution.setValue(Double.toString(aux.getPersonalFRLContribution()));
-						txtPersonalFrlContribution.setReadOnly(true);
-						
-						txtEmployerFrlContribution.setReadOnly(false);
-						txtEmployerFrlContribution.setValue(Double.toString(aux.getEmployersFRLContribution()));
-						txtEmployerFrlContribution.setReadOnly(true);
-						
-						txtPersonalFonasaContribution.setReadOnly(false);
-						txtPersonalFonasaContribution.setValue(Double.toString(aux.getPersonalFONASAContribution()));
-						txtPersonalFonasaContribution.setReadOnly(true);
-						
-						txtEmployerFonasaContribution.setReadOnly(false);
-						txtEmployerFonasaContribution.setValue(Double.toString(aux.getEmployersFONASAContribution()));
-						txtEmployerFonasaContribution.setReadOnly(true);
-						
-						txtTicketsEmployer.setReadOnly(false);
-						txtTicketsEmployer.setValue(Double.toString(aux.getTicketsEmployers()));
-						txtTicketsEmployer.setReadOnly(true);
-						
-						txtTotalDiscounts.setReadOnly(false);
-						txtTotalDiscounts.setValue(Double.toString(aux.getTotalDiscounts()));
-						txtTotalDiscounts.setReadOnly(true);
-						
-						txtTotalEmployersContribution.setReadOnly(false);
-						txtTotalEmployersContribution.setValue(Double.toString(aux.getTotalEmployerContributions()));
-						txtTotalEmployersContribution.setReadOnly(true);
-						
-						txtNominalWithoutContribution.setReadOnly(false);
-						txtNominalWithoutContribution.setValue(Double.toString(aux.getNominalWithoutContributions()));
-						txtNominalWithoutContribution.setReadOnly(true);
-						
-						txtDismisalPrevension.setReadOnly(false);
-						txtDismisalPrevension.setValue(Double.toString(aux.getDismissalPrevention()));
-						txtDismisalPrevension.setReadOnly(true);
-						
-						txtIncidenceSalary.setReadOnly(false);
-						txtIncidenceSalary.setValue(Double.toString(aux.getIncidenceSalary()));
-						txtIncidenceSalary.setReadOnly(true);
-						
-						txtSalaryToPay.setReadOnly(false);
-						txtSalaryToPay.setValue(Double.toString(aux.getSalaryToPay()));
-						txtSalaryToPay.setReadOnly(true);
-						
-						txtCostMonth.setReadOnly(false);
-						txtCostMonth.setValue(Double.toString(aux.getCostMonth()));
-						txtCostMonth.setReadOnly(true);
-						
-						txtCostRealHour.setReadOnly(false);
-						txtCostRealHour.setValue(Double.toString(aux.getCostRealHour()));
-						txtCostRealHour.setReadOnly(true);						
-					}else{					
-						PopupWindow notification = new PopupWindow("ERROR", "No se pudo estimar");			
+						PopupWindow notification = new PopupWindow("ERROR", "Revise los tipos de datos");
 					}
 					
 				}
