@@ -7,9 +7,11 @@ import java.util.Collection;
 import org.apache.axis2.AxisFault;
 
 import servicelayer.service.ServiceWebStub;
+import servicelayer.service.ServiceWebStub.EstimateSalarySummary;
 import servicelayer.service.ServiceWebStub.GetEmployees;
 import servicelayer.service.ServiceWebStub.InsertEmployed;
 import servicelayer.service.ServiceWebStub.VOEmployed;
+import servicelayer.service.ServiceWebStub.VOSalarySummary;
 import utils.PopupWindow;
 import entities.Employee;
 import entities.User;
@@ -56,6 +58,28 @@ public class EmployeeController {
 			
 			result = service.insertEmployed(createEmployee).get_return();
 			
+		}catch(AxisFault e){
+			String error = e.getMessage().replace("<faultstring>", "");
+			PopupWindow popup = new PopupWindow("ERROR", error.replace("</faultstring>", ""));
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return result;
+	}
+	
+	public static VOSalarySummary estimateEmployee(VOSalarySummary voSalarySummary){
+			
+		VOSalarySummary result = null;
+		
+		try{
+			ServiceWebStub service = new ServiceWebStub();
+			EstimateSalarySummary estimateSalarySummary = new EstimateSalarySummary();
+			
+			estimateSalarySummary.setVoSalarySummary(voSalarySummary);			
+			result = service.estimateSalarySummary(estimateSalarySummary).get_return();
+						
 		}catch(AxisFault e){
 			String error = e.getMessage().replace("<faultstring>", "");
 			PopupWindow popup = new PopupWindow("ERROR", error.replace("</faultstring>", ""));
