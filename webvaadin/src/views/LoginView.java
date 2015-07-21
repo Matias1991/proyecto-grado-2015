@@ -59,7 +59,7 @@ public class LoginView extends BaseView {
 				// TODO Auto-generated method stub
 				VOUser voUser = UserController.loginUser(txtUsername.getValue(), txtPassword.getValue());
 				
-				if(voUser != null && voUser.getUserStatus() != 0){						
+				if(voUser != null){						
 					txtUsername.setValue("");
 					txtPassword.setValue("");
 					txtUsername.focus();
@@ -71,11 +71,8 @@ public class LoginView extends BaseView {
 					getUI().getNavigator().navigateTo("");
 					
 				}else{
-					//Notification.show("ERROR:", "Usuario y/o contraseña incorrecta", Type.ERROR_MESSAGE);
-					PopupWindow notification = new PopupWindow("ERROR", "Usuario y/o contraseña incorrecta");
-					txtUsername.setValue("");
 					txtPassword.setValue("");
-					txtUsername.focus();
+					txtPassword.focus();
 				}					
 			}			
 		});	

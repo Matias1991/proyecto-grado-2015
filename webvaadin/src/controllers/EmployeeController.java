@@ -25,11 +25,13 @@ public class EmployeeController {
 			GetEmployees getEmployees = new GetEmployees();
 			
 			VOEmployed [] voEmployees = service.getEmployees(getEmployees).get_return();
-
-			for(VOEmployed voEmployee : voEmployees)
-			{
-				Employee employee = new Employee(voEmployee);
-				employees.add(employee);
+			
+			if(voEmployees != null){
+				for(VOEmployed voEmployee : voEmployees)
+				{
+					Employee employee = new Employee(voEmployee);
+					employees.add(employee);
+				}				
 			}
 			
 		} catch (AxisFault e) {
