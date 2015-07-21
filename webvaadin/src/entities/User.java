@@ -18,7 +18,7 @@ public class User {
 		this.id = voUser.getId();
 		this.lastName = voUser.getLastName();
 		this.email = voUser.getEmail();
-		this.userType = GetUserType(voUser.getUserType());
+		this.userType = getUserType(voUser.getUserType());
 		this.userName = voUser.getUserName();
 		this.userSatus = voUser.getUserStatus();
 	}
@@ -87,22 +87,22 @@ public class User {
 	}
 	
 	
-	public String GetUserType(int userTypeId)
+	public String getUserType(int userTypeId)
 	{
 		String result = "";
 		switch(userTypeId)
 		{
 		   case 1: 
-			   	 result = "ADMINISTRADOR";
+			   	 result = "Administrador";
 		         break;
 		   case 2: 
-			   	 result = "SOCIO";
+			   	 result = "Socio";
 		         break;
 		   case 3: 
-			   	 result = "GERENTE";
+			   	 result = "Gerente";
 		         break;
 		    default:
-		    	result = "NO DEFINIDO";
+		    	result = "No definido";
 		          break;
 		}
 		

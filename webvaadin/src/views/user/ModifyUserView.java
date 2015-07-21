@@ -229,7 +229,7 @@ public class ModifyUserView extends BaseView {
 		mainLayout = new AbsoluteLayout();
 		mainLayout.setImmediate(false);
 		mainLayout.setWidth("360px");
-		mainLayout.setHeight("600px");
+		mainLayout.setHeight("800px");
 
 		// top-level component properties
 		setWidth("682px");
