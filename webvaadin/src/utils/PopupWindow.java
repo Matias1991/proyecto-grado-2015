@@ -2,6 +2,7 @@ package utils;
 
 import com.example.webvaadin.WebvaadinUI;
 import com.vaadin.ui.Label;
+import com.vaadin.ui.TextArea;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
 
@@ -12,7 +13,10 @@ public class PopupWindow extends Window{
 		center();
 		
 		VerticalLayout content = new VerticalLayout();
-		content.addComponent(new Label(message));
+		TextArea textMessage = new TextArea();
+		content.addComponent(textMessage);
+		
+		//content.addComponent(new Label(message));		
 		content.setMargin(true);
 		setContent(content);
 		
@@ -22,6 +26,12 @@ public class PopupWindow extends Window{
 		setResizable(true);
 		setWidth("400px");
 		setHeight("200px");
+		
+		textMessage.setValue(message);
+		textMessage.setWidth("360px");
+		textMessage.setHeight("120px");
+		textMessage.setReadOnly(true);
+		
 		if(title == "ERROR"){
 			setStyleName("popupStyle");
 		}
