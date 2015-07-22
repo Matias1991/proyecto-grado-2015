@@ -197,7 +197,7 @@ public class CreateUserView extends BaseView {
 		txtEmail.setHeight("-1px");
 		txtEmail.setTabIndex(3);
 		txtEmail.setRequired(true);
-		txtEmail.addValidator(new EmailValidator("Formato invalido"));
+//		txtEmail.addValidator(new EmailValidator("Formato invalido"));
 		mainLayout.addComponent(txtEmail, "top:240.0px;left:0.0px;");
 
 		// txtUserName
