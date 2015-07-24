@@ -19,4 +19,6 @@ public interface IDAOUsers extends IDAOBase<User>{
 	void updatePassword(int id, String newPassword) throws ServerException;
 	
 	void update(int id, UserStatus userStatus, int attempts, Date lastAttemptDateTimeUTC) throws ServerException;
+	
+	ArrayList<User> getUsersByStatus(UserStatus userStatus) throws ServerException;
 }

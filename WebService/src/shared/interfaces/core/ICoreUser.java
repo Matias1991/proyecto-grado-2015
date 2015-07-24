@@ -29,4 +29,6 @@ public interface ICoreUser {
 	void changePassword(int id, String oldPassword, String newPassword) throws ServerException, ClientException;
 	
 	void unlockUser(int id) throws ServerException, ClientException;
+	
+	ArrayList<VOUser> getUsersByStatus(int userStatusId) throws ServerException;
 }

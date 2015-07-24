@@ -284,6 +284,24 @@ public class CoreUser implements ICoreUser {
 			throw new ClientException("No existe un usuario con ese id");
 	}
 	
+	@Override
+	public ArrayList<VOUser> getUsersByStatus(int userStatusId) throws ServerException
+	{
+		ArrayList<User> users;
+		ArrayList<VOUser> voUsers = null;
+
+		UserStatus userStatus = UserStatus.getEnum(userStatusId);
+		users = iDAOUsers.getUsersByStatus(userStatus);
+		voUsers = new ArrayList<VOUser>(); 
+		
+		for(User user: users)
+		{
+			voUsers.add(BuildVOUser(user));
+		}
+		
+		return voUsers;
+	}
+	
 	VOUser BuildVOUser(User user)
 	{
 		VOUser voUser = new VOUser();

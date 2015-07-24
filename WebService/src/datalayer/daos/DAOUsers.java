@@ -376,6 +376,39 @@ public class DAOUsers implements IDAOUsers {
 		}
 	}
 	
+	@Override
+	public ArrayList<User> getUsersByStatus(UserStatus userStatus) throws ServerException {
+		ArrayList<User> users = new ArrayList<User>();
+		PreparedStatement preparedStatement = null;
+		ResultSet rs = null;
+		try {
+
+			String getSQL = "SELECT * FROM USER WHERE userStatusId = ?";
+			preparedStatement = this.connection.prepareStatement(getSQL);
+			preparedStatement.setInt(1, userStatus.getValue());
+			
+			rs = preparedStatement.executeQuery();
+
+			while (rs.next()) {
+				users.add(BuildUser(rs));
+			}
+
+		} catch (SQLException e) {
+			throw new ServerException(e);
+		} finally {
+			try {
+				if (preparedStatement != null)
+					preparedStatement.close();
+				if (rs != null)
+					rs.close();
+			} catch (SQLException e) {
+				LoggerMSMP.setLog(e.getMessage());
+			}
+		}
+
+		return users;
+	}
+	
 	User BuildUser(ResultSet rs) throws SQLException
 	{
 		int _id = rs.getInt("id");

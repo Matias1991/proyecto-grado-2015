@@ -297,6 +297,31 @@ public class ServiceWeb extends ServiceBase{
 		return false;
 	}
 	
+	public VOUser [] getUsersByStatus(int userStatusId)
+	{
+		ArrayList<VOUser> voUsers;
+		try {
+			transactionLock.tryLock(Constants.DEFAULT_TRANSACTION_TIME, TimeUnit.SECONDS);
+			
+			voUsers = iCoreUser.getUsersByStatus(userStatusId);
+			VOUser [] arrayVoUser = new VOUser[voUsers.size()];
+		    voUsers.toArray(arrayVoUser);
+		    return arrayVoUser;
+		    
+		} catch (ServerException e) {
+			ThrowServerExceptionAndLogError(e, "obtener todos los usuarios");
+		} catch (InterruptedException e) {
+			throw new RuntimeException(Constants.TRANSACTION_ERROR);
+		} catch (Exception e) {
+			ThrowGenericExceptionAndLogError(e);
+		}
+		finally
+		{
+			transactionLock.unlock();
+		}
+		return null;
+	}
+	
 	public boolean insertEmployed(VOEmployed voEmployed)
 	{
 		try {
