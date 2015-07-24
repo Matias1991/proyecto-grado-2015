@@ -88,7 +88,7 @@ public class CreateEmployeeView extends BaseView {
 	 * visual editor.
 	 */
 	public CreateEmployeeView() {
-		buildMainLayout();
+		buildMainLayout();		
 		setCompositionRoot(mainLayout);
 		
 		// TODO add user code here
@@ -99,7 +99,7 @@ public class CreateEmployeeView extends BaseView {
 		// Sueldo Nominal
 		txtNominalSalary = new TextField();
 		txtNominalSalary.setCaption("Sueldo Nominal");
-		txtNominalSalary.setImmediate(false);
+		txtNominalSalary.setImmediate(true);
 		txtNominalSalary.setWidth("-1px");
 		txtNominalSalary.setHeight("-1px");
 		txtNominalSalary.setRequired(true);	
@@ -109,7 +109,7 @@ public class CreateEmployeeView extends BaseView {
 		// Tickets
 		txtTickets = new TextField();
 		txtTickets.setCaption("Tickets");
-		txtTickets.setImmediate(false);
+		txtTickets.setImmediate(true);
 		txtTickets.setWidth("-1px");
 		txtTickets.setHeight("-1px");
 		txtTickets.setRequired(true);			
@@ -119,7 +119,7 @@ public class CreateEmployeeView extends BaseView {
 		// RET
 		txtRet = new TextField();
 		txtRet.setCaption("RET");
-		txtRet.setImmediate(false);
+		txtRet.setImmediate(true);
 		txtRet.setWidth("-1px");
 		txtRet.setHeight("-1px");			
 		txtRet.setNullRepresentation("");
@@ -128,7 +128,7 @@ public class CreateEmployeeView extends BaseView {
 		// IRPF
 		txtIrpf = new TextField();
 		txtIrpf.setCaption("IRPF");
-		txtIrpf.setImmediate(false);
+		txtIrpf.setImmediate(true);
 		txtIrpf.setWidth("-1px");
 		txtIrpf.setHeight("-1px");
 		txtIrpf.setNullRepresentation("");
@@ -137,7 +137,7 @@ public class CreateEmployeeView extends BaseView {
 		// BSE
 		txtBse = new TextField();
 		txtBse.setCaption("BSE");
-		txtBse.setImmediate(false);
+		txtBse.setImmediate(true);
 		txtBse.setWidth("-1px");
 		txtBse.setHeight("-1px");
 		txtBse.setNullRepresentation("");
@@ -146,7 +146,7 @@ public class CreateEmployeeView extends BaseView {
 		// Horas mensuales
 		txtHours = new TextField();
 		txtHours.setCaption("Cantidad Horas Mensual");
-		txtHours.setImmediate(false);
+		txtHours.setImmediate(true);
 		txtHours.setWidth("-1px");
 		txtHours.setHeight("-1px");
 		txtHours.setRequired(true);
@@ -156,7 +156,7 @@ public class CreateEmployeeView extends BaseView {
 		// Precio de venta por hora
 		txtCostSaleHour = new TextField();
 		txtCostSaleHour.setCaption("Hora Venta");
-		txtCostSaleHour.setImmediate(false);
+		txtCostSaleHour.setImmediate(true);
 		txtCostSaleHour.setWidth("-1px");
 		txtCostSaleHour.setHeight("-1px");		
 		txtCostSaleHour.setNullRepresentation("");
@@ -165,7 +165,7 @@ public class CreateEmployeeView extends BaseView {
 		// Porcentaje aporte FONASA Personal
 		txtPercentagePersonalFonasaContribution = new TextField();
 		txtPercentagePersonalFonasaContribution.setCaption("% Aporte FONASA Personal");
-		txtPercentagePersonalFonasaContribution.setImmediate(false);
+		txtPercentagePersonalFonasaContribution.setImmediate(true);
 		txtPercentagePersonalFonasaContribution.setWidth("-1px");
 		txtPercentagePersonalFonasaContribution.setHeight("-1px");
 		txtPercentagePersonalFonasaContribution.setRequired(true);
@@ -177,7 +177,7 @@ public class CreateEmployeeView extends BaseView {
 		// Aporte Jubilatorio Personal
 		txtPersonalRetirementContribution = new TextField();
 		txtPersonalRetirementContribution.setCaption("Aporte Jubilatorio Personal");
-		txtPersonalRetirementContribution.setImmediate(false);
+		txtPersonalRetirementContribution.setImmediate(true);
 		txtPersonalRetirementContribution.setWidth("-1px");
 		txtPersonalRetirementContribution.setHeight("-1px");
 		txtPersonalRetirementContribution.setNullRepresentation("");
@@ -186,7 +186,7 @@ public class CreateEmployeeView extends BaseView {
 		// Aporte Jubilatorio Patronal
 		txtEmployerRetirementContribution = new TextField();
 		txtEmployerRetirementContribution.setCaption("Aporte Jubilatorio Patronal");
-		txtEmployerRetirementContribution.setImmediate(false);
+		txtEmployerRetirementContribution.setImmediate(true);
 		txtEmployerRetirementContribution.setWidth("-1px");
 		txtEmployerRetirementContribution.setHeight("-1px");
 		txtEmployerRetirementContribution.setNullRepresentation("");
@@ -195,7 +195,7 @@ public class CreateEmployeeView extends BaseView {
 		// Aporte FRL Personal
 		txtPersonalFrlContribution = new TextField();
 		txtPersonalFrlContribution.setCaption("Aporte FRL Personal");
-		txtPersonalFrlContribution.setImmediate(false);
+		txtPersonalFrlContribution.setImmediate(true);
 		txtPersonalFrlContribution.setWidth("-1px");
 		txtPersonalFrlContribution.setHeight("-1px");
 		txtPersonalFrlContribution.setNullRepresentation("");
@@ -204,7 +204,7 @@ public class CreateEmployeeView extends BaseView {
 		// Aporte FRL Patronal
 		txtEmployerFrlContribution = new TextField();
 		txtEmployerFrlContribution.setCaption("Aporte FRL Patronal");
-		txtEmployerFrlContribution.setImmediate(false);
+		txtEmployerFrlContribution.setImmediate(true);
 		txtEmployerFrlContribution.setWidth("-1px");
 		txtEmployerFrlContribution.setHeight("-1px");
 		txtEmployerFrlContribution.setNullRepresentation("");
@@ -213,7 +213,7 @@ public class CreateEmployeeView extends BaseView {
 		// Aporte FONASA Personal
 		txtPersonalFonasaContribution = new TextField();
 		txtPersonalFonasaContribution.setCaption("Aporte FONASA Personal");
-		txtPersonalFonasaContribution.setImmediate(false);
+		txtPersonalFonasaContribution.setImmediate(true);
 		txtPersonalFonasaContribution.setWidth("-1px");
 		txtPersonalFonasaContribution.setHeight("-1px");
 		txtPersonalFonasaContribution.setNullRepresentation("");
@@ -222,7 +222,7 @@ public class CreateEmployeeView extends BaseView {
 		// Aporte FONASA Patronal
 		txtEmployerFonasaContribution = new TextField();
 		txtEmployerFonasaContribution.setCaption("Aporte FONASA Patronal");
-		txtEmployerFonasaContribution.setImmediate(false);
+		txtEmployerFonasaContribution.setImmediate(true);
 		txtEmployerFonasaContribution.setWidth("-1px");
 		txtEmployerFonasaContribution.setHeight("-1px");
 		txtEmployerFonasaContribution.setNullRepresentation("");
@@ -231,7 +231,7 @@ public class CreateEmployeeView extends BaseView {
 		// Tickets Patronal
 		txtTicketsEmployer = new TextField();
 		txtTicketsEmployer.setCaption("Tickets Patronal");
-		txtTicketsEmployer.setImmediate(false);
+		txtTicketsEmployer.setImmediate(true);
 		txtTicketsEmployer.setWidth("-1px");
 		txtTicketsEmployer.setHeight("-1px");
 		txtTicketsEmployer.setNullRepresentation("");
@@ -240,7 +240,7 @@ public class CreateEmployeeView extends BaseView {
 		// Total Descuentos
 		txtTotalDiscounts = new TextField();
 		txtTotalDiscounts.setCaption("Total Descuentos");
-		txtTotalDiscounts.setImmediate(false);
+		txtTotalDiscounts.setImmediate(true);
 		txtTotalDiscounts.setWidth("-1px");
 		txtTotalDiscounts.setHeight("-1px");
 		txtTotalDiscounts.setNullRepresentation("");
@@ -249,7 +249,7 @@ public class CreateEmployeeView extends BaseView {
 		// Total Aportes Patronales
 		txtTotalEmployersContribution = new TextField();
 		txtTotalEmployersContribution.setCaption("Total Aportes Patronales");
-		txtTotalEmployersContribution.setImmediate(false);
+		txtTotalEmployersContribution.setImmediate(true);
 		txtTotalEmployersContribution.setWidth("-1px");
 		txtTotalEmployersContribution.setHeight("-1px");
 		txtTotalEmployersContribution.setNullRepresentation("");
@@ -258,7 +258,7 @@ public class CreateEmployeeView extends BaseView {
 		// Nominal Sin Aportes
 		txtNominalWithoutContribution = new TextField();
 		txtNominalWithoutContribution.setCaption("Nominal Sin Aportes");
-		txtNominalWithoutContribution.setImmediate(false);
+		txtNominalWithoutContribution.setImmediate(true);
 		txtNominalWithoutContribution.setWidth("-1px");
 		txtNominalWithoutContribution.setHeight("-1px");
 		txtNominalWithoutContribution.setNullRepresentation("");
@@ -267,7 +267,7 @@ public class CreateEmployeeView extends BaseView {
 		// Prevision Despido
 		txtDismisalPrevension = new TextField();
 		txtDismisalPrevension.setCaption("Prevision Despido");
-		txtDismisalPrevension.setImmediate(false);
+		txtDismisalPrevension.setImmediate(true);
 		txtDismisalPrevension.setWidth("-1px");
 		txtDismisalPrevension.setHeight("-1px");
 		txtDismisalPrevension.setNullRepresentation("");
@@ -276,7 +276,7 @@ public class CreateEmployeeView extends BaseView {
 		// Incidencia Sueldo
 		txtIncidenceSalary = new TextField();
 		txtIncidenceSalary.setCaption("Incidencia Sueldo");
-		txtIncidenceSalary.setImmediate(false);
+		txtIncidenceSalary.setImmediate(true);
 		txtIncidenceSalary.setWidth("-1px");
 		txtIncidenceSalary.setHeight("-1px");
 		txtIncidenceSalary.setNullRepresentation("");
@@ -285,7 +285,7 @@ public class CreateEmployeeView extends BaseView {
 		// Sueldos a Pagar
 		txtSalaryToPay = new TextField();
 		txtSalaryToPay.setCaption("Sueldos A Pagar");
-		txtSalaryToPay.setImmediate(false);
+		txtSalaryToPay.setImmediate(true);
 		txtSalaryToPay.setWidth("-1px");
 		txtSalaryToPay.setHeight("-1px");
 		txtSalaryToPay.setNullRepresentation("");
@@ -294,7 +294,7 @@ public class CreateEmployeeView extends BaseView {
 		// Costo Mensual
 		txtCostMonth = new TextField();
 		txtCostMonth.setCaption("Costo Mensual");
-		txtCostMonth.setImmediate(false);
+		txtCostMonth.setImmediate(true);
 		txtCostMonth.setWidth("-1px");
 		txtCostMonth.setHeight("-1px");
 		txtCostMonth.setNullRepresentation("");
@@ -303,7 +303,7 @@ public class CreateEmployeeView extends BaseView {
 		// Costo Hora Meerkat
 		txtCostRealHour = new TextField();
 		txtCostRealHour.setCaption("Costo Hora Meerkat");
-		txtCostRealHour.setImmediate(false);
+		txtCostRealHour.setImmediate(true);
 		txtCostRealHour.setWidth("-1px");
 		txtCostRealHour.setHeight("-1px");	
 		txtCostRealHour.setNullRepresentation("");
@@ -314,7 +314,7 @@ public class CreateEmployeeView extends BaseView {
 		// Boton Estimar
 		btnEstimate = new Button();
 		btnEstimate.setCaption("Estimar");
-		btnEstimate.setImmediate(false);
+		btnEstimate.setImmediate(true);
 		btnEstimate.setWidth("-1px");
 		btnEstimate.setHeight("-1px");
 		
@@ -474,7 +474,7 @@ public class CreateEmployeeView extends BaseView {
 				
 					if(EmployeeController.createEmployee(newEmployee)){
 						PopupWindow popup = new PopupWindow("AVISO", "Empleado creado correctamente");
-						cleanInputs();						
+						cleanInputs();								
 					}
 				}				
 			}
@@ -485,13 +485,14 @@ public class CreateEmployeeView extends BaseView {
 			@Override
 			public void buttonClick(ClickEvent event) {
 				// TODO Auto-generated method stub
-				getUI().getNavigator().navigateTo(WebvaadinUI.MAINMENU);
+				getUI().getNavigator().navigateTo(WebvaadinUI.MAINMENU);				
 			}
 		});
 		
 		
 		
 	}
+		
 	
 	public boolean validateEstimateEmployee(){		
 		boolean result = true;
@@ -601,14 +602,21 @@ public class CreateEmployeeView extends BaseView {
 		txtSalaryToPay.clear();
 		txtCostMonth.clear();
 		txtCostRealHour.clear();
-		changeReadOnlyState(true);
+		changeReadOnlyState(true);	
+		txtNominalSalary.setRequiredError(null);
+		txtTickets.setRequiredError(null);
+		txtPercentagePersonalFonasaContribution.setRequiredError(null);
+		txtHours.setRequiredError(null);
+		txtName.setRequiredError(null);
+		txtSurname.setRequiredError(null);
+		tabTaxes.setSelectedTab(0);
 	}
 
 	@AutoGenerated
 	private AbsoluteLayout buildMainLayout() {
 		// common part: create layout
 		mainLayout = new AbsoluteLayout();		
-		mainLayout.setImmediate(false);
+		mainLayout.setImmediate(true);
 		mainLayout.setWidth("1083px");
 		mainLayout.setHeight("500px");
 		
@@ -619,7 +627,7 @@ public class CreateEmployeeView extends BaseView {
 		// txtName
 		txtName = new TextField();
 		txtName.setCaption("Nombre");
-		txtName.setImmediate(false);
+		txtName.setImmediate(true);
 		txtName.setWidth("390px");
 		txtName.setHeight("-1px");
 		txtName.setRequired(true);
@@ -627,7 +635,7 @@ public class CreateEmployeeView extends BaseView {
 		
 		// lblTitle
 		lblTitle = new Label();
-		lblTitle.setImmediate(false);
+		lblTitle.setImmediate(true);
 		lblTitle.setWidth("-1px");
 		lblTitle.setHeight("-1px");
 		lblTitle.setValue("Crear empleado");
@@ -636,7 +644,7 @@ public class CreateEmployeeView extends BaseView {
 		// txtSurname
 		txtSurname = new TextField();
 		txtSurname.setCaption("Apellido");
-		txtSurname.setImmediate(false);
+		txtSurname.setImmediate(true);
 		txtSurname.setWidth("390px");
 		txtSurname.setHeight("-1px");
 		txtSurname.setRequired(true);
@@ -645,7 +653,7 @@ public class CreateEmployeeView extends BaseView {
 		// txtAddress
 		txtAddress = new TextField();
 		txtAddress.setCaption("Domicilio");
-		txtAddress.setImmediate(false);
+		txtAddress.setImmediate(true);
 		txtAddress.setWidth("390px");
 		txtAddress.setHeight("-1px");
 		mainLayout.addComponent(txtAddress, "top:196.0px;left:0.0px;");
@@ -653,7 +661,7 @@ public class CreateEmployeeView extends BaseView {
 		// txtEmail
 		txtEmail = new TextField();
 		txtEmail.setCaption("Correo");
-		txtEmail.setImmediate(false);
+		txtEmail.setImmediate(true);
 		txtEmail.setWidth("390px");
 		txtEmail.setHeight("-1px");
 		mainLayout.addComponent(txtEmail, "top:256.0px;left:0.0px;");
@@ -661,7 +669,7 @@ public class CreateEmployeeView extends BaseView {
 		// txtCellPhone
 		txtCellPhone = new TextField();
 		txtCellPhone.setCaption("Celular");
-		txtCellPhone.setImmediate(false);
+		txtCellPhone.setImmediate(true);
 		txtCellPhone.setWidth("-1px");
 		txtCellPhone.setHeight("-1px");
 		mainLayout.addComponent(txtCellPhone, "top:317.0px;left:0.0px;");
@@ -669,7 +677,7 @@ public class CreateEmployeeView extends BaseView {
 		// optEmployeeType
 		optEmployeeType = new OptionGroup();
 		optEmployeeType.setCaption("Tipo");
-		optEmployeeType.setImmediate(false);
+		optEmployeeType.setImmediate(true);
 		optEmployeeType.setWidth("-1px");
 		optEmployeeType.setHeight("-1px");
 		optEmployeeType.setRequired(true);
@@ -678,7 +686,7 @@ public class CreateEmployeeView extends BaseView {
 		// tabTaxes
 		tabTaxes = new TabSheet();
 		tabTaxes.setCaption("Costos Empleado");
-		tabTaxes.setImmediate(false);
+		tabTaxes.setImmediate(true);
 		tabTaxes.setWidth("-1px");
 		tabTaxes.setHeight("-1px");
 		mainLayout.addComponent(tabTaxes, "top:76.0px;left:400.0px;");
@@ -704,6 +712,7 @@ public class CreateEmployeeView extends BaseView {
 	
 	public void enter(ViewChangeEvent event) {
 		super.enter(event);
+		cleanInputs();					
 		
 	}
 	
