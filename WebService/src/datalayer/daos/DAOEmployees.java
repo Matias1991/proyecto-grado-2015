@@ -87,9 +87,28 @@ public class DAOEmployees implements IDAOEmployees{
 	}
 
 	@Override
-	public void delete(int id) {
-		// TODO Auto-generated method stub
+	public void delete(int id) throws ServerException {
+		PreparedStatement preparedStatement = null;
 		
+		try {
+		
+			String deleteSQL = "DELETE FROM EMPLOYED WHERE ID = ?";
+			preparedStatement = this.connection.prepareStatement(deleteSQL);
+			preparedStatement.setInt(1, id);
+			preparedStatement.execute();
+
+		} catch (SQLException e) {
+			throw new ServerException(e);
+		} finally {
+
+			if (preparedStatement != null) {
+				try {
+					preparedStatement.close();
+				} catch (SQLException e) {
+					LoggerMSMP.setLog(e.getMessage());
+				}
+			}
+		}
 	}
 
 	@Override

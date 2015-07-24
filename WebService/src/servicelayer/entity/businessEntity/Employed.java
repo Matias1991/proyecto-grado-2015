@@ -137,7 +137,12 @@ public class Employed {
 	public void setUser(User user) {
 		this.user = user;
 	}
-
+	
+	public void setIDAOSalarySummaries(IDAOSalarySummaries iDAOSalarySummaries)
+	{
+		this.iDAOSalarySummaries = iDAOSalarySummaries;
+	}
+	
 	public void addNewSalarySummary(SalarySummary salarySummary) throws ServerException
 	{
 		iDAOSalarySummaries.insert(this.id, salarySummary);
@@ -151,5 +156,10 @@ public class Employed {
 	public SalarySummary getLatestVersionSalarySummary() throws ServerException
 	{
 		return iDAOSalarySummaries.getLatestVersionSalarySummary(this.id);
+	}
+	
+	public void deleteSalarySummaries() throws ServerException
+	{
+		iDAOSalarySummaries.deleteSalarySummaries(this.id);
 	}
 }

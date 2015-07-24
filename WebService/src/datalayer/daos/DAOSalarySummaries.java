@@ -102,6 +102,32 @@ public class DAOSalarySummaries implements IDAOSalarySummaries{
 	}
 
 	@Override
+	public void deleteSalarySummaries(int employedId)
+			throws ServerException {
+		PreparedStatement preparedStatement = null;
+		
+		try {
+		
+			String deleteSQL = "DELETE FROM SALARYSUMMARY WHERE EMPLOYEDID = ?";
+			preparedStatement = this.connection.prepareStatement(deleteSQL);
+			preparedStatement.setInt(1, employedId);
+			preparedStatement.execute();
+
+		} catch (SQLException e) {
+			throw new ServerException(e);
+		} finally {
+
+			if (preparedStatement != null) {
+				try {
+					preparedStatement.close();
+				} catch (SQLException e) {
+					LoggerMSMP.setLog(e.getMessage());
+				}
+			}
+		}
+	}
+	
+	@Override
 	public SalarySummary getSalarySummary(int employedId, int version)
 			throws ServerException {
 		// TODO Auto-generated method stub

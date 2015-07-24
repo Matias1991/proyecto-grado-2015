@@ -10,6 +10,8 @@ public interface IDAOSalarySummaries {
 	int insert(int employedId, SalarySummary salarySummary) throws ServerException;
 	
 	void delete(int employedId, int salarySummaryId) throws ServerException;
+	
+	void deleteSalarySummaries(int employedId) throws ServerException;
 
     SalarySummary getSalarySummary(int employedId, int version) throws ServerException;
     

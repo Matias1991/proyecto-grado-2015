@@ -115,6 +115,36 @@ public class CoreEmployed implements ICoreEmployed{
 		
 		return BuildVOSalarySummary(salarySummary);
 	}
+	
+	public void deleteEmployed(int id) throws ServerException, ClientException
+	{
+		DAOManager daoManager = new DAOManager();
+		
+		try {
+			
+	    Employed employed = daoManager.getDAOEmployees().getObject(id);
+	    if(employed != null)
+	    {
+	    	//DELETE ALL SALARY SUMMARIES
+	    	employed.setIDAOSalarySummaries(daoManager.getDAOSalarySummaries());
+	    	employed.deleteSalarySummaries();
+			
+	    	//DELETE EMPLOYED
+			daoManager.getDAOEmployees().delete(id);
+			daoManager.commit();
+	    }
+	    else
+	    	throw new ClientException("No existe un empleado con ese id");
+	    
+		} catch (ServerException e) {
+			daoManager.rollback();
+			throw e;
+		}
+		finally
+		{
+			daoManager.close();
+		}
+	}
 
 	SalarySummary calculateSalarySummary(VOSalarySummary voSalarySummary) throws ServerException
 	{
