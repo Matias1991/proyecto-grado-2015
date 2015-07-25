@@ -145,6 +145,41 @@ public class CoreEmployed implements ICoreEmployed{
 			daoManager.close();
 		}
 	}
+	
+	public void updateEmployed(int id, VOEmployed voEmployed) throws ServerException, ClientException
+	{
+		DAOManager daoManager = new DAOManager();
+		
+		try {
+			
+	    Employed currentEmployed = daoManager.getDAOEmployees().getObject(id);
+	    if(currentEmployed != null)
+	    {
+	    	Employed updatedEmployed = new Employed(voEmployed);
+	    	//UPDATE EMPLOYED
+	    	updatedEmployed.setCreatedDateTimeUTC(new Date());
+	    	updatedEmployed.setUpdatedDateTimeUTC(new Date());
+	    	daoManager.getDAOEmployees().update(id, updatedEmployed);
+	    	
+	    	//CREATE NEW VERSION OF SALARY SUMMARY
+	    	currentEmployed.setIDAOSalarySummaries(daoManager.getDAOSalarySummaries());
+	    	SalarySummary salarySummary = calculateSalarySummary(voEmployed.getvOSalarySummary());
+	    	currentEmployed.addNewSalarySummary(salarySummary);
+			
+			daoManager.commit();
+	    }
+	    else
+	    	throw new ClientException("No existe un empleado con ese id");
+	    
+		} catch (ServerException e) {
+			daoManager.rollback();
+			throw e;
+		}
+		finally
+		{
+			daoManager.close();
+		}
+	}
 
 	SalarySummary calculateSalarySummary(VOSalarySummary voSalarySummary) throws ServerException
 	{

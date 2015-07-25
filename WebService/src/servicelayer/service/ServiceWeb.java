@@ -433,4 +433,27 @@ public class ServiceWeb extends ServiceBase{
 		}
 		return false;
 	}
+	
+	public boolean updatedEmployed(int id, VOEmployed voEmployed)
+	{
+		try {
+			transactionLock.tryLock(Constants.DEFAULT_TRANSACTION_TIME, TimeUnit.SECONDS);
+			
+			 iCoreEmployed.updateEmployed(id, voEmployed);
+			 return true;
+		} catch (ServerException e) {
+			ThrowServerExceptionAndLogError(e, "estimar el resumen de salario del empleado");
+		} catch (ClientException e) {
+			throw new RuntimeException(e.getMessage());
+		}catch (InterruptedException e) {
+			throw new RuntimeException(Constants.TRANSACTION_ERROR);	
+		} catch (Exception e) {
+			ThrowGenericExceptionAndLogError(e);
+		}
+		finally
+		{
+			transactionLock.unlock();
+		}
+		return false;
+	}
 }

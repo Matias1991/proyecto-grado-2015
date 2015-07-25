@@ -18,4 +18,6 @@ public interface ICoreEmployed {
     VOSalarySummary estimateSalarySummary(VOSalarySummary voSummarySalary) throws ServerException;
     
     void deleteEmployed(int id) throws ServerException, ClientException;
+    
+    void updateEmployed(int id, VOEmployed voEmployed) throws ServerException, ClientException;
 }
