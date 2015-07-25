@@ -3,7 +3,7 @@
  * ServiceWebCallbackHandler.java
  *
  * This file was auto-generated from WSDL
- * by the Apache Axis2 version: 1.6.0  Built on : May 17, 2011 (04:19:43 IST)
+ * by the Apache Axis2 version: 1.6.2  Built on : Apr 17, 2012 (05:33:49 IST)
  */
 
     package servicelayer.service;
@@ -58,6 +58,22 @@
            * override this method for handling error response from updateUser operation
            */
             public void receiveErrorupdateUser(java.lang.Exception e) {
+            }
+                
+           /**
+            * auto generated Axis2 call back method for getUsersByStatus method
+            * override this method for handling normal response from getUsersByStatus operation
+            */
+           public void receiveResultgetUsersByStatus(
+                    servicelayer.service.ServiceWebStub.GetUsersByStatusResponse result
+                        ) {
+           }
+
+          /**
+           * auto generated Axis2 Error handler
+           * override this method for handling error response from getUsersByStatus operation
+           */
+            public void receiveErrorgetUsersByStatus(java.lang.Exception e) {
             }
                 
            /**
@@ -234,6 +250,22 @@
            * override this method for handling error response from getUsers operation
            */
             public void receiveErrorgetUsers(java.lang.Exception e) {
+            }
+                
+           /**
+            * auto generated Axis2 call back method for deleteEmployed method
+            * override this method for handling normal response from deleteEmployed operation
+            */
+           public void receiveResultdeleteEmployed(
+                    servicelayer.service.ServiceWebStub.DeleteEmployedResponse result
+                        ) {
+           }
+
+          /**
+           * auto generated Axis2 Error handler
+           * override this method for handling error response from deleteEmployed operation
+           */
+            public void receiveErrordeleteEmployed(java.lang.Exception e) {
             }
                 
            /**

@@ -38,6 +38,7 @@ public class CatalogEmployeesView extends BaseView {
 	private BeanItemContainer<Employee> beanContainer;
 	private TextField txtEmail;
 	private TextField txtAddress;
+	private TextField txtCellphone;
 	private TextField txtNominalSalary;
 	private TextField txtTickets;
 	private TextField txtPercentagePersonalFonasaContribution;
@@ -68,21 +69,28 @@ public class CatalogEmployeesView extends BaseView {
 		setCompositionRoot(mainLayout);
 
 	}
-
+		
 	public void buildTabSeet(){
 		// Email
 		txtEmail = new TextField();
 		txtEmail.setCaption("Correo electrónico");
 		txtEmail.setImmediate(false);
-		txtEmail.setWidth("-1px");
+		txtEmail.setWidth("390px");
 		txtEmail.setHeight("-1px");
 		
 		// Direccion
 		txtAddress = new TextField();
 		txtAddress.setCaption("Dirección");
 		txtAddress.setImmediate(false);
-		txtAddress.setWidth("-1px");
+		txtAddress.setWidth("390px");
 		txtAddress.setHeight("-1px");
+		
+		//Celular
+		txtCellphone = new TextField();
+		txtCellphone.setCaption("Celular");
+		txtCellphone.setImmediate(false);
+		txtCellphone.setWidth("-1px");
+		txtCellphone.setHeight("-1px");
 
 		// Sueldo Nominal
 		txtNominalSalary = new TextField();
@@ -251,8 +259,9 @@ public class CatalogEmployeesView extends BaseView {
 		// TAB 1
 		GridLayout tab1 = new GridLayout(2, 5);
 		tab1.setSpacing(true);
-		tab1.addComponent(txtAddress, 0, 0);
-		tab1.addComponent(txtEmail, 1, 0);
+		tab1.addComponent(txtAddress, 0, 0,1,0);
+		tab1.addComponent(txtEmail, 0, 1,1,1);
+		tab1.addComponent(txtCellphone,0,2);
 		tabEmployee.addTab(tab1, "Datos personales");
 		
 		// TAB 2
@@ -313,17 +322,18 @@ public class CatalogEmployeesView extends BaseView {
 			catalogEmployeesGrid.removeColumn("voSalarySummaries");
 			catalogEmployeesGrid.removeColumn("email");
 			catalogEmployeesGrid.removeColumn("address");
+			catalogEmployeesGrid.removeColumn("cellPhone");
 
-			catalogEmployeesGrid.setColumnOrder("name", "lastName", "cellPhone");
+			catalogEmployeesGrid.setColumnOrder("name", "lastName");
 
 			catalogEmployeesGrid.getColumn("name").setHeaderCaption("Nombre");
 			catalogEmployeesGrid.getColumn("lastName").setHeaderCaption("Apellido");
-			catalogEmployeesGrid.getColumn("cellPhone").setHeaderCaption("Celular");
-			catalogEmployeesGrid.setWidth(40, Unit.PERCENTAGE);
-			catalogEmployeesGrid.setHeight(40, Unit.PERCENTAGE);
+			//catalogEmployeesGrid.getColumn("cellPhone").setHeaderCaption("Celular");
+			catalogEmployeesGrid.setWidth(373, Unit.PIXELS);
+			catalogEmployeesGrid.setHeight(300, Unit.PIXELS);
 			catalogEmployeesGrid.setSelectionMode(SelectionMode.SINGLE);
 			catalogEmployeesGrid.getSelectedRows().clear();
-			mainLayout.addComponent(catalogEmployeesGrid, "top:20%;left:0px;");
+			mainLayout.addComponent(catalogEmployeesGrid, "top:20%;left:0.0px;");
 			
 			catalogEmployeesGrid.addSelectionListener(new SelectionListener() {
 
@@ -331,9 +341,11 @@ public class CatalogEmployeesView extends BaseView {
 				public void select(SelectionEvent event) {
 					
 					BeanItem<Employee> item = beanContainer.getItem(catalogEmployeesGrid.getSelectedRow());
-					Employee selectedEmployee = item.getBean();
-					loadEmployee(selectedEmployee);
-					tabEmployee.setVisible(true);
+					if(item != null){
+						Employee selectedEmployee = item.getBean();
+						loadEmployee(selectedEmployee);
+						tabEmployee.setVisible(true);
+					}
 					
 				}
 				
@@ -373,6 +385,7 @@ public class CatalogEmployeesView extends BaseView {
 		txtSalaryToPay.setReadOnly(readOnly);
 		txtCostMonth.setReadOnly(readOnly);
 		txtCostRealHour.setReadOnly(readOnly);	
+		txtCellphone.setReadOnly(readOnly);
 	}
 	
 	public void loadEmployee (Employee selectedEmployee){
@@ -443,8 +456,8 @@ public class CatalogEmployeesView extends BaseView {
 		// common part: create layout
 		mainLayout = new AbsoluteLayout();
 		mainLayout.setImmediate(false);
-		mainLayout.setWidth("682px");
-		mainLayout.setHeight("501px");
+		mainLayout.setWidth("1083px");
+		mainLayout.setHeight("500px");
 
 		// top-level component properties
 		setWidth("682px");
@@ -465,7 +478,7 @@ public class CatalogEmployeesView extends BaseView {
 		tabEmployee.setImmediate(false);
 		tabEmployee.setWidth("-1px");
 		tabEmployee.setHeight("-1px");
-		mainLayout.addComponent(tabEmployee, "top:80.0px;left:300.0px;");
+		mainLayout.addComponent(tabEmployee, "top:80.0px;left:400.0px;");
 
 		return mainLayout;
 	}
