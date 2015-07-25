@@ -17,7 +17,7 @@ public class Employee {
 	private String cellPhone;
 	private Date createdDateTimeUTC;
 	private Date updatedDateTimeUTC;
-	private int employedType;
+	private String employedType;	
 	private VOUser user;
 	private VOSalarySummary voSalarySummary;
 	private List<VOSalarySummary> voSalarySummaries;
@@ -33,10 +33,11 @@ public class Employee {
 		this.createdDateTimeUTC = voEmployee.getCreatedDateTimeUTC();
 		this.createdDateTimeUTC = voEmployee.getCreatedDateTimeUTC();
 		this.updatedDateTimeUTC = voEmployee.getUpdatedDateTimeUTC();
-		this.employedType = voEmployee.getEmployedType();
+		this.employedType = getEmployeeTypeToShow(voEmployee.getEmployedType());
 		this.user = voEmployee.getUser();
 		this.voSalarySummary = voEmployee.getVOSalarySummary();
 //		this.voSalarySummaries = (List<VOSalarySummary>) voEmployee.getVOSalarySummary();
+		
 		
 	}
 
@@ -105,11 +106,11 @@ public class Employee {
 	}
 
 	//ver de casear lo tipos como en usuario
-	public int getEmployedType() {
+	public String getEmployedType() {
 		return employedType;
 	}
 
-	public void setEmployedType(int employedType) {
+	public void setEmployedType(String employedType) {
 		this.employedType = employedType;
 	}
 
@@ -135,6 +136,21 @@ public class Employee {
 
 	public void setVoSalarySummaries(List<VOSalarySummary> voSalarySummaries) {
 		this.voSalarySummaries = voSalarySummaries;
+	}
+	
+	public String getEmployeeTypeToShow(int employeeTypeId){
+		String result ="";
+		switch(employeeTypeId){
+		case 1: 
+			result = "Empleado";
+			break;
+		case 2:
+			result = "Socio";
+			break;
+		default:
+			result = "No definido";
+		}
+		return result;		
 	}
 	
 }

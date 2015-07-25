@@ -12,7 +12,9 @@ import servicelayer.service.ServiceWebStub.GetEmployees;
 import servicelayer.service.ServiceWebStub.InsertEmployed;
 import servicelayer.service.ServiceWebStub.VOEmployed;
 import servicelayer.service.ServiceWebStub.VOSalarySummary;
+import servicelayer.service.ServiceWebStub.DeleteEmployed;
 import utils.PopupWindow;
+import views.employees.DeleteEmployeeView;
 import entities.Employee;
 import entities.User;
 
@@ -91,4 +93,24 @@ public class EmployeeController {
 		return result;
 	}
 	
+	public static boolean DeleteEmployee(int id){
+		boolean result = false;
+		try{
+			ServiceWebStub service = new ServiceWebStub();
+			DeleteEmployed deleteEmployee = new DeleteEmployed();
+			
+			deleteEmployee.setId(id);
+			
+			result = service.deleteEmployed(deleteEmployee).get_return();
+			
+		} catch (AxisFault e) {
+			// TODO Auto-generated catch block
+			String error = e.getMessage().replace("<faultstring>", "");
+			PopupWindow popup = new PopupWindow("ERROR", error.replace("</faultstring>", ""));
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
+		
+		return result;
+	}
 }
