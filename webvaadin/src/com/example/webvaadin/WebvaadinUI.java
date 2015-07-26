@@ -7,6 +7,7 @@ import views.MainMenuView;
 import views.employees.CatalogEmployeesView;
 import views.employees.CreateEmployeeView;
 import views.employees.DeleteEmployeeView;
+import views.employees.UpdateEmployeeView;
 import views.user.CatalogUsersView;
 import views.user.ChangePasswordView;
 import views.user.CreateUserView;
@@ -58,6 +59,7 @@ public class WebvaadinUI extends UI {
 	public static final String CATALOGEMPLOYEES = "CatalogEmployees";
 	public static final String CREATEEMPLOYEE = "CreateEmployeeView";
 	public static final String DELETEEMPLOYEE = "DeleteEmployeeView";
+	public static final String UPDATEEMPLOYEE = "UpdateEmployeeView";
 	
 	private static GridLayout mainLayout;
 	private static MenuBar mainMenuBar;	
@@ -139,6 +141,7 @@ public class WebvaadinUI extends UI {
 		navigator.addView(CATALOGEMPLOYEES,new CatalogEmployeesView());
 		navigator.addView(CREATEEMPLOYEE, new CreateEmployeeView());
 		navigator.addView(DELETEEMPLOYEE, new DeleteEmployeeView());
+		navigator.addView(UPDATEEMPLOYEE, new UpdateEmployeeView());
 		
 		if(RequestContext.getRequestContext() == null)
 		{
@@ -197,6 +200,9 @@ public class WebvaadinUI extends UI {
 						break;
 					case "Eliminar empleado":
 						navigator.navigateTo(DELETEEMPLOYEE);
+						break;
+					case "Modificar empleado":
+						navigator.navigateTo(UPDATEEMPLOYEE);
 						break;
 					default:						
 						PopupWindow popup = new PopupWindow("AVISO", "No hay configuracion para el item: " + selectedItem.getText());

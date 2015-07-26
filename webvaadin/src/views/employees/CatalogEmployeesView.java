@@ -356,6 +356,8 @@ public class CatalogEmployeesView extends BaseView {
 						Employee selectedEmployee = item.getBean();
 						loadEmployee(selectedEmployee);
 						tabEmployee.setVisible(true);
+					}else{
+						tabEmployee.setVisible(false);
 					}
 					
 				}
@@ -410,13 +412,14 @@ public class CatalogEmployeesView extends BaseView {
 		txtEmail.setValue(selectedEmployee.getEmail());
 		txtNominalSalary.setValue(Double.toString(voSalarySummaty.getNominalSalary()));	
 		txtTickets.setValue(Double.toString(voSalarySummaty.getTickets()));	
-		txtPercentagePersonalFonasaContribution.setValue(Double.toString(voSalarySummaty.getPersonalFONASAContribution()));	
+		txtPercentagePersonalFonasaContribution.setValue(Double.toString(voSalarySummaty.getPercentageTypeFONASA()*100));	
 		txtRet.setValue(Double.toString(voSalarySummaty.getRET()));	
 		txtIrpf.setValue(Double.toString(voSalarySummaty.getIRPF()));			
 		txtBse.setValue(Double.toString(voSalarySummaty.getBSE()));
 		txtHours.setValue(Double.toString(voSalarySummaty.getHours()));
 		txtCostSaleHour.setValue(Double.toString(voSalarySummaty.getCostSaleHour()));
 		txtPersonalRetirementContribution.setValue(Double.toString(voSalarySummaty.getPersonalRetirementContribution()));
+		txtEmployerRetirementContribution.setValue(Double.toString(voSalarySummaty.getEmployersContributionsRetirement()));
 		txtPersonalFrlContribution.setValue(Double.toString(voSalarySummaty.getPersonalFRLContribution()));
 		txtEmployerFrlContribution.setValue(Double.toString(voSalarySummaty.getEmployersFRLContribution()));
 		txtPersonalFonasaContribution.setValue(Double.toString(voSalarySummaty.getPersonalFONASAContribution()));
@@ -457,8 +460,8 @@ public class CatalogEmployeesView extends BaseView {
 		mainLayout.setHeight("500px");
 
 		// top-level component properties
-		setWidth("682px");
-		setHeight("501px");
+		setWidth("1083px");
+		setHeight("500px");
 
 		// lblTitle
 		lblTitle = new Label();
