@@ -58,7 +58,7 @@ public class CreateCategoryView extends BaseView {
 				
 				if(txtDescription.isRequired() && txtDescription.getValue() == "")
 				{
-					txtDescription.setRequiredError("Debe ingresar la descripcion");
+					txtDescription.setRequiredError("Debe ingresar la descripción");
 				}
 				
 				if(txtAmount.isValid() && txtDescription.isValid())
@@ -98,7 +98,7 @@ public class CreateCategoryView extends BaseView {
 		
 		// txtDescription
 		txtDescription = new TextField();
-		txtDescription.setCaption("Descripcion");
+		txtDescription.setCaption("Descripción");
 		txtDescription.setImmediate(false);
 		txtDescription.setWidth("100.0%");
 		txtDescription.setHeight("-1px");
