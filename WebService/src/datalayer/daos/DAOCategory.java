@@ -92,13 +92,15 @@ public class DAOCategory implements IDAOCategroy {
 		PreparedStatement preparedStatement = null;
 
 		String updateSQL = "UPDATE CATEGORIES "
-				+ "SET DESCRIPTION = ?, AMOUNT = ?, WHERE id = ?";
+				+ "SET DESCRIPTION = ?, AMOUNT = ?, PROJECTID = ? WHERE id = ?";
 
 		try {
 			preparedStatement = this.connection.prepareStatement(updateSQL);
 
 			preparedStatement.setString(1, obj.getDescription());
 			preparedStatement.setDouble(2, obj.getAmount());
+			preparedStatement.setInt(3, obj.getProjectId());
+			preparedStatement.setInt(4, id);
 
 			preparedStatement.executeUpdate();
 

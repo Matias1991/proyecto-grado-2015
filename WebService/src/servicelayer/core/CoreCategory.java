@@ -50,8 +50,9 @@ public class CoreCategory implements ICoreCategory {
 	@Override
 	public VOCategory updateCategory(int id, VOCategory voCategory)
 			throws ServerException, ClientException {
-		// TODO Auto-generated method stub
-		return null;
+		Category category = new Category(voCategory);
+		iDAOCategory.update(id, category);
+		return getCategory(id);
 	}
 
 	@Override
