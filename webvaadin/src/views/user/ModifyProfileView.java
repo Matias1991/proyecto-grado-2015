@@ -69,9 +69,6 @@ public class ModifyProfileView extends BaseView {
 
 					modifyUser.modifyUser(voUser, idUser);
 
-//					Notification notif = new Notification("Aviso: ", "Usuario modificado correctamente", Notification.TYPE_HUMANIZED_MESSAGE);
-//					notif.setDelayMsec(2000);
-//					notif.show(Page.getCurrent());
 					PopupWindow popup = new PopupWindow("AVISO", "Usuario creado correctamente");
 					
 				}

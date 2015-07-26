@@ -17,6 +17,7 @@ import com.vaadin.ui.Grid.SelectionMode;
 import com.vaadin.ui.GridLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Notification;
+import com.vaadin.ui.OptionGroup;
 import com.vaadin.ui.TabSheet;
 import com.vaadin.ui.TextField;
 
@@ -63,6 +64,7 @@ public class CatalogEmployeesView extends BaseView {
 	private TextField txtCostMonth;
 	private TextField txtCostRealHour;
 	private Label lblMessage;
+	private OptionGroup optEmployeeType;
 
 	public CatalogEmployeesView() {
 		buildMainLayout();
@@ -259,6 +261,10 @@ public class CatalogEmployeesView extends BaseView {
 		txtCostRealHour.setImmediate(false);
 		txtCostRealHour.setWidth("-1px");
 		txtCostRealHour.setHeight("-1px");
+		
+		//Tipo empleado
+		optEmployeeType = new OptionGroup();
+		optEmployeeType.addItems("Empleado", "Socio");
 
 		// TAB 1
 		GridLayout tab1 = new GridLayout(2, 5);
@@ -266,6 +272,7 @@ public class CatalogEmployeesView extends BaseView {
 		tab1.addComponent(txtAddress, 0, 0,1,0);
 		tab1.addComponent(txtEmail, 0, 1,1,1);
 		tab1.addComponent(txtCellphone,0,2);
+		tab1.addComponent(optEmployeeType,1,2);
 		tabEmployee.addTab(tab1, "Datos personales");
 		
 		// TAB 2
@@ -314,6 +321,7 @@ public class CatalogEmployeesView extends BaseView {
 		Collection<Employee> employees = EmployeeController.GetEmployees();
 
 		if (employees != null && employees.size() > 0) {
+			lblMessage.setValue("");
 			beanContainer = new BeanItemContainer<Employee>(Employee.class,employees);
 
 			catalogEmployeesGrid = new Grid(beanContainer);
@@ -331,10 +339,9 @@ public class CatalogEmployeesView extends BaseView {
 			catalogEmployeesGrid.setColumnOrder("name", "lastName");
 
 			catalogEmployeesGrid.getColumn("name").setHeaderCaption("Nombre");
-			catalogEmployeesGrid.getColumn("lastName").setHeaderCaption("Apellido");
-			//catalogEmployeesGrid.getColumn("cellPhone").setHeaderCaption("Celular");
+			catalogEmployeesGrid.getColumn("lastName").setHeaderCaption("Apellido");			
 			catalogEmployeesGrid.setWidth(373, Unit.PIXELS);
-			catalogEmployeesGrid.setHeight(300, Unit.PIXELS);
+			catalogEmployeesGrid.setHeight(310, Unit.PIXELS);
 			catalogEmployeesGrid.setSelectionMode(SelectionMode.SINGLE);
 			catalogEmployeesGrid.getSelectedRows().clear();
 			mainLayout.addComponent(catalogEmployeesGrid, "top:20%;left:0.0px;");
@@ -390,6 +397,7 @@ public class CatalogEmployeesView extends BaseView {
 		txtCostMonth.setReadOnly(readOnly);
 		txtCostRealHour.setReadOnly(readOnly);	
 		txtCellphone.setReadOnly(readOnly);
+		optEmployeeType.setReadOnly(readOnly);
 	}
 	
 	public void loadEmployee (Employee selectedEmployee){
@@ -400,29 +408,11 @@ public class CatalogEmployeesView extends BaseView {
 		VOSalarySummary voSalarySummaty = selectedEmployee.getVoSalarySummary();
 		txtAddress.setValue(selectedEmployee.getAddress());
 		txtEmail.setValue(selectedEmployee.getEmail());
-		String aux = Double.toString(voSalarySummaty.getNominalSalary());
-		if(!aux.isEmpty()){
-			txtNominalSalary.setValue(aux);	
-		}
-		aux = Double.toString(voSalarySummaty.getTickets());
-		if(!aux.isEmpty()){
-			txtTickets.setValue(aux);	
-		}
-		
-		aux = Double.toString(voSalarySummaty.getPersonalFONASAContribution());
-		if(!aux.isEmpty()){
-			txtPercentagePersonalFonasaContribution.setValue(aux);	
-		}
-		
-		aux = Double.toString(voSalarySummaty.getRET());
-		if(!aux.isEmpty()){
-			txtRet.setValue(aux);	
-		}
-
-		aux = Double.toString(voSalarySummaty.getIRPF());
-		if(!aux.isEmpty()){
-			txtIrpf.setValue(aux);	
-		}
+		txtNominalSalary.setValue(Double.toString(voSalarySummaty.getNominalSalary()));	
+		txtTickets.setValue(Double.toString(voSalarySummaty.getTickets()));	
+		txtPercentagePersonalFonasaContribution.setValue(Double.toString(voSalarySummaty.getPersonalFONASAContribution()));	
+		txtRet.setValue(Double.toString(voSalarySummaty.getRET()));	
+		txtIrpf.setValue(Double.toString(voSalarySummaty.getIRPF()));			
 		txtBse.setValue(Double.toString(voSalarySummaty.getBSE()));
 		txtHours.setValue(Double.toString(voSalarySummaty.getHours()));
 		txtCostSaleHour.setValue(Double.toString(voSalarySummaty.getCostSaleHour()));
@@ -440,7 +430,7 @@ public class CatalogEmployeesView extends BaseView {
 		txtSalaryToPay.setValue(Double.toString(voSalarySummaty.getSalaryToPay()));
 		txtCostMonth.setValue(Double.toString(voSalarySummaty.getCostMonth()));
 		txtCostRealHour.setValue(Double.toString(voSalarySummaty.getCostRealHour()));			
-
+		optEmployeeType.select(selectedEmployee.getEmployedType());
 		//seteo en readonly false los campos del empleado a mostrar
 		setReadOnlyTxt(true);
 		
@@ -450,6 +440,9 @@ public class CatalogEmployeesView extends BaseView {
 	public void enter(ViewChangeEvent event) {
 		super.enter(event);
 		if (RequestContext.getRequestContext() != null) {
+			if(catalogEmployeesGrid != null){
+				mainLayout.removeComponent(catalogEmployeesGrid);
+			}
 			buildGrid();
 		}
 

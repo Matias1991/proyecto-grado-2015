@@ -105,6 +105,9 @@ public class DeleteUsersView extends BaseView{
 	public void enter(ViewChangeEvent event) {
 		super.enter(event);
 		if(RequestContext.getRequestContext() != null){
+			if(grid != null){
+				mainLayout.removeComponent(grid);
+			}
 			buildGrid();
 		}
 	}

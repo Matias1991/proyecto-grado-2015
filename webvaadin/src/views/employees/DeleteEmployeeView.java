@@ -70,6 +70,10 @@ public class DeleteEmployeeView extends BaseView {
 							}
 							
 							btnDelete.setEnabled(false);
+							if(grdGrid != null){
+								mainLayout.removeComponent(grdGrid);
+							}
+							buildGrid();
 						}
 						
 					}
@@ -80,9 +84,9 @@ public class DeleteEmployeeView extends BaseView {
 		});
 	}
 	
-	public void buildGrid() {
+	public void buildGrid() {		
 		Collection<Employee> employees = EmployeeController.GetEmployees();
-
+	
 		if (employees != null && employees.size() > 0) {
 			btnDelete.setVisible(true);
 			lblMessage.setValue("");
@@ -105,8 +109,8 @@ public class DeleteEmployeeView extends BaseView {
 			grdGrid.getColumn("name").setHeaderCaption("Nombre");
 			grdGrid.getColumn("lastName").setHeaderCaption("Apellido");
 			grdGrid.getColumn("employedType").setHeaderCaption("Tipo de empleado");
-			grdGrid.setWidth(100, Unit.PERCENTAGE);
-			grdGrid.setHeight(100, Unit.PERCENTAGE);
+			grdGrid.setWidth(680, Unit.PIXELS);
+			grdGrid.setHeight("-1px");
 			grdGrid.setSelectionMode(SelectionMode.SINGLE);
 			grdGrid.getSelectedRows().clear();
 			mainLayout.addComponent(grdGrid, "top:20%;left:0px;");
@@ -127,13 +131,16 @@ public class DeleteEmployeeView extends BaseView {
 			}
 			btnDelete.setVisible(false);	
 		}
-
+		
 	}
 	
 	@Override
 	public void enter(ViewChangeEvent event) {
 		super.enter(event);
-		if (RequestContext.getRequestContext() != null) {
+		if (RequestContext.getRequestContext() != null) {			
+			if(grdGrid != null){
+				mainLayout.removeComponent(grdGrid);
+			}
 			buildGrid();
 		}
 

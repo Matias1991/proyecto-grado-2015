@@ -70,6 +70,9 @@ public class CatalogUsersView extends BaseView{
 		// TODO Auto-generated method stub
 		super.enter(event);		
 		if(RequestContext.getRequestContext() != null){
+			if(catalogUsersGrid != null){
+				mainLayout.removeComponent(catalogUsersGrid);
+			}
 			buildGrid();
 		}
 		

@@ -76,11 +76,6 @@ public class CreateUserView extends BaseView {
 					}
 
 					if (UserController.createUser(newUser)) {
-//						Notification notif = new Notification("Aviso: ",
-//								"Usuario creado correctamente",
-//								Notification.TYPE_HUMANIZED_MESSAGE);
-//						notif.setDelayMsec(2000);
-//						notif.show(Page.getCurrent());
 						PopupWindow popup = new PopupWindow("AVISO", "Usuario creado correctamente");
 						// limpio los campos
 						txtName.setValue("");
@@ -143,10 +138,6 @@ public class CreateUserView extends BaseView {
 		}
 
 		if (!validate) {
-//			Notification notif = new Notification(errors,
-//					Notification.TYPE_ERROR_MESSAGE);
-//			notif.setDelayMsec(2000);
-//			notif.show(Page.getCurrent());
 			PopupWindow popup = new PopupWindow("ERROR", errors);
 		}
 		
