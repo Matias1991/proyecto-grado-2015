@@ -88,3 +88,13 @@ CREATE TABLE IF NOT EXISTS SalarySummary
 	PRIMARY KEY (Id,Version,EmployedId),
 	FOREIGN KEY R_SalarySummary_Employed (EmployedId) REFERENCES Employed (Id)
 );
+
+CREATE TABLE IF NOT EXISTS Categories
+(
+	Id                  INTEGER NOT NULL AUTO_INCREMENT,
+	Description         VARCHAR(120) NULL,
+	Amount 				DECIMAL(10,2) NULL,
+	CreatedDateTimeUTC  TIMESTAMP NULL,
+	ProjectId			INTEGER NULL,
+	PRIMARY KEY (Id)
+);

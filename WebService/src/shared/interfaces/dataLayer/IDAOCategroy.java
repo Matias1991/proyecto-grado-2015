@@ -1,7 +1,7 @@
 package shared.interfaces.dataLayer;
 
-import servicelayer.entity.valueObject.VOCategory;
+import servicelayer.entity.businessEntity.Category;
 
-public interface IDAOCategroy extends IDAOBase<VOCategory> {
+public interface IDAOCategroy extends IDAOBase<Category> {
 
 }

@@ -9,6 +9,7 @@ public class VOCategory implements Serializable{
 	private String description;
 	private double amount;
 	private Date createDateTimeUTC;
+	private int projectId;
 	private static final long serialVersionUID = 1L;
 	
 	public int getId() {
@@ -42,4 +43,13 @@ public class VOCategory implements Serializable{
 	public void setCreateDateTimeUTC(Date createDateTimeUTC) {
 		this.createDateTimeUTC = createDateTimeUTC;
 	}
+
+	public int getProjectId() {
+		return projectId;
+	}
+
+	public void setProjectId(int projectId) {
+		this.projectId = projectId;
+	}
+	
 }

@@ -3,8 +3,10 @@ package servicelayer.service;
 import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
+import servicelayer.core.CoreCategory;
 import servicelayer.core.CoreEmployed;
 import servicelayer.core.CoreUser;
+import servicelayer.entity.valueObject.VOCategory;
 import servicelayer.entity.valueObject.VOEmployed;
 import servicelayer.entity.valueObject.VOSalarySummary;
 import servicelayer.entity.valueObject.VOUser;
@@ -12,6 +14,7 @@ import servicelayer.utilities.Constants;
 import shared.LoggerMSMP;
 import shared.exceptions.ClientException;
 import shared.exceptions.ServerException;
+import shared.interfaces.core.ICoreCategory;
 import shared.interfaces.core.ICoreEmployed;
 import shared.interfaces.core.ICoreUser;
 
@@ -23,6 +26,7 @@ public class ServiceWeb extends ServiceBase{
 
 	private ICoreUser iCoreUser = null;
 	private ICoreEmployed iCoreEmployed = null;
+	private ICoreCategory iCoreCategory = null;
 	
 	public ServiceWeb()
 	{
@@ -31,6 +35,7 @@ public class ServiceWeb extends ServiceBase{
 			
 			iCoreUser = CoreUser.GetInstance();
 			iCoreEmployed = CoreEmployed.GetInstance();
+			iCoreCategory = CoreCategory.GetInstance();
 		} catch (Exception e) {
 			ThrowGenericExceptionAndLogError(e);
 		}
@@ -376,6 +381,96 @@ public class ServiceWeb extends ServiceBase{
 			ThrowServerExceptionAndLogError(e, "estimar el resumen de salario del empleado");
 		} catch (InterruptedException e) {
 			throw new RuntimeException(Constants.TRANSACTION_ERROR);	
+		} catch (Exception e) {
+			ThrowGenericExceptionAndLogError(e);
+		}
+		finally
+		{
+			transactionLock.unlock();
+		}
+		return null;
+	}
+	
+	public boolean insertCategory(VOCategory voCategory)
+	{
+		try {
+			transactionLock.tryLock(Constants.DEFAULT_TRANSACTION_TIME, TimeUnit.SECONDS);
+			
+			iCoreCategory.insertCategory(voCategory);
+			
+			return true;
+		} catch (ServerException e) {
+			ThrowServerExceptionAndLogError(e, "Insertar categoria");
+		} catch (ClientException e) {
+			throw new RuntimeException(e.getMessage());
+		}catch (InterruptedException e) {
+			throw new RuntimeException(Constants.TRANSACTION_ERROR);
+		} catch (Exception e) {
+			ThrowGenericExceptionAndLogError(e);
+		}
+		finally
+		{
+			transactionLock.unlock();
+		}
+		return false;
+	}
+	
+	public VOCategory getCategory(int id) {
+		try {
+			transactionLock.tryLock(Constants.DEFAULT_TRANSACTION_TIME, TimeUnit.SECONDS);
+			
+			return iCoreCategory.getCategory(id);
+		} catch (ServerException e) {
+			ThrowServerExceptionAndLogError(e, "obtener los datos del rubro");
+		} catch (ClientException e) {
+			throw new RuntimeException(e.getMessage());
+		} catch (InterruptedException e) {
+			throw new RuntimeException(Constants.TRANSACTION_ERROR);	
+		} catch (Exception e) {
+			ThrowGenericExceptionAndLogError(e);
+		}
+		finally
+		{
+			transactionLock.unlock();
+		}
+		return null;
+	}
+	
+	public boolean deleteCategory(int id) {
+		try {
+			transactionLock.tryLock(Constants.DEFAULT_TRANSACTION_TIME, TimeUnit.SECONDS);
+			
+			iCoreCategory.deleteCateory(id);
+			return true;
+		} catch (ServerException e) {
+			ThrowServerExceptionAndLogError(e, "eliminar el rubro");
+		} catch (ClientException e) {
+			throw new RuntimeException(e.getMessage());
+		} catch (InterruptedException e) {
+			throw new RuntimeException(Constants.TRANSACTION_ERROR);	
+		} catch (Exception e) {
+			ThrowGenericExceptionAndLogError(e);
+		}
+		finally
+		{
+			transactionLock.unlock();
+		}
+		return false;
+	}
+	
+	public VOCategory[] getCategories() {
+		ArrayList<VOCategory> voCategories;
+		try {
+			transactionLock.tryLock(Constants.DEFAULT_TRANSACTION_TIME, TimeUnit.SECONDS);
+			
+			voCategories = iCoreCategory.getCategories();
+			VOCategory [] arrayVOCategories = new VOCategory[voCategories.size()];
+			voCategories.toArray(arrayVOCategories);
+			return arrayVOCategories;		    
+		} catch (ServerException e) {
+			ThrowServerExceptionAndLogError(e, "obtener todos los rubros");
+		} catch (InterruptedException e) {
+			throw new RuntimeException(Constants.TRANSACTION_ERROR);
 		} catch (Exception e) {
 			ThrowGenericExceptionAndLogError(e);
 		}

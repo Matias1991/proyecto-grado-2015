@@ -10,13 +10,16 @@ public class Category {
 	private String description;
 	private double amount;
 	private Date createDateTimeUTC;
+	private int projectId;
 	
 	public Category(){}
 	
 	public Category(VOCategory voCategory){
 		this.id = voCategory.getId();
 		this.description = voCategory.getDescription();
+		this.amount = voCategory.getAmount();
 		this.createDateTimeUTC = voCategory.getCreateDateTimeUTC();
+		this.projectId = voCategory.getProjectId();
 	}
 
 	public int getId() {
@@ -49,6 +52,14 @@ public class Category {
 
 	public void setCreateDateTimeUTC(Date createDateTimeUTC) {
 		this.createDateTimeUTC = createDateTimeUTC;
+	}
+
+	public int getProjectId() {
+		return projectId;
+	}
+
+	public void setProjectId(int projectId) {
+		this.projectId = projectId;
 	}
 	
 }

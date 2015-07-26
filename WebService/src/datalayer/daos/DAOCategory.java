@@ -10,7 +10,6 @@ import java.util.Date;
 
 import datalayer.utilities.ManageConnection;
 import servicelayer.entity.businessEntity.Category;
-import servicelayer.entity.valueObject.VOCategory;
 import shared.LoggerMSMP;
 import shared.exceptions.ServerException;
 import shared.interfaces.dataLayer.IDAOCategroy;
@@ -32,11 +31,11 @@ public class DAOCategory implements IDAOCategroy {
 	}
 
 	@Override
-	public int insert(VOCategory obj) throws ServerException {
+	public int insert(Category obj) throws ServerException {
 		PreparedStatement preparedStatement = null;
 
-		String insertSQL = "INSERT INTO CATEGORIES (DESCRITPION, AMOUNT, CREATEDDATETIMEUTC) VALUES"
-				+ "(?,?,?)";
+		String insertSQL = "INSERT INTO CATEGORIES (DESCRIPTION, AMOUNT, CREATEDDATETIMEUTC, PROJECTID) VALUES"
+				+ "(?,?,?,?)";
 
 		try {
 			preparedStatement = this.connection.prepareStatement(insertSQL);
@@ -45,6 +44,7 @@ public class DAOCategory implements IDAOCategroy {
 			preparedStatement.setDouble(2, obj.getAmount());
 			preparedStatement.setTimestamp(3, new Timestamp(obj
 					.getCreateDateTimeUTC().getTime()));
+			preparedStatement.setInt(4, obj.getProjectId());
 
 			preparedStatement.executeUpdate();
 
@@ -88,7 +88,7 @@ public class DAOCategory implements IDAOCategroy {
 	}
 
 	@Override
-	public void update(int id, VOCategory obj) throws ServerException {
+	public void update(int id, Category obj) throws ServerException {
 		PreparedStatement preparedStatement = null;
 
 		String updateSQL = "UPDATE CATEGORIES "
@@ -140,54 +140,80 @@ public class DAOCategory implements IDAOCategroy {
 	}
 
 	@Override
-	public VOCategory getObject(int id) throws ServerException {
-		VOCategory category = null;
-//		PreparedStatement preparedStatement = null;
-//		ResultSet rs = null;
-//		try {
-//
-//			String getSQL = "SELECT * FROM CATEGORIES WHERE id = ?";
-//			preparedStatement = this.connection.prepareStatement(getSQL);
-//			preparedStatement.setInt(1, id);
-//			rs = preparedStatement.executeQuery();
-//
-//			while (rs.next()) {
-//				category = BuildCategory(rs);
-//			}
-//		} catch (SQLException e) {
-//			throw new ServerException(e);
-//		} finally {
-//			try {
-//				if (preparedStatement != null)
-//					preparedStatement.close();
-//				if (rs != null)
-//					rs.close();
-//			} catch (SQLException e) {
-//				LoggerMSMP.setLog(e.getMessage());
-//			}
-//		}
+	public Category getObject(int id) throws ServerException {
+		Category category = null;
+		PreparedStatement preparedStatement = null;
+		ResultSet rs = null;
+		try {
+
+			String getSQL = "SELECT * FROM CATEGORIES WHERE id = ?";
+			preparedStatement = this.connection.prepareStatement(getSQL);
+			preparedStatement.setInt(1, id);
+			rs = preparedStatement.executeQuery();
+
+			while (rs.next()) {
+				category = BuildCategory(rs);
+			}
+		} catch (SQLException e) {
+			throw new ServerException(e);
+		} finally {
+			try {
+				if (preparedStatement != null)
+					preparedStatement.close();
+				if (rs != null)
+					rs.close();
+			} catch (SQLException e) {
+				LoggerMSMP.setLog(e.getMessage());
+			}
+		}
 
 		return category;
 	}
 
 	@Override
-	public ArrayList<VOCategory> getObjects() throws ServerException {
-		// TODO Auto-generated method stub
-		return null;
+	public ArrayList<Category> getObjects() throws ServerException {
+		ArrayList<Category> categories = new ArrayList<Category>();
+		PreparedStatement preparedStatement = null;
+		ResultSet rs = null;
+		try {
+			String sql;
+			sql = "SELECT * FROM CATEGORIES";
+			preparedStatement = this.connection.prepareStatement(sql);
+			rs = preparedStatement.executeQuery(sql);
+
+			while (rs.next()) {
+				categories.add(BuildCategory(rs));
+			}
+
+		} catch (SQLException e) {
+			throw new ServerException(e);
+		} finally {
+			try {
+				if (preparedStatement != null)
+					preparedStatement.close();
+				if (rs != null)
+					rs.close();
+			} catch (SQLException e) {
+				LoggerMSMP.setLog(e.getMessage());
+			}
+		}
+
+		return categories;
 	}
 
-	Category BuildCategory(ResultSet rs) throws SQLException {
+	private Category BuildCategory(ResultSet rs) throws SQLException {
 		int _id = rs.getInt("id");
 		String description = rs.getString("description");
 		double amount = rs.getDouble("amount");
-		Date createDateTimeUTC = rs.getTimestamp("createDateTimeUTC");
+		Date createDateTimeUTC = rs.getTimestamp("createdDateTimeUTC");
+		int projectId = rs.getInt("projectid");
 
 		Category category = new Category();
 		category.setId(_id);
 		category.setDescription(description);
-		;
 		category.setAmount(amount);
 		category.setCreateDateTimeUTC(createDateTimeUTC);
+		category.setProjectId(projectId);
 
 		return category;
 	}
