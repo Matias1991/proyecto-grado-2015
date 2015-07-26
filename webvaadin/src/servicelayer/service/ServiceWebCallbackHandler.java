@@ -3,7 +3,7 @@
  * ServiceWebCallbackHandler.java
  *
  * This file was auto-generated from WSDL
- * by the Apache Axis2 version: 1.6.2  Built on : Apr 17, 2012 (05:33:49 IST)
+ * by the Apache Axis2 version: 1.6.0  Built on : May 17, 2011 (04:19:43 IST)
  */
 
     package servicelayer.service;
@@ -125,6 +125,22 @@
             }
                 
            /**
+            * auto generated Axis2 call back method for updatedEmployed method
+            * override this method for handling normal response from updatedEmployed operation
+            */
+           public void receiveResultupdatedEmployed(
+                    servicelayer.service.ServiceWebStub.UpdatedEmployedResponse result
+                        ) {
+           }
+
+          /**
+           * auto generated Axis2 Error handler
+           * override this method for handling error response from updatedEmployed operation
+           */
+            public void receiveErrorupdatedEmployed(java.lang.Exception e) {
+            }
+                
+           /**
             * auto generated Axis2 call back method for login method
             * override this method for handling normal response from login operation
             */
@@ -205,6 +221,22 @@
             }
                 
            /**
+            * auto generated Axis2 call back method for getSalarySummaryByVersion method
+            * override this method for handling normal response from getSalarySummaryByVersion operation
+            */
+           public void receiveResultgetSalarySummaryByVersion(
+                    servicelayer.service.ServiceWebStub.GetSalarySummaryByVersionResponse result
+                        ) {
+           }
+
+          /**
+           * auto generated Axis2 Error handler
+           * override this method for handling error response from getSalarySummaryByVersion operation
+           */
+            public void receiveErrorgetSalarySummaryByVersion(java.lang.Exception e) {
+            }
+                
+           /**
             * auto generated Axis2 call back method for getEmployed method
             * override this method for handling normal response from getEmployed operation
             */
@@ -237,22 +269,6 @@
             }
                 
            /**
-            * auto generated Axis2 call back method for getUsers method
-            * override this method for handling normal response from getUsers operation
-            */
-           public void receiveResultgetUsers(
-                    servicelayer.service.ServiceWebStub.GetUsersResponse result
-                        ) {
-           }
-
-          /**
-           * auto generated Axis2 Error handler
-           * override this method for handling error response from getUsers operation
-           */
-            public void receiveErrorgetUsers(java.lang.Exception e) {
-            }
-                
-           /**
             * auto generated Axis2 call back method for deleteEmployed method
             * override this method for handling normal response from deleteEmployed operation
             */
@@ -266,6 +282,38 @@
            * override this method for handling error response from deleteEmployed operation
            */
             public void receiveErrordeleteEmployed(java.lang.Exception e) {
+            }
+                
+           /**
+            * auto generated Axis2 call back method for getAllVersionsSalarySummary method
+            * override this method for handling normal response from getAllVersionsSalarySummary operation
+            */
+           public void receiveResultgetAllVersionsSalarySummary(
+                    servicelayer.service.ServiceWebStub.GetAllVersionsSalarySummaryResponse result
+                        ) {
+           }
+
+          /**
+           * auto generated Axis2 Error handler
+           * override this method for handling error response from getAllVersionsSalarySummary operation
+           */
+            public void receiveErrorgetAllVersionsSalarySummary(java.lang.Exception e) {
+            }
+                
+           /**
+            * auto generated Axis2 call back method for getUsers method
+            * override this method for handling normal response from getUsers operation
+            */
+           public void receiveResultgetUsers(
+                    servicelayer.service.ServiceWebStub.GetUsersResponse result
+                        ) {
+           }
+
+          /**
+           * auto generated Axis2 Error handler
+           * override this method for handling error response from getUsers operation
+           */
+            public void receiveErrorgetUsers(java.lang.Exception e) {
             }
                 
            /**

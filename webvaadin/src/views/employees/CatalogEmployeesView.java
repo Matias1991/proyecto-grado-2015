@@ -62,11 +62,15 @@ public class CatalogEmployeesView extends BaseView {
 	private TextField txtSalaryToPay;
 	private TextField txtCostMonth;
 	private TextField txtCostRealHour;
+	private Label lblMessage;
 
 	public CatalogEmployeesView() {
 		buildMainLayout();
 		buildTabSeet();
 		setCompositionRoot(mainLayout);
+		
+		lblMessage = new Label("");
+		mainLayout.addComponent(lblMessage, "top:80.0px;left:0.0px;");
 
 	}
 		
@@ -310,7 +314,7 @@ public class CatalogEmployeesView extends BaseView {
 		Collection<Employee> employees = EmployeeController.GetEmployees();
 
 		if (employees != null && employees.size() > 0) {
-			beanContainer = new BeanItemContainer<Employee>(employees);
+			beanContainer = new BeanItemContainer<Employee>(Employee.class,employees);
 
 			catalogEmployeesGrid = new Grid(beanContainer);
 			catalogEmployeesGrid.removeColumn("id");
@@ -351,10 +355,10 @@ public class CatalogEmployeesView extends BaseView {
 				
 			});
 		} else {
-			// PopupWindow popup = new PopupWindow("Aviso",
-			// "No hay empleados para mostrar");
-			Notification.show("No hay empleados para mostrar",
-					Notification.TYPE_WARNING_MESSAGE);
+			lblMessage.setValue("No hay empleados para mostrar");
+			if(catalogEmployeesGrid != null){
+				catalogEmployeesGrid.setVisible(false);
+			}
 		}
 
 	}
