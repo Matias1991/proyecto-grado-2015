@@ -4,6 +4,7 @@ import utils.PopupWindow;
 import views.ForgotPasswordView;
 import views.LoginView;
 import views.MainMenuView;
+import views.category.CategoriesView;
 import views.category.CreateCategoryView;
 import views.employees.CatalogEmployeesView;
 import views.employees.CreateEmployeeView;
@@ -60,6 +61,7 @@ public class WebvaadinUI extends UI {
 	
 	//Rubros
 	public static final String CREATECATEGORY = "CreateCategoryView";
+	public static final String CATEGORIES = "CategoriesView";
 
 	private static GridLayout mainLayout;
 	private static MenuBar mainMenuBar;	
@@ -142,6 +144,7 @@ public class WebvaadinUI extends UI {
 		navigator.addView(CREATEEMPLOYEE, new CreateEmployeeView());
 		//Rubros
 		navigator.addView(CREATECATEGORY,new CreateCategoryView());
+		navigator.addView(CATEGORIES,new CategoriesView());
 		
 		if(RequestContext.getRequestContext() == null)
 		{
@@ -201,6 +204,9 @@ public class WebvaadinUI extends UI {
 					case "Crear rubro":
 						navigator.navigateTo(CREATECATEGORY);
 						break;
+					case "Catalogo rubros":
+						navigator.navigateTo(CATEGORIES);
+						break;
 					default:
 						//Notification.show("No hay configuracion para el item: " + selectedItem.getText());
 						PopupWindow popup = new PopupWindow("AVISO", "No hay configuracion para el item: " + selectedItem.getText());
@@ -234,6 +240,7 @@ public class WebvaadinUI extends UI {
 				//Rubros
 				MenuItem category = menuBar.addItem("Rubros", null,null);
 				MenuItem createCategory = category.addItem("Crear rubro",null,mainMenuBarCommand);
+				MenuItem categories = category.addItem("Catalogo rubros",null,mainMenuBarCommand);
 				break;
 			case 3:
 				//Rol Gerente

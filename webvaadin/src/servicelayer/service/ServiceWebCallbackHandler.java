@@ -109,6 +109,22 @@
             }
                 
            /**
+            * auto generated Axis2 call back method for getCategory method
+            * override this method for handling normal response from getCategory operation
+            */
+           public void receiveResultgetCategory(
+                    servicelayer.service.ServiceWebStub.GetCategoryResponse result
+                        ) {
+           }
+
+          /**
+           * auto generated Axis2 Error handler
+           * override this method for handling error response from getCategory operation
+           */
+            public void receiveErrorgetCategory(java.lang.Exception e) {
+            }
+                
+           /**
             * auto generated Axis2 call back method for login method
             * override this method for handling normal response from login operation
             */
@@ -189,6 +205,22 @@
             }
                 
            /**
+            * auto generated Axis2 call back method for updateCategory method
+            * override this method for handling normal response from updateCategory operation
+            */
+           public void receiveResultupdateCategory(
+                    servicelayer.service.ServiceWebStub.UpdateCategoryResponse result
+                        ) {
+           }
+
+          /**
+           * auto generated Axis2 Error handler
+           * override this method for handling error response from updateCategory operation
+           */
+            public void receiveErrorupdateCategory(java.lang.Exception e) {
+            }
+                
+           /**
             * auto generated Axis2 call back method for getEmployed method
             * override this method for handling normal response from getEmployed operation
             */
@@ -237,6 +269,22 @@
             }
                 
            /**
+            * auto generated Axis2 call back method for deleteCategory method
+            * override this method for handling normal response from deleteCategory operation
+            */
+           public void receiveResultdeleteCategory(
+                    servicelayer.service.ServiceWebStub.DeleteCategoryResponse result
+                        ) {
+           }
+
+          /**
+           * auto generated Axis2 Error handler
+           * override this method for handling error response from deleteCategory operation
+           */
+            public void receiveErrordeleteCategory(java.lang.Exception e) {
+            }
+                
+           /**
             * auto generated Axis2 call back method for estimateSalarySummary method
             * override this method for handling normal response from estimateSalarySummary operation
             */
@@ -269,6 +317,22 @@
             }
                 
            /**
+            * auto generated Axis2 call back method for insertCategory method
+            * override this method for handling normal response from insertCategory operation
+            */
+           public void receiveResultinsertCategory(
+                    servicelayer.service.ServiceWebStub.InsertCategoryResponse result
+                        ) {
+           }
+
+          /**
+           * auto generated Axis2 Error handler
+           * override this method for handling error response from insertCategory operation
+           */
+            public void receiveErrorinsertCategory(java.lang.Exception e) {
+            }
+                
+           /**
             * auto generated Axis2 call back method for insertUser method
             * override this method for handling normal response from insertUser operation
             */
@@ -282,6 +346,22 @@
            * override this method for handling error response from insertUser operation
            */
             public void receiveErrorinsertUser(java.lang.Exception e) {
+            }
+                
+           /**
+            * auto generated Axis2 call back method for getCategories method
+            * override this method for handling normal response from getCategories operation
+            */
+           public void receiveResultgetCategories(
+                    servicelayer.service.ServiceWebStub.GetCategoriesResponse result
+                        ) {
+           }
+
+          /**
+           * auto generated Axis2 Error handler
+           * override this method for handling error response from getCategories operation
+           */
+            public void receiveErrorgetCategories(java.lang.Exception e) {
             }
                 
 
