@@ -126,13 +126,6 @@ public class DAOSalarySummaries implements IDAOSalarySummaries{
 			}
 		}
 	}
-	
-	@Override
-	public SalarySummary getSalarySummary(int employedId, int version)
-			throws ServerException {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 	@Override
 	public SalarySummary getLatestVersionSalarySummary(int employedId)
@@ -141,10 +134,10 @@ public class DAOSalarySummaries implements IDAOSalarySummaries{
 		SalarySummary salarySummary = null;
 		PreparedStatement preparedStatement = null;
 		ResultSet rs = null;
-		String insertSQL = "SELECT * FROM SALARYSUMMARY WHERE EMPLOYEDID = ? and VERSION = ?";
+		String getSQL = "SELECT * FROM SALARYSUMMARY WHERE EMPLOYEDID = ? and VERSION = ?";
 
 		try {
-			preparedStatement = this.connection.prepareStatement(insertSQL);
+			preparedStatement = this.connection.prepareStatement(getSQL);
 
 			int latestVersion = getLatestVersion(employedId);
 			preparedStatement.setInt(1, employedId);
@@ -172,12 +165,84 @@ public class DAOSalarySummaries implements IDAOSalarySummaries{
 		return salarySummary;
 	}
 	
-	
 	@Override
 	public ArrayList<SalarySummary> getSalarySummaries(int employedId)
 			throws ServerException {
 		// TODO Auto-generated method stub
 		return null;
+	}
+	
+	@Override
+	public ArrayList<Integer> getALLVersionsSalarySummary(int employedId)
+			throws ServerException {
+		
+		ArrayList<Integer> list = new ArrayList<Integer>();
+		PreparedStatement preparedStatement = null;
+		ResultSet rs = null;
+		String getSQL = "SELECT VERSION FROM SALARYSUMMARY WHERE EMPLOYEDID = ?";
+
+		try {
+			preparedStatement = this.connection.prepareStatement(getSQL);
+
+			preparedStatement.setInt(1, employedId);
+
+			rs = preparedStatement.executeQuery();
+						
+			while (rs.next()) {
+				list.add(rs.getInt("version"));
+			}
+			 
+		} catch (SQLException e) {
+			throw new ServerException(e);
+		}finally {
+				try {
+					if (preparedStatement != null)
+						preparedStatement.close();
+					if (rs != null)
+						rs.close();
+				} catch (SQLException e) {
+					LoggerMSMP.setLog(e.getMessage());
+				}
+		}
+		
+		return list;
+	}
+	
+	@Override
+	public SalarySummary getSalarySummaryByVersion(int employedId, int version)
+			throws ServerException {
+		
+		SalarySummary salarySummary = null;
+		PreparedStatement preparedStatement = null;
+		ResultSet rs = null;
+		String getSQL = "SELECT * FROM SALARYSUMMARY WHERE EMPLOYEDID = ? and VERSION = ?";
+
+		try {
+			preparedStatement = this.connection.prepareStatement(getSQL);
+
+			preparedStatement.setInt(1, employedId);
+			preparedStatement.setInt(2, version);
+
+			rs = preparedStatement.executeQuery();
+						
+			if (rs.next()) {
+				salarySummary = BuildSalarySummary(rs);
+			}
+			 
+		} catch (SQLException e) {
+			throw new ServerException(e);
+		}finally {
+				try {
+					if (preparedStatement != null)
+						preparedStatement.close();
+					if (rs != null)
+						rs.close();
+				} catch (SQLException e) {
+					LoggerMSMP.setLog(e.getMessage());
+				}
+		}
+		
+		return salarySummary;
 	}
 	
 	int getLatestVersion(int employedId) throws ServerException

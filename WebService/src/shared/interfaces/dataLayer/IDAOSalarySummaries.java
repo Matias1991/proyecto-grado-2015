@@ -13,9 +13,11 @@ public interface IDAOSalarySummaries {
 	
 	void deleteSalarySummaries(int employedId) throws ServerException;
 
-    SalarySummary getSalarySummary(int employedId, int version) throws ServerException;
-    
     SalarySummary getLatestVersionSalarySummary(int employedId) throws ServerException;
 	
 	ArrayList<SalarySummary> getSalarySummaries(int employedId) throws ServerException;
+	
+	ArrayList<Integer> getALLVersionsSalarySummary(int employedId) throws ServerException;
+	
+	SalarySummary getSalarySummaryByVersion(int employedId, int version) throws ServerException;
 }

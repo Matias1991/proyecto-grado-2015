@@ -116,6 +116,7 @@ public class CoreEmployed implements ICoreEmployed{
 		return BuildVOSalarySummary(salarySummary);
 	}
 	
+	@Override
 	public void deleteEmployed(int id) throws ServerException, ClientException
 	{
 		DAOManager daoManager = new DAOManager();
@@ -146,6 +147,7 @@ public class CoreEmployed implements ICoreEmployed{
 		}
 	}
 	
+	@Override
 	public void updateEmployed(int id, VOEmployed voEmployed) throws ServerException, ClientException
 	{
 		DAOManager daoManager = new DAOManager();
@@ -180,7 +182,45 @@ public class CoreEmployed implements ICoreEmployed{
 			daoManager.close();
 		}
 	}
+	
+	@Override
+	public ArrayList<Integer> getAllVersionSalarySummary(int employedId) throws ServerException, ClientException
+	{
+		ArrayList<Integer> list;
+		
+		Employed employed = iDAOEmployees.getObject(employedId);
+		if(employed != null)
+		{
+			list = employed.getAllVersionsSalarySummary();
+		}
+		else
+			throw new ClientException("No existe un empleado con ese id");
+		
+		return list;
+		
+	}
 
+	@Override
+	public VOSalarySummary getSalarySummaryByVersion(int employedId, int version) throws ServerException, ClientException
+	{
+		VOSalarySummary voSalarySummary = null;
+		
+		Employed employed = iDAOEmployees.getObject(employedId);
+		if(employed != null)
+		{
+			SalarySummary salarySummary = employed.getSalarySummaryByVersion(version);
+			if(salarySummary != null)
+			{
+				voSalarySummary = BuildVOSalarySummary(employed.getSalarySummaryByVersion(version));
+			}
+		}
+		else
+			throw new ClientException("No existe un empleado con ese id");
+		
+		return voSalarySummary;
+		
+	}
+	
 	SalarySummary calculateSalarySummary(VOSalarySummary voSalarySummary) throws ServerException
 	{
 		SalarySummary salarySummary = new SalarySummary();

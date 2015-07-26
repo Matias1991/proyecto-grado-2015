@@ -442,7 +442,7 @@ public class ServiceWeb extends ServiceBase{
 			 iCoreEmployed.updateEmployed(id, voEmployed);
 			 return true;
 		} catch (ServerException e) {
-			ThrowServerExceptionAndLogError(e, "estimar el resumen de salario del empleado");
+			ThrowServerExceptionAndLogError(e, "modificar los datos del empleado");
 		} catch (ClientException e) {
 			throw new RuntimeException(e.getMessage());
 		}catch (InterruptedException e) {
@@ -455,5 +455,54 @@ public class ServiceWeb extends ServiceBase{
 			transactionLock.unlock();
 		}
 		return false;
+	}
+	
+	public Integer [] getAllVersionsSalarySummary(int employedId)
+	{
+		try {
+			transactionLock.tryLock(Constants.DEFAULT_TRANSACTION_TIME, TimeUnit.SECONDS);
+			
+			ArrayList<Integer> listAllVersions = iCoreEmployed.getAllVersionSalarySummary(employedId);
+			Integer [] arrayListVersion= new Integer[listAllVersions.size()];
+			listAllVersions.toArray(arrayListVersion);
+		    return arrayListVersion;
+
+		} catch (ServerException e) {
+			ThrowServerExceptionAndLogError(e, "obtener todas las versiones del resumen de salario");
+		} catch (ClientException e) {
+			throw new RuntimeException(e.getMessage());
+		}catch (InterruptedException e) {
+			throw new RuntimeException(Constants.TRANSACTION_ERROR);	
+		} catch (Exception e) {
+			ThrowGenericExceptionAndLogError(e);
+		}
+		finally
+		{
+			transactionLock.unlock();
+		}
+		return null;
+	}
+	
+	public VOSalarySummary getSalarySummaryByVersion(int employedId, int version)
+	{
+		try {
+			transactionLock.tryLock(Constants.DEFAULT_TRANSACTION_TIME, TimeUnit.SECONDS);
+			
+			return iCoreEmployed.getSalarySummaryByVersion(employedId, version);
+
+		} catch (ServerException e) {
+			ThrowServerExceptionAndLogError(e, "obtener todas las versiones del resumen de salario");
+		} catch (ClientException e) {
+			throw new RuntimeException(e.getMessage());
+		}catch (InterruptedException e) {
+			throw new RuntimeException(Constants.TRANSACTION_ERROR);	
+		} catch (Exception e) {
+			ThrowGenericExceptionAndLogError(e);
+		}
+		finally
+		{
+			transactionLock.unlock();
+		}
+		return null;
 	}
 }
