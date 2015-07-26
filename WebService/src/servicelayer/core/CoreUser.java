@@ -202,7 +202,7 @@ public class CoreUser implements ICoreUser {
 	     if(user != null)
 	     {
 	    	 String password = HashMD5.Decrypt(user.getPassword());
-	    	 Email.forgotPassword(user.getEmail(), password);
+	    	 Email.forgotPassword(user.getEmail(), user.getUserName(), password);
 	     }
 	     else
 	    	 throw new ClientException("No existe un usuario con ese correo electronico");
@@ -219,7 +219,7 @@ public class CoreUser implements ICoreUser {
 			
 			iDAOUsers.updatePassword(id, hashPassword);
 			
-			Email.resetPassword(user.getEmail(), newPassword);
+			Email.resetPassword(user.getEmail(), user.getUserName(), newPassword);
 		}
 		else
 			throw new ClientException("No existe un usuario con ese id");
