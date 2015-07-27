@@ -34,7 +34,6 @@ import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 
 import entities.RequestContext;
-import entities.UserData;
 
 @SuppressWarnings("serial")
 @Theme("webvaadin")
@@ -63,7 +62,7 @@ public class WebvaadinUI extends UI {
 	//Rubros
 	public static final String CREATECATEGORY = "CreateCategoryView";
 	public static final String CATEGORIES = "CategoriesView";
-	public static final String DELETECATEGORY = "CategoriesView";
+	public static final String DELETECATEGORY = "DeleteCategoryView";
 
 	private static GridLayout mainLayout;
 	private static MenuBar mainMenuBar;	

@@ -14,7 +14,6 @@ import servicelayer.service.ServiceWebStub.VOEmployed;
 import servicelayer.service.ServiceWebStub.VOSalarySummary;
 import utils.PopupWindow;
 import entities.Employee;
-import entities.User;
 
 public class EmployeeController {
 

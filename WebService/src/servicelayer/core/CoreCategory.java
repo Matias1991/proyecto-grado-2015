@@ -3,7 +3,7 @@ package servicelayer.core;
 import java.util.ArrayList;
 import java.util.Date;
 
-import datalayer.daos.DAOCategory;
+import datalayer.daos.DAOCategories;
 import servicelayer.entity.businessEntity.Category;
 import servicelayer.entity.valueObject.VOCategory;
 import shared.exceptions.ClientException;
@@ -17,7 +17,7 @@ public class CoreCategory implements ICoreCategory {
 	private IDAOCategroy iDAOCategory;
 
 	private CoreCategory() throws ServerException {
-		iDAOCategory = new DAOCategory();
+		iDAOCategory = new DAOCategories();
 	}
 
 	public static CoreCategory GetInstance() throws ServerException {

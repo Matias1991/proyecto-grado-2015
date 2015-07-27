@@ -14,11 +14,11 @@ import shared.LoggerMSMP;
 import shared.exceptions.ServerException;
 import shared.interfaces.dataLayer.IDAOCategroy;
 
-public class DAOCategory implements IDAOCategroy {
+public class DAOCategories implements IDAOCategroy {
 
 	private Connection connection;
 
-	public DAOCategory() throws ServerException {
+	public DAOCategories() throws ServerException {
 		try {
 			this.connection = new ManageConnection().GetConnection();
 		} catch (Exception e) {
@@ -26,7 +26,7 @@ public class DAOCategory implements IDAOCategroy {
 		}
 	}
 
-	public DAOCategory(Connection connection) {
+	public DAOCategories(Connection connection) {
 		this.connection = connection;
 	}
 

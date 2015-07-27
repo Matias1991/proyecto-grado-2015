@@ -40,34 +40,7 @@ public class DeleteCategoriesView extends BaseView {
 	public DeleteCategoriesView() {
 		buildMainLayout();
 		setCompositionRoot(mainLayout);
-	}
-
-	public void buildGrid() {
-		Collection<Category> categories = CategoryController.getCategories();
-
-		container = new BeanItemContainer<Category>(Category.class, categories);
-
-		grid = new Grid(container);
-//		grid.removeColumn("id");
-//		grid.removeColumn("projectid");
-//		grid.setColumnOrder("description", "amount", "distributiontype");
-//		grid.getColumn("description").setHeaderCaption("Nombre");
-//		grid.getColumn("amount").setHeaderCaption("Importe");
-//		grid.getColumn("distributiontype").setHeaderCaption("Distribución");
-		grid.setWidth(100, Unit.PERCENTAGE);
-		grid.setHeight(100, Unit.PERCENTAGE);
-		grid.setSelectionMode(SelectionMode.SINGLE);
-		grid.getSelectedRows().clear();
-		mainLayout.addComponent(grid, "top:20%;left:0px;");
-
-		grid.addSelectionListener(new SelectionListener() {
-
-			@Override
-			public void select(SelectionEvent event) {
-				btn_delete.setEnabled(grid.getSelectedRows().size() > 0);
-			}
-		});
-
+		
 		btn_delete.addClickListener(new Button.ClickListener() {
 
 			@Override
@@ -93,6 +66,33 @@ public class DeleteCategoriesView extends BaseView {
 							}
 						});
 
+			}
+		});
+	}
+
+	public void buildGrid() {
+		Collection<Category> categories = CategoryController.getCategories();
+
+		container = new BeanItemContainer<Category>(Category.class, categories);
+
+		grid = new Grid(container);
+		grid.removeColumn("id");
+		grid.removeColumn("projectId");
+		grid.setColumnOrder("description", "amount", "distributionType");
+		grid.getColumn("description").setHeaderCaption("Nombre");
+		grid.getColumn("amount").setHeaderCaption("Importe");
+		grid.getColumn("distributionType").setHeaderCaption("Distribución");
+		grid.setWidth(80, Unit.PERCENTAGE);
+		grid.setHeight(80, Unit.PERCENTAGE);
+		grid.setSelectionMode(SelectionMode.SINGLE);
+		grid.getSelectedRows().clear();
+		mainLayout.addComponent(grid, "top:20%;left:0px;");
+
+		grid.addSelectionListener(new SelectionListener() {
+
+			@Override
+			public void select(SelectionEvent event) {
+				btn_delete.setEnabled(grid.getSelectedRows().size() > 0);
 			}
 		});
 	}
@@ -126,7 +126,7 @@ public class DeleteCategoriesView extends BaseView {
 		lblTitle.setImmediate(false);
 		lblTitle.setWidth("-1px");
 		lblTitle.setHeight("-1px");
-		lblTitle.setValue("Eliminar usuario");
+		lblTitle.setValue("Eliminar rubro");
 		mainLayout.addComponent(lblTitle, "top:42.0px;left:0.0px;");
 
 		// btn_delete
@@ -136,7 +136,7 @@ public class DeleteCategoriesView extends BaseView {
 		btn_delete.setImmediate(true);
 		btn_delete.setWidth("-1px");
 		btn_delete.setHeight("-1px");
-		mainLayout.addComponent(btn_delete, "top:50.0px;left:510.0px;");
+		mainLayout.addComponent(btn_delete, "top:50.0px;left:424.0px;");
 
 		return mainLayout;
 	}

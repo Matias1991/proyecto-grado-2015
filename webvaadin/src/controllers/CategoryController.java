@@ -6,13 +6,13 @@ import java.util.Collection;
 
 import org.apache.axis2.AxisFault;
 
-import entities.Category;
 import servicelayer.service.ServiceWebStub;
+import servicelayer.service.ServiceWebStub.DeleteCategory;
 import servicelayer.service.ServiceWebStub.GetCategories;
 import servicelayer.service.ServiceWebStub.InsertCategory;
-import servicelayer.service.ServiceWebStub.DeleteCategory;
 import servicelayer.service.ServiceWebStub.VOCategory;
 import utils.PopupWindow;
+import entities.Category;
 
 public class CategoryController {
 
