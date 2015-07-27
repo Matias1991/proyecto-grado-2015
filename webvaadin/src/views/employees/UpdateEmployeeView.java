@@ -305,237 +305,234 @@ public class UpdateEmployeeView extends BaseView {
 		txtSurname.setHeight("-1px");
 		txtSurname.setRequired(true);
 		
-		// txtAddress
-		txtAddress = new TextField();
-		txtAddress.setCaption("Domicilio");
-		txtAddress.setImmediate(true);
-		txtAddress.setWidth("390px");
-		txtAddress.setHeight("-1px");
-		
-		// txtEmail
+		// Email
 		txtEmail = new TextField();
-		txtEmail.setCaption("Correo");
-		txtEmail.setImmediate(true);
+		txtEmail.setCaption("Correo electrónico");
+		txtEmail.setImmediate(false);
 		txtEmail.setWidth("390px");
 		txtEmail.setHeight("-1px");
 		
-		// txtCellPhone
+		// Direccion
+		txtAddress = new TextField();
+		txtAddress.setCaption("Dirección");
+		txtAddress.setImmediate(false);
+		txtAddress.setWidth("390px");
+		txtAddress.setHeight("-1px");
+		
+		//Celular
 		txtCellphone = new TextField();
 		txtCellphone.setCaption("Celular");
-		txtCellphone.setImmediate(true);
+		txtCellphone.setImmediate(false);
 		txtCellphone.setWidth("-1px");
 		txtCellphone.setHeight("-1px");
-				
+
 		// Sueldo Nominal
 		txtNominalSalary = new TextField();
 		txtNominalSalary.setCaption("Sueldo Nominal");
-		txtNominalSalary.setImmediate(true);
+		txtNominalSalary.setImmediate(false);
 		txtNominalSalary.setWidth("-1px");
 		txtNominalSalary.setHeight("-1px");
-		txtNominalSalary.setRequired(true);	
 		txtNominalSalary.setNullRepresentation("");	
 		txtNominalSalary.setConverter(new StringToDoubleConverter());
-				
+
 		// Tickets
 		txtTickets = new TextField();
 		txtTickets.setCaption("Tickets");
-		txtTickets.setImmediate(true);
+		txtTickets.setImmediate(false);
 		txtTickets.setWidth("-1px");
 		txtTickets.setHeight("-1px");
-		txtTickets.setRequired(true);			
 		txtTickets.setNullRepresentation("");
 		txtTickets.setConverter(new StringToDoubleConverter());
-		
+
 		// RET
 		txtRet = new TextField();
 		txtRet.setCaption("RET");
-		txtRet.setImmediate(true);
+		txtRet.setImmediate(false);
 		txtRet.setWidth("-1px");
-		txtRet.setHeight("-1px");			
+		txtRet.setHeight("-1px");
 		txtRet.setNullRepresentation("");
 		txtRet.setConverter(new StringToDoubleConverter());
-		
+
 		// IRPF
 		txtIrpf = new TextField();
 		txtIrpf.setCaption("IRPF");
-		txtIrpf.setImmediate(true);
+		txtIrpf.setImmediate(false);
 		txtIrpf.setWidth("-1px");
 		txtIrpf.setHeight("-1px");
 		txtIrpf.setNullRepresentation("");
 		txtIrpf.setConverter(new StringToDoubleConverter());
-			
+
 		// BSE
 		txtBse = new TextField();
 		txtBse.setCaption("BSE");
-		txtBse.setImmediate(true);
+		txtBse.setImmediate(false);
 		txtBse.setWidth("-1px");
 		txtBse.setHeight("-1px");
 		txtBse.setNullRepresentation("");
 		txtBse.setConverter(new StringToDoubleConverter());
-		
+
 		// Horas mensuales
 		txtHours = new TextField();
 		txtHours.setCaption("Cantidad Horas Mensual");
-		txtHours.setImmediate(true);
+		txtHours.setImmediate(false);
 		txtHours.setWidth("-1px");
 		txtHours.setHeight("-1px");
-		txtHours.setRequired(true);
 		txtHours.setNullRepresentation("");
 		txtHours.setConverter(new StringToIntegerConverter());
-		
+
 		// Precio de venta por hora
 		txtCostSaleHour = new TextField();
 		txtCostSaleHour.setCaption("Hora Venta");
-		txtCostSaleHour.setImmediate(true);
+		txtCostSaleHour.setImmediate(false);
 		txtCostSaleHour.setWidth("-1px");
-		txtCostSaleHour.setHeight("-1px");		
+		txtCostSaleHour.setHeight("-1px");
 		txtCostSaleHour.setNullRepresentation("");
 		txtCostSaleHour.setConverter(new StringToDoubleConverter());
-		
+
 		// Porcentaje aporte FONASA Personal
 		txtPercentagePersonalFonasaContribution = new TextField();
-		txtPercentagePersonalFonasaContribution.setCaption("% Aporte FONASA Personal");
-		txtPercentagePersonalFonasaContribution.setImmediate(true);
+		txtPercentagePersonalFonasaContribution
+				.setCaption("% Aporte FONASA Personal");
+		txtPercentagePersonalFonasaContribution.setImmediate(false);
 		txtPercentagePersonalFonasaContribution.setWidth("-1px");
 		txtPercentagePersonalFonasaContribution.setHeight("-1px");
-		txtPercentagePersonalFonasaContribution.setRequired(true);
 		txtPercentagePersonalFonasaContribution.setNullRepresentation("");
-		txtPercentagePersonalFonasaContribution.setLocale(Locale.ENGLISH);
 		txtPercentagePersonalFonasaContribution.setConverter(new StringToDoubleConverter());
-		txtPercentagePersonalFonasaContribution.addValidator(new DoubleRangeValidator("Debe ser entre 0 y 100", 0.0, 100.0));
-		
+
 		// Aporte Jubilatorio Personal
 		txtPersonalRetirementContribution = new TextField();
-		txtPersonalRetirementContribution.setCaption("Aporte Jubilatorio Personal");
-		txtPersonalRetirementContribution.setImmediate(true);
+		txtPersonalRetirementContribution
+				.setCaption("Aporte Jubilatorio Personal");
+		txtPersonalRetirementContribution.setImmediate(false);
 		txtPersonalRetirementContribution.setWidth("-1px");
 		txtPersonalRetirementContribution.setHeight("-1px");
 		txtPersonalRetirementContribution.setNullRepresentation("");
 		txtPersonalRetirementContribution.setConverter(new StringToDoubleConverter());
-		
+
 		// Aporte Jubilatorio Patronal
 		txtEmployerRetirementContribution = new TextField();
-		txtEmployerRetirementContribution.setCaption("Aporte Jubilatorio Patronal");
-		txtEmployerRetirementContribution.setImmediate(true);
+		txtEmployerRetirementContribution
+				.setCaption("Aporte Jubilatorio Patronal");
+		txtEmployerRetirementContribution.setImmediate(false);
 		txtEmployerRetirementContribution.setWidth("-1px");
 		txtEmployerRetirementContribution.setHeight("-1px");
 		txtEmployerRetirementContribution.setNullRepresentation("");
 		txtEmployerRetirementContribution.setConverter(new StringToDoubleConverter());
-		
+
 		// Aporte FRL Personal
 		txtPersonalFrlContribution = new TextField();
 		txtPersonalFrlContribution.setCaption("Aporte FRL Personal");
-		txtPersonalFrlContribution.setImmediate(true);
+		txtPersonalFrlContribution.setImmediate(false);
 		txtPersonalFrlContribution.setWidth("-1px");
 		txtPersonalFrlContribution.setHeight("-1px");
 		txtPersonalFrlContribution.setNullRepresentation("");
 		txtPersonalFrlContribution.setConverter(new StringToDoubleConverter());
-		
+
 		// Aporte FRL Patronal
 		txtEmployerFrlContribution = new TextField();
 		txtEmployerFrlContribution.setCaption("Aporte FRL Patronal");
-		txtEmployerFrlContribution.setImmediate(true);
+		txtEmployerFrlContribution.setImmediate(false);
 		txtEmployerFrlContribution.setWidth("-1px");
 		txtEmployerFrlContribution.setHeight("-1px");
 		txtEmployerFrlContribution.setNullRepresentation("");
 		txtEmployerFrlContribution.setConverter(new StringToDoubleConverter());
-		
+
 		// Aporte FONASA Personal
 		txtPersonalFonasaContribution = new TextField();
 		txtPersonalFonasaContribution.setCaption("Aporte FONASA Personal");
-		txtPersonalFonasaContribution.setImmediate(true);
+		txtPersonalFonasaContribution.setImmediate(false);
 		txtPersonalFonasaContribution.setWidth("-1px");
 		txtPersonalFonasaContribution.setHeight("-1px");
 		txtPersonalFonasaContribution.setNullRepresentation("");
 		txtPersonalFonasaContribution.setConverter(new StringToDoubleConverter());
-		
+
 		// Aporte FONASA Patronal
 		txtEmployerFonasaContribution = new TextField();
 		txtEmployerFonasaContribution.setCaption("Aporte FONASA Patronal");
-		txtEmployerFonasaContribution.setImmediate(true);
+		txtEmployerFonasaContribution.setImmediate(false);
 		txtEmployerFonasaContribution.setWidth("-1px");
 		txtEmployerFonasaContribution.setHeight("-1px");
 		txtEmployerFonasaContribution.setNullRepresentation("");
 		txtEmployerFonasaContribution.setConverter(new StringToDoubleConverter());
-		
+
 		// Tickets Patronal
 		txtTicketsEmployer = new TextField();
 		txtTicketsEmployer.setCaption("Tickets Patronal");
-		txtTicketsEmployer.setImmediate(true);
+		txtTicketsEmployer.setImmediate(false);
 		txtTicketsEmployer.setWidth("-1px");
 		txtTicketsEmployer.setHeight("-1px");
 		txtTicketsEmployer.setNullRepresentation("");
 		txtTicketsEmployer.setConverter(new StringToDoubleConverter());
-		
+
 		// Total Descuentos
 		txtTotalDiscounts = new TextField();
 		txtTotalDiscounts.setCaption("Total Descuentos");
-		txtTotalDiscounts.setImmediate(true);
+		txtTotalDiscounts.setImmediate(false);
 		txtTotalDiscounts.setWidth("-1px");
 		txtTotalDiscounts.setHeight("-1px");
 		txtTotalDiscounts.setNullRepresentation("");
 		txtTotalDiscounts.setConverter(new StringToDoubleConverter());
-		
+
 		// Total Aportes Patronales
 		txtTotalEmployersContribution = new TextField();
 		txtTotalEmployersContribution.setCaption("Total Aportes Patronales");
-		txtTotalEmployersContribution.setImmediate(true);
+		txtTotalEmployersContribution.setImmediate(false);
 		txtTotalEmployersContribution.setWidth("-1px");
 		txtTotalEmployersContribution.setHeight("-1px");
 		txtTotalEmployersContribution.setNullRepresentation("");
 		txtTotalEmployersContribution.setConverter(new StringToDoubleConverter());
-		
+
 		// Nominal Sin Aportes
 		txtNominalWithoutContribution = new TextField();
 		txtNominalWithoutContribution.setCaption("Nominal Sin Aportes");
-		txtNominalWithoutContribution.setImmediate(true);
+		txtNominalWithoutContribution.setImmediate(false);
 		txtNominalWithoutContribution.setWidth("-1px");
 		txtNominalWithoutContribution.setHeight("-1px");
 		txtNominalWithoutContribution.setNullRepresentation("");
 		txtNominalWithoutContribution.setConverter(new StringToDoubleConverter());
-		
+
 		// Prevision Despido
 		txtDismisalPrevension = new TextField();
 		txtDismisalPrevension.setCaption("Prevision Despido");
-		txtDismisalPrevension.setImmediate(true);
+		txtDismisalPrevension.setImmediate(false);
 		txtDismisalPrevension.setWidth("-1px");
 		txtDismisalPrevension.setHeight("-1px");
 		txtDismisalPrevension.setNullRepresentation("");
 		txtDismisalPrevension.setConverter(new StringToDoubleConverter());
-		
+
 		// Incidencia Sueldo
 		txtIncidenceSalary = new TextField();
 		txtIncidenceSalary.setCaption("Incidencia Sueldo");
-		txtIncidenceSalary.setImmediate(true);
+		txtIncidenceSalary.setImmediate(false);
 		txtIncidenceSalary.setWidth("-1px");
 		txtIncidenceSalary.setHeight("-1px");
 		txtIncidenceSalary.setNullRepresentation("");
 		txtIncidenceSalary.setConverter(new StringToDoubleConverter());
-		
+
 		// Sueldos a Pagar
 		txtSalaryToPay = new TextField();
 		txtSalaryToPay.setCaption("Sueldos A Pagar");
-		txtSalaryToPay.setImmediate(true);
+		txtSalaryToPay.setImmediate(false);
 		txtSalaryToPay.setWidth("-1px");
 		txtSalaryToPay.setHeight("-1px");
 		txtSalaryToPay.setNullRepresentation("");
 		txtSalaryToPay.setConverter(new StringToDoubleConverter());
-		
+
 		// Costo Mensual
 		txtCostMonth = new TextField();
 		txtCostMonth.setCaption("Costo Mensual");
-		txtCostMonth.setImmediate(true);
+		txtCostMonth.setImmediate(false);
 		txtCostMonth.setWidth("-1px");
 		txtCostMonth.setHeight("-1px");
 		txtCostMonth.setNullRepresentation("");
 		txtCostMonth.setConverter(new StringToDoubleConverter());
-			
+
 		// Costo Hora Meerkat
 		txtCostRealHour = new TextField();
 		txtCostRealHour.setCaption("Costo Hora Meerkat");
-		txtCostRealHour.setImmediate(true);
+		txtCostRealHour.setImmediate(false);
 		txtCostRealHour.setWidth("-1px");
-		txtCostRealHour.setHeight("-1px");	
+		txtCostRealHour.setHeight("-1px");
 		txtCostRealHour.setNullRepresentation("");
 		txtCostRealHour.setConverter(new StringToDoubleConverter());
 		
@@ -690,36 +687,36 @@ public class UpdateEmployeeView extends BaseView {
 		// seteo en readonly false, para poder cargar los datos
 		changeReadOnlyState(false);
 		
-		VOSalarySummary voSalarySummaty = selectedEmployee.getVoSalarySummary();
+		VOSalarySummary voSalarySummary = selectedEmployee.getVoSalarySummary();	
 		txtName.setValue(selectedEmployee.getName());
 		txtSurname.setValue(selectedEmployee.getLastName());
+		txtCellphone.setValue(selectedEmployee.getCellPhone());
 		txtAddress.setValue(selectedEmployee.getAddress());
 		txtEmail.setValue(selectedEmployee.getEmail());
-		txtNominalSalary.setValue(Double.toString(voSalarySummaty.getNominalSalary()));	
-		txtTickets.setValue(Double.toString(voSalarySummaty.getTickets()));	
-		txtPercentagePersonalFonasaContribution.setValue(Double.toString(voSalarySummaty.getPercentageTypeFONASA()*100));	
-		txtRet.setValue(Double.toString(voSalarySummaty.getRET()));	
-		txtIrpf.setValue(Double.toString(voSalarySummaty.getIRPF()));			
-		txtBse.setValue(Double.toString(voSalarySummaty.getBSE()));
-		txtHours.setValue(Double.toString(voSalarySummaty.getHours()));
-		txtCostSaleHour.setValue(Double.toString(voSalarySummaty.getCostSaleHour()));
-		txtPersonalRetirementContribution.setValue(Double.toString(voSalarySummaty.getPersonalRetirementContribution()));
-		txtEmployerRetirementContribution.setValue(Double.toString(voSalarySummaty.getEmployersContributionsRetirement()));
-		txtPersonalFrlContribution.setValue(Double.toString(voSalarySummaty.getPersonalFRLContribution()));
-		txtEmployerFrlContribution.setValue(Double.toString(voSalarySummaty.getEmployersFRLContribution()));
-		txtPersonalFonasaContribution.setValue(Double.toString(voSalarySummaty.getPersonalFONASAContribution()));
-		txtEmployerFonasaContribution.setValue(Double.toString(voSalarySummaty.getEmployersFONASAContribution()));
-		txtTicketsEmployer.setValue(Double.toString(voSalarySummaty.getTicketsEmployers()));
-		txtTotalDiscounts.setValue(Double.toString(voSalarySummaty.getTotalDiscounts()));
-		txtTotalEmployersContribution.setValue(Double.toString(voSalarySummaty.getTotalEmployerContributions()));
-		txtNominalWithoutContribution.setValue(Double.toString(voSalarySummaty.getNominalWithoutContributions()));
-		txtDismisalPrevension.setValue(Double.toString(voSalarySummaty.getDismissalPrevention()));
-		txtIncidenceSalary.setValue(Double.toString(voSalarySummaty.getIncidenceSalary()));
-		txtSalaryToPay.setValue(Double.toString(voSalarySummaty.getSalaryToPay()));
-		txtCostMonth.setValue(Double.toString(voSalarySummaty.getCostMonth()));
-		txtCostRealHour.setValue(Double.toString(voSalarySummaty.getCostRealHour()));			
+		txtNominalSalary.setConvertedValue(voSalarySummary.getNominalSalary());	
+		txtTickets.setConvertedValue(voSalarySummary.getTickets());	
+		txtPercentagePersonalFonasaContribution.setConvertedValue(voSalarySummary.getPercentageTypeFONASA()*100);	
+		txtRet.setConvertedValue(voSalarySummary.getRET());	
+		txtIrpf.setConvertedValue(voSalarySummary.getIRPF());			
+		txtBse.setConvertedValue(voSalarySummary.getBSE());
+		txtHours.setConvertedValue(voSalarySummary.getHours());
+		txtCostSaleHour.setConvertedValue(voSalarySummary.getCostSaleHour());
+		txtPersonalRetirementContribution.setConvertedValue(voSalarySummary.getPersonalRetirementContribution());
+		txtEmployerRetirementContribution.setConvertedValue(voSalarySummary.getEmployersContributionsRetirement());
+		txtPersonalFrlContribution.setConvertedValue(voSalarySummary.getPersonalFRLContribution());
+		txtEmployerFrlContribution.setConvertedValue(voSalarySummary.getEmployersFRLContribution());
+		txtPersonalFonasaContribution.setConvertedValue(voSalarySummary.getPersonalFONASAContribution());
+		txtEmployerFonasaContribution.setConvertedValue(voSalarySummary.getEmployersFONASAContribution());
+		txtTicketsEmployer.setConvertedValue(voSalarySummary.getTicketsEmployers());
+		txtTotalDiscounts.setConvertedValue(voSalarySummary.getTotalDiscounts());
+		txtTotalEmployersContribution.setConvertedValue(voSalarySummary.getTotalEmployerContributions());
+		txtNominalWithoutContribution.setConvertedValue(voSalarySummary.getNominalWithoutContributions());
+		txtDismisalPrevension.setConvertedValue(voSalarySummary.getDismissalPrevention());
+		txtIncidenceSalary.setConvertedValue(voSalarySummary.getIncidenceSalary());
+		txtSalaryToPay.setConvertedValue(voSalarySummary.getSalaryToPay());
+		txtCostMonth.setConvertedValue(voSalarySummary.getCostMonth());
+		txtCostRealHour.setConvertedValue(voSalarySummary.getCostRealHour());				
 		optEmployeeType.select(selectedEmployee.getEmployedType());
-		
 		//seteo en readonly false los campos del empleado a mostrar
 		changeReadOnlyState(true);
 		
