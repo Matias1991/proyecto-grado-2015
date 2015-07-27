@@ -10,6 +10,7 @@ public class VOCategory implements Serializable{
 	private double amount;
 	private Date createDateTimeUTC;
 	private int projectId;
+	private int distributionType;
 	private static final long serialVersionUID = 1L;
 	
 	public int getId() {
@@ -50,6 +51,14 @@ public class VOCategory implements Serializable{
 
 	public void setProjectId(int projectId) {
 		this.projectId = projectId;
+	}
+
+	public int getDistributionType() {
+		return distributionType;
+	}
+
+	public void setDistributionType(int distributionType) {
+		this.distributionType = distributionType;
 	}
 	
 }

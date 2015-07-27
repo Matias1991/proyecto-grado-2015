@@ -7,13 +7,11 @@ import java.util.Collection;
 import org.apache.axis2.AxisFault;
 
 import entities.Category;
-import entities.User;
 import servicelayer.service.ServiceWebStub;
 import servicelayer.service.ServiceWebStub.GetCategories;
-import servicelayer.service.ServiceWebStub.GetUsers;
 import servicelayer.service.ServiceWebStub.InsertCategory;
+import servicelayer.service.ServiceWebStub.DeleteCategory;
 import servicelayer.service.ServiceWebStub.VOCategory;
-import servicelayer.service.ServiceWebStub.VOUser;
 import utils.PopupWindow;
 
 public class CategoryController {
@@ -49,9 +47,9 @@ public class CategoryController {
 		
 		try {
 			ServiceWebStub service = new ServiceWebStub();
-			GetCategories getUsers = new GetCategories();
+			GetCategories getCategory = new GetCategories();
 			
-			VOCategory [] voCategories = service.getCategories(getUsers).get_return();
+			VOCategory [] voCategories = service.getCategories(getCategory).get_return();
 
 			if(voCategories != null)
 			{
@@ -71,4 +69,26 @@ public class CategoryController {
 		
 		return categories;
 	}
+	
+	public static boolean DeleteCategory(int id)
+	{
+		boolean result = false;
+		try {
+			ServiceWebStub service = new ServiceWebStub();
+			DeleteCategory deleteCategory = new DeleteCategory();
+			
+			deleteCategory.setId(id);
+			
+			result = service.deleteCategory(deleteCategory).get_return();
+			
+		} catch (AxisFault e) {
+			String error = e.getMessage().replace("<faultstring>", "");
+			PopupWindow popup = new PopupWindow("ERROR", error.replace("</faultstring>", ""));
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
+		
+		return result;
+	}
+	
 }

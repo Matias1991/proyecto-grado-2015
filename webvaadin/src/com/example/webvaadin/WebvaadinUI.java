@@ -6,6 +6,7 @@ import views.LoginView;
 import views.MainMenuView;
 import views.category.CategoriesView;
 import views.category.CreateCategoryView;
+import views.category.DeleteCategoriesView;
 import views.employees.CatalogEmployeesView;
 import views.employees.CreateEmployeeView;
 import views.user.CatalogUsersView;
@@ -62,6 +63,7 @@ public class WebvaadinUI extends UI {
 	//Rubros
 	public static final String CREATECATEGORY = "CreateCategoryView";
 	public static final String CATEGORIES = "CategoriesView";
+	public static final String DELETECATEGORY = "CategoriesView";
 
 	private static GridLayout mainLayout;
 	private static MenuBar mainMenuBar;	
@@ -145,6 +147,7 @@ public class WebvaadinUI extends UI {
 		//Rubros
 		navigator.addView(CREATECATEGORY,new CreateCategoryView());
 		navigator.addView(CATEGORIES,new CategoriesView());
+		navigator.addView(DELETECATEGORY,new DeleteCategoriesView());
 		
 		if(RequestContext.getRequestContext() == null)
 		{
@@ -204,6 +207,9 @@ public class WebvaadinUI extends UI {
 					case "Crear rubro":
 						navigator.navigateTo(CREATECATEGORY);
 						break;
+					case "Eliminar rubro":
+						navigator.navigateTo(DELETECATEGORY);
+						break;
 					case "Catalogo rubros":
 						navigator.navigateTo(CATEGORIES);
 						break;
@@ -241,6 +247,7 @@ public class WebvaadinUI extends UI {
 				MenuItem category = menuBar.addItem("Rubros", null,null);
 				MenuItem createCategory = category.addItem("Crear rubro",null,mainMenuBarCommand);
 				MenuItem categories = category.addItem("Catalogo rubros",null,mainMenuBarCommand);
+				MenuItem deleteCategory = category.addItem("Eliminar rubro",null,mainMenuBarCommand);
 				break;
 			case 3:
 				//Rol Gerente

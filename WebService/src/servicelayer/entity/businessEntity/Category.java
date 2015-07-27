@@ -11,6 +11,7 @@ public class Category {
 	private double amount;
 	private Date createDateTimeUTC;
 	private int projectId;
+	private int distributionType;
 	
 	public Category(){}
 	
@@ -20,6 +21,7 @@ public class Category {
 		this.amount = voCategory.getAmount();
 		this.createDateTimeUTC = voCategory.getCreateDateTimeUTC();
 		this.projectId = voCategory.getProjectId();
+		this.distributionType = voCategory.getDistributionType();
 	}
 
 	public int getId() {
@@ -61,5 +63,12 @@ public class Category {
 	public void setProjectId(int projectId) {
 		this.projectId = projectId;
 	}
-	
+
+	public int getDistributionType() {
+		return distributionType;
+	}
+
+	public void setDistributionType(int distributionType) {
+		this.distributionType = distributionType;
+	}
 }

@@ -7,12 +7,10 @@ public class Category {
 	private int id;
 	private String description;
 	private double amount;
-	private String categoryType;
+	private String distributionType;
+	private int projectId;
 	
-	public Category()
-	{
-		
-	}
+	public Category(){	}
 	
 	public Category(VOCategory voCategory)
 	{
@@ -20,7 +18,7 @@ public class Category {
 		this.setDescription(voCategory.getDescription());
 		this.setAmount(voCategory.getAmount());
 		//tOdo: eliminar esto cuando desde BE se devuelva el tipo de rubro
-		this.setCategoryType(getCategoryType(0));
+		this.setDistributionType(getDistributionType(voCategory.getDistributionType()));
 	}
 	
 	public String getDescription() {
@@ -39,12 +37,12 @@ public class Category {
 		this.amount = amount;
 	}
 
-	public String getCategoryType() {
-		return categoryType;
+	public String getDistributionType() {
+		return distributionType;
 	}
 
-	public void setCategoryType(String categoryType) {
-		this.categoryType = categoryType;
+	public void setDistributionType(String categoryType) {
+		this.distributionType = categoryType;
 	}
 	
 	public int getId() {
@@ -54,7 +52,7 @@ public class Category {
 		this.id = id;
 	}
 	
-	public String getCategoryType(int categoryTypeId)
+	public String getDistributionType(int categoryTypeId)
 	{
 		String result = "";
 		switch(categoryTypeId)
@@ -71,5 +69,13 @@ public class Category {
 		}
 		
 		return result;
+	}
+
+	public int getProjectId() {
+		return projectId;
+	}
+
+	public void setProjectId(int projectId) {
+		this.projectId = projectId;
 	}
 }

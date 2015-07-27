@@ -400,7 +400,7 @@ public class ServiceWeb extends ServiceBase{
 			
 			return true;
 		} catch (ServerException e) {
-			ThrowServerExceptionAndLogError(e, "Insertar categoria");
+			ThrowServerExceptionAndLogError(e, "Insertar rubro");
 		} catch (ClientException e) {
 			throw new RuntimeException(e.getMessage());
 		}catch (InterruptedException e) {

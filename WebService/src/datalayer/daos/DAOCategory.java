@@ -34,8 +34,8 @@ public class DAOCategory implements IDAOCategroy {
 	public int insert(Category obj) throws ServerException {
 		PreparedStatement preparedStatement = null;
 
-		String insertSQL = "INSERT INTO CATEGORIES (DESCRIPTION, AMOUNT, CREATEDDATETIMEUTC, PROJECTID) VALUES"
-				+ "(?,?,?,?)";
+		String insertSQL = "INSERT INTO CATEGORY (DESCRIPTION, AMOUNT, CREATEDDATETIMEUTC, PROJECTID, DISTRIBUTIONTYPE) VALUES"
+				+ "(?,?,?,?,?)";
 
 		try {
 			preparedStatement = this.connection.prepareStatement(insertSQL);
@@ -45,6 +45,7 @@ public class DAOCategory implements IDAOCategroy {
 			preparedStatement.setTimestamp(3, new Timestamp(obj
 					.getCreateDateTimeUTC().getTime()));
 			preparedStatement.setInt(4, obj.getProjectId());
+			preparedStatement.setInt(5, obj.getDistributionType());
 
 			preparedStatement.executeUpdate();
 
@@ -69,7 +70,7 @@ public class DAOCategory implements IDAOCategroy {
 		PreparedStatement preparedStatement = null;
 
 		try {
-			String deleteSQL = "DELETE FROM CATEGORIES WHERE ID = ?";
+			String deleteSQL = "DELETE FROM CATEGORY WHERE ID = ?";
 			preparedStatement = this.connection.prepareStatement(deleteSQL);
 			preparedStatement.setInt(1, id);
 			preparedStatement.execute();
@@ -91,8 +92,8 @@ public class DAOCategory implements IDAOCategroy {
 	public void update(int id, Category obj) throws ServerException {
 		PreparedStatement preparedStatement = null;
 
-		String updateSQL = "UPDATE CATEGORIES "
-				+ "SET DESCRIPTION = ?, AMOUNT = ?, PROJECTID = ? WHERE id = ?";
+		String updateSQL = "UPDATE CATEGORY"
+				+ "SET DESCRIPTION = ?, AMOUNT = ?, PROJECTID = ?, DISTRIBUTIONTYPE = ? WHERE id = ?";
 
 		try {
 			preparedStatement = this.connection.prepareStatement(updateSQL);
@@ -101,6 +102,7 @@ public class DAOCategory implements IDAOCategroy {
 			preparedStatement.setDouble(2, obj.getAmount());
 			preparedStatement.setInt(3, obj.getProjectId());
 			preparedStatement.setInt(4, id);
+			preparedStatement.setInt(5, obj.getDistributionType());
 
 			preparedStatement.executeUpdate();
 
@@ -116,7 +118,7 @@ public class DAOCategory implements IDAOCategroy {
 		ResultSet rs = null;
 
 		try {
-			String getSQL = "SELECT * FROM CATEGORIES WHERE id = ?";
+			String getSQL = "SELECT * FROM CATEGORY WHERE id = ?";
 			preparedStatement = this.connection.prepareStatement(getSQL);
 			preparedStatement.setInt(1, id);
 			rs = preparedStatement.executeQuery();
@@ -148,7 +150,7 @@ public class DAOCategory implements IDAOCategroy {
 		ResultSet rs = null;
 		try {
 
-			String getSQL = "SELECT * FROM CATEGORIES WHERE id = ?";
+			String getSQL = "SELECT * FROM CATEGORY WHERE id = ?";
 			preparedStatement = this.connection.prepareStatement(getSQL);
 			preparedStatement.setInt(1, id);
 			rs = preparedStatement.executeQuery();
@@ -179,7 +181,7 @@ public class DAOCategory implements IDAOCategroy {
 		ResultSet rs = null;
 		try {
 			String sql;
-			sql = "SELECT * FROM CATEGORIES";
+			sql = "SELECT * FROM CATEGORY";
 			preparedStatement = this.connection.prepareStatement(sql);
 			rs = preparedStatement.executeQuery(sql);
 
@@ -209,6 +211,7 @@ public class DAOCategory implements IDAOCategroy {
 		double amount = rs.getDouble("amount");
 		Date createDateTimeUTC = rs.getTimestamp("createdDateTimeUTC");
 		int projectId = rs.getInt("projectid");
+		int distributionType = rs.getInt("distributionType");
 
 		Category category = new Category();
 		category.setId(_id);
@@ -216,6 +219,7 @@ public class DAOCategory implements IDAOCategroy {
 		category.setAmount(amount);
 		category.setCreateDateTimeUTC(createDateTimeUTC);
 		category.setProjectId(projectId);
+		category.setDistributionType(distributionType);
 
 		return category;
 	}

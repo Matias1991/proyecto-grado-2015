@@ -89,12 +89,21 @@ CREATE TABLE IF NOT EXISTS SalarySummary
 	FOREIGN KEY R_SalarySummary_Employed (EmployedId) REFERENCES Employed (Id)
 );
 
-CREATE TABLE IF NOT EXISTS Categories
+CREATE TABLE IF NOT EXISTS CategoryDistributionType
+(
+	Id                   INTEGER NOT NULL,
+	Name                 VARCHAR(40) NULL,
+	PRIMARY KEY (Id)
+);
+
+CREATE TABLE IF NOT EXISTS Category
 (
 	Id                  INTEGER NOT NULL AUTO_INCREMENT,
 	Description         VARCHAR(120) NULL,
 	Amount 				DECIMAL(10,2) NULL,
 	CreatedDateTimeUTC  TIMESTAMP NULL,
 	ProjectId			INTEGER NULL,
-	PRIMARY KEY (Id)
+	DistributionType	INTEGER NOT NULL,
+	PRIMARY KEY (Id),
+	FOREIGN KEY FK_Category_DistributionType (DistributionType) REFERENCES CategoryDistributionType (Id)
 );
