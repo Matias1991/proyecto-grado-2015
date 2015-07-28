@@ -639,6 +639,7 @@ public class CreateEmployeeView extends BaseView {
 		lblTitle.setWidth("-1px");
 		lblTitle.setHeight("-1px");
 		lblTitle.setValue("Crear empleado");
+		lblTitle.setStyleName("titleLabel");
 		mainLayout.addComponent(lblTitle, "top:20.0px;left:0.0px;");
 		
 		// txtSurname
