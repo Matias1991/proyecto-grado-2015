@@ -22,6 +22,7 @@ import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Grid;
 import com.vaadin.ui.Grid.SelectionMode;
 import com.vaadin.ui.Label;
+import com.vaadin.ui.Notification;
 import com.vaadin.ui.OptionGroup;
 import com.vaadin.ui.TextField;
 
@@ -152,6 +153,9 @@ public class ModifyUserView extends BaseView {
 						User selectedUser = item.getBean();
 						loadUser(selectedUser);
 						userLayout.setVisible(true);
+						txtName.setRequiredError(null);
+						txtLastName.setRequiredError(null);
+						txtEmail.setRequiredError(null);
 						btnModify.setEnabled(true);
 					}else{
 						userLayout.setVisible(false);
