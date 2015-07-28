@@ -26,6 +26,7 @@ import com.vaadin.ui.TabSheet;
 import com.vaadin.ui.TextField;
 
 import controllers.EmployeeController;
+import entities.RequestContext;
 
 public class CreateEmployeeView extends BaseView {
 
@@ -713,7 +714,9 @@ public class CreateEmployeeView extends BaseView {
 	
 	public void enter(ViewChangeEvent event) {
 		super.enter(event);
-		cleanInputs();					
+		if (RequestContext.getRequestContext() != null) {
+			cleanInputs();	
+		}
 		
 	}
 	

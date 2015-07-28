@@ -42,7 +42,34 @@ public class UnlockUserView extends BaseView{
 	public UnlockUserView() {
 		buildMainLayout();
 		setCompositionRoot(mainLayout);
-		//buildGrid();
+		
+		btnUnlock.addClickListener(new Button.ClickListener() {
+
+			@Override
+			public void buttonClick(ClickEvent event) {
+				ConfirmDialog.show(WebvaadinUI.getCurrent(), "Confirmación", "Desea desbloquear el usuario?", "Si", "No", 
+						new ConfirmDialog.Listener() {
+
+					@Override
+					public void onClose(ConfirmDialog confirm) {
+						if(confirm.isConfirmed()){
+							BeanItem<User> item = container.getItem(grid.getSelectedRow());
+							
+							if(UserController.unlockUser(item.getBean().getId())){
+								//PopupWindow popup = new PopupWindow("AVISO", "Usuario desbloqueado correctamente");
+								//getUI().getNavigator().navigateTo(WebvaadinUI.UNLOCKUSER);
+								mainLayout.removeComponent(grid);
+								buildGrid();
+							}
+							
+							btnUnlock.setEnabled(false);
+						}
+						
+					}
+					
+				});
+			}
+		});
 	}
 	
 	public void buildGrid()
@@ -75,33 +102,6 @@ public class UnlockUserView extends BaseView{
 				         grid.getSelectedRows().size() > 0);
 			   }
 		});
-		
-		btnUnlock.addClickListener(new Button.ClickListener() {
-
-			@Override
-			public void buttonClick(ClickEvent event) {
-				ConfirmDialog.show(WebvaadinUI.getCurrent(), "Confirmación", "Desea desbloquear el usuario?", "Si", "No", 
-						new ConfirmDialog.Listener() {
-
-					@Override
-					public void onClose(ConfirmDialog confirm) {
-						if(confirm.isConfirmed()){
-							BeanItem<User> item = container.getItem(grid.getSelectedRow());
-							
-							if(UserController.unlockUser(item.getBean().getId())){
-								PopupWindow popup = new PopupWindow("AVISO", "Usuario desbloqueado correctamente");
-								getUI().getNavigator().navigateTo(WebvaadinUI.UNLOCKUSER);
-							}
-							
-							btnUnlock.setEnabled(false);
-						}
-						
-					}
-					
-				});
-			}
-		});
-
 	}
 	
 	@Override

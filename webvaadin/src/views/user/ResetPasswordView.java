@@ -12,7 +12,6 @@ import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.event.SelectionEvent;
 import com.vaadin.event.SelectionEvent.SelectionListener;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
-import com.vaadin.server.Page;
 import com.vaadin.ui.AbsoluteLayout;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
@@ -40,7 +39,7 @@ public class ResetPasswordView extends BaseView{
 	public ResetPasswordView() {
 		buildMainLayout();
 		setCompositionRoot(mainLayout);
-		//buildGrid();
+		
 	}
 	
 	public void buildGrid()
