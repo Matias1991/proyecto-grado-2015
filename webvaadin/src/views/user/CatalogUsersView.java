@@ -26,6 +26,7 @@ public class CatalogUsersView extends BaseView{
 	private Label lblTitle;
 	private Grid catalogUsersGrid;
 	private BeanItemContainer<User> beanContainer;
+	private Label lblMessage;
 
 	/**
 	 * The constructor should first build the main layout, set the
@@ -38,31 +39,37 @@ public class CatalogUsersView extends BaseView{
 		buildMainLayout();
 		setCompositionRoot(mainLayout);
 		
+		lblMessage = new Label("");
+		mainLayout.addComponent(lblMessage, "top:80.0px;left:0.0px;");
+		
 		// TODO add user code here
 	}
 
 	public void buildGrid(){
 		Collection<User> users = UserController.GetUsers();
 		
-		beanContainer = new BeanItemContainer<User>(User.class,users);
-				
-		catalogUsersGrid = new Grid(beanContainer);
-		catalogUsersGrid.removeColumn("id");
-		catalogUsersGrid.removeColumn("userStatus");
-		catalogUsersGrid.setColumnOrder("name", "lastName", "userName", "userType", "email");
-
-		catalogUsersGrid.getColumn("name").setHeaderCaption("Nombre");
-		catalogUsersGrid.getColumn("lastName").setHeaderCaption("Apellido");
-		catalogUsersGrid.getColumn("userName").setHeaderCaption("Usuario");
-		catalogUsersGrid.getColumn("userStatusToShow").setHeaderCaption("Estado");
-		catalogUsersGrid.getColumn("userType").setHeaderCaption("Tipo de usuario");
-		catalogUsersGrid.getColumn("email").setHeaderCaption("Correo electrónico");
-		catalogUsersGrid.setWidth(100, Unit.PERCENTAGE);
-		catalogUsersGrid.setHeight(100, Unit.PERCENTAGE);
-		catalogUsersGrid.setSelectionMode(SelectionMode.SINGLE);
-		catalogUsersGrid.getSelectedRows().clear();
-		mainLayout.addComponent(catalogUsersGrid, "top:20%;left:0px;");
-			
+		if(users != null && users.size() > 0){
+			beanContainer = new BeanItemContainer<User>(User.class,users);
+					
+			catalogUsersGrid = new Grid(beanContainer);
+			catalogUsersGrid.removeColumn("id");
+			catalogUsersGrid.removeColumn("userStatus");
+			catalogUsersGrid.setColumnOrder("name", "lastName", "userName", "userType", "email");
+	
+			catalogUsersGrid.getColumn("name").setHeaderCaption("Nombre");
+			catalogUsersGrid.getColumn("lastName").setHeaderCaption("Apellido");
+			catalogUsersGrid.getColumn("userName").setHeaderCaption("Usuario");
+			catalogUsersGrid.getColumn("userStatusToShow").setHeaderCaption("Estado");
+			catalogUsersGrid.getColumn("userType").setHeaderCaption("Tipo de usuario");
+			catalogUsersGrid.getColumn("email").setHeaderCaption("Correo electrónico");
+			catalogUsersGrid.setWidth(100, Unit.PERCENTAGE);
+			catalogUsersGrid.setHeight(100, Unit.PERCENTAGE);
+			catalogUsersGrid.setSelectionMode(SelectionMode.SINGLE);
+			catalogUsersGrid.getSelectedRows().clear();
+			mainLayout.addComponent(catalogUsersGrid, "top:20%;left:0px;");
+		}else{
+			lblMessage.setValue("No hay usuarios para mostrar");
+		}
 	}
 
 	@Override
