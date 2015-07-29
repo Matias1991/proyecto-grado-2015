@@ -55,7 +55,7 @@ public class DeleteCategoriesView extends BaseView {
 								if (confirm.isConfirmed()) {
 									BeanItem<Category> item = container.getItem(grid.getSelectedRow());
 
-									if (CategoryController.DeleteCategory(item.getBean().getId())) {
+									if (CategoryController.deleteCategory(item.getBean().getId())) {
 										grid.getContainerDataSource()
 												.removeItem(grid.getSelectedRow());
 									}

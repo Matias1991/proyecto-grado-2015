@@ -10,6 +10,7 @@ import servicelayer.service.ServiceWebStub;
 import servicelayer.service.ServiceWebStub.DeleteCategory;
 import servicelayer.service.ServiceWebStub.GetCategories;
 import servicelayer.service.ServiceWebStub.InsertCategory;
+import servicelayer.service.ServiceWebStub.UpdateCategory;
 import servicelayer.service.ServiceWebStub.VOCategory;
 import utils.PopupWindow;
 import entities.Category;
@@ -70,7 +71,7 @@ public class CategoryController {
 		return categories;
 	}
 	
-	public static boolean DeleteCategory(int id)
+	public static boolean deleteCategory(int id)
 	{
 		boolean result = false;
 		try {
@@ -91,4 +92,29 @@ public class CategoryController {
 		return result;
 	}
 	
+	public static Category modifyCategory(Category cat, int idCategory)
+	{
+		Category category = null;
+		VOCategory result = new VOCategory();
+		result.setDescription(cat.getDescription());
+		result.setAmount(cat.getAmount());
+		result.setProjectId(cat.getProjectId());
+		result.setDistributionType(Integer.parseInt(cat.getDistributionType()));
+		try {
+			ServiceWebStub service = new ServiceWebStub();
+			UpdateCategory modifyCategory = new UpdateCategory();
+			
+			modifyCategory.setCategory(result);
+			modifyCategory.setId(idCategory);
+			result = service.updateCategory(modifyCategory).get_return();
+			category = new Category(result);
+		} catch (AxisFault e) {
+			String error = e.getMessage().replace("<faultstring>", "");
+			PopupWindow popup = new PopupWindow("ERROR", error.replace("</faultstring>", ""));
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
+		
+		return category;
+	}
 }
