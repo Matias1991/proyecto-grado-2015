@@ -8,7 +8,9 @@ import org.apache.axis2.AxisFault;
 
 import servicelayer.service.ServiceWebStub;
 import servicelayer.service.ServiceWebStub.EstimateSalarySummary;
+import servicelayer.service.ServiceWebStub.GetAllVersionsSalarySummary;
 import servicelayer.service.ServiceWebStub.GetEmployees;
+import servicelayer.service.ServiceWebStub.GetSalarySummaryByVersion;
 import servicelayer.service.ServiceWebStub.InsertEmployed;
 import servicelayer.service.ServiceWebStub.VOEmployed;
 import servicelayer.service.ServiceWebStub.VOSalarySummary;
@@ -134,5 +136,46 @@ public class EmployeeController {
 			e.printStackTrace();
 		}
 		return result;
+	}
+	
+	public static int[] GetVersions (int idEmployee){
+		int[] result = null;
+		try{
+			ServiceWebStub service = new ServiceWebStub();
+			GetAllVersionsSalarySummary version = new GetAllVersionsSalarySummary();
+			
+			version.setEmployedId(idEmployee);
+			result = service.getAllVersionsSalarySummary(version).get_return();			
+		}catch (AxisFault e) {
+			// TODO Auto-generated catch block
+			String error = e.getMessage().replace("<faultstring>", "");
+			PopupWindow popup = new PopupWindow("ERROR", error.replace("</faultstring>", ""));
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
+		return result;	
+	}
+	
+	public static VOSalarySummary GetVersionEmployee(int idEmployee, int idVersion){
+		VOSalarySummary aux = null;
+		
+		try{
+			ServiceWebStub service = new ServiceWebStub();
+			GetSalarySummaryByVersion salarySummary = new GetSalarySummaryByVersion();
+			
+			salarySummary.setEmployedId(idEmployee);
+			salarySummary.setVersion(idVersion);
+			
+			aux = service.getSalarySummaryByVersion(salarySummary).get_return();
+		}catch (AxisFault e) {
+			// TODO Auto-generated catch block
+			String error = e.getMessage().replace("<faultstring>", "");
+			PopupWindow popup = new PopupWindow("ERROR", error.replace("</faultstring>", ""));
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
+		return aux;	
+		
+		
 	}
 }
