@@ -92,7 +92,7 @@ public class DAOCategories implements IDAOCategroy {
 	public void update(int id, Category obj) throws ServerException {
 		PreparedStatement preparedStatement = null;
 
-		String updateSQL = "UPDATE CATEGORY"
+		String updateSQL = "UPDATE CATEGORY "
 				+ "SET DESCRIPTION = ?, AMOUNT = ?, PROJECTID = ?, DISTRIBUTIONTYPE = ? WHERE id = ?";
 
 		try {
@@ -101,8 +101,8 @@ public class DAOCategories implements IDAOCategroy {
 			preparedStatement.setString(1, obj.getDescription());
 			preparedStatement.setDouble(2, obj.getAmount());
 			preparedStatement.setInt(3, obj.getProjectId());
-			preparedStatement.setInt(4, id);
-			preparedStatement.setInt(5, obj.getDistributionType());
+			preparedStatement.setInt(4, obj.getDistributionType());
+			preparedStatement.setInt(5, id);
 
 			preparedStatement.executeUpdate();
 

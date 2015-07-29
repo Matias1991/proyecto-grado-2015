@@ -73,15 +73,24 @@ public class ModifyCategoryView extends BaseView {
 									Category category = new Category();
 									category.setDescription(txtDescription
 											.getValue());
-									category.setAmount(Double
-											.parseDouble(txtAmount.getValue()));
+									category.setAmount((Double)(txtAmount.getConvertedValue()));
+									
+									if (categoryType.getValue().equals("Empresa")) {
+										category.setDistributionType(1);
+									} else if (categoryType.getValue().equals("Proyecto")) {
+										category.setDistributionType(2);
+									} 
 
-									CategoryController.modifyCategory(category,
-											idSelected);
+									CategoryController.modifyCategory(category, idSelected);
 
 									txtDescription.setValidationVisible(false);
 									txtAmount.setValidationVisible(false);
+									mainLayout.removeComponent(grid);
+									buildGrid();
 
+								} else {
+									txtAmount.setRequiredError("Es requerido");
+									txtAmount.setConversionError("Debe ser numérico");
 								}
 
 							}
@@ -109,10 +118,11 @@ public class ModifyCategoryView extends BaseView {
 		// oculto columnas que no me interesa mostrar
 		grid.removeColumn("id");
 		grid.removeColumn("projectId");
-		grid.setColumnOrder("description", "amount", "distributionType");
+		grid.removeColumn("distributionType");
+		grid.setColumnOrder("description", "amount", "distributionTypeToShow");
 		grid.getColumn("description").setHeaderCaption("Nombre");
 		grid.getColumn("amount").setHeaderCaption("Importe");
-		grid.getColumn("distributionType").setHeaderCaption("Distribución");
+		grid.getColumn("distributionTypeToShow").setHeaderCaption("Distribución");
 		grid.setWidth(65, Unit.PERCENTAGE);
 		grid.setHeight(65, Unit.PERCENTAGE);
 		grid.setSelectionMode(SelectionMode.SINGLE);
@@ -226,7 +236,7 @@ public class ModifyCategoryView extends BaseView {
 		txtAmount.setRequired(true);
 		txtAmount.setTabIndex(2);
 		txtAmount.setVisible(false);
-		txtAmount.addValidator(new IntegerValidator("Debe ingresar un valor numerico"));
+		txtAmount.setNullRepresentation("");
 		mainLayout.addComponent(txtAmount, "top:190.0px;left:555.0px;");
 
 		// btnCancel

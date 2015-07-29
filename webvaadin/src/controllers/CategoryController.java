@@ -99,7 +99,7 @@ public class CategoryController {
 		result.setDescription(cat.getDescription());
 		result.setAmount(cat.getAmount());
 		result.setProjectId(cat.getProjectId());
-		result.setDistributionType(Integer.parseInt(cat.getDistributionType()));
+		result.setDistributionType(cat.getDistributionType());
 		try {
 			ServiceWebStub service = new ServiceWebStub();
 			UpdateCategory modifyCategory = new UpdateCategory();

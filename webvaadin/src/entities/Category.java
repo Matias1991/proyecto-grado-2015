@@ -7,7 +7,7 @@ public class Category {
 	private int id;
 	private String description;
 	private double amount;
-	private String distributionType;
+	private int distributionType;
 	private int projectId;
 	
 	public Category(){	}
@@ -17,8 +17,7 @@ public class Category {
 		this.id = voCategory.getId();
 		this.setDescription(voCategory.getDescription());
 		this.setAmount(voCategory.getAmount());
-		//tOdo: eliminar esto cuando desde BE se devuelva el tipo de rubro
-		this.setDistributionType(getDistributionType(voCategory.getDistributionType()));
+		this.setDistributionType(voCategory.getDistributionType());
 	}
 	
 	public String getDescription() {
@@ -37,11 +36,11 @@ public class Category {
 		this.amount = amount;
 	}
 
-	public String getDistributionType() {
+	public int getDistributionType() {
 		return distributionType;
 	}
 
-	public void setDistributionType(String categoryType) {
+	public void setDistributionType(int categoryType) {
 		this.distributionType = categoryType;
 	}
 	
@@ -52,16 +51,16 @@ public class Category {
 		this.id = id;
 	}
 	
-	public String getDistributionType(int categoryTypeId)
+	public String getDistributionTypeToShow()
 	{
 		String result = "";
-		switch(categoryTypeId)
+		switch(distributionType)
 		{
 			case 1: 
 				  result = "Empresa";
 				  break;
 			case 2:
-				  result = "Project";
+				  result = "Proyecto";
 				  break;
 		    default:
 		    	  result = "Sin asignacion";
