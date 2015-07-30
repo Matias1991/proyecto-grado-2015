@@ -74,6 +74,12 @@ public class CreateCategoryView extends BaseView {
 					category.setDescription(txtDescription.getValue());
 					category.setAmount(Double.parseDouble(txtAmount.getValue()));
 					
+					if (categoryType.getValue().equals("Empresa")) {
+						category.setCategoryTypeId(1);
+					} else if (categoryType.getValue().equals("Proyecto")) {
+						category.setCategoryTypeId(2);
+					}
+					
 					CategoryController.createCategory(category);
 					
 					PopupWindow popup = new PopupWindow("AVISO", "Rubro creado correctamente");

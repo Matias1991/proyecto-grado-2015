@@ -141,7 +141,7 @@ public class ModifyCategoryView extends BaseView {
 					Category catToModify = item.getBean();
 					txtAmount.setConvertedValue(catToModify.getAmount());
 					txtDescription.setValue(catToModify.getDescription());
-					categoryType.select(catToModify.getDistributionType());
+					categoryType.select(catToModify.getDistributionTypeToShow());
 					idSelected = catToModify.getId();
 
 				} else {

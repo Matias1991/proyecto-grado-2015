@@ -27,6 +27,7 @@ public class CategoryController {
 			VOCategory voCategory = new VOCategory();
 			voCategory.setDescription(category.getDescription());
 			voCategory.setAmount(category.getAmount());
+			voCategory.setDistributionType(category.getCategoryTypeId());
 			
 			createCategory.setVoCategory(voCategory);
 			
@@ -99,7 +100,7 @@ public class CategoryController {
 		result.setDescription(cat.getDescription());
 		result.setAmount(cat.getAmount());
 		result.setProjectId(cat.getProjectId());
-		result.setDistributionType(cat.getDistributionType());
+		result.setDistributionType(cat.getCategoryTypeId());
 		try {
 			ServiceWebStub service = new ServiceWebStub();
 			UpdateCategory modifyCategory = new UpdateCategory();

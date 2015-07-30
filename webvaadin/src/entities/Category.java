@@ -7,7 +7,8 @@ public class Category {
 	private int id;
 	private String description;
 	private double amount;
-	private int distributionType;
+	private int categoryTypeId;
+	private String categoryType;
 	private int projectId;
 	
 	public Category(){	}
@@ -17,7 +18,8 @@ public class Category {
 		this.id = voCategory.getId();
 		this.setDescription(voCategory.getDescription());
 		this.setAmount(voCategory.getAmount());
-		this.setDistributionType(voCategory.getDistributionType());
+		this.setCategoryTypeId(voCategory.getDistributionType());
+		this.setCategoryType(getDistributionTypeToShow());
 	}
 	
 	public String getDescription() {
@@ -35,14 +37,6 @@ public class Category {
 	public void setAmount(double amount) {
 		this.amount = amount;
 	}
-
-	public int getDistributionType() {
-		return distributionType;
-	}
-
-	public void setDistributionType(int categoryType) {
-		this.distributionType = categoryType;
-	}
 	
 	public int getId() {
 		return id;
@@ -54,7 +48,7 @@ public class Category {
 	public String getDistributionTypeToShow()
 	{
 		String result = "";
-		switch(distributionType)
+		switch(categoryTypeId)
 		{
 			case 1: 
 				  result = "Empresa";
@@ -76,5 +70,21 @@ public class Category {
 
 	public void setProjectId(int projectId) {
 		this.projectId = projectId;
+	}
+
+	public String getCategoryType() {
+		return categoryType;
+	}
+
+	public void setCategoryType(String categoryType) {
+		this.categoryType = categoryType;
+	}
+
+	public int getCategoryTypeId() {
+		return categoryTypeId;
+	}
+
+	public void setCategoryTypeId(int categoryTypeId) {
+		this.categoryTypeId = categoryTypeId;
 	}
 }
