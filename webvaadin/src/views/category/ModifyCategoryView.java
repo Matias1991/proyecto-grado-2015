@@ -76,9 +76,9 @@ public class ModifyCategoryView extends BaseView {
 									category.setAmount((Double)(txtAmount.getConvertedValue()));
 									
 									if (categoryType.getValue().equals("Empresa")) {
-										category.setDistributionType(1);
+										category.setCategoryTypeId(1);
 									} else if (categoryType.getValue().equals("Proyecto")) {
-										category.setDistributionType(2);
+										category.setCategoryTypeId(2);
 									} 
 
 									CategoryController.modifyCategory(category, idSelected);
