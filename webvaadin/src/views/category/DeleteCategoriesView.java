@@ -78,10 +78,12 @@ public class DeleteCategoriesView extends BaseView {
 		grid = new Grid(container);
 		grid.removeColumn("id");
 		grid.removeColumn("projectId");
-		grid.setColumnOrder("description", "amount", "distributionType");
+		grid.removeColumn("categoryTypeId");
+		grid.removeColumn("categoryType");
+		grid.setColumnOrder("description", "amount", "distributionTypeToShow");
 		grid.getColumn("description").setHeaderCaption("Nombre");
 		grid.getColumn("amount").setHeaderCaption("Importe");
-		grid.getColumn("distributionType").setHeaderCaption("Distribución");
+		grid.getColumn("distributionTypeToShow").setHeaderCaption("Distribución");
 		grid.setWidth(80, Unit.PERCENTAGE);
 		grid.setHeight(80, Unit.PERCENTAGE);
 		grid.setSelectionMode(SelectionMode.SINGLE);

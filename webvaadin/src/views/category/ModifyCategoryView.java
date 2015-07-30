@@ -118,7 +118,8 @@ public class ModifyCategoryView extends BaseView {
 		// oculto columnas que no me interesa mostrar
 		grid.removeColumn("id");
 		grid.removeColumn("projectId");
-		grid.removeColumn("distributionType");
+		grid.removeColumn("categoryTypeId");
+		grid.removeColumn("categoryType");
 		grid.setColumnOrder("description", "amount", "distributionTypeToShow");
 		grid.getColumn("description").setHeaderCaption("Nombre");
 		grid.getColumn("amount").setHeaderCaption("Importe");
