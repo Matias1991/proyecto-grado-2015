@@ -38,10 +38,15 @@ public class UnlockUserView extends BaseView{
 	private Label lblTitle;
 	private Grid grid;
 	private BeanItemContainer<User> container;
+	private Label lblMessage;
 	
 	public UnlockUserView() {
 		buildMainLayout();
 		setCompositionRoot(mainLayout);
+		
+		lblMessage = new Label("");
+		mainLayout.addComponent(lblMessage, "top:100.0px;left:0.0px;");
+		
 		
 		btnUnlock.addClickListener(new Button.ClickListener() {
 
@@ -74,34 +79,40 @@ public class UnlockUserView extends BaseView{
 	
 	public void buildGrid()
 	{
-		Collection<User> users = UserController.GetUsers();
+		// listo los usuarios con estado = 2 (Bloqueado)
+		Collection<User> users = UserController.getUsersByStatus(2);
 
-		container = new BeanItemContainer<User>(User.class, users);
-		
-		grid = new Grid(container);
-		grid.removeColumn("id");
-		grid.removeColumn("email");
-		grid.removeColumn("userType");
-		grid.removeColumn("userStatus");
-		grid.setColumnOrder("name", "lastName", "userName", "userStatusToShow");
-		grid.getColumn("name").setHeaderCaption("Nombre");
-		grid.getColumn("lastName").setHeaderCaption("Apellido");
-		grid.getColumn("userName").setHeaderCaption("Usuario");
-		grid.getColumn("userStatusToShow").setHeaderCaption("Estado");
-		grid.setWidth(100, Unit.PERCENTAGE);
-		grid.setHeight(100, Unit.PERCENTAGE);
-		grid.setSelectionMode(SelectionMode.SINGLE);
-		grid.getSelectedRows().clear();
-		mainLayout.addComponent(grid, "top:20%;left:0px;");
-		
-		grid.addSelectionListener(new SelectionListener() {
-
-			@Override
-			   public void select(SelectionEvent event) {
-				btnUnlock.setEnabled(
-				         grid.getSelectedRows().size() > 0);
-			   }
-		});
+		if(users != null && users.size() > 0){
+container = new BeanItemContainer<User>(User.class, users);
+			
+			grid = new Grid(container);
+			grid.removeColumn("id");
+			grid.removeColumn("email");
+			grid.removeColumn("userType");
+			grid.removeColumn("userStatus");
+			grid.setColumnOrder("name", "lastName", "userName", "userStatusToShow");
+			grid.getColumn("name").setHeaderCaption("Nombre");
+			grid.getColumn("lastName").setHeaderCaption("Apellido");
+			grid.getColumn("userName").setHeaderCaption("Usuario");
+			grid.getColumn("userStatusToShow").setHeaderCaption("Estado");
+			grid.setWidth(100, Unit.PERCENTAGE);
+			grid.setHeight(100, Unit.PERCENTAGE);
+			grid.setSelectionMode(SelectionMode.SINGLE);
+			grid.getSelectedRows().clear();
+			mainLayout.addComponent(grid, "top:20%;left:0px;");
+			
+			grid.addSelectionListener(new SelectionListener() {
+	
+				@Override
+				   public void select(SelectionEvent event) {
+					btnUnlock.setEnabled(
+					         grid.getSelectedRows().size() > 0);
+				   }
+			});
+		} else{
+			lblMessage.setValue("No hay usuarios bloqueados");
+		}
+			
 	}
 	
 	@Override

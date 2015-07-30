@@ -3,6 +3,7 @@ package controllers;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.Collection;
+
 import org.apache.axis2.AxisFault;
 
 import servicelayer.service.ServiceWebStub;
@@ -10,6 +11,7 @@ import servicelayer.service.ServiceWebStub.ChangePassword;
 import servicelayer.service.ServiceWebStub.DeleteUser;
 import servicelayer.service.ServiceWebStub.ForgotPassword;
 import servicelayer.service.ServiceWebStub.GetUsers;
+import servicelayer.service.ServiceWebStub.GetUsersByStatus;
 import servicelayer.service.ServiceWebStub.InsertUser;
 import servicelayer.service.ServiceWebStub.Login;
 import servicelayer.service.ServiceWebStub.ResetPassword;
@@ -243,4 +245,30 @@ public class UserController {
 		return result;		
 	}		
 
+	public static Collection<User> getUsersByStatus(int status){
+		Collection<User> users = new ArrayList<User>();
+		
+		try {
+			ServiceWebStub service = new ServiceWebStub();
+			GetUsersByStatus getUsers = new GetUsersByStatus();
+			getUsers.setUserStatusId(status);
+			
+			VOUser [] voUsers = service.getUsersByStatus(getUsers).get_return();
+
+			if(voUsers != null){
+				for(VOUser voUser : voUsers){
+					User user = new User(voUser);
+					users.add(user);
+				}
+			}
+			
+		} catch (AxisFault e) {
+			String error = e.getMessage().replace("<faultstring>", "");
+			PopupWindow popup = new PopupWindow("ERROR", error.replace("</faultstring>", ""));
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
+		
+		return users;
+	}
 }
