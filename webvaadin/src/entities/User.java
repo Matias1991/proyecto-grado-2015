@@ -11,16 +11,21 @@ public class User {
 	private String userType;
 	private String userName;
 	private int userSatus;
+	private String password;
+	
 	
 	public User(VOUser voUser)
 	{
-		this.name = voUser.getName();
-		this.id = voUser.getId();
-		this.lastName = voUser.getLastName();
-		this.email = voUser.getEmail();
-		this.userType = getUserType(voUser.getUserType());
-		this.userName = voUser.getUserName();
-		this.userSatus = voUser.getUserStatus();
+		if(voUser != null){
+			this.name = voUser.getName();
+			this.id = voUser.getId();
+			this.lastName = voUser.getLastName();
+			this.email = voUser.getEmail();
+			this.userType = getUserType(voUser.getUserType());
+			this.userName = voUser.getUserName();
+			this.userSatus = voUser.getUserStatus();
+			this.password = voUser.getPassword();		
+		}
 	}
 	
 	public int getId() {
@@ -76,6 +81,14 @@ public class User {
 		this.userSatus = status;
 	}
 	
+	public String getPassword(){
+		return this.password;
+	}
+	
+	public void setPassword (String password){
+		this.password = password;
+	}
+	
 	public String getUserStatusToShow(){
 		String userStatusToShow = "";
 		if(userSatus == 1){
@@ -105,6 +118,40 @@ public class User {
 		    	result = "No definido";
 		          break;
 		}
+		
+		return result;
+	}
+	
+	public int getUserTypeId(String userType){
+		int result = 0;
+		switch(userType){
+		case "Administrador":
+			result = 1;
+			break;
+		case "Socio":
+			result = 2;
+			break;
+		case "Gerente":
+			result = 3;
+			break;
+		default:
+			result = 0;
+			break;
+		}
+		return result;
+	}
+	
+	public VOUser toVOUser(){
+		VOUser result = new VOUser();
+		
+		result.setEmail(this.email);
+		result.setId(this.id);
+		result.setLastName(this.lastName);
+		result.setName(this.name);
+		result.setPassword(this.password);
+		result.setUserName(this.userName);
+		result.setUserStatus(this.userSatus);
+		result.setUserType(this.getUserTypeId(this.userType));
 		
 		return result;
 	}

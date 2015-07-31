@@ -16,16 +16,12 @@ import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.ui.AbsoluteLayout;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
-import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.Grid;
 import com.vaadin.ui.Grid.SelectionMode;
 import com.vaadin.ui.Label;
-import com.vaadin.ui.Notification;
-
 import controllers.EmployeeController;
 import entities.Employee;
 import entities.RequestContext;
-import entities.User;
 
 public class DeleteEmployeeView extends BaseView {
 
@@ -99,8 +95,8 @@ public class DeleteEmployeeView extends BaseView {
 			//grdGrid.removeColumn("employedType");
 			grdGrid.removeColumn("cellPhone");
 			grdGrid.removeColumn("user");
-			grdGrid.removeColumn("voSalarySummary");
-			grdGrid.removeColumn("voSalarySummaries");
+			grdGrid.removeColumn("salarySummary");
+			grdGrid.removeColumn("salarySummaries");
 			grdGrid.removeColumn("email");
 			grdGrid.removeColumn("address");
 

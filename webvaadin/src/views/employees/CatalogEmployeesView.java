@@ -31,6 +31,7 @@ import com.vaadin.ui.TextField;
 import controllers.EmployeeController;
 import entities.Employee;
 import entities.RequestContext;
+import entities.SalarySummary;
 
 public class CatalogEmployeesView extends BaseView {
 
@@ -93,9 +94,9 @@ public class CatalogEmployeesView extends BaseView {
 				if(cboVersion.getValue() != null){
 					BeanItem<Employee> item = beanContainer.getItem(catalogEmployeesGrid.getSelectedRow());
 					if(item != null){						
-						VOSalarySummary versionEmployees = EmployeeController.GetVersionEmployee(item.getBean().getId(), (Integer)cboVersion.getValue());
+						SalarySummary versionEmployees = EmployeeController.GetVersionEmployee(item.getBean().getId(), (Integer)cboVersion.getValue());
 																
-						loadEmployee(item.getBean(),versionEmployees);
+						loadEmployee(item.getBean(),versionEmployees.toVOSalarySummary());
 												
 						tabEmployee.setVisible(false);
 						lblVersion.setVisible(true);
@@ -417,8 +418,8 @@ public class CatalogEmployeesView extends BaseView {
 			catalogEmployeesGrid.removeColumn("createdDateTimeUTC");
 			catalogEmployeesGrid.removeColumn("employedType");
 			catalogEmployeesGrid.removeColumn("user");
-			catalogEmployeesGrid.removeColumn("voSalarySummary");
-			catalogEmployeesGrid.removeColumn("voSalarySummaries");
+			catalogEmployeesGrid.removeColumn("salarySummary");
+			catalogEmployeesGrid.removeColumn("salarySummaries");
 			catalogEmployeesGrid.removeColumn("email");
 			catalogEmployeesGrid.removeColumn("address");
 			catalogEmployeesGrid.removeColumn("cellPhone");
@@ -440,7 +441,7 @@ public class CatalogEmployeesView extends BaseView {
 					
 					BeanItem<Employee> item = beanContainer.getItem(catalogEmployeesGrid.getSelectedRow());
 					if(item != null){
-						Employee selectedEmployee = item.getBean();
+						Employee selectedEmployee = item.getBean();						
 						//loadEmployee(selectedEmployee);
 						buildVersion(selectedEmployee.getId());						
 						tabEmployee.setVisible(false);
@@ -577,8 +578,8 @@ public class CatalogEmployeesView extends BaseView {
 	}
 	
 	private void buildVersion(int employeeId){
-		int[] aux = EmployeeController.GetVersions(employeeId);
-				
+		int[] aux = EmployeeController.GetVersions(employeeId);			
+		cboVersion.removeAllItems();
 		for (Integer auxInt : aux) {
 			cboVersion.addItem(auxInt);			
 		}		
