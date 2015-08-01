@@ -97,13 +97,13 @@ public class CatalogUsersView extends BaseView{
 		setWidth("682px");
 		setHeight("501px");
 		
-		// labelTitle
+		// lblTitle
 		lblTitle = new Label();
+		lblTitle.setStyleName("titleLabel");
 		lblTitle.setImmediate(false);
 		lblTitle.setWidth("-1px");
 		lblTitle.setHeight("-1px");
 		lblTitle.setValue("Catálogo de usuarios");
-		lblTitle.setStyleName("titleLabel");
 		mainLayout.addComponent(lblTitle, "top:42.0px;left:0.0px;");
 		
 		return mainLayout;

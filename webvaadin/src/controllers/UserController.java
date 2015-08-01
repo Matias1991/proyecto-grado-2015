@@ -54,6 +54,20 @@ public class UserController {
 		return users;
 	}
 	
+	public static Collection<User> GetUserByStatus(){
+		Collection <User> users = new ArrayList<User>();
+		
+		try {
+			ServiceWebStub service = new ServiceWebStub();
+		} catch (AxisFault e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		GetUsers getUsers = new GetUsers();
+		
+		return users;
+	}
+	
 	public static boolean DeleteUser(int id)
 	{
 		boolean result = false;
