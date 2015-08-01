@@ -61,6 +61,22 @@
             }
                 
            /**
+            * auto generated Axis2 call back method for getUsersByStatus method
+            * override this method for handling normal response from getUsersByStatus operation
+            */
+           public void receiveResultgetUsersByStatus(
+                    servicelayer.service.ServiceWebStub.GetUsersByStatusResponse result
+                        ) {
+           }
+
+          /**
+           * auto generated Axis2 Error handler
+           * override this method for handling error response from getUsersByStatus operation
+           */
+            public void receiveErrorgetUsersByStatus(java.lang.Exception e) {
+            }
+                
+           /**
             * auto generated Axis2 call back method for unlockUser method
             * override this method for handling normal response from unlockUser operation
             */
@@ -106,6 +122,22 @@
            * override this method for handling error response from getEmployees operation
            */
             public void receiveErrorgetEmployees(java.lang.Exception e) {
+            }
+                
+           /**
+            * auto generated Axis2 call back method for updatedEmployed method
+            * override this method for handling normal response from updatedEmployed operation
+            */
+           public void receiveResultupdatedEmployed(
+                    servicelayer.service.ServiceWebStub.UpdatedEmployedResponse result
+                        ) {
+           }
+
+          /**
+           * auto generated Axis2 Error handler
+           * override this method for handling error response from updatedEmployed operation
+           */
+            public void receiveErrorupdatedEmployed(java.lang.Exception e) {
             }
                 
            /**
@@ -189,6 +221,22 @@
             }
                 
            /**
+            * auto generated Axis2 call back method for getSalarySummaryByVersion method
+            * override this method for handling normal response from getSalarySummaryByVersion operation
+            */
+           public void receiveResultgetSalarySummaryByVersion(
+                    servicelayer.service.ServiceWebStub.GetSalarySummaryByVersionResponse result
+                        ) {
+           }
+
+          /**
+           * auto generated Axis2 Error handler
+           * override this method for handling error response from getSalarySummaryByVersion operation
+           */
+            public void receiveErrorgetSalarySummaryByVersion(java.lang.Exception e) {
+            }
+                
+           /**
             * auto generated Axis2 call back method for getEmployed method
             * override this method for handling normal response from getEmployed operation
             */
@@ -218,6 +266,38 @@
            * override this method for handling error response from getUser operation
            */
             public void receiveErrorgetUser(java.lang.Exception e) {
+            }
+                
+           /**
+            * auto generated Axis2 call back method for deleteEmployed method
+            * override this method for handling normal response from deleteEmployed operation
+            */
+           public void receiveResultdeleteEmployed(
+                    servicelayer.service.ServiceWebStub.DeleteEmployedResponse result
+                        ) {
+           }
+
+          /**
+           * auto generated Axis2 Error handler
+           * override this method for handling error response from deleteEmployed operation
+           */
+            public void receiveErrordeleteEmployed(java.lang.Exception e) {
+            }
+                
+           /**
+            * auto generated Axis2 call back method for getAllVersionsSalarySummary method
+            * override this method for handling normal response from getAllVersionsSalarySummary operation
+            */
+           public void receiveResultgetAllVersionsSalarySummary(
+                    servicelayer.service.ServiceWebStub.GetAllVersionsSalarySummaryResponse result
+                        ) {
+           }
+
+          /**
+           * auto generated Axis2 Error handler
+           * override this method for handling error response from getAllVersionsSalarySummary operation
+           */
+            public void receiveErrorgetAllVersionsSalarySummary(java.lang.Exception e) {
             }
                 
            /**

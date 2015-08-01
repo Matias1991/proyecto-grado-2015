@@ -297,6 +297,31 @@ public class ServiceWeb extends ServiceBase{
 		return false;
 	}
 	
+	public VOUser [] getUsersByStatus(int userStatusId)
+	{
+		ArrayList<VOUser> voUsers;
+		try {
+			transactionLock.tryLock(Constants.DEFAULT_TRANSACTION_TIME, TimeUnit.SECONDS);
+			
+			voUsers = iCoreUser.getUsersByStatus(userStatusId);
+			VOUser [] arrayVoUser = new VOUser[voUsers.size()];
+		    voUsers.toArray(arrayVoUser);
+		    return arrayVoUser;
+		    
+		} catch (ServerException e) {
+			ThrowServerExceptionAndLogError(e, "obtener todos los usuarios");
+		} catch (InterruptedException e) {
+			throw new RuntimeException(Constants.TRANSACTION_ERROR);
+		} catch (Exception e) {
+			ThrowGenericExceptionAndLogError(e);
+		}
+		finally
+		{
+			transactionLock.unlock();
+		}
+		return null;
+	}
+	
 	public boolean insertEmployed(VOEmployed voEmployed)
 	{
 		try {
@@ -375,6 +400,101 @@ public class ServiceWeb extends ServiceBase{
 		} catch (ServerException e) {
 			ThrowServerExceptionAndLogError(e, "estimar el resumen de salario del empleado");
 		} catch (InterruptedException e) {
+			throw new RuntimeException(Constants.TRANSACTION_ERROR);	
+		} catch (Exception e) {
+			ThrowGenericExceptionAndLogError(e);
+		}
+		finally
+		{
+			transactionLock.unlock();
+		}
+		return null;
+	}
+	
+	public boolean deleteEmployed(int id)
+	{
+		try {
+			transactionLock.tryLock(Constants.DEFAULT_TRANSACTION_TIME, TimeUnit.SECONDS);
+			
+			 iCoreEmployed.deleteEmployed(id);
+			 return true;
+		} catch (ServerException e) {
+			ThrowServerExceptionAndLogError(e, "estimar el resumen de salario del empleado");
+		} catch (ClientException e) {
+			throw new RuntimeException(e.getMessage());
+		}catch (InterruptedException e) {
+			throw new RuntimeException(Constants.TRANSACTION_ERROR);	
+		} catch (Exception e) {
+			ThrowGenericExceptionAndLogError(e);
+		}
+		finally
+		{
+			transactionLock.unlock();
+		}
+		return false;
+	}
+	
+	public boolean updatedEmployed(int id, VOEmployed voEmployed)
+	{
+		try {
+			transactionLock.tryLock(Constants.DEFAULT_TRANSACTION_TIME, TimeUnit.SECONDS);
+			
+			 iCoreEmployed.updateEmployed(id, voEmployed);
+			 return true;
+		} catch (ServerException e) {
+			ThrowServerExceptionAndLogError(e, "modificar los datos del empleado");
+		} catch (ClientException e) {
+			throw new RuntimeException(e.getMessage());
+		}catch (InterruptedException e) {
+			throw new RuntimeException(Constants.TRANSACTION_ERROR);	
+		} catch (Exception e) {
+			ThrowGenericExceptionAndLogError(e);
+		}
+		finally
+		{
+			transactionLock.unlock();
+		}
+		return false;
+	}
+	
+	public Integer [] getAllVersionsSalarySummary(int employedId)
+	{
+		try {
+			transactionLock.tryLock(Constants.DEFAULT_TRANSACTION_TIME, TimeUnit.SECONDS);
+			
+			ArrayList<Integer> listAllVersions = iCoreEmployed.getAllVersionSalarySummary(employedId);
+			Integer [] arrayListVersion= new Integer[listAllVersions.size()];
+			listAllVersions.toArray(arrayListVersion);
+		    return arrayListVersion;
+
+		} catch (ServerException e) {
+			ThrowServerExceptionAndLogError(e, "obtener todas las versiones del resumen de salario");
+		} catch (ClientException e) {
+			throw new RuntimeException(e.getMessage());
+		}catch (InterruptedException e) {
+			throw new RuntimeException(Constants.TRANSACTION_ERROR);	
+		} catch (Exception e) {
+			ThrowGenericExceptionAndLogError(e);
+		}
+		finally
+		{
+			transactionLock.unlock();
+		}
+		return null;
+	}
+	
+	public VOSalarySummary getSalarySummaryByVersion(int employedId, int version)
+	{
+		try {
+			transactionLock.tryLock(Constants.DEFAULT_TRANSACTION_TIME, TimeUnit.SECONDS);
+			
+			return iCoreEmployed.getSalarySummaryByVersion(employedId, version);
+
+		} catch (ServerException e) {
+			ThrowServerExceptionAndLogError(e, "obtener todas las versiones del resumen de salario");
+		} catch (ClientException e) {
+			throw new RuntimeException(e.getMessage());
+		}catch (InterruptedException e) {
 			throw new RuntimeException(Constants.TRANSACTION_ERROR);	
 		} catch (Exception e) {
 			ThrowGenericExceptionAndLogError(e);

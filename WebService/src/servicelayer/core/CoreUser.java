@@ -211,7 +211,7 @@ public class CoreUser implements ICoreUser {
 	     {
 	    	 String password = HashMD5.Decrypt(user.getPassword());
 	    	 try {
-				Email.forgotPassword(user.getEmail(), password);
+				Email.forgotPassword(user.getEmail(), user.getUserName(), password);
 			} catch (EmailException e) {
 				throw new ClientException("Ocurrio un error al enviar el correo electrónico");
 			}
@@ -232,7 +232,7 @@ public class CoreUser implements ICoreUser {
 			iDAOUsers.updatePassword(id, hashPassword);
 			
 			try {
-				Email.resetPassword(user.getEmail(), newPassword);
+				Email.resetPassword(user.getEmail(), user.getUserName(), newPassword);
 			} catch (EmailException e) {
 				throw new ClientException("La contraseña fue reseteada correctamente pero ocurrio un error al enviar el correo electrónico");
 			}
@@ -282,6 +282,24 @@ public class CoreUser implements ICoreUser {
 		}
 		else
 			throw new ClientException("No existe un usuario con ese id");
+	}
+	
+	@Override
+	public ArrayList<VOUser> getUsersByStatus(int userStatusId) throws ServerException
+	{
+		ArrayList<User> users;
+		ArrayList<VOUser> voUsers = null;
+
+		UserStatus userStatus = UserStatus.getEnum(userStatusId);
+		users = iDAOUsers.getUsersByStatus(userStatus);
+		voUsers = new ArrayList<VOUser>(); 
+		
+		for(User user: users)
+		{
+			voUsers.add(BuildVOUser(user));
+		}
+		
+		return voUsers;
 	}
 	
 	VOUser BuildVOUser(User user)

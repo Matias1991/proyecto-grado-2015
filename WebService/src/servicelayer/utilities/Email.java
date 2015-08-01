@@ -24,25 +24,27 @@ public class Email {
 	public static void changePassword(String userEmail, String password) throws EmailException, ServerException{
 		
 		StringBuilder strBuilder = new StringBuilder();
-		strBuilder.append("<b>ContraseÃ±a: </b>" + password);
+		strBuilder.append("<b>Contraseña: </b>" + password);
 
-		sendEmail(userEmail, "[MSMP] - Cambio de ContraseÃ±a", strBuilder.toString());
+		sendEmail(userEmail, "[MSMP] - Cambio de Contraseña", strBuilder.toString());
 	}
 
-	public static void resetPassword(String userEmail, String password) throws EmailException, ServerException{
+	public static void resetPassword(String userEmail, String userName, String password) throws EmailException, ServerException{
 		
 		StringBuilder strBuilder = new StringBuilder();
-		strBuilder.append("<b>Nueva contraseÃ±a: </b>" + password);
+		strBuilder.append("<b>Nombre de usuario: </b>" + userName);
+		strBuilder.append("<b>Nueva contraseña: </b>" + password);
 
-		sendEmail(userEmail, "[MSMP] - Reseteo de ContraseÃ±a", strBuilder.toString());
+		sendEmail(userEmail, "[MSMP] - Reseteo de Contraseña", strBuilder.toString());
 	}
 	
-	public static void forgotPassword(String userEmail, String password) throws EmailException, ServerException {
+	public static void forgotPassword(String userEmail, String userName, String password) throws EmailException, ServerException {
 		
 		StringBuilder strBuilder = new StringBuilder();
-		strBuilder.append("<b>ContraseÃ±a: </b>" + password);
+		strBuilder.append("<b>Nombre de usuario: </b>" + userName);
+		strBuilder.append("<b>Contraseña: </b>" + password);
 
-		sendEmail(userEmail, "[MSMP] - Olvido de ContraseÃ±a", strBuilder.toString());
+		sendEmail(userEmail, "[MSMP] - Olvido de Contraseña", strBuilder.toString());
 	}
 
 	public static void newUser(User user, String password) throws EmailException, ServerException {
@@ -53,7 +55,7 @@ public class Email {
 		strBuilder.append("<br>");
 		strBuilder.append("<b>Nombre de usuario:</b> " + user.getUserName());
 		strBuilder.append("<br>");
-		strBuilder.append("<b>ContraseÃ±a: </b>" + password);
+		strBuilder.append("<b>Contraseña: </b>" + password);
 		strBuilder.append("<p>Haga click <a href='http://localhost:8080/webvaadin/'>aqui</a> para ingresar al sistema por primera vez</p>");
 
 		sendEmail(user.getEmail(), "[MSMP] - Nuevo usuario", strBuilder.toString());

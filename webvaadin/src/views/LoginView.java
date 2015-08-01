@@ -57,23 +57,25 @@ public class LoginView extends BaseView {
 			@Override
 			public void buttonClick(ClickEvent event) {
 				// TODO Auto-generated method stub
-				VOUser voUser = UserController.loginUser(txtUsername.getValue(), txtPassword.getValue());
-				
-				if(voUser != null){						
-					txtUsername.setValue("");
-					txtPassword.setValue("");
-					txtUsername.focus();
-					
-					
-					
-					RequestContext.setRequestContext(new UserData(voUser.getId(), voUser.getName(), voUser.getUserType()));
-										
-					getUI().getNavigator().navigateTo("");
-					
-				}else{
-					txtPassword.setValue("");
-					txtPassword.focus();
-				}					
+				if(!txtUsername.isValid() || !txtPassword.isValid()){
+					txtUsername.setRequiredError("Es requerido");
+					txtPassword.setRequiredError("Es requerido");					
+				}else{	
+					VOUser voUser = UserController.loginUser(txtUsername.getValue(), txtPassword.getValue());
+					if(voUser != null){						
+						txtUsername.setValue("");
+						txtPassword.setValue("");
+						txtUsername.focus();						
+						
+						RequestContext.setRequestContext(new UserData(voUser.getId(), voUser.getName(), voUser.getUserType()));
+											
+						getUI().getNavigator().navigateTo("");
+						
+					}else{
+						txtPassword.setValue("");
+						txtPassword.focus();
+					}
+				}
 			}			
 		});	
 			
@@ -111,17 +113,19 @@ public class LoginView extends BaseView {
 		// txtUsername
 		txtUsername = new TextField();
 		txtUsername.setCaption("Usuario");
-		txtUsername.setImmediate(false);
+		txtUsername.setImmediate(true);
 		txtUsername.setWidth("220px");
 		txtUsername.setHeight("-1px");
+		txtUsername.setRequired(true);
 		mainLayout.addComponent(txtUsername, "top:40.0px;left:0.0px;");
 		
 		// txtPassword
 		txtPassword = new PasswordField();
-		txtPassword.setCaption("Contrasenia");
-		txtPassword.setImmediate(false);
+		txtPassword.setCaption("Contraseña");
+		txtPassword.setImmediate(true);
 		txtPassword.setWidth("220px");
 		txtPassword.setHeight("-1px");
+		txtPassword.setRequired(true);
 		mainLayout.addComponent(txtPassword, "top:120.0px;left:0.0px;");
 		
 		// btnLogin

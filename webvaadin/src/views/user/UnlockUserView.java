@@ -38,43 +38,15 @@ public class UnlockUserView extends BaseView{
 	private Label lblTitle;
 	private Grid grid;
 	private BeanItemContainer<User> container;
+	private Label lblMessage;
 	
 	public UnlockUserView() {
 		buildMainLayout();
 		setCompositionRoot(mainLayout);
-		//buildGrid();
-	}
-	
-	public void buildGrid()
-	{
-		Collection<User> users = UserController.GetUsers();
-
-		container = new BeanItemContainer<User>(User.class, users);
 		
-		grid = new Grid(container);
-		grid.removeColumn("id");
-		grid.removeColumn("email");
-		grid.removeColumn("userType");
-		grid.removeColumn("userStatus");
-		grid.setColumnOrder("name", "lastName", "userName", "userStatusToShow");
-		grid.getColumn("name").setHeaderCaption("Nombre");
-		grid.getColumn("lastName").setHeaderCaption("Apellido");
-		grid.getColumn("userName").setHeaderCaption("Usuario");
-		grid.getColumn("userStatusToShow").setHeaderCaption("Estado");
-		grid.setWidth(100, Unit.PERCENTAGE);
-		grid.setHeight(100, Unit.PERCENTAGE);
-		grid.setSelectionMode(SelectionMode.SINGLE);
-		grid.getSelectedRows().clear();
-		mainLayout.addComponent(grid, "top:20%;left:0px;");
+		lblMessage = new Label("");
+		mainLayout.addComponent(lblMessage, "top:100.0px;left:0.0px;");
 		
-		grid.addSelectionListener(new SelectionListener() {
-
-			@Override
-			   public void select(SelectionEvent event) {
-				btnUnlock.setEnabled(
-				         grid.getSelectedRows().size() > 0);
-			   }
-		});
 		
 		btnUnlock.addClickListener(new Button.ClickListener() {
 
@@ -89,12 +61,10 @@ public class UnlockUserView extends BaseView{
 							BeanItem<User> item = container.getItem(grid.getSelectedRow());
 							
 							if(UserController.unlockUser(item.getBean().getId())){
-//								Notification notif = new Notification("Usuario desbloqueado correctamente",
-//										Notification.TYPE_HUMANIZED_MESSAGE);
-//								notif.setDelayMsec(2000);
-//								notif.show(Page.getCurrent());
-								PopupWindow popup = new PopupWindow("AVISO", "Usuario desbloqueado correctamente");
-								getUI().getNavigator().navigateTo(WebvaadinUI.UNLOCKUSER);
+								//PopupWindow popup = new PopupWindow("AVISO", "Usuario desbloqueado correctamente");
+								//getUI().getNavigator().navigateTo(WebvaadinUI.UNLOCKUSER);
+								mainLayout.removeComponent(grid);
+								buildGrid();
 							}
 							
 							btnUnlock.setEnabled(false);
@@ -105,13 +75,53 @@ public class UnlockUserView extends BaseView{
 				});
 			}
 		});
+	}
+	
+	public void buildGrid()
+	{
+		// listo los usuarios con estado = 2 (Bloqueado)
+		Collection<User> users = UserController.getUsersByStatus(2);
 
+		if(users != null && users.size() > 0){
+container = new BeanItemContainer<User>(User.class, users);
+			
+			grid = new Grid(container);
+			grid.removeColumn("id");
+			grid.removeColumn("email");
+			grid.removeColumn("userType");
+			grid.removeColumn("userStatus");
+			grid.setColumnOrder("name", "lastName", "userName", "userStatusToShow");
+			grid.getColumn("name").setHeaderCaption("Nombre");
+			grid.getColumn("lastName").setHeaderCaption("Apellido");
+			grid.getColumn("userName").setHeaderCaption("Usuario");
+			grid.getColumn("userStatusToShow").setHeaderCaption("Estado");
+			grid.setWidth(100, Unit.PERCENTAGE);
+			grid.setHeight(100, Unit.PERCENTAGE);
+			grid.setSelectionMode(SelectionMode.SINGLE);
+			grid.getSelectedRows().clear();
+			mainLayout.addComponent(grid, "top:20%;left:0px;");
+			
+			grid.addSelectionListener(new SelectionListener() {
+	
+				@Override
+				   public void select(SelectionEvent event) {
+					btnUnlock.setEnabled(
+					         grid.getSelectedRows().size() > 0);
+				   }
+			});
+		} else{
+			lblMessage.setValue("No hay usuarios bloqueados");
+		}
+			
 	}
 	
 	@Override
 	public void enter(ViewChangeEvent event) {
 		super.enter(event);
 		if(RequestContext.getRequestContext() != null){
+			if(grid != null){
+				mainLayout.removeComponent(grid);
+			}
 			buildGrid();
 		}
 	}

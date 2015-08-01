@@ -87,9 +87,28 @@ public class DAOEmployees implements IDAOEmployees{
 	}
 
 	@Override
-	public void delete(int id) {
-		// TODO Auto-generated method stub
+	public void delete(int id) throws ServerException {
+		PreparedStatement preparedStatement = null;
 		
+		try {
+		
+			String deleteSQL = "DELETE FROM EMPLOYED WHERE ID = ?";
+			preparedStatement = this.connection.prepareStatement(deleteSQL);
+			preparedStatement.setInt(1, id);
+			preparedStatement.execute();
+
+		} catch (SQLException e) {
+			throw new ServerException(e);
+		} finally {
+
+			if (preparedStatement != null) {
+				try {
+					preparedStatement.close();
+				} catch (SQLException e) {
+					LoggerMSMP.setLog(e.getMessage());
+				}
+			}
+		}
 	}
 
 	@Override
@@ -163,8 +182,43 @@ public class DAOEmployees implements IDAOEmployees{
 
 	@Override
 	public void update(int id, Employed obj) throws ServerException {
-		// TODO Auto-generated method stub
+		PreparedStatement preparedStatement = null;
 		
+		String updateSQL = "UPDATE EMPLOYED "
+				+ "SET name = ?, "
+				+ "lastName = ?, "
+				+ "email = ?, "
+				+ "address = ?, "
+				+ "cellphone = ?, "
+				+ "createdDateTimeUTC = ?, "
+				+ "updatedDateTimeUTC = ?, "
+				+ "employedTypeId = ?, "
+				+ "userId = ? "
+				+ "WHERE id = ?";
+
+		try {
+			preparedStatement = this.connection.prepareStatement(updateSQL);
+
+			preparedStatement.setString(1, obj.getName());
+			preparedStatement.setString(2, obj.getLastName());
+			preparedStatement.setString(3, obj.getEmail());
+			preparedStatement.setString(4, obj.getAddress());
+			preparedStatement.setString(5, obj.getCellPhone());
+			preparedStatement.setTimestamp(6, new Timestamp(obj.getCreatedDateTimeUTC().getTime()));
+			preparedStatement.setTimestamp(7, new Timestamp(obj.getUpdatedDateTimeUTC().getTime()));
+			preparedStatement.setInt(8, obj.getEmployedType().getValue());
+			if(obj.getUser() != null)
+				preparedStatement.setInt(9, obj.getUser().getId());
+			else
+				preparedStatement.setNull(9, java.sql.Types.INTEGER);
+			
+			preparedStatement.setInt(10, id);
+			
+			preparedStatement.executeUpdate();
+			 
+		} catch (SQLException e) {
+			throw new ServerException(e);
+		}
 	}
 	
 	Employed BuildEmployed(ResultSet rs) throws SQLException, ServerException

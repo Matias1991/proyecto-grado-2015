@@ -7,6 +7,7 @@ import java.util.List;
 import datalayer.daos.DAOEmployees;
 import datalayer.daos.DAOSalarySummaries;
 import servicelayer.entity.valueObject.VOEmployed;
+import servicelayer.entity.valueObject.VOSalarySummary;
 import shared.exceptions.ServerException;
 import shared.interfaces.dataLayer.IDAOSalarySummaries;
 
@@ -137,7 +138,12 @@ public class Employed {
 	public void setUser(User user) {
 		this.user = user;
 	}
-
+	
+	public void setIDAOSalarySummaries(IDAOSalarySummaries iDAOSalarySummaries)
+	{
+		this.iDAOSalarySummaries = iDAOSalarySummaries;
+	}
+	
 	public void addNewSalarySummary(SalarySummary salarySummary) throws ServerException
 	{
 		iDAOSalarySummaries.insert(this.id, salarySummary);
@@ -151,5 +157,20 @@ public class Employed {
 	public SalarySummary getLatestVersionSalarySummary() throws ServerException
 	{
 		return iDAOSalarySummaries.getLatestVersionSalarySummary(this.id);
+	}
+	
+	public void deleteSalarySummaries() throws ServerException
+	{
+		iDAOSalarySummaries.deleteSalarySummaries(this.id);
+	}
+	
+	public ArrayList<Integer> getAllVersionsSalarySummary() throws ServerException
+	{
+		return iDAOSalarySummaries.getALLVersionsSalarySummary(this.id);
+	}
+	
+	public SalarySummary getSalarySummaryByVersion(int version) throws ServerException
+	{
+		return iDAOSalarySummaries.getSalarySummaryByVersion(this.id, version);
 	}
 }

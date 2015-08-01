@@ -21,6 +21,7 @@ import com.vaadin.ui.OptionGroup;
 import com.vaadin.ui.TextField;
 
 import controllers.UserController;
+import entities.RequestContext;
 
 public class CreateUserView extends BaseView {
 
@@ -76,18 +77,9 @@ public class CreateUserView extends BaseView {
 					}
 
 					if (UserController.createUser(newUser)) {
-//						Notification notif = new Notification("Aviso: ",
-//								"Usuario creado correctamente",
-//								Notification.TYPE_HUMANIZED_MESSAGE);
-//						notif.setDelayMsec(2000);
-//						notif.show(Page.getCurrent());
 						PopupWindow popup = new PopupWindow("AVISO", "Usuario creado correctamente");
 						// limpio los campos
-						txtName.setValue("");
-						txtEmail.setValue("");
-						txtUserName.setValue("");
-						txtCreateLastName.setValue("");
-						userType.setValue("");
+						cleanInputs();
 					}
 				}
 			}
@@ -97,62 +89,43 @@ public class CreateUserView extends BaseView {
 
 			@Override
 			public void buttonClick(ClickEvent event) {
-				getUI().getNavigator().navigateTo(WebvaadinUI.MAINMENU);
+				cleanInputs();
+				getUI().getNavigator().navigateTo(WebvaadinUI.MAINMENU);				
 			}
 		});
 
+	}
+	
+	public void cleanInputs(){
+		txtName.setValue("");
+		txtEmail.setValue("");
+		txtUserName.setValue("");
+		txtCreateLastName.setValue("");
+		userType.setValue("Socio");
+		txtName.setRequiredError(null);
+		txtEmail.setRequiredError(null);
+		txtUserName.setRequiredError(null);
+		txtCreateLastName.setRequiredError(null);
 	}
 
 	@Override
 	public void enter(ViewChangeEvent event) {
 		super.enter(event);
-		txtName.focus();
+		if (RequestContext.getRequestContext() != null) {
+			txtName.focus();
+			cleanInputs();
+		}
 	}
 
 	private boolean validateCreateUser() {
 		boolean validate = true;
-		String errors = "";
-
-		String userName = txtUserName.getValue();
-		if (userName.isEmpty()) {
+		if(!txtName.isValid() || !txtEmail.isValid() || !txtCreateLastName.isValid() || !txtUserName.isValid()){
+			txtName.setRequiredError("Es requerido");
+			txtEmail.setRequiredError("Es requerido");
+			txtCreateLastName.setRequiredError("Es requerido");
+			txtUserName.setRequiredError("Es requerido");
 			validate = false;
-			errors += "Debes ingresar el nombre de usuario\n";
-		}
-
-		String name = txtName.getValue();
-		if (name.isEmpty()) {
-			validate = false;
-			errors += "Debes ingresar el nombre\n";
-		}
-
-		String lastName = txtCreateLastName.getValue();
-		if (lastName.isEmpty()) {
-			validate = false;
-			errors += "Debes ingresar el apellido\n";
-		}
-
-		String email = txtEmail.getValue();
-		if (email.isEmpty()) {
-			validate = false;
-			errors += "Debes ingresar el correo electrónico\n";
-		} else {
-			if(!Utils.validateMail(email)){
-				validate = false;
-				errors += "El formato del correo electrónico no es correcto\n";
-			}
-		}
-
-		if (!validate) {
-//			Notification notif = new Notification(errors,
-//					Notification.TYPE_ERROR_MESSAGE);
-//			notif.setDelayMsec(2000);
-//			notif.show(Page.getCurrent());
-			PopupWindow popup = new PopupWindow("ERROR", errors);
-		}
-		
-		if(!txtEmail.isValid())
-			validate = false;
-		
+		}		
 		return validate;
 	}
 
@@ -171,7 +144,7 @@ public class CreateUserView extends BaseView {
 		// txtName
 		txtName = new TextField();
 		txtName.setCaption("Nombre");
-		txtName.setImmediate(false);
+		txtName.setImmediate(true);
 		txtName.setWidth("240px");
 		txtName.setHeight("-1px");
 		txtName.setTabIndex(1);
@@ -181,7 +154,7 @@ public class CreateUserView extends BaseView {
 		// txtCreateLastName
 		txtCreateLastName = new TextField();
 		txtCreateLastName.setCaption("Apellido");
-		txtCreateLastName.setImmediate(false);
+		txtCreateLastName.setImmediate(true);
 		txtCreateLastName.setWidth("241px");
 		txtCreateLastName.setHeight("-1px");
 		txtCreateLastName.setTabIndex(2);
@@ -192,18 +165,18 @@ public class CreateUserView extends BaseView {
 		// txtEmail
 		txtEmail = new TextField();
 		txtEmail.setCaption("Correo electrónico");
-		txtEmail.setImmediate(false);
+		txtEmail.setImmediate(true);
 		txtEmail.setWidth("240px");
 		txtEmail.setHeight("-1px");
 		txtEmail.setTabIndex(3);
 		txtEmail.setRequired(true);
-//		txtEmail.addValidator(new EmailValidator("Formato invalido"));
+		txtEmail.addValidator(new EmailValidator("Formato inválido"));
 		mainLayout.addComponent(txtEmail, "top:240.0px;left:0.0px;");
 
 		// txtUserName
 		txtUserName = new TextField();
 		txtUserName.setCaption("Nombre de usuario");
-		txtUserName.setImmediate(false);
+		txtUserName.setImmediate(true);
 		txtUserName.setWidth("240px");
 		txtUserName.setHeight("-1px");
 		txtUserName.setTabIndex(4);
@@ -240,10 +213,11 @@ public class CreateUserView extends BaseView {
 		// userType
 		userType = new OptionGroup();
 		userType.setCaption("Tipo de usuario");
-		userType.setImmediate(false);
+		userType.setImmediate(true);
 		userType.setWidth("-1px");
 		userType.setHeight("-1px");
 		userType.setTabIndex(5);
+		userType.setRequired(true);
 		mainLayout.addComponent(userType, "top:360.0px;left:0.0px;");
 
 		return mainLayout;

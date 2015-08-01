@@ -115,7 +115,112 @@ public class CoreEmployed implements ICoreEmployed{
 		
 		return BuildVOSalarySummary(salarySummary);
 	}
+	
+	@Override
+	public void deleteEmployed(int id) throws ServerException, ClientException
+	{
+		DAOManager daoManager = new DAOManager();
+		
+		try {
+			
+	    Employed employed = daoManager.getDAOEmployees().getObject(id);
+	    if(employed != null)
+	    {
+	    	//DELETE ALL SALARY SUMMARIES
+	    	employed.setIDAOSalarySummaries(daoManager.getDAOSalarySummaries());
+	    	employed.deleteSalarySummaries();
+			
+	    	//DELETE EMPLOYED
+			daoManager.getDAOEmployees().delete(id);
+			daoManager.commit();
+	    }
+	    else
+	    	throw new ClientException("No existe un empleado con ese id");
+	    
+		} catch (ServerException e) {
+			daoManager.rollback();
+			throw e;
+		}
+		finally
+		{
+			daoManager.close();
+		}
+	}
+	
+	@Override
+	public void updateEmployed(int id, VOEmployed voEmployed) throws ServerException, ClientException
+	{
+		DAOManager daoManager = new DAOManager();
+		
+		try {
+			
+	    Employed currentEmployed = daoManager.getDAOEmployees().getObject(id);
+	    if(currentEmployed != null)
+	    {
+	    	Employed updatedEmployed = new Employed(voEmployed);
+	    	//UPDATE EMPLOYED
+	    	updatedEmployed.setCreatedDateTimeUTC(new Date());
+	    	updatedEmployed.setUpdatedDateTimeUTC(new Date());
+	    	daoManager.getDAOEmployees().update(id, updatedEmployed);
+	    	
+	    	//CREATE NEW VERSION OF SALARY SUMMARY
+	    	currentEmployed.setIDAOSalarySummaries(daoManager.getDAOSalarySummaries());
+	    	SalarySummary salarySummary = calculateSalarySummary(voEmployed.getvOSalarySummary());
+	    	currentEmployed.addNewSalarySummary(salarySummary);
+			
+			daoManager.commit();
+	    }
+	    else
+	    	throw new ClientException("No existe un empleado con ese id");
+	    
+		} catch (ServerException e) {
+			daoManager.rollback();
+			throw e;
+		}
+		finally
+		{
+			daoManager.close();
+		}
+	}
+	
+	@Override
+	public ArrayList<Integer> getAllVersionSalarySummary(int employedId) throws ServerException, ClientException
+	{
+		ArrayList<Integer> list;
+		
+		Employed employed = iDAOEmployees.getObject(employedId);
+		if(employed != null)
+		{
+			list = employed.getAllVersionsSalarySummary();
+		}
+		else
+			throw new ClientException("No existe un empleado con ese id");
+		
+		return list;
+		
+	}
 
+	@Override
+	public VOSalarySummary getSalarySummaryByVersion(int employedId, int version) throws ServerException, ClientException
+	{
+		VOSalarySummary voSalarySummary = null;
+		
+		Employed employed = iDAOEmployees.getObject(employedId);
+		if(employed != null)
+		{
+			SalarySummary salarySummary = employed.getSalarySummaryByVersion(version);
+			if(salarySummary != null)
+			{
+				voSalarySummary = BuildVOSalarySummary(employed.getSalarySummaryByVersion(version));
+			}
+		}
+		else
+			throw new ClientException("No existe un empleado con ese id");
+		
+		return voSalarySummary;
+		
+	}
+	
 	SalarySummary calculateSalarySummary(VOSalarySummary voSalarySummary) throws ServerException
 	{
 		SalarySummary salarySummary = new SalarySummary();

@@ -16,4 +16,12 @@ public interface ICoreEmployed {
     VOEmployed getEmployed(int id) throws ServerException, ClientException;
     
     VOSalarySummary estimateSalarySummary(VOSalarySummary voSummarySalary) throws ServerException;
+    
+    void deleteEmployed(int id) throws ServerException, ClientException;
+    
+    void updateEmployed(int id, VOEmployed voEmployed) throws ServerException, ClientException;
+    
+    ArrayList<Integer> getAllVersionSalarySummary(int employedId) throws ServerException, ClientException;
+    
+    VOSalarySummary getSalarySummaryByVersion(int employedId, int version) throws ServerException, ClientException;
 }
