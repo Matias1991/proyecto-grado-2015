@@ -210,6 +210,9 @@ public class WebvaadinUI extends UI {
 				case "Crear empleado":
 					navigator.navigateTo(CREATEEMPLOYEE);
 					break;
+				case "Eliminar empleado":
+					navigator.navigateTo(DELETEEMPLOYEE);
+					break;
 				case "Crear rubro":
 					navigator.navigateTo(CREATECATEGORY);
 					break;
@@ -217,11 +220,9 @@ public class WebvaadinUI extends UI {
 					navigator.navigateTo(DELETECATEGORY);
 					break;
 				case "Modificar rubro":
-
 					navigator.navigateTo(MODIFYCATEGORY);
 					break;
 				case "Catalogo rubros":
-
 					navigator.navigateTo(CATEGORIES);
 					break;
 				default:
@@ -257,6 +258,7 @@ public class WebvaadinUI extends UI {
 			MenuItem employeed = menuBar.addItem("Empleados", null, null);
 			employeed.addItem("Crear empleado", null, mainMenuBarCommand);
 			employeed.addItem("Modificar empleado", null, mainMenuBarCommand);
+			employeed.addItem("Eliminar empleado", null,mainMenuBarCommand);
 			employeed.addItem("Catálogo empleados", null, mainMenuBarCommand);
 			// Rubros
 			MenuItem category = menuBar.addItem("Rubros", null, null);
