@@ -213,6 +213,9 @@ public class WebvaadinUI extends UI {
 				case "Eliminar empleado":
 					navigator.navigateTo(DELETEEMPLOYEE);
 					break;
+				case "Modificar empleado":
+					navigator.navigateTo(UPDATEEMPLOYEE);
+					break;
 				case "Crear rubro":
 					navigator.navigateTo(CREATECATEGORY);
 					break;
