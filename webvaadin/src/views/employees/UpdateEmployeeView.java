@@ -172,11 +172,6 @@ public class UpdateEmployeeView extends BaseView {
 					updateEmployee.setEmail(txtEmail.getValue());
 					updateEmployee.setCellPhone(txtCellphone.getValue());
 					updateEmployee.setEmployedType(optEmployeeType.getValue().toString());
-//					if(optEmployeeType.getValue().equals("Empleado")){
-//						updateEmployee.setEmployedType(1);
-//					}else{
-//						updateEmployee.setEmployedType(2);
-//					}
 					
 					SalarySummary updateSalarySummary = new SalarySummary();
 					updateSalarySummary.setNominalSalary((Double)txtNominalSalary.getConvertedValue());

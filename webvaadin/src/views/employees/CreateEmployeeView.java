@@ -440,12 +440,7 @@ public class CreateEmployeeView extends BaseView {
 					newEmployee.setEmail(txtEmail.getValue());
 					newEmployee.setCellPhone(txtCellPhone.getValue());
 					newEmployee.setEmployedType(optEmployeeType.getValue().toString());
-//					if(optEmployeeType.getValue().equals("Empleado")){
-//						newEmployee.setEmployedType(1);
-//					}else{
-//						newEmployee.setEmployedType(2);
-//					}
-					
+
 					SalarySummary newSalarySummary = new SalarySummary();
 					newSalarySummary.setNominalSalary((Double)txtNominalSalary.getConvertedValue());
 					newSalarySummary.setTickets((Double)txtTickets.getConvertedValue());					
