@@ -94,7 +94,7 @@ public class CoreCategory implements ICoreCategory {
 		voCategory.setAmount(category.getAmount());
 		voCategory.setCreateDateTimeUTC(category.getCreateDateTimeUTC());
 		voCategory.setProjectId(category.getProjectId());
-		voCategory.setDistributionType(category.getDistributionType());
+		voCategory.setCategoryType(category.getCategoryType());
 		
 		return voCategory;
 	}

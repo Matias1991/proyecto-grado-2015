@@ -80,10 +80,10 @@ public class DeleteCategoriesView extends BaseView {
 		grid.removeColumn("projectId");
 		grid.removeColumn("categoryTypeId");
 		grid.removeColumn("categoryType");
-		grid.setColumnOrder("description", "amount", "distributionTypeToShow");
+		grid.setColumnOrder("description", "amount", "categoryTypeToShow");
 		grid.getColumn("description").setHeaderCaption("Nombre");
 		grid.getColumn("amount").setHeaderCaption("Importe");
-		grid.getColumn("distributionTypeToShow").setHeaderCaption("Distribución");
+		grid.getColumn("categoryTypeToShow").setHeaderCaption("Distribución");
 		grid.setWidth(80, Unit.PERCENTAGE);
 		grid.setHeight(80, Unit.PERCENTAGE);
 		grid.setSelectionMode(SelectionMode.SINGLE);

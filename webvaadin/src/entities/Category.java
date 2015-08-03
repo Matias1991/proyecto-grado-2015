@@ -18,8 +18,8 @@ public class Category {
 		this.id = voCategory.getId();
 		this.setDescription(voCategory.getDescription());
 		this.setAmount(voCategory.getAmount());
-		this.setCategoryTypeId(voCategory.getDistributionType());
-		this.setCategoryType(getDistributionTypeToShow());
+		this.setCategoryTypeId(voCategory.getCategoryType());
+		this.setCategoryType(getCategoryTypeToShow());
 	}
 	
 	public String getDescription() {
@@ -45,7 +45,7 @@ public class Category {
 		this.id = id;
 	}
 	
-	public String getDistributionTypeToShow()
+	public String getCategoryTypeToShow()
 	{
 		String result = "";
 		switch(categoryTypeId)

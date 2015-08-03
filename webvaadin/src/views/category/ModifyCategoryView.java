@@ -120,10 +120,10 @@ public class ModifyCategoryView extends BaseView {
 		grid.removeColumn("projectId");
 		grid.removeColumn("categoryTypeId");
 		grid.removeColumn("categoryType");
-		grid.setColumnOrder("description", "amount", "distributionTypeToShow");
+		grid.setColumnOrder("description", "amount", "categoryTypeToShow");
 		grid.getColumn("description").setHeaderCaption("Nombre");
 		grid.getColumn("amount").setHeaderCaption("Importe");
-		grid.getColumn("distributionTypeToShow").setHeaderCaption("Distribución");
+		grid.getColumn("categoryTypeToShow").setHeaderCaption("Distribución");
 		grid.setWidth(65, Unit.PERCENTAGE);
 		grid.setHeight(65, Unit.PERCENTAGE);
 		grid.setSelectionMode(SelectionMode.SINGLE);
@@ -142,7 +142,7 @@ public class ModifyCategoryView extends BaseView {
 					Category catToModify = item.getBean();
 					txtAmount.setConvertedValue(catToModify.getAmount());
 					txtDescription.setValue(catToModify.getDescription());
-					categoryType.select(catToModify.getDistributionTypeToShow());
+					categoryType.select(catToModify.getCategoryTypeToShow());
 					idSelected = catToModify.getId();
 
 				} else {

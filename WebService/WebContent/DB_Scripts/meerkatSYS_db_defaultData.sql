@@ -10,5 +10,5 @@ INSERT INTO `UserStatus` (`Id`, `Name`) VALUES ('2', 'BLOCKED');
 INSERT INTO `EmployedType` (`Id`, `Name`) VALUES ('1', 'COMMON');
 INSERT INTO `EmployedType` (`Id`, `Name`) VALUES ('2', 'PARTNER');
 
-INSERT INTO `CategoryDistributionType` (`Id`, `Name`) VALUES ('1', 'COMPANY');
-INSERT INTO `CategoryDistributionType` (`Id`, `Name`) VALUES ('2', 'PROJECT');
+INSERT INTO `CategoryType` (`Id`, `Name`) VALUES ('1', 'COMPANY');
+INSERT INTO `CategoryType` (`Id`, `Name`) VALUES ('2', 'PROJECT');

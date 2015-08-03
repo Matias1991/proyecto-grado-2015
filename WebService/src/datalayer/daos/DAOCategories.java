@@ -34,7 +34,7 @@ public class DAOCategories implements IDAOCategroy {
 	public int insert(Category obj) throws ServerException {
 		PreparedStatement preparedStatement = null;
 
-		String insertSQL = "INSERT INTO CATEGORY (DESCRIPTION, AMOUNT, CREATEDDATETIMEUTC, PROJECTID, DISTRIBUTIONTYPE) VALUES"
+		String insertSQL = "INSERT INTO CATEGORY (DESCRIPTION, AMOUNT, CREATEDDATETIMEUTC, PROJECTID, CATEGORYTYPE) VALUES"
 				+ "(?,?,?,?,?)";
 
 		try {
@@ -45,7 +45,7 @@ public class DAOCategories implements IDAOCategroy {
 			preparedStatement.setTimestamp(3, new Timestamp(obj
 					.getCreateDateTimeUTC().getTime()));
 			preparedStatement.setInt(4, obj.getProjectId());
-			preparedStatement.setInt(5, obj.getDistributionType());
+			preparedStatement.setInt(5, obj.getCategoryType());
 
 			preparedStatement.executeUpdate();
 
@@ -93,7 +93,7 @@ public class DAOCategories implements IDAOCategroy {
 		PreparedStatement preparedStatement = null;
 
 		String updateSQL = "UPDATE CATEGORY "
-				+ "SET DESCRIPTION = ?, AMOUNT = ?, PROJECTID = ?, DISTRIBUTIONTYPE = ? WHERE id = ?";
+				+ "SET DESCRIPTION = ?, AMOUNT = ?, PROJECTID = ?, CATEGORYTYPE = ? WHERE id = ?";
 
 		try {
 			preparedStatement = this.connection.prepareStatement(updateSQL);
@@ -101,7 +101,7 @@ public class DAOCategories implements IDAOCategroy {
 			preparedStatement.setString(1, obj.getDescription());
 			preparedStatement.setDouble(2, obj.getAmount());
 			preparedStatement.setInt(3, obj.getProjectId());
-			preparedStatement.setInt(4, obj.getDistributionType());
+			preparedStatement.setInt(4, obj.getCategoryType());
 			preparedStatement.setInt(5, id);
 
 			preparedStatement.executeUpdate();
@@ -211,7 +211,7 @@ public class DAOCategories implements IDAOCategroy {
 		double amount = rs.getDouble("amount");
 		Date createDateTimeUTC = rs.getTimestamp("createdDateTimeUTC");
 		int projectId = rs.getInt("projectid");
-		int distributionType = rs.getInt("distributionType");
+		int categoryType = rs.getInt("categoryType");
 
 		Category category = new Category();
 		category.setId(_id);
@@ -219,7 +219,7 @@ public class DAOCategories implements IDAOCategroy {
 		category.setAmount(amount);
 		category.setCreateDateTimeUTC(createDateTimeUTC);
 		category.setProjectId(projectId);
-		category.setDistributionType(distributionType);
+		category.setCategoryType(categoryType);
 
 		return category;
 	}
