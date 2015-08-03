@@ -142,7 +142,7 @@ public class DeleteUsersView extends BaseView{
 		btnDelete.setImmediate(true);
 		btnDelete.setWidth("-1px");
 		btnDelete.setHeight("-1px");
-		mainLayout.addComponent(btnDelete, "top:50.0px;left:510.0px;");
+		mainLayout.addComponent(btnDelete, "top:50.0px;left:548.0px;");
 		
 		return mainLayout;
 	}

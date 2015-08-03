@@ -153,7 +153,7 @@ public class CreateEmployeeView extends BaseView {
 		
 		// Precio de venta por hora
 		txtCostSaleHour = new TextField();
-		txtCostSaleHour.setCaption("Hora Venta");
+		txtCostSaleHour.setCaption("Costo hora Venta");
 		txtCostSaleHour.setImmediate(true);
 		txtCostSaleHour.setWidth("-1px");
 		txtCostSaleHour.setHeight("-1px");		

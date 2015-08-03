@@ -126,6 +126,7 @@ public class CreateCategoryView extends BaseView {
 		label_1.setWidth("-1px");
 		label_1.setHeight("-1px");
 		label_1.setValue("Crear rubro");
+		label_1.setStyleName("titleLabel");
 		mainLayout.addComponent(label_1, "top:42.0px;left:0.0px;");
 		
 		// txtDescription

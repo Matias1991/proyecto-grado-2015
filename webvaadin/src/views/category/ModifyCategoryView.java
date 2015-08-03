@@ -121,9 +121,9 @@ public class ModifyCategoryView extends BaseView {
 		grid.removeColumn("categoryTypeId");
 		grid.removeColumn("categoryType");
 		grid.setColumnOrder("description", "amount", "categoryTypeToShow");
-		grid.getColumn("description").setHeaderCaption("Nombre");
-		grid.getColumn("amount").setHeaderCaption("Importe");
-		grid.getColumn("categoryTypeToShow").setHeaderCaption("Distribución");
+		grid.getColumn("description").setHeaderCaption("Descripción");
+		grid.getColumn("amount").setHeaderCaption("Monto");
+		grid.getColumn("categoryTypeToShow").setHeaderCaption("Asociado a");
 		grid.setWidth(65, Unit.PERCENTAGE);
 		grid.setHeight(65, Unit.PERCENTAGE);
 		grid.setSelectionMode(SelectionMode.SINGLE);

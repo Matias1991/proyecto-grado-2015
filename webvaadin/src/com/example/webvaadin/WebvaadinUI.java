@@ -108,7 +108,7 @@ public class WebvaadinUI extends UI {
 		lblTitle = new Label(
 				"Bienvenido al Sistema de Gestion y Liquidaciones de Proyectos");
 		lblTitle.setWidth(80, Unit.PERCENTAGE);
-		lblTitle.setStyleName("titleLabel");
+		lblTitle.setStyleName("titleLabelHome");
 		lblTitle2 = new Label("");
 
 		/**
@@ -225,7 +225,7 @@ public class WebvaadinUI extends UI {
 				case "Modificar rubro":
 					navigator.navigateTo(MODIFYCATEGORY);
 					break;
-				case "Catalogo rubros":
+				case "Catálogo rubros":
 					navigator.navigateTo(CATEGORIES);
 					break;
 				default:
@@ -266,7 +266,7 @@ public class WebvaadinUI extends UI {
 			// Rubros
 			MenuItem category = menuBar.addItem("Rubros", null, null);
 			category.addItem("Crear rubro", null, mainMenuBarCommand);
-			category.addItem("Catalogo rubros", null, mainMenuBarCommand);
+			category.addItem("Catálogo rubros", null, mainMenuBarCommand);
 			category.addItem("Eliminar rubro", null, mainMenuBarCommand);
 			category.addItem("Modificar rubro", null, mainMenuBarCommand);
 			break;

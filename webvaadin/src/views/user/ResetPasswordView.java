@@ -53,6 +53,8 @@ public class ResetPasswordView extends BaseView{
 		grid.removeColumn("userType");
 		grid.removeColumn("userStatus");
 		grid.removeColumn("userStatusToShow");
+		grid.removeColumn("password");
+		grid.removeColumn("userTypeId");
 		grid.setColumnOrder("name", "lastName", "userName", "email");
 		grid.getColumn("name").setHeaderCaption("Nombre");
 		grid.getColumn("lastName").setHeaderCaption("Apellido");

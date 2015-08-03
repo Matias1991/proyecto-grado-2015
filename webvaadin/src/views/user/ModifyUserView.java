@@ -135,6 +135,8 @@ public class ModifyUserView extends BaseView {
 			modifyUserGrid.removeColumn("userType");
 			modifyUserGrid.removeColumn("email");
 			modifyUserGrid.removeColumn("userStatusToShow");
+			modifyUserGrid.removeColumn("password");
+			modifyUserGrid.removeColumn("userTypeId");
 			
 			modifyUserGrid.setColumnOrder("name", "lastName");	
 			modifyUserGrid.getColumn("name").setHeaderCaption("Nombre");

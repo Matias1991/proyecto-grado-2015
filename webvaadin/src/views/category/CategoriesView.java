@@ -51,6 +51,9 @@ public class CategoriesView extends BaseView {
 			beanContainer = new BeanItemContainer<Category>(Category.class,categories);
 					
 			categoriesGrid = new Grid(beanContainer);
+			categoriesGrid.removeColumn("categoryTypeId");
+			categoriesGrid.removeColumn("categoryTypeToShow");
+			categoriesGrid.removeColumn("projectId");
 			categoriesGrid.setColumnOrder("id", "description", "amount", "categoryType");
 	
 			categoriesGrid.getColumn("id").setHeaderCaption("Identificador");
@@ -65,6 +68,10 @@ public class CategoriesView extends BaseView {
 		}
 		else
 		{
+			if(categoriesGrid != null)
+			{
+				categoriesGrid.setVisible(false);
+			}
 			lblTitle.setVisible(false);
 			Notification.show("No hay rubros ingresados",
 					Notification.TYPE_WARNING_MESSAGE);
@@ -97,7 +104,8 @@ public class CategoriesView extends BaseView {
 		lblTitle.setImmediate(false);
 		lblTitle.setWidth("-1px");
 		lblTitle.setHeight("-1px");
-		lblTitle.setValue("Catalogo de rubros");
+		lblTitle.setValue("Catálogo de rubros");
+		lblTitle.setStyleName("titleLabel");
 		mainLayout.addComponent(lblTitle, "top:42.0px;left:0.0px;");
 		
 		return mainLayout;
