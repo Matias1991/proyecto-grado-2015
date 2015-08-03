@@ -40,14 +40,9 @@ public class UserController {
 			}
 			
 		} catch (AxisFault e) {
-			// TODO Auto-generated catch block
 			String error = e.getMessage().replace("<faultstring>", "");
-//			Notification notif = new Notification(error.replace("</faultstring>", ""), Notification.TYPE_ERROR_MESSAGE);
-//			notif.setDelayMsec(2000);
-//			notif.show(Page.getCurrent());
 			PopupWindow popup = new PopupWindow("ERROR", error.replace("</faultstring>", ""));
 		} catch (RemoteException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
@@ -60,7 +55,6 @@ public class UserController {
 		try {
 			ServiceWebStub service = new ServiceWebStub();
 		} catch (AxisFault e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		GetUsers getUsers = new GetUsers();
@@ -80,11 +74,7 @@ public class UserController {
 			result = service.deleteUser(deleteUser).get_return();
 			
 		} catch (AxisFault e) {
-			// TODO Auto-generated catch block
 			String error = e.getMessage().replace("<faultstring>", "");
-//			Notification notif = new Notification(error.replace("</faultstring>", ""), Notification.TYPE_ERROR_MESSAGE);
-//			notif.setDelayMsec(2000);
-//			notif.show(Page.getCurrent());
 			PopupWindow popup = new PopupWindow("ERROR", error.replace("</faultstring>", ""));
 		} catch (RemoteException e) {
 			e.printStackTrace();
@@ -93,12 +83,19 @@ public class UserController {
 		return result;
 	}
 	
-	public static boolean createUser(VOUser newUser)
+	public static boolean createUser(User user)
 	{
 		boolean result = false;
 		try {
 			ServiceWebStub service = new ServiceWebStub();
 			InsertUser createUser = new InsertUser();
+			
+			VOUser newUser = new VOUser();
+			newUser.setUserName(user.getUserName());
+			newUser.setName(user.getName());
+			newUser.setLastName(user.getLastName());
+			newUser.setEmail(user.getEmail());
+			newUser.setUserType(user.getUserTypeId());
 			
 			createUser.setVoUser(newUser);
 			
@@ -106,9 +103,6 @@ public class UserController {
 			
 		} catch (AxisFault e) {
 			String error = e.getMessage().replace("<faultstring>", "");
-//			Notification notif = new Notification(error.replace("</faultstring>", ""), Notification.TYPE_ERROR_MESSAGE);
-//			notif.setDelayMsec(2000);
-//			notif.show(Page.getCurrent());
 			PopupWindow popup = new PopupWindow("ERROR", error.replace("</faultstring>", ""));
 		} catch (RemoteException e) {
 			e.printStackTrace();
@@ -117,29 +111,29 @@ public class UserController {
 		return result;
 	}
 	
-	public static VOUser modifyUser(VOUser newUser, int idUser)
+	public static void modifyUser(User user, int idUser)
 	{
-		VOUser result = new VOUser();
 		try {
 			ServiceWebStub service = new ServiceWebStub();
 			UpdateUser modifyUser = new UpdateUser();
 			
-			modifyUser.setVoUser(newUser);
+			VOUser voUser = new VOUser();
+			voUser.setEmail(user.getEmail());
+			voUser.setLastName(user.getLastName());
+			voUser.setName(user.getName());
+			voUser.setUserType(user.getUserTypeId());
+			
+			modifyUser.setVoUser(voUser);
 			modifyUser.setId(idUser);
 			
-			result = service.updateUser(modifyUser).get_return();
+			service.updateUser(modifyUser).get_return();
 			
 		} catch (AxisFault e) {
 			String error = e.getMessage().replace("<faultstring>", "");
-//			Notification notif = new Notification(error.replace("</faultstring>", ""), Notification.TYPE_ERROR_MESSAGE);
-//			notif.setDelayMsec(2000);
-//			notif.show(Page.getCurrent());
 			PopupWindow popup = new PopupWindow("ERROR", error.replace("</faultstring>", ""));
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		}
-		
-		return result;
 	}
 	
 	public static boolean changePassword(int idUser, String oldPassword, String newPassword)
@@ -157,9 +151,6 @@ public class UserController {
 			
 		} catch (AxisFault e) {
 			String error = e.getMessage().replace("<faultstring>", "");
-//			Notification notif = new Notification(error.replace("</faultstring>", ""), Notification.TYPE_ERROR_MESSAGE);
-//			notif.setDelayMsec(2000);
-//			notif.show(Page.getCurrent());
 			PopupWindow popup = new PopupWindow("ERROR", error.replace("</faultstring>", ""));
 		} catch (RemoteException e) {
 			e.printStackTrace();
@@ -179,9 +170,6 @@ public class UserController {
 			result = service.forgotPassword(forgotPassword).get_return();
 		} catch (AxisFault e) {
 			String error = e.getMessage().replace("<faultstring>", "");
-//			Notification notif = new Notification(error.replace("</faultstring>", ""), Notification.TYPE_ERROR_MESSAGE);
-//			notif.setDelayMsec(2000);
-//			notif.show(Page.getCurrent());
 			PopupWindow popup = new PopupWindow("ERROR", error.replace("</faultstring>", ""));
 		} catch (RemoteException e) {
 			e.printStackTrace();
@@ -204,9 +192,6 @@ public class UserController {
 			
 		} catch (AxisFault e) {
 			String error = e.getMessage().replace("<faultstring>", "");
-//			Notification notif = new Notification(error.replace("</faultstring>", ""), Notification.TYPE_ERROR_MESSAGE);
-//			notif.setDelayMsec(2000);
-//			notif.show(Page.getCurrent());
 			PopupWindow popup = new PopupWindow("ERROR", error.replace("</faultstring>", ""));
 		} catch (RemoteException e) {
 			e.printStackTrace();
@@ -226,9 +211,6 @@ public class UserController {
 			result = service.unlockUser(unlockUser).get_return();
 		} catch (AxisFault e) {
 			String error = e.getMessage().replace("<faultstring>", "");
-//			Notification notif = new Notification(error.replace("</faultstring>", ""), Notification.TYPE_ERROR_MESSAGE);
-//			notif.setDelayMsec(2000);
-//			notif.show(Page.getCurrent());
 			PopupWindow popup = new PopupWindow("ERROR", error.replace("</faultstring>", ""));
 		} catch (RemoteException e) {
 			e.printStackTrace();
@@ -248,9 +230,6 @@ public class UserController {
 			result = service.resetPassword(resetPassword).get_return();
 		} catch (AxisFault e) {
 			String error = e.getMessage().replace("<faultstring>", "");
-//			Notification notif = new Notification(error.replace("</faultstring>", ""), Notification.TYPE_ERROR_MESSAGE);
-//			notif.setDelayMsec(2000);
-//			notif.show(Page.getCurrent());
 			PopupWindow popup = new PopupWindow("ERROR", error.replace("</faultstring>", ""));
 		} catch (RemoteException e) {
 			e.printStackTrace();

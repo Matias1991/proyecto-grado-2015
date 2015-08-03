@@ -23,6 +23,7 @@ import com.vaadin.ui.TextField;
 
 import controllers.UserController;
 import entities.RequestContext;
+import entities.User;
 
 public class ModifyProfileView extends BaseView {
 
@@ -60,13 +61,13 @@ public class ModifyProfileView extends BaseView {
 
 					UserController modifyUser = new UserController();
 
-					VOUser voUser = new VOUser();
-					voUser.setEmail(txtEmail.getValue());
-					voUser.setLastName(txtLastName.getValue());
-					voUser.setName(txtName.getValue());
-					voUser.setUserType(userToShow.getUserType());
+					User user = new User();
+					user.setEmail(txtEmail.getValue());
+					user.setLastName(txtLastName.getValue());
+					user.setName(txtName.getValue());
+					user.setUserTypeId(userToShow.getUserType());
 
-					modifyUser.modifyUser(voUser, idUser);
+					modifyUser.modifyUser(user, idUser);
 
 					PopupWindow popup = new PopupWindow("AVISO", "Usuario creado correctamente");
 					

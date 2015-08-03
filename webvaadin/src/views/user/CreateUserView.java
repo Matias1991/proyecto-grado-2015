@@ -22,6 +22,7 @@ import com.vaadin.ui.TextField;
 
 import controllers.UserController;
 import entities.RequestContext;
+import entities.User;
 
 public class CreateUserView extends BaseView {
 
@@ -63,17 +64,17 @@ public class CreateUserView extends BaseView {
 
 					// Creo el ValueObjet cargandolo con los datos carados por
 					// el usuario
-					VOUser newUser = new VOUser();
+					User newUser = new User();
 					newUser.setUserName(txtUserName.getValue());
 					newUser.setName(txtName.getValue());
 					newUser.setLastName(txtCreateLastName.getValue());
 					newUser.setEmail(txtEmail.getValue());
 					if (userType.getValue().equals("Socio")) {
-						newUser.setUserType(2);
+						newUser.setUserTypeId(2);
 					} else if (userType.getValue().equals("Gerente")) {
-						newUser.setUserType(3);
+						newUser.setUserTypeId(3);
 					} else  if (userType.getValue().equals("Administrador")) {
-						newUser.setUserType(1);
+						newUser.setUserTypeId(1);
 					}
 
 					if (UserController.createUser(newUser)) {

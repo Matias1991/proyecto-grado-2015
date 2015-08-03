@@ -53,6 +53,8 @@ public class DeleteUsersView extends BaseView{
 		grid.removeColumn("id");
 		grid.removeColumn("email");
 		grid.removeColumn("userStatus");
+		grid.removeColumn("password");
+		grid.removeColumn("userTypeId");
 		grid.setColumnOrder("name", "lastName", "userName", "userType", "userStatusToShow");
 		grid.getColumn("name").setHeaderCaption("Nombre");
 		grid.getColumn("lastName").setHeaderCaption("Apellido");
