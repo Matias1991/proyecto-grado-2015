@@ -37,7 +37,6 @@ import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 
 import entities.RequestContext;
-import entities.UserData;
 
 @SuppressWarnings("serial")
 @Theme("webvaadin")
@@ -116,13 +115,11 @@ public class WebvaadinUI extends UI {
 		 */
 		mainMenuBar = new MenuBar();
 		mainMenuBar.setWidth(100, Unit.PERCENTAGE);
-		// loadMenuItems(mainMenuBar);
-
+		
 		/**
 		 * Barra del usuario logueado
 		 */
 		userMenuBar = new MenuBar();
-		// userMenuBar.setWidth(100,Unit.PERCENTAGE);
 		loadUserMenuItems(userMenuBar);
 
 		/**
@@ -136,8 +133,7 @@ public class WebvaadinUI extends UI {
 
 		navigator = new Navigator(this, viewDisplay);
 
-		navigator.addView("", new MainMenuView());
-		// navigator.addView("", new CatalogUsersView());
+		navigator.addView("", new MainMenuView());		
 		navigator.addView(LOGINVIEW, new LoginView());
 		// Usuarios
 		navigator.addView(CREATEUSER, new CreateUserView());
@@ -302,9 +298,7 @@ public class WebvaadinUI extends UI {
 					getUI().getNavigator().navigateTo(
 							WebvaadinUI.CHANGEPASSWORD);
 					break;
-				default:
-					// Notification.show("No hay configuracion para el item: " +
-					// selectedItem.getText());
+				default:					
 					PopupWindow popup = new PopupWindow("AVISO",
 							"No hay configuración para el item: "
 									+ selectedItem.getText());
@@ -315,10 +309,9 @@ public class WebvaadinUI extends UI {
 
 		MenuItem userItem = userMenuBar.addItem("", new ThemeResource(
 				"./images/userIcon.png"), null);
-		MenuItem logout = userItem.addItem("Salir", null, userMenuBarCommand);
-		MenuItem profile = userItem.addItem("Perfil", null, userMenuBarCommand);
-		MenuItem changePassword = userItem.addItem("Cambiar contraseña", null,
-				userMenuBarCommand);
+		userItem.addItem("Salir", null, userMenuBarCommand);
+		userItem.addItem("Perfil", null, userMenuBarCommand);
+		userItem.addItem("Cambiar contraseña", null,userMenuBarCommand);
 
 	}
 
