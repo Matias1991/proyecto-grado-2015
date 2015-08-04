@@ -33,6 +33,7 @@ public class Email {
 		
 		StringBuilder strBuilder = new StringBuilder();
 		strBuilder.append("<b>Nombre de usuario: </b>" + userName);
+		strBuilder.append("<br>");
 		strBuilder.append("<b>Nueva contraseña: </b>" + password);
 
 		sendEmail(userEmail, "[MSMP] - Reseteo de Contraseña", strBuilder.toString());
@@ -42,6 +43,7 @@ public class Email {
 		
 		StringBuilder strBuilder = new StringBuilder();
 		strBuilder.append("<b>Nombre de usuario: </b>" + userName);
+		strBuilder.append("<br>");
 		strBuilder.append("<b>Contraseña: </b>" + password);
 
 		sendEmail(userEmail, "[MSMP] - Olvido de Contraseña", strBuilder.toString());
