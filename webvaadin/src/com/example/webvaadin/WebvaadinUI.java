@@ -96,7 +96,7 @@ public class WebvaadinUI extends UI {
 		/**
 		 * Logo del sitio
 		 */
-		Image logo = new Image(null, new ThemeResource("./images/logo.png"));
+		Image logo = new Image(null, new ThemeResource("./images/logoV2.png"));
 		logo.setWidth(100, Unit.PERCENTAGE);
 		logo.setHeight("35px");
 		mainLayout.addComponent(logo, 0, 0, 1, 0);
