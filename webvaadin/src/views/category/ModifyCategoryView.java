@@ -89,7 +89,9 @@ public class ModifyCategoryView extends BaseView {
 
 									txtDescription.setValidationVisible(false);
 									txtAmount.setValidationVisible(false);
-									mainLayout.removeComponent(grid);
+									if(grid != null){
+										mainLayout.removeComponent(grid);
+									}
 									buildGrid();
 
 								} else {
@@ -117,6 +119,10 @@ public class ModifyCategoryView extends BaseView {
 		Collection<Category> categories = CategoryController.getCategories();
 
 		if (categories != null && categories.size() > 0) {
+			lblMessage.setValue("");
+			btnCancel.setVisible(true);
+			btnUpdate.setVisible(true);
+			
 			container = new BeanItemContainer<Category>(Category.class, categories);
 	
 			grid = new Grid(container);
@@ -160,6 +166,8 @@ public class ModifyCategoryView extends BaseView {
 			if(grid != null){
 				grid.setVisible(false);
 			}
+			btnCancel.setVisible(false);
+			btnUpdate.setVisible(false);
 		}
 	}
 	
@@ -204,7 +212,7 @@ public class ModifyCategoryView extends BaseView {
 		lblTitle.setImmediate(false);
 		lblTitle.setWidth("-1px");
 		lblTitle.setHeight("-1px");
-		lblTitle.setValue("Modificar rubro");
+		lblTitle.setValue("Modificar rubros");
 		mainLayout.addComponent(lblTitle, "top:42.0px;left:0.0px;");
 
 		// btnUpdate

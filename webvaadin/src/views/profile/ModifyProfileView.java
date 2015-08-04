@@ -1,4 +1,4 @@
-package views.user;
+package views.profile;
 
 import java.rmi.RemoteException;
 
@@ -194,7 +194,7 @@ public class ModifyProfileView extends BaseView {
 		lblTitle.setImmediate(false);
 		lblTitle.setWidth("-1px");
 		lblTitle.setHeight("-1px");
-		lblTitle.setValue("Modificar usuario");
+		lblTitle.setValue("Modificar perfil");
 		lblTitle.setStyleName("titleLabel");
 		mainLayout.addComponent(lblTitle, "top:62.0px;left:0.0px;");
 		

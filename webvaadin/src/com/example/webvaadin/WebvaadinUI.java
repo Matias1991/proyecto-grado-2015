@@ -4,7 +4,7 @@ import utils.PopupWindow;
 import views.ForgotPasswordView;
 import views.LoginView;
 import views.MainMenuView;
-import views.category.CategoriesView;
+import views.category.CatalogCategoriesView;
 import views.category.CreateCategoryView;
 import views.category.DeleteCategoriesView;
 import views.category.ModifyCategoryView;
@@ -12,11 +12,11 @@ import views.employees.CatalogEmployeesView;
 import views.employees.CreateEmployeeView;
 import views.employees.DeleteEmployeeView;
 import views.employees.UpdateEmployeeView;
+import views.profile.ChangePasswordView;
+import views.profile.ModifyProfileView;
 import views.user.CatalogUsersView;
-import views.user.ChangePasswordView;
 import views.user.CreateUserView;
 import views.user.DeleteUsersView;
-import views.user.ModifyProfileView;
 import views.user.ModifyUserView;
 import views.user.ResetPasswordView;
 import views.user.UnlockUserView;
@@ -152,7 +152,7 @@ public class WebvaadinUI extends UI {
 		navigator.addView(UPDATEEMPLOYEE, new UpdateEmployeeView());
 		// Rubros
 		navigator.addView(CREATECATEGORY, new CreateCategoryView());
-		navigator.addView(CATEGORIES, new CategoriesView());
+		navigator.addView(CATEGORIES, new CatalogCategoriesView());
 		navigator.addView(DELETECATEGORY, new DeleteCategoriesView());
 		navigator.addView(MODIFYCATEGORY, new ModifyCategoryView());
 

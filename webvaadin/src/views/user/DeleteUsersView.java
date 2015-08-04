@@ -133,7 +133,7 @@ public class DeleteUsersView extends BaseView{
 		lblTitle.setImmediate(false);
 		lblTitle.setWidth("-1px");
 		lblTitle.setHeight("-1px");
-		lblTitle.setValue("Eliminar usuario");
+		lblTitle.setValue("Eliminar usuarios");
 		mainLayout.addComponent(lblTitle, "top:42.0px;left:0.0px;");
 		
 		// btn_delete

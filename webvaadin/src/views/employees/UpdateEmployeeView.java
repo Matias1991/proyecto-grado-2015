@@ -620,6 +620,9 @@ public class UpdateEmployeeView extends BaseView {
 		Collection<Employee> employees = EmployeeController.GetEmployees();
 
 		if (employees != null && employees.size() > 0) {
+			btnCancel.setVisible(true);
+			btnModiffy.setVisible(true);
+			
 			lblMessage.setValue("");
 			beanContainer = new BeanItemContainer<Employee>(Employee.class,employees);
 
@@ -669,6 +672,8 @@ public class UpdateEmployeeView extends BaseView {
 			if(updateEmployeesGrid != null){
 				updateEmployeesGrid.setVisible(false);
 			}
+			btnCancel.setVisible(false);
+			btnModiffy.setVisible(false);
 		}
 
 	}
@@ -764,7 +769,7 @@ public class UpdateEmployeeView extends BaseView {
 		lblTitle.setImmediate(false);
 		lblTitle.setWidth("-1px");
 		lblTitle.setHeight("-1px");
-		lblTitle.setValue("Modificar empleado");
+		lblTitle.setValue("Modificar empleados");
 		mainLayout.addComponent(lblTitle, "top:42.0px;left:0.0px;");
 
 		// tabEmployee
