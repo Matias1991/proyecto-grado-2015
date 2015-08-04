@@ -82,6 +82,9 @@ public class CategoriesView extends BaseView {
 	public void enter(ViewChangeEvent event) {
 		super.enter(event);		
 		if(RequestContext.getRequestContext() != null){
+			if (categoriesGrid != null) {
+				mainLayout.removeComponent(categoriesGrid);
+			}
 			buildGrid();
 		}
 		

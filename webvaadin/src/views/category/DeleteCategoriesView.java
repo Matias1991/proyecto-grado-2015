@@ -36,10 +36,14 @@ public class DeleteCategoriesView extends BaseView {
 	private Label lblTitle;
 	private Grid grid;
 	private BeanItemContainer<Category> container;
+	private Label lblMessage;
 
 	public DeleteCategoriesView() {
 		buildMainLayout();
 		setCompositionRoot(mainLayout);
+
+		lblMessage = new Label("");
+		mainLayout.addComponent(lblMessage, "top:80.0px;left:0.0px;");
 		
 		btn_delete.addClickListener(new Button.ClickListener() {
 
@@ -74,29 +78,39 @@ public class DeleteCategoriesView extends BaseView {
 		Collection<Category> categories = CategoryController.getCategories();
 
 		container = new BeanItemContainer<Category>(Category.class, categories);
+		
 
-		grid = new Grid(container);
-		grid.removeColumn("id");
-		grid.removeColumn("projectId");
-		grid.removeColumn("categoryTypeId");
-		grid.removeColumn("categoryType");
-		grid.setColumnOrder("description", "amount", "categoryTypeToShow");
-		grid.getColumn("description").setHeaderCaption("Descripción");
-		grid.getColumn("amount").setHeaderCaption("Monto");
-		grid.getColumn("categoryTypeToShow").setHeaderCaption("Asociado a");
-		grid.setWidth(80, Unit.PERCENTAGE);
-		grid.setHeight(80, Unit.PERCENTAGE);
-		grid.setSelectionMode(SelectionMode.SINGLE);
-		grid.getSelectedRows().clear();
-		mainLayout.addComponent(grid, "top:20%;left:0px;");
+		if (container != null && container.size() > 0) {
 
-		grid.addSelectionListener(new SelectionListener() {
-
-			@Override
-			public void select(SelectionEvent event) {
-				btn_delete.setEnabled(grid.getSelectedRows().size() > 0);
-			}
-		});
+			grid = new Grid(container);
+			grid.removeColumn("id");
+			grid.removeColumn("projectId");
+			grid.removeColumn("categoryTypeId");
+			grid.removeColumn("categoryType");
+			grid.setColumnOrder("description", "amount", "categoryTypeToShow");
+			grid.getColumn("description").setHeaderCaption("Descripción");
+			grid.getColumn("amount").setHeaderCaption("Monto");
+			grid.getColumn("categoryTypeToShow").setHeaderCaption("Asociado a");
+			grid.setWidth(80, Unit.PERCENTAGE);
+			grid.setHeight(80, Unit.PERCENTAGE);
+			grid.setSelectionMode(SelectionMode.SINGLE);
+			grid.getSelectedRows().clear();
+			mainLayout.addComponent(grid, "top:20%;left:0px;");
+	
+			grid.addSelectionListener(new SelectionListener() {
+	
+				@Override
+				public void select(SelectionEvent event) {
+					btn_delete.setEnabled(grid.getSelectedRows().size() > 0);
+				}
+			});
+		} else {
+			lblMessage.setValue("No hay rubros para mostrar");
+			if(grid != null){
+				grid.setVisible(false);							
+			}	
+			btn_delete.setVisible(false);
+		}
 	}
 
 	@Override
