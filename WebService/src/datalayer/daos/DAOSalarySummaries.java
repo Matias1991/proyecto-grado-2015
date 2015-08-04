@@ -5,13 +5,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Date;
-
 import datalayer.utilities.ManageConnection;
-import servicelayer.entity.businessEntity.Employed;
-import servicelayer.entity.businessEntity.EmployedType;
 import servicelayer.entity.businessEntity.SalarySummary;
-import servicelayer.entity.businessEntity.User;
 import shared.LoggerMSMP;
 import shared.exceptions.ServerException;
 import shared.interfaces.dataLayer.IDAOSalarySummaries;
@@ -179,7 +174,7 @@ public class DAOSalarySummaries implements IDAOSalarySummaries{
 		ArrayList<Integer> list = new ArrayList<Integer>();
 		PreparedStatement preparedStatement = null;
 		ResultSet rs = null;
-		String getSQL = "SELECT VERSION FROM SALARYSUMMARY WHERE EMPLOYEDID = ?";
+		String getSQL = "SELECT VERSION FROM SALARYSUMMARY WHERE EMPLOYEDID = ?  ORDER BY VERSION DESC";
 
 		try {
 			preparedStatement = this.connection.prepareStatement(getSQL);
@@ -336,4 +331,5 @@ public class DAOSalarySummaries implements IDAOSalarySummaries{
 		
 		return salarySummary;
 	}
+
 }
