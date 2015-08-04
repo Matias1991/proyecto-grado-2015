@@ -189,10 +189,10 @@ public class WebvaadinUI extends UI {
 				case "Crear usuario":
 					navigator.navigateTo(CREATEUSER);
 					break;
-				case "Modificar usuario":
+				case "Modificar usuarios":
 					navigator.navigateTo(MODIFYUSER);
 					break;
-				case "Eliminar usuario":
+				case "Eliminar usuarios":
 					navigator.navigateTo(DELETEUSERS);
 					break;
 				case "Catálogo usuarios":
@@ -201,7 +201,7 @@ public class WebvaadinUI extends UI {
 				case "Resetear contraseña":
 					navigator.navigateTo(RESETPASSWORD);
 					break;
-				case "Desbloquear usuario":
+				case "Desbloquear usuarios":
 					navigator.navigateTo(UNLOCKUSER);
 					break;
 				case "Catálogo empleados":
@@ -210,28 +210,25 @@ public class WebvaadinUI extends UI {
 				case "Crear empleado":
 					navigator.navigateTo(CREATEEMPLOYEE);
 					break;
-				case "Eliminar empleado":
+				case "Eliminar empleados":
 					navigator.navigateTo(DELETEEMPLOYEE);
 					break;
-				case "Modificar empleado":
+				case "Modificar empleados":
 					navigator.navigateTo(UPDATEEMPLOYEE);
 					break;
 				case "Crear rubro":
 					navigator.navigateTo(CREATECATEGORY);
 					break;
-				case "Eliminar rubro":
+				case "Eliminar rubros":
 					navigator.navigateTo(DELETECATEGORY);
 					break;
-				case "Modificar rubro":
+				case "Modificar rubros":
 					navigator.navigateTo(MODIFYCATEGORY);
 					break;
 				case "Catálogo rubros":
 					navigator.navigateTo(CATEGORIES);
 					break;
 				default:
-					// Notification.show("No hay configuracion para el item: " +
-					// selectedItem.getText());
-
 					new PopupWindow("AVISO",
 							"No hay configuracion para el item: "
 									+ selectedItem.getText());
@@ -250,25 +247,25 @@ public class WebvaadinUI extends UI {
 			// Rol Administrador
 			MenuItem users = menuBar.addItem("Usuarios", null, null);
 			users.addItem("Crear usuario", null, mainMenuBarCommand);
-			users.addItem("Modificar usuario", null, mainMenuBarCommand);
-			users.addItem("Eliminar usuario", null, mainMenuBarCommand);
-			users.addItem("Catalogo usuarios", null, mainMenuBarCommand);
+			users.addItem("Modificar usuarios", null, mainMenuBarCommand);
+			users.addItem("Eliminar usuarios", null, mainMenuBarCommand);
+			users.addItem("Catálogo usuarios", null, mainMenuBarCommand);
 			users.addItem("Resetear contraseña", null, mainMenuBarCommand);
-			users.addItem("Desbloquear usuario", null, mainMenuBarCommand);
+			users.addItem("Desbloquear usuarios", null, mainMenuBarCommand);
 			break;
 		case 2:
 			// Rol Socio
 			MenuItem employeed = menuBar.addItem("Empleados", null, null);
 			employeed.addItem("Crear empleado", null, mainMenuBarCommand);
-			employeed.addItem("Modificar empleado", null, mainMenuBarCommand);
-			employeed.addItem("Eliminar empleado", null,mainMenuBarCommand);
+			employeed.addItem("Modificar empleados", null, mainMenuBarCommand);
+			employeed.addItem("Eliminar empleados", null,mainMenuBarCommand);
 			employeed.addItem("Catálogo empleados", null, mainMenuBarCommand);
 			// Rubros
 			MenuItem category = menuBar.addItem("Rubros", null, null);
 			category.addItem("Crear rubro", null, mainMenuBarCommand);
-			category.addItem("Catálogo rubros", null, mainMenuBarCommand);
-			category.addItem("Eliminar rubro", null, mainMenuBarCommand);
-			category.addItem("Modificar rubro", null, mainMenuBarCommand);
+			category.addItem("Modificar rubros", null, mainMenuBarCommand);
+			category.addItem("Eliminar rubros", null, mainMenuBarCommand);
+			category.addItem("Catálogo rubros", null, mainMenuBarCommand);			
 			break;
 		case 3:
 			// Rol Gerente
