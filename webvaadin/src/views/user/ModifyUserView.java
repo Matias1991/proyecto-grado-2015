@@ -131,14 +131,14 @@ public class ModifyUserView extends BaseView {
 			modifyUserGrid = new Grid(container);
 			modifyUserGrid.removeColumn("id");
 			modifyUserGrid.removeColumn("userStatus");
-			modifyUserGrid.removeColumn("userName");
 			modifyUserGrid.removeColumn("userType");
 			modifyUserGrid.removeColumn("email");
 			modifyUserGrid.removeColumn("userStatusToShow");
 			modifyUserGrid.removeColumn("password");
 			modifyUserGrid.removeColumn("userTypeId");
 			
-			modifyUserGrid.setColumnOrder("name", "lastName");	
+			modifyUserGrid.setColumnOrder("userName", "name", "lastName");	
+			modifyUserGrid.getColumn("userName").setHeaderCaption("Nombre de usuario");
 			modifyUserGrid.getColumn("name").setHeaderCaption("Nombre");
 			modifyUserGrid.getColumn("lastName").setHeaderCaption("Apellido");
 			modifyUserGrid.setWidth(373, Unit.PIXELS);

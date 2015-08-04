@@ -60,7 +60,7 @@ public class CatalogUsersView extends BaseView{
 	
 			catalogUsersGrid.getColumn("name").setHeaderCaption("Nombre");
 			catalogUsersGrid.getColumn("lastName").setHeaderCaption("Apellido");
-			catalogUsersGrid.getColumn("userName").setHeaderCaption("Usuario");
+			catalogUsersGrid.getColumn("userName").setHeaderCaption("Nombre de usuario");
 			catalogUsersGrid.getColumn("userStatusToShow").setHeaderCaption("Estado");
 			catalogUsersGrid.getColumn("userType").setHeaderCaption("Tipo de usuario");
 			catalogUsersGrid.getColumn("email").setHeaderCaption("Correo electrónico");
