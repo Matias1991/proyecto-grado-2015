@@ -41,6 +41,32 @@ public class DeleteUsersView extends BaseView{
 		buildMainLayout();
 		setCompositionRoot(mainLayout);
 		//buildGrid();
+		
+		btnDelete.addClickListener(new Button.ClickListener() {
+
+			@Override
+			public void buttonClick(ClickEvent event) {
+				
+				ConfirmDialog.show(WebvaadinUI.getCurrent(), "Confirmación", "Desea eliminar el usuario?", "Si", "No", new ConfirmDialog.Listener() {
+					
+					@Override
+					public void onClose(ConfirmDialog confirm) {
+						if(confirm.isConfirmed()){
+							BeanItem<User> item = container.getItem(grid.getSelectedRow());
+							
+							if(UserController.DeleteUser(item.getBean().getId())){
+								grid.getContainerDataSource().removeItem(grid.getSelectedRow());	
+							}
+							
+							btnDelete.setEnabled(false);
+						}
+						
+					}
+				});
+				
+				
+			}
+		});
 	}
 	
 	public void buildGrid()
@@ -74,33 +100,8 @@ public class DeleteUsersView extends BaseView{
 				btnDelete.setEnabled(
 				         grid.getSelectedRows().size() > 0);
 			   }
-		});
+		});	
 		
-		btnDelete.addClickListener(new Button.ClickListener() {
-
-			@Override
-			public void buttonClick(ClickEvent event) {
-				
-				ConfirmDialog.show(WebvaadinUI.getCurrent(), "Confirmación", "Desea eliminar el usuario?", "Si", "No", new ConfirmDialog.Listener() {
-					
-					@Override
-					public void onClose(ConfirmDialog confirm) {
-						if(confirm.isConfirmed()){
-							BeanItem<User> item = container.getItem(grid.getSelectedRow());
-							
-							if(UserController.DeleteUser(item.getBean().getId())){
-								grid.getContainerDataSource().removeItem(grid.getSelectedRow());	
-							}
-							
-							btnDelete.setEnabled(false);
-						}
-						
-					}
-				});
-				
-				
-			}
-		});
 	}
 	
 	@Override
