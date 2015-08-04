@@ -11081,6 +11081,51 @@
                             
 
                         /**
+                        * field for CategoryType
+                        */
+
+                        
+                                    protected int localCategoryType ;
+                                
+                           /*  This tracker boolean wil be used to detect whether the user called the set method
+                          *   for this attribute. It will be used to determine whether to include this field
+                           *   in the serialized XML
+                           */
+                           protected boolean localCategoryTypeTracker = false ;
+
+                           public boolean isCategoryTypeSpecified(){
+                               return localCategoryTypeTracker;
+                           }
+
+                           
+
+                           /**
+                           * Auto generated getter method
+                           * @return int
+                           */
+                           public  int getCategoryType(){
+                               return localCategoryType;
+                           }
+
+                           
+                        
+                            /**
+                               * Auto generated setter method
+                               * @param param CategoryType
+                               */
+                               public void setCategoryType(int param){
+                            
+                                       // setting primitive attribute tracker to true
+                                       localCategoryTypeTracker =
+                                       param != java.lang.Integer.MIN_VALUE;
+                                   
+                                            this.localCategoryType=param;
+                                    
+
+                               }
+                            
+
+                        /**
                         * field for CreateDateTimeUTC
                         */
 
@@ -11159,51 +11204,6 @@
                             localDescriptionTracker = true;
                                    
                                             this.localDescription=param;
-                                    
-
-                               }
-                            
-
-                        /**
-                        * field for DistributionType
-                        */
-
-                        
-                                    protected int localDistributionType ;
-                                
-                           /*  This tracker boolean wil be used to detect whether the user called the set method
-                          *   for this attribute. It will be used to determine whether to include this field
-                           *   in the serialized XML
-                           */
-                           protected boolean localDistributionTypeTracker = false ;
-
-                           public boolean isDistributionTypeSpecified(){
-                               return localDistributionTypeTracker;
-                           }
-
-                           
-
-                           /**
-                           * Auto generated getter method
-                           * @return int
-                           */
-                           public  int getDistributionType(){
-                               return localDistributionType;
-                           }
-
-                           
-                        
-                            /**
-                               * Auto generated setter method
-                               * @param param DistributionType
-                               */
-                               public void setDistributionType(int param){
-                            
-                                       // setting primitive attribute tracker to true
-                                       localDistributionTypeTracker =
-                                       param != java.lang.Integer.MIN_VALUE;
-                                   
-                                            this.localDistributionType=param;
                                     
 
                                }
@@ -11370,6 +11370,19 @@
                                                }
                                     
                                    xmlWriter.writeEndElement();
+                             } if (localCategoryTypeTracker){
+                                    namespace = "http://valueObject.entity.servicelayer/xsd";
+                                    writeStartElement(null, namespace, "categoryType", xmlWriter);
+                             
+                                               if (localCategoryType==java.lang.Integer.MIN_VALUE) {
+                                           
+                                                         throw new org.apache.axis2.databinding.ADBException("categoryType cannot be null!!");
+                                                      
+                                               } else {
+                                                    xmlWriter.writeCharacters(org.apache.axis2.databinding.utils.ConverterUtil.convertToString(localCategoryType));
+                                               }
+                                    
+                                   xmlWriter.writeEndElement();
                              } if (localCreateDateTimeUTCTracker){
                                     namespace = "http://valueObject.entity.servicelayer/xsd";
                                     writeStartElement(null, namespace, "createDateTimeUTC", xmlWriter);
@@ -11404,19 +11417,6 @@
                                                    xmlWriter.writeCharacters(localDescription);
                                             
                                           }
-                                    
-                                   xmlWriter.writeEndElement();
-                             } if (localDistributionTypeTracker){
-                                    namespace = "http://valueObject.entity.servicelayer/xsd";
-                                    writeStartElement(null, namespace, "distributionType", xmlWriter);
-                             
-                                               if (localDistributionType==java.lang.Integer.MIN_VALUE) {
-                                           
-                                                         throw new org.apache.axis2.databinding.ADBException("distributionType cannot be null!!");
-                                                      
-                                               } else {
-                                                    xmlWriter.writeCharacters(org.apache.axis2.databinding.utils.ConverterUtil.convertToString(localDistributionType));
-                                               }
                                     
                                    xmlWriter.writeEndElement();
                              } if (localIdTracker){
@@ -11631,6 +11631,12 @@
                                  
                                 elementList.add(
                                    org.apache.axis2.databinding.utils.ConverterUtil.convertToString(localAmount));
+                            } if (localCategoryTypeTracker){
+                                      elementList.add(new javax.xml.namespace.QName("http://valueObject.entity.servicelayer/xsd",
+                                                                      "categoryType"));
+                                 
+                                elementList.add(
+                                   org.apache.axis2.databinding.utils.ConverterUtil.convertToString(localCategoryType));
                             } if (localCreateDateTimeUTCTracker){
                                       elementList.add(new javax.xml.namespace.QName("http://valueObject.entity.servicelayer/xsd",
                                                                       "createDateTimeUTC"));
@@ -11643,13 +11649,7 @@
                                  
                                          elementList.add(localDescription==null?null:
                                          org.apache.axis2.databinding.utils.ConverterUtil.convertToString(localDescription));
-                                    } if (localDistributionTypeTracker){
-                                      elementList.add(new javax.xml.namespace.QName("http://valueObject.entity.servicelayer/xsd",
-                                                                      "distributionType"));
-                                 
-                                elementList.add(
-                                   org.apache.axis2.databinding.utils.ConverterUtil.convertToString(localDistributionType));
-                            } if (localIdTracker){
+                                    } if (localIdTracker){
                                       elementList.add(new javax.xml.namespace.QName("http://valueObject.entity.servicelayer/xsd",
                                                                       "id"));
                                  
@@ -11760,6 +11760,26 @@
                                     
                                     while (!reader.isStartElement() && !reader.isEndElement()) reader.next();
                                 
+                                    if (reader.isStartElement() && new javax.xml.namespace.QName("http://valueObject.entity.servicelayer/xsd","categoryType").equals(reader.getName())){
+                                
+                                    java.lang.String content = reader.getElementText();
+                                    
+                                              object.setCategoryType(
+                                                    org.apache.axis2.databinding.utils.ConverterUtil.convertToInt(content));
+                                              
+                                        reader.next();
+                                    
+                              }  // End of if for expected property start element
+                                
+                                    else {
+                                        
+                                               object.setCategoryType(java.lang.Integer.MIN_VALUE);
+                                           
+                                    }
+                                
+                                    
+                                    while (!reader.isStartElement() && !reader.isEndElement()) reader.next();
+                                
                                     if (reader.isStartElement() && new javax.xml.namespace.QName("http://valueObject.entity.servicelayer/xsd","createDateTimeUTC").equals(reader.getName())){
                                 
                                        nillableValue = reader.getAttributeValue("http://www.w3.org/2001/XMLSchema-instance","nil");
@@ -11809,26 +11829,6 @@
                                 
                                     else {
                                         
-                                    }
-                                
-                                    
-                                    while (!reader.isStartElement() && !reader.isEndElement()) reader.next();
-                                
-                                    if (reader.isStartElement() && new javax.xml.namespace.QName("http://valueObject.entity.servicelayer/xsd","distributionType").equals(reader.getName())){
-                                
-                                    java.lang.String content = reader.getElementText();
-                                    
-                                              object.setDistributionType(
-                                                    org.apache.axis2.databinding.utils.ConverterUtil.convertToInt(content));
-                                              
-                                        reader.next();
-                                    
-                              }  // End of if for expected property start element
-                                
-                                    else {
-                                        
-                                               object.setDistributionType(java.lang.Integer.MIN_VALUE);
-                                           
                                     }
                                 
                                     
