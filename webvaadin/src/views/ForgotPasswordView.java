@@ -49,6 +49,8 @@ public class ForgotPasswordView extends CustomComponent implements View {
 			@Override
 			public void buttonClick(ClickEvent event) {
 				// TODO Auto-generated method stub
+				txtEmail.setValidationVisible(true);
+				
 				if(txtEmail.isValid()){
 					if(UserController.forgotPassword(txtEmail.getValue())){
 						PopupWindow popup = new PopupWindow("AVISO", "Clave enviada al correo informado");
@@ -69,6 +71,8 @@ public class ForgotPasswordView extends CustomComponent implements View {
 			@Override
 			public void buttonClick(ClickEvent event) {
 				// TODO Auto-generated method stub
+				txtEmail.setValidationVisible(false);
+				txtEmail.clear();
 				getUI().getNavigator().navigateTo(WebvaadinUI.LOGINVIEW);
 			}
 		});

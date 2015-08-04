@@ -1,4 +1,4 @@
-package views.user;
+package views.profile;
 
 import java.rmi.RemoteException;
 
@@ -23,6 +23,7 @@ import com.vaadin.ui.TextField;
 
 import controllers.UserController;
 import entities.RequestContext;
+import entities.User;
 
 public class ModifyProfileView extends BaseView {
 
@@ -60,13 +61,13 @@ public class ModifyProfileView extends BaseView {
 
 					UserController modifyUser = new UserController();
 
-					VOUser voUser = new VOUser();
-					voUser.setEmail(txtEmail.getValue());
-					voUser.setLastName(txtLastName.getValue());
-					voUser.setName(txtName.getValue());
-					voUser.setUserType(userToShow.getUserType());
+					User user = new User();
+					user.setEmail(txtEmail.getValue());
+					user.setLastName(txtLastName.getValue());
+					user.setName(txtName.getValue());
+					user.setUserTypeId(userToShow.getUserType());
 
-					modifyUser.modifyUser(voUser, idUser);
+					modifyUser.modifyUser(user, idUser);
 
 					PopupWindow popup = new PopupWindow("AVISO", "Usuario creado correctamente");
 					
@@ -193,7 +194,7 @@ public class ModifyProfileView extends BaseView {
 		lblTitle.setImmediate(false);
 		lblTitle.setWidth("-1px");
 		lblTitle.setHeight("-1px");
-		lblTitle.setValue("Modificar usuario");
+		lblTitle.setValue("Modificar perfil");
 		lblTitle.setStyleName("titleLabel");
 		mainLayout.addComponent(lblTitle, "top:62.0px;left:0.0px;");
 		

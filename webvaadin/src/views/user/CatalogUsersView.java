@@ -54,11 +54,13 @@ public class CatalogUsersView extends BaseView{
 			catalogUsersGrid = new Grid(beanContainer);
 			catalogUsersGrid.removeColumn("id");
 			catalogUsersGrid.removeColumn("userStatus");
+			catalogUsersGrid.removeColumn("password");
+			catalogUsersGrid.removeColumn("userTypeId");
 			catalogUsersGrid.setColumnOrder("name", "lastName", "userName", "userType", "email");
 	
 			catalogUsersGrid.getColumn("name").setHeaderCaption("Nombre");
 			catalogUsersGrid.getColumn("lastName").setHeaderCaption("Apellido");
-			catalogUsersGrid.getColumn("userName").setHeaderCaption("Usuario");
+			catalogUsersGrid.getColumn("userName").setHeaderCaption("Nombre de usuario");
 			catalogUsersGrid.getColumn("userStatusToShow").setHeaderCaption("Estado");
 			catalogUsersGrid.getColumn("userType").setHeaderCaption("Tipo de usuario");
 			catalogUsersGrid.getColumn("email").setHeaderCaption("Correo electrónico");

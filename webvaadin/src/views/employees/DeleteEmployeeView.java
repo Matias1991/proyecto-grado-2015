@@ -162,7 +162,7 @@ public class DeleteEmployeeView extends BaseView {
 		lblTitle.setImmediate(false);
 		lblTitle.setWidth("-1px");
 		lblTitle.setHeight("-1px");
-		lblTitle.setValue("Eliminar empleado");
+		lblTitle.setValue("Eliminar empleados");
 		mainLayout.addComponent(lblTitle, "top:42.0px;left:0.0px;");
 
 		// btnDelete

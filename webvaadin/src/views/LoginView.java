@@ -125,7 +125,7 @@ public class LoginView extends BaseView {
 		txtPassword.setWidth("220px");
 		txtPassword.setHeight("-1px");
 		txtPassword.setRequired(true);
-		mainLayout.addComponent(txtPassword, "top:120.0px;left:0.0px;");
+		mainLayout.addComponent(txtPassword, "top:110.0px;left:0.0px;");
 		
 		// btnLogin
 		btnLogin = new Button();
@@ -141,7 +141,7 @@ public class LoginView extends BaseView {
 		lnkForgotPassword.setImmediate(false);
 		lnkForgotPassword.setWidth("-1px");
 		lnkForgotPassword.setHeight("-1px");
-		mainLayout.addComponent(lnkForgotPassword, "top:160.0px;left:80.0px;");
+		mainLayout.addComponent(lnkForgotPassword, "top:160.0px;left:55.0px;");
 		
 		return mainLayout;
 	}

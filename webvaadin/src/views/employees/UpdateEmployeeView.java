@@ -172,11 +172,6 @@ public class UpdateEmployeeView extends BaseView {
 					updateEmployee.setEmail(txtEmail.getValue());
 					updateEmployee.setCellPhone(txtCellphone.getValue());
 					updateEmployee.setEmployedType(optEmployeeType.getValue().toString());
-//					if(optEmployeeType.getValue().equals("Empleado")){
-//						updateEmployee.setEmployedType(1);
-//					}else{
-//						updateEmployee.setEmployedType(2);
-//					}
 					
 					SalarySummary updateSalarySummary = new SalarySummary();
 					updateSalarySummary.setNominalSalary((Double)txtNominalSalary.getConvertedValue());
@@ -280,7 +275,22 @@ public class UpdateEmployeeView extends BaseView {
 			validate = false;
 			txtSurname.setRequiredError("Es requerido");
 		}		
-		
+		if(!txtNominalSalary.isValid()){
+			validate = false;
+			txtNominalSalary.setRequiredError("Es requerido");			
+		}
+		if(!txtTickets.isValid()){
+			validate = false;
+			txtTickets.setRequiredError("Es requerido");
+		}
+		if(!txtPercentagePersonalFonasaContribution.isValid()){
+			validate = false;
+			txtPercentagePersonalFonasaContribution.setRequiredError("Es requerido");
+		}
+		if(!txtHours.isValid()){
+			validate = false;
+			txtHours.setRequiredError("Es requerido");
+		}
 		return validate;		
 	}
 	
@@ -330,6 +340,7 @@ public class UpdateEmployeeView extends BaseView {
 		txtNominalSalary.setHeight("-1px");
 		txtNominalSalary.setNullRepresentation("");	
 		txtNominalSalary.setConverter(new StringToDoubleConverter());
+		txtNominalSalary.setRequired(true);
 
 		// Tickets
 		txtTickets = new TextField();
@@ -339,6 +350,7 @@ public class UpdateEmployeeView extends BaseView {
 		txtTickets.setHeight("-1px");
 		txtTickets.setNullRepresentation("");
 		txtTickets.setConverter(new StringToDoubleConverter());
+		txtTickets.setRequired(true);
 
 		// RET
 		txtRet = new TextField();
@@ -375,10 +387,11 @@ public class UpdateEmployeeView extends BaseView {
 		txtHours.setHeight("-1px");
 		txtHours.setNullRepresentation("");
 		txtHours.setConverter(new StringToIntegerConverter());
+		txtHours.setRequired(true);
 
 		// Precio de venta por hora
 		txtCostSaleHour = new TextField();
-		txtCostSaleHour.setCaption("Hora Venta");
+		txtCostSaleHour.setCaption("Costo hora Venta");
 		txtCostSaleHour.setImmediate(false);
 		txtCostSaleHour.setWidth("-1px");
 		txtCostSaleHour.setHeight("-1px");
@@ -394,6 +407,7 @@ public class UpdateEmployeeView extends BaseView {
 		txtPercentagePersonalFonasaContribution.setHeight("-1px");
 		txtPercentagePersonalFonasaContribution.setNullRepresentation("");
 		txtPercentagePersonalFonasaContribution.setConverter(new StringToDoubleConverter());
+		txtPercentagePersonalFonasaContribution.setRequired(true);
 
 		// Aporte Jubilatorio Personal
 		txtPersonalRetirementContribution = new TextField();
@@ -565,10 +579,10 @@ public class UpdateEmployeeView extends BaseView {
 		tab2.addComponent(txtNominalSalary, 0, 0);
 		tab2.addComponent(txtTickets, 1, 0);
 		tab2.addComponent(txtPercentagePersonalFonasaContribution, 0, 1);
-		tab2.addComponent(txtRet, 1, 1);
+		tab2.addComponent(txtHours, 1, 1);
 		tab2.addComponent(txtIrpf, 0, 2);
 		tab2.addComponent(txtBse, 1, 2);
-		tab2.addComponent(txtHours, 0, 3);
+		tab2.addComponent(txtRet, 0, 3);
 		tab2.addComponent(txtCostSaleHour, 1, 3);
 		tab2.addComponent(btnEstimate,0,4);
 		tabEmployee.addTab(tab2, "Costos 1");
@@ -606,6 +620,9 @@ public class UpdateEmployeeView extends BaseView {
 		Collection<Employee> employees = EmployeeController.GetEmployees();
 
 		if (employees != null && employees.size() > 0) {
+			btnCancel.setVisible(true);
+			btnModiffy.setVisible(true);
+			
 			lblMessage.setValue("");
 			beanContainer = new BeanItemContainer<Employee>(Employee.class,employees);
 
@@ -655,6 +672,8 @@ public class UpdateEmployeeView extends BaseView {
 			if(updateEmployeesGrid != null){
 				updateEmployeesGrid.setVisible(false);
 			}
+			btnCancel.setVisible(false);
+			btnModiffy.setVisible(false);
 		}
 
 	}
@@ -750,7 +769,7 @@ public class UpdateEmployeeView extends BaseView {
 		lblTitle.setImmediate(false);
 		lblTitle.setWidth("-1px");
 		lblTitle.setHeight("-1px");
-		lblTitle.setValue("Modificar empleado");
+		lblTitle.setValue("Modificar empleados");
 		mainLayout.addComponent(lblTitle, "top:42.0px;left:0.0px;");
 
 		// tabEmployee

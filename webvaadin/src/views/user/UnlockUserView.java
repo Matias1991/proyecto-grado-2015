@@ -45,7 +45,7 @@ public class UnlockUserView extends BaseView{
 		setCompositionRoot(mainLayout);
 		
 		lblMessage = new Label("");
-		mainLayout.addComponent(lblMessage, "top:100.0px;left:0.0px;");
+		mainLayout.addComponent(lblMessage, "top:80.0px;left:0.0px;");
 		
 		
 		btnUnlock.addClickListener(new Button.ClickListener() {
@@ -83,7 +83,8 @@ public class UnlockUserView extends BaseView{
 		Collection<User> users = UserController.getUsersByStatus(2);
 
 		if(users != null && users.size() > 0){
-container = new BeanItemContainer<User>(User.class, users);
+			btnUnlock.setVisible(true);
+			container = new BeanItemContainer<User>(User.class, users);
 			
 			grid = new Grid(container);
 			grid.removeColumn("id");
@@ -111,6 +112,7 @@ container = new BeanItemContainer<User>(User.class, users);
 			});
 		} else{
 			lblMessage.setValue("No hay usuarios bloqueados");
+			btnUnlock.setVisible(false);
 		}
 			
 	}
@@ -144,7 +146,7 @@ container = new BeanItemContainer<User>(User.class, users);
 		lblTitle.setImmediate(false);
 		lblTitle.setWidth("-1px");
 		lblTitle.setHeight("-1px");
-		lblTitle.setValue("Desbloquear usuario");
+		lblTitle.setValue("Desbloquear usuarios");
 		mainLayout.addComponent(lblTitle, "top:42.0px;left:0.0px;");
 		
 		// btn_delete

@@ -49,11 +49,15 @@ public class ModifyCategoryView extends BaseView {
 	private Grid grid;
 	private BeanItemContainer<Category> container;
 	private int idSelected;
+	private Label lblMessage;
 
 	public ModifyCategoryView() {
 		buildMainLayout();
 		setCompositionRoot(mainLayout);
 
+		lblMessage = new Label("");
+		mainLayout.addComponent(lblMessage, "top:80.0px;left:0.0px;");	
+		
 		categoryType.addItems("Empresa", "Proyecto");
 		categoryType.select("Empresa");
 
@@ -85,7 +89,9 @@ public class ModifyCategoryView extends BaseView {
 
 									txtDescription.setValidationVisible(false);
 									txtAmount.setValidationVisible(false);
-									mainLayout.removeComponent(grid);
+									if(grid != null){
+										mainLayout.removeComponent(grid);
+									}
 									buildGrid();
 
 								} else {
@@ -112,44 +118,57 @@ public class ModifyCategoryView extends BaseView {
 	public void buildGrid() {
 		Collection<Category> categories = CategoryController.getCategories();
 
-		container = new BeanItemContainer<Category>(Category.class, categories);
-
-		grid = new Grid(container);
-		// oculto columnas que no me interesa mostrar
-		grid.removeColumn("id");
-		grid.removeColumn("projectId");
-		grid.removeColumn("categoryTypeId");
-		grid.removeColumn("categoryType");
-		grid.setColumnOrder("description", "amount", "distributionTypeToShow");
-		grid.getColumn("description").setHeaderCaption("Nombre");
-		grid.getColumn("amount").setHeaderCaption("Importe");
-		grid.getColumn("distributionTypeToShow").setHeaderCaption("Distribución");
-		grid.setWidth(65, Unit.PERCENTAGE);
-		grid.setHeight(65, Unit.PERCENTAGE);
-		grid.setSelectionMode(SelectionMode.SINGLE);
-		grid.getSelectedRows().clear();
-		mainLayout.addComponent(grid, "top:20%;left:0px;");
-
-		grid.addSelectionListener(new SelectionListener() {
-
-			@Override
-			public void select(SelectionEvent event) {
-				// precargo los campos
-				BeanItem<Category> item = container.getItem(grid
-						.getSelectedRow());
-				if (item != null) {
-					setComponentsVisible(true);
-					Category catToModify = item.getBean();
-					txtAmount.setConvertedValue(catToModify.getAmount());
-					txtDescription.setValue(catToModify.getDescription());
-					categoryType.select(catToModify.getDistributionTypeToShow());
-					idSelected = catToModify.getId();
-
-				} else {
-					setComponentsVisible(false);
+		if (categories != null && categories.size() > 0) {
+			lblMessage.setValue("");
+			btnCancel.setVisible(true);
+			btnUpdate.setVisible(true);
+			
+			container = new BeanItemContainer<Category>(Category.class, categories);
+	
+			grid = new Grid(container);
+			// oculto columnas que no me interesa mostrar
+			grid.removeColumn("id");
+			grid.removeColumn("projectId");
+			grid.removeColumn("categoryTypeId");
+			grid.removeColumn("categoryType");
+			grid.setColumnOrder("description", "amount", "categoryTypeToShow");
+			grid.getColumn("description").setHeaderCaption("Descripción");
+			grid.getColumn("amount").setHeaderCaption("Monto");
+			grid.getColumn("categoryTypeToShow").setHeaderCaption("Asociado a");
+			grid.setWidth(65, Unit.PERCENTAGE);
+			grid.setHeight(65, Unit.PERCENTAGE);
+			grid.setSelectionMode(SelectionMode.SINGLE);
+			grid.getSelectedRows().clear();
+			mainLayout.addComponent(grid, "top:20%;left:0px;");
+	
+			grid.addSelectionListener(new SelectionListener() {
+	
+				@Override
+				public void select(SelectionEvent event) {
+					// precargo los campos
+					BeanItem<Category> item = container.getItem(grid
+							.getSelectedRow());
+					if (item != null) {
+						setComponentsVisible(true);
+						Category catToModify = item.getBean();
+						txtAmount.setConvertedValue(catToModify.getAmount());
+						txtDescription.setValue(catToModify.getDescription());
+						categoryType.select(catToModify.getCategoryTypeToShow());
+						idSelected = catToModify.getId();
+	
+					} else {
+						setComponentsVisible(false);
+					}
 				}
+			});
+		} else {
+			lblMessage.setValue("No hay rubros para mostrar");
+			if(grid != null){
+				grid.setVisible(false);
 			}
-		});
+			btnCancel.setVisible(false);
+			btnUpdate.setVisible(false);
+		}
 	}
 	
 	private void setComponentsVisible(boolean visible){
@@ -193,7 +212,7 @@ public class ModifyCategoryView extends BaseView {
 		lblTitle.setImmediate(false);
 		lblTitle.setWidth("-1px");
 		lblTitle.setHeight("-1px");
-		lblTitle.setValue("Modificar rubro");
+		lblTitle.setValue("Modificar rubros");
 		mainLayout.addComponent(lblTitle, "top:42.0px;left:0.0px;");
 
 		// btnUpdate

@@ -41,38 +41,6 @@ public class DeleteUsersView extends BaseView{
 		buildMainLayout();
 		setCompositionRoot(mainLayout);
 		//buildGrid();
-	}
-	
-	public void buildGrid()
-	{
-		Collection<User> users = UserController.GetUsers();
-
-		container = new BeanItemContainer<User>(User.class, users);
-		
-		grid = new Grid(container);
-		grid.removeColumn("id");
-		grid.removeColumn("email");
-		grid.removeColumn("userStatus");
-		grid.setColumnOrder("name", "lastName", "userName", "userType", "userStatusToShow");
-		grid.getColumn("name").setHeaderCaption("Nombre");
-		grid.getColumn("lastName").setHeaderCaption("Apellido");
-		grid.getColumn("userName").setHeaderCaption("Usuario");
-		grid.getColumn("userType").setHeaderCaption("Tipo de usuario");
-		grid.getColumn("userStatusToShow").setHeaderCaption("Estado");
-		grid.setWidth(100, Unit.PERCENTAGE);
-		grid.setHeight(100, Unit.PERCENTAGE);
-		grid.setSelectionMode(SelectionMode.SINGLE);
-		grid.getSelectedRows().clear();
-		mainLayout.addComponent(grid, "top:20%;left:0px;");
-		
-		grid.addSelectionListener(new SelectionListener() {
-			
-			@Override
-			   public void select(SelectionEvent event) {
-				btnDelete.setEnabled(
-				         grid.getSelectedRows().size() > 0);
-			   }
-		});
 		
 		btnDelete.addClickListener(new Button.ClickListener() {
 
@@ -99,6 +67,41 @@ public class DeleteUsersView extends BaseView{
 				
 			}
 		});
+	}
+	
+	public void buildGrid()
+	{
+		Collection<User> users = UserController.GetUsers();
+
+		container = new BeanItemContainer<User>(User.class, users);
+		
+		grid = new Grid(container);
+		grid.removeColumn("id");
+		grid.removeColumn("email");
+		grid.removeColumn("userStatus");
+		grid.removeColumn("password");
+		grid.removeColumn("userTypeId");
+		grid.setColumnOrder("name", "lastName", "userName", "userType", "userStatusToShow");
+		grid.getColumn("name").setHeaderCaption("Nombre");
+		grid.getColumn("lastName").setHeaderCaption("Apellido");
+		grid.getColumn("userName").setHeaderCaption("Usuario");
+		grid.getColumn("userType").setHeaderCaption("Tipo de usuario");
+		grid.getColumn("userStatusToShow").setHeaderCaption("Estado");
+		grid.setWidth(100, Unit.PERCENTAGE);
+		grid.setHeight(100, Unit.PERCENTAGE);
+		grid.setSelectionMode(SelectionMode.SINGLE);
+		grid.getSelectedRows().clear();
+		mainLayout.addComponent(grid, "top:20%;left:0px;");
+		
+		grid.addSelectionListener(new SelectionListener() {
+			
+			@Override
+			   public void select(SelectionEvent event) {
+				btnDelete.setEnabled(
+				         grid.getSelectedRows().size() > 0);
+			   }
+		});	
+		
 	}
 	
 	@Override
@@ -130,7 +133,7 @@ public class DeleteUsersView extends BaseView{
 		lblTitle.setImmediate(false);
 		lblTitle.setWidth("-1px");
 		lblTitle.setHeight("-1px");
-		lblTitle.setValue("Eliminar usuario");
+		lblTitle.setValue("Eliminar usuarios");
 		mainLayout.addComponent(lblTitle, "top:42.0px;left:0.0px;");
 		
 		// btn_delete
@@ -140,7 +143,7 @@ public class DeleteUsersView extends BaseView{
 		btnDelete.setImmediate(true);
 		btnDelete.setWidth("-1px");
 		btnDelete.setHeight("-1px");
-		mainLayout.addComponent(btnDelete, "top:50.0px;left:510.0px;");
+		mainLayout.addComponent(btnDelete, "top:50.0px;left:548.0px;");
 		
 		return mainLayout;
 	}

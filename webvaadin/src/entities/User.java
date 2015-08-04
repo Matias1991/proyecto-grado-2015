@@ -11,8 +11,13 @@ public class User {
 	private String userType;
 	private String userName;
 	private int userSatus;
+	private int userTypeId;
 	private String password;
 	
+	public User()
+	{
+		
+	}
 	
 	public User(VOUser voUser)
 	{
@@ -154,5 +159,13 @@ public class User {
 		result.setUserType(this.getUserTypeId(this.userType));
 		
 		return result;
+	}
+
+	public int getUserTypeId() {
+		return userTypeId;
+	}
+
+	public void setUserTypeId(int userTypeId) {
+		this.userTypeId = userTypeId;
 	}
 }

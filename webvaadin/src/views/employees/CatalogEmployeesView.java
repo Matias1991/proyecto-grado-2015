@@ -369,10 +369,10 @@ public class CatalogEmployeesView extends BaseView {
 		tab2.addComponent(txtNominalSalary, 0, 0);
 		tab2.addComponent(txtTickets, 1, 0);
 		tab2.addComponent(txtPercentagePersonalFonasaContribution, 0, 1);
-		tab2.addComponent(txtRet, 1, 1);
+		tab2.addComponent(txtHours, 1, 1);
 		tab2.addComponent(txtIrpf, 0, 2);
 		tab2.addComponent(txtBse, 1, 2);
-		tab2.addComponent(txtHours, 0, 3);
+		tab2.addComponent(txtRet, 0, 3);
 		tab2.addComponent(txtCostSaleHour, 1, 3);
 		tabEmployee.addTab(tab2, "Costos 1");
 		
@@ -500,44 +500,6 @@ public class CatalogEmployeesView extends BaseView {
 		txtCellphone.setReadOnly(readOnly);
 		optEmployeeType.setReadOnly(readOnly);
 	}
-	
-	/*public void loadEmployee (Employee selectedEmployee){
-
-		// seteo en readonly false, para poder cargar los datos
-		setReadOnlyTxt(false);
-		
-		VOSalarySummary voSalarySummary = selectedEmployee.getVoSalarySummary();		
-		txtAddress.setValue(selectedEmployee.getAddress());
-		txtEmail.setValue(selectedEmployee.getEmail());
-		txtCellphone.setValue(selectedEmployee.getCellPhone());
-		txtNominalSalary.setConvertedValue(voSalarySummary.getNominalSalary());	
-		txtTickets.setConvertedValue(voSalarySummary.getTickets());	
-		txtPercentagePersonalFonasaContribution.setConvertedValue(voSalarySummary.getPercentageTypeFONASA()*100);	
-		txtRet.setConvertedValue(voSalarySummary.getRET());	
-		txtIrpf.setConvertedValue(voSalarySummary.getIRPF());			
-		txtBse.setConvertedValue(voSalarySummary.getBSE());
-		txtHours.setConvertedValue(voSalarySummary.getHours());
-		txtCostSaleHour.setConvertedValue(voSalarySummary.getCostSaleHour());
-		txtPersonalRetirementContribution.setConvertedValue(voSalarySummary.getPersonalRetirementContribution());
-		txtEmployerRetirementContribution.setConvertedValue(voSalarySummary.getEmployersContributionsRetirement());
-		txtPersonalFrlContribution.setConvertedValue(voSalarySummary.getPersonalFRLContribution());
-		txtEmployerFrlContribution.setConvertedValue(voSalarySummary.getEmployersFRLContribution());
-		txtPersonalFonasaContribution.setConvertedValue(voSalarySummary.getPersonalFONASAContribution());
-		txtEmployerFonasaContribution.setConvertedValue(voSalarySummary.getEmployersFONASAContribution());
-		txtTicketsEmployer.setConvertedValue(voSalarySummary.getTicketsEmployers());
-		txtTotalDiscounts.setConvertedValue(voSalarySummary.getTotalDiscounts());
-		txtTotalEmployersContribution.setConvertedValue(voSalarySummary.getTotalEmployerContributions());
-		txtNominalWithoutContribution.setConvertedValue(voSalarySummary.getNominalWithoutContributions());
-		txtDismisalPrevension.setConvertedValue(voSalarySummary.getDismissalPrevention());
-		txtIncidenceSalary.setConvertedValue(voSalarySummary.getIncidenceSalary());
-		txtSalaryToPay.setConvertedValue(voSalarySummary.getSalaryToPay());
-		txtCostMonth.setConvertedValue(voSalarySummary.getCostMonth());
-		txtCostRealHour.setConvertedValue(voSalarySummary.getCostRealHour());				
-		optEmployeeType.select(selectedEmployee.getEmployedType());
-		//seteo en readonly false los campos del empleado a mostrar
-		setReadOnlyTxt(true);
-		
-	}*/
 	
 	public void loadEmployee (Employee selectedEmployee, VOSalarySummary voSalarySummary){
 

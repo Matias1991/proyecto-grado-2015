@@ -1,4 +1,4 @@
-package views.user;
+package views.profile;
 
 import utils.PopupWindow;
 import views.BaseView;
@@ -123,7 +123,7 @@ public class ChangePasswordView extends BaseView {
 		lblTitle.setImmediate(false);
 		lblTitle.setWidth("-1px");
 		lblTitle.setHeight("-1px");
-		lblTitle.setValue("Cambiar contraeña");
+		lblTitle.setValue("Cambiar contraseña");
 		mainLayout.addComponent(lblTitle, "top:42.0px;left:0.0px;");
 		
 		// oldPassword
