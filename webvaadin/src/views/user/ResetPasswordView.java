@@ -79,6 +79,7 @@ public class ResetPasswordView extends BaseView{
 
 			@Override
 			public void buttonClick(ClickEvent event) {
+				btnReset.setEnabled(false);
 				BeanItem<User> item = container.getItem(grid.getSelectedRow());
 				
 				if(UserController.resetPassword(item.getBean().getId())){
@@ -86,7 +87,7 @@ public class ResetPasswordView extends BaseView{
 					getUI().getNavigator().navigateTo(WebvaadinUI.RESETPASSWORD);
 				}
 				
-				btnReset.setEnabled(false);
+				
 			}
 		});
 

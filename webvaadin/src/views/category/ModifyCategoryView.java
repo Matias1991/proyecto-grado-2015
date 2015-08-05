@@ -93,6 +93,7 @@ public class ModifyCategoryView extends BaseView {
 										mainLayout.removeComponent(grid);
 									}
 									buildGrid();
+									setComponentsVisible(false);
 
 								} else {
 									txtAmount.setRequiredError("Es requerido");
@@ -229,7 +230,7 @@ public class ModifyCategoryView extends BaseView {
 		// txtDescripcion
 		txtDescription = new TextField();
 		txtDescription.setCaption("Descripción");
-		txtDescription.setImmediate(false);
+		txtDescription.setImmediate(true);
 		txtDescription.setWidth("220px");
 		txtDescription.setHeight("-1px");
 		txtDescription.setVisible(false);
@@ -240,7 +241,7 @@ public class ModifyCategoryView extends BaseView {
 		// categoryType
 		categoryType = new OptionGroup();
 		categoryType.setCaption("Asociado a");
-		categoryType.setImmediate(false);
+		categoryType.setImmediate(true);
 		categoryType.setWidth("-1px");
 		categoryType.setHeight("-1px");
 		categoryType.setVisible(false);
@@ -249,7 +250,7 @@ public class ModifyCategoryView extends BaseView {
 		// txtAmount
 		txtAmount = new TextField();
 		txtAmount.setCaption("Monto");
-		txtAmount.setImmediate(false);
+		txtAmount.setImmediate(true);
 		txtAmount.setWidth("220px");
 		txtAmount.setHeight("-1px");
 		txtAmount.setConverter(new StringToDoubleConverter());

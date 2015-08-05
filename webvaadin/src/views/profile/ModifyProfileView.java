@@ -69,7 +69,7 @@ public class ModifyProfileView extends BaseView {
 
 					modifyUser.modifyUser(user, idUser);
 
-					PopupWindow popup = new PopupWindow("AVISO", "Usuario creado correctamente");
+					new PopupWindow("AVISO", "Perfil modificado correctamente");
 					
 				}
 			}
@@ -136,7 +136,7 @@ public class ModifyProfileView extends BaseView {
 	public boolean validateModifyProfileUser() {
 		boolean validate = true;
 		
-		if(!txtName.isValid() || !txtEmail.isValid() || txtLastName.isValid()){
+		if(!txtName.isValid() || !txtEmail.isValid() || !txtLastName.isValid()){
 			txtName.setRequiredError("Es requerido");
 			txtEmail.setRequiredError("Es requerido");
 			txtLastName.setRequiredError("Es requerido");

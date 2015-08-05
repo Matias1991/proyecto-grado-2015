@@ -91,6 +91,8 @@ public class UnlockUserView extends BaseView{
 			grid.removeColumn("email");
 			grid.removeColumn("userType");
 			grid.removeColumn("userStatus");
+			grid.removeColumn("password");
+			grid.removeColumn("userTypeId");
 			grid.setColumnOrder("name", "lastName", "userName", "userStatusToShow");
 			grid.getColumn("name").setHeaderCaption("Nombre");
 			grid.getColumn("lastName").setHeaderCaption("Apellido");
