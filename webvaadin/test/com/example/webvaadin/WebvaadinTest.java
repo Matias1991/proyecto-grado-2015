@@ -36,7 +36,7 @@ public class WebvaadinTest extends TestBenchTestCase {
         // To use Chrome, first install chromedriver.exe from
         // http://chromedriver.storage.googleapis.com/index.html
         // on your system path (e.g. C:\Windows\System32\)
-        //   setDriver(new ChromeDriver()); // Chrome
+        //   setDriver(new ChromeDriver());   // Chrome
 
         // To use Internet Explorer, first install iedriverserver.exe from
         // http://selenium-release.storage.googleapis.com/index.html?path=2.43/
