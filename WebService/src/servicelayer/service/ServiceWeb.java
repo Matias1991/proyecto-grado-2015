@@ -5,9 +5,11 @@ import java.util.concurrent.TimeUnit;
 
 import servicelayer.core.CoreCategory;
 import servicelayer.core.CoreEmployed;
+import servicelayer.core.CoreProject;
 import servicelayer.core.CoreUser;
 import servicelayer.entity.valueObject.VOCategory;
 import servicelayer.entity.valueObject.VOEmployed;
+import servicelayer.entity.valueObject.VOProject;
 import servicelayer.entity.valueObject.VOSalarySummary;
 import servicelayer.entity.valueObject.VOUser;
 import servicelayer.utilities.Constants;
@@ -16,6 +18,7 @@ import shared.exceptions.ClientException;
 import shared.exceptions.ServerException;
 import shared.interfaces.core.ICoreCategory;
 import shared.interfaces.core.ICoreEmployed;
+import shared.interfaces.core.ICoreProject;
 import shared.interfaces.core.ICoreUser;
 
 ////IMPORTANTE:
@@ -27,6 +30,7 @@ public class ServiceWeb extends ServiceBase{
 	private ICoreUser iCoreUser = null;
 	private ICoreEmployed iCoreEmployed = null;
 	private ICoreCategory iCoreCategory = null;
+	private ICoreProject iCoreProject = null;
 	
 	public ServiceWeb()
 	{
@@ -36,6 +40,7 @@ public class ServiceWeb extends ServiceBase{
 			iCoreUser = CoreUser.GetInstance();
 			iCoreEmployed = CoreEmployed.GetInstance();
 			iCoreCategory = CoreCategory.GetInstance();
+			iCoreProject = CoreProject.GetInstance();
 		} catch (Exception e) {
 			ThrowGenericExceptionAndLogError(e);
 		}
@@ -606,6 +611,53 @@ public class ServiceWeb extends ServiceBase{
 			transactionLock.tryLock(Constants.DEFAULT_TRANSACTION_TIME, TimeUnit.SECONDS);
 			
 			return iCoreCategory.updateCategory(id, category);	    
+		} catch (ServerException e) {
+			ThrowServerExceptionAndLogError(e, "obtener todos los rubros");
+		} catch (InterruptedException e) {
+			throw new RuntimeException(Constants.TRANSACTION_ERROR);
+		} catch (Exception e) {
+			ThrowGenericExceptionAndLogError(e);
+		}
+		finally
+		{
+			transactionLock.unlock();
+		}
+		return null;
+	}
+	
+	public boolean insertProject(VOProject voProject)
+	{
+		try {
+			transactionLock.tryLock(Constants.DEFAULT_TRANSACTION_TIME, TimeUnit.SECONDS);
+			
+			iCoreProject.insertProject(voProject);
+			
+			return true;
+		} catch (ServerException e) {
+			ThrowServerExceptionAndLogError(e, "Insertar proyecto");
+		} catch (ClientException e) {
+			throw new RuntimeException(e.getMessage());
+		}catch (InterruptedException e) {
+			throw new RuntimeException(Constants.TRANSACTION_ERROR);
+		} catch (Exception e) {
+			ThrowGenericExceptionAndLogError(e);
+		}
+		finally
+		{
+			transactionLock.unlock();
+		}
+		return false;
+	}
+	
+	public VOProject[] getProjects() {
+		ArrayList<VOProject> voProjects;
+		try {
+			transactionLock.tryLock(Constants.DEFAULT_TRANSACTION_TIME, TimeUnit.SECONDS);
+			
+			voProjects = iCoreProject.getProjects();
+			VOProject [] arrayVOProjects = new VOProject[voProjects.size()];
+			voProjects.toArray(arrayVOProjects);
+			return arrayVOProjects;		    
 		} catch (ServerException e) {
 			ThrowServerExceptionAndLogError(e, "obtener todos los rubros");
 		} catch (InterruptedException e) {

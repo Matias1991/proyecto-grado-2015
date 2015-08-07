@@ -107,3 +107,14 @@ CREATE TABLE IF NOT EXISTS Category
 	PRIMARY KEY (Id),
 	FOREIGN KEY FK_Category_CategoryType (CategoryType) REFERENCES CategoryType (Id)
 );
+
+CREATE TABLE IF NOT EXISTS Project
+(
+	Id				INTEGER NOT NULL AUTO_INCREMENT,
+	Name			VARCHAR(50) NULL,
+	CreatedDateTimeUTC  TIMESTAMP NULL,
+	UpdatedDateTimeUTC  TIMESTAMP NULL,
+	Enabled		BIT NULL,
+	PRIMARY KEY (Id),
+	UNIQUE KEY `projectName` (`Name`),
+);

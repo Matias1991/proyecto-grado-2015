@@ -189,6 +189,22 @@
             }
                 
            /**
+            * auto generated Axis2 call back method for insertProject method
+            * override this method for handling normal response from insertProject operation
+            */
+           public void receiveResultinsertProject(
+                    servicelayer.service.ServiceWebStub.InsertProjectResponse result
+                        ) {
+           }
+
+          /**
+           * auto generated Axis2 Error handler
+           * override this method for handling error response from insertProject operation
+           */
+            public void receiveErrorinsertProject(java.lang.Exception e) {
+            }
+                
+           /**
             * auto generated Axis2 call back method for deleteUser method
             * override this method for handling normal response from deleteUser operation
             */
@@ -442,6 +458,22 @@
            * override this method for handling error response from getCategories operation
            */
             public void receiveErrorgetCategories(java.lang.Exception e) {
+            }
+                
+           /**
+            * auto generated Axis2 call back method for getProjects method
+            * override this method for handling normal response from getProjects operation
+            */
+           public void receiveResultgetProjects(
+                    servicelayer.service.ServiceWebStub.GetProjectsResponse result
+                        ) {
+           }
+
+          /**
+           * auto generated Axis2 Error handler
+           * override this method for handling error response from getProjects operation
+           */
+            public void receiveErrorgetProjects(java.lang.Exception e) {
             }
                 
 
