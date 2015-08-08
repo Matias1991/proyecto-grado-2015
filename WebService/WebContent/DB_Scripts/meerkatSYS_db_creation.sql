@@ -83,8 +83,9 @@ CREATE TABLE IF NOT EXISTS SalarySummary
 	SalaryToPay			 DECIMAL(10,2) NULL,
 	CostMonth            DECIMAL(10,2) NULL,
 	CostRealHour         DECIMAL(10,2) NULL,
-	CostSaleHour         DECIMAL(10,2) NULL,
+	CostSaleHour         DECIMAL(10,2) NULL,    
 	Hours                INTEGER NULL,
+    CreatedDateTimeUTC   TIMESTAMP NULL,
 	PRIMARY KEY (Id,Version,EmployedId),
 	FOREIGN KEY R_SalarySummary_Employed (EmployedId) REFERENCES Employed (Id)
 );
@@ -116,5 +117,5 @@ CREATE TABLE IF NOT EXISTS Project
 	UpdatedDateTimeUTC  TIMESTAMP NULL,
 	Enabled		BIT NULL,
 	PRIMARY KEY (Id),
-	UNIQUE KEY `projectName` (`Name`),
+	UNIQUE KEY `projectName` (`Name`)
 );
