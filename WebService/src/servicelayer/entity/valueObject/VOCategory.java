@@ -11,6 +11,7 @@ public class VOCategory implements Serializable{
 	private Date createDateTimeUTC;
 	private int projectId;
 	private int categoryType;
+	private boolean isRRHH;
 	private static final long serialVersionUID = 1L;
 	
 	public int getId() {
@@ -59,6 +60,14 @@ public class VOCategory implements Serializable{
 
 	public void setCategoryType(int categoryType) {
 		this.categoryType = categoryType;
+	}
+
+	public boolean getIsRRHH() {
+		return isRRHH;
+	}
+
+	public void setIsRRHH(boolean isRRHH) {
+		this.isRRHH = isRRHH;
 	}
 	
 }

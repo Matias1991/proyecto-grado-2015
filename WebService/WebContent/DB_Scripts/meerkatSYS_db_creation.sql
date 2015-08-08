@@ -104,8 +104,10 @@ CREATE TABLE IF NOT EXISTS Category
 	CreatedDateTimeUTC  TIMESTAMP NULL,
 	ProjectId			INTEGER NULL,
 	CategoryType	INTEGER NOT NULL,
+	IsRRHH			BIT NULL,
 	PRIMARY KEY (Id),
-	FOREIGN KEY FK_Category_CategoryType (CategoryType) REFERENCES CategoryType (Id)
+	FOREIGN KEY FK_Category_CategoryType (CategoryType) REFERENCES CategoryType (Id),
+	FOREIGN KEY FK_Category_Project (ProjectId) REFERENCES Project (Id)
 );
 
 CREATE TABLE IF NOT EXISTS Project

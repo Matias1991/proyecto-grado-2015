@@ -58,12 +58,16 @@ public class CatalogCategoriesView extends BaseView {
 			categoriesGrid.removeColumn("categoryTypeId");
 			categoriesGrid.removeColumn("categoryTypeToShow");
 			categoriesGrid.removeColumn("projectId");
+			categoriesGrid.removeColumn("createdDateTimeUTC");
+			categoriesGrid.removeColumn("isRRHH");
 			categoriesGrid.setColumnOrder("id", "description", "amount", "categoryType");
 	
 			categoriesGrid.getColumn("id").setHeaderCaption("Identificador");
 			categoriesGrid.getColumn("description").setHeaderCaption("Descripción");
 			categoriesGrid.getColumn("amount").setHeaderCaption("Monto");
 			categoriesGrid.getColumn("categoryType").setHeaderCaption("Asociado a");
+			categoriesGrid.getColumn("createDateTimeUTCToShow").setHeaderCaption("Fecha de creacion");
+			categoriesGrid.getColumn("isRRHHToShow").setHeaderCaption("Tipo de recurso");
 			categoriesGrid.setWidth(100, Unit.PERCENTAGE);
 			categoriesGrid.setHeight(100, Unit.PERCENTAGE);
 			categoriesGrid.setSelectionMode(SelectionMode.SINGLE);

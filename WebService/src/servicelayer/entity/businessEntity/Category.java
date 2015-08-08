@@ -12,6 +12,7 @@ public class Category {
 	private Date createDateTimeUTC;
 	private int projectId;
 	private int categoryType;
+	private boolean isRRHH;
 	
 	public Category(){}
 	
@@ -22,6 +23,8 @@ public class Category {
 		this.createDateTimeUTC = voCategory.getCreateDateTimeUTC();
 		this.projectId = voCategory.getProjectId();
 		this.categoryType = voCategory.getCategoryType();
+		this.isRRHH = voCategory.getIsRRHH();
+		this.createDateTimeUTC = voCategory.getCreateDateTimeUTC();
 	}
 
 	public int getId() {
@@ -70,5 +73,13 @@ public class Category {
 
 	public void setCategoryType(int category) {
 		this.categoryType = category;
+	}
+
+	public boolean getIsRRHH() {
+		return isRRHH;
+	}
+
+	public void setIsRRHH(boolean isRRHH) {
+		this.isRRHH = isRRHH;
 	}
 }

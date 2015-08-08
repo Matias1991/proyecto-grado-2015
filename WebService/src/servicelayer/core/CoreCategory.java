@@ -32,7 +32,6 @@ public class CoreCategory implements ICoreCategory {
 			ClientException {
 
 		Category category = new Category(voCategory);
-		category.setCreateDateTimeUTC(new Date());
 		iDAOCategory.insert(category);
 	}
 
