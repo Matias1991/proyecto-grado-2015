@@ -54,6 +54,7 @@ public class CoreEmployed implements ICoreEmployed{
 			emp.setId(newEmployedId);
 			
 			SalarySummary salarySummary = calculateSalarySummary(voEmployed.getvOSalarySummary());
+			salarySummary.setCreatedDateTimeUTC(new Date());
 			//add new salary summary for employed
 			emp.addNewSalarySummary(salarySummary);
 			
@@ -166,6 +167,7 @@ public class CoreEmployed implements ICoreEmployed{
 	    	//CREATE NEW VERSION OF SALARY SUMMARY
 	    	currentEmployed.setIDAOSalarySummaries(daoManager.getDAOSalarySummaries());
 	    	SalarySummary salarySummary = calculateSalarySummary(voEmployed.getvOSalarySummary());
+	    	salarySummary.setCreatedDateTimeUTC(new Date());
 	    	currentEmployed.addNewSalarySummary(salarySummary);
 			
 			daoManager.commit();

@@ -11,7 +11,6 @@ import java.util.Date;
 import datalayer.utilities.ManageConnection;
 import servicelayer.entity.businessEntity.SalarySummary;
 import servicelayer.entity.businessEntity.SalarySummaryVersion;
-import servicelayer.entity.valueObject.VOSalarySummaryVersion;
 import shared.LoggerMSMP;
 import shared.exceptions.ServerException;
 import shared.interfaces.dataLayer.IDAOSalarySummaries;
@@ -339,7 +338,7 @@ public class DAOSalarySummaries implements IDAOSalarySummaries{
 		
 		return salarySummary;
 	}
-
+	
 	@Override
 	public ArrayList<SalarySummaryVersion> getAllVersionsDateSalarySummary(int employedId) throws ServerException {		
 		ArrayList<SalarySummaryVersion> list = new ArrayList<SalarySummaryVersion>();		
