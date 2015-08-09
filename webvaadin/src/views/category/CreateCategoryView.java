@@ -14,15 +14,12 @@ import com.vaadin.data.util.BeanItem;
 import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.data.util.converter.StringToDoubleConverter;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
-import com.vaadin.server.ErrorEvent;
-import com.vaadin.server.ErrorHandler;
 import com.vaadin.server.UserError;
 import com.vaadin.ui.AbsoluteLayout;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Grid;
 import com.vaadin.ui.Grid.SelectionMode;
-import com.vaadin.ui.renderers.DateRenderer;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.OptionGroup;
 import com.vaadin.ui.PopupDateField;
@@ -95,7 +92,7 @@ public class CreateCategoryView extends BaseView {
 
 			@Override
 			public void buttonClick(ClickEvent event) {
-
+				btnCreate.setEnabled(false);
 				txtDescription.setValidationVisible(true);
 				txtAmount.setValidationVisible(true);
 
@@ -209,6 +206,7 @@ public class CreateCategoryView extends BaseView {
 			if (projectsGrid != null) {
 				mainLayout.removeComponent(projectsGrid);
 			}
+			btnCreate.setEnabled(true);
 			buildGrid();
 			
 			categoryType.select("Empresa");

@@ -434,6 +434,7 @@ public class CreateEmployeeView extends BaseView {
 				// TODO Auto-generated method stub
 				
 				if(validateCreateEmployee()){
+					btnCreate.setEnabled(false);
 					Employee newEmployee = new Employee();
 					newEmployee.setName(txtName.getValue());
 					newEmployee.setLastName(txtSurname.getValue());
@@ -711,6 +712,7 @@ public class CreateEmployeeView extends BaseView {
 			if(RequestContext.getRequestContext().getUserType() != 2){
 				getUI().getNavigator().navigateTo(WebvaadinUI.MAINMENU);
 			}
+			btnCreate.setEnabled(true);
 			cleanInputs();	
 		}
 		
