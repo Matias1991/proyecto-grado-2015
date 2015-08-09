@@ -160,7 +160,7 @@ public class CoreEmployed implements ICoreEmployed{
 	    {
 	    	Employed updatedEmployed = new Employed(voEmployed);
 	    	//UPDATE EMPLOYED
-	    	updatedEmployed.setCreatedDateTimeUTC(new Date());
+	    	//updatedEmployed.setCreatedDateTimeUTC(new Date());
 	    	updatedEmployed.setUpdatedDateTimeUTC(new Date());
 	    	daoManager.getDAOEmployees().update(id, updatedEmployed);
 	    	
