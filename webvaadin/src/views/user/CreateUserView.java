@@ -62,6 +62,7 @@ public class CreateUserView extends BaseView {
 
 				if (validateCreateUser()) {
 
+					btnAdd.setEnabled(false);
 					// Creo el ValueObjet cargandolo con los datos carados por
 					// el usuario
 					User newUser = new User();
@@ -113,6 +114,11 @@ public class CreateUserView extends BaseView {
 	public void enter(ViewChangeEvent event) {
 		super.enter(event);
 		if (RequestContext.getRequestContext() != null) {
+			// Compruebo si el usuario es de tipo administrador
+			if(RequestContext.getRequestContext().getUserType() != 1){
+				getUI().getNavigator().navigateTo(WebvaadinUI.MAINMENU);
+			}
+			btnAdd.setEnabled(true);
 			txtName.focus();
 			cleanInputs();
 		}

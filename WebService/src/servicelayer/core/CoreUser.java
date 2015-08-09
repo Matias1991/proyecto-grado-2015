@@ -139,16 +139,19 @@ public class CoreUser implements ICoreUser {
 		{
 			if(user.getUserStatus() == UserStatus.ACTIVE)
 			{
+
+				Date now  = new Date();
 				if(user.getPassword().equals(hashPassword))
 				{
 					voUser = BuildVOUser(user);
+					iDAOUsers.update(user.getId(), UserStatus.ACTIVE, 0, now);
 				}
 				else
 				{
+
 					if(!IsLastUserAdmin(user))
 					{
 						long diffInMinutes = 0;
-						Date now  = new Date();
 						if(user.getLastAttemptDateTimeUTC() != null)
 						{
 							Date lastAttemptDate = user.getLastAttemptDateTimeUTC();

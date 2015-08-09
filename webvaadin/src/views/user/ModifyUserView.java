@@ -203,7 +203,11 @@ public class ModifyUserView extends BaseView {
 	public void enter(ViewChangeEvent event) {
 		super.enter(event);
 		userLayout.setVisible(false);			
-		if (RequestContext.getRequestContext() != null) {			
+		if (RequestContext.getRequestContext() != null) {	
+			// Compruebo si el usuario es de tipo administrador
+			if(RequestContext.getRequestContext().getUserType() != 1){
+				getUI().getNavigator().navigateTo(WebvaadinUI.MAINMENU);
+			}
 			if(modifyUserGrid != null){
 				mainLayout.removeComponent(modifyUserGrid);
 			}

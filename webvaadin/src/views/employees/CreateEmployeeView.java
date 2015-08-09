@@ -15,6 +15,7 @@ import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.ui.AbsoluteLayout;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
+import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.GridLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.OptionGroup;
@@ -54,7 +55,7 @@ public class CreateEmployeeView extends BaseView {
 	private TextField txtName;
 	private TextField txtNominalSalary;
 	private TextField txtTickets;
-	private TextField txtPercentagePersonalFonasaContribution;
+	private ComboBox comboPercentagePersonalFonasaContribution;
 	private TextField txtRet;
 	private TextField txtIrpf;
 	private TextField txtBse;
@@ -162,17 +163,20 @@ public class CreateEmployeeView extends BaseView {
 		txtCostSaleHour.setConverter(new StringToDoubleConverter());
 		
 		// Porcentaje aporte FONASA Personal
-		txtPercentagePersonalFonasaContribution = new TextField();
-		txtPercentagePersonalFonasaContribution.setCaption("% Aporte FONASA Personal");
-		txtPercentagePersonalFonasaContribution.setImmediate(true);
-		txtPercentagePersonalFonasaContribution.setWidth("-1px");
-		txtPercentagePersonalFonasaContribution.setHeight("-1px");
-		txtPercentagePersonalFonasaContribution.setRequired(true);
-		txtPercentagePersonalFonasaContribution.setNullRepresentation("");
-		txtPercentagePersonalFonasaContribution.setLocale(Locale.ENGLISH);
-		txtPercentagePersonalFonasaContribution.setConverter(new StringToDoubleConverter());
-		txtPercentagePersonalFonasaContribution.addValidator(new DoubleRangeValidator("Debe ser entre 0 y 100", 0.0, 100.0));
-		
+		comboPercentagePersonalFonasaContribution = new ComboBox();
+		comboPercentagePersonalFonasaContribution.setCaption("% Aporte FONASA Personal");
+		comboPercentagePersonalFonasaContribution.setImmediate(true);
+		comboPercentagePersonalFonasaContribution.setWidth("-1px");
+		comboPercentagePersonalFonasaContribution.setHeight("-1px");
+		comboPercentagePersonalFonasaContribution.setRequired(true);
+		comboPercentagePersonalFonasaContribution.setLocale(Locale.ENGLISH);
+		comboPercentagePersonalFonasaContribution.addItem("2");
+		comboPercentagePersonalFonasaContribution.addItem("3");
+		comboPercentagePersonalFonasaContribution.addItem("4.5");
+		comboPercentagePersonalFonasaContribution.addItem("5");
+		comboPercentagePersonalFonasaContribution.addItem("6");
+		comboPercentagePersonalFonasaContribution.addItem("8");
+
 		// Aporte Jubilatorio Personal
 		txtPersonalRetirementContribution = new TextField();
 		txtPersonalRetirementContribution.setCaption("Aporte Jubilatorio Personal");
@@ -322,7 +326,7 @@ public class CreateEmployeeView extends BaseView {
 		tab1.setSpacing(true);		
 		tab1.addComponent(txtNominalSalary, 0, 0);
 		tab1.addComponent(txtTickets, 1, 0);		
-		tab1.addComponent(txtPercentagePersonalFonasaContribution, 0,1);
+		tab1.addComponent(comboPercentagePersonalFonasaContribution, 0,1);
 		tab1.addComponent(txtHours,1,1);
 		tab1.addComponent(txtIrpf,0,2);
 		tab1.addComponent(txtBse,1,2);
@@ -384,7 +388,7 @@ public class CreateEmployeeView extends BaseView {
 						txtCostSaleHour.setConvertedValue(0.0);
 					}
 					estimateSalarySummary.setCostSaleHour((Double)txtCostSaleHour.getConvertedValue());
-					estimateSalarySummary.setPercentageTypeFONASA(((Double)txtPercentagePersonalFonasaContribution.getConvertedValue())/100);
+					estimateSalarySummary.setPercentageTypeFONASA((Double.parseDouble(comboPercentagePersonalFonasaContribution.getValue().toString()))/100);
 					
 					
 									
@@ -414,7 +418,7 @@ public class CreateEmployeeView extends BaseView {
 						txtSalaryToPay.setConvertedValue(aux.getSalaryToPay());
 						txtCostMonth.setConvertedValue(aux.getCostMonth());
 						txtCostRealHour.setConvertedValue(aux.getCostRealHour());	
-						txtPercentagePersonalFonasaContribution.setConvertedValue(aux.getPercentageTypeFONASA()*100);
+						comboPercentagePersonalFonasaContribution.setConvertedValue(aux.getPercentageTypeFONASA()*100);
 						
 						changeReadOnlyState(true);
 						tabTaxes.setSelectedTab(1);
@@ -434,6 +438,7 @@ public class CreateEmployeeView extends BaseView {
 				// TODO Auto-generated method stub
 				
 				if(validateCreateEmployee()){
+					btnCreate.setEnabled(false);
 					Employee newEmployee = new Employee();
 					newEmployee.setName(txtName.getValue());
 					newEmployee.setLastName(txtSurname.getValue());
@@ -462,7 +467,7 @@ public class CreateEmployeeView extends BaseView {
 						txtCostSaleHour.setConvertedValue(0.0);
 					}					
 					newSalarySummary.setCostSaleHour((Double)txtCostSaleHour.getConvertedValue());
-					newSalarySummary.setPercentageTypeFONASA(((Double)txtPercentagePersonalFonasaContribution.getConvertedValue())/100);
+					newSalarySummary.setPercentageTypeFONASA(((Double.parseDouble(comboPercentagePersonalFonasaContribution.getValue().toString())))/100);
 					
 					newEmployee.setSalarySummary(newSalarySummary);
 				
@@ -502,10 +507,10 @@ public class CreateEmployeeView extends BaseView {
 			txtTickets.setRequiredError("Es requerido");
 			txtTickets.setConversionError("Debe ser numérico");
 		}
-		if(!txtPercentagePersonalFonasaContribution.isValid()){
+		if(!comboPercentagePersonalFonasaContribution.isValid()){
 			result = false;
-			txtPercentagePersonalFonasaContribution.setRequiredError("Es requerido");
-			txtPercentagePersonalFonasaContribution.setConversionError("Debe ser numérico entre 0 y 100");			
+			comboPercentagePersonalFonasaContribution.setRequiredError("Es requerido");
+			comboPercentagePersonalFonasaContribution.setConversionError("Debe ser numérico entre 0 y 100");			
 		}
 		if(!txtHours.isValid()){
 			result = false;
@@ -573,7 +578,7 @@ public class CreateEmployeeView extends BaseView {
 		txtName.clear();
 		txtNominalSalary.clear();
 		txtTickets.clear();
-		txtPercentagePersonalFonasaContribution.clear();
+		comboPercentagePersonalFonasaContribution.clear();
 		txtRet.clear();
 		txtIrpf.clear();
 		txtBse.clear();
@@ -597,7 +602,7 @@ public class CreateEmployeeView extends BaseView {
 		changeReadOnlyState(true);	
 		txtNominalSalary.setRequiredError(null);
 		txtTickets.setRequiredError(null);
-		txtPercentagePersonalFonasaContribution.setRequiredError(null);
+		comboPercentagePersonalFonasaContribution.setRequiredError(null);
 		txtHours.setRequiredError(null);
 		txtName.setRequiredError(null);
 		txtSurname.setRequiredError(null);
@@ -707,6 +712,11 @@ public class CreateEmployeeView extends BaseView {
 	public void enter(ViewChangeEvent event) {
 		super.enter(event);
 		if (RequestContext.getRequestContext() != null) {
+			// Compruebo si el usuario es de tipo socio
+			if(RequestContext.getRequestContext().getUserType() != 2){
+				getUI().getNavigator().navigateTo(WebvaadinUI.MAINMENU);
+			}
+			btnCreate.setEnabled(true);
 			cleanInputs();	
 		}
 		
