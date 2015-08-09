@@ -83,9 +83,9 @@ CREATE TABLE IF NOT EXISTS SalarySummary
 	SalaryToPay			 DECIMAL(10,2) NULL,
 	CostMonth            DECIMAL(10,2) NULL,
 	CostRealHour         DECIMAL(10,2) NULL,
-	CostSaleHour         DECIMAL(10,2) NULL,    
+	CostSaleHour         DECIMAL(10,2) NULL,
 	Hours                INTEGER NULL,
-    CreatedDateTimeUTC   TIMESTAMP NULL,
+	CreatedDateTimeUTC   TIMESTAMP NULL,
 	PRIMARY KEY (Id,Version,EmployedId),
 	FOREIGN KEY R_SalarySummary_Employed (EmployedId) REFERENCES Employed (Id)
 );
@@ -97,18 +97,6 @@ CREATE TABLE IF NOT EXISTS CategoryType
 	PRIMARY KEY (Id)
 );
 
-CREATE TABLE IF NOT EXISTS Category
-(
-	Id                  INTEGER NOT NULL AUTO_INCREMENT,
-	Description         VARCHAR(120) NULL,
-	Amount 				DECIMAL(10,2) NULL,
-	CreatedDateTimeUTC  TIMESTAMP NULL,
-	ProjectId			INTEGER NULL,
-	CategoryType	INTEGER NOT NULL,
-	PRIMARY KEY (Id),
-	FOREIGN KEY FK_Category_CategoryType (CategoryType) REFERENCES CategoryType (Id)
-);
-
 CREATE TABLE IF NOT EXISTS Project
 (
 	Id				INTEGER NOT NULL AUTO_INCREMENT,
@@ -118,4 +106,18 @@ CREATE TABLE IF NOT EXISTS Project
 	Enabled		BIT NULL,
 	PRIMARY KEY (Id),
 	UNIQUE KEY `projectName` (`Name`)
+);
+
+CREATE TABLE IF NOT EXISTS Category
+(
+	Id                  INTEGER NOT NULL AUTO_INCREMENT,
+	Description         VARCHAR(120) NULL,
+	Amount 				DECIMAL(10,2) NULL,
+	CreatedDateTimeUTC  TIMESTAMP NULL,
+	ProjectId			INTEGER NULL,
+	CategoryType	INTEGER NOT NULL,
+	IsRRHH			BIT NULL,
+	PRIMARY KEY (Id),
+	FOREIGN KEY FK_Category_CategoryType (CategoryType) REFERENCES CategoryType (Id),
+	FOREIGN KEY FK_Category_Project (ProjectId) REFERENCES Project (Id)
 );

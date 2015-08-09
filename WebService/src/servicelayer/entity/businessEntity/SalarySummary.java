@@ -1,5 +1,7 @@
 package servicelayer.entity.businessEntity;
 
+import java.util.Date;
+
 import servicelayer.entity.valueObject.VOSalarySummary;
 
 public class SalarySummary {
@@ -29,6 +31,7 @@ public class SalarySummary {
 	private double costRealHour;
 	private double costSaleHour;
 	private int hours;
+	private Date createdDateTimeUTC;
 	
 	public SalarySummary()
 	{
@@ -199,4 +202,14 @@ public class SalarySummary {
 	public void setTicketsEmployers(double ticketsEmployers) {
 		this.ticketsEmployers = ticketsEmployers;
 	}
+
+	public Date getCreatedDateTimeUTC() {
+		return createdDateTimeUTC;
+	}
+
+	public void setCreatedDateTimeUTC(Date createdDateTimeUTC) {
+		this.createdDateTimeUTC = createdDateTimeUTC;
+	}
+	
+	
 }

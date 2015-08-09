@@ -98,8 +98,7 @@ public class CreateCategoryView extends BaseView {
 
 				txtDescription.setValidationVisible(true);
 				txtAmount.setValidationVisible(true);
-				
-				
+
 				if(projectsGrid.getSelectedRow() == null)
 				{
 					lblTitleProyectos.setComponentError(new UserError("Debe seleccionar un proyecto"));
@@ -125,6 +124,19 @@ public class CreateCategoryView extends BaseView {
 					} else if (categoryType.getValue().equals("Proyecto")) {
 						category.setCategoryTypeId(2);
 					}
+					
+					if(projectsGrid.getSelectedRow() != null)
+					{
+						BeanItem<Project> item = beanContainer.getItem(projectsGrid.getSelectedRow());
+						category.setProjectId(item.getBean().getId());
+					}
+					
+					if(isRRHH.getValue() == "Recurso material")
+						category.setIsRRHH(false);
+					else
+						category.setIsRRHH(true);
+					
+					category.setCreatedDateTimeUTC(popupDateField_1.getValue());
 					
 					CategoryController.createCategory(category);
 					

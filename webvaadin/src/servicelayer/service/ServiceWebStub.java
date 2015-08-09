@@ -12738,6 +12738,51 @@
                             
 
                         /**
+                        * field for IsRRHH
+                        */
+
+                        
+                                    protected boolean localIsRRHH ;
+                                
+                           /*  This tracker boolean wil be used to detect whether the user called the set method
+                          *   for this attribute. It will be used to determine whether to include this field
+                           *   in the serialized XML
+                           */
+                           protected boolean localIsRRHHTracker = false ;
+
+                           public boolean isIsRRHHSpecified(){
+                               return localIsRRHHTracker;
+                           }
+
+                           
+
+                           /**
+                           * Auto generated getter method
+                           * @return boolean
+                           */
+                           public  boolean getIsRRHH(){
+                               return localIsRRHH;
+                           }
+
+                           
+                        
+                            /**
+                               * Auto generated setter method
+                               * @param param IsRRHH
+                               */
+                               public void setIsRRHH(boolean param){
+                            
+                                       // setting primitive attribute tracker to true
+                                       localIsRRHHTracker =
+                                       true;
+                                   
+                                            this.localIsRRHH=param;
+                                    
+
+                               }
+                            
+
+                        /**
                         * field for ProjectId
                         */
 
@@ -12912,6 +12957,19 @@
                                                       
                                                } else {
                                                     xmlWriter.writeCharacters(org.apache.axis2.databinding.utils.ConverterUtil.convertToString(localId));
+                                               }
+                                    
+                                   xmlWriter.writeEndElement();
+                             } if (localIsRRHHTracker){
+                                    namespace = "http://valueObject.entity.servicelayer/xsd";
+                                    writeStartElement(null, namespace, "isRRHH", xmlWriter);
+                             
+                                               if (false) {
+                                           
+                                                         throw new org.apache.axis2.databinding.ADBException("isRRHH cannot be null!!");
+                                                      
+                                               } else {
+                                                    xmlWriter.writeCharacters(org.apache.axis2.databinding.utils.ConverterUtil.convertToString(localIsRRHH));
                                                }
                                     
                                    xmlWriter.writeEndElement();
@@ -13138,6 +13196,12 @@
                                  
                                 elementList.add(
                                    org.apache.axis2.databinding.utils.ConverterUtil.convertToString(localId));
+                            } if (localIsRRHHTracker){
+                                      elementList.add(new javax.xml.namespace.QName("http://valueObject.entity.servicelayer/xsd",
+                                                                      "isRRHH"));
+                                 
+                                elementList.add(
+                                   org.apache.axis2.databinding.utils.ConverterUtil.convertToString(localIsRRHH));
                             } if (localProjectIdTracker){
                                       elementList.add(new javax.xml.namespace.QName("http://valueObject.entity.servicelayer/xsd",
                                                                       "projectId"));
@@ -13332,6 +13396,24 @@
                                         
                                                object.setId(java.lang.Integer.MIN_VALUE);
                                            
+                                    }
+                                
+                                    
+                                    while (!reader.isStartElement() && !reader.isEndElement()) reader.next();
+                                
+                                    if (reader.isStartElement() && new javax.xml.namespace.QName("http://valueObject.entity.servicelayer/xsd","isRRHH").equals(reader.getName())){
+                                
+                                    java.lang.String content = reader.getElementText();
+                                    
+                                              object.setIsRRHH(
+                                                    org.apache.axis2.databinding.utils.ConverterUtil.convertToBoolean(content));
+                                              
+                                        reader.next();
+                                    
+                              }  // End of if for expected property start element
+                                
+                                    else {
+                                        
                                     }
                                 
                                     

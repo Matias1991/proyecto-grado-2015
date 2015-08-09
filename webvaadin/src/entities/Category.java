@@ -1,5 +1,8 @@
 package entities;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import servicelayer.service.ServiceWebStub.VOCategory;
 
 public class Category {
@@ -10,6 +13,9 @@ public class Category {
 	private int categoryTypeId;
 	private String categoryType;
 	private int projectId;
+	private boolean isRRHH;
+	private Date createdDateTimeUTC;
+	private String createDateTimeUTCToShow;
 	
 	public Category(){	}
 	
@@ -20,6 +26,9 @@ public class Category {
 		this.setAmount(voCategory.getAmount());
 		this.setCategoryTypeId(voCategory.getCategoryType());
 		this.setCategoryType(getCategoryTypeToShow());
+		this.createdDateTimeUTC = voCategory.getCreateDateTimeUTC();
+		
+		this.setCreateDateTimeUTCToShow(new SimpleDateFormat("dd-MM-yyyy").format(createdDateTimeUTC));
 	}
 	
 	public String getDescription() {
@@ -63,6 +72,17 @@ public class Category {
 		
 		return result;
 	}
+	
+	public String getIsRRHHToShow()
+	{
+		String result = "";
+		if(isRRHH)
+			result = "Recurso humando";
+		else
+			result = "Recurso material";
+		
+		return result;
+	}
 
 	public int getProjectId() {
 		return projectId;
@@ -86,5 +106,29 @@ public class Category {
 
 	public void setCategoryTypeId(int categoryTypeId) {
 		this.categoryTypeId = categoryTypeId;
+	}
+
+	public boolean getIsRRHH() {
+		return isRRHH;
+	}
+
+	public void setIsRRHH(boolean isRRHH) {
+		this.isRRHH = isRRHH;
+	}
+
+	public Date getCreatedDateTimeUTC() {
+		return createdDateTimeUTC;
+	}
+
+	public void setCreatedDateTimeUTC(Date createdDateTimeUTC) {
+		this.createdDateTimeUTC = createdDateTimeUTC;
+	}
+
+	public String getCreateDateTimeUTCToShow() {
+		return createDateTimeUTCToShow;
+	}
+
+	public void setCreateDateTimeUTCToShow(String createDateTimeUTCToShow) {
+		this.createDateTimeUTCToShow = createDateTimeUTCToShow;
 	}
 }

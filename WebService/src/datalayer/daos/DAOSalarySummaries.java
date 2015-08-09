@@ -4,9 +4,14 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Date;
+
 import datalayer.utilities.ManageConnection;
 import servicelayer.entity.businessEntity.SalarySummary;
+import servicelayer.entity.businessEntity.SalarySummaryVersion;
+import servicelayer.entity.valueObject.VOSalarySummaryVersion;
 import shared.LoggerMSMP;
 import shared.exceptions.ServerException;
 import shared.interfaces.dataLayer.IDAOSalarySummaries;
@@ -37,8 +42,8 @@ public class DAOSalarySummaries implements IDAOSalarySummaries{
 		String insertSQL = "INSERT INTO SALARYSUMMARY (version, employedId, nominalSalary, tickets,"
 				+ " personalRetirementContribution, employersContributionsRetirement, personalFONASAContribution, employersFONASAContribution, personalFRLContribution,"
 				+ " employersFRLContribution, IRPF, ticketsEmployers, BSE, totalDiscounts, totalEmployerContributions, nominalWithoutContributions,"
-				+ " dismissalPrevention, incidenceSalary, incidenceTickets, RET, salaryToPay, costMonth, costRealHour, costSaleHour, hours) VALUES"
-				+ "(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+				+ " dismissalPrevention, incidenceSalary, incidenceTickets, RET, salaryToPay, costMonth, costRealHour, costSaleHour, hours, createdDateTimeUTC) VALUES"
+				+ "(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 
 		try {
 			preparedStatement = this.connection.prepareStatement(insertSQL);
@@ -70,6 +75,7 @@ public class DAOSalarySummaries implements IDAOSalarySummaries{
 			preparedStatement.setDouble(23, salarySummary.getCostRealHour());
 			preparedStatement.setDouble(24, salarySummary.getCostSaleHour());
 			preparedStatement.setDouble(25, salarySummary.getHours());
+			preparedStatement.setTimestamp(26, new Timestamp(salarySummary.getCreatedDateTimeUTC().getTime()));
 			
 			preparedStatement.executeUpdate();
 			 
@@ -301,6 +307,7 @@ public class DAOSalarySummaries implements IDAOSalarySummaries{
 		double costRealHour = rs.getDouble("costRealHour");
 		double costSaleHour = rs.getDouble("costSaleHour");
 		int hours = rs.getInt("hours");
+		Date createdDateTimeUTC = rs.getDate("createdDateTimeUTC");
 		
 		SalarySummary salarySummary = new SalarySummary();
 		salarySummary.setId(_id);
@@ -328,8 +335,47 @@ public class DAOSalarySummaries implements IDAOSalarySummaries{
 		salarySummary.setCostRealHour(costRealHour);
 		salarySummary.setCostSaleHour(costSaleHour);
 		salarySummary.setHours(hours);
+		salarySummary.setCreatedDateTimeUTC(createdDateTimeUTC);
 		
 		return salarySummary;
+	}
+
+	@Override
+	public ArrayList<SalarySummaryVersion> getAllVersionsDateSalarySummary(int employedId) throws ServerException {		
+		ArrayList<SalarySummaryVersion> list = new ArrayList<SalarySummaryVersion>();		
+		PreparedStatement preparedStatement = null;
+		ResultSet rs = null;
+		String getSQL = "SELECT VERSION, CREATEDDATETIMEUTC FROM SALARYSUMMARY WHERE EMPLOYEDID = ?  ORDER BY CREATEDDATETIMEUTC DESC";
+
+		try {
+			preparedStatement = this.connection.prepareStatement(getSQL);
+
+			preparedStatement.setInt(1, employedId);
+			
+			rs = preparedStatement.executeQuery();
+						
+			while (rs.next()) {
+				SalarySummaryVersion aux = new SalarySummaryVersion();
+				aux.setCreatedDateTimeUTC(rs.getDate("createdDateTimeUTC"));
+				aux.setVersion(rs.getInt("version"));
+				list.add(aux);				
+			}
+			 
+		} catch (SQLException e) {
+			throw new ServerException(e);
+		}finally {
+				try {
+					if (preparedStatement != null)
+						preparedStatement.close();
+					if (rs != null)
+						rs.close();
+				} catch (SQLException e) {
+					LoggerMSMP.setLog(e.getMessage());
+				}
+		}
+		
+		return list;		
+		
 	}
 
 }

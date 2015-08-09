@@ -28,6 +28,9 @@ public class CategoryController {
 			voCategory.setDescription(category.getDescription());
 			voCategory.setAmount(category.getAmount());
 			voCategory.setCategoryType(category.getCategoryTypeId());
+			voCategory.setProjectId(category.getProjectId());
+			voCategory.setIsRRHH(category.getIsRRHH());
+			voCategory.setCreateDateTimeUTC(category.getCreatedDateTimeUTC());
 			
 			createCategory.setVoCategory(voCategory);
 			

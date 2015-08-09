@@ -34,8 +34,8 @@ public class DAOCategories implements IDAOCategroy {
 	public int insert(Category obj) throws ServerException {
 		PreparedStatement preparedStatement = null;
 
-		String insertSQL = "INSERT INTO CATEGORY (DESCRIPTION, AMOUNT, CREATEDDATETIMEUTC, PROJECTID, CATEGORYTYPE) VALUES"
-				+ "(?,?,?,?,?)";
+		String insertSQL = "INSERT INTO CATEGORY (DESCRIPTION, AMOUNT, CREATEDDATETIMEUTC, PROJECTID, CATEGORYTYPE, ISRRHH) VALUES"
+				+ "(?,?,?,?,?,?)";
 
 		try {
 			preparedStatement = this.connection.prepareStatement(insertSQL);
@@ -46,7 +46,8 @@ public class DAOCategories implements IDAOCategroy {
 					.getCreateDateTimeUTC().getTime()));
 			preparedStatement.setInt(4, obj.getProjectId());
 			preparedStatement.setInt(5, obj.getCategoryType());
-
+			preparedStatement.setBoolean(6, obj.getIsRRHH());
+			
 			preparedStatement.executeUpdate();
 
 		} catch (SQLException e) {
