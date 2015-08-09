@@ -161,16 +161,19 @@ public class CoreEmployed implements ICoreEmployed{
 	    if(currentEmployed != null)
 	    {
 	    	Employed updatedEmployed = new Employed(voEmployed);
-	    	//UPDATE EMPLOYED
-	    	//updatedEmployed.setCreatedDateTimeUTC(new Date());
+	    	//UPDATE EMPLOYED	    	
 	    	updatedEmployed.setUpdatedDateTimeUTC(new Date());
 	    	daoManager.getDAOEmployees().update(id, updatedEmployed);
 	    	
-	    	//CREATE NEW VERSION OF SALARY SUMMARY
+	    	//CREATE NEW VERSION OF SALARY SUMMARY	    	
+	    	SalarySummary currentSalarySummary = currentEmployed.getLatestVersionSalarySummary();	    	
 	    	currentEmployed.setIDAOSalarySummaries(daoManager.getDAOSalarySummaries());
 	    	SalarySummary salarySummary = calculateSalarySummary(voEmployed.getvOSalarySummary());
-	    	salarySummary.setCreatedDateTimeUTC(new Date());
-	    	currentEmployed.addNewSalarySummary(salarySummary);
+	    	if(updatedSalarySummaries(currentSalarySummary, salarySummary)){
+	    		salarySummary.setCreatedDateTimeUTC(new Date());
+		    	currentEmployed.addNewSalarySummary(salarySummary);	    		
+	    	}
+	    	
 			
 			daoManager.commit();
 	    }
@@ -385,6 +388,37 @@ public class CoreEmployed implements ICoreEmployed{
 		voSalarySummary.setPercentageTypeFONASA(voSalarySummary.getPersonalFONASAContribution()/voSalarySummary.getNominalSalary());
 		
 		return voSalarySummary;
+	}
+	
+	boolean updatedSalarySummaries(SalarySummary currentSalarySummary, SalarySummary newSalarySummary){
+		boolean updated = false;
+		
+		if(currentSalarySummary.getNominalSalary() != newSalarySummary.getNominalSalary()){
+			updated = true;
+		}
+		if(currentSalarySummary.getTickets() != newSalarySummary.getTickets()){
+			updated = true;
+		}
+		if(currentSalarySummary.getPersonalFONASAContribution()/currentSalarySummary.getNominalSalary() != newSalarySummary.getPersonalFONASAContribution()/newSalarySummary.getNominalSalary()){
+			updated = true;
+		}
+		if(currentSalarySummary.getHours() != newSalarySummary.getHours()){
+			updated = true;
+		}
+		if(currentSalarySummary.getiRPF() != newSalarySummary.getiRPF()){
+			updated = true;
+		}
+		if(currentSalarySummary.getbSE() != newSalarySummary.getbSE()){
+			updated = true;
+		}
+		if(currentSalarySummary.getrET() != newSalarySummary.getrET()){
+			updated = true;
+		}
+		if(currentSalarySummary.getCostSaleHour() != newSalarySummary.getCostSaleHour()){
+			updated = true;
+		}
+				
+		return updated;
 	}
 
 	@Override

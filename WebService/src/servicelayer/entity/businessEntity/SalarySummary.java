@@ -32,6 +32,7 @@ public class SalarySummary {
 	private double costSaleHour;
 	private int hours;
 	private Date createdDateTimeUTC;
+
 	
 	public SalarySummary()
 	{
@@ -210,6 +211,6 @@ public class SalarySummary {
 	public void setCreatedDateTimeUTC(Date createdDateTimeUTC) {
 		this.createdDateTimeUTC = createdDateTimeUTC;
 	}
-	
-	
+
+		
 }
