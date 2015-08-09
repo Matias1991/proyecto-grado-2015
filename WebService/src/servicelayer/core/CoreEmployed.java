@@ -7,9 +7,11 @@ import datalayer.daos.DAOEmployees;
 import datalayer.daos.DAOManager;
 import servicelayer.entity.businessEntity.Employed;
 import servicelayer.entity.businessEntity.SalarySummary;
+import servicelayer.entity.businessEntity.SalarySummaryVersion;
 import servicelayer.entity.businessEntity.User;
 import servicelayer.entity.valueObject.VOEmployed;
 import servicelayer.entity.valueObject.VOSalarySummary;
+import servicelayer.entity.valueObject.VOSalarySummaryVersion;
 import servicelayer.entity.valueObject.VOUser;
 import shared.ConfigurationProperties;
 import shared.exceptions.ClientException;
@@ -383,5 +385,27 @@ public class CoreEmployed implements ICoreEmployed{
 		voSalarySummary.setPercentageTypeFONASA(voSalarySummary.getPersonalFONASAContribution()/voSalarySummary.getNominalSalary());
 		
 		return voSalarySummary;
+	}
+
+	@Override
+	public ArrayList<VOSalarySummaryVersion> getAllSalarySummaryVersion(int employedId) throws ServerException, ClientException {	
+		ArrayList<VOSalarySummaryVersion> list = new ArrayList<VOSalarySummaryVersion>();
+		
+		Employed employed = iDAOEmployees.getObject(employedId);
+		if(employed != null){			
+			ArrayList<SalarySummaryVersion> aux = employed.getAllSalarySummaryVersion();
+			
+			for (SalarySummaryVersion salarySummaryVersion : aux) {
+				VOSalarySummaryVersion voSSV = new VOSalarySummaryVersion();
+				voSSV.setCreatedDateTimeUTC(salarySummaryVersion.getCreatedDateTimeUTC());
+				voSSV.setVersion(salarySummaryVersion.getVersion());
+				list.add(voSSV);
+			}
+					
+		}
+		else
+			throw new ClientException("No existe un empleado con ese id");
+		
+		return list;		
 	}
 }

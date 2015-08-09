@@ -1,5 +1,7 @@
 package views.employees;
 
+import java.text.DateFormat;
+import java.util.ArrayList;
 import java.util.Collection;
 
 import org.eclipse.jdt.core.compiler.BuildContext;
@@ -32,6 +34,7 @@ import controllers.EmployeeController;
 import entities.Employee;
 import entities.RequestContext;
 import entities.SalarySummary;
+import entities.SalarySummaryVersion;
 
 public class CatalogEmployeesView extends BaseView {
 
@@ -539,13 +542,15 @@ public class CatalogEmployeesView extends BaseView {
 		
 	}
 	
-	private void buildVersion(int employeeId){
-		int[] aux = EmployeeController.GetVersions(employeeId);			
-		cboVersion.removeAllItems();
-		for (Integer auxInt : aux) {
-			cboVersion.addItem(auxInt);			
-		}		
-		//cboVersion.select(cboVersion.size());
+	private void buildVersion(int employeeId){		
+		Collection<SalarySummaryVersion> aux = EmployeeController.GetVersions(employeeId);
+		
+		cboVersion.removeAllItems();	
+		for (SalarySummaryVersion salarySummaryVersion : aux) {
+			cboVersion.addItem(salarySummaryVersion.getVersion());			
+			cboVersion.setItemCaption(salarySummaryVersion.getVersion(), DateFormat.getDateInstance().format(salarySummaryVersion.getCreatedDateTimeUTC()));
+		}
+		
 	}
 	
 	@Override
@@ -593,8 +598,7 @@ public class CatalogEmployeesView extends BaseView {
 		mainLayout.addComponent(tabEmployee, "top:102.0px;left:400.0px;");
 		
 		//cboVersion
-		cboVersion = new ComboBox();
-		//cboVersion.setCaption("Versión");
+		cboVersion = new ComboBox();		
 		cboVersion.setImmediate(true);
 		cboVersion.setWidth("100px");
 		cboVersion.setHeight("30px");

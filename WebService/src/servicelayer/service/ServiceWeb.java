@@ -11,6 +11,7 @@ import servicelayer.entity.valueObject.VOCategory;
 import servicelayer.entity.valueObject.VOEmployed;
 import servicelayer.entity.valueObject.VOProject;
 import servicelayer.entity.valueObject.VOSalarySummary;
+import servicelayer.entity.valueObject.VOSalarySummaryVersion;
 import servicelayer.entity.valueObject.VOUser;
 import servicelayer.utilities.Constants;
 import shared.LoggerMSMP;
@@ -474,6 +475,32 @@ public class ServiceWeb extends ServiceBase{
 			
 			ArrayList<Integer> listAllVersions = iCoreEmployed.getAllVersionSalarySummary(employedId);
 			Integer [] arrayListVersion= new Integer[listAllVersions.size()];
+			listAllVersions.toArray(arrayListVersion);
+		    return arrayListVersion;
+
+		} catch (ServerException e) {
+			ThrowServerExceptionAndLogError(e, "obtener todas las versiones del resumen de salario");
+		} catch (ClientException e) {
+			throw new RuntimeException(e.getMessage());
+		}catch (InterruptedException e) {
+			throw new RuntimeException(Constants.TRANSACTION_ERROR);	
+		} catch (Exception e) {
+			ThrowGenericExceptionAndLogError(e);
+		}
+		finally
+		{
+			transactionLock.unlock();
+		}
+		return null;
+	}
+	
+	public VOSalarySummaryVersion [] getAllSalarySummaryVersion(int employedId)
+	{
+		try {
+			transactionLock.tryLock(Constants.DEFAULT_TRANSACTION_TIME, TimeUnit.SECONDS);
+			
+			ArrayList<VOSalarySummaryVersion> listAllVersions = iCoreEmployed.getAllSalarySummaryVersion(employedId);			
+			VOSalarySummaryVersion [] arrayListVersion= new VOSalarySummaryVersion[listAllVersions.size()];
 			listAllVersions.toArray(arrayListVersion);
 		    return arrayListVersion;
 

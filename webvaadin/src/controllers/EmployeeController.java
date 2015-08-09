@@ -8,6 +8,7 @@ import org.apache.axis2.AxisFault;
 
 import servicelayer.service.ServiceWebStub;
 import servicelayer.service.ServiceWebStub.EstimateSalarySummary;
+import servicelayer.service.ServiceWebStub.GetAllSalarySummaryVersion;
 import servicelayer.service.ServiceWebStub.GetAllVersionsSalarySummary;
 import servicelayer.service.ServiceWebStub.GetEmployees;
 import servicelayer.service.ServiceWebStub.GetSalarySummaryByVersion;
@@ -15,9 +16,11 @@ import servicelayer.service.ServiceWebStub.InsertEmployed;
 import servicelayer.service.ServiceWebStub.VOEmployed;
 import servicelayer.service.ServiceWebStub.DeleteEmployed;
 import servicelayer.service.ServiceWebStub.UpdatedEmployed;
+import servicelayer.service.ServiceWebStub.VOSalarySummaryVersion;
 import utils.PopupWindow;
 import entities.Employee;
 import entities.SalarySummary;
+import entities.SalarySummaryVersion;
 
 public class EmployeeController {
 
@@ -134,16 +137,22 @@ public class EmployeeController {
 			e.printStackTrace();
 		}
 		return result;
-	}
+	}	
+
 	
-	public static int[] GetVersions (int idEmployee){
-		int[] result = null;
+	public static Collection<SalarySummaryVersion> GetVersions (int idEmployee){
+		Collection<SalarySummaryVersion> result = new ArrayList<SalarySummaryVersion>();
 		try{
 			ServiceWebStub service = new ServiceWebStub();
-			GetAllVersionsSalarySummary version = new GetAllVersionsSalarySummary();
+			GetAllSalarySummaryVersion version = new GetAllSalarySummaryVersion();
 			
 			version.setEmployedId(idEmployee);
-			result = service.getAllVersionsSalarySummary(version).get_return();			
+			VOSalarySummaryVersion[] aux = service.getAllSalarySummaryVersion(version).get_return();
+			
+			for (VOSalarySummaryVersion voSalarySummaryVersion : aux) {
+				SalarySummaryVersion ssv = new SalarySummaryVersion(voSalarySummaryVersion);
+				result.add(ssv);
+			}						
 		}catch (AxisFault e) {
 			// TODO Auto-generated catch block
 			String error = e.getMessage().replace("<faultstring>", "");

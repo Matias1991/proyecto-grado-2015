@@ -2,8 +2,10 @@ package shared.interfaces.core;
 
 import java.util.ArrayList;
 
+import servicelayer.entity.businessEntity.SalarySummaryVersion;
 import servicelayer.entity.valueObject.VOEmployed;
 import servicelayer.entity.valueObject.VOSalarySummary;
+import servicelayer.entity.valueObject.VOSalarySummaryVersion;
 import shared.exceptions.ClientException;
 import shared.exceptions.ServerException;
 
@@ -22,6 +24,8 @@ public interface ICoreEmployed {
     void updateEmployed(int id, VOEmployed voEmployed) throws ServerException, ClientException;
     
     ArrayList<Integer> getAllVersionSalarySummary(int employedId) throws ServerException, ClientException;
+    
+    ArrayList<VOSalarySummaryVersion> getAllSalarySummaryVersion(int employedId) throws ServerException, ClientException;
     
     VOSalarySummary getSalarySummaryByVersion(int employedId, int version) throws ServerException, ClientException;
 }

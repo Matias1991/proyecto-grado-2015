@@ -205,6 +205,22 @@
             }
                 
            /**
+            * auto generated Axis2 call back method for getAllSalarySummaryVersion method
+            * override this method for handling normal response from getAllSalarySummaryVersion operation
+            */
+           public void receiveResultgetAllSalarySummaryVersion(
+                    servicelayer.service.ServiceWebStub.GetAllSalarySummaryVersionResponse result
+                        ) {
+           }
+
+          /**
+           * auto generated Axis2 Error handler
+           * override this method for handling error response from getAllSalarySummaryVersion operation
+           */
+            public void receiveErrorgetAllSalarySummaryVersion(java.lang.Exception e) {
+            }
+                
+           /**
             * auto generated Axis2 call back method for deleteUser method
             * override this method for handling normal response from deleteUser operation
             */
