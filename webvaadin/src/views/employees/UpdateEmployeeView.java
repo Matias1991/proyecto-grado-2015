@@ -1,6 +1,7 @@
 package views.employees;
 
 import java.util.Collection;
+
 import utils.PopupWindow;
 import views.BaseView;
 
@@ -10,6 +11,7 @@ import com.vaadin.data.util.BeanItem;
 import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.data.util.converter.StringToDoubleConverter;
 import com.vaadin.data.util.converter.StringToIntegerConverter;
+import com.vaadin.data.validator.EmailValidator;
 import com.vaadin.event.SelectionEvent;
 import com.vaadin.event.SelectionEvent.SelectionListener;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
@@ -291,6 +293,9 @@ public class UpdateEmployeeView extends BaseView {
 			validate = false;
 			txtHours.setRequiredError("Es requerido");
 		}
+		if(!txtEmail.isValid()){
+			validate = false;
+		}
 		return validate;		
 	}
 	
@@ -314,9 +319,10 @@ public class UpdateEmployeeView extends BaseView {
 		// Email
 		txtEmail = new TextField();
 		txtEmail.setCaption("Correo electrónico");
-		txtEmail.setImmediate(false);
+		txtEmail.setImmediate(true);
 		txtEmail.setWidth("390px");
 		txtEmail.setHeight("-1px");
+		txtEmail.addValidator(new EmailValidator("Formato inválido"));
 		
 		// Direccion
 		txtAddress = new TextField();

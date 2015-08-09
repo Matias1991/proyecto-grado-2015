@@ -190,7 +190,7 @@ public class DAOEmployees implements IDAOEmployees{
 				+ "email = ?, "
 				+ "address = ?, "
 				+ "cellphone = ?, "
-				+ "createdDateTimeUTC = ?, "
+				//+ "createdDateTimeUTC = ?, "
 				+ "updatedDateTimeUTC = ?, "
 				+ "employedTypeId = ?, "
 				+ "userId = ? "
@@ -204,15 +204,15 @@ public class DAOEmployees implements IDAOEmployees{
 			preparedStatement.setString(3, obj.getEmail());
 			preparedStatement.setString(4, obj.getAddress());
 			preparedStatement.setString(5, obj.getCellPhone());
-			preparedStatement.setTimestamp(6, new Timestamp(obj.getCreatedDateTimeUTC().getTime()));
-			preparedStatement.setTimestamp(7, new Timestamp(obj.getUpdatedDateTimeUTC().getTime()));
-			preparedStatement.setInt(8, obj.getEmployedType().getValue());
+			//preparedStatement.setTimestamp(6, new Timestamp(obj.getCreatedDateTimeUTC().getTime()));
+			preparedStatement.setTimestamp(6, new Timestamp(obj.getUpdatedDateTimeUTC().getTime()));
+			preparedStatement.setInt(7, obj.getEmployedType().getValue());
 			if(obj.getUser() != null)
-				preparedStatement.setInt(9, obj.getUser().getId());
+				preparedStatement.setInt(8, obj.getUser().getId());
 			else
-				preparedStatement.setNull(9, java.sql.Types.INTEGER);
+				preparedStatement.setNull(8, java.sql.Types.INTEGER);
 			
-			preparedStatement.setInt(10, id);
+			preparedStatement.setInt(9, id);
 			
 			preparedStatement.executeUpdate();
 			 
