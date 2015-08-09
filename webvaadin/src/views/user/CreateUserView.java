@@ -113,6 +113,10 @@ public class CreateUserView extends BaseView {
 	public void enter(ViewChangeEvent event) {
 		super.enter(event);
 		if (RequestContext.getRequestContext() != null) {
+			// Compruebo si el usuario es de tipo administrador
+			if(RequestContext.getRequestContext().getUserType() != 1){
+				getUI().getNavigator().navigateTo(WebvaadinUI.MAINMENU);
+			}
 			txtName.focus();
 			cleanInputs();
 		}
