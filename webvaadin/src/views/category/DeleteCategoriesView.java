@@ -49,6 +49,7 @@ public class DeleteCategoriesView extends BaseView {
 
 			@Override
 			public void buttonClick(ClickEvent event) {
+				btnDelete.setEnabled(false);
 
 				ConfirmDialog.show(WebvaadinUI.getCurrent(), "Confirmación",
 						"¿Desea eliminar el rubro?", "Si", "No",
@@ -73,7 +74,7 @@ public class DeleteCategoriesView extends BaseView {
 
 							}
 						});
-
+				btnDelete.setEnabled(true);
 			}
 		});
 	}

@@ -44,10 +44,12 @@ public class ChangePasswordView extends BaseView {
 
 			@Override
 			public void buttonClick(ClickEvent event) {
+				btnModify.setEnabled(false);
 				if(!txtOldPassword.isValid() || !txtNewPassword.isValid() || !txtConfirmPassword.isValid()){
 					txtOldPassword.setRequiredError("Es requerido");
 					txtNewPassword.setRequiredError("Es requerido");
 					txtConfirmPassword.setRequiredError("Es requerido");
+					btnModify.setEnabled(true);
 				}else {
 					if(changePasswordValidate()){
 						UserController userController = new UserController();
@@ -55,6 +57,7 @@ public class ChangePasswordView extends BaseView {
 							PopupWindow popup = new PopupWindow("AVISO", "Constraseña modificada correctamente");
 							//limpio los campos
 							cleanInputs();
+							btnModify.setEnabled(true);
 							getUI().getNavigator().navigateTo(WebvaadinUI.MAINMENU);
 						}
 					}

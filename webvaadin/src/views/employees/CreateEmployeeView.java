@@ -18,6 +18,7 @@ import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.GridLayout;
 import com.vaadin.ui.Label;
+import com.vaadin.ui.Notification;
 import com.vaadin.ui.OptionGroup;
 import com.vaadin.ui.TabSheet;
 import com.vaadin.ui.TextField;
@@ -436,9 +437,9 @@ public class CreateEmployeeView extends BaseView {
 			@Override
 			public void buttonClick(ClickEvent event) {
 				// TODO Auto-generated method stub
+				btnCreate.setEnabled(false);
 				
 				if(validateCreateEmployee()){
-					btnCreate.setEnabled(false);
 					Employee newEmployee = new Employee();
 					newEmployee.setName(txtName.getValue());
 					newEmployee.setLastName(txtSurname.getValue());
@@ -477,6 +478,7 @@ public class CreateEmployeeView extends BaseView {
 						cleanInputs();								
 					}
 				}				
+				btnCreate.setEnabled(true);
 			}
 		});
 		

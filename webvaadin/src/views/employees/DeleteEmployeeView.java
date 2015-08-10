@@ -53,7 +53,7 @@ public class DeleteEmployeeView extends BaseView {
 
 			@Override
 			public void buttonClick(ClickEvent event) {
-				
+				btnDelete.setEnabled(false);
 				ConfirmDialog.show(WebvaadinUI.getCurrent(), "Confirmación", "Desea eliminar al empleado?", "Si", "No", new ConfirmDialog.Listener() {
 					
 					@Override
@@ -74,8 +74,7 @@ public class DeleteEmployeeView extends BaseView {
 						
 					}
 				});
-				
-				
+				btnDelete.setEnabled(true);
 			}
 		});
 	}

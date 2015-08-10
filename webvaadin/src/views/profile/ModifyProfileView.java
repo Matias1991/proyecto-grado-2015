@@ -56,6 +56,7 @@ public class ModifyProfileView extends BaseView {
 
 			@Override
 			public void buttonClick(ClickEvent event) {
+				btnModify.setEnabled(false);
 				if (validateModifyProfileUser()) {
 					ServiceWebStub modifyProfileService;
 
@@ -72,6 +73,7 @@ public class ModifyProfileView extends BaseView {
 					new PopupWindow("AVISO", "Perfil modificado correctamente");
 					
 				}
+				btnModify.setEnabled(true);
 			}
 		});
 

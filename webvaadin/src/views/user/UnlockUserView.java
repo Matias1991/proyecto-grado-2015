@@ -52,6 +52,7 @@ public class UnlockUserView extends BaseView{
 
 			@Override
 			public void buttonClick(ClickEvent event) {
+				btnUnlock.setEnabled(false);
 				ConfirmDialog.show(WebvaadinUI.getCurrent(), "Confirmación", "Desea desbloquear el usuario?", "Si", "No", 
 						new ConfirmDialog.Listener() {
 

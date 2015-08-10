@@ -59,10 +59,8 @@ public class CreateUserView extends BaseView {
 
 			@Override
 			public void buttonClick(ClickEvent event) {
-
+				btnAdd.setEnabled(false);
 				if (validateCreateUser()) {
-
-					btnAdd.setEnabled(false);
 					// Creo el ValueObjet cargandolo con los datos carados por
 					// el usuario
 					User newUser = new User();
@@ -84,6 +82,7 @@ public class CreateUserView extends BaseView {
 						cleanInputs();
 					}
 				}
+				btnAdd.setEnabled(true);
 			}
 		});
 

@@ -75,6 +75,7 @@ public class ModifyUserView extends BaseView {
 		btnModify.addClickListener(new Button.ClickListener() {
 			@Override
 			public void buttonClick(ClickEvent event) {
+				btnModify.setEnabled(false);
 				ServiceWebStub modifyService;
 				if (validateModifyUser()) {
 					try {
@@ -109,6 +110,7 @@ public class ModifyUserView extends BaseView {
 						PopupWindow popup = new PopupWindow("ERROR", error.replace("</faultstring>", ""));
 					}
 				}
+				btnModify.setEnabled(true);
 			}
 
 		});
