@@ -16,6 +16,7 @@ public class Category {
 	private boolean isRRHH;
 	private Date createdDateTimeUTC;
 	private String createDateTimeUTCToShow;
+	private String projectName;
 	
 	public Category(){	}
 	
@@ -27,7 +28,11 @@ public class Category {
 		this.setCategoryTypeId(voCategory.getCategoryType());
 		this.setCategoryType(getCategoryTypeToShow());
 		this.createdDateTimeUTC = voCategory.getCreateDateTimeUTC();
-		
+		if(voCategory.getProjectId() != 0)
+			this.projectName = voCategory.getProjectName();	
+		else
+			this.projectName = "N/A";
+		this.isRRHH = voCategory.getIsRRHH();
 		this.setCreateDateTimeUTCToShow(new SimpleDateFormat("dd-MM-yyyy").format(createdDateTimeUTC));
 	}
 	
@@ -130,5 +135,13 @@ public class Category {
 
 	public void setCreateDateTimeUTCToShow(String createDateTimeUTCToShow) {
 		this.createDateTimeUTCToShow = createDateTimeUTCToShow;
+	}
+
+	public String getProjectName() {
+		return projectName;
+	}
+
+	public void setProjectName(String projectName) {
+		this.projectName = projectName;
 	}
 }

@@ -13126,6 +13126,48 @@
                                }
                             
 
+                        /**
+                        * field for ProjectName
+                        */
+
+                        
+                                    protected java.lang.String localProjectName ;
+                                
+                           /*  This tracker boolean wil be used to detect whether the user called the set method
+                          *   for this attribute. It will be used to determine whether to include this field
+                           *   in the serialized XML
+                           */
+                           protected boolean localProjectNameTracker = false ;
+
+                           public boolean isProjectNameSpecified(){
+                               return localProjectNameTracker;
+                           }
+
+                           
+
+                           /**
+                           * Auto generated getter method
+                           * @return java.lang.String
+                           */
+                           public  java.lang.String getProjectName(){
+                               return localProjectName;
+                           }
+
+                           
+                        
+                            /**
+                               * Auto generated setter method
+                               * @param param ProjectName
+                               */
+                               public void setProjectName(java.lang.String param){
+                            localProjectNameTracker = true;
+                                   
+                                            this.localProjectName=param;
+                                    
+
+                               }
+                            
+
      
      
         /**
@@ -13283,6 +13325,24 @@
                                                } else {
                                                     xmlWriter.writeCharacters(org.apache.axis2.databinding.utils.ConverterUtil.convertToString(localProjectId));
                                                }
+                                    
+                                   xmlWriter.writeEndElement();
+                             } if (localProjectNameTracker){
+                                    namespace = "http://valueObject.entity.servicelayer/xsd";
+                                    writeStartElement(null, namespace, "projectName", xmlWriter);
+                             
+
+                                          if (localProjectName==null){
+                                              // write the nil attribute
+                                              
+                                                     writeAttribute("xsi","http://www.w3.org/2001/XMLSchema-instance","nil","1",xmlWriter);
+                                                  
+                                          }else{
+
+                                        
+                                                   xmlWriter.writeCharacters(localProjectName);
+                                            
+                                          }
                                     
                                    xmlWriter.writeEndElement();
                              }
@@ -13507,7 +13567,13 @@
                                  
                                 elementList.add(
                                    org.apache.axis2.databinding.utils.ConverterUtil.convertToString(localProjectId));
-                            }
+                            } if (localProjectNameTracker){
+                                      elementList.add(new javax.xml.namespace.QName("http://valueObject.entity.servicelayer/xsd",
+                                                                      "projectName"));
+                                 
+                                         elementList.add(localProjectName==null?null:
+                                         org.apache.axis2.databinding.utils.ConverterUtil.convertToString(localProjectName));
+                                    }
 
                 return new org.apache.axis2.databinding.utils.reader.ADBXMLStreamReaderImpl(qName, elementList.toArray(), attribList.toArray());
             
@@ -13733,6 +13799,33 @@
                                         
                                                object.setProjectId(java.lang.Integer.MIN_VALUE);
                                            
+                                    }
+                                
+                                    
+                                    while (!reader.isStartElement() && !reader.isEndElement()) reader.next();
+                                
+                                    if (reader.isStartElement() && new javax.xml.namespace.QName("http://valueObject.entity.servicelayer/xsd","projectName").equals(reader.getName())){
+                                
+                                       nillableValue = reader.getAttributeValue("http://www.w3.org/2001/XMLSchema-instance","nil");
+                                       if (!"true".equals(nillableValue) && !"1".equals(nillableValue)){
+                                    
+                                    java.lang.String content = reader.getElementText();
+                                    
+                                              object.setProjectName(
+                                                    org.apache.axis2.databinding.utils.ConverterUtil.convertToString(content));
+                                            
+                                       } else {
+                                           
+                                           
+                                           reader.getElementText(); // throw away text nodes if any.
+                                       }
+                                      
+                                        reader.next();
+                                    
+                              }  // End of if for expected property start element
+                                
+                                    else {
+                                        
                                     }
                                   
                             while (!reader.isStartElement() && !reader.isEndElement())

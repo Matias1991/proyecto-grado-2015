@@ -40,7 +40,7 @@ public class CoreCategory implements ICoreCategory {
 		if(category.getCategoryType() == 2 && category.getIsRRHH())
 		{
 			Category categoryByDescription = iDAOCategory.getCategoryByDescription(category.getDescription());
-			if(categoryByDescription != null && categoryByDescription.getProjectId() == category.getProjectId())
+			if(categoryByDescription != null && categoryByDescription.getProject().getId() == category.getProject().getId())
 				throw new ClientException("Ese rubro ya esta asosicado al proyecto seleccionado");
 		}
 		iDAOCategory.insert(category);
@@ -103,8 +103,13 @@ public class CoreCategory implements ICoreCategory {
 		voCategory.setDescription(category.getDescription());
 		voCategory.setAmount(category.getAmount());
 		voCategory.setCreateDateTimeUTC(category.getCreateDateTimeUTC());
-		voCategory.setProjectId(category.getProjectId());
+		if(category.getProject() != null)
+		{
+			voCategory.setProjectId(category.getProject().getId());
+			voCategory.setProjectName(category.getProject().getName());
+		}
 		voCategory.setCategoryType(category.getCategoryType());
+		voCategory.setIsRRHH(category.getIsRRHH());
 		
 		return voCategory;
 	}

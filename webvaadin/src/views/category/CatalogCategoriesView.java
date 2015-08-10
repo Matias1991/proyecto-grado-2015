@@ -60,14 +60,15 @@ public class CatalogCategoriesView extends BaseView {
 			categoriesGrid.removeColumn("projectId");
 			categoriesGrid.removeColumn("createdDateTimeUTC");
 			categoriesGrid.removeColumn("isRRHH");
-			categoriesGrid.setColumnOrder("id", "description", "amount", "categoryType");
+			categoriesGrid.removeColumn("id");
+			categoriesGrid.setColumnOrder("description", "amount", "categoryType", "projectName");
 	
-			categoriesGrid.getColumn("id").setHeaderCaption("Identificador");
 			categoriesGrid.getColumn("description").setHeaderCaption("Descripción");
 			categoriesGrid.getColumn("amount").setHeaderCaption("Monto");
 			categoriesGrid.getColumn("categoryType").setHeaderCaption("Asociado a");
 			categoriesGrid.getColumn("createDateTimeUTCToShow").setHeaderCaption("Fecha de creacion");
 			categoriesGrid.getColumn("isRRHHToShow").setHeaderCaption("Tipo de recurso");
+			categoriesGrid.getColumn("projectName").setHeaderCaption("Nombre de proyecto");
 			categoriesGrid.setWidth(100, Unit.PERCENTAGE);
 			categoriesGrid.setHeight(100, Unit.PERCENTAGE);
 			categoriesGrid.setSelectionMode(SelectionMode.SINGLE);
@@ -105,11 +106,11 @@ public class CatalogCategoriesView extends BaseView {
 		// common part: create layout
 		mainLayout = new AbsoluteLayout();
 		mainLayout.setImmediate(false);
-		mainLayout.setWidth("682px");
+		mainLayout.setWidth("880px");
 		mainLayout.setHeight("501px");
 		
 		// top-level component properties
-		setWidth("682px");
+		setWidth("880px");
 		setHeight("501px");
 		
 		// lblTitle

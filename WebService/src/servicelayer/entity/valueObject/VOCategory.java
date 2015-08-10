@@ -10,6 +10,7 @@ public class VOCategory implements Serializable{
 	private double amount;
 	private Date createDateTimeUTC;
 	private int projectId;
+	private String projectName;
 	private int categoryType;
 	private boolean isRRHH;
 	private static final long serialVersionUID = 1L;
@@ -68,6 +69,14 @@ public class VOCategory implements Serializable{
 
 	public void setIsRRHH(boolean isRRHH) {
 		this.isRRHH = isRRHH;
+	}
+
+	public String getProjectName() {
+		return projectName;
+	}
+
+	public void setProjectName(String projectName) {
+		this.projectName = projectName;
 	}
 	
 }

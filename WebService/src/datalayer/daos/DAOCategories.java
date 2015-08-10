@@ -10,6 +10,7 @@ import java.util.Date;
 
 import datalayer.utilities.ManageConnection;
 import servicelayer.entity.businessEntity.Category;
+import servicelayer.entity.businessEntity.Project;
 import shared.LoggerMSMP;
 import shared.exceptions.ServerException;
 import shared.interfaces.dataLayer.IDAOCategroy;
@@ -45,7 +46,7 @@ public class DAOCategories implements IDAOCategroy {
 			preparedStatement.setDouble(3, obj.getAmount());
 			preparedStatement.setTimestamp(4, new Timestamp(obj
 					.getCreateDateTimeUTC().getTime()));
-			preparedStatement.setInt(5, obj.getProjectId());
+			preparedStatement.setInt(5, obj.getProject() != null ? obj.getProject().getId() : 0);
 			preparedStatement.setInt(6, obj.getCategoryType());
 			preparedStatement.setBoolean(7, obj.getIsRRHH());
 			
@@ -102,7 +103,7 @@ public class DAOCategories implements IDAOCategroy {
 
 			preparedStatement.setString(1, obj.getDescription());
 			preparedStatement.setDouble(2, obj.getAmount());
-			preparedStatement.setInt(3, obj.getProjectId());
+			preparedStatement.setInt(3, obj.getProject() != null ? obj.getProject().getId() : 0);
 			preparedStatement.setInt(4, obj.getCategoryType());
 			preparedStatement.setInt(5, id);
 
@@ -182,13 +183,20 @@ public class DAOCategories implements IDAOCategroy {
 		PreparedStatement preparedStatement = null;
 		ResultSet rs = null;
 		try {
-			String sql;
-			sql = "SELECT * FROM CATEGORY";
-			preparedStatement = this.connection.prepareStatement(sql);
-			rs = preparedStatement.executeQuery(sql);
+			
+			StringBuilder strBuilder = new StringBuilder();
+			strBuilder.append("SELECT C.*, P.NAME as ProjectName ");
+			strBuilder.append("FROM CATEGORY C ");
+			strBuilder.append("LEFT OUTER JOIN PROJECT P ON P.Id = C.ProjectId ");
+			
+			preparedStatement = this.connection.prepareStatement(strBuilder.toString());
+			rs = preparedStatement.executeQuery();
 
 			while (rs.next()) {
-				categories.add(BuildCategory(rs));
+				Category category = BuildCategory(rs);
+				if(category.getProject() != null)
+					category.getProject().setName(rs.getString("projectName"));
+				categories.add(category);
 			}
 
 		} catch (SQLException e) {
@@ -245,15 +253,18 @@ public class DAOCategories implements IDAOCategroy {
 		Date createDateTimeUTC = rs.getTimestamp("createdDateTimeUTC");
 		int projectId = rs.getInt("projectid");
 		int categoryType = rs.getInt("categoryType");
+		boolean isRRhh = rs.getBoolean("isRRHH");
 
 		Category category = new Category();
 		category.setId(_id);
 		category.setDescription(description);
 		category.setAmount(amount);
 		category.setCreateDateTimeUTC(createDateTimeUTC);
-		category.setProjectId(projectId);
+		if(projectId != 0)
+			category.setProject(new Project(projectId));
 		category.setCategoryType(categoryType);
-
+		category.setIsRRHH(isRRhh);
+		
 		return category;
 	}
 }
