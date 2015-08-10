@@ -476,6 +476,7 @@ public class CreateEmployeeView extends BaseView {
 						PopupWindow popup = new PopupWindow("AVISO", "Empleado creado correctamente");
 						cleanInputs();								
 					}
+					btnCreate.setEnabled(true);
 				}				
 			}
 		});
