@@ -25,6 +25,8 @@ import com.vaadin.annotations.PreserveOnRefresh;
 import com.vaadin.annotations.Theme;
 import com.vaadin.navigator.Navigator;
 import com.vaadin.navigator.Navigator.ComponentContainerViewDisplay;
+import com.vaadin.navigator.View;
+import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.server.ThemeResource;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.ui.Alignment;
@@ -33,6 +35,7 @@ import com.vaadin.ui.Image;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.MenuBar;
 import com.vaadin.ui.MenuBar.MenuItem;
+import com.vaadin.ui.Notification;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 
@@ -132,6 +135,8 @@ public class WebvaadinUI extends UI {
 		mainLayout.addComponent(layoutViews, 2, 2, 11, 2);
 
 		navigator = new Navigator(this, viewDisplay);
+		
+		navigator.setErrorView(new LoginView());
 
 		navigator.addView("", new MainMenuView());		
 		navigator.addView(LOGINVIEW, new LoginView());
