@@ -149,6 +149,10 @@ public class Employed {
 		iDAOSalarySummaries.insert(this.id, salarySummary);
 	}
 	
+	public void updateSalarySummary(SalarySummary salarySummary) throws ServerException{
+		iDAOSalarySummaries.update(this.id, salarySummary);
+	}
+	
 	public ArrayList<SalarySummary> getSalarySummaries() throws ServerException
 	{
 		return iDAOSalarySummaries.getSalarySummaries(this.id);

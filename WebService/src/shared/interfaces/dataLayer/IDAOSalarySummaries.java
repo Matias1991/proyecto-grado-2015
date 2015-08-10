@@ -13,6 +13,8 @@ public interface IDAOSalarySummaries {
 	void delete(int employedId, int salarySummaryId) throws ServerException;
 	
 	void deleteSalarySummaries(int employedId) throws ServerException;
+	
+	int update(int employedId, SalarySummary salarySummary) throws ServerException;
 
     SalarySummary getLatestVersionSalarySummary(int employedId) throws ServerException;
 	

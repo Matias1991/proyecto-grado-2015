@@ -93,6 +93,91 @@ public class DAOSalarySummaries implements IDAOSalarySummaries{
 		
 		return 0;
 	}
+	
+	@Override
+	public int update(int employedId, SalarySummary salarySummary) throws ServerException{
+		PreparedStatement preparedStatement = null;
+
+		String updateSQL = "UPDATE SALARYSUMMARY SET"
+				+ " employedId = ?,"
+				+ " nominalSalary =?,"
+				+ " tickets = ?,"
+				+ " personalRetirementContribution =?,"
+				+ " employersContributionsRetirement =?,"
+				+ " personalFONASAContribution =?,"
+				+ " employersFONASAContribution =?,"
+				+ " personalFRLContribution =?,"
+				+ " employersFRLContribution =?,"
+				+ " IRPF =?,"
+				+ " ticketsEmployers =?,"
+				+ " BSE =?,"
+				+ " totalDiscounts =?,"
+				+ " totalEmployerContributions =?,"
+				+ " nominalWithoutContributions =?,"
+				+ " dismissalPrevention =?,"
+				+ " incidenceSalary =?,"
+				+ " incidenceTickets =?,"
+				+ " RET =?,"
+				+ " salaryToPay =?,"
+				+ " costMonth =?,"
+				+ " costRealHour =?,"
+				+ " costSaleHour =?,"
+				+ " hours =?,"
+				+ " createdDateTimeUTC =?"
+				+ " WHERE id = ? AND version = ?";
+		
+		try {
+			preparedStatement = this.connection.prepareStatement(updateSQL);			
+			
+			
+			preparedStatement.setInt(1, employedId);
+			preparedStatement.setDouble(2, salarySummary.getNominalSalary());
+			preparedStatement.setDouble(3, salarySummary.getTickets());
+			preparedStatement.setDouble(4, salarySummary.getPersonalRetirementContribution());
+			preparedStatement.setDouble(5, salarySummary.getEmployersContributionsRetirement());
+			preparedStatement.setDouble(6, salarySummary.getPersonalFONASAContribution());
+			preparedStatement.setDouble(7, salarySummary.getEmployersFONASAContribution());
+			preparedStatement.setDouble(8, salarySummary.getPersonalFRLContribution());
+			preparedStatement.setDouble(9, salarySummary.getEmployersFRLContribution());
+			preparedStatement.setDouble(10, salarySummary.getiRPF());
+			preparedStatement.setDouble(11, salarySummary.getTicketsEmployers());
+			preparedStatement.setDouble(12, salarySummary.getbSE());
+			preparedStatement.setDouble(13, salarySummary.getTotalDiscounts());
+			preparedStatement.setDouble(14, salarySummary.getTotalEmployerContributions());
+			preparedStatement.setDouble(15, salarySummary.getNominalWithoutContributions());
+			preparedStatement.setDouble(16, salarySummary.getDismissalPrevention());
+			preparedStatement.setDouble(17, salarySummary.getIncidenceSalary());
+			preparedStatement.setDouble(18, salarySummary.getIncidenceTickets());
+			preparedStatement.setDouble(19, salarySummary.getrET());
+			preparedStatement.setDouble(20, salarySummary.getSalaryToPay());
+			preparedStatement.setDouble(21, salarySummary.getCostMonth());
+			preparedStatement.setDouble(22, salarySummary.getCostRealHour());
+			preparedStatement.setDouble(23, salarySummary.getCostSaleHour());
+			preparedStatement.setDouble(24, salarySummary.getHours());
+			preparedStatement.setTimestamp(25,new Timestamp(salarySummary.getCreatedDateTimeUTC().getTime()));
+			
+			preparedStatement.setInt(26, salarySummary.getId());	
+			preparedStatement.setInt(27, getLatestVersion(employedId));
+			
+			
+			preparedStatement.executeUpdate();
+			 
+		} catch (SQLException e) {
+			throw new ServerException(e);
+		}finally {
+
+			if (preparedStatement != null) {
+				try {
+					preparedStatement.close();
+				} catch (SQLException e) {
+					LoggerMSMP.setLog(e.getMessage());
+				}
+			}
+		}
+		
+		return 0;
+		
+	}
 
 	@Override
 	public void delete(int employedId, int salarySummaryId)

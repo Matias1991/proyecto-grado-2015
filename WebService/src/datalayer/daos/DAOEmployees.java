@@ -189,8 +189,7 @@ public class DAOEmployees implements IDAOEmployees{
 				+ "lastName = ?, "
 				+ "email = ?, "
 				+ "address = ?, "
-				+ "cellphone = ?, "
-				//+ "createdDateTimeUTC = ?, "
+				+ "cellphone = ?, "				
 				+ "updatedDateTimeUTC = ?, "
 				+ "employedTypeId = ?, "
 				+ "userId = ? "
@@ -203,8 +202,7 @@ public class DAOEmployees implements IDAOEmployees{
 			preparedStatement.setString(2, obj.getLastName());
 			preparedStatement.setString(3, obj.getEmail());
 			preparedStatement.setString(4, obj.getAddress());
-			preparedStatement.setString(5, obj.getCellPhone());
-			//preparedStatement.setTimestamp(6, new Timestamp(obj.getCreatedDateTimeUTC().getTime()));
+			preparedStatement.setString(5, obj.getCellPhone());			
 			preparedStatement.setTimestamp(6, new Timestamp(obj.getUpdatedDateTimeUTC().getTime()));
 			preparedStatement.setInt(7, obj.getEmployedType().getValue());
 			if(obj.getUser() != null)

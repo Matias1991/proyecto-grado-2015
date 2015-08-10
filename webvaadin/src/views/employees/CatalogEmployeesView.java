@@ -605,7 +605,7 @@ public class CatalogEmployeesView extends BaseView {
 		//cboVersion
 		cboVersion = new ComboBox();		
 		cboVersion.setImmediate(true);
-		cboVersion.setWidth("100px");
+		cboVersion.setWidth("150px");
 		cboVersion.setHeight("30px");
 		mainLayout.addComponent(cboVersion, "top:58.0px;left:465.0px");
 		

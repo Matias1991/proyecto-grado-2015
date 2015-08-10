@@ -1,5 +1,6 @@
 package servicelayer.core;
 
+import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -170,10 +171,16 @@ public class CoreEmployed implements ICoreEmployed{
 	    	currentEmployed.setIDAOSalarySummaries(daoManager.getDAOSalarySummaries());
 	    	SalarySummary salarySummary = calculateSalarySummary(voEmployed.getvOSalarySummary());
 	    	if(updatedSalarySummaries(currentSalarySummary, salarySummary)){
-	    		salarySummary.setCreatedDateTimeUTC(new Date());
-		    	currentEmployed.addNewSalarySummary(salarySummary);	    		
-	    	}
-	    	
+	    		if(!DateFormat.getDateInstance().format(currentSalarySummary.getCreatedDateTimeUTC()).equals(DateFormat.getDateInstance().format(new Date()))){	    			
+	    			salarySummary.setCreatedDateTimeUTC(new Date());
+	    			currentEmployed.addNewSalarySummary(salarySummary);
+	    		}else{
+	    			//Actualizar el mismo registro que esta
+	    			salarySummary.setCreatedDateTimeUTC(currentSalarySummary.getCreatedDateTimeUTC());
+	    			salarySummary.setId(currentSalarySummary.getId());
+	    			currentEmployed.updateSalarySummary(salarySummary);	    			
+	    		}			    		    		
+	    	}	    	
 			
 			daoManager.commit();
 	    }
