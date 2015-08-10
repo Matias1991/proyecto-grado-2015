@@ -184,6 +184,8 @@ public class CoreUser implements ICoreUser {
 			else
 				throw new ClientException("El usuario esta bloquedo");
 		}
+		else
+			throw new ClientException("Usuario y/o constraseña incorrecta");
 
 		return voUser;
 	}
