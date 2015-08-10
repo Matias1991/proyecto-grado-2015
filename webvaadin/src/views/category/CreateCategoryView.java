@@ -95,7 +95,7 @@ public class CreateCategoryView extends BaseView {
 
 			@Override
 			public void buttonClick(ClickEvent event) {
-				//btnCreate.setEnabled(false);
+				btnCreate.setEnabled(false);
 				txtDescription.setValidationVisible(true);
 				txtAmount.setValidationVisible(true);
 
@@ -152,6 +152,8 @@ public class CreateCategoryView extends BaseView {
 						lblTitleProyectos.setComponentError(null);
 					}
 				}
+
+				btnCreate.setEnabled(true);
 			}
 		});
 		

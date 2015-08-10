@@ -166,7 +166,7 @@ public class UpdateEmployeeView extends BaseView {
 			@Override
 			public void buttonClick(ClickEvent event) {
 				// TODO Auto-generated method stub
-				
+				btnModiffy.setEnabled(false);
 				if(validateUpdateEmployee()){
 					Employee updateEmployee = new Employee();
 					updateEmployee.setName(txtName.getValue());
@@ -210,7 +210,8 @@ public class UpdateEmployeeView extends BaseView {
 						tabEmployee.setVisible(false);
 						btnModiffy.setEnabled(false);								
 					}
-				}				
+				}			
+				btnModiffy.setEnabled(true);
 			}
 		});
 		

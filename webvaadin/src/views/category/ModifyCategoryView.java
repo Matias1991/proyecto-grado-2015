@@ -65,6 +65,7 @@ public class ModifyCategoryView extends BaseView {
 		btnUpdate.addClickListener(new Button.ClickListener() {
 			@Override
 			public void buttonClick(ClickEvent event) {
+				btnUpdate.setEnabled(false);
 
 				ConfirmDialog.show(WebvaadinUI.getCurrent(), "Confirmación",
 						"¿Desea modificar este rubro?", "Si", "No",
@@ -102,7 +103,7 @@ public class ModifyCategoryView extends BaseView {
 
 							}
 						});
-
+				btnUpdate.setEnabled(true);
 			}
 		});
 
