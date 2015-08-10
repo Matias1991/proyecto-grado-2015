@@ -176,7 +176,7 @@ public class CoreEmployed implements ICoreEmployed{
 	    			currentEmployed.addNewSalarySummary(salarySummary);
 	    		}else{
 	    			//Actualizar el mismo registro que esta
-	    			salarySummary.setCreatedDateTimeUTC(currentSalarySummary.getCreatedDateTimeUTC());
+	    			salarySummary.setCreatedDateTimeUTC(currentSalarySummary.getCreatedDateTimeUTC());	    			
 	    			salarySummary.setId(currentSalarySummary.getId());
 	    			currentEmployed.updateSalarySummary(salarySummary);	    			
 	    		}			    		    		
