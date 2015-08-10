@@ -82,7 +82,10 @@ public class CreateCategoryView extends BaseView {
         	 @Override
         	 public void valueChange(ValueChangeEvent event) {
         		 if(categoryType.getValue() == "Empresa")
+        		 {
+        			 isRRHH.setValue("Recurso material");
  					enablePanelProject(false);
+        		 }
  				else
  					enablePanelProject(true);
              }
@@ -304,7 +307,7 @@ public class CreateCategoryView extends BaseView {
 		isRRHH = new OptionGroup();
 		isRRHH.setCaption("Tipo de recurso");
 		isRRHH.setImmediate(false);
-		isRRHH.setVisible(false);
+		isRRHH.setVisible(true);
 		isRRHH.setWidth("-1px");
 		isRRHH.setHeight("-1px");
 		mainLayout.addComponent(isRRHH, "top:320.0px;left:130.0px;");
@@ -334,7 +337,7 @@ public class CreateCategoryView extends BaseView {
 	void enablePanelProject(boolean value)
 	{
 		lblTitleProyectos.setVisible(value);
-		isRRHH.setVisible(value);
+		isRRHH.setReadOnly(!value);
 		if(projectsGrid != null)
 			projectsGrid.setVisible(value);
 		
