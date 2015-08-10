@@ -92,11 +92,11 @@ public class CreateCategoryView extends BaseView {
 
 			@Override
 			public void buttonClick(ClickEvent event) {
-				btnCreate.setEnabled(false);
+				//btnCreate.setEnabled(false);
 				txtDescription.setValidationVisible(true);
 				txtAmount.setValidationVisible(true);
 
-				if(projectsGrid.getSelectedRow() == null)
+				if(categoryType.getValue() == "Proyecto" && projectsGrid != null && projectsGrid.getSelectedRow() == null)
 				{
 					lblTitleProyectos.setComponentError(new UserError("Debe seleccionar un proyecto"));
 					return;
@@ -122,7 +122,7 @@ public class CreateCategoryView extends BaseView {
 						category.setCategoryTypeId(2);
 					}
 					
-					if(projectsGrid.getSelectedRow() != null)
+					if(projectsGrid != null && projectsGrid.getSelectedRow() != null)
 					{
 						BeanItem<Project> item = beanContainer.getItem(projectsGrid.getSelectedRow());
 						category.setProjectId(item.getBean().getId());
@@ -135,16 +135,19 @@ public class CreateCategoryView extends BaseView {
 					
 					category.setCreatedDateTimeUTC(popupDateField_1.getValue());
 					
-					CategoryController.createCategory(category);
+					boolean result = CategoryController.createCategory(category);
 					
-					PopupWindow popup = new PopupWindow("AVISO", "Rubro creado correctamente");
-					
-					txtDescription.clear();
-					txtAmount.clear();
-					
-					txtDescription.setValidationVisible(false);
-					txtAmount.setValidationVisible(false);
-					lblTitleProyectos.setComponentError(null);
+					if(result)
+					{
+						new PopupWindow("AVISO", "Rubro creado correctamente");
+						
+						txtDescription.clear();
+						txtAmount.clear();
+						
+						txtDescription.setValidationVisible(false);
+						txtAmount.setValidationVisible(false);
+						lblTitleProyectos.setComponentError(null);
+					}
 				}
 			}
 		});

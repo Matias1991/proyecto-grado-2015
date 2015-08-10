@@ -28,10 +28,21 @@ public class CoreCategory implements ICoreCategory {
 	}
 
 	@Override
-	public void insertCategory(VOCategory voCategory) throws ServerException,
-			ClientException {
+	public void insertCategory(VOCategory voCategory) throws ServerException, ClientException {
 
 		Category category = new Category(voCategory);
+		if(category.getCategoryType() == 1 && !category.getIsRRHH())
+		{	
+			Category categoryByDescription = iDAOCategory.getCategoryByDescription(category.getDescription());
+			if(categoryByDescription != null)
+				throw new ClientException("Ya existe un rubro con esta descripcion");
+		}
+		if(category.getCategoryType() == 2 && category.getIsRRHH())
+		{
+			Category categoryByDescription = iDAOCategory.getCategoryByDescription(category.getDescription());
+			if(categoryByDescription != null && categoryByDescription.getProjectId() == category.getProjectId())
+				throw new ClientException("Ese rubro ya esta asosicado al proyecto seleccionado");
+		}
 		iDAOCategory.insert(category);
 	}
 

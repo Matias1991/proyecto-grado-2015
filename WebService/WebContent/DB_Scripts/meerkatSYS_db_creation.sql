@@ -111,6 +111,7 @@ CREATE TABLE IF NOT EXISTS Project
 CREATE TABLE IF NOT EXISTS Category
 (
 	Id                  INTEGER NOT NULL AUTO_INCREMENT,
+	Version              INTEGER NOT NULL,
 	Description         VARCHAR(120) NULL,
 	Amount 				DECIMAL(10,2) NULL,
 	CreatedDateTimeUTC  TIMESTAMP NULL,

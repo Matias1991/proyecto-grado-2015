@@ -34,19 +34,20 @@ public class DAOCategories implements IDAOCategroy {
 	public int insert(Category obj) throws ServerException {
 		PreparedStatement preparedStatement = null;
 
-		String insertSQL = "INSERT INTO CATEGORY (DESCRIPTION, AMOUNT, CREATEDDATETIMEUTC, PROJECTID, CATEGORYTYPE, ISRRHH) VALUES"
-				+ "(?,?,?,?,?,?)";
+		String insertSQL = "INSERT INTO CATEGORY (VERSION, DESCRIPTION, AMOUNT, CREATEDDATETIMEUTC, PROJECTID, CATEGORYTYPE, ISRRHH) VALUES"
+				+ "(?,?,?,?,?,?,?)";
 
 		try {
 			preparedStatement = this.connection.prepareStatement(insertSQL);
 
-			preparedStatement.setString(1, obj.getDescription());
-			preparedStatement.setDouble(2, obj.getAmount());
-			preparedStatement.setTimestamp(3, new Timestamp(obj
+			preparedStatement.setInt(1, 1);
+			preparedStatement.setString(2, obj.getDescription());
+			preparedStatement.setDouble(3, obj.getAmount());
+			preparedStatement.setTimestamp(4, new Timestamp(obj
 					.getCreateDateTimeUTC().getTime()));
-			preparedStatement.setInt(4, obj.getProjectId());
-			preparedStatement.setInt(5, obj.getCategoryType());
-			preparedStatement.setBoolean(6, obj.getIsRRHH());
+			preparedStatement.setInt(5, obj.getProjectId());
+			preparedStatement.setInt(6, obj.getCategoryType());
+			preparedStatement.setBoolean(7, obj.getIsRRHH());
 			
 			preparedStatement.executeUpdate();
 
@@ -205,7 +206,38 @@ public class DAOCategories implements IDAOCategroy {
 
 		return categories;
 	}
+	
+	@Override
+	public Category getCategoryByDescription(String description) throws ServerException {
+		Category category = null;
+		PreparedStatement preparedStatement = null;
+		ResultSet rs = null;
+		try {
 
+			String getSQL = "SELECT * FROM CATEGORY WHERE description = ?";
+			preparedStatement = this.connection.prepareStatement(getSQL);
+			preparedStatement.setString(1, description);
+			rs = preparedStatement.executeQuery();
+
+			while (rs.next()) {
+				category = BuildCategory(rs);
+			}
+		} catch (SQLException e) {
+			throw new ServerException(e);
+		} finally {
+			try {
+				if (preparedStatement != null)
+					preparedStatement.close();
+				if (rs != null)
+					rs.close();
+			} catch (SQLException e) {
+				LoggerMSMP.setLog(e.getMessage());
+			}
+		}
+
+		return category;
+	}
+	
 	private Category BuildCategory(ResultSet rs) throws SQLException {
 		int _id = rs.getInt("id");
 		String description = rs.getString("description");
@@ -224,5 +256,4 @@ public class DAOCategories implements IDAOCategroy {
 
 		return category;
 	}
-
 }
