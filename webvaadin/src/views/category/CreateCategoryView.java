@@ -98,22 +98,25 @@ public class CreateCategoryView extends BaseView {
 				btnCreate.setEnabled(false);
 				txtDescription.setValidationVisible(true);
 				txtAmount.setValidationVisible(true);
-
-				if(categoryType.getValue() == "Proyecto" && projectsGrid != null && projectsGrid.getSelectedRow() == null)
+				lblTitleProyectos.setComponentError(null);
+				boolean valid = true;
+				
+				if(categoryType.getValue() == "Proyecto" && projectsGrid != null && projectsGrid.getSelectedRow() == null || categoryType.getValue() == "Proyecto" && projectsGrid == null)
 				{
 					lblTitleProyectos.setComponentError(new UserError("Debe seleccionar un proyecto"));
-					return;
+					valid = false;
 				}
-				else
-					lblTitleProyectos.setComponentError(null);
 				
 				if(!txtAmount.isValid() || !txtDescription.isValid() || !popupDateField_1.isValid()){
 					txtAmount.setRequiredError("Es requerido");
 					txtDescription.setRequiredError("Es requerido");
 					txtAmount.setConversionError("Debe ser numérico");
 					popupDateField_1.setRequiredError("Es requerido");
-					
-				}else{
+					valid = false;
+				}
+				
+				
+				if(valid){
 					
 					Category category = new Category();
 					category.setDescription(txtDescription.getValue());
@@ -198,6 +201,7 @@ public class CreateCategoryView extends BaseView {
 			{
 				projectsGrid.setVisible(false);
 				lblTitleProyectos.setVisible(true);
+				lblTitleProyectos.setComponentError(null);
 				label_2.setVisible(true);
 			}
 		}
