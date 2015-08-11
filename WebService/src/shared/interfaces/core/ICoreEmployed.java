@@ -11,7 +11,7 @@ import shared.exceptions.ServerException;
 
 public interface ICoreEmployed {
 
-	void insertEmployed(VOEmployed voEmployed) throws ServerException;
+	void insertEmployed(VOEmployed voEmployed) throws ServerException, ClientException;
 	
 	ArrayList<VOEmployed> getEmployess() throws ServerException;
 	

@@ -86,6 +86,26 @@ public class DAOEmployees implements IDAOEmployees{
 		return newEmployedId;
 	}
 
+	public int getCountPartners () throws ServerException{
+
+		// devuelve cuantos empleados de tipo Socio hay insertados en base
+		String controlSQL = "SELECT COUNT(*) FROM EMPLOYED WHERE EmployedTypeId = 2;";
+		ResultSet rs = null;
+		PreparedStatement statementToControl = null;
+		int count = 0;
+
+		try {
+			statementToControl = this.connection.prepareStatement(controlSQL);
+
+			rs = statementToControl.executeQuery();
+			rs.next();
+			count = rs.getInt(1);
+		} catch (SQLException e) {
+			throw new ServerException(e);
+		}
+		return count;
+	}
+	
 	@Override
 	public void delete(int id) throws ServerException {
 		PreparedStatement preparedStatement = null;

@@ -343,6 +343,8 @@ public class ServiceWeb extends ServiceBase{
 			return true;
 		} catch (ServerException e) {
 			ThrowServerExceptionAndLogError(e, "ingresar el empleado");
+		} catch (ClientException e) {
+			throw new RuntimeException(e.getMessage());
 		} catch (InterruptedException e) {
 			throw new RuntimeException(Constants.TRANSACTION_ERROR);	
 		} catch (Exception e) {

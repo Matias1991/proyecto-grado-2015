@@ -40,28 +40,33 @@ public class CoreEmployed implements ICoreEmployed{
 	}
 	
 	@Override
-	public void insertEmployed(VOEmployed voEmployed) throws ServerException{
+	public void insertEmployed(VOEmployed voEmployed) throws ServerException, ClientException{
 
 		//utlizar el dao manager para realizar el insertar el empleado y su respectivo resumen de salario
 		//se utliza la misma conexion para realizar ambas transacciones
 		//si falla un de ellas se revierten los cambios
 		DAOManager daoManager = new DAOManager();
 		try {
+			int countPartners = iDAOEmployees.getCountPartners();
+			if(countPartners >= 2 && voEmployed.getEmployedType() == 2 ){
+				throw new ClientException("No se pueden crear más de dos empleados de tipo socio");
+			} else{
+				Employed emp = new Employed(voEmployed, daoManager.getDAOSalarySummaries());
+				emp.setCreatedDateTimeUTC(new Date());
+				emp.setUpdatedDateTimeUTC(new Date());
+				//add new employed
+				int newEmployedId = daoManager.getDAOEmployees().insert(emp);
+				
+				emp.setId(newEmployedId);
+				
+				SalarySummary salarySummary = calculateSalarySummary(voEmployed.getvOSalarySummary());
+				salarySummary.setCreatedDateTimeUTC(new Date());
+				//add new salary summary for employed
+				emp.addNewSalarySummary(salarySummary);
+				
+				daoManager.commit();	
+			}
 			
-			Employed emp = new Employed(voEmployed, daoManager.getDAOSalarySummaries());
-			emp.setCreatedDateTimeUTC(new Date());
-			emp.setUpdatedDateTimeUTC(new Date());
-			//add new employed
-			int newEmployedId = daoManager.getDAOEmployees().insert(emp);
-			
-			emp.setId(newEmployedId);
-			
-			SalarySummary salarySummary = calculateSalarySummary(voEmployed.getvOSalarySummary());
-			salarySummary.setCreatedDateTimeUTC(new Date());
-			//add new salary summary for employed
-			emp.addNewSalarySummary(salarySummary);
-			
-			daoManager.commit();
 
 		} catch (ServerException e) {
 			daoManager.rollback();
@@ -161,29 +166,36 @@ public class CoreEmployed implements ICoreEmployed{
 	    Employed currentEmployed = daoManager.getDAOEmployees().getObject(id);
 	    if(currentEmployed != null)
 	    {
-	    	Employed updatedEmployed = new Employed(voEmployed);
-	    	//UPDATE EMPLOYED	    	
-	    	updatedEmployed.setUpdatedDateTimeUTC(new Date());
-	    	daoManager.getDAOEmployees().update(id, updatedEmployed);
-	    	
-	    	//CREATE NEW VERSION OF SALARY SUMMARY	    	
-	    	SalarySummary currentSalarySummary = currentEmployed.getLatestVersionSalarySummary();	    	
-	    	currentEmployed.setIDAOSalarySummaries(daoManager.getDAOSalarySummaries());
-	    	SalarySummary salarySummary = calculateSalarySummary(voEmployed.getvOSalarySummary());
-	    	if(updatedSalarySummaries(currentSalarySummary, salarySummary)){
-	    		if(!DateFormat.getDateInstance().format(currentSalarySummary.getCreatedDateTimeUTC()).equals(DateFormat.getDateInstance().format(new Date()))){	    			
-	    			salarySummary.setCreatedDateTimeUTC(new Date());
-	    			currentEmployed.addNewSalarySummary(salarySummary);
-	    		}else{
-	    			//Actualizar el mismo registro que esta
-	    			//salarySummary.setCreatedDateTimeUTC(currentSalarySummary.getCreatedDateTimeUTC());
-	    			salarySummary.setCreatedDateTimeUTC(new Date());
-	    			salarySummary.setId(currentSalarySummary.getId());
-	    			currentEmployed.updateSalarySummary(salarySummary);	    			
-	    		}			    		    		
-	    	}	    	
-			
-			daoManager.commit();
+
+			int countPartners = iDAOEmployees.getCountPartners();
+			if(countPartners >= 2 && voEmployed.getEmployedType() == 2 ){
+				throw new ClientException("No pueden haber más de dos empleados de tipo socio");
+			} else{
+				Employed updatedEmployed = new Employed(voEmployed);
+		    	//UPDATE EMPLOYED	    	
+		    	updatedEmployed.setUpdatedDateTimeUTC(new Date());
+		    	daoManager.getDAOEmployees().update(id, updatedEmployed);
+		    	
+		    	//CREATE NEW VERSION OF SALARY SUMMARY	    	
+		    	SalarySummary currentSalarySummary = currentEmployed.getLatestVersionSalarySummary();	    	
+		    	currentEmployed.setIDAOSalarySummaries(daoManager.getDAOSalarySummaries());
+		    	SalarySummary salarySummary = calculateSalarySummary(voEmployed.getvOSalarySummary());
+		    	if(updatedSalarySummaries(currentSalarySummary, salarySummary)){
+		    		if(!DateFormat.getDateInstance().format(currentSalarySummary.getCreatedDateTimeUTC()).equals(DateFormat.getDateInstance().format(new Date()))){	    			
+		    			salarySummary.setCreatedDateTimeUTC(new Date());
+		    			currentEmployed.addNewSalarySummary(salarySummary);
+		    		}else{
+		    			//Actualizar el mismo registro que esta
+		    			//salarySummary.setCreatedDateTimeUTC(currentSalarySummary.getCreatedDateTimeUTC());
+		    			salarySummary.setCreatedDateTimeUTC(new Date());
+		    			salarySummary.setId(currentSalarySummary.getId());
+		    			currentEmployed.updateSalarySummary(salarySummary);	    			
+		    		}			    		    		
+		    	}	    	
+				
+				daoManager.commit();			
+			}
+				
 	    }
 	    else
 	    	throw new ClientException("No existe un empleado con ese id");
