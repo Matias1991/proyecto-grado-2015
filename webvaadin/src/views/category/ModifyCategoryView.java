@@ -15,6 +15,7 @@ import com.vaadin.data.validator.IntegerValidator;
 import com.vaadin.event.SelectionEvent;
 import com.vaadin.event.SelectionEvent.SelectionListener;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
+import com.vaadin.server.Sizeable.Unit;
 import com.vaadin.ui.AbsoluteLayout;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
@@ -143,8 +144,8 @@ public class ModifyCategoryView extends BaseView {
 			grid.getColumn("description").setHeaderCaption("Descripción");
 			grid.getColumn("amount").setHeaderCaption("Monto");
 			grid.getColumn("categoryTypeToShow").setHeaderCaption("Asociado a");
-			grid.setWidth(65, Unit.PERCENTAGE);
-			grid.setHeight(65, Unit.PERCENTAGE);
+			grid.setWidth(373, Unit.PIXELS);
+			grid.setHeight(310, Unit.PIXELS);			
 			grid.setSelectionMode(SelectionMode.SINGLE);
 			grid.getSelectedRows().clear();
 			mainLayout.addComponent(grid, "top:20%;left:0px;");
