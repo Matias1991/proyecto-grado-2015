@@ -49,7 +49,7 @@ public class UpdateEmployeeView extends BaseView {
 	private TextField txtCellphone;
 	private TextField txtNominalSalary;
 	private TextField txtTickets;
-	private ComboBox comboPercentagePersonalFonasaContribution;
+	private ComboBox cboPercentagePersonalFonasaContribution;
 	private TextField txtRet;
 	private TextField txtIrpf;
 	private TextField txtBse;
@@ -118,8 +118,8 @@ public class UpdateEmployeeView extends BaseView {
 						txtCostSaleHour.setConvertedValue(0.0);
 					}
 					estimateSalarySummary.setCostSaleHour(Double.parseDouble(txtCostSaleHour.getConvertedValue().toString()));
-					estimateSalarySummary.setPercentageTypeFONASA((Double.parseDouble(comboPercentagePersonalFonasaContribution.getValue().toString()))/100);
-					
+					//estimateSalarySummary.setPercentageTypeFONASA((Double.parseDouble(cboPercentagePersonalFonasaContribution.getValue().toString()))/100);
+					estimateSalarySummary.setPercentageTypeFONASA((Double)cboPercentagePersonalFonasaContribution.getValue());
 					
 									
 					SalarySummary aux = EmployeeController.estimateEmployee(estimateSalarySummary);
@@ -148,7 +148,7 @@ public class UpdateEmployeeView extends BaseView {
 						txtSalaryToPay.setConvertedValue(aux.getSalaryToPay());
 						txtCostMonth.setConvertedValue(aux.getCostMonth());
 						txtCostRealHour.setConvertedValue(aux.getCostRealHour());	
-						comboPercentagePersonalFonasaContribution.setConvertedValue(aux.getPercentageTypeFONASA()*100);
+						cboPercentagePersonalFonasaContribution.setValue(aux.getPercentageTypeFONASA()*100);
 						
 						changeReadOnlyState(true);
 						tabEmployee.setSelectedTab(1);
@@ -196,7 +196,7 @@ public class UpdateEmployeeView extends BaseView {
 						txtCostSaleHour.setConvertedValue(0.0);
 					}					
 					updateSalarySummary.setCostSaleHour((Double)txtCostSaleHour.getConvertedValue());
-					updateSalarySummary.setPercentageTypeFONASA((Double.parseDouble(comboPercentagePersonalFonasaContribution.getConvertedValue().toString()))/100);
+					updateSalarySummary.setPercentageTypeFONASA((Double.parseDouble(cboPercentagePersonalFonasaContribution.getConvertedValue().toString()))/100);
 					
 					updateEmployee.setSalarySummary(updateSalarySummary);
 				
@@ -238,10 +238,10 @@ public class UpdateEmployeeView extends BaseView {
 			txtTickets.setRequiredError("Es requerido");
 			txtTickets.setConversionError("Debe ser numérico");
 		}
-		if(!comboPercentagePersonalFonasaContribution.isValid()){
+		if(!cboPercentagePersonalFonasaContribution.isValid()){
 			result = false;
-			comboPercentagePersonalFonasaContribution.setRequiredError("Es requerido");
-			comboPercentagePersonalFonasaContribution.setConversionError("Debe ser numérico entre 0 y 100");			
+			cboPercentagePersonalFonasaContribution.setRequiredError("Es requerido");
+			cboPercentagePersonalFonasaContribution.setConversionError("Debe ser numérico entre 0 y 100");			
 		}
 		if(!txtHours.isValid()){
 			result = false;
@@ -287,9 +287,9 @@ public class UpdateEmployeeView extends BaseView {
 			validate = false;
 			txtTickets.setRequiredError("Es requerido");
 		}
-		if(!comboPercentagePersonalFonasaContribution.isValid()){
+		if(!cboPercentagePersonalFonasaContribution.isValid()){
 			validate = false;
-			comboPercentagePersonalFonasaContribution.setRequiredError("Es requerido");
+			cboPercentagePersonalFonasaContribution.setRequiredError("Es requerido");
 		}
 		if(!txtHours.isValid()){
 			validate = false;
@@ -407,19 +407,20 @@ public class UpdateEmployeeView extends BaseView {
 		txtCostSaleHour.setConverter(new StringToDoubleConverter());
 
 		// Porcentaje aporte FONASA Personal
-		comboPercentagePersonalFonasaContribution = new ComboBox();
-		comboPercentagePersonalFonasaContribution
+		cboPercentagePersonalFonasaContribution = new ComboBox();
+		cboPercentagePersonalFonasaContribution
 				.setCaption("% Aporte FONASA Personal");
-		comboPercentagePersonalFonasaContribution.setImmediate(false);
-		comboPercentagePersonalFonasaContribution.setWidth("-1px");
-		comboPercentagePersonalFonasaContribution.setHeight("-1px");
-		comboPercentagePersonalFonasaContribution.setRequired(true);
-		comboPercentagePersonalFonasaContribution.addItem("2");
-		comboPercentagePersonalFonasaContribution.addItem("3");
-		comboPercentagePersonalFonasaContribution.addItem("4.5");
-		comboPercentagePersonalFonasaContribution.addItem("5");
-		comboPercentagePersonalFonasaContribution.addItem("6");
-		comboPercentagePersonalFonasaContribution.addItem("8");
+		cboPercentagePersonalFonasaContribution.setImmediate(false);
+		cboPercentagePersonalFonasaContribution.setWidth("-1px");
+		cboPercentagePersonalFonasaContribution.setHeight("-1px");
+		cboPercentagePersonalFonasaContribution.setRequired(true);
+		cboPercentagePersonalFonasaContribution.addItems(Double.valueOf("2"));
+		cboPercentagePersonalFonasaContribution.addItems(Double.valueOf("3"));
+		cboPercentagePersonalFonasaContribution.addItems(Double.valueOf("4.5"));
+		cboPercentagePersonalFonasaContribution.addItems(Double.valueOf("5"));
+		cboPercentagePersonalFonasaContribution.addItems(Double.valueOf("6"));
+		cboPercentagePersonalFonasaContribution.addItems(Double.valueOf("8"));
+		
 
 		// Aporte Jubilatorio Personal
 		txtPersonalRetirementContribution = new TextField();
@@ -590,7 +591,7 @@ public class UpdateEmployeeView extends BaseView {
 		tab2.setSpacing(true);
 		tab2.addComponent(txtNominalSalary, 0, 0);
 		tab2.addComponent(txtTickets, 1, 0);
-		tab2.addComponent(comboPercentagePersonalFonasaContribution, 0, 1);
+		tab2.addComponent(cboPercentagePersonalFonasaContribution, 0, 1);
 		tab2.addComponent(txtHours, 1, 1);
 		tab2.addComponent(txtIrpf, 0, 2);
 		tab2.addComponent(txtBse, 1, 2);
@@ -721,8 +722,8 @@ public class UpdateEmployeeView extends BaseView {
 		txtAddress.setValue(selectedEmployee.getAddress());
 		txtEmail.setValue(selectedEmployee.getEmail());
 		txtNominalSalary.setConvertedValue(salarySummary.getNominalSalary());	
-		txtTickets.setConvertedValue(salarySummary.getTickets());	
-		comboPercentagePersonalFonasaContribution.setConvertedValue(salarySummary.getPercentageTypeFONASA()*100);	
+		txtTickets.setConvertedValue(salarySummary.getTickets());			
+		cboPercentagePersonalFonasaContribution.setValue(salarySummary.getPercentageTypeFONASA()*100);
 		txtRet.setConvertedValue(salarySummary.getRET());	
 		txtIrpf.setConvertedValue(salarySummary.getIRPF());			
 		txtBse.setConvertedValue(salarySummary.getBSE());
