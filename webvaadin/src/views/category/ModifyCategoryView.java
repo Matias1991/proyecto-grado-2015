@@ -133,6 +133,12 @@ public class ModifyCategoryView extends BaseView {
 			grid.removeColumn("projectId");
 			grid.removeColumn("categoryTypeId");
 			grid.removeColumn("categoryType");
+			grid.removeColumn("createDateTimeUTCToShow");
+			grid.removeColumn("createdDateTimeUTC");
+			grid.removeColumn("isRRHH");
+			grid.removeColumn("isRRHHToShow");
+			grid.removeColumn("projectName");
+			
 			grid.setColumnOrder("description", "amount", "categoryTypeToShow");
 			grid.getColumn("description").setHeaderCaption("Descripción");
 			grid.getColumn("amount").setHeaderCaption("Monto");
