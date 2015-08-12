@@ -343,7 +343,6 @@ public class CreateCategoryView extends BaseView {
 	void enablePanelProject(boolean value)
 	{
 		lblTitleProyectos.setVisible(value);
-		isRRHH.setReadOnly(!value);
 		if(projectsGrid != null)
 			projectsGrid.setVisible(value);
 		

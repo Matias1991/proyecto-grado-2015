@@ -46,7 +46,10 @@ public class DAOCategories implements IDAOCategroy {
 			preparedStatement.setDouble(3, obj.getAmount());
 			preparedStatement.setTimestamp(4, new Timestamp(obj
 					.getCreateDateTimeUTC().getTime()));
-			preparedStatement.setInt(5, obj.getProject() != null ? obj.getProject().getId() : 0);
+			if(obj.getProject() != null)
+				preparedStatement.setInt(5, obj.getProject().getId());
+			else
+				preparedStatement.setNull(5, java.sql.Types.INTEGER);
 			preparedStatement.setInt(6, obj.getCategoryType());
 			preparedStatement.setBoolean(7, obj.getIsRRHH());
 			
@@ -103,7 +106,10 @@ public class DAOCategories implements IDAOCategroy {
 
 			preparedStatement.setString(1, obj.getDescription());
 			preparedStatement.setDouble(2, obj.getAmount());
-			preparedStatement.setInt(3, obj.getProject() != null ? obj.getProject().getId() : 0);
+			if(obj.getProject() != null)
+				preparedStatement.setInt(3, obj.getProject().getId());
+			else
+				preparedStatement.setNull(3, java.sql.Types.INTEGER);
 			preparedStatement.setInt(4, obj.getCategoryType());
 			preparedStatement.setInt(5, id);
 
