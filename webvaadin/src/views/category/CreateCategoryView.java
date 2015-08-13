@@ -74,8 +74,8 @@ public class CreateCategoryView extends BaseView {
 		categoryType.addItems("Empresa", "Proyecto");
 		categoryType.select("Empresa");
 		
-		isRRHH.addItems("Recurso material", "Recurso humano");
-		isRRHH.select("Recurso material");
+		isRRHH.addItems("Material", "Humano");
+		isRRHH.select("Material");
 		
 		
         categoryType.addListener(new ValueChangeListener() {
@@ -83,7 +83,7 @@ public class CreateCategoryView extends BaseView {
         	 public void valueChange(ValueChangeEvent event) {
         		 if(categoryType.getValue() == "Empresa")
         		 {
-        			 isRRHH.setValue("Recurso material");
+        			 isRRHH.setValue("Material");
  					enablePanelProject(false);
         		 }
  				else
@@ -135,7 +135,7 @@ public class CreateCategoryView extends BaseView {
 						category.setProjectId(item.getBean().getId());
 					}
 					
-					if(isRRHH.getValue() == "Recurso material")
+					if(isRRHH.getValue() == "Material")
 						category.setIsRRHH(false);
 					else
 						category.setIsRRHH(true);
