@@ -82,7 +82,7 @@ public class Category {
 	{
 		String result = "";
 		if(isRRHH)
-			result = "Recurso humando";
+			result = "Recurso humano";
 		else
 			result = "Recurso material";
 		
