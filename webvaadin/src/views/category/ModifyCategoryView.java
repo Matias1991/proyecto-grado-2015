@@ -234,6 +234,9 @@ public class ModifyCategoryView extends BaseView {
 						txtAmount.setConvertedValue(catToModify.getAmount());
 						txtDescription.setValue(catToModify.getDescription());
 						categoryType.select(catToModify.getCategoryTypeToShow());
+						if(catToModify.getCategoryTypeToShow().equals("Proyecto")){
+							enablePanelProject(true);
+						}
 						idSelected = catToModify.getId();
 						if(catToModify.getIsRRHH()){
 							isRRHH.select("Humano");
@@ -314,8 +317,12 @@ public class ModifyCategoryView extends BaseView {
 			buildGrid();
 			txtDescription.clear();
 			txtAmount.clear();
-
+			
+			if(projectsGrid != null){
+				mainLayout.removeComponent(projectsGrid);
+			}
 			buildProjectGrid();
+			lblProjectTitle.setVisible(false);
 
 			setComponentsVisible(false);
 		}
