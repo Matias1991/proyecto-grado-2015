@@ -135,13 +135,13 @@ public class ModifyCategoryView extends BaseView {
 										category.setCategoryTypeId(2);
 									}
 
-									if (projectsGrid != null
-											&& projectsGrid.getSelectedRow() != null) {
+									if (projectsGrid != null && projectsGrid.getSelectedRow() != null) {
 										BeanItem<Project> item = beanContainer
 												.getItem(projectsGrid
 														.getSelectedRow());
 										category.setProjectId(item.getBean()
 												.getId());
+										
 									}
 
 									if (isRRHH.getValue() == "Material") {

@@ -67,6 +67,14 @@ public class CoreCategory implements ICoreCategory {
 			if(categoryByDescription != null)
 				throw new ClientException("Ya existe un rubro con esta descripcion");
 		}
+
+		if(category.getCategoryType() == 2 && category.getIsRRHH())
+		{
+			Category categoryByDescription = iDAOCategory.getCategoryByDescription(category.getDescription());
+			if(categoryByDescription != null && categoryByDescription.getProject().getId() == category.getProject().getId())
+				throw new ClientException("Ese rubro ya esta asosicado al proyecto seleccionado");
+		}
+		
 		iDAOCategory.update(id, category);
 		return getCategory(id);
 	}
@@ -80,7 +88,7 @@ public class CoreCategory implements ICoreCategory {
 		category = iDAOCategory.getObject(id);
 		if(category != null){
 			voCategory = BuildVOCategory(category);
-		} else {
+		} else {	
 			throw new ClientException ("No existe ningún rubro con ese id");
 		}
 		
