@@ -642,6 +642,8 @@ public class ServiceWeb extends ServiceBase{
 			return iCoreCategory.updateCategory(id, category);	    
 		} catch (ServerException e) {
 			ThrowServerExceptionAndLogError(e, "obtener todos los rubros");
+		} catch (ClientException e) {
+			throw new RuntimeException(e.getMessage());
 		} catch (InterruptedException e) {
 			throw new RuntimeException(Constants.TRANSACTION_ERROR);
 		} catch (Exception e) {

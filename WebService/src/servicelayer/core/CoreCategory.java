@@ -61,6 +61,12 @@ public class CoreCategory implements ICoreCategory {
 	public VOCategory updateCategory(int id, VOCategory voCategory)
 			throws ServerException, ClientException {
 		Category category = new Category(voCategory);
+		if(category.getCategoryType() == 1 && !category.getIsRRHH())
+		{	
+			Category categoryByDescription = iDAOCategory.getCategoryByDescription(category.getDescription());
+			if(categoryByDescription != null)
+				throw new ClientException("Ya existe un rubro con esta descripcion");
+		}
 		iDAOCategory.update(id, category);
 		return getCategory(id);
 	}
