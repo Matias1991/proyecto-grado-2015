@@ -94,18 +94,20 @@ public class DeleteCategoriesView extends BaseView {
 			grid.removeColumn("id");
 			grid.removeColumn("projectId");
 			grid.removeColumn("categoryTypeId");
-			grid.removeColumn("categoryType");
-			grid.removeColumn("createDateTimeUTCToShow");
+			grid.removeColumn("categoryType");			
 			grid.removeColumn("createdDateTimeUTC");
-			grid.removeColumn("isRRHH");
-			grid.removeColumn("isRRHHToShow");
-			grid.removeColumn("projectName");
-			grid.setColumnOrder("description", "amount", "categoryTypeToShow");
+			grid.removeColumn("isRRHH");				
+			grid.setColumnOrder("description", "amount", "categoryTypeToShow","projectName","createDateTimeUTCToShow","isRRHHToShow");
 			grid.getColumn("description").setHeaderCaption("Descripción");
 			grid.getColumn("amount").setHeaderCaption("Monto");
 			grid.getColumn("categoryTypeToShow").setHeaderCaption("Asociado a");
-			grid.setWidth(373, Unit.PIXELS);
-			grid.setHeight(310, Unit.PIXELS);
+			grid.getColumn("projectName").setHeaderCaption("Proyecto");
+			grid.getColumn("createDateTimeUTCToShow").setHeaderCaption("Fecha de creación");
+			grid.getColumn("isRRHHToShow").setHeaderCaption("Tipo de recurso");
+//			grid.setWidth(565, Unit.PIXELS);
+//			grid.setHeight(310, Unit.PIXELS);
+			grid.setWidth(100, Unit.PERCENTAGE);
+			grid.setHeight(100,Unit.PERCENTAGE);
 			grid.setSelectionMode(SelectionMode.SINGLE);
 			grid.getSelectedRows().clear();
 			mainLayout.addComponent(grid, "top:20%;left:0px;");
@@ -169,7 +171,7 @@ public class DeleteCategoriesView extends BaseView {
 		btnDelete.setImmediate(true);
 		btnDelete.setWidth("-1px");
 		btnDelete.setHeight("-1px");
-		mainLayout.addComponent(btnDelete, "top:50.0px;left:424.0px;");
+		mainLayout.addComponent(btnDelete, "top:50.0px;left:560.0px;");
 
 		return mainLayout;
 	}
