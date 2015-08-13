@@ -193,9 +193,13 @@ public class DAOCategories implements IDAOCategroy {
 		try {
 			
 			StringBuilder strBuilder = new StringBuilder();
-			strBuilder.append("SELECT C.*, P.NAME as ProjectName ");
-			strBuilder.append("FROM CATEGORY C ");
-			strBuilder.append("LEFT OUTER JOIN PROJECT P ON P.Id = C.ProjectId ");
+			strBuilder.append("SELECT C_1.*, P.NAME as ProjectName ");
+			strBuilder.append("FROM CATEGORY C_1 ");
+			strBuilder.append("LEFT OUTER JOIN PROJECT P ON P.Id = C_1.ProjectId ");
+			strBuilder.append("WHERE (C_1.Description, C_1.Version) in (SELECT C_2.Description, MAX(VERSION) ");
+		    strBuilder.append("FROM CATEGORY C_2 ");
+			strBuilder.append("LEFT OUTER JOIN PROJECT P ON P.Id = C_2.ProjectId ");
+			strBuilder.append("GROUP BY C_2.Description )");
 			
 			preparedStatement = this.connection.prepareStatement(strBuilder.toString());
 			rs = preparedStatement.executeQuery();
@@ -224,8 +228,8 @@ public class DAOCategories implements IDAOCategroy {
 	}
 	
 	@Override
-	public Category getCategoryByDescription(String description) throws ServerException {
-		Category category = null;
+	public ArrayList<Category> getCategoriesByDescription(String description) throws ServerException {
+		ArrayList<Category> categories = new ArrayList<Category>();;
 		PreparedStatement preparedStatement = null;
 		ResultSet rs = null;
 		try {
@@ -236,7 +240,7 @@ public class DAOCategories implements IDAOCategroy {
 			rs = preparedStatement.executeQuery();
 
 			while (rs.next()) {
-				category = BuildCategory(rs);
+				categories.add(BuildCategory(rs));
 			}
 		} catch (SQLException e) {
 			throw new ServerException(e);
@@ -251,7 +255,39 @@ public class DAOCategories implements IDAOCategroy {
 			}
 		}
 
-		return category;
+		return categories;
+	}
+	
+	@Override
+	public ArrayList<Category> getCategories(String description, int projectId) throws ServerException {
+		ArrayList<Category> categories = new ArrayList<Category>();;
+		PreparedStatement preparedStatement = null;
+		ResultSet rs = null;
+		try {
+
+			String getSQL = "SELECT * FROM CATEGORY WHERE description = ? and projectId = ?";
+			preparedStatement = this.connection.prepareStatement(getSQL);
+			preparedStatement.setString(1, description);
+			preparedStatement.setInt(2, projectId);
+			rs = preparedStatement.executeQuery();
+
+			while (rs.next()) {
+				categories.add(BuildCategory(rs));
+			}
+		} catch (SQLException e) {
+			throw new ServerException(e);
+		} finally {
+			try {
+				if (preparedStatement != null)
+					preparedStatement.close();
+				if (rs != null)
+					rs.close();
+			} catch (SQLException e) {
+				LoggerMSMP.setLog(e.getMessage());
+			}
+		}
+
+		return categories;
 	}
 	
 	private Category BuildCategory(ResultSet rs) throws SQLException {

@@ -33,15 +33,23 @@ public class CoreCategory implements ICoreCategory {
 		Category category = new Category(voCategory);
 		if(category.getCategoryType() == 1 && !category.getIsRRHH())
 		{	
-			Category categoryByDescription = iDAOCategory.getCategoryByDescription(category.getDescription());
-			if(categoryByDescription != null)
+			if(iDAOCategory.getCategoriesByDescription(category.getDescription()).size() > 0)
 				throw new ClientException("Ya existe un rubro con esta descripcion");
 		}
+		
+		if(category.getCategoryType() == 2 && !category.getIsRRHH())
+		{
+			ArrayList<Category> categoriesByDescription = iDAOCategory.getCategories(category.getDescription(), category.getProject().getId());
+			if(categoriesByDescription.size() > 0)
+				throw new ClientException("Ya existe un rubro con esta descripcion");
+		}
+		
 		if(category.getCategoryType() == 2 && category.getIsRRHH())
 		{
-			Category categoryByDescription = iDAOCategory.getCategoryByDescription(category.getDescription());
-			if(categoryByDescription != null && categoryByDescription.getProject().getId() == category.getProject().getId())
-				throw new ClientException("Ese rubro ya esta asosicado al proyecto seleccionado");
+			ArrayList<Category> categoriesByDescription = iDAOCategory.getCategories(category.getDescription(), category.getProject().getId());
+			
+			if(categoriesByDescription.size() > 0)
+					throw new ClientException("Ese rubro ya esta asosicado al proyecto seleccionado");
 		}
 		iDAOCategory.insert(category);
 	}
@@ -63,9 +71,9 @@ public class CoreCategory implements ICoreCategory {
 		Category category = new Category(voCategory);
 		if(category.getCategoryType() == 1 && !category.getIsRRHH())
 		{	
-			Category categoryByDescription = iDAOCategory.getCategoryByDescription(category.getDescription());
-			if(categoryByDescription != null)
-				throw new ClientException("Ya existe un rubro con esta descripcion");
+			//Category categoryByDescription = iDAOCategory.getCategoryByDescription(category.getDescription());
+			//if(categoryByDescription != null)
+				//throw new ClientException("Ya existe un rubro con esta descripcion");
 		}
 
 		// TODO: Yamila, modificar getCategoryByDescription
