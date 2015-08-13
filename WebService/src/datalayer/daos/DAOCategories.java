@@ -99,7 +99,7 @@ public class DAOCategories implements IDAOCategroy {
 		PreparedStatement preparedStatement = null;
 
 		String updateSQL = "UPDATE CATEGORY "
-				+ "SET DESCRIPTION = ?, AMOUNT = ?, PROJECTID = ?, CATEGORYTYPE = ? WHERE id = ?";
+				+ "SET DESCRIPTION = ?, AMOUNT = ?, PROJECTID = ?, CATEGORYTYPE = ?, CREATEDDATETIMEUTC = ?, ISRRHH = ? WHERE id = ?";
 
 		try {
 			preparedStatement = this.connection.prepareStatement(updateSQL);
@@ -111,7 +111,9 @@ public class DAOCategories implements IDAOCategroy {
 			else
 				preparedStatement.setNull(3, java.sql.Types.INTEGER);
 			preparedStatement.setInt(4, obj.getCategoryType());
-			preparedStatement.setInt(5, id);
+			preparedStatement.setTimestamp(5, new Timestamp(obj.getCreateDateTimeUTC().getTime()));
+			preparedStatement.setBoolean(6, obj.getIsRRHH());
+			preparedStatement.setInt(7, id);
 
 			preparedStatement.executeUpdate();
 

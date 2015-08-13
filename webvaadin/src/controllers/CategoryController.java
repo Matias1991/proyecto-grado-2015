@@ -104,6 +104,10 @@ public class CategoryController {
 		result.setAmount(cat.getAmount());
 		result.setProjectId(cat.getProjectId());
 		result.setCategoryType(cat.getCategoryTypeId());
+		result.setProjectId(cat.getProjectId());
+		result.setIsRRHH(cat.getIsRRHH());
+		result.setCreateDateTimeUTC(cat.getCreatedDateTimeUTC());
+		
 		try {
 			ServiceWebStub service = new ServiceWebStub();
 			UpdateCategory modifyCategory = new UpdateCategory();
