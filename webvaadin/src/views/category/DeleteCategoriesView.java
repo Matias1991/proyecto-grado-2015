@@ -148,11 +148,11 @@ public class DeleteCategoriesView extends BaseView {
 		// common part: create layout
 		mainLayout = new AbsoluteLayout();
 		mainLayout.setImmediate(false);
-		mainLayout.setWidth("700px");
+		mainLayout.setWidth("880px");
 		mainLayout.setHeight("501px");
 
 		// top-level component properties
-		setWidth("700px");
+		setWidth("880px");
 		setHeight("501px");
 
 		// lblTitle
@@ -171,7 +171,7 @@ public class DeleteCategoriesView extends BaseView {
 		btnDelete.setImmediate(true);
 		btnDelete.setWidth("-1px");
 		btnDelete.setHeight("-1px");
-		mainLayout.addComponent(btnDelete, "top:50.0px;left:560.0px;");
+		mainLayout.addComponent(btnDelete, "top:50.0px;left:740.0px;");
 
 		return mainLayout;
 	}
