@@ -1,13 +1,8 @@
 package servicelayer.entity.businessEntity;
 
-
 import java.util.Date;
-
-import datalayer.daos.DAOEmployees;
-import servicelayer.entity.valueObject.VOEmployed;
 import servicelayer.entity.valueObject.VOProject;
 import shared.exceptions.ServerException;
-import shared.interfaces.dataLayer.IDAOEmployees;
 
 
 public class Project {
@@ -18,11 +13,9 @@ public class Project {
 	private Date createdDateTimeUTC;
 	private Date updatedDateTimeUTC;
 	private boolean enabled;
-	private IDAOEmployees IDAOEmployees;
 	
 	public Project() throws ServerException
 	{
-		IDAOEmployees = new DAOEmployees();
 	}
 	
 	public Project(int id)

@@ -2,12 +2,8 @@ package servicelayer.entity.businessEntity;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
-
-import datalayer.daos.DAOEmployees;
 import datalayer.daos.DAOSalarySummaries;
 import servicelayer.entity.valueObject.VOEmployed;
-import servicelayer.entity.valueObject.VOSalarySummary;
 import shared.exceptions.ServerException;
 import shared.interfaces.dataLayer.IDAOSalarySummaries;
 
