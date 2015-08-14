@@ -140,11 +140,11 @@ public class UnlockUserView extends BaseView{
 		// common part: create layout
 		mainLayout = new AbsoluteLayout();
 		mainLayout.setImmediate(false);
-		mainLayout.setWidth("700px");
+		mainLayout.setWidth("880px");
 		mainLayout.setHeight("501px");
 		
 		// top-level component properties
-		setWidth("700px");
+		setWidth("880px");
 		setHeight("501px");
 		
 		// lblTitle
@@ -163,7 +163,7 @@ public class UnlockUserView extends BaseView{
 		btnUnlock.setImmediate(true);
 		btnUnlock.setWidth("-1px");
 		btnUnlock.setHeight("-1px");
-		mainLayout.addComponent(btnUnlock, "top:50.0px;left:510.0px;");
+		mainLayout.addComponent(btnUnlock, "top:50.0px;left:690.0px;");
 		
 		return mainLayout;
 	}

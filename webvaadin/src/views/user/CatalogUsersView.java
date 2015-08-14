@@ -97,11 +97,11 @@ public class CatalogUsersView extends BaseView{
 		// common part: create layout
 		mainLayout = new AbsoluteLayout();
 		mainLayout.setImmediate(false);
-		mainLayout.setWidth("682px");
+		mainLayout.setWidth("880px");
 		mainLayout.setHeight("501px");
 		
 		// top-level component properties
-		setWidth("682px");
+		setWidth("880px");
 		setHeight("501px");
 		
 		// lblTitle
