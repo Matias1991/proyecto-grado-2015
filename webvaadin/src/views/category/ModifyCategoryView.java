@@ -116,12 +116,10 @@ public class ModifyCategoryView extends BaseView {
 								}
 
 								if (confirm.isConfirmed()
-										&& txtAmount.isValid()
-										&& txtDescription.isValid() && valid) {
+										&& txtAmount.isValid()  && valid) {
 
 									Category category = new Category();
-									category.setDescription(txtDescription
-											.getValue());
+									
 									category.setAmount((Double) (txtAmount
 											.getConvertedValue()));
 
@@ -155,7 +153,6 @@ public class ModifyCategoryView extends BaseView {
 									CategoryController.modifyCategory(category,
 											idSelected);
 
-									txtDescription.setValidationVisible(false);
 									txtAmount.setValidationVisible(false);
 									if (grid != null) {
 										mainLayout.removeComponent(grid);
@@ -232,7 +229,9 @@ public class ModifyCategoryView extends BaseView {
 						setComponentsVisible(true);
 						Category catToModify = item.getBean();
 						txtAmount.setConvertedValue(catToModify.getAmount());
+						txtDescription.setEnabled(true);
 						txtDescription.setValue(catToModify.getDescription());
+						txtDescription.setEnabled(false);
 						categoryType.select(catToModify.getCategoryTypeToShow());
 						if(catToModify.getCategoryTypeToShow().equals("Proyecto")){
 							enablePanelProject(true);
@@ -274,10 +273,9 @@ public class ModifyCategoryView extends BaseView {
 			projectsGrid.removeColumn("createdDateTimeUTC");
 			projectsGrid.removeColumn("updatedDateTimeUTC");
 			projectsGrid.removeColumn("id");
+			projectsGrid.removeColumn("enabledToShow");
 			projectsGrid.removeColumn("createDateTimeUTCToShow");
 			projectsGrid.getColumn("name").setHeaderCaption("Nombre");
-			projectsGrid.getColumn("enabledToShow").setHeaderCaption("Estado");
-			projectsGrid.setColumnOrder("name", "enabledToShow");
 			projectsGrid.setSelectionMode(SelectionMode.SINGLE);
 			projectsGrid.getSelectedRows().clear();
 
