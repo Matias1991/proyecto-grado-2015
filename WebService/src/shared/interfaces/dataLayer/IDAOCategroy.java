@@ -7,7 +7,7 @@ import shared.exceptions.ServerException;
 
 public interface IDAOCategroy extends IDAOBase<Category> {
 	
-	ArrayList<Category> getCategoriesByDescription(String description) throws ServerException;
+	ArrayList<Category> getCategories(String description) throws ServerException;
 	
 	ArrayList<Category> getCategories(String description, int projectId) throws ServerException;;
 

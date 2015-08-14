@@ -227,7 +227,7 @@ public class DAOCategories implements IDAOCategroy {
 	}
 	
 	@Override
-	public ArrayList<Category> getCategoriesByDescription(String description) throws ServerException {
+	public ArrayList<Category> getCategories(String description) throws ServerException {
 		ArrayList<Category> categories = new ArrayList<Category>();;
 		PreparedStatement preparedStatement = null;
 		ResultSet rs = null;
