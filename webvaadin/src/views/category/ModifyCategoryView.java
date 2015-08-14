@@ -207,11 +207,10 @@ public class ModifyCategoryView extends BaseView {
 			grid.removeColumn("isRRHH");
 			grid.removeColumn("isRRHHToShow");
 			grid.removeColumn("projectName");
+			grid.removeColumn("amount");
+			grid.removeColumn("categoryTypeToShow");
 
-			grid.setColumnOrder("description", "amount", "categoryTypeToShow");
 			grid.getColumn("description").setHeaderCaption("Descripción");
-			grid.getColumn("amount").setHeaderCaption("Monto");
-			grid.getColumn("categoryTypeToShow").setHeaderCaption("Asociado a");
 			grid.setWidth(320, Unit.PIXELS);
 			grid.setHeight(310, Unit.PIXELS);
 			grid.setSelectionMode(SelectionMode.SINGLE);
