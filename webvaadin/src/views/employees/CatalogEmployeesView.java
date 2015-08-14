@@ -75,6 +75,7 @@ public class CatalogEmployeesView extends BaseView {
 	private TextField txtSalaryToPay;
 	private TextField txtCostMonth;
 	private TextField txtCostRealHour;
+	private TextField txtIncidenceTickets;
 	private Label lblMessage;
 	private OptionGroup optEmployeeType;
 	private ComboBox cboVersion;
@@ -326,6 +327,15 @@ public class CatalogEmployeesView extends BaseView {
 		txtIncidenceSalary.setHeight("-1px");
 		txtIncidenceSalary.setNullRepresentation("");
 		txtIncidenceSalary.setConverter(new StringToDoubleConverter());
+		
+		//Incidencia Tickets
+		txtIncidenceTickets = new TextField();
+		txtIncidenceTickets.setCaption("Incidencia Tickets");
+		txtIncidenceTickets.setImmediate(true);
+		txtIncidenceTickets.setWidth("-1px");
+		txtIncidenceTickets.setHeight("-1px");
+		txtIncidenceTickets.setNullRepresentation("");
+		txtIncidenceTickets.setConverter(new StringToDoubleConverter());		
 
 		// Sueldos a Pagar
 		txtSalaryToPay = new TextField();
@@ -400,10 +410,11 @@ public class CatalogEmployeesView extends BaseView {
 		tab4.addComponent(txtTotalEmployersContribution,0,0);
 		tab4.addComponent(txtNominalWithoutContribution,1,0);		
 		tab4.addComponent(txtIncidenceSalary,0,1);
-		tab4.addComponent(txtDismisalPrevension,1,1);		
-		tab4.addComponent(txtCostMonth,0,2);
-		tab4.addComponent(txtCostRealHour,1,2);
-		tab4.addComponent(txtSalaryToPay,0,3);		
+		tab4.addComponent(txtIncidenceTickets,1,1);
+		tab4.addComponent(txtDismisalPrevension,0,2);		
+		tab4.addComponent(txtCostMonth,1,2);
+		tab4.addComponent(txtCostRealHour,0,3);
+		tab4.addComponent(txtSalaryToPay,1,3);	
 		tabEmployee.addTab(tab4, "Costos 3");
 		
 		tabEmployee.setVisible(false);
@@ -502,6 +513,7 @@ public class CatalogEmployeesView extends BaseView {
 		txtCostMonth.setReadOnly(readOnly);
 		txtCostRealHour.setReadOnly(readOnly);	
 		txtCellphone.setReadOnly(readOnly);
+		txtIncidenceTickets.setReadOnly(readOnly);
 		optEmployeeType.setReadOnly(readOnly);
 	}
 	
@@ -536,7 +548,8 @@ public class CatalogEmployeesView extends BaseView {
 		txtIncidenceSalary.setConvertedValue(voSalarySummary.getIncidenceSalary());
 		txtSalaryToPay.setConvertedValue(voSalarySummary.getSalaryToPay());
 		txtCostMonth.setConvertedValue(voSalarySummary.getCostMonth());
-		txtCostRealHour.setConvertedValue(voSalarySummary.getCostRealHour());				
+		txtCostRealHour.setConvertedValue(voSalarySummary.getCostRealHour());			
+		txtIncidenceTickets.setConvertedValue(voSalarySummary.getIncidenceTickets());
 		optEmployeeType.select(selectedEmployee.getEmployedType());
 		//seteo en readonly false los campos del empleado a mostrar
 		setReadOnlyTxt(true);
