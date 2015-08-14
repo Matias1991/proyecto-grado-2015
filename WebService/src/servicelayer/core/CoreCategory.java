@@ -68,23 +68,25 @@ public class CoreCategory implements ICoreCategory {
 	@Override
 	public VOCategory updateCategory(int id, VOCategory voCategory)
 			throws ServerException, ClientException {
-		Category category = new Category(voCategory);
-		if(category.getCategoryType() == 1 && !category.getIsRRHH())
-		{	
-			//Category categoryByDescription = iDAOCategory.getCategoryByDescription(category.getDescription());
-			//if(categoryByDescription != null)
-				//throw new ClientException("Ya existe un rubro con esta descripcion");
+		Category categoryUpdate = new Category(voCategory);
+		Category categoryOld = iDAOCategory.getObject(id);
+		// Si el rubro era de tipo RRHH y lo cambio a tipo Material, 
+		// valido que no exista uno con el mismo nombre
+		int categoriesEquals = iDAOCategory.getCategoriesByDescription(categoryOld.getDescription()).size();
+		if(categoryOld.getIsRRHH() && !categoryUpdate.getIsRRHH() && categoriesEquals > 1){
+			throw new ClientException("Ya existe un rubro con esta descripcion");
+		}
+		// Si es de tipo recurso humano y ascociado a un proyecto
+		// verifico que ya no esté asociado
+		if(categoryUpdate.getCategoryType() == 2 && categoryUpdate.getIsRRHH())
+		{
+			ArrayList<Category> categoriesByDescription = iDAOCategory.getCategories(categoryOld.getDescription(), categoryUpdate.getProject().getId());
+			if(categoriesByDescription.size() > 0){
+					throw new ClientException("Ese rubro ya esta asosicado al proyecto seleccionado");
+			}
 		}
 
-		// TODO: Yamila, modificar getCategoryByDescription
-//		if(category.getCategoryType() == 2 && category.getIsRRHH())
-//		{
-//			Category categoryByDescription = iDAOCategory.getCategoryByDescription(category.getDescription());
-//			if(categoryByDescription != null && categoryByDescription.getProject().getId() == category.getProject().getId())
-//				throw new ClientException("Ese rubro ya esta asosicado al proyecto seleccionado");
-//		}
-		
-		iDAOCategory.update(id, category);
+		iDAOCategory.update(id, categoryUpdate);
 		return getCategory(id);
 	}
 
