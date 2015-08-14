@@ -48,24 +48,28 @@ public class CoreUser implements ICoreUser {
 	
 		if(iDAOUsers.getUserByUserName(voUser.getUserName()) == null)
 		{
-			//setear el estado del usuario en activo
-			voUser.setUserStatus(UserStatus.ACTIVE.getValue());
-			User user = new User(voUser);
-			
-			String newPassword = generateRandomPassword();
-			
-			//encriptar el password del usuario
-			String hashPassword = HashMD5.Encrypt(newPassword);
-			user.setPassword(hashPassword);
-			
-			iDAOUsers.insert(user);
-
-			try {
+			if(!iDAOUsers.existsEmail(voUser.getEmail())){
+				//setear el estado del usuario en activo
+				voUser.setUserStatus(UserStatus.ACTIVE.getValue());
+				User user = new User(voUser);
 				
-				Email.newUser(user, newPassword);
+				String newPassword = generateRandomPassword();
 				
-			} catch (EmailException e) {
-				throw new ClientException("El usuario fue creado pero ocurrio un error al enviar el correo electrónico");
+				//encriptar el password del usuario
+				String hashPassword = HashMD5.Encrypt(newPassword);
+				user.setPassword(hashPassword);
+				
+				iDAOUsers.insert(user);
+	
+				try {
+					
+					Email.newUser(user, newPassword);
+					
+				} catch (EmailException e) {
+					throw new ClientException("El usuario fue creado pero ocurrio un error al enviar el correo electrónico");
+				}
+			}else{
+				throw new ClientException("Ya existe un usuario con este correo electrónico");
 			}
 		}
 		else
@@ -360,4 +364,5 @@ public class CoreUser implements ICoreUser {
       }
       return pw;
     }
+	
 }

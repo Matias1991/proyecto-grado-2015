@@ -436,4 +436,40 @@ public class DAOUsers implements IDAOUsers {
 		
 		return user;
 	}
+
+	@Override
+	public boolean existsEmail(String email) throws ServerException {
+		PreparedStatement preparedStatement = null;
+		ResultSet rs = null;
+		int total = 0;
+		
+		String countEmailSQL = "SELECT COUNT(*) AS total FROM USER "
+				+ "WHERE email = ?";
+	
+		try{
+			preparedStatement = this.connection.prepareStatement(countEmailSQL);
+			
+			preparedStatement.setString(1, email);
+			
+			rs = preparedStatement.executeQuery();
+			rs.next();
+			total = rs.getInt("total");
+						
+		} catch (SQLException e) {
+			throw new ServerException(e);
+		}finally {
+			try {
+				if (preparedStatement != null)
+					preparedStatement.close();
+				if (rs != null)
+					rs.close();
+			} catch (SQLException e) {
+				LoggerMSMP.setLog(e.getMessage());
+			}
+		}
+		return (total != 0);		
+		
+	}
+	
+
 }

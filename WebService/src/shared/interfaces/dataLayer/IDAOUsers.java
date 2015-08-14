@@ -21,4 +21,6 @@ public interface IDAOUsers extends IDAOBase<User>{
 	void update(int id, UserStatus userStatus, int attempts, Date lastAttemptDateTimeUTC) throws ServerException;
 	
 	ArrayList<User> getUsersByStatus(UserStatus userStatus) throws ServerException;
+	
+	boolean existsEmail(String email) throws ServerException;
 }
