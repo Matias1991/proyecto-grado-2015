@@ -6,6 +6,7 @@ import java.util.Date;
 public class VOCategory implements Serializable{
 
 	private int id;
+	private int version;
 	private String description;
 	private double amount;
 	private Date createDateTimeUTC;
@@ -23,6 +24,14 @@ public class VOCategory implements Serializable{
 		this.id = id;
 	}
 	
+	public int getVersion() {
+		return version;
+	}
+
+	public void setVersion(int version) {
+		this.version = version;
+	}
+
 	public String getDescription() {
 		return description;
 	}

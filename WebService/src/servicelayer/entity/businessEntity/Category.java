@@ -7,6 +7,7 @@ import servicelayer.entity.valueObject.VOCategory;
 public class Category {
 
 	private int id;
+	private int version;
 	private String description;
 	private double amount;
 	private Date createDateTimeUTC;
@@ -19,6 +20,7 @@ public class Category {
 	
 	public Category(VOCategory voCategory){
 		this.id = voCategory.getId();
+		this.version = voCategory.getVersion();
 		this.description = voCategory.getDescription();
 		this.amount = voCategory.getAmount();
 		this.createDateTimeUTC = voCategory.getCreateDateTimeUTC();
@@ -35,6 +37,14 @@ public class Category {
 
 	public void setId(int id) {
 		this.id = id;
+	}
+	
+	public int getVersion() {
+		return version;
+	}
+
+	public void setVersion(int version) {
+		this.version = version;
 	}
 
 	public String getDescription() {

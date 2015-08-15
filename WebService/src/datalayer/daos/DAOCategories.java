@@ -98,22 +98,26 @@ public class DAOCategories implements IDAOCategroy {
 	public void update(int id, Category obj) throws ServerException {
 		PreparedStatement preparedStatement = null;
 
-		String updateSQL = "UPDATE CATEGORY "
-				+ "SET AMOUNT = ?, PROJECTID = ?, CATEGORYTYPE = ?, CREATEDDATETIMEUTC = ?, ISRRHH = ? WHERE id = ?";
+		String updateSQL =  "INSERT INTO CATEGORY (VERSION, DESCRIPTION, AMOUNT, CREATEDDATETIMEUTC, "
+				+ "PROJECTID, CATEGORYTYPE, ISRRHH, ID) VALUES"
+				+ "(?,?,?,?,?,?,?,?)";
 
 		try {
 			preparedStatement = this.connection.prepareStatement(updateSQL);
 
-			preparedStatement.setDouble(1, obj.getAmount());
+			preparedStatement.setInt(1, obj.getVersion() + 1);
+			preparedStatement.setString(2, obj.getDescription());
+			preparedStatement.setDouble(3, obj.getAmount());
+			preparedStatement.setTimestamp(4, new Timestamp(obj
+					.getCreateDateTimeUTC().getTime()));
 			if(obj.getProject() != null)
-				preparedStatement.setInt(2, obj.getProject().getId());
+				preparedStatement.setInt(5, obj.getProject().getId());
 			else
-				preparedStatement.setNull(2, java.sql.Types.INTEGER);
-			preparedStatement.setInt(3, obj.getCategoryType());
-			preparedStatement.setTimestamp(4, new Timestamp(obj.getCreateDateTimeUTC().getTime()));
-			preparedStatement.setBoolean(5, obj.getIsRRHH());
-			preparedStatement.setInt(6, id);
-
+				preparedStatement.setNull(5, java.sql.Types.INTEGER);
+			preparedStatement.setInt(6, obj.getCategoryType());
+			preparedStatement.setBoolean(7, obj.getIsRRHH());
+			preparedStatement.setInt(8, obj.getId());
+			
 			preparedStatement.executeUpdate();
 
 		} catch (SQLException e) {
@@ -297,6 +301,7 @@ public class DAOCategories implements IDAOCategroy {
 		int projectId = rs.getInt("projectid");
 		int categoryType = rs.getInt("categoryType");
 		boolean isRRhh = rs.getBoolean("isRRHH");
+		int version = rs.getInt("version");
 
 		Category category = new Category();
 		category.setId(_id);
@@ -307,6 +312,7 @@ public class DAOCategories implements IDAOCategroy {
 			category.setProject(new Project(projectId));
 		category.setCategoryType(categoryType);
 		category.setIsRRHH(isRRhh);
+		category.setVersion(version);
 		
 		return category;
 	}

@@ -1,5 +1,6 @@
 package servicelayer.core;
 
+import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -82,11 +83,20 @@ public class CoreCategory implements ICoreCategory {
 		{
 			ArrayList<Category> categoriesByDescription = iDAOCategory.getCategories(categoryOld.getDescription(), categoryUpdate.getProject().getId());
 			if(categoriesByDescription.size() > 0){
-					throw new ClientException("Ese rubro ya esta asosicado al proyecto seleccionado");
+					throw new ClientException("Ese rubro ya esta asociado al proyecto seleccionado");
 			}
 		}
-
-		iDAOCategory.update(id, categoryUpdate);
+		
+		if(changeCategory(categoryOld, categoryUpdate)){
+			// si se modifica en el mismo dia, actualizo el registro
+			// si no inserto una nueva version
+//			if(!DateFormat.getDateInstance().format(currentSalarySummary.getCreatedDateTimeUTC()).equals(DateFormat.getDateInstance().format(new Date()))){
+//				
+//			}
+			categoryUpdate.setDescription(categoryOld.getDescription());
+			iDAOCategory.update(id, categoryUpdate);
+		}
+		
 		return getCategory(id);
 	}
 
@@ -137,6 +147,32 @@ public class CoreCategory implements ICoreCategory {
 		voCategory.setIsRRHH(category.getIsRRHH());
 		
 		return voCategory;
+	}
+	
+	private boolean changeCategory(Category toUpdate, Category oldCategory){
+		boolean change = false;
+		
+		if(toUpdate.getAmount() != oldCategory.getAmount()){
+			change = true;
+		}
+		
+		if (toUpdate.getIsRRHH() != oldCategory.getIsRRHH()){
+			change = true;
+		}
+		
+		if (toUpdate.getCategoryType() != oldCategory.getCategoryType()){
+			change = true;
+		}
+		
+		if (toUpdate.getProject() != oldCategory.getProject()){
+			change = true;
+		}
+		
+		if (toUpdate.getCreateDateTimeUTC() != oldCategory.getCreateDateTimeUTC()){
+			change = true;
+		}
+		
+		return change;
 	}
 
 }
