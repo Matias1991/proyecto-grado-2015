@@ -29,6 +29,7 @@ CREATE TABLE IF NOT EXISTS User
     UserStatusId           INTEGER NOT NULL,
 	PRIMARY KEY (Id),
 	UNIQUE KEY `userName` (`UserName`),
+    UNIQUE KEY `email` (`Email`),
 	FOREIGN KEY FK_User_UserType (UserTypeId) REFERENCES UserType (Id),
     FOREIGN KEY FK_User_UserStatus (UserStatusId) REFERENCES UserStatus (Id)
 );
