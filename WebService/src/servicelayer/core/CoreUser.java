@@ -206,6 +206,9 @@ public class CoreUser implements ICoreUser {
 			if(IsLastUserAdmin(currentUser))
 				throw new ClientException("No se puede modificar el tipo de usuario, el sistema debe tener al menos un usuario Administrador");
 		}
+		if(!user.getEmail().equals(currentUser.getEmail()) && iDAOUsers.existsEmail(voUser.getEmail())){
+			throw new ClientException("Ya existe un usuario con este correo electrónico");
+		}
 		
 		iDAOUsers.update(id, user);
 	

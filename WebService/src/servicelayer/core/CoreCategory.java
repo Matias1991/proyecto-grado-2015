@@ -32,9 +32,9 @@ public class CoreCategory implements ICoreCategory {
 	public void insertCategory(VOCategory voCategory) throws ServerException, ClientException {
 
 		Category category = new Category(voCategory);
-		if(category.getCategoryType() == 1 && !category.getIsRRHH())
+		if(category.getCategoryType() == 1)
 		{	
-			if(iDAOCategory.getCategoriesByDescription(category.getDescription()).size() > 0)
+			if(iDAOCategory.getCategories(category.getDescription()).size() > 0)
 				throw new ClientException("Ya existe un rubro con esta descripcion");
 		}
 		
@@ -73,7 +73,7 @@ public class CoreCategory implements ICoreCategory {
 		Category categoryOld = iDAOCategory.getObject(id);
 		// Si el rubro era de tipo RRHH y lo cambio a tipo Material, 
 		// valido que no exista uno con el mismo nombre
-		int categoriesEquals = iDAOCategory.getCategoriesByDescription(categoryOld.getDescription()).size();
+		int categoriesEquals = iDAOCategory.getCategories(categoryOld.getDescription()).size();
 		if(categoryOld.getIsRRHH() && !categoryUpdate.getIsRRHH() && categoriesEquals > 1){
 			throw new ClientException("Ya existe un rubro con esta descripcion");
 		}

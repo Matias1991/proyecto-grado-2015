@@ -3,10 +3,12 @@ package servicelayer.service;
 import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
+import servicelayer.core.CoreBill;
 import servicelayer.core.CoreCategory;
 import servicelayer.core.CoreEmployed;
 import servicelayer.core.CoreProject;
 import servicelayer.core.CoreUser;
+import servicelayer.entity.valueObject.VOBill;
 import servicelayer.entity.valueObject.VOCategory;
 import servicelayer.entity.valueObject.VOEmployed;
 import servicelayer.entity.valueObject.VOProject;
@@ -17,6 +19,7 @@ import servicelayer.utilities.Constants;
 import shared.LoggerMSMP;
 import shared.exceptions.ClientException;
 import shared.exceptions.ServerException;
+import shared.interfaces.core.ICoreBill;
 import shared.interfaces.core.ICoreCategory;
 import shared.interfaces.core.ICoreEmployed;
 import shared.interfaces.core.ICoreProject;
@@ -32,6 +35,7 @@ public class ServiceWeb extends ServiceBase{
 	private ICoreEmployed iCoreEmployed = null;
 	private ICoreCategory iCoreCategory = null;
 	private ICoreProject iCoreProject = null;
+	private ICoreBill iCoreBill = null;
 	
 	public ServiceWeb()
 	{
@@ -42,6 +46,7 @@ public class ServiceWeb extends ServiceBase{
 			iCoreEmployed = CoreEmployed.GetInstance();
 			iCoreCategory = CoreCategory.GetInstance();
 			iCoreProject = CoreProject.GetInstance();
+			iCoreBill = CoreBill.GetInstance();
 		} catch (Exception e) {
 			ThrowGenericExceptionAndLogError(e);
 		}
@@ -690,7 +695,75 @@ public class ServiceWeb extends ServiceBase{
 			voProjects.toArray(arrayVOProjects);
 			return arrayVOProjects;		    
 		} catch (ServerException e) {
-			ThrowServerExceptionAndLogError(e, "obtener todos los rubros");
+			ThrowServerExceptionAndLogError(e, "obtener todos los proyectos");
+		} catch (InterruptedException e) {
+			throw new RuntimeException(Constants.TRANSACTION_ERROR);
+		} catch (Exception e) {
+			ThrowGenericExceptionAndLogError(e);
+		}
+		finally
+		{
+			transactionLock.unlock();
+		}
+		return null;
+	}
+	
+	public boolean insertBill(VOBill voBill)
+	{
+		try {
+			transactionLock.tryLock(Constants.DEFAULT_TRANSACTION_TIME, TimeUnit.SECONDS);
+			
+			iCoreBill.insertBill(voBill);
+			
+			return true;
+		} catch (ServerException e) {
+			ThrowServerExceptionAndLogError(e, "Insertar proyecto");
+		} catch (ClientException e) {
+			throw new RuntimeException(e.getMessage());
+		}catch (InterruptedException e) {
+			throw new RuntimeException(Constants.TRANSACTION_ERROR);
+		} catch (Exception e) {
+			ThrowGenericExceptionAndLogError(e);
+		}
+		finally
+		{
+			transactionLock.unlock();
+		}
+		return false;
+	}
+	
+	public VOBill updateBill(int id, VOBill voBill) {
+		try {
+			transactionLock.tryLock(Constants.DEFAULT_TRANSACTION_TIME, TimeUnit.SECONDS);
+			
+			return iCoreBill.updateBill(id, voBill);	    
+		} catch (ServerException e) {
+			ThrowServerExceptionAndLogError(e, "modificar la factura");
+		} catch (ClientException e) {
+			throw new RuntimeException(e.getMessage());
+		} catch (InterruptedException e) {
+			throw new RuntimeException(Constants.TRANSACTION_ERROR);
+		} catch (Exception e) {
+			ThrowGenericExceptionAndLogError(e);
+		}
+		finally
+		{
+			transactionLock.unlock();
+		}
+		return null;
+	}
+	
+	public VOBill[] getBills() {
+		ArrayList<VOBill> voBills;
+		try {
+			transactionLock.tryLock(Constants.DEFAULT_TRANSACTION_TIME, TimeUnit.SECONDS);
+			
+			voBills = iCoreBill.getBills();
+			VOBill [] arrayVOBills = new VOBill[voBills.size()];
+			voBills.toArray(arrayVOBills);
+			return arrayVOBills;		    
+		} catch (ServerException e) {
+			ThrowServerExceptionAndLogError(e, "obtener todos las facturas");
 		} catch (InterruptedException e) {
 			throw new RuntimeException(Constants.TRANSACTION_ERROR);
 		} catch (Exception e) {

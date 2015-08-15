@@ -29,6 +29,7 @@ CREATE TABLE IF NOT EXISTS User
     UserStatusId           INTEGER NOT NULL,
 	PRIMARY KEY (Id),
 	UNIQUE KEY `userName` (`UserName`),
+    UNIQUE KEY `email` (`Email`),
 	FOREIGN KEY FK_User_UserType (UserTypeId) REFERENCES UserType (Id),
     FOREIGN KEY FK_User_UserStatus (UserStatusId) REFERENCES UserStatus (Id)
 );
@@ -118,7 +119,31 @@ CREATE TABLE IF NOT EXISTS Category
 	ProjectId			INTEGER NULL,
 	CategoryType	INTEGER NOT NULL,
 	IsRRHH			BIT NULL,
-	PRIMARY KEY (Id),
+	PRIMARY KEY (Id, Version, ProjectId),
 	FOREIGN KEY FK_Category_CategoryType (CategoryType) REFERENCES CategoryType (Id),
 	FOREIGN KEY FK_Category_Project (ProjectId) REFERENCES Project (Id)
 );
+
+CREATE TABLE IF NOT EXISTS Bill
+(
+	Id                  INTEGER NOT NULL AUTO_INCREMENT,
+	Description         VARCHAR(120) NULL,
+	Amount 				DECIMAL(10,2) NULL,
+	CreatedDateTimeUTC  TIMESTAMP NULL,
+	ProjectId			INTEGER NULL,
+	PRIMARY KEY (Id, ProjectId),
+	UNIQUE KEY `description` (`Description`),
+	FOREIGN KEY FK_Bill_Project (ProjectId) REFERENCES Project (Id)
+);
+
+CREATE TABLE IF NOT EXISTS Charge
+(
+	Id                  INTEGER NOT NULL AUTO_INCREMENT,
+	Description         VARCHAR(120) NULL,
+	Amount 				DECIMAL(10,2) NULL,
+	CreatedDateTimeUTC  TIMESTAMP NULL,
+	BillId			INTEGER NULL,
+	PRIMARY KEY (Id, BillId),
+	FOREIGN KEY FK_Charge_Bill (BillId) REFERENCES Bill (Id)
+);
+
