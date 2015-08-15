@@ -119,7 +119,7 @@ CREATE TABLE IF NOT EXISTS Category
 	ProjectId			INTEGER NULL,
 	CategoryType	INTEGER NOT NULL,
 	IsRRHH			BIT NULL,
-	PRIMARY KEY (Id, Version, ProjectId),
+	PRIMARY KEY (Id, Version),
 	FOREIGN KEY FK_Category_CategoryType (CategoryType) REFERENCES CategoryType (Id),
 	FOREIGN KEY FK_Category_Project (ProjectId) REFERENCES Project (Id)
 );
