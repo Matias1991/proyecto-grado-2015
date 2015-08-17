@@ -82,6 +82,7 @@ public class ModifyCategoryView extends BaseView {
 			@Override
 			public void valueChange(ValueChangeEvent event) {
 				if (categoryType.getValue() == "Empresa") {
+					projectsGrid.getSelectedRows().clear();
 					isRRHH.setValue("Recurso material");
 					enablePanelProject(false);
 				} else {
@@ -104,13 +105,10 @@ public class ModifyCategoryView extends BaseView {
 							public void onClose(ConfirmDialog confirm) {
 								boolean valid = true;
 
-								if (categoryType.getValue() == "Proyecto"
-										&& projectsGrid != null
-										&& projectsGrid.getSelectedRow() == null
-										|| categoryType.getValue() == "Proyecto"
+								if (categoryType.getValue() == "Proyecto" && projectsGrid != null
+										&& projectsGrid.getSelectedRow() == null || categoryType.getValue() == "Proyecto"
 										&& projectsGrid == null) {
-									lblProjectTitle
-											.setComponentError(new UserError(
+									lblProjectTitle.setComponentError(new UserError(
 													"Debe seleccionar un proyecto"));
 									valid = false;
 								}
@@ -120,26 +118,26 @@ public class ModifyCategoryView extends BaseView {
 
 									Category category = new Category();
 									
-									category.setAmount((Double) (txtAmount
-											.getConvertedValue()));
+									category.setAmount((Double) (txtAmount.getConvertedValue()));
 
 									lblProjectTitle.setComponentError(null);
 
 									if (categoryType.getValue().equals(
 											"Empresa")) {
 										category.setCategoryTypeId(1);
+										category.setProjectId(0);
 									} else if (categoryType.getValue().equals(
 											"Proyecto")) {
 										category.setCategoryTypeId(2);
 									}
 
 									if (projectsGrid != null && projectsGrid.getSelectedRow() != null) {
-										BeanItem<Project> item = beanContainer
-												.getItem(projectsGrid
+										BeanItem<Project> item = beanContainer.getItem(projectsGrid
 														.getSelectedRow());
-										category.setProjectId(item.getBean()
-												.getId());
+										category.setProjectId(item.getBean().getId());
 										
+									} else {
+										category.setProjectId(0);
 									}
 
 									if (isRRHH.getValue() == "Material") {

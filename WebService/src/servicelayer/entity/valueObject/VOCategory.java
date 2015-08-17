@@ -15,6 +15,7 @@ public class VOCategory implements Serializable{
 	private int categoryType;
 	private boolean isRRHH;
 	private static final long serialVersionUID = 1L;
+	private Date modifyDateTimeUTC;
 	
 	public int getId() {
 		return id;
@@ -87,5 +88,12 @@ public class VOCategory implements Serializable{
 	public void setProjectName(String projectName) {
 		this.projectName = projectName;
 	}
-	
+
+	public Date getModifyDateTimeUTC() {
+		return modifyDateTimeUTC;
+	}
+
+	public void setModifyDateTimeUTC(Date modifyDateTimeUTC) {
+		this.modifyDateTimeUTC = modifyDateTimeUTC;
+	}
 }

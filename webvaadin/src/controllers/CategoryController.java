@@ -102,7 +102,10 @@ public class CategoryController {
 		VOCategory result = new VOCategory();
 		result.setDescription(cat.getDescription());
 		result.setAmount(cat.getAmount());
-		result.setProjectId(cat.getProjectId());
+		if(cat.getCategoryTypeId() == 1)
+			result.setProjectId(0);
+		else
+			result.setProjectId(cat.getProjectId());
 		result.setCategoryType(cat.getCategoryTypeId());
 		result.setProjectId(cat.getProjectId());
 		result.setIsRRHH(cat.getIsRRHH());

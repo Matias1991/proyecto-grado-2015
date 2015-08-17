@@ -95,35 +95,67 @@ public class DAOCategories implements IDAOCategroy {
 	}
 
 	@Override
-	public void update(int id, Category obj) throws ServerException {
+	public void update(int change, Category obj) throws ServerException {
 		PreparedStatement preparedStatement = null;
 
-		String updateSQL =  "INSERT INTO CATEGORY (VERSION, DESCRIPTION, AMOUNT, CREATEDDATETIMEUTC, "
-				+ "PROJECTID, CATEGORYTYPE, ISRRHH, ID) VALUES"
-				+ "(?,?,?,?,?,?,?,?)";
-
+		String updateSQL =  "";
 		try {
-			preparedStatement = this.connection.prepareStatement(updateSQL);
-
-			preparedStatement.setInt(1, obj.getVersion() + 1);
-			preparedStatement.setString(2, obj.getDescription());
-			preparedStatement.setDouble(3, obj.getAmount());
-			preparedStatement.setTimestamp(4, new Timestamp(obj
-					.getCreateDateTimeUTC().getTime()));
-			if(obj.getProject() != null)
-				preparedStatement.setInt(5, obj.getProject().getId());
-			else
-				preparedStatement.setNull(5, java.sql.Types.INTEGER);
-			preparedStatement.setInt(6, obj.getCategoryType());
-			preparedStatement.setBoolean(7, obj.getIsRRHH());
-			preparedStatement.setInt(8, obj.getId());
 			
+			// Si cambió el rubro el mismo día modifico el registro anterior
+			if(change == 0){
+				updateSQL =  "UPDATE CATEGORY SET AMOUNT = ?, CREATEDDATETIMEUTC = ?, "
+						+ "PROJECTID = ?, CATEGORYTYPE = ?, ISRRHH = ?, MODIFYDATETIMEUTC = ? WHERE ID = ? AND VERSION = ?";
+				preparedStatement = this.connection.prepareStatement(updateSQL);
+
+				preparedStatement.setDouble(1, obj.getAmount());
+				preparedStatement.setTimestamp(2, new Timestamp(obj
+						.getCreateDateTimeUTC().getTime()));
+				if(obj.getProject() != null)
+					preparedStatement.setInt(3, obj.getProject().getId());
+				else
+					preparedStatement.setNull(3, java.sql.Types.INTEGER);
+				preparedStatement.setInt(4, obj.getCategoryType());
+				preparedStatement.setBoolean(5, obj.getIsRRHH());
+				preparedStatement.setTimestamp(6, new Timestamp(new Date().getTime()));
+				preparedStatement.setInt(7, obj.getId());
+				preparedStatement.setInt(8, obj.getVersion());
+
+			} else {
+				updateSQL =  "INSERT INTO CATEGORY (VERSION, DESCRIPTION, AMOUNT, CREATEDDATETIMEUTC, "
+						+ "PROJECTID, CATEGORYTYPE, ISRRHH, ID, MODIFYDATETIMEUTC) VALUES"
+						+ "(?,?,?,?,?,?,?,?, ?)";
+				
+				preparedStatement = this.connection.prepareStatement(updateSQL);
+
+				preparedStatement.setInt(1, obj.getVersion() + 1);
+				preparedStatement.setString(2, obj.getDescription());
+				preparedStatement.setDouble(3, obj.getAmount());
+				preparedStatement.setTimestamp(4, new Timestamp(obj
+						.getCreateDateTimeUTC().getTime()));
+				if(obj.getProject() != null)
+					preparedStatement.setInt(5, obj.getProject().getId());
+				else
+					preparedStatement.setNull(5, java.sql.Types.INTEGER);
+				preparedStatement.setInt(6, obj.getCategoryType());
+				preparedStatement.setBoolean(7, obj.getIsRRHH());
+				preparedStatement.setInt(8, obj.getId());
+				preparedStatement.setTimestamp(9, new Timestamp(new Date().getTime()));
+			}
+						
 			preparedStatement.executeUpdate();
 
 		} catch (SQLException e) {
 			throw new ServerException(e);
-		}
+		} finally {
 
+			if (preparedStatement != null) {
+				try {
+					preparedStatement.close();
+				} catch (SQLException e) {
+					LoggerMSMP.setLog(e.getMessage());
+				}
+			}
+		}
 	}
 
 	@Override
@@ -164,9 +196,13 @@ public class DAOCategories implements IDAOCategroy {
 		ResultSet rs = null;
 		try {
 
-			String getSQL = "SELECT * FROM CATEGORY WHERE id = ?";
+			String getSQL = "SELECT C.*, P.NAME FROM CATEGORY C"
+					+ " LEFT OUTER JOIN PROJECT P ON P.Id = C.ProjectId"
+					+ " WHERE C.ID = ? AND VERSION = (SELECT MAX(VERSION) FROM CATEGORY WHERE ID = ?)";
+			
 			preparedStatement = this.connection.prepareStatement(getSQL);
 			preparedStatement.setInt(1, id);
+			preparedStatement.setInt(2, id);
 			rs = preparedStatement.executeQuery();
 
 			while (rs.next()) {
@@ -302,6 +338,7 @@ public class DAOCategories implements IDAOCategroy {
 		int categoryType = rs.getInt("categoryType");
 		boolean isRRhh = rs.getBoolean("isRRHH");
 		int version = rs.getInt("version");
+		Date modifyDateTimeUTC = rs.getTimestamp("modifyDateTimeUTC");
 
 		Category category = new Category();
 		category.setId(_id);
@@ -313,6 +350,7 @@ public class DAOCategories implements IDAOCategroy {
 		category.setCategoryType(categoryType);
 		category.setIsRRHH(isRRhh);
 		category.setVersion(version);
+		category.setModifyDateTimeUTC(modifyDateTimeUTC);
 		
 		return category;
 	}

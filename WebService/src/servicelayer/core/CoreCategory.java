@@ -88,13 +88,17 @@ public class CoreCategory implements ICoreCategory {
 		}
 		
 		if(changeCategory(categoryOld, categoryUpdate)){
+			categoryUpdate.setDescription(categoryOld.getDescription());
+			categoryUpdate.setId(categoryOld.getId());
+			categoryUpdate.setVersion(categoryOld.getVersion());
 			// si se modifica en el mismo dia, actualizo el registro
 			// si no inserto una nueva version
-//			if(!DateFormat.getDateInstance().format(currentSalarySummary.getCreatedDateTimeUTC()).equals(DateFormat.getDateInstance().format(new Date()))){
-//				
-//			}
-			categoryUpdate.setDescription(categoryOld.getDescription());
-			iDAOCategory.update(id, categoryUpdate);
+			if(categoryOld.getModifyDateTimeUTC() == null || (categoryOld.getModifyDateTimeUTC() != null && 
+					DateFormat.getDateInstance().format(categoryOld.getModifyDateTimeUTC()).equals(DateFormat.getDateInstance().format(new Date())))){
+				iDAOCategory.update(0, categoryUpdate);
+			} else {
+				iDAOCategory.update(1, categoryUpdate);	
+			}
 		}
 		
 		return getCategory(id);
@@ -168,7 +172,7 @@ public class CoreCategory implements ICoreCategory {
 			change = true;
 		}
 		
-		if (toUpdate.getCreateDateTimeUTC() != oldCategory.getCreateDateTimeUTC()){
+		if (!toUpdate.getCreateDateTimeUTC().equals(oldCategory.getCreateDateTimeUTC())){
 			change = true;
 		}
 		

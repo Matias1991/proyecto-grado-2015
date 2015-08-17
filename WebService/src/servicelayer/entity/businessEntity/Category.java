@@ -15,6 +15,7 @@ public class Category {
 	private Project project;
 	private int categoryType;
 	private boolean isRRHH;
+	private Date modifyDateTimeUTC;
 	
 	public Category(){}
 	
@@ -26,9 +27,12 @@ public class Category {
 		this.createDateTimeUTC = voCategory.getCreateDateTimeUTC();
 		if(voCategory.getProjectId() != 0)
 			this.project = new Project(voCategory.getProjectId());
+		if(voCategory.getCategoryType() == 1)
+			this.project = null;
 		this.categoryType = voCategory.getCategoryType();
 		this.isRRHH = voCategory.getIsRRHH();
 		this.createDateTimeUTC = voCategory.getCreateDateTimeUTC();
+		this.modifyDateTimeUTC = voCategory.getModifyDateTimeUTC();
 	}
 
 	public int getId() {
@@ -94,4 +98,13 @@ public class Category {
 	public void setProject(Project project) {
 		this.project = project;
 	}
+
+	public Date getModifyDateTimeUTC() {
+		return modifyDateTimeUTC;
+	}
+
+	public void setModifyDateTimeUTC(Date modifyDateTimeUTC) {
+		this.modifyDateTimeUTC = modifyDateTimeUTC;
+	}
+	
 }
