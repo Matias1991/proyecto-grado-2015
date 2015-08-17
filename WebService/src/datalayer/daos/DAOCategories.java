@@ -36,8 +36,8 @@ public class DAOCategories implements IDAOCategroy {
 	public int insert(Category obj) throws ServerException {
 		PreparedStatement preparedStatement = null;
 
-		String insertSQL = "INSERT INTO CATEGORY (VERSION, DESCRIPTION, AMOUNT, CREATEDDATETIMEUTC, PROJECTID, CATEGORYTYPE, ISRRHH) VALUES"
-				+ "(?,?,?,?,?,?,?)";
+		String insertSQL = "INSERT INTO CATEGORY (VERSION, DESCRIPTION, AMOUNT, CREATEDDATETIMEUTC, PROJECTID, CATEGORYTYPE, ISRRHH, MODIFYDATETIMEUTC) VALUES"
+				+ "(?,?,?,?,?,?,?, ?)";
 
 		try {
 			preparedStatement = this.connection.prepareStatement(insertSQL);
@@ -53,6 +53,7 @@ public class DAOCategories implements IDAOCategroy {
 				preparedStatement.setNull(5, java.sql.Types.INTEGER);
 			preparedStatement.setInt(6, obj.getCategoryType().getValue());
 			preparedStatement.setBoolean(7, obj.getIsRRHH());
+			preparedStatement.setTimestamp(8, new Timestamp(new Date().getTime()));
 			
 			preparedStatement.executeUpdate();
 
