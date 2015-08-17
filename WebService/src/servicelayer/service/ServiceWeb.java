@@ -717,7 +717,7 @@ public class ServiceWeb extends ServiceBase{
 			
 			return true;
 		} catch (ServerException e) {
-			ThrowServerExceptionAndLogError(e, "Insertar proyecto");
+			ThrowServerExceptionAndLogError(e, "insertar factura");
 		} catch (ClientException e) {
 			throw new RuntimeException(e.getMessage());
 		}catch (InterruptedException e) {

@@ -1,11 +1,9 @@
-package servicelayer.entity.valueObject;
+package entities;
 
-import java.io.Serializable;
 import java.util.Date;
 
-public class VOBill implements Serializable{
+public class Bill {
 
-	private static final long serialVersionUID = 1L;
 	private int id;
 	private String code;
 	private String description;
@@ -13,13 +11,18 @@ public class VOBill implements Serializable{
     private Date appliedDateTimeUTC;
     private int projectId;
     private String projectName;
-    private boolean isLiquidated;
     
-    public int getId() {
+	public int getId() {
 		return id;
 	}
 	public void setId(int id) {
 		this.id = id;
+	}
+	public String getCode() {
+		return code;
+	}
+	public void setCode(String code) {
+		this.code = code;
 	}
 	public String getDescription() {
 		return description;
@@ -33,6 +36,12 @@ public class VOBill implements Serializable{
 	public void setAmount(double amount) {
 		this.amount = amount;
 	}
+	public Date getAppliedDateTimeUTC() {
+		return appliedDateTimeUTC;
+	}
+	public void setAppliedDateTimeUTC(Date appliedDateTimeUTC) {
+		this.appliedDateTimeUTC = appliedDateTimeUTC;
+	}
 	public int getProjectId() {
 		return projectId;
 	}
@@ -44,23 +53,5 @@ public class VOBill implements Serializable{
 	}
 	public void setProjectName(String projectName) {
 		this.projectName = projectName;
-	}
-	public Date getAppliedDateTimeUTC() {
-		return appliedDateTimeUTC;
-	}
-	public void setAppliedDateTimeUTC(Date appliedDateTimeUTC) {
-		this.appliedDateTimeUTC = appliedDateTimeUTC;
-	}
-	public boolean isLiquidated() {
-		return isLiquidated;
-	}
-	public void setLiquidated(boolean isLiquidated) {
-		this.isLiquidated = isLiquidated;
-	}
-	public String getCode() {
-		return code;
-	}
-	public void setCode(String code) {
-		this.code = code;
 	}
 }

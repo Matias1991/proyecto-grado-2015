@@ -128,12 +128,14 @@ CREATE TABLE IF NOT EXISTS Category
 CREATE TABLE IF NOT EXISTS Bill
 (
 	Id                  INTEGER NOT NULL AUTO_INCREMENT,
+	Code				VARCHAR(50) NULL,
 	Description         VARCHAR(120) NULL,
 	Amount 				DECIMAL(10,2) NULL,
-	CreatedDateTimeUTC  TIMESTAMP NULL,
+	AppliedDateTimeUTC  TIMESTAMP NULL,
+	IsLiquidated		BIT NULL,
 	ProjectId			INTEGER NULL,
 	PRIMARY KEY (Id, ProjectId),
-	UNIQUE KEY `description` (`Description`),
+	UNIQUE KEY `code` (`Code`),
 	FOREIGN KEY FK_Bill_Project (ProjectId) REFERENCES Project (Id)
 );
 

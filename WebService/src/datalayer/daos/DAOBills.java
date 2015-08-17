@@ -35,20 +35,22 @@ public class DAOBills implements IDAOBills{
 	public int insert(Bill obj) throws ServerException {
 		PreparedStatement preparedStatement = null;
 
-		String insertSQL = "INSERT INTO BILL (DESCRIPTION, AMOUNT, CREATEDDATETIMEUTC, PROJECTID) VALUES"
-				+ "(?,?,?,?)";
+		String insertSQL = "INSERT INTO BILL (CODE, DESCRIPTION, AMOUNT, APPLIEDDATETIMEUTC, ISLIQUIDATED, PROJECTID) VALUES"
+				+ "(?,?,?,?,?,?)";
 
 		try {
 			preparedStatement = this.connection.prepareStatement(insertSQL);
 
-			preparedStatement.setString(1, obj.getDescription());
-			preparedStatement.setDouble(2, obj.getAmount());
-			preparedStatement.setTimestamp(3, new Timestamp(obj
-					.getCreatedDateTimeUTC().getTime()));
+			preparedStatement.setString(1, obj.getCode());
+			preparedStatement.setString(2, obj.getDescription());
+			preparedStatement.setDouble(3, obj.getAmount());
+			preparedStatement.setTimestamp(4, new Timestamp(obj
+					.getAppliedDateTimeUTC().getTime()));
+			preparedStatement.setBoolean(5, false);
 			if(obj.getProject() != null)
-				preparedStatement.setInt(4, obj.getProject().getId());
+				preparedStatement.setInt(6, obj.getProject().getId());
 			else
-				preparedStatement.setNull(4, java.sql.Types.INTEGER);
+				preparedStatement.setNull(6, java.sql.Types.INTEGER);
 			
 			preparedStatement.executeUpdate();
 
@@ -97,6 +99,7 @@ public class DAOBills implements IDAOBills{
 
 		String updateSQL = "UPDATE CATEGORY "
 				+ "SET DESCRIPTION = ?, "
+				+ "CODE = ?, "
 				+ "AMOUNT = ?, "
 				+ "CREATEDDATETIMEUTC = ?, "
 				+ "PROJECTID = ? "
@@ -106,13 +109,14 @@ public class DAOBills implements IDAOBills{
 			preparedStatement = this.connection.prepareStatement(updateSQL);
 
 			preparedStatement.setString(1, obj.getDescription());
-			preparedStatement.setDouble(2, obj.getAmount());
-			preparedStatement.setTimestamp(3, new Timestamp(obj.getCreatedDateTimeUTC().getTime()));
+			preparedStatement.setString(2, obj.getCode());
+			preparedStatement.setDouble(3, obj.getAmount());
+			preparedStatement.setTimestamp(4, new Timestamp(obj.getAppliedDateTimeUTC().getTime()));
 			if(obj.getProject() != null)
-				preparedStatement.setInt(4, obj.getProject().getId());
+				preparedStatement.setInt(5, obj.getProject().getId());
 			else
-				preparedStatement.setNull(4, java.sql.Types.INTEGER);
-			preparedStatement.setInt(5 , id);
+				preparedStatement.setNull(5, java.sql.Types.INTEGER);
+			preparedStatement.setInt(6 , id);
 			
 			preparedStatement.executeUpdate();
 
@@ -193,16 +197,47 @@ public class DAOBills implements IDAOBills{
 	}
 
 	@Override
-	public Bill getBill(String description, int projectId) throws ServerException {
+	public Bill getBill(String code, int projectId) throws ServerException {
 		Bill bill = null;
 		PreparedStatement preparedStatement = null;
 		ResultSet rs = null;
 		try {
 
-			String getSQL = "SELECT * FROM BILL WHERE description = ? and projectId = ?";
+			String getSQL = "SELECT * FROM BILL WHERE code = ? and projectId = ?";
 			preparedStatement = this.connection.prepareStatement(getSQL);
-			preparedStatement.setString(1, description);
+			preparedStatement.setString(1, code);
 			preparedStatement.setInt(2, projectId);
+			rs = preparedStatement.executeQuery();
+
+			while (rs.next()) {
+				bill = BuildBill(rs);
+			}
+		} catch (SQLException e) {
+			throw new ServerException(e);
+		} finally {
+			try {
+				if (preparedStatement != null)
+					preparedStatement.close();
+				if (rs != null)
+					rs.close();
+			} catch (SQLException e) {
+				LoggerMSMP.setLog(e.getMessage());
+			}
+		}
+
+		return bill;
+	}
+	
+	@Override
+	public Bill getBill(String code) throws ServerException {
+		Bill bill = null;
+		PreparedStatement preparedStatement = null;
+		ResultSet rs = null;
+		try {
+
+			String getSQL = "SELECT * FROM BILL WHERE code = ?";
+			preparedStatement = this.connection.prepareStatement(getSQL);
+			preparedStatement.setString(1, code);
 			rs = preparedStatement.executeQuery();
 
 			while (rs.next()) {
@@ -226,16 +261,20 @@ public class DAOBills implements IDAOBills{
 	
 	private Bill BuildBill(ResultSet rs) throws SQLException {
 		int _id = rs.getInt("id");
+		String code = rs.getString("code");
 		String description = rs.getString("description");
 		double amount = rs.getDouble("amount");
-		Date createDateTimeUTC = rs.getTimestamp("createdDateTimeUTC");
+		Date appliedDateTimeUTC = rs.getTimestamp("appliedDateTimeUTC");
+		boolean isLiquidated = rs.getBoolean("isLiquidated");
 		int projectId = rs.getInt("projectid");
 
 		Bill bill = new Bill();
 		bill.setId(_id);
+		bill.setCode(code);
 		bill.setDescription(description);
 		bill.setAmount(amount);
-		bill.setCreatedDateTimeUTC(createDateTimeUTC);
+		bill.setAppliedDateTimeUTC(appliedDateTimeUTC);
+		bill.setIsLiquidated(isLiquidated);
 		if(projectId != 0)
 			bill.setProject(new Project(projectId));
 		

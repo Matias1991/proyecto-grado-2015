@@ -30,13 +30,13 @@ public class CoreBill implements ICoreBill{
 	public void insertBill(VOBill voBill) throws ServerException,
 			ClientException {
 		
-		if(iDAOBills.getBill(voBill.getDescription(), voBill.getProjectId()) == null)
+		if(iDAOBills.getBill(voBill.getCode()) == null)
 		{
 			Bill bill = new Bill(voBill);
 			iDAOBills.insert(bill);
 		}
 		else
-			throw new ClientException("Ya existe una factura con esa descripcion para ese proyecto");
+			throw new ClientException("Ya existe una factura con ese codigo");
 		
 	}
 
@@ -54,14 +54,14 @@ public class CoreBill implements ICoreBill{
 	public VOBill updateBill(int id, VOBill voBill) throws ServerException,
 			ClientException {
 		
-		Bill currentBill = iDAOBills.getBill(voBill.getDescription(), voBill.getProjectId());
+		Bill currentBill = iDAOBills.getBill(voBill.getCode());
 		if(currentBill == null || currentBill.getId() == id)
 		{
 			Bill bill = new Bill(voBill);
 			iDAOBills.update(id, bill);
 		}
 		else
-			throw new ClientException("Ya existe una factura con esa descripcion para ese proyecto");
+			throw new ClientException("Ya existe una factura con ese codigo");
 		
 		return getBill(id);
 	}
@@ -100,9 +100,11 @@ public class CoreBill implements ICoreBill{
 	{
 		VOBill voBill = new VOBill();
 		voBill.setId(bill.getId());
+		voBill.setCode(bill.getCode());
 		voBill.setDescription(bill.getDescription());
 		voBill.setAmount(bill.getAmount());
-		voBill.setCreatedDateTimeUTC(bill.getCreatedDateTimeUTC());
+		voBill.setAppliedDateTimeUTC(bill.getAppliedDateTimeUTC());
+		voBill.setLiquidated(bill.getIsLiquidated());
 		if(bill.getProject() != null)
 		{
 			voBill.setProjectId(bill.getProject().getId());
