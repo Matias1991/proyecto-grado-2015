@@ -11,7 +11,7 @@ public class VOCategory implements Serializable{
 	private int version;
 	private String description;
 	private double amount;
-	private Date createDateTimeUTC;
+	private Date appliedDateTimeUTC;
 	private int projectId;
 	private String projectName;
 	private int categoryType;
@@ -51,12 +51,12 @@ public class VOCategory implements Serializable{
 		this.amount = amount;
 	}
 	
-	public Date getCreateDateTimeUTC() {
-		return createDateTimeUTC;
+	public Date getAppliedDateTimeUTC() {
+		return appliedDateTimeUTC;
 	}
 	
-	public void setCreateDateTimeUTC(Date createDateTimeUTC) {
-		this.createDateTimeUTC = createDateTimeUTC;
+	public void setAppliedDateTimeUTC(Date appliedDateTimeUTC) {
+		this.appliedDateTimeUTC = appliedDateTimeUTC;
 	}
 
 	public int getProjectId() {

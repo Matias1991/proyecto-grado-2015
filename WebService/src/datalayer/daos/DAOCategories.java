@@ -46,7 +46,7 @@ public class DAOCategories implements IDAOCategroy {
 			preparedStatement.setString(2, obj.getDescription());
 			preparedStatement.setDouble(3, obj.getAmount());
 			preparedStatement.setTimestamp(4, new Timestamp(obj
-					.getCreateDateTimeUTC().getTime()));
+					.getAppliedDateTimeUTC().getTime()));
 			if(obj.getProject() != null)
 				preparedStatement.setInt(5, obj.getProject().getId());
 			else
@@ -111,7 +111,7 @@ public class DAOCategories implements IDAOCategroy {
 
 				preparedStatement.setDouble(1, obj.getAmount());
 				preparedStatement.setTimestamp(2, new Timestamp(obj
-						.getCreateDateTimeUTC().getTime()));
+						.getAppliedDateTimeUTC().getTime()));
 				if(obj.getProject() != null)
 					preparedStatement.setInt(3, obj.getProject().getId());
 				else
@@ -133,7 +133,7 @@ public class DAOCategories implements IDAOCategroy {
 				preparedStatement.setString(2, obj.getDescription());
 				preparedStatement.setDouble(3, obj.getAmount());
 				preparedStatement.setTimestamp(4, new Timestamp(obj
-						.getCreateDateTimeUTC().getTime()));
+						.getAppliedDateTimeUTC().getTime()));
 				if(obj.getProject() != null)
 					preparedStatement.setInt(5, obj.getProject().getId());
 				else
@@ -335,7 +335,7 @@ public class DAOCategories implements IDAOCategroy {
 		int _id = rs.getInt("id");
 		String description = rs.getString("description");
 		double amount = rs.getDouble("amount");
-		Date createDateTimeUTC = rs.getTimestamp("createdDateTimeUTC");
+		Date appliedDateTimeUTC = rs.getTimestamp("appliedDateTimeUTC");
 		int projectId = rs.getInt("projectid");
 		int categoryType = rs.getInt("categoryType");
 		boolean isRRhh = rs.getBoolean("isRRHH");
@@ -346,7 +346,7 @@ public class DAOCategories implements IDAOCategroy {
 		category.setId(_id);
 		category.setDescription(description);
 		category.setAmount(amount);
-		category.setCreateDateTimeUTC(createDateTimeUTC);
+		category.setAppliedDateTimeUTC(appliedDateTimeUTC);
 		if(projectId != 0)
 			category.setProject(new Project(projectId));
 		category.setCategoryType(CategoryType.getEnum(categoryType));

@@ -10,7 +10,7 @@ public class Category {
 	private int version;
 	private String description;
 	private double amount;
-	private Date createDateTimeUTC;
+	private Date appliedDateTimeUTC;
 	//private int projectId;
 	private Project project;
 	private CategoryType categoryType;
@@ -24,14 +24,14 @@ public class Category {
 		this.version = voCategory.getVersion();
 		this.description = voCategory.getDescription();
 		this.amount = voCategory.getAmount();
-		this.createDateTimeUTC = voCategory.getCreateDateTimeUTC();
+		this.appliedDateTimeUTC = voCategory.getAppliedDateTimeUTC();
 		if(voCategory.getProjectId() != 0)
 			this.project = new Project(voCategory.getProjectId());
 		if(voCategory.getCategoryType() == 1)
 			this.project = null;
 		this.categoryType = CategoryType.getEnum(voCategory.getCategoryType());
 		this.isRRHH = voCategory.getIsRRHH();
-		this.createDateTimeUTC = voCategory.getCreateDateTimeUTC();
+		this.appliedDateTimeUTC = voCategory.getAppliedDateTimeUTC();
 		this.modifyDateTimeUTC = voCategory.getModifyDateTimeUTC();
 	}
 
@@ -67,12 +67,12 @@ public class Category {
 		this.amount = amount;
 	}
 
-	public Date getCreateDateTimeUTC() {
-		return createDateTimeUTC;
+	public Date getAppliedDateTimeUTC() {
+		return appliedDateTimeUTC;
 	}
 
-	public void setCreateDateTimeUTC(Date createDateTimeUTC) {
-		this.createDateTimeUTC = createDateTimeUTC;
+	public void setAppliedDateTimeUTC(Date appliedDateTimeUTC) {
+		this.appliedDateTimeUTC = appliedDateTimeUTC;
 	}
 	
 	public CategoryType getCategoryType() {

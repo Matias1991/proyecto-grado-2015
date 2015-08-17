@@ -142,7 +142,7 @@ public class CoreCategory implements ICoreCategory {
 		voCategory.setId(category.getId());
 		voCategory.setDescription(category.getDescription());
 		voCategory.setAmount(category.getAmount());
-		voCategory.setCreateDateTimeUTC(category.getCreateDateTimeUTC());
+		voCategory.setAppliedDateTimeUTC(category.getAppliedDateTimeUTC());
 		if(category.getProject() != null)
 		{
 			voCategory.setProjectId(category.getProject().getId());
@@ -173,7 +173,7 @@ public class CoreCategory implements ICoreCategory {
 			change = true;
 		}
 		
-		if (!DateFormat.getDateInstance().format(toUpdate.getCreateDateTimeUTC()).equals(DateFormat.getDateInstance().format(oldCategory.getCreateDateTimeUTC()))){
+		if (!DateFormat.getDateInstance().format(toUpdate.getAppliedDateTimeUTC()).equals(DateFormat.getDateInstance().format(oldCategory.getAppliedDateTimeUTC()))){
 			change = true;
 		}
 		
