@@ -30,7 +30,7 @@ public class CategoryController {
 			voCategory.setCategoryType(category.getCategoryTypeId());
 			voCategory.setProjectId(category.getProjectId());
 			voCategory.setIsRRHH(category.getIsRRHH());
-			voCategory.setCreateDateTimeUTC(category.getCreatedDateTimeUTC());
+			voCategory.setAppliedDateTimeUTC(category.getCreatedDateTimeUTC());
 			
 			createCategory.setVoCategory(voCategory);
 			
@@ -109,7 +109,7 @@ public class CategoryController {
 		result.setCategoryType(cat.getCategoryTypeId());
 		result.setProjectId(cat.getProjectId());
 		result.setIsRRHH(cat.getIsRRHH());
-		result.setCreateDateTimeUTC(cat.getCreatedDateTimeUTC());
+		result.setAppliedDateTimeUTC(cat.getCreatedDateTimeUTC());
 		
 		try {
 			ServiceWebStub service = new ServiceWebStub();

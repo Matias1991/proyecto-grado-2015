@@ -115,7 +115,7 @@ CREATE TABLE IF NOT EXISTS Category
 	Version              INTEGER NOT NULL,
 	Description         VARCHAR(120) NULL,
 	Amount 				DECIMAL(10,2) NULL,
-	CreatedDateTimeUTC  TIMESTAMP NULL,
+	AppliedDateTimeUTC  TIMESTAMP NULL,
 	ProjectId			INTEGER NULL,
 	CategoryType	INTEGER NOT NULL,
 	IsRRHH			BIT NULL,

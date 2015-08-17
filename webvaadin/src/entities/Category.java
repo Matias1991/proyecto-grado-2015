@@ -27,7 +27,7 @@ public class Category {
 		this.setAmount(voCategory.getAmount());
 		this.setCategoryTypeId(voCategory.getCategoryType());
 		this.setCategoryType(getCategoryTypeToShow());
-		this.createdDateTimeUTC = voCategory.getCreateDateTimeUTC();
+		this.createdDateTimeUTC = voCategory.getAppliedDateTimeUTC();
 		if(voCategory.getProjectId() != 0)
 			this.projectName = voCategory.getProjectName();	
 		else
