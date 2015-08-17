@@ -172,7 +172,7 @@ public class CoreCategory implements ICoreCategory {
 			change = true;
 		}
 		
-		if (!toUpdate.getCreateDateTimeUTC().equals(oldCategory.getCreateDateTimeUTC())){
+		if (!DateFormat.getDateInstance().format(toUpdate.getCreateDateTimeUTC()).equals(DateFormat.getDateInstance().format(oldCategory.getCreateDateTimeUTC()))){
 			change = true;
 		}
 		
