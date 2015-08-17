@@ -36,7 +36,7 @@ public class DAOCategories implements IDAOCategroy {
 	public int insert(Category obj) throws ServerException {
 		PreparedStatement preparedStatement = null;
 
-		String insertSQL = "INSERT INTO CATEGORY (VERSION, DESCRIPTION, AMOUNT, CREATEDDATETIMEUTC, PROJECTID, CATEGORYTYPE, ISRRHH, MODIFYDATETIMEUTC) VALUES"
+		String insertSQL = "INSERT INTO CATEGORY (VERSION, DESCRIPTION, AMOUNT, APPLIEDDATETIMEUTC, PROJECTID, CATEGORYTYPE, ISRRHH, MODIFYDATETIMEUTC) VALUES"
 				+ "(?,?,?,?,?,?,?, ?)";
 
 		try {
@@ -105,7 +105,7 @@ public class DAOCategories implements IDAOCategroy {
 			
 			// Si cambió el rubro el mismo día modifico el registro anterior
 			if(change == 0){
-				updateSQL =  "UPDATE CATEGORY SET AMOUNT = ?, CREATEDDATETIMEUTC = ?, "
+				updateSQL =  "UPDATE CATEGORY SET AMOUNT = ?, APPLIEDDATETIMEUTC = ?, "
 						+ "PROJECTID = ?, CATEGORYTYPE = ?, ISRRHH = ?, MODIFYDATETIMEUTC = ? WHERE ID = ? AND VERSION = ?";
 				preparedStatement = this.connection.prepareStatement(updateSQL);
 
@@ -123,7 +123,7 @@ public class DAOCategories implements IDAOCategroy {
 				preparedStatement.setInt(8, obj.getVersion());
 
 			} else {
-				updateSQL =  "INSERT INTO CATEGORY (VERSION, DESCRIPTION, AMOUNT, CREATEDDATETIMEUTC, "
+				updateSQL =  "INSERT INTO CATEGORY (VERSION, DESCRIPTION, AMOUNT, APPLIEDDATETIMEUTC, "
 						+ "PROJECTID, CATEGORYTYPE, ISRRHH, ID, MODIFYDATETIMEUTC) VALUES"
 						+ "(?,?,?,?,?,?,?,?, ?)";
 				
@@ -237,11 +237,10 @@ public class DAOCategories implements IDAOCategroy {
 			strBuilder.append("SELECT C_1.*, P.NAME as ProjectName ");
 			strBuilder.append("FROM CATEGORY C_1 ");
 			strBuilder.append("LEFT OUTER JOIN PROJECT P ON P.Id = C_1.ProjectId ");
-			strBuilder.append("WHERE (C_1.Description, C_1.Version) in (SELECT C_2.Description, MAX(VERSION) ");
-		    strBuilder.append("FROM CATEGORY C_2 ");
+			strBuilder.append("WHERE (C_1.Id, C_1.Version) in (SELECT C_2.Id, MAX(VERSION) ");
+			strBuilder.append("FROM CATEGORY C_2 ");
 			strBuilder.append("LEFT OUTER JOIN PROJECT P ON P.Id = C_2.ProjectId ");
-			strBuilder.append("GROUP BY C_2.Description )");
-			
+			strBuilder.append("GROUP BY C_2.Id )");
 			preparedStatement = this.connection.prepareStatement(strBuilder.toString());
 			rs = preparedStatement.executeQuery();
 

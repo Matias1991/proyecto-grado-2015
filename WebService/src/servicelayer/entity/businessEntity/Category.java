@@ -11,7 +11,6 @@ public class Category {
 	private String description;
 	private double amount;
 	private Date appliedDateTimeUTC;
-	//private int projectId;
 	private Project project;
 	private CategoryType categoryType;
 	private boolean isRRHH;

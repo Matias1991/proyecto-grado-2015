@@ -31,7 +31,7 @@ public class Category {
 		if(voCategory.getProjectId() != 0)
 			this.projectName = voCategory.getProjectName();	
 		else
-			this.projectName = "N/A";
+			this.projectName = "Meerkat SYS";
 		this.isRRHH = voCategory.getIsRRHH();
 		this.setCreateDateTimeUTCToShow(new SimpleDateFormat("dd-MM-yyyy").format(createdDateTimeUTC));
 	}

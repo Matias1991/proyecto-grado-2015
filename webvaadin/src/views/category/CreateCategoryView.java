@@ -15,6 +15,7 @@ import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.data.util.converter.StringToDoubleConverter;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.server.UserError;
+import com.vaadin.shared.ui.datefield.Resolution;
 import com.vaadin.ui.AbsoluteLayout;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
@@ -305,8 +306,9 @@ public class CreateCategoryView extends BaseView {
 		createdDateTimeField.setWidth("140px");
 		createdDateTimeField.setHeight("-1px");
 		createdDateTimeField.setRequired(true);
-		createdDateTimeField.setDateFormat("dd-MM-yyyy");
+		createdDateTimeField.setDateFormat("MM-yyyy");
 		createdDateTimeField.setValue(new Date());
+		createdDateTimeField.setResolution(Resolution.MONTH);
 		mainLayout.addComponent(createdDateTimeField,
 				"top:240.0px;right:490.0px;left:3.0px;");
 		

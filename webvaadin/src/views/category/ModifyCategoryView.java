@@ -18,6 +18,7 @@ import com.vaadin.event.SelectionEvent;
 import com.vaadin.event.SelectionEvent.SelectionListener;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.server.UserError;
+import com.vaadin.shared.ui.datefield.Resolution;
 import com.vaadin.ui.AbsoluteLayout;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Button.ClickEvent;
@@ -392,8 +393,9 @@ public class ModifyCategoryView extends BaseView {
 		creationDate.setWidth("140px");
 		creationDate.setHeight("-1px");
 		creationDate.setRequired(true);
-		creationDate.setDateFormat("dd-MM-yyyy");
+		creationDate.setDateFormat("MM-yyyy");
 		creationDate.setValue(new Date());
+		creationDate.setResolution(Resolution.MONTH);
 		mainLayout.addComponent(creationDate,
 				"top:250.0px;right:490.0px;left:345.0px;");
 
