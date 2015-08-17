@@ -6,6 +6,7 @@ import java.util.Date;
 
 import datalayer.daos.DAOCategories;
 import servicelayer.entity.businessEntity.Category;
+import servicelayer.entity.businessEntity.CategoryType;
 import servicelayer.entity.valueObject.VOCategory;
 import shared.exceptions.ClientException;
 import shared.exceptions.ServerException;
@@ -32,20 +33,20 @@ public class CoreCategory implements ICoreCategory {
 	public void insertCategory(VOCategory voCategory) throws ServerException, ClientException {
 
 		Category category = new Category(voCategory);
-		if(category.getCategoryType() == 1)
+		if(category.getCategoryType() == CategoryType.COMPANY)
 		{	
 			if(iDAOCategory.getCategories(category.getDescription()).size() > 0)
 				throw new ClientException("Ya existe un rubro con esta descripcion");
 		}
 		
-		if(category.getCategoryType() == 2 && !category.getIsRRHH())
+		if(category.getCategoryType() == CategoryType.PROJECT && !category.getIsRRHH())
 		{
 			ArrayList<Category> categoriesByDescription = iDAOCategory.getCategories(category.getDescription(), category.getProject().getId());
 			if(categoriesByDescription.size() > 0)
 				throw new ClientException("Ya existe un rubro con esta descripcion");
 		}
 		
-		if(category.getCategoryType() == 2 && category.getIsRRHH())
+		if(category.getCategoryType() == CategoryType.PROJECT && category.getIsRRHH())
 		{
 			ArrayList<Category> categoriesByDescription = iDAOCategory.getCategories(category.getDescription(), category.getProject().getId());
 			
@@ -79,7 +80,7 @@ public class CoreCategory implements ICoreCategory {
 		}
 		// Si es de tipo recurso humano y ascociado a un proyecto
 		// verifico que ya no esté asociado
-		if(categoryUpdate.getCategoryType() == 2 && categoryUpdate.getIsRRHH())
+		if(categoryUpdate.getCategoryType() == CategoryType.PROJECT && categoryUpdate.getIsRRHH())
 		{
 			ArrayList<Category> categoriesByDescription = iDAOCategory.getCategories(categoryOld.getDescription(), categoryUpdate.getProject().getId());
 			if(categoriesByDescription.size() > 0){
@@ -93,8 +94,8 @@ public class CoreCategory implements ICoreCategory {
 			categoryUpdate.setVersion(categoryOld.getVersion());
 			// si se modifica en el mismo dia, actualizo el registro
 			// si no inserto una nueva version
-			if(categoryOld.getModifyDateTimeUTC() == null || (categoryOld.getModifyDateTimeUTC() != null && 
-					DateFormat.getDateInstance().format(categoryOld.getModifyDateTimeUTC()).equals(DateFormat.getDateInstance().format(new Date())))){
+			if(categoryOld.getModifyDateTimeUTC() != null && 
+					DateFormat.getDateInstance().format(categoryOld.getModifyDateTimeUTC()).equals(DateFormat.getDateInstance().format(new Date()))){
 				iDAOCategory.update(0, categoryUpdate);
 			} else {
 				iDAOCategory.update(1, categoryUpdate);	
@@ -147,7 +148,7 @@ public class CoreCategory implements ICoreCategory {
 			voCategory.setProjectId(category.getProject().getId());
 			voCategory.setProjectName(category.getProject().getName());
 		}
-		voCategory.setCategoryType(category.getCategoryType());
+		voCategory.setCategoryType(category.getCategoryType().getValue());
 		voCategory.setIsRRHH(category.getIsRRHH());
 		
 		return voCategory;

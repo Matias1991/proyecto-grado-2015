@@ -3,6 +3,8 @@ package servicelayer.entity.valueObject;
 import java.io.Serializable;
 import java.util.Date;
 
+import servicelayer.entity.businessEntity.CategoryType;
+
 public class VOCategory implements Serializable{
 
 	private int id;

@@ -10,6 +10,7 @@ import java.util.Date;
 
 import datalayer.utilities.ManageConnection;
 import servicelayer.entity.businessEntity.Category;
+import servicelayer.entity.businessEntity.CategoryType;
 import servicelayer.entity.businessEntity.Project;
 import shared.LoggerMSMP;
 import shared.exceptions.ServerException;
@@ -50,7 +51,7 @@ public class DAOCategories implements IDAOCategroy {
 				preparedStatement.setInt(5, obj.getProject().getId());
 			else
 				preparedStatement.setNull(5, java.sql.Types.INTEGER);
-			preparedStatement.setInt(6, obj.getCategoryType());
+			preparedStatement.setInt(6, obj.getCategoryType().getValue());
 			preparedStatement.setBoolean(7, obj.getIsRRHH());
 			
 			preparedStatement.executeUpdate();
@@ -114,7 +115,7 @@ public class DAOCategories implements IDAOCategroy {
 					preparedStatement.setInt(3, obj.getProject().getId());
 				else
 					preparedStatement.setNull(3, java.sql.Types.INTEGER);
-				preparedStatement.setInt(4, obj.getCategoryType());
+				preparedStatement.setInt(4, obj.getCategoryType().getValue());
 				preparedStatement.setBoolean(5, obj.getIsRRHH());
 				preparedStatement.setTimestamp(6, new Timestamp(new Date().getTime()));
 				preparedStatement.setInt(7, obj.getId());
@@ -136,7 +137,7 @@ public class DAOCategories implements IDAOCategroy {
 					preparedStatement.setInt(5, obj.getProject().getId());
 				else
 					preparedStatement.setNull(5, java.sql.Types.INTEGER);
-				preparedStatement.setInt(6, obj.getCategoryType());
+				preparedStatement.setInt(6, obj.getCategoryType().getValue());
 				preparedStatement.setBoolean(7, obj.getIsRRHH());
 				preparedStatement.setInt(8, obj.getId());
 				preparedStatement.setTimestamp(9, new Timestamp(new Date().getTime()));
@@ -347,7 +348,7 @@ public class DAOCategories implements IDAOCategroy {
 		category.setCreateDateTimeUTC(createDateTimeUTC);
 		if(projectId != 0)
 			category.setProject(new Project(projectId));
-		category.setCategoryType(categoryType);
+		category.setCategoryType(CategoryType.getEnum(categoryType));
 		category.setIsRRHH(isRRhh);
 		category.setVersion(version);
 		category.setModifyDateTimeUTC(modifyDateTimeUTC);

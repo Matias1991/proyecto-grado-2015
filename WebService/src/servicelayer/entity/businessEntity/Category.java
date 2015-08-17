@@ -13,7 +13,7 @@ public class Category {
 	private Date createDateTimeUTC;
 	//private int projectId;
 	private Project project;
-	private int categoryType;
+	private CategoryType categoryType;
 	private boolean isRRHH;
 	private Date modifyDateTimeUTC;
 	
@@ -29,7 +29,7 @@ public class Category {
 			this.project = new Project(voCategory.getProjectId());
 		if(voCategory.getCategoryType() == 1)
 			this.project = null;
-		this.categoryType = voCategory.getCategoryType();
+		this.categoryType = CategoryType.getEnum(voCategory.getCategoryType());
 		this.isRRHH = voCategory.getIsRRHH();
 		this.createDateTimeUTC = voCategory.getCreateDateTimeUTC();
 		this.modifyDateTimeUTC = voCategory.getModifyDateTimeUTC();
@@ -75,11 +75,11 @@ public class Category {
 		this.createDateTimeUTC = createDateTimeUTC;
 	}
 	
-	public int getCategoryType() {
+	public CategoryType getCategoryType() {
 		return categoryType;
 	}
 
-	public void setCategoryType(int category) {
+	public void setCategoryType(CategoryType category) {
 		this.categoryType = category;
 	}
 
