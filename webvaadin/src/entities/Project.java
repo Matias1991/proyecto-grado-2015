@@ -1,12 +1,17 @@
 package entities;
 
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import servicelayer.service.ServiceWebStub.VOProject;
 
-public class Project {
+public class Project implements Serializable{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private int id;
 	private String name;
 	private Date createdDateTimeUTC;

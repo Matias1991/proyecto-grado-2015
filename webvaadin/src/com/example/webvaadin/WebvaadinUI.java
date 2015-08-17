@@ -4,6 +4,7 @@ import utils.PopupWindow;
 import views.ForgotPasswordView;
 import views.LoginView;
 import views.MainMenuView;
+import views.bill.CreateBillView;
 import views.category.CatalogCategoriesView;
 import views.category.CreateCategoryView;
 import views.category.DeleteCategoriesView;
@@ -73,6 +74,9 @@ public class WebvaadinUI extends UI {
 	public static final String DELETECATEGORY = "DeleteCategoryView";
 	public static final String MODIFYCATEGORY = "UpdateCategoryView";
 
+	//Facturas
+	public static final String CREATEBILL = "CreateBillView";
+	
 	private static GridLayout mainLayout;
 	private static MenuBar mainMenuBar;
 	private static MenuBar userMenuBar;
@@ -160,6 +164,8 @@ public class WebvaadinUI extends UI {
 		navigator.addView(CATEGORIES, new CatalogCategoriesView());
 		navigator.addView(DELETECATEGORY, new DeleteCategoriesView());
 		navigator.addView(MODIFYCATEGORY, new ModifyCategoryView());
+		// Facturas
+		navigator.addView(CREATEBILL, new CreateBillView());
 
 		if (RequestContext.getRequestContext() == null) {
 			changeToLogin();
@@ -229,6 +235,9 @@ public class WebvaadinUI extends UI {
 				case "Catálogo rubros":
 					navigator.navigateTo(CATEGORIES);
 					break;
+				case "Crear factura":
+					navigator.navigateTo(CREATEBILL);
+					break;
 				default:
 					new PopupWindow("AVISO",
 							"No hay configuracion para el item: "
@@ -266,7 +275,10 @@ public class WebvaadinUI extends UI {
 			category.addItem("Crear rubro", null, mainMenuBarCommand);
 			category.addItem("Modificar rubros", null, mainMenuBarCommand);
 			category.addItem("Eliminar rubros", null, mainMenuBarCommand);
-			category.addItem("Catálogo rubros", null, mainMenuBarCommand);			
+			category.addItem("Catálogo rubros", null, mainMenuBarCommand);
+			// Facturas
+			MenuItem bill = menuBar.addItem("Facturas", null, null);
+			bill.addItem("Crear factura", null, mainMenuBarCommand);
 			break;
 		case 3:
 			// Rol Gerente
