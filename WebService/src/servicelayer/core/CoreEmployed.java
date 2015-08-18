@@ -168,7 +168,7 @@ public class CoreEmployed implements ICoreEmployed{
 	    {
 
 			int countPartners = iDAOEmployees.getCountPartners();
-			if(countPartners >= 2 && voEmployed.getEmployedType() == 2 ){
+			if(countPartners >= 2 && voEmployed.getEmployedType() == 2 && currentEmployed.getEmployedType().getValue() != voEmployed.getEmployedType() ){
 				throw new ClientException("No pueden haber más de dos empleados de tipo socio");
 			} else{
 				Employed updatedEmployed = new Employed(voEmployed);
