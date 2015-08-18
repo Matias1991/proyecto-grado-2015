@@ -74,7 +74,7 @@ public class CoreCategory implements ICoreCategory {
 		Category categoryOld = iDAOCategory.getObject(id);
 		
 		if(!categoryOld.getCategoryType().equals(categoryUpdate.getCategoryType()) || categoryUpdate.getIsRRHH() != categoryOld.getIsRRHH() ||
-				!categoryUpdate.getProject().equals(categoryOld.getProject())){
+				(categoryUpdate.getProject() != null && categoryOld.getProject() != null && categoryUpdate.getProject().getId() != categoryOld.getProject().getId())){
 			if(categoryUpdate.getCategoryType() == CategoryType.COMPANY ) {	
 				if(iDAOCategory.getCategories(categoryOld.getDescription(), CategoryType.COMPANY).size() > 0
 						&& !categoryUpdate.getCategoryType().equals(categoryOld.getCategoryType()))
@@ -175,7 +175,12 @@ public class CoreCategory implements ICoreCategory {
 			change = true;
 		}
 		
-		if (toUpdate.getProject() != oldCategory.getProject()){
+		if (toUpdate.getProject() != null && oldCategory.getProject() != null){
+			if(toUpdate.getProject().getId() != oldCategory.getProject().getId()){
+				change = true;
+			}
+		} else if((toUpdate.getProject() == null && oldCategory.getProject() != null) ||
+				(toUpdate.getProject() != null && oldCategory.getProject() == null)){
 			change = true;
 		}
 		
