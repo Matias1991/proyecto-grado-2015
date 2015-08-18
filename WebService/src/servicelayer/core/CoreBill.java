@@ -1,6 +1,7 @@
 package servicelayer.core;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 import datalayer.daos.DAOBills;
 import servicelayer.entity.businessEntity.Bill;
@@ -87,6 +88,21 @@ public class CoreBill implements ICoreBill{
 		ArrayList<VOBill> voBills = null;
 
 		bills = iDAOBills.getObjects();
+		voBills = new ArrayList<VOBill>();
+		
+		for (Bill bill : bills) {
+			voBills.add(BuildVOBill(bill));
+		}
+		
+		return voBills;
+	}
+	
+	@Override
+	public ArrayList<VOBill> getBills(Date from, Date to, int projectId, boolean isLiquidated) throws ServerException {
+		ArrayList<Bill> bills;
+		ArrayList<VOBill> voBills = null;
+
+		bills = iDAOBills.getBills(from, to, projectId, isLiquidated);
 		voBills = new ArrayList<VOBill>();
 		
 		for (Bill bill : bills) {
