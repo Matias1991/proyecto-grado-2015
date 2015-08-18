@@ -36,7 +36,7 @@ public class DAOCategories implements IDAOCategroy {
 	public int insert(Category obj) throws ServerException {
 		PreparedStatement preparedStatement = null;
 
-		String insertSQL = "INSERT INTO CATEGORY (VERSION, DESCRIPTION, AMOUNT, APPLIEDDATETIMEUTC, PROJECTID, CATEGORYTYPE, ISRRHH, MODIFYDATETIMEUTC) VALUES"
+		String insertSQL = "INSERT INTO CATEGORY (VERSION, DESCRIPTION, AMOUNT, APPLIEDDATETIMEUTC, PROJECTID, CATEGORYTYPE, ISRRHH, UPDATEDDATETIMEUTC) VALUES"
 				+ "(?,?,?,?,?,?,?, ?)";
 
 		try {
@@ -106,7 +106,7 @@ public class DAOCategories implements IDAOCategroy {
 			// Si cambió el rubro el mismo día modifico el registro anterior
 			if(change == 0){
 				updateSQL =  "UPDATE CATEGORY SET AMOUNT = ?, APPLIEDDATETIMEUTC = ?, "
-						+ "PROJECTID = ?, CATEGORYTYPE = ?, ISRRHH = ?, MODIFYDATETIMEUTC = ? WHERE ID = ? AND VERSION = ?";
+						+ "PROJECTID = ?, CATEGORYTYPE = ?, ISRRHH = ?, UPDATEDDATETIMEUTC = ? WHERE ID = ? AND VERSION = ?";
 				preparedStatement = this.connection.prepareStatement(updateSQL);
 
 				preparedStatement.setDouble(1, obj.getAmount());
@@ -124,7 +124,7 @@ public class DAOCategories implements IDAOCategroy {
 
 			} else {
 				updateSQL =  "INSERT INTO CATEGORY (VERSION, DESCRIPTION, AMOUNT, APPLIEDDATETIMEUTC, "
-						+ "PROJECTID, CATEGORYTYPE, ISRRHH, ID, MODIFYDATETIMEUTC) VALUES"
+						+ "PROJECTID, CATEGORYTYPE, ISRRHH, ID, UPDATEDDATETIMEUTC) VALUES"
 						+ "(?,?,?,?,?,?,?,?, ?)";
 				
 				preparedStatement = this.connection.prepareStatement(updateSQL);
@@ -340,7 +340,7 @@ public class DAOCategories implements IDAOCategroy {
 		int categoryType = rs.getInt("categoryType");
 		boolean isRRhh = rs.getBoolean("isRRHH");
 		int version = rs.getInt("version");
-		Date modifyDateTimeUTC = rs.getTimestamp("modifyDateTimeUTC");
+		Date updatedDateTimeUTC = rs.getTimestamp("updatedDateTimeUTC");
 
 		Category category = new Category();
 		category.setId(_id);
@@ -352,7 +352,7 @@ public class DAOCategories implements IDAOCategroy {
 		category.setCategoryType(CategoryType.getEnum(categoryType));
 		category.setIsRRHH(isRRhh);
 		category.setVersion(version);
-		category.setModifyDateTimeUTC(modifyDateTimeUTC);
+		category.setUpdatedDateTimeUTC(updatedDateTimeUTC);
 		
 		return category;
 	}

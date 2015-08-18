@@ -72,30 +72,36 @@ public class CoreCategory implements ICoreCategory {
 			throws ServerException, ClientException {
 		Category categoryUpdate = new Category(voCategory);
 		Category categoryOld = iDAOCategory.getObject(id);
-		// Si el rubro era de tipo RRHH y lo cambio a tipo Material, 
-		// valido que no exista uno con el mismo nombre
-		int categoriesEquals = iDAOCategory.getCategories(categoryOld.getDescription(), CategoryType.COMPANY).size();
-		if(categoryOld.getIsRRHH() && !categoryUpdate.getIsRRHH() && categoriesEquals > 1){
-			throw new ClientException("Ya existe un rubro con esta descripcion");
-		}
-		// Si es de tipo recurso humano y ascociado a un proyecto
-		// verifico que ya no esté asociado
-		if(categoryUpdate.getCategoryType() == CategoryType.PROJECT && categoryUpdate.getIsRRHH())
-		{
-			ArrayList<Category> categoriesByDescription = iDAOCategory.getCategories(categoryOld.getDescription(), categoryUpdate.getProject().getId());
-			if(categoriesByDescription.size() > 0){
-					throw new ClientException("Ese rubro ya esta asociado al proyecto seleccionado");
+		
+		if(!categoryOld.getCategoryType().equals(categoryUpdate.getCategoryType()) || categoryUpdate.getIsRRHH() != categoryOld.getIsRRHH() ||
+				!categoryUpdate.getProject().equals(categoryOld.getProject())){
+			if(categoryUpdate.getCategoryType() == CategoryType.COMPANY ) {	
+				if(iDAOCategory.getCategories(categoryOld.getDescription(), CategoryType.COMPANY).size() > 0
+						&& !categoryUpdate.getCategoryType().equals(categoryOld.getCategoryType()))
+					throw new ClientException("Ya existe un rubro con esta descripcion");
+			}
+			
+			if(categoryUpdate.getCategoryType() == CategoryType.PROJECT && !categoryUpdate.getIsRRHH())	{
+				ArrayList<Category> categoriesByDescription = iDAOCategory.getCategories(categoryOld.getDescription(), categoryUpdate.getProject().getId());
+				if(categoriesByDescription.size() > 0)
+					throw new ClientException("Ya existe un rubro con esta descripcion");
+			}
+			
+			if(categoryUpdate.getCategoryType() == CategoryType.PROJECT && categoryUpdate.getIsRRHH()){
+				ArrayList<Category> categoriesByDescription = iDAOCategory.getCategories(categoryOld.getDescription(), categoryUpdate.getProject().getId());
+				if(categoriesByDescription.size() > 0)
+						throw new ClientException("Ese rubro ya esta asosicado al proyecto seleccionado");
 			}
 		}
-		
+			
 		if(changeCategory(categoryOld, categoryUpdate)){
 			categoryUpdate.setDescription(categoryOld.getDescription());
 			categoryUpdate.setId(categoryOld.getId());
 			categoryUpdate.setVersion(categoryOld.getVersion());
 			// si se modifica en el mismo dia, actualizo el registro
 			// si no inserto una nueva version
-			if(categoryOld.getModifyDateTimeUTC() != null && 
-					DateFormat.getDateInstance().format(categoryOld.getModifyDateTimeUTC()).equals(DateFormat.getDateInstance().format(new Date()))){
+			if(categoryOld.getUpdatedDateTimeUTC() != null && 
+					DateFormat.getDateInstance().format(categoryOld.getUpdatedDateTimeUTC()).equals(DateFormat.getDateInstance().format(new Date()))){
 				iDAOCategory.update(0, categoryUpdate);
 			} else {
 				iDAOCategory.update(1, categoryUpdate);	

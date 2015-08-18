@@ -14,7 +14,7 @@ public class Category {
 	private Project project;
 	private CategoryType categoryType;
 	private boolean isRRHH;
-	private Date modifyDateTimeUTC;
+	private Date updatedDateTimeUTC;
 	
 	public Category(){}
 	
@@ -31,7 +31,7 @@ public class Category {
 		this.categoryType = CategoryType.getEnum(voCategory.getCategoryType());
 		this.isRRHH = voCategory.getIsRRHH();
 		this.appliedDateTimeUTC = voCategory.getAppliedDateTimeUTC();
-		this.modifyDateTimeUTC = voCategory.getModifyDateTimeUTC();
+		this.updatedDateTimeUTC = voCategory.getUpdatedDateTimeUTC();
 	}
 
 	public int getId() {
@@ -98,12 +98,12 @@ public class Category {
 		this.project = project;
 	}
 
-	public Date getModifyDateTimeUTC() {
-		return modifyDateTimeUTC;
+	public Date getUpdatedDateTimeUTC() {
+		return updatedDateTimeUTC;
 	}
 
-	public void setModifyDateTimeUTC(Date modifyDateTimeUTC) {
-		this.modifyDateTimeUTC = modifyDateTimeUTC;
+	public void setUpdatedDateTimeUTC(Date UpdatedDateTimeUTC) {
+		this.updatedDateTimeUTC = UpdatedDateTimeUTC;
 	}
 	
 }

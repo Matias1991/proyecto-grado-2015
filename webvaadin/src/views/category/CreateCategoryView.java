@@ -220,6 +220,8 @@ public class CreateCategoryView extends BaseView {
 			if (projectsGrid != null) {
 				mainLayout.removeComponent(projectsGrid);
 			}
+			txtDescription.setValue("");
+			txtAmount.setValue("");
 			btnCreate.setEnabled(true);
 			buildGrid();
 			
