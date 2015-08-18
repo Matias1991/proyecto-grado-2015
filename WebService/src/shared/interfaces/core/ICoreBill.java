@@ -19,5 +19,5 @@ public interface ICoreBill {
 
 	ArrayList<VOBill> getBills() throws ServerException;
 	
-	ArrayList<VOBill> getBills(Date from, Date to, int projectId, boolean isLiquidated) throws ServerException;
+	ArrayList<VOBill> getBills(Date from, Date to, int projectId, String code, boolean isLiquidated) throws ServerException;
 }

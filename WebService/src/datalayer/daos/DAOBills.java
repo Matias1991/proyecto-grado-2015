@@ -45,8 +45,7 @@ public class DAOBills implements IDAOBills{
 			preparedStatement.setString(1, obj.getCode());
 			preparedStatement.setString(2, obj.getDescription());
 			preparedStatement.setDouble(3, obj.getAmount());
-			preparedStatement.setTimestamp(4, new Timestamp(obj
-					.getAppliedDateTimeUTC().getTime()));
+			preparedStatement.setTimestamp(4, new Timestamp(setFirstDayOfMonth(obj.getAppliedDateTimeUTC()).getTime()));
 			preparedStatement.setBoolean(5, false);
 			if(obj.getProject() != null)
 				preparedStatement.setInt(6, obj.getProject().getId());
@@ -112,7 +111,7 @@ public class DAOBills implements IDAOBills{
 			preparedStatement.setString(1, obj.getDescription());
 			preparedStatement.setString(2, obj.getCode());
 			preparedStatement.setDouble(3, obj.getAmount());
-			preparedStatement.setTimestamp(4, new Timestamp(obj.getAppliedDateTimeUTC().getTime()));
+			preparedStatement.setTimestamp(4, new Timestamp(setFirstDayOfMonth(obj.getAppliedDateTimeUTC()).getTime()));
 			if(obj.getProject() != null)
 				preparedStatement.setInt(5, obj.getProject().getId());
 			else
@@ -261,7 +260,7 @@ public class DAOBills implements IDAOBills{
 	}
 	
 	@Override
-	public ArrayList<Bill> getBills(Date from, Date to, int projectId, boolean isLiquidated) throws ServerException {
+	public ArrayList<Bill> getBills(Date from, Date to, int projectId, String code, boolean isLiquidated) throws ServerException {
 		ArrayList<Bill> bills = new ArrayList<Bill>();
 		PreparedStatement preparedStatement = null;
 		ResultSet rs = null;
@@ -270,38 +269,39 @@ public class DAOBills implements IDAOBills{
 			StringBuilder sql = new StringBuilder();
 			sql.append("SELECT B.*, P.Name as ProjectName FROM BILL B ");
 			sql.append("LEFT OUTER JOIN PROJECT P ON P.Id = B.ProjectId ");
-			sql.append("where month(AppliedDateTimeUTC) >= ? AND ? >= month(AppliedDateTimeUTC) ");
-			sql.append("and year(AppliedDateTimeUTC) >= ? AND ? >= year(AppliedDateTimeUTC) ");
+			sql.append("WHERE B.AppliedDateTimeUTC between ? AND ? ");
 			if(projectId != 0)
 				sql.append("and B.projectId = ? ");
+			if(code != null)
+				sql.append("and B.code = ? ");
 			sql.append("and B.IsLiquidated = ? ");
+			sql.append("ORDER BY B.AppliedDateTimeUTC DESC");
 			
-			Calendar fromCal = Calendar.getInstance();
-			Calendar toCal = Calendar.getInstance();
-			fromCal.setTime(from);
-			toCal.setTime(to);
-			int fromMonth = fromCal.get(Calendar.MONTH);
-			int toMonth = toCal.get(Calendar.MONTH);
-			int fromYear = fromCal.get(Calendar.YEAR);
-			int toYear = toCal.get(Calendar.YEAR);
-			
+			int index = 1;
 			preparedStatement = this.connection.prepareStatement(sql.toString());
-			preparedStatement.setInt(1, fromMonth);
-			preparedStatement.setInt(2, toMonth);
-			preparedStatement.setInt(3, fromYear);
-			preparedStatement.setInt(4, toYear);
+			preparedStatement.setTimestamp(index, new Timestamp(setFirstDayOfMonth(from).getTime()));
+			index ++;
+			preparedStatement.setTimestamp(index, new Timestamp(setFirstDayOfMonth(to).getTime()));
+			index ++;
 			if(projectId != 0)
 			{
-				preparedStatement.setInt(5, projectId);
-				preparedStatement.setBoolean(6, isLiquidated);
+				preparedStatement.setInt(index, projectId);
+				index ++;
 			}
-			else
-				preparedStatement.setBoolean(5, isLiquidated);
+			if(code != null)
+			{
+				preparedStatement.setString(index, code);
+				index ++;
+			}
+			preparedStatement.setBoolean(index, isLiquidated);
 			
 			rs = preparedStatement.executeQuery();
 
 			while (rs.next()) {
-				bills.add(BuildBill(rs));
+				Bill bill = BuildBill(rs);
+				if(bill.getProject() != null)
+					bill.getProject().setName(rs.getString("projectName"));
+				bills.add(bill);
 			}
 
 		} catch (SQLException e) {
@@ -318,6 +318,15 @@ public class DAOBills implements IDAOBills{
 		}
 
 		return bills;
+	}
+	
+	Date setFirstDayOfMonth(Date date)
+	{
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(date);
+		cal.set(Calendar.DAY_OF_MONTH, 01);
+		
+		return cal.getTime();
 	}
 	
 	private Bill BuildBill(ResultSet rs) throws SQLException {

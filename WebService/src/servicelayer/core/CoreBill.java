@@ -98,11 +98,11 @@ public class CoreBill implements ICoreBill{
 	}
 	
 	@Override
-	public ArrayList<VOBill> getBills(Date from, Date to, int projectId, boolean isLiquidated) throws ServerException {
+	public ArrayList<VOBill> getBills(Date from, Date to, int projectId, String code, boolean isLiquidated) throws ServerException {
 		ArrayList<Bill> bills;
 		ArrayList<VOBill> voBills = null;
 
-		bills = iDAOBills.getBills(from, to, projectId, isLiquidated);
+		bills = iDAOBills.getBills(from, to, projectId, code, isLiquidated);
 		voBills = new ArrayList<VOBill>();
 		
 		for (Bill bill : bills) {

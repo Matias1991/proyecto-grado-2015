@@ -93,19 +93,19 @@
             }
                 
            /**
-            * auto generated Axis2 call back method for unlockUser method
-            * override this method for handling normal response from unlockUser operation
+            * auto generated Axis2 call back method for getBillsWithFilters method
+            * override this method for handling normal response from getBillsWithFilters operation
             */
-           public void receiveResultunlockUser(
-                    servicelayer.service.ServiceWebStub.UnlockUserResponse result
+           public void receiveResultgetBillsWithFilters(
+                    servicelayer.service.ServiceWebStub.GetBillsWithFiltersResponse result
                         ) {
            }
 
           /**
            * auto generated Axis2 Error handler
-           * override this method for handling error response from unlockUser operation
+           * override this method for handling error response from getBillsWithFilters operation
            */
-            public void receiveErrorunlockUser(java.lang.Exception e) {
+            public void receiveErrorgetBillsWithFilters(java.lang.Exception e) {
             }
                 
            /**
@@ -122,6 +122,22 @@
            * override this method for handling error response from getBills operation
            */
             public void receiveErrorgetBills(java.lang.Exception e) {
+            }
+                
+           /**
+            * auto generated Axis2 call back method for unlockUser method
+            * override this method for handling normal response from unlockUser operation
+            */
+           public void receiveResultunlockUser(
+                    servicelayer.service.ServiceWebStub.UnlockUserResponse result
+                        ) {
+           }
+
+          /**
+           * auto generated Axis2 Error handler
+           * override this method for handling error response from unlockUser operation
+           */
+            public void receiveErrorunlockUser(java.lang.Exception e) {
             }
                 
            /**

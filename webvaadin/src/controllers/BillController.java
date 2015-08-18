@@ -1,14 +1,22 @@
 package controllers;
 
 import java.rmi.RemoteException;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Date;
 
 import org.apache.axis2.AxisFault;
 
 import servicelayer.service.ServiceWebStub;
+import servicelayer.service.ServiceWebStub.GetBills;
+import servicelayer.service.ServiceWebStub.GetBillsWithFilters;
+import servicelayer.service.ServiceWebStub.GetCategories;
 import servicelayer.service.ServiceWebStub.InsertBill;
 import servicelayer.service.ServiceWebStub.VOBill;
+import servicelayer.service.ServiceWebStub.VOCategory;
 import utils.PopupWindow;
 import entities.Bill;
+import entities.Category;
 
 public class BillController {
 
@@ -38,5 +46,40 @@ public class BillController {
 		}
 		
 		return result;
+	}
+	
+	public static Collection<Bill> getBills(Date from, Date to, int projectId, String code, boolean isLiquidated)
+	{
+		Collection<Bill> bills = new ArrayList<Bill>();
+		
+		try {
+			ServiceWebStub service = new ServiceWebStub();
+			GetBillsWithFilters getBillsWithFilters = new GetBillsWithFilters();
+			
+			getBillsWithFilters.setFrom(from);
+			getBillsWithFilters.setTo(to);
+			getBillsWithFilters.setProjectId(projectId);
+			getBillsWithFilters.setCode(code);
+			getBillsWithFilters.setIsLiquidated(isLiquidated);
+			
+			VOBill [] voBills = service.getBillsWithFilters(getBillsWithFilters).get_return();
+
+			if(voBills != null)
+			{
+				for(VOBill voBill : voBills)
+				{
+					Bill bill = new Bill(voBill);
+					bills.add(bill);
+				}
+			}
+			
+		} catch (AxisFault e) {
+			String error = e.getMessage().replace("<faultstring>", "");
+			PopupWindow popup = new PopupWindow("ERROR", error.replace("</faultstring>", ""));
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
+		
+		return bills;
 	}
 }

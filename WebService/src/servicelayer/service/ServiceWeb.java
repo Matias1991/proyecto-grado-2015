@@ -777,12 +777,12 @@ public class ServiceWeb extends ServiceBase{
 		return null;
 	}
 	
-	public VOBill[] getBillsWithFilters(Date from, Date to, int projectId, boolean isLiquidated) {
+	public VOBill[] getBillsWithFilters(Date from, Date to, int projectId, String code, boolean isLiquidated) {
 		ArrayList<VOBill> voBills;
 		try {
 			transactionLock.tryLock(Constants.DEFAULT_TRANSACTION_TIME, TimeUnit.SECONDS);
 			
-			voBills = iCoreBill.getBills(from, to, projectId, isLiquidated);
+			voBills = iCoreBill.getBills(from, to, projectId, code, isLiquidated);
 			VOBill [] arrayVOBills = new VOBill[voBills.size()];
 			voBills.toArray(arrayVOBills);
 			return arrayVOBills;		    

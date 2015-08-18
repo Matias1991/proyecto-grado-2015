@@ -1,6 +1,9 @@
 package entities;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
+
+import servicelayer.service.ServiceWebStub.VOBill;
 
 public class Bill {
 
@@ -11,6 +14,25 @@ public class Bill {
     private Date appliedDateTimeUTC;
     private int projectId;
     private String projectName;
+    private String appliedDateTimeUTCToShow;
+    
+    public Bill()
+    {
+    	
+    }
+    
+    public Bill(VOBill voBill)
+    {
+    	this.id = voBill.getId();
+    	this.code = voBill.getCode();
+    	this.description = voBill.getDescription();
+    	this.amount = voBill.getAmount();
+    	this.appliedDateTimeUTC = voBill.getAppliedDateTimeUTC();
+    	if(voBill.getProjectId() != 0)
+    		this.projectName = voBill.getProjectName();
+    	
+    	this.setAppliedDateTimeUTCToShow(new SimpleDateFormat("MM-yyyy").format(appliedDateTimeUTC));
+    }
     
 	public int getId() {
 		return id;
@@ -53,5 +75,13 @@ public class Bill {
 	}
 	public void setProjectName(String projectName) {
 		this.projectName = projectName;
+	}
+
+	public String getAppliedDateTimeUTCToShow() {
+		return appliedDateTimeUTCToShow;
+	}
+
+	public void setAppliedDateTimeUTCToShow(String appliedDateTimeUTCToShow) {
+		this.appliedDateTimeUTCToShow = appliedDateTimeUTCToShow;
 	}
 }

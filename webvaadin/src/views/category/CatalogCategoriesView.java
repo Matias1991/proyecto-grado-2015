@@ -68,7 +68,7 @@ public class CatalogCategoriesView extends BaseView {
 			categoriesGrid.getColumn("categoryType").setHeaderCaption("Asociado a");
 			categoriesGrid.getColumn("createDateTimeUTCToShow").setHeaderCaption("Fecha de creacion");
 			categoriesGrid.getColumn("isRRHHToShow").setHeaderCaption("Tipo de recurso");
-			categoriesGrid.getColumn("projectName").setHeaderCaption("Nombre de proyecto");
+			categoriesGrid.getColumn("projectName").setHeaderCaption("Proyecto");
 			categoriesGrid.setWidth(100, Unit.PERCENTAGE);
 			categoriesGrid.setHeight(100, Unit.PERCENTAGE);
 			categoriesGrid.setSelectionMode(SelectionMode.SINGLE);
