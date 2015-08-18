@@ -268,15 +268,16 @@ public class DAOCategories implements IDAOCategroy {
 	}
 	
 	@Override
-	public ArrayList<Category> getCategories(String description) throws ServerException {
+	public ArrayList<Category> getCategories(String description, CategoryType categoryType) throws ServerException {
 		ArrayList<Category> categories = new ArrayList<Category>();;
 		PreparedStatement preparedStatement = null;
 		ResultSet rs = null;
 		try {
 
-			String getSQL = "SELECT * FROM CATEGORY WHERE description = ?";
+			String getSQL = "SELECT * FROM CATEGORY WHERE description = ? and categoryType = ?";
 			preparedStatement = this.connection.prepareStatement(getSQL);
 			preparedStatement.setString(1, description);
+			preparedStatement.setInt(2, categoryType.getValue());
 			rs = preparedStatement.executeQuery();
 
 			while (rs.next()) {
