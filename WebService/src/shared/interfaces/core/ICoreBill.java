@@ -1,6 +1,7 @@
 package shared.interfaces.core;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 import servicelayer.entity.valueObject.VOBill;
 import shared.exceptions.ClientException;
@@ -17,4 +18,6 @@ public interface ICoreBill {
 	VOBill getBill(int id) throws ServerException, ClientException;
 
 	ArrayList<VOBill> getBills() throws ServerException;
+	
+	ArrayList<VOBill> getBills(Date from, Date to, int projectId, boolean isLiquidated) throws ServerException;
 }

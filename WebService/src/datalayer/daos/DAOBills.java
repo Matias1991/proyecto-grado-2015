@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 
 import datalayer.utilities.ManageConnection;
@@ -257,6 +258,66 @@ public class DAOBills implements IDAOBills{
 		}
 
 		return bill;
+	}
+	
+	@Override
+	public ArrayList<Bill> getBills(Date from, Date to, int projectId, boolean isLiquidated) throws ServerException {
+		ArrayList<Bill> bills = new ArrayList<Bill>();
+		PreparedStatement preparedStatement = null;
+		ResultSet rs = null;
+		try {
+
+			StringBuilder sql = new StringBuilder();
+			sql.append("SELECT B.*, P.Name as ProjectName FROM BILL B ");
+			sql.append("LEFT OUTER JOIN PROJECT P ON P.Id = B.ProjectId ");
+			sql.append("where month(AppliedDateTimeUTC) >= ? AND ? >= month(AppliedDateTimeUTC) ");
+			sql.append("and year(AppliedDateTimeUTC) >= ? AND ? >= year(AppliedDateTimeUTC) ");
+			if(projectId != 0)
+				sql.append("and B.projectId = ? ");
+			sql.append("and B.IsLiquidated = ? ");
+			
+			Calendar fromCal = Calendar.getInstance();
+			Calendar toCal = Calendar.getInstance();
+			fromCal.setTime(from);
+			toCal.setTime(to);
+			int fromMonth = fromCal.get(Calendar.MONTH);
+			int toMonth = toCal.get(Calendar.MONTH);
+			int fromYear = fromCal.get(Calendar.YEAR);
+			int toYear = toCal.get(Calendar.YEAR);
+			
+			preparedStatement = this.connection.prepareStatement(sql.toString());
+			preparedStatement.setInt(1, fromMonth);
+			preparedStatement.setInt(2, toMonth);
+			preparedStatement.setInt(3, fromYear);
+			preparedStatement.setInt(4, toYear);
+			if(projectId != 0)
+			{
+				preparedStatement.setInt(5, projectId);
+				preparedStatement.setBoolean(6, isLiquidated);
+			}
+			else
+				preparedStatement.setBoolean(5, isLiquidated);
+			
+			rs = preparedStatement.executeQuery();
+
+			while (rs.next()) {
+				bills.add(BuildBill(rs));
+			}
+
+		} catch (SQLException e) {
+			throw new ServerException(e);
+		} finally {
+			try {
+				if (preparedStatement != null)
+					preparedStatement.close();
+				if (rs != null)
+					rs.close();
+			} catch (SQLException e) {
+				LoggerMSMP.setLog(e.getMessage());
+			}
+		}
+
+		return bills;
 	}
 	
 	private Bill BuildBill(ResultSet rs) throws SQLException {

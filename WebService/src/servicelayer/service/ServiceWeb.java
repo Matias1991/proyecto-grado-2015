@@ -1,6 +1,7 @@
 package servicelayer.service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
 import servicelayer.core.CoreBill;
@@ -759,6 +760,29 @@ public class ServiceWeb extends ServiceBase{
 			transactionLock.tryLock(Constants.DEFAULT_TRANSACTION_TIME, TimeUnit.SECONDS);
 			
 			voBills = iCoreBill.getBills();
+			VOBill [] arrayVOBills = new VOBill[voBills.size()];
+			voBills.toArray(arrayVOBills);
+			return arrayVOBills;		    
+		} catch (ServerException e) {
+			ThrowServerExceptionAndLogError(e, "obtener todos las facturas");
+		} catch (InterruptedException e) {
+			throw new RuntimeException(Constants.TRANSACTION_ERROR);
+		} catch (Exception e) {
+			ThrowGenericExceptionAndLogError(e);
+		}
+		finally
+		{
+			transactionLock.unlock();
+		}
+		return null;
+	}
+	
+	public VOBill[] getBillsWithFilters(Date from, Date to, int projectId, boolean isLiquidated) {
+		ArrayList<VOBill> voBills;
+		try {
+			transactionLock.tryLock(Constants.DEFAULT_TRANSACTION_TIME, TimeUnit.SECONDS);
+			
+			voBills = iCoreBill.getBills(from, to, projectId, isLiquidated);
 			VOBill [] arrayVOBills = new VOBill[voBills.size()];
 			voBills.toArray(arrayVOBills);
 			return arrayVOBills;		    
