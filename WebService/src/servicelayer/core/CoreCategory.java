@@ -81,13 +81,13 @@ public class CoreCategory implements ICoreCategory {
 					throw new ClientException("Ya existe un rubro con esta descripcion");
 			}
 			
-			if(categoryUpdate.getCategoryType() == CategoryType.PROJECT && !categoryUpdate.getIsRRHH())	{
+			if(categoryUpdate.getCategoryType() == CategoryType.PROJECT && categoryOld.getProject() != null && !categoryUpdate.getIsRRHH() && categoryOld.getProject().getId() != categoryUpdate.getProject().getId())	{
 				ArrayList<Category> categoriesByDescription = iDAOCategory.getCategories(categoryOld.getDescription(), categoryUpdate.getProject().getId());
 				if(categoriesByDescription.size() > 0)
 					throw new ClientException("Ya existe un rubro con esta descripcion");
 			}
 			
-			if(categoryUpdate.getCategoryType() == CategoryType.PROJECT && categoryUpdate.getIsRRHH()){
+			if(categoryUpdate.getCategoryType() == CategoryType.PROJECT && categoryOld.getProject() != null && categoryUpdate.getIsRRHH() && categoryOld.getProject().getId() != categoryUpdate.getProject().getId()){
 				ArrayList<Category> categoriesByDescription = iDAOCategory.getCategories(categoryOld.getDescription(), categoryUpdate.getProject().getId());
 				if(categoriesByDescription.size() > 0)
 						throw new ClientException("Ese rubro ya esta asosicado al proyecto seleccionado");
