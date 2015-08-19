@@ -1,6 +1,7 @@
 package views.employees;
 
 import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -79,7 +80,6 @@ public class CatalogEmployeesView extends BaseView {
 	private Label lblMessage;
 	private OptionGroup optEmployeeType;
 	private ComboBox cboVersion;
-	private Label lblVersion;
 
 	public CatalogEmployeesView() {
 		buildMainLayout();
@@ -104,12 +104,8 @@ public class CatalogEmployeesView extends BaseView {
 						loadEmployee(item.getBean(),versionEmployees.toVOSalarySummary());
 												
 						tabEmployee.setVisible(false);
-						lblVersion.setVisible(true);
-						cboVersion.setVisible(true);
 					}else{
 						tabEmployee.setVisible(false);
-						lblVersion.setVisible(false);
-						cboVersion.setVisible(false);
 						cboVersion.removeAllItems();
 					}
 					tabEmployee.setVisible(true);
@@ -441,13 +437,16 @@ public class CatalogEmployeesView extends BaseView {
 
 			catalogEmployeesGrid.setColumnOrder("name", "lastName");
 
+			catalogEmployeesGrid.getColumn("name").setWidth(192.05);
 			catalogEmployeesGrid.getColumn("name").setHeaderCaption("Nombre");
 			catalogEmployeesGrid.getColumn("lastName").setHeaderCaption("Apellido");			
 			catalogEmployeesGrid.setWidth(373, Unit.PIXELS);
 			catalogEmployeesGrid.setHeight(310, Unit.PIXELS);
 			catalogEmployeesGrid.setSelectionMode(SelectionMode.SINGLE);
 			catalogEmployeesGrid.getSelectedRows().clear();
-			mainLayout.addComponent(catalogEmployeesGrid, "top:20%;left:0.0px;");
+			catalogEmployeesGrid.select(employees.iterator().next());
+			buildVersion(employees.iterator().next().getId());
+			mainLayout.addComponent(catalogEmployeesGrid, "top:34%;left:0.0px;");
 			
 			catalogEmployeesGrid.addSelectionListener(new SelectionListener() {
 
@@ -459,13 +458,8 @@ public class CatalogEmployeesView extends BaseView {
 						Employee selectedEmployee = item.getBean();						
 						//loadEmployee(selectedEmployee);
 						buildVersion(selectedEmployee.getId());						
-						tabEmployee.setVisible(false);
-						lblVersion.setVisible(true);
-						cboVersion.setVisible(true);
 					}else{
 						tabEmployee.setVisible(false);
-						lblVersion.setVisible(false);
-						cboVersion.setVisible(false);
 						cboVersion.removeAllItems();
 					}
 					
@@ -562,9 +556,10 @@ public class CatalogEmployeesView extends BaseView {
 		cboVersion.removeAllItems();	
 		for (SalarySummaryVersion salarySummaryVersion : aux) {
 			cboVersion.addItem(salarySummaryVersion.getVersion());			
-			cboVersion.setItemCaption(salarySummaryVersion.getVersion(), DateFormat.getDateInstance().format(salarySummaryVersion.getCreatedDateTimeUTC()));
+			cboVersion.setItemCaption(salarySummaryVersion.getVersion(), new SimpleDateFormat("dd-MM-yyyy").format(salarySummaryVersion.getCreatedDateTimeUTC()));
 		}
-		
+		cboVersion.setValue(aux.iterator().next().getVersion());
+		cboVersion.setNullSelectionItemId(new SalarySummaryVersion());
 	}
 	
 	@Override
@@ -579,9 +574,6 @@ public class CatalogEmployeesView extends BaseView {
 				mainLayout.removeComponent(catalogEmployeesGrid);
 			}
 			buildGrid();
-			lblVersion.setVisible(false);
-			cboVersion.setVisible(false);
-			cboVersion.removeAllItems();
 		}
 
 	}
@@ -613,22 +605,16 @@ public class CatalogEmployeesView extends BaseView {
 		tabEmployee.setImmediate(false);
 		tabEmployee.setWidth("-1px");
 		tabEmployee.setHeight("-1px");
-		mainLayout.addComponent(tabEmployee, "top:102.0px;left:400.0px;");
+		mainLayout.addComponent(tabEmployee, "top:160.0px;left:400.0px;");
 		
 		//cboVersion
 		cboVersion = new ComboBox();		
 		cboVersion.setImmediate(true);
-		cboVersion.setWidth("150px");
+		cboVersion.setWidth("194px");
 		cboVersion.setHeight("30px");
-		mainLayout.addComponent(cboVersion, "top:58.0px;left:465.0px");
-		
-		//lblVersion
-		lblVersion = new Label();
-		lblVersion.setValue("Versión");
-		lblVersion.setWidth("-1px");
-		lblVersion.setHeight("30px");
-		mainLayout.addComponent(lblVersion,"top:65.0px;left:400.0px");
-		
+		cboVersion.setCaption("Versión");
+		cboVersion.setInputPrompt("Seleccione la fecha");
+		mainLayout.addComponent(cboVersion, "top:110.0;left:0px");
 
 		return mainLayout;
 	}
