@@ -5,7 +5,6 @@ import java.util.regex.Pattern;
 
 import servicelayer.service.ServiceWebStub.VOUser;
 import utils.PopupWindow;
-import utils.Utils;
 import views.BaseView;
 
 import com.example.webvaadin.WebvaadinUI;

@@ -76,19 +76,19 @@ public class CoreCategory implements ICoreCategory {
 		if(!categoryOld.getCategoryType().equals(categoryUpdate.getCategoryType()) || categoryUpdate.getIsRRHH() != categoryOld.getIsRRHH() ||
 				(categoryUpdate.getProject() != null && categoryOld.getProject() != null && categoryUpdate.getProject().getId() != categoryOld.getProject().getId())){
 			if(categoryUpdate.getCategoryType() == CategoryType.COMPANY ) {	
-				if(iDAOCategory.getCategories(categoryOld.getDescription(), CategoryType.COMPANY).size() > 0
+				if(iDAOCategory.getCategoriesLastVersion(categoryOld.getDescription(), CategoryType.COMPANY).size() > 0
 						&& !categoryUpdate.getCategoryType().equals(categoryOld.getCategoryType()))
 					throw new ClientException("Ya existe un rubro con esta descripcion");
 			}
 			
 			if(categoryUpdate.getCategoryType() == CategoryType.PROJECT && categoryOld.getProject() != null && !categoryUpdate.getIsRRHH() && categoryOld.getProject().getId() != categoryUpdate.getProject().getId())	{
-				ArrayList<Category> categoriesByDescription = iDAOCategory.getCategories(categoryOld.getDescription(), categoryUpdate.getProject().getId());
+				ArrayList<Category> categoriesByDescription = iDAOCategory.getCategoriesLastVersion(categoryOld.getDescription(), categoryUpdate.getProject().getId());
 				if(categoriesByDescription.size() > 0)
 					throw new ClientException("Ya existe un rubro con esta descripcion");
 			}
 			
 			if(categoryUpdate.getCategoryType() == CategoryType.PROJECT && categoryOld.getProject() != null && categoryUpdate.getIsRRHH() && categoryOld.getProject().getId() != categoryUpdate.getProject().getId()){
-				ArrayList<Category> categoriesByDescription = iDAOCategory.getCategories(categoryOld.getDescription(), categoryUpdate.getProject().getId());
+				ArrayList<Category> categoriesByDescription = iDAOCategory.getCategoriesLastVersion(categoryOld.getDescription(), categoryUpdate.getProject().getId());
 				if(categoriesByDescription.size() > 0)
 						throw new ClientException("Ese rubro ya esta asosicado al proyecto seleccionado");
 			}

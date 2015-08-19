@@ -331,6 +331,76 @@ public class DAOCategories implements IDAOCategroy {
 		return categories;
 	}
 	
+	@Override
+	public ArrayList<Category> getCategoriesLastVersion(String description, CategoryType categoryType) throws ServerException {
+		ArrayList<Category> categories = new ArrayList<Category>();;
+		PreparedStatement preparedStatement = null;
+		ResultSet rs = null;
+		try {
+
+			String getSQL = "SELECT * FROM CATEGORY WHERE description = ? and categoryType = ?"
+					+ " and version = (SELECT MAX(version) from  CATEGORY WHERE description = ? and categoryType = ? )";
+			preparedStatement = this.connection.prepareStatement(getSQL);
+			preparedStatement.setString(1, description);
+			preparedStatement.setInt(2, categoryType.getValue());
+			preparedStatement.setString(3, description);
+			preparedStatement.setInt(4, categoryType.getValue());
+			rs = preparedStatement.executeQuery();
+
+			while (rs.next()) {
+				categories.add(BuildCategory(rs));
+			}
+		} catch (SQLException e) {
+			throw new ServerException(e);
+		} finally {
+			try {
+				if (preparedStatement != null)
+					preparedStatement.close();
+				if (rs != null)
+					rs.close();
+			} catch (SQLException e) {
+				LoggerMSMP.setLog(e.getMessage());
+			}
+		}
+
+		return categories;
+	}
+	
+	@Override
+	public ArrayList<Category> getCategoriesLastVersion(String description, int projectId) throws ServerException {
+		ArrayList<Category> categories = new ArrayList<Category>();;
+		PreparedStatement preparedStatement = null;
+		ResultSet rs = null;
+		try {
+
+			String getSQL = "SELECT * FROM CATEGORY WHERE description = ? and projectId = ?"
+					+ " and version = (SELECT MAX(version) from  CATEGORY WHERE description = ? and projectId = ? )";
+			preparedStatement = this.connection.prepareStatement(getSQL);
+			preparedStatement.setString(1, description);
+			preparedStatement.setInt(2, projectId);
+			preparedStatement.setString(3, description);
+			preparedStatement.setInt(4, projectId);
+			rs = preparedStatement.executeQuery();
+
+			while (rs.next()) {
+				categories.add(BuildCategory(rs));
+			}
+		} catch (SQLException e) {
+			throw new ServerException(e);
+		} finally {
+			try {
+				if (preparedStatement != null)
+					preparedStatement.close();
+				if (rs != null)
+					rs.close();
+			} catch (SQLException e) {
+				LoggerMSMP.setLog(e.getMessage());
+			}
+		}
+
+		return categories;
+	}
+	
 	private Category BuildCategory(ResultSet rs) throws SQLException {
 		int _id = rs.getInt("id");
 		String description = rs.getString("description");
