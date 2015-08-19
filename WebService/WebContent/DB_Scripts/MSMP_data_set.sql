@@ -24,7 +24,7 @@ INSERT INTO `SalarySummary` VALUES (1,1,1,20000.00,5000.00,3000.00,1500.00,900.0
 UNLOCK TABLES;
 
 LOCK TABLES `User` WRITE;
-INSERT INTO `User` VALUES (2,'Matias','Acosta','matiasacosta91@gmail.com','VN/6IE/Ng/4=','mati',NULL,NULL,2,1),(3,'Santiago','Maidana','smaidana@gmail.com','MixKSUy90CxjskSjo2u4mQ==','smaidana',NULL,NULL,2,1),(4,'Yamila','Ghan','yami.ghan@gmail.com','SKCxAE+pIvhjskSjo2u4mQ==','yghan',NULL,NULL,2,1),(5,'Javier','Javier','javier@gmail.com','nKfS6Je4Qm9jskSjo2u4mQ==','javier',NULL,NULL,2,1),(6,'Miguel','Rojas','mrojas@gmail.com','sS3bPxLNlV1jskSjo2u4mQ==','mrojas',NULL,NULL,2,1);
+INSERT INTO `User` VALUES (2,'Matias','Acosta','matiasacosta91@gmail.com','VN/6IE/Ng/4=','mati',NULL,NULL,2,1),(3,'Santiago','Maidana','smaidana@gmail.com','MixKSUy90CxjskSjo2u4mQ==','smaidana',NULL,NULL,2,1),(4,'Yamila','Ghan','yami.ghan@gmail.com','j6JVXNCgND8=','yghan',NULL,NULL,2,1),(5,'Javier','Javier','javier@gmail.com','nKfS6Je4Qm9jskSjo2u4mQ==','javier',NULL,NULL,2,1),(6,'Miguel','Rojas','mrojas@gmail.com','sS3bPxLNlV1jskSjo2u4mQ==','mrojas',NULL,NULL,2,1);
 UNLOCK TABLES;
 
 LOCK TABLES `Bill` WRITE;
