@@ -33,6 +33,11 @@ public class CoreBill implements ICoreBill{
 		
 		if(iDAOBills.getBill(voBill.getCode()) == null)
 		{
+			if(voBill.getIsCurrencyDollar())
+			{
+				voBill.setAmountPeso(voBill.getAmountDollar() * voBill.getTypeExchange());
+			}
+			
 			Bill bill = new Bill(voBill);
 			iDAOBills.insert(bill);
 		}
@@ -118,7 +123,10 @@ public class CoreBill implements ICoreBill{
 		voBill.setId(bill.getId());
 		voBill.setCode(bill.getCode());
 		voBill.setDescription(bill.getDescription());
-		voBill.setAmount(bill.getAmount());
+		voBill.setAmountDollar(bill.getAmountDollar());
+		voBill.setAmountPeso(bill.getAmountPeso());
+		voBill.setIsCurrencyDollar(bill.getIsCurrencyDollar());
+		voBill.setTypeExchange(bill.getTypeExchange());
 		voBill.setAppliedDateTimeUTC(bill.getAppliedDateTimeUTC());
 		voBill.setLiquidated(bill.getIsLiquidated());
 		if(bill.getProject() != null)

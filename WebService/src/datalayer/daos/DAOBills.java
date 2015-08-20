@@ -36,21 +36,25 @@ public class DAOBills implements IDAOBills{
 	public int insert(Bill obj) throws ServerException {
 		PreparedStatement preparedStatement = null;
 
-		String insertSQL = "INSERT INTO BILL (CODE, DESCRIPTION, AMOUNT, APPLIEDDATETIMEUTC, ISLIQUIDATED, PROJECTID) VALUES"
-				+ "(?,?,?,?,?,?)";
+		//TypeExchange
+		String insertSQL = "INSERT INTO BILL (CODE, DESCRIPTION, AMOUNTPESO, AMOUNTDOLLAR, ISCURRENCYDOLLAR, TYPEEXCHANGE, APPLIEDDATETIMEUTC, ISLIQUIDATED, PROJECTID) VALUES"
+				+ "(?,?,?,?,?,?,?,?,?)";
 
 		try {
 			preparedStatement = this.connection.prepareStatement(insertSQL);
 
 			preparedStatement.setString(1, obj.getCode());
 			preparedStatement.setString(2, obj.getDescription());
-			preparedStatement.setDouble(3, obj.getAmount());
-			preparedStatement.setTimestamp(4, new Timestamp(setFirstDayOfMonth(obj.getAppliedDateTimeUTC()).getTime()));
-			preparedStatement.setBoolean(5, false);
+			preparedStatement.setDouble(3, obj.getAmountPeso());
+			preparedStatement.setDouble(4, obj.getAmountDollar());
+			preparedStatement.setBoolean(5, obj.getIsCurrencyDollar());
+			preparedStatement.setDouble(6, obj.getTypeExchange());
+			preparedStatement.setTimestamp(7, new Timestamp(setFirstDayOfMonth(obj.getAppliedDateTimeUTC()).getTime()));
+			preparedStatement.setBoolean(8, false);
 			if(obj.getProject() != null)
-				preparedStatement.setInt(6, obj.getProject().getId());
+				preparedStatement.setInt(9, obj.getProject().getId());
 			else
-				preparedStatement.setNull(6, java.sql.Types.INTEGER);
+				preparedStatement.setNull(9, java.sql.Types.INTEGER);
 			
 			preparedStatement.executeUpdate();
 
@@ -100,7 +104,10 @@ public class DAOBills implements IDAOBills{
 		String updateSQL = "UPDATE CATEGORY "
 				+ "SET DESCRIPTION = ?, "
 				+ "CODE = ?, "
-				+ "AMOUNT = ?, "
+				+ "AMOUNTPESO = ?, "
+				+ "AMOUNTDOLLAR = ?, "
+				+ "ISCURRENCYDOLLAR = ?, "
+				+ "TYPEEXCHANGE = ?, "
 				+ "CREATEDDATETIMEUTC = ?, "
 				+ "PROJECTID = ? "
 				+ "WHERE id = ?";
@@ -110,13 +117,16 @@ public class DAOBills implements IDAOBills{
 
 			preparedStatement.setString(1, obj.getDescription());
 			preparedStatement.setString(2, obj.getCode());
-			preparedStatement.setDouble(3, obj.getAmount());
-			preparedStatement.setTimestamp(4, new Timestamp(setFirstDayOfMonth(obj.getAppliedDateTimeUTC()).getTime()));
+			preparedStatement.setDouble(3, obj.getAmountPeso());
+			preparedStatement.setDouble(4, obj.getAmountDollar());
+			preparedStatement.setBoolean(5, obj.getIsCurrencyDollar());
+			preparedStatement.setDouble(6, obj.getTypeExchange());
+			preparedStatement.setTimestamp(7, new Timestamp(setFirstDayOfMonth(obj.getAppliedDateTimeUTC()).getTime()));
 			if(obj.getProject() != null)
-				preparedStatement.setInt(5, obj.getProject().getId());
+				preparedStatement.setInt(8, obj.getProject().getId());
 			else
-				preparedStatement.setNull(5, java.sql.Types.INTEGER);
-			preparedStatement.setInt(6 , id);
+				preparedStatement.setNull(8, java.sql.Types.INTEGER);
+			preparedStatement.setInt(9 , id);
 			
 			preparedStatement.executeUpdate();
 
@@ -333,7 +343,10 @@ public class DAOBills implements IDAOBills{
 		int _id = rs.getInt("id");
 		String code = rs.getString("code");
 		String description = rs.getString("description");
-		double amount = rs.getDouble("amount");
+		double amountPeso = rs.getDouble("amountPeso");
+		double amountDollar = rs.getDouble("amountDollar");
+		boolean isCurrencyDollar = rs.getBoolean("isCurrencyDollar");
+		double typeExchange = rs.getDouble("typeExchange");
 		Date appliedDateTimeUTC = rs.getTimestamp("appliedDateTimeUTC");
 		boolean isLiquidated = rs.getBoolean("isLiquidated");
 		int projectId = rs.getInt("projectid");
@@ -342,11 +355,20 @@ public class DAOBills implements IDAOBills{
 		bill.setId(_id);
 		bill.setCode(code);
 		bill.setDescription(description);
-		bill.setAmount(amount);
+		bill.setIsCurrencyDollar(isCurrencyDollar);
+		bill.setTypeExchange(typeExchange);
 		bill.setAppliedDateTimeUTC(appliedDateTimeUTC);
 		bill.setIsLiquidated(isLiquidated);
 		if(projectId != 0)
 			bill.setProject(new Project(projectId));
+		
+		if(bill.getIsCurrencyDollar())
+		{
+			bill.setAmountDollar(amountDollar);
+			bill.setTypeExchange(typeExchange);
+		}
+		else
+			bill.setAmountPeso(amountPeso);
 		
 		return bill;
 	}

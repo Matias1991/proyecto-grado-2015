@@ -9,7 +9,10 @@ public class VOBill implements Serializable{
 	private int id;
 	private String code;
 	private String description;
-    private double amount;
+	private double amountPeso;
+    private double amountDollar;
+    private boolean isCurrencyDollar;
+	private double typeExchange;
     private Date appliedDateTimeUTC;
     private int projectId;
     private String projectName;
@@ -26,12 +29,6 @@ public class VOBill implements Serializable{
 	}
 	public void setDescription(String description) {
 		this.description = description;
-	}
-	public double getAmount() {
-		return amount;
-	}
-	public void setAmount(double amount) {
-		this.amount = amount;
 	}
 	public int getProjectId() {
 		return projectId;
@@ -62,5 +59,29 @@ public class VOBill implements Serializable{
 	}
 	public void setCode(String code) {
 		this.code = code;
+	}
+	public boolean getIsCurrencyDollar() {
+		return isCurrencyDollar;
+	}
+	public void setIsCurrencyDollar(boolean isCurrencyDollar) {
+		this.isCurrencyDollar = isCurrencyDollar;
+	}
+	public double getTypeExchange() {
+		return typeExchange;
+	}
+	public void setTypeExchange(double typeExchange) {
+		this.typeExchange = typeExchange;
+	}
+	public double getAmountPeso() {
+		return amountPeso;
+	}
+	public void setAmountPeso(double amountPeso) {
+		this.amountPeso = amountPeso;
+	}
+	public double getAmountDollar() {
+		return amountDollar;
+	}
+	public void setAmountDollar(double amountDollar) {
+		this.amountDollar = amountDollar;
 	}
 }

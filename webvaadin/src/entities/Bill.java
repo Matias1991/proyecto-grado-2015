@@ -1,5 +1,6 @@
 package entities;
 
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -10,11 +11,16 @@ public class Bill {
 	private int id;
 	private String code;
 	private String description;
-    private double amount;
+    private double amountPeso;
+	private double amountDollar;
+    private boolean isCurrencyDollar;
+    private double typeExchange;
     private Date appliedDateTimeUTC;
     private int projectId;
     private String projectName;
     private String appliedDateTimeUTCToShow;
+    private String amountToShow;
+    private String typeExchangeToShow;
     
     public Bill()
     {
@@ -26,12 +32,26 @@ public class Bill {
     	this.id = voBill.getId();
     	this.code = voBill.getCode();
     	this.description = voBill.getDescription();
-    	this.amount = voBill.getAmount();
+    	this.amountDollar = voBill.getAmountDollar();
+    	this.amountPeso = voBill.getAmountPeso();
+    	this.isCurrencyDollar = voBill.getIsCurrencyDollar();
+    	this.typeExchange = voBill.getTypeExchange();
     	this.appliedDateTimeUTC = voBill.getAppliedDateTimeUTC();
     	if(voBill.getProjectId() != 0)
     		this.projectName = voBill.getProjectName();
     	
     	this.setAppliedDateTimeUTCToShow(new SimpleDateFormat("MM-yyyy").format(appliedDateTimeUTC));
+    	
+    	if(isCurrencyDollar)
+    	{
+    		this.amountToShow = new DecimalFormat("U$ ###,###.###").format(this.amountDollar);
+    		this.typeExchangeToShow = String.valueOf(this.typeExchange);
+    	}
+    	else
+    	{
+    		this.amountToShow = new DecimalFormat("$ ###,###.###").format(this.amountPeso);
+    		this.typeExchangeToShow = "N/A";
+    	}
     }
     
 	public int getId() {
@@ -51,12 +71,6 @@ public class Bill {
 	}
 	public void setDescription(String description) {
 		this.description = description;
-	}
-	public double getAmount() {
-		return amount;
-	}
-	public void setAmount(double amount) {
-		this.amount = amount;
 	}
 	public Date getAppliedDateTimeUTC() {
 		return appliedDateTimeUTC;
@@ -83,5 +97,53 @@ public class Bill {
 
 	public void setAppliedDateTimeUTCToShow(String appliedDateTimeUTCToShow) {
 		this.appliedDateTimeUTCToShow = appliedDateTimeUTCToShow;
+	}
+	
+	public double getAmountPeso() {
+		return amountPeso;
+	}
+
+	public void setAmountPeso(double amountPeso) {
+		this.amountPeso = amountPeso;
+	}
+
+	public double getAmountDollar() {
+		return amountDollar;
+	}
+
+	public void setAmountDollar(double amountDollar) {
+		this.amountDollar = amountDollar;
+	}
+
+	public boolean getIsCurrencyDollar() {
+		return isCurrencyDollar;
+	}
+
+	public void setIsCurrencyDollar(boolean isCurrencyDollar) {
+		this.isCurrencyDollar = isCurrencyDollar;
+	}
+
+	public double getTypeExchange() {
+		return typeExchange;
+	}
+	
+	public void setTypeExchange(double typeExchange) {
+		this.typeExchange = typeExchange;
+	}
+
+	public String getAmountToShow() {
+		return amountToShow;
+	}
+
+	public void setAmountToShow(String amountToShow) {
+		this.amountToShow = amountToShow;
+	}
+
+	public String getTypeExchangeToShow() {
+		return typeExchangeToShow;
+	}
+
+	public void setTypeExchangeToShow(String typeExchangeToShow) {
+		this.typeExchangeToShow = typeExchangeToShow;
 	}
 }
