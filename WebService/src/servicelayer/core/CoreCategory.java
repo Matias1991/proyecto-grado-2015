@@ -53,6 +53,11 @@ public class CoreCategory implements ICoreCategory {
 			if(categoriesByDescription.size() > 0)
 					throw new ClientException("Ese rubro ya esta asosicado al proyecto seleccionado");
 		}
+		
+		if(category.getIsCurrencyDollar()){
+			category.setAmountDollar(category.getAmountPeso() * category.getTypeExchange());
+		}
+		
 		iDAOCategory.insert(category);
 	}
 
@@ -98,6 +103,12 @@ public class CoreCategory implements ICoreCategory {
 			categoryUpdate.setDescription(categoryOld.getDescription());
 			categoryUpdate.setId(categoryOld.getId());
 			categoryUpdate.setVersion(categoryOld.getVersion());
+			if(categoryUpdate.getIsCurrencyDollar()){
+				categoryUpdate.setAmountDollar(categoryUpdate.getAmountPeso() * categoryUpdate.getTypeExchange());
+			} else {
+				categoryUpdate.setAmountDollar(0.00);
+			}
+			
 			// si se modifica en el mismo dia, actualizo el registro
 			// si no inserto una nueva version
 			if(categoryOld.getUpdatedDateTimeUTC() != null && 
@@ -147,7 +158,10 @@ public class CoreCategory implements ICoreCategory {
 		VOCategory voCategory = new VOCategory();
 		voCategory.setId(category.getId());
 		voCategory.setDescription(category.getDescription());
-		voCategory.setAmount(category.getAmount());
+		voCategory.setAmountPeso(category.getAmountPeso());
+		voCategory.setAmountDollar(category.getAmountDollar());
+		voCategory.setIsCurrencyDollar(category.getIsCurrencyDollar());
+		voCategory.setTypeExchange(category.getTypeExchange());
 		voCategory.setAppliedDateTimeUTC(category.getAppliedDateTimeUTC());
 		if(category.getProject() != null)
 		{
@@ -163,7 +177,15 @@ public class CoreCategory implements ICoreCategory {
 	private boolean changeCategory(Category toUpdate, Category oldCategory){
 		boolean change = false;
 		
-		if(toUpdate.getAmount() != oldCategory.getAmount()){
+		if(toUpdate.getAmountPeso() != oldCategory.getAmountPeso()){
+			change = true;
+		}
+		
+		if(toUpdate.getIsCurrencyDollar() != oldCategory.getIsCurrencyDollar()){
+			change = true;
+		}
+
+		if(toUpdate.getTypeExchange() != oldCategory.getTypeExchange()){
 			change = true;
 		}
 		

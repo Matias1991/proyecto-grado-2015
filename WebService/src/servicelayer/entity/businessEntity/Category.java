@@ -9,7 +9,10 @@ public class Category {
 	private int id;
 	private int version;
 	private String description;
-	private double amount;
+	private double amountPeso;
+	private double amountDollar;
+	private boolean isCurrencyDollar;
+	private double typeExchange;
 	private Date appliedDateTimeUTC;
 	private Project project;
 	private CategoryType categoryType;
@@ -22,7 +25,10 @@ public class Category {
 		this.id = voCategory.getId();
 		this.version = voCategory.getVersion();
 		this.description = voCategory.getDescription();
-		this.amount = voCategory.getAmount();
+		this.amountPeso = voCategory.getAmountPeso();
+		this.amountDollar = voCategory.getAmountDollar();
+		this.isCurrencyDollar = voCategory.getIsCurrencyDollar();
+		this.typeExchange = voCategory.getTypeExchange();
 		this.appliedDateTimeUTC = voCategory.getAppliedDateTimeUTC();
 		if(voCategory.getProjectId() != 0)
 			this.project = new Project(voCategory.getProjectId());
@@ -58,12 +64,36 @@ public class Category {
 		this.description = description;
 	}
 
-	public double getAmount() {
-		return amount;
+	public double getAmountPeso() {
+		return amountPeso;
 	}
 
-	public void setAmount(double amount) {
-		this.amount = amount;
+	public void setAmountPeso(double amountPeso) {
+		this.amountPeso = amountPeso;
+	}
+
+	public double getAmountDollar() {
+		return amountDollar;
+	}
+
+	public void setAmountDollar(double amountDollar) {
+		this.amountDollar = amountDollar;
+	}
+
+	public boolean getIsCurrencyDollar() {
+		return isCurrencyDollar;
+	}
+	
+	public void setIsCurrencyDollar(boolean isCurrencyDollar) {
+		this.isCurrencyDollar = isCurrencyDollar;
+	}
+
+	public double getTypeExchange() {
+		return typeExchange;
+	}
+
+	public void setTypeExchange(double typeExchange) {
+		this.typeExchange = typeExchange;
 	}
 
 	public Date getAppliedDateTimeUTC() {

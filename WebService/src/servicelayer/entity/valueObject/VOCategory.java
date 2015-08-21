@@ -10,7 +10,10 @@ public class VOCategory implements Serializable{
 	private int id;
 	private int version;
 	private String description;
-	private double amount;
+	private double amountPeso;
+	private double amountDollar;
+	private boolean isCurrencyDollar;
+	private double typeExchange;
 	private Date appliedDateTimeUTC;
 	private int projectId;
 	private String projectName;
@@ -43,14 +46,38 @@ public class VOCategory implements Serializable{
 		this.description = description;
 	}
 	
-	public double getAmount() {
-		return amount;
+	public double getAmountPeso() {
+		return amountPeso;
 	}
-	
-	public void setAmount(double amount) {
-		this.amount = amount;
+
+	public void setAmountPeso(double amountPeso) {
+		this.amountPeso = amountPeso;
 	}
-	
+
+	public double getAmountDollar() {
+		return amountDollar;
+	}
+
+	public void setAmountDollar(double amountDollar) {
+		this.amountDollar = amountDollar;
+	}
+
+	public boolean getIsCurrencyDollar() {
+		return isCurrencyDollar;
+	}
+
+	public void setIsCurrencyDollar(boolean isCurrencyDollar) {
+		this.isCurrencyDollar = isCurrencyDollar;
+	}
+
+	public double getTypeExchange() {
+		return typeExchange;
+	}
+
+	public void setTypeExchange(double typeExchange) {
+		this.typeExchange = typeExchange;
+	}
+
 	public Date getAppliedDateTimeUTC() {
 		return appliedDateTimeUTC;
 	}

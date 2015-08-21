@@ -26,7 +26,10 @@ public class CategoryController {
 			
 			VOCategory voCategory = new VOCategory();
 			voCategory.setDescription(category.getDescription());
-			voCategory.setAmount(category.getAmount());
+			voCategory.setAmountPeso(category.getAmountPeso());
+			voCategory.setAmountDollar(category.getAmountDollar());
+			voCategory.setIsCurrencyDollar(category.isCurrencyDollar());
+			voCategory.setTypeExchange(category.getTypeExchange());
 			voCategory.setCategoryType(category.getCategoryTypeId());
 			voCategory.setProjectId(category.getProjectId());
 			voCategory.setIsRRHH(category.getIsRRHH());
@@ -101,7 +104,7 @@ public class CategoryController {
 		Category category = null;
 		VOCategory result = new VOCategory();
 		result.setDescription(cat.getDescription());
-		result.setAmount(cat.getAmount());
+		result.setAmountPeso(cat.getAmountPeso());
 		if(cat.getCategoryTypeId() == 1)
 			result.setProjectId(0);
 		else

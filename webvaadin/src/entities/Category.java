@@ -27,8 +27,8 @@ public class Category {
 	{
 		this.id = voCategory.getId();
 		this.setDescription(voCategory.getDescription());
-		this.setAmountPeso((voCategory.getAmountPeso());
-		this.setAmountDollar((voCategory.getAmountDollar());
+		this.setAmountPeso(voCategory.getAmountPeso());
+		this.setAmountDollar(voCategory.getAmountDollar());
 		this.setCategoryTypeId(voCategory.getCategoryType());
 		this.setCategoryType(getCategoryTypeToShow());
 		this.createdDateTimeUTC = voCategory.getAppliedDateTimeUTC();
@@ -174,7 +174,7 @@ public class Category {
 		return isCurrencyDollar;
 	}
 
-	public void setCurrencyDollar(boolean isCurrencyDollar) {
+	public void setIsCurrencyDollar(boolean isCurrencyDollar) {
 		this.isCurrencyDollar = isCurrencyDollar;
 	}
 

@@ -36,24 +36,28 @@ public class DAOCategories implements IDAOCategroy {
 	public int insert(Category obj) throws ServerException {
 		PreparedStatement preparedStatement = null;
 
-		String insertSQL = "INSERT INTO CATEGORY (VERSION, DESCRIPTION, AMOUNT, APPLIEDDATETIMEUTC, PROJECTID, CATEGORYTYPE, ISRRHH, UPDATEDDATETIMEUTC) VALUES"
-				+ "(?,?,?,?,?,?,?, ?)";
+		String insertSQL = "INSERT INTO CATEGORY (VERSION, DESCRIPTION, AMOUNTPESO, AMOUNTDOLLAR, ISCURRENCYDOLLAR, "
+				+ "TYPEEXCHANGE, APPLIEDDATETIMEUTC, PROJECTID, CATEGORYTYPE, ISRRHH, UPDATEDDATETIMEUTC) VALUES"
+				+ "(?,?,?,?,?,?,?,?,?,?,?)";
 
 		try {
 			preparedStatement = this.connection.prepareStatement(insertSQL);
 
 			preparedStatement.setInt(1, 1);
 			preparedStatement.setString(2, obj.getDescription());
-			preparedStatement.setDouble(3, obj.getAmount());
-			preparedStatement.setTimestamp(4, new Timestamp(obj
+			preparedStatement.setDouble(3, obj.getAmountPeso());
+			preparedStatement.setDouble(4, obj.getAmountDollar());
+			preparedStatement.setBoolean(5, obj.getIsCurrencyDollar());
+			preparedStatement.setDouble(6, obj.getTypeExchange());
+			preparedStatement.setTimestamp(7, new Timestamp(obj
 					.getAppliedDateTimeUTC().getTime()));
 			if(obj.getProject() != null)
-				preparedStatement.setInt(5, obj.getProject().getId());
+				preparedStatement.setInt(8, obj.getProject().getId());
 			else
-				preparedStatement.setNull(5, java.sql.Types.INTEGER);
-			preparedStatement.setInt(6, obj.getCategoryType().getValue());
-			preparedStatement.setBoolean(7, obj.getIsRRHH());
-			preparedStatement.setTimestamp(8, new Timestamp(new Date().getTime()));
+				preparedStatement.setNull(8, java.sql.Types.INTEGER);
+			preparedStatement.setInt(9, obj.getCategoryType().getValue());
+			preparedStatement.setBoolean(10, obj.getIsRRHH());
+			preparedStatement.setTimestamp(11, new Timestamp(new Date().getTime()));
 			
 			preparedStatement.executeUpdate();
 
@@ -105,11 +109,13 @@ public class DAOCategories implements IDAOCategroy {
 			
 			// Si cambió el rubro el mismo día modifico el registro anterior
 			if(change == 0){
-				updateSQL =  "UPDATE CATEGORY SET AMOUNT = ?, APPLIEDDATETIMEUTC = ?, "
-						+ "PROJECTID = ?, CATEGORYTYPE = ?, ISRRHH = ?, UPDATEDDATETIMEUTC = ? WHERE ID = ? AND VERSION = ?";
+				updateSQL =  "UPDATE CATEGORY SET AMOUNTPESO = ?, APPLIEDDATETIMEUTC = ?, "
+						+ "PROJECTID = ?, CATEGORYTYPE = ?, ISRRHH = ?, UPDATEDDATETIMEUTC = ?,"
+						+ "AMOUNTDOLLAR = ?, ISCURRENCYDOLLAR = ?, TYPEEXCHANGE = ?"
+						+ "  WHERE ID = ? AND VERSION = ?";
 				preparedStatement = this.connection.prepareStatement(updateSQL);
 
-				preparedStatement.setDouble(1, obj.getAmount());
+				preparedStatement.setDouble(1, obj.getAmountPeso());
 				preparedStatement.setTimestamp(2, new Timestamp(obj
 						.getAppliedDateTimeUTC().getTime()));
 				if(obj.getProject() != null)
@@ -119,29 +125,35 @@ public class DAOCategories implements IDAOCategroy {
 				preparedStatement.setInt(4, obj.getCategoryType().getValue());
 				preparedStatement.setBoolean(5, obj.getIsRRHH());
 				preparedStatement.setTimestamp(6, new Timestamp(new Date().getTime()));
-				preparedStatement.setInt(7, obj.getId());
-				preparedStatement.setInt(8, obj.getVersion());
+				preparedStatement.setDouble(7, obj.getAmountDollar());
+				preparedStatement.setBoolean(8, obj.getIsCurrencyDollar());
+				preparedStatement.setDouble(9, obj.getTypeExchange());
+				preparedStatement.setInt(10, obj.getId());
+				preparedStatement.setInt(11, obj.getVersion());
 
 			} else {
-				updateSQL =  "INSERT INTO CATEGORY (VERSION, DESCRIPTION, AMOUNT, APPLIEDDATETIMEUTC, "
-						+ "PROJECTID, CATEGORYTYPE, ISRRHH, ID, UPDATEDDATETIMEUTC) VALUES"
-						+ "(?,?,?,?,?,?,?,?, ?)";
+				updateSQL =  "INSERT INTO CATEGORY (VERSION, DESCRIPTION, AMOUNTPESO, AMOUNTDOLLAR, ISCURRENCYDOLLAR, TYPEEXCHANGE,"
+						+ " APPLIEDDATETIMEUTC, PROJECTID, CATEGORYTYPE, ISRRHH, ID, UPDATEDDATETIMEUTC) VALUES"
+						+ "(?,?,?,?,?,?,?,?,?,?,?,?)";
 				
 				preparedStatement = this.connection.prepareStatement(updateSQL);
 
 				preparedStatement.setInt(1, obj.getVersion() + 1);
 				preparedStatement.setString(2, obj.getDescription());
-				preparedStatement.setDouble(3, obj.getAmount());
-				preparedStatement.setTimestamp(4, new Timestamp(obj
+				preparedStatement.setDouble(3, obj.getAmountPeso());
+				preparedStatement.setDouble(4, obj.getAmountDollar());
+				preparedStatement.setBoolean(5, obj.getIsCurrencyDollar());
+				preparedStatement.setDouble(6, obj.getTypeExchange());
+				preparedStatement.setTimestamp(7, new Timestamp(obj
 						.getAppliedDateTimeUTC().getTime()));
 				if(obj.getProject() != null)
-					preparedStatement.setInt(5, obj.getProject().getId());
+					preparedStatement.setInt(8, obj.getProject().getId());
 				else
-					preparedStatement.setNull(5, java.sql.Types.INTEGER);
-				preparedStatement.setInt(6, obj.getCategoryType().getValue());
-				preparedStatement.setBoolean(7, obj.getIsRRHH());
-				preparedStatement.setInt(8, obj.getId());
-				preparedStatement.setTimestamp(9, new Timestamp(new Date().getTime()));
+					preparedStatement.setNull(8, java.sql.Types.INTEGER);
+				preparedStatement.setInt(9, obj.getCategoryType().getValue());
+				preparedStatement.setBoolean(10, obj.getIsRRHH());
+				preparedStatement.setInt(11, obj.getId());
+				preparedStatement.setTimestamp(12, new Timestamp(new Date().getTime()));
 			}
 						
 			preparedStatement.executeUpdate();
@@ -404,7 +416,10 @@ public class DAOCategories implements IDAOCategroy {
 	private Category BuildCategory(ResultSet rs) throws SQLException {
 		int _id = rs.getInt("id");
 		String description = rs.getString("description");
-		double amount = rs.getDouble("amount");
+		double amountPeso = rs.getDouble("amountPeso");
+		double amountDollar = rs.getDouble("amountDollar");
+		boolean isCurrencyDollar = rs.getBoolean("isCurrencyDollar");
+		double typeExchange = rs.getDouble("typeExchange");
 		Date appliedDateTimeUTC = rs.getTimestamp("appliedDateTimeUTC");
 		int projectId = rs.getInt("projectid");
 		int categoryType = rs.getInt("categoryType");
@@ -415,7 +430,10 @@ public class DAOCategories implements IDAOCategroy {
 		Category category = new Category();
 		category.setId(_id);
 		category.setDescription(description);
-		category.setAmount(amount);
+		category.setAmountPeso(amountPeso);
+		category.setAmountDollar(amountDollar);
+		category.setIsCurrencyDollar(isCurrencyDollar);
+		category.setTypeExchange(typeExchange);
 		category.setAppliedDateTimeUTC(appliedDateTimeUTC);
 		if(projectId != 0)
 			category.setProject(new Project(projectId));

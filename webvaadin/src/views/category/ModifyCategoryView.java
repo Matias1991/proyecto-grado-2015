@@ -119,7 +119,7 @@ public class ModifyCategoryView extends BaseView {
 
 									Category category = new Category();
 									
-									category.setAmount((Double) (txtAmount.getConvertedValue()));
+									category.setAmountPeso((Double) (txtAmount.getConvertedValue()));
 
 									lblProjectTitle.setComponentError(null);
 
@@ -227,7 +227,7 @@ public class ModifyCategoryView extends BaseView {
 					if (item != null) {
 						setComponentsVisible(true);
 						Category catToModify = item.getBean();
-						txtAmount.setConvertedValue(catToModify.getAmount());
+						txtAmount.setConvertedValue(catToModify.getAmountPeso());
 						txtDescription.setEnabled(true);
 						txtDescription.setValue(catToModify.getDescription());
 						txtDescription.setEnabled(false);

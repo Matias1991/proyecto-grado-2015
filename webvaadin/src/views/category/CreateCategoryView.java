@@ -143,8 +143,7 @@ public class CreateCategoryView extends BaseView {
 				if(valid){
 					
 					Category category = new Category();
-					category.setDescription(txtDescription.getValue());
-					category.setAmount((Double)(txtAmount.getConvertedValue()));
+					category.setDescription(txtDescription.getValue());					
 					
 					if (categoryType.getValue().equals("Empresa")) {
 						category.setCategoryTypeId(1);
