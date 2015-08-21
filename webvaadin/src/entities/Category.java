@@ -9,7 +9,8 @@ public class Category {
 
 	private int id;
 	private String description;
-	private double amount;
+	private double amountPeso;
+	private double amountDollar;
 	private int categoryTypeId;
 	private String categoryType;
 	private int projectId;
@@ -17,6 +18,8 @@ public class Category {
 	private Date createdDateTimeUTC;
 	private String createDateTimeUTCToShow;
 	private String projectName;
+	private boolean isCurrencyDollar;
+	private double typeExchange;
 	
 	public Category(){	}
 	
@@ -24,7 +27,8 @@ public class Category {
 	{
 		this.id = voCategory.getId();
 		this.setDescription(voCategory.getDescription());
-		this.setAmount(voCategory.getAmount());
+		this.setAmountPeso((voCategory.getAmountPeso());
+		this.setAmountDollar((voCategory.getAmountDollar());
 		this.setCategoryTypeId(voCategory.getCategoryType());
 		this.setCategoryType(getCategoryTypeToShow());
 		this.createdDateTimeUTC = voCategory.getAppliedDateTimeUTC();
@@ -33,7 +37,9 @@ public class Category {
 		else
 			this.projectName = "Meerkat SYS";
 		this.isRRHH = voCategory.getIsRRHH();
-		this.setCreateDateTimeUTCToShow(new SimpleDateFormat("dd-MM-yyyy").format(createdDateTimeUTC));
+		this.isCurrencyDollar = voCategory.getIsCurrencyDollar();
+		this.setCreateDateTimeUTCToShow(new SimpleDateFormat("dd-MM-yyyy").format(createdDateTimeUTC));	
+		this.setTypeExchange(voCategory.getTypeExchange());
 	}
 	
 	public String getDescription() {
@@ -44,12 +50,12 @@ public class Category {
 		this.description = description;
 	}
 
-	public double getAmount() {
-		return amount;
+	public double getAmountPeso() {
+		return amountPeso;
 	}
 
-	public void setAmount(double amount) {
-		this.amount = amount;
+	public void setAmountPeso(double amount) {
+		this.amountPeso = amount;
 	}
 	
 	public int getId() {
@@ -86,6 +92,16 @@ public class Category {
 		else
 			result = "Material";
 		
+		return result;
+	}
+	
+	public String getIsDollarToShow(){
+		String result = "";
+		if(isCurrencyDollar){
+			result = "Dolares";
+		}else{
+			result = "Pesos";
+		}
 		return result;
 	}
 
@@ -144,4 +160,30 @@ public class Category {
 	public void setProjectName(String projectName) {
 		this.projectName = projectName;
 	}
+	
+
+	public double getAmountDollar() {
+		return amountDollar;
+	}
+
+	public void setAmountDollar(double amountDollar) {
+		this.amountDollar = amountDollar;
+	}	
+
+	public boolean isCurrencyDollar() {
+		return isCurrencyDollar;
+	}
+
+	public void setCurrencyDollar(boolean isCurrencyDollar) {
+		this.isCurrencyDollar = isCurrencyDollar;
+	}
+
+	public double getTypeExchange() {
+		return typeExchange;
+	}
+
+	public void setTypeExchange(double typeExchange) {
+		this.typeExchange = typeExchange;
+	}
+	
 }

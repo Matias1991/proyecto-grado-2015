@@ -61,6 +61,8 @@ public class CreateCategoryView extends BaseView {
 	private Grid projectsGrid;
 	private BeanItemContainer<Project> beanContainer;
 	private boolean existProjects;
+	private OptionGroup optCurrency;
+	private TextField txtTypeExchange;
 	/**
 	 * The constructor should first build the main layout, set the
 	 * composition root and then do any custom initialization.
@@ -75,11 +77,14 @@ public class CreateCategoryView extends BaseView {
 		categoryType.addItems("Empresa", "Proyecto");
 		categoryType.select("Empresa");
 		
+		optCurrency.addItems("Pesos", "Dolares");
+		optCurrency.select("Pesos");
+		
 		isRRHH.addItems("Material", "Humano");
 		isRRHH.select("Material");
 		
 		
-        categoryType.addListener(new ValueChangeListener() {
+        categoryType.addValueChangeListener(new ValueChangeListener() {
         	 @Override
         	 public void valueChange(ValueChangeEvent event) {
         		 if(categoryType.getValue() == "Empresa")
@@ -91,6 +96,19 @@ public class CreateCategoryView extends BaseView {
  					enablePanelProject(true);
              }
         });
+        
+        optCurrency.addValueChangeListener(new ValueChangeListener() {
+			
+			@Override
+			public void valueChange(ValueChangeEvent event) {
+				// TODO Auto-generated method stub
+				if(optCurrency.getValue() == "Dolares"){
+					txtTypeExchange.setVisible(true);
+				}else{
+					txtTypeExchange.setVisible(false);
+				}
+			}
+		});
 		
 		btnCreate.addClickListener(new Button.ClickListener() {
 
@@ -115,6 +133,10 @@ public class CreateCategoryView extends BaseView {
 					txtAmount.setConversionError("Debe ser numérico");
 					createdDateTimeField.setRequiredError("Es requerido");
 					valid = false;
+				}
+				if(optCurrency.getValue() == "Dolares" && !txtTypeExchange.isValid()){
+					txtTypeExchange.setRequiredError("Es requerido");
+					txtTypeExchange.setConversionError("Debe ser numérico");					
 				}
 				
 				
@@ -142,6 +164,21 @@ public class CreateCategoryView extends BaseView {
 						category.setIsRRHH(true);
 					
 					category.setCreatedDateTimeUTC(createdDateTimeField.getValue());
+					
+					if(optCurrency.getValue() == "Pesos")
+					{
+						category.setAmountPeso((Double)(txtAmount.getConvertedValue()));
+						category.setIsCurrencyDollar(false);
+					}
+					else
+					{
+						category.setAmountDollar((Double)(txtAmount.getConvertedValue()));
+						category.setTypeExchange((Double)(txtTypeExchange.getConvertedValue()));
+						category.setIsCurrencyDollar(true);
+					}
+					
+					
+					
 					
 					boolean result = CategoryController.createCategory(category);
 					
@@ -189,6 +226,7 @@ public class CreateCategoryView extends BaseView {
 			projectsGrid.setSelectionMode(SelectionMode.SINGLE);
 			projectsGrid.getSelectedRows().clear();
 			
+						
 			mainLayout.addComponent(projectsGrid, "top:116.0px;left:330.0px;");
 		}
 		else
@@ -221,6 +259,8 @@ public class CreateCategoryView extends BaseView {
 			buildGrid();
 			
 			categoryType.select("Empresa");
+			isRRHH.select("Material");
+			txtTypeExchange.setVisible(false);
 			
 			cleanInputs();
 		}
@@ -242,11 +282,11 @@ public class CreateCategoryView extends BaseView {
 		mainLayout = new AbsoluteLayout();
 		mainLayout.setImmediate(false);
 		mainLayout.setWidth("1000px");
-		mainLayout.setHeight("501px");
+		mainLayout.setHeight("540px");
 		
 		// top-level component properties
 		setWidth("1000px");
-		setHeight("501px");
+		setHeight("540px");
 		
 		// label_1
 		lblTitle = new Label();
@@ -267,9 +307,29 @@ public class CreateCategoryView extends BaseView {
 		txtDescription.setRequired(true);
 		mainLayout.addComponent(txtDescription, "top:116.0px;left:0.0px;");
 		
+		//optCurrency
+		optCurrency = new OptionGroup();
+		optCurrency.setCaption("Moneda");
+		optCurrency.setImmediate(true);
+		optCurrency.setWidth("-1px");
+		optCurrency.setHeight("-1px");
+		mainLayout.addComponent(optCurrency,"top:180.0px;right:372.0px;left:3.0px;");
+	
+		//txtTypeExchange
+		txtTypeExchange = new TextField();
+		txtTypeExchange.setCaption("Tipo de cambio");
+		txtTypeExchange.setImmediate(true);
+		txtTypeExchange.setWidth("110px");
+		txtTypeExchange.setHeight("-1px");
+		txtTypeExchange.setRequired(true);
+		txtTypeExchange.setNullRepresentation("");
+		txtTypeExchange.setConverter(new StringToDoubleConverter());
+		mainLayout.addComponent(txtTypeExchange,
+				"top:200.0px;right:372.0px;left:130.0px;");
+		
 		// txtAmount
 		txtAmount = new TextField();
-		txtAmount.setCaption("Monto");
+		txtAmount.setCaption("Importe");
 		txtAmount.setImmediate(true);
 		txtAmount.setWidth("240px");
 		txtAmount.setHeight("-1px");
@@ -278,7 +338,7 @@ public class CreateCategoryView extends BaseView {
 		txtAmount.setNullRepresentation("");
 		txtAmount.setConverter(new StringToDoubleConverter());
 		mainLayout.addComponent(txtAmount,
-				"top:180.0px;right:372.0px;left:3.0px;");
+				"top:263.0px;right:372.0px;left:3.0px;");
 		
 		// categoryType
 		categoryType = new OptionGroup();
@@ -286,7 +346,7 @@ public class CreateCategoryView extends BaseView {
 		categoryType.setImmediate(true);
 		categoryType.setWidth("-1px");
 		categoryType.setHeight("-1px");
-		mainLayout.addComponent(categoryType, "top:320.0px;left:0.0px;");
+		mainLayout.addComponent(categoryType, "top:400.0px;left:0.0px;");
 		
 		// btnCreate
 		btnCreate = new Button();
@@ -296,7 +356,7 @@ public class CreateCategoryView extends BaseView {
 		btnCreate.setHeight("-1px");
 		btnCreate.setTabIndex(3);
 		mainLayout.addComponent(btnCreate,
-				"top:394.0px;right:500.0px;left:0.0px;");
+				"top:474.0px;right:500.0px;left:0.0px;");
 		
 		// btnCancel
 		btnCancel = new Button();
@@ -306,7 +366,7 @@ public class CreateCategoryView extends BaseView {
 		btnCancel.setHeight("-1px");
 		btnCancel.setTabIndex(4);
 		mainLayout.addComponent(btnCancel,
-				"top:394.0px;right:340.0px;left:140.0px;");
+				"top:474.0px;right:340.0px;left:140.0px;");
 		
 		// popupDateField_1
 		createdDateTimeField = new PopupDateField();
@@ -319,7 +379,7 @@ public class CreateCategoryView extends BaseView {
 		createdDateTimeField.setValue(new Date());
 		createdDateTimeField.setResolution(Resolution.MONTH);
 		mainLayout.addComponent(createdDateTimeField,
-				"top:240.0px;right:490.0px;left:3.0px;");
+				"top:330.0px;right:513.0px;left:3.0px;");
 		
 		// isRRHH
 		isRRHH = new OptionGroup();
@@ -328,7 +388,7 @@ public class CreateCategoryView extends BaseView {
 		isRRHH.setVisible(true);
 		isRRHH.setWidth("-1px");
 		isRRHH.setHeight("-1px");
-		mainLayout.addComponent(isRRHH, "top:320.0px;left:130.0px;");
+		mainLayout.addComponent(isRRHH, "top:400.0px;left:130.0px;");
 		
 		// lblTitleProyectos
 		lblTitleProyectos = new Label();
