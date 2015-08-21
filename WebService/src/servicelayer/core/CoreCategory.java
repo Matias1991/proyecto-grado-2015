@@ -55,7 +55,7 @@ public class CoreCategory implements ICoreCategory {
 		}
 		
 		if(category.getIsCurrencyDollar()){
-			category.setAmountDollar(category.getAmountPeso() * category.getTypeExchange());
+			category.setAmountPeso(category.getAmountDollar() * category.getTypeExchange());
 		}
 		
 		iDAOCategory.insert(category);
@@ -104,7 +104,7 @@ public class CoreCategory implements ICoreCategory {
 			categoryUpdate.setId(categoryOld.getId());
 			categoryUpdate.setVersion(categoryOld.getVersion());
 			if(categoryUpdate.getIsCurrencyDollar()){
-				categoryUpdate.setAmountDollar(categoryUpdate.getAmountPeso() * categoryUpdate.getTypeExchange());
+				categoryUpdate.setAmountPeso(categoryUpdate.getAmountDollar() * categoryUpdate.getTypeExchange());
 			} else {
 				categoryUpdate.setAmountDollar(0.00);
 			}
