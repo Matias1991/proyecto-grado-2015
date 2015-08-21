@@ -24,7 +24,7 @@ public class Category {
 	{
 		this.id = voCategory.getId();
 		this.setDescription(voCategory.getDescription());
-		this.setAmount(voCategory.getAmount());
+		this.setAmount(voCategory.getAmountPeso());
 		this.setCategoryTypeId(voCategory.getCategoryType());
 		this.setCategoryType(getCategoryTypeToShow());
 		this.createdDateTimeUTC = voCategory.getAppliedDateTimeUTC();
