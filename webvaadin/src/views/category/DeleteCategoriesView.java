@@ -97,13 +97,15 @@ public class DeleteCategoriesView extends BaseView {
 			grid.removeColumn("categoryType");			
 			grid.removeColumn("createdDateTimeUTC");
 			grid.removeColumn("isRRHH");			
-			grid.removeColumn("typeExchange");	
+			grid.removeColumn("typeExchange");		
+			grid.removeColumn("typeExchangeToShow");	
 			grid.removeColumn("isDollarToShow");		
 			grid.removeColumn("amountDollar");		
+			grid.removeColumn("amountPeso");			
 			grid.removeColumn("currencyDollar");
-			grid.setColumnOrder("description", "amountPeso", "categoryTypeToShow","projectName","createDateTimeUTCToShow","isRRHHToShow");
+			grid.setColumnOrder("description", "amountToShow", "categoryTypeToShow","projectName","createDateTimeUTCToShow","isRRHHToShow");
 			grid.getColumn("description").setHeaderCaption("Descripción");
-			grid.getColumn("amountPeso").setHeaderCaption("Importe");
+			grid.getColumn("amountToShow").setHeaderCaption("Importe");
 			grid.getColumn("categoryTypeToShow").setHeaderCaption("Asociado a");
 			grid.getColumn("projectName").setHeaderCaption("Proyecto");
 			grid.getColumn("createDateTimeUTCToShow").setHeaderCaption("Fecha de creación");

@@ -1,5 +1,6 @@
 package entities;
 
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -11,6 +12,7 @@ public class Category {
 	private String description;
 	private double amountPeso;
 	private double amountDollar;
+	private String amountToShow;
 	private int categoryTypeId;
 	private String categoryType;
 	private int projectId;
@@ -20,6 +22,7 @@ public class Category {
 	private String projectName;
 	private boolean isCurrencyDollar;
 	private double typeExchange;
+	private String typeExchangeToShow;
 	
 	public Category(){	}
 	
@@ -40,6 +43,16 @@ public class Category {
 		this.isCurrencyDollar = voCategory.getIsCurrencyDollar();
 		this.setCreateDateTimeUTCToShow(new SimpleDateFormat("dd-MM-yyyy").format(createdDateTimeUTC));	
 		this.setTypeExchange(voCategory.getTypeExchange());
+		
+		if(isCurrencyDollar){
+    		this.amountToShow = new DecimalFormat("U$S ###,###.###").format(this.amountDollar);
+    		this.typeExchangeToShow = String.valueOf(this.typeExchange);
+    	}
+		else {
+    		this.amountToShow = new DecimalFormat("$ ###,###.###").format(this.amountPeso);
+    		this.typeExchangeToShow = "N/A";
+    	}
+		
 	}
 	
 	public String getDescription() {
@@ -170,6 +183,14 @@ public class Category {
 		this.amountDollar = amountDollar;
 	}	
 
+	public String getAmountToShow() {
+		return amountToShow;
+	}
+
+	public void setAmountToShow(String amountToShow) {
+		this.amountToShow = amountToShow;
+	}
+
 	public boolean isCurrencyDollar() {
 		return isCurrencyDollar;
 	}
@@ -184,6 +205,14 @@ public class Category {
 
 	public void setTypeExchange(double typeExchange) {
 		this.typeExchange = typeExchange;
+	}
+	
+	public String getTypeExchangeToShow() {
+		return typeExchangeToShow;
+	}
+
+	public void setTypeExchangeToShow(String typeExchangeToShow) {
+		this.typeExchangeToShow = typeExchangeToShow;
 	}
 	
 }
