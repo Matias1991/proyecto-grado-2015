@@ -62,10 +62,7 @@ public class ModifyCategoryView extends BaseView {
 	private int idSelected;
 	private Label lblMessage;
 	private PopupDateField creationDate;
-	private OptionGroup isRRHH;
-//	private Label lblProjectTitle;
-//	private Label lblProjectMessage;	
-	private boolean existProjects;
+	private OptionGroup isRRHH;	
 	private OptionGroup optCurrency;
 	private TextField txtTypeExchange;
 	private ComboBox cboProject;
@@ -305,8 +302,7 @@ public class ModifyCategoryView extends BaseView {
 		Collection<Project> projects = ProjectController.getProjects();
 		
 		cboProject.removeAllItems();
-		if(projects != null && projects.size() > 0){
-			existProjects = true;			
+		if(projects != null && projects.size() > 0){					
 			for (Project project : projects) {
 				cboProject.addItem(project.getId());
 				cboProject.setItemCaption(project.getId(), project.getName());
@@ -358,11 +354,11 @@ public class ModifyCategoryView extends BaseView {
 		// common part: create layout
 		mainLayout = new AbsoluteLayout();
 		mainLayout.setImmediate(false);
-		mainLayout.setWidth("802px");
+		mainLayout.setWidth("100%");
 		mainLayout.setHeight("501px");
 
 		// top-level component properties
-		setWidth("802px");
+		setWidth("100%");
 		setHeight("501px");
 
 		// lblTitle
@@ -382,8 +378,8 @@ public class ModifyCategoryView extends BaseView {
 		btnUpdate.setVisible(false);
 		btnUpdate.setHeight("-1px");
 		btnUpdate.setTabIndex(3);
-		mainLayout.addComponent(btnUpdate,
-				"top:400.0px;right:171.0px;left:345.0px;");
+		mainLayout.addComponent(btnUpdate,"top:414.0px;left:0.0px;");
+		
 
 		// txtDescripcion
 		txtDescription = new TextField();
@@ -394,7 +390,7 @@ public class ModifyCategoryView extends BaseView {
 		txtDescription.setVisible(false);
 		txtDescription.setTabIndex(1);
 		txtDescription.setRequired(true);
-		//mainLayout.addComponent(txtDescription, "top:110.0px;left:345.0px;");
+		mainLayout.addComponent(txtDescription, "top:110.0px;left:345.0px;");
 
 		// categoryType
 		categoryType = new OptionGroup();
@@ -403,7 +399,7 @@ public class ModifyCategoryView extends BaseView {
 		categoryType.setWidth("-1px");
 		categoryType.setHeight("-1px");
 		categoryType.setVisible(false);
-		mainLayout.addComponent(categoryType, "top:320.0px;left:345.0px;");
+		mainLayout.addComponent(categoryType, "top:390.0px;left:345.0px;");
 
 		// isRRHH
 		isRRHH = new OptionGroup();
@@ -412,7 +408,7 @@ public class ModifyCategoryView extends BaseView {
 		isRRHH.setVisible(true);
 		isRRHH.setWidth("-1px");
 		isRRHH.setHeight("-1px");
-		mainLayout.addComponent(isRRHH, "top:320.0px;left:480.0px;");
+		mainLayout.addComponent(isRRHH, "top:390.0px;left:480.0px;");
 
 		// creationDate
 		creationDate = new PopupDateField();
@@ -424,8 +420,7 @@ public class ModifyCategoryView extends BaseView {
 		creationDate.setDateFormat("MM-yyyy");
 		creationDate.setValue(new Date());
 		creationDate.setResolution(Resolution.MONTH);
-		mainLayout.addComponent(creationDate,
-				"top:250.0px;right:490.0px;left:345.0px;");
+		mainLayout.addComponent(creationDate,"top:318.0px;right:490.0px;left:345.0px;");
 
 		// txtAmount
 		txtAmount = new TextField();
@@ -438,7 +433,7 @@ public class ModifyCategoryView extends BaseView {
 		txtAmount.setTabIndex(2);
 		txtAmount.setVisible(false);
 		txtAmount.setNullRepresentation("");
-		mainLayout.addComponent(txtAmount, "top:185.0px;left:345.0px;");
+		mainLayout.addComponent(txtAmount, "top:252.0px;left:345.0px;");
 		
 		//optCurrency
 		optCurrency = new OptionGroup();
@@ -446,7 +441,7 @@ public class ModifyCategoryView extends BaseView {
 		optCurrency.setImmediate(true);
 		optCurrency.setWidth("-1px");
 		optCurrency.setHeight("-1px");
-		mainLayout.addComponent(optCurrency,"top:110.0px;left:345.0px;");
+		mainLayout.addComponent(optCurrency,"top:175.0px;left:345.0px;");
 	
 		//txtTypeExchange
 		txtTypeExchange = new TextField();
@@ -457,7 +452,7 @@ public class ModifyCategoryView extends BaseView {
 		txtTypeExchange.setRequired(true);
 		txtTypeExchange.setNullRepresentation("");
 		txtTypeExchange.setConverter(new StringToDoubleConverter());
-		mainLayout.addComponent(txtTypeExchange,"top:130.0px;left:455.0px;");
+		mainLayout.addComponent(txtTypeExchange,"top:190.0px;left:455.0px;");
 
 		// btnCancel
 		btnCancel = new Button();
@@ -468,13 +463,12 @@ public class ModifyCategoryView extends BaseView {
 		btnCancel.setTabIndex(4);
 		btnCancel.setTabIndex(4);
 		btnCancel.setVisible(false);
-		mainLayout.addComponent(btnCancel,
-				"top:400.0px;right:71.0px;left:470.0px;");		
+		mainLayout.addComponent(btnCancel,"top:414.0px;left:120.0px;");		
 		
 		//cboProject
 		cboProject = new ComboBox();
 		cboProject.setImmediate(true);
-		cboProject.setWidth("-1px");
+		cboProject.setWidth("275px");
 		cboProject.setHeight("-1px");
 		cboProject.setCaption("Proyecto");
 		cboProject.setInputPrompt("Seleccione el proyecto");
