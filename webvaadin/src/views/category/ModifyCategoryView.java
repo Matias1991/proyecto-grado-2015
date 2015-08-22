@@ -264,9 +264,11 @@ public class ModifyCategoryView extends BaseView {
 							optCurrency.setValue("Dolares");
 							txtAmount.setConvertedValue(catToModify.getAmountDollar());
 							txtTypeExchange.setConvertedValue(catToModify.getTypeExchange());
+							txtTypeExchange.setVisible(true);
 						}else{
 							optCurrency.setValue("Pesos");
 							txtAmount.setConvertedValue(catToModify.getAmountPeso());
+							txtTypeExchange.setVisible(false);
 						}
 						txtDescription.setEnabled(true);
 						txtDescription.setValue(catToModify.getDescription());

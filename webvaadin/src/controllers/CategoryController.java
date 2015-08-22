@@ -33,7 +33,7 @@ public class CategoryController {
 			voCategory.setCategoryType(category.getCategoryTypeId());
 			voCategory.setProjectId(category.getProjectId());
 			voCategory.setIsRRHH(category.getIsRRHH());
-			voCategory.setAppliedDateTimeUTC(category.getCreatedDateTimeUTC());
+			voCategory.setAppliedDateTimeUTC(category.getCreatedDateTimeUTC());			
 			
 			createCategory.setVoCategory(voCategory);
 			
@@ -104,11 +104,16 @@ public class CategoryController {
 		Category category = null;
 		VOCategory result = new VOCategory();
 		result.setDescription(cat.getDescription());
+		result.setIsCurrencyDollar(cat.isCurrencyDollar());
+		result.setAmountDollar(cat.getAmountDollar());
 		result.setAmountPeso(cat.getAmountPeso());
-		if(cat.getCategoryTypeId() == 1)
+		result.setTypeExchange(cat.getTypeExchange());
+		
+		if(cat.getCategoryTypeId() == 1){
 			result.setProjectId(0);
-		else
+		}else{
 			result.setProjectId(cat.getProjectId());
+		}
 		result.setCategoryType(cat.getCategoryTypeId());
 		result.setProjectId(cat.getProjectId());
 		result.setIsRRHH(cat.getIsRRHH());
