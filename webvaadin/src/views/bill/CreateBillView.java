@@ -216,6 +216,7 @@ public class CreateBillView extends BaseView {
 		txtCode.setWidth("240px");
 		txtCode.setHeight("-1px");
 		txtCode.setRequired(true);
+		txtCode.setTabIndex(1);
 		mainLayout.addComponent(txtCode, "top:116.0px;left:0.0px;");
 		
 		// lblTitle
@@ -237,6 +238,7 @@ public class CreateBillView extends BaseView {
 		popupDateFieldAppliedDate.setDateFormat("MM-yyyy");
 		popupDateFieldAppliedDate.setValue(new Date());
 		popupDateFieldAppliedDate.setResolution(Resolution.MONTH);
+		popupDateFieldAppliedDate.setTabIndex(6);
 		mainLayout.addComponent(popupDateFieldAppliedDate,
 				"top:440.0px;left:0.0px;");
 		
@@ -263,6 +265,7 @@ public class CreateBillView extends BaseView {
 		txtDescription.setWidth("300px");
 		txtDescription.setHeight("-1px");
 		txtDescription.setRequired(true);
+		txtDescription.setTabIndex(2);
 		mainLayout.addComponent(txtDescription, "top:176.0px;left:0.0px;");
 		
 		// txtAmount
@@ -274,6 +277,7 @@ public class CreateBillView extends BaseView {
 		txtAmount.setRequired(true);
 		txtAmount.setNullRepresentation("");
 		txtAmount.setConverter(new StringToDoubleConverter());
+		txtAmount.setTabIndex(4);
 		mainLayout.addComponent(txtAmount, "top:320.0px;left:0.0px;");
 		
 		// cboxProject
@@ -283,6 +287,7 @@ public class CreateBillView extends BaseView {
 		cboxProject.setWidth("240px");
 		cboxProject.setHeight("-1px");
 		cboxProject.setRequired(true);
+		cboxProject.setTabIndex(5);
 		mainLayout.addComponent(cboxProject, "top:380.0px;left:0.0px;");
 		
 		// optionGroupCurrency
@@ -291,6 +296,7 @@ public class CreateBillView extends BaseView {
 		optionGroupCurrency.setImmediate(true);
 		optionGroupCurrency.setWidth("100.0%");
 		optionGroupCurrency.setHeight("100.0%");
+		optionGroupCurrency.setTabIndex(3);
 		mainLayout.addComponent(optionGroupCurrency,
 				"top:240.0px;right:324.0px;bottom:238.0px;left:0.0px;");
 		
