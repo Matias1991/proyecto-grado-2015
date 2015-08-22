@@ -36,9 +36,10 @@ public class Category {
 		this.setCategoryType(getCategoryTypeToShow());
 		this.createdDateTimeUTC = voCategory.getAppliedDateTimeUTC();
 		if(voCategory.getProjectId() != 0)
-			this.projectName = voCategory.getProjectName();	
+			this.projectName = voCategory.getProjectName();			
 		else
 			this.projectName = "Meerkat SYS";
+		this.projectId = voCategory.getProjectId();
 		this.isRRHH = voCategory.getIsRRHH();
 		this.isCurrencyDollar = voCategory.getIsCurrencyDollar();
 		this.setCreateDateTimeUTCToShow(new SimpleDateFormat("dd-MM-yyyy").format(createdDateTimeUTC));	
