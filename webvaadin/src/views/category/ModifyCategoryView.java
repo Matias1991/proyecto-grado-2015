@@ -259,6 +259,7 @@ public class ModifyCategoryView extends BaseView {
 					TextField textField = new TextField();
 					textField.setImmediate(true);
 					textField.setWidth("125px");
+					textField.setHeight("30px");
 					
 					textField.addTextChangeListener(new TextChangeListener() {	 
 					  @Override
@@ -271,7 +272,7 @@ public class ModifyCategoryView extends BaseView {
 					   if (null != newValue && !newValue.isEmpty()) {
 						   container.addContainerFilter(new SimpleStringFilter(pid, newValue, true, false));
 					   }					   
-					  // grid.recalculateColumnWidths();
+					   //grid.recalculateColumnWidths();
 					  }	
 					 });
 					cell.setComponent(textField);	
