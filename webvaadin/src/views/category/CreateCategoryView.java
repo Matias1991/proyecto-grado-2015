@@ -286,7 +286,7 @@ public class CreateCategoryView extends BaseView {
 		txtTypeExchange.setNullRepresentation("");
 		txtTypeExchange.setConverter(new StringToDoubleConverter());
 		mainLayout.addComponent(txtTypeExchange,
-				"top:200.0px;right:372.0px;left:130.0px;");
+				"top:263.0px;right:372.0px;left:270.0px;");
 		
 		// txtAmount
 		txtAmount = new TextField();
@@ -355,13 +355,13 @@ public class CreateCategoryView extends BaseView {
 		//cboProject
 		cboProject = new ComboBox();
 		cboProject.setImmediate(true);
-		cboProject.setWidth("275px");
+		cboProject.setWidth("250px");
 		cboProject.setHeight("-1px");
 		cboProject.setCaption("Proyecto");
 		cboProject.setInputPrompt("Seleccione el proyecto");
 		cboProject.setNullSelectionAllowed(false);
 		cboProject.setRequired(true);
-		mainLayout.addComponent(cboProject, "top:116.0px;left:330.0px;");
+		mainLayout.addComponent(cboProject, "top:116.0px;left:270.0px;");
 		
 		return mainLayout;
 	}
