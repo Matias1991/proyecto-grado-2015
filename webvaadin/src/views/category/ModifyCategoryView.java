@@ -485,7 +485,7 @@ public class ModifyCategoryView extends BaseView {
 		txtTypeExchange.setRequired(true);
 		txtTypeExchange.setNullRepresentation("");
 		txtTypeExchange.setConverter(new StringToDoubleConverter());
-		mainLayout.addComponent(txtTypeExchange,"top:190.0px;left:455.0px;");
+		mainLayout.addComponent(txtTypeExchange,"top:252.0px;left:600.0px;");
 
 		// btnCancel
 		btnCancel = new Button();
@@ -501,13 +501,13 @@ public class ModifyCategoryView extends BaseView {
 		//cboProject
 		cboProject = new ComboBox();
 		cboProject.setImmediate(true);
-		cboProject.setWidth("275px");
+		cboProject.setWidth("250px");
 		cboProject.setHeight("-1px");
 		cboProject.setCaption("Proyecto");
 		cboProject.setInputPrompt("Seleccione el proyecto");
 		cboProject.setNullSelectionAllowed(false);
 		cboProject.setRequired(true);
-		mainLayout.addComponent(cboProject, "top:116.0px;left:600.0px;");
+		mainLayout.addComponent(cboProject, "top:110.0px;left:600.0px;");
 		
 
 		return mainLayout;
