@@ -59,7 +59,6 @@ public class CreateCategoryView extends BaseView {
 	private Label lblTitle;
 	//private Grid projectsGrid;
 	private BeanItemContainer<Project> beanContainer;
-	private boolean existProjects;
 	private OptionGroup optCurrency;
 	private TextField txtTypeExchange;
 	private ComboBox cboProject;
@@ -116,11 +115,13 @@ public class CreateCategoryView extends BaseView {
 			public void buttonClick(ClickEvent event) {
 				btnCreate.setEnabled(false);
 				txtDescription.setValidationVisible(true);
-				txtAmount.setValidationVisible(true);				
+				txtAmount.setValidationVisible(true);	
+				txtTypeExchange.setValidationVisible(true);	
+				cboProject.setValidationVisible(true);
 				boolean valid = true;
 				
 				
-				if(!txtAmount.isValid() || !txtDescription.isValid() || !createdDateTimeField.isValid() || (categoryType.getValue() == "Proyecto" && !cboProject.isValid()) || (optCurrency.getValue() == "Dolares" && !txtTypeExchange.isValid())){
+				if(!txtAmount.isValid() || !txtDescription.isValid() || !createdDateTimeField.isValid() || categoryType.getValue() == "Proyecto" && !cboProject.isValid()||(optCurrency.getValue() == "Dolares" && !txtTypeExchange.isValid())){
 					txtAmount.setRequiredError("Es requerido");
 					txtDescription.setRequiredError("Es requerido");
 					txtAmount.setConversionError("Debe ser numérico");
@@ -130,6 +131,7 @@ public class CreateCategoryView extends BaseView {
 					txtTypeExchange.setConversionError("Debe ser numérico");
 					valid = false;
 				}
+				
 			
 				
 				if(valid){					
@@ -209,6 +211,7 @@ public class CreateCategoryView extends BaseView {
 			}			
 			txtDescription.setValue("");
 			txtAmount.setValue("");
+			txtTypeExchange.setValue("");
 			btnCreate.setEnabled(true);			
 			categoryType.select("Empresa");
 			isRRHH.select("Material");
@@ -225,6 +228,7 @@ public class CreateCategoryView extends BaseView {
 		txtAmount.clear();
 		txtTypeExchange.clear();
 		txtDescription.setValidationVisible(false);
+		cboProject.setValidationVisible(false);
 		txtAmount.setValidationVisible(false);	
 		txtTypeExchange.setValidationVisible(false);
 		enablePanelProject(false);
@@ -363,9 +367,9 @@ public class CreateCategoryView extends BaseView {
 	}
 	
 	void enablePanelProject(boolean value) {
-		cboProject.setVisible(value);
+		cboProject.setVisible(value);		
 		if(!value){
-			cboProject.removeAllItems();
+			cboProject.removeAllItems();			
 		}else{
 			buildProjectCombo();
 		}
