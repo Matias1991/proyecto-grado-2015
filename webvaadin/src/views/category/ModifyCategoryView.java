@@ -16,6 +16,9 @@ import com.vaadin.data.Property.ValueChangeListener;
 import com.vaadin.data.util.BeanItem;
 import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.data.util.converter.StringToDoubleConverter;
+import com.vaadin.data.util.filter.SimpleStringFilter;
+import com.vaadin.event.FieldEvents.TextChangeEvent;
+import com.vaadin.event.FieldEvents.TextChangeListener;
 import com.vaadin.event.SelectionEvent;
 import com.vaadin.event.SelectionEvent.SelectionListener;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
@@ -27,6 +30,8 @@ import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.Grid;
+import com.vaadin.ui.Grid.HeaderCell;
+import com.vaadin.ui.Grid.HeaderRow;
 import com.vaadin.ui.Grid.SelectionMode;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.OptionGroup;
@@ -245,6 +250,34 @@ public class ModifyCategoryView extends BaseView {
 			grid.setHeight(310, Unit.PIXELS);
 			grid.setSelectionMode(SelectionMode.SINGLE);
 			grid.getSelectedRows().clear();
+			
+			HeaderRow filterRow = grid.appendHeaderRow();
+			// Set up a filter for all columns
+			for ( final Object pid: grid.getContainerDataSource().getContainerPropertyIds()){
+				HeaderCell cell = filterRow.getCell(pid);
+				if(cell != null){
+					TextField textField = new TextField();
+					textField.setImmediate(true);
+					textField.setWidth("125px");
+					
+					textField.addTextChangeListener(new TextChangeListener() {	 
+					  @Override
+					  public void textChange(TextChangeEvent event) {
+					   String newValue = (String) event.getText();
+					  
+					   BeanItemContainer<Category> container = ((BeanItemContainer<Category>) grid.getContainerDataSource());
+					  
+					   container.removeContainerFilters(pid);
+					   if (null != newValue && !newValue.isEmpty()) {
+						   container.addContainerFilter(new SimpleStringFilter(pid, newValue, true, false));
+					   }					   
+					  // grid.recalculateColumnWidths();
+					  }	
+					 });
+					cell.setComponent(textField);	
+				}
+			}
+			
 			mainLayout.addComponent(grid, "top:20%;left:0px;");
 
 			grid.addSelectionListener(new SelectionListener() {
@@ -486,4 +519,6 @@ public class ModifyCategoryView extends BaseView {
 			cboProject.removeAllItems();
 		}
 	}
+
+	
 }

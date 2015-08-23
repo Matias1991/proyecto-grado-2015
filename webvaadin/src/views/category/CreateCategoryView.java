@@ -140,8 +140,8 @@ public class CreateCategoryView extends BaseView {
 						category.setCategoryTypeId(1);
 					} else if (categoryType.getValue().equals("Proyecto")) {
 						category.setCategoryTypeId(2);
-					}
-					category.setProjectId((Integer)cboProject.getValue());
+						category.setProjectId((Integer)cboProject.getValue());
+					}				
 										
 					if(isRRHH.getValue() == "Material")
 						category.setIsRRHH(false);
