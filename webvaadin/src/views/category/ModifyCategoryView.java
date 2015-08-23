@@ -256,12 +256,13 @@ public class ModifyCategoryView extends BaseView {
 			for ( final Object pid: grid.getContainerDataSource().getContainerPropertyIds()){
 				HeaderCell cell = filterRow.getCell(pid);
 				if(cell != null){
-					TextField textField = new TextField();
-					textField.setImmediate(true);
-					textField.setWidth("125px");
-					textField.setHeight("30px");
+					TextField txtFilter = new TextField();
+					txtFilter.setImmediate(true);
+					txtFilter.setWidth("125px");
+					txtFilter.setHeight("30px");
+					txtFilter.setInputPrompt("Filtro");
 					
-					textField.addTextChangeListener(new TextChangeListener() {	 
+					txtFilter.addTextChangeListener(new TextChangeListener() {	 
 					  @Override
 					  public void textChange(TextChangeEvent event) {
 					   String newValue = (String) event.getText();
@@ -275,7 +276,7 @@ public class ModifyCategoryView extends BaseView {
 					   //grid.recalculateColumnWidths();
 					  }	
 					 });
-					cell.setComponent(textField);	
+					cell.setComponent(txtFilter);	
 				}
 			}
 			
