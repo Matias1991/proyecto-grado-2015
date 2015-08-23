@@ -55,20 +55,27 @@ public class CatalogCategoriesView extends BaseView {
 			beanContainer = new BeanItemContainer<Category>(Category.class,categories);
 					
 			categoriesGrid = new Grid(beanContainer);
-			categoriesGrid.removeColumn("categoryTypeId");
-			categoriesGrid.removeColumn("categoryTypeToShow");
-			categoriesGrid.removeColumn("projectId");
-			categoriesGrid.removeColumn("createdDateTimeUTC");
-			categoriesGrid.removeColumn("isRRHH");
 			categoriesGrid.removeColumn("id");
-			categoriesGrid.setColumnOrder("description", "amount", "categoryType", "projectName");
-	
+			categoriesGrid.removeColumn("projectId");
+			categoriesGrid.removeColumn("categoryTypeId");
+			categoriesGrid.removeColumn("categoryType");			
+			categoriesGrid.removeColumn("createdDateTimeUTC");
+			categoriesGrid.removeColumn("isRRHH");			
+			categoriesGrid.removeColumn("typeExchange");
+			categoriesGrid.removeColumn("isDollarToShow");		
+			categoriesGrid.removeColumn("amountDollar");		
+			categoriesGrid.removeColumn("amountPeso");			
+			categoriesGrid.removeColumn("currencyDollar");
+			categoriesGrid.setColumnOrder("description", "amountToShow", "typeExchangeToShow", "categoryTypeToShow",
+					"projectName","createDateTimeUTCToShow","isRRHHToShow");
 			categoriesGrid.getColumn("description").setHeaderCaption("Descripción");
-			categoriesGrid.getColumn("amount").setHeaderCaption("Monto");
-			categoriesGrid.getColumn("categoryType").setHeaderCaption("Asociado a");
-			categoriesGrid.getColumn("createDateTimeUTCToShow").setHeaderCaption("Fecha de creacion");
-			categoriesGrid.getColumn("isRRHHToShow").setHeaderCaption("Tipo de recurso");
+			categoriesGrid.getColumn("amountToShow").setHeaderCaption("Importe");
+			categoriesGrid.getColumn("categoryTypeToShow").setHeaderCaption("Asociado a");
 			categoriesGrid.getColumn("projectName").setHeaderCaption("Proyecto");
+			categoriesGrid.getColumn("typeExchangeToShow").setHeaderCaption("Tipo de cambio");
+			categoriesGrid.getColumn("createDateTimeUTCToShow").setHeaderCaption("Fecha de creación");
+			categoriesGrid.getColumn("isRRHHToShow").setHeaderCaption("Tipo de recurso");
+			
 			categoriesGrid.setWidth(100, Unit.PERCENTAGE);
 			categoriesGrid.setHeight(100, Unit.PERCENTAGE);
 			categoriesGrid.setSelectionMode(SelectionMode.SINGLE);
