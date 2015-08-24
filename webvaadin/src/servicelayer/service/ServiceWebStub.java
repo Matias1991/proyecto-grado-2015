@@ -11425,6 +11425,48 @@
                             
 
                         /**
+                        * field for Description
+                        */
+
+                        
+                                    protected java.lang.String localDescription ;
+                                
+                           /*  This tracker boolean wil be used to detect whether the user called the set method
+                          *   for this attribute. It will be used to determine whether to include this field
+                           *   in the serialized XML
+                           */
+                           protected boolean localDescriptionTracker = false ;
+
+                           public boolean isDescriptionSpecified(){
+                               return localDescriptionTracker;
+                           }
+
+                           
+
+                           /**
+                           * Auto generated getter method
+                           * @return java.lang.String
+                           */
+                           public  java.lang.String getDescription(){
+                               return localDescription;
+                           }
+
+                           
+                        
+                            /**
+                               * Auto generated setter method
+                               * @param param Description
+                               */
+                               public void setDescription(java.lang.String param){
+                            localDescriptionTracker = true;
+                                   
+                                            this.localDescription=param;
+                                    
+
+                               }
+                            
+
+                        /**
                         * field for Enabled
                         */
 
@@ -11515,6 +11557,48 @@
                             
 
                         /**
+                        * field for Manager
+                        */
+
+                        
+                                    protected VOUser localManager ;
+                                
+                           /*  This tracker boolean wil be used to detect whether the user called the set method
+                          *   for this attribute. It will be used to determine whether to include this field
+                           *   in the serialized XML
+                           */
+                           protected boolean localManagerTracker = false ;
+
+                           public boolean isManagerSpecified(){
+                               return localManagerTracker;
+                           }
+
+                           
+
+                           /**
+                           * Auto generated getter method
+                           * @return VOUser
+                           */
+                           public  VOUser getManager(){
+                               return localManager;
+                           }
+
+                           
+                        
+                            /**
+                               * Auto generated setter method
+                               * @param param Manager
+                               */
+                               public void setManager(VOUser param){
+                            localManagerTracker = true;
+                                   
+                                            this.localManager=param;
+                                    
+
+                               }
+                            
+
+                        /**
                         * field for Name
                         */
 
@@ -11593,6 +11677,48 @@
                             localNotesTracker = true;
                                    
                                             this.localNotes=param;
+                                    
+
+                               }
+                            
+
+                        /**
+                        * field for Seller
+                        */
+
+                        
+                                    protected VOEmployed localSeller ;
+                                
+                           /*  This tracker boolean wil be used to detect whether the user called the set method
+                          *   for this attribute. It will be used to determine whether to include this field
+                           *   in the serialized XML
+                           */
+                           protected boolean localSellerTracker = false ;
+
+                           public boolean isSellerSpecified(){
+                               return localSellerTracker;
+                           }
+
+                           
+
+                           /**
+                           * Auto generated getter method
+                           * @return VOEmployed
+                           */
+                           public  VOEmployed getSeller(){
+                               return localSeller;
+                           }
+
+                           
+                        
+                            /**
+                               * Auto generated setter method
+                               * @param param Seller
+                               */
+                               public void setSeller(VOEmployed param){
+                            localSellerTracker = true;
+                                   
+                                            this.localSeller=param;
                                     
 
                                }
@@ -11716,6 +11842,24 @@
                                           }
                                     
                                    xmlWriter.writeEndElement();
+                             } if (localDescriptionTracker){
+                                    namespace = "http://valueObject.entity.servicelayer/xsd";
+                                    writeStartElement(null, namespace, "description", xmlWriter);
+                             
+
+                                          if (localDescription==null){
+                                              // write the nil attribute
+                                              
+                                                     writeAttribute("xsi","http://www.w3.org/2001/XMLSchema-instance","nil","1",xmlWriter);
+                                                  
+                                          }else{
+
+                                        
+                                                   xmlWriter.writeCharacters(localDescription);
+                                            
+                                          }
+                                    
+                                   xmlWriter.writeEndElement();
                              } if (localEnabledTracker){
                                     namespace = "http://valueObject.entity.servicelayer/xsd";
                                     writeStartElement(null, namespace, "enabled", xmlWriter);
@@ -11742,7 +11886,19 @@
                                                }
                                     
                                    xmlWriter.writeEndElement();
-                             } if (localNameTracker){
+                             } if (localManagerTracker){
+                                    if (localManager==null){
+
+                                        writeStartElement(null, "http://valueObject.entity.servicelayer/xsd", "manager", xmlWriter);
+
+                                       // write the nil attribute
+                                      writeAttribute("xsi","http://www.w3.org/2001/XMLSchema-instance","nil","1",xmlWriter);
+                                      xmlWriter.writeEndElement();
+                                    }else{
+                                     localManager.serialize(new javax.xml.namespace.QName("http://valueObject.entity.servicelayer/xsd","manager"),
+                                        xmlWriter);
+                                    }
+                                } if (localNameTracker){
                                     namespace = "http://valueObject.entity.servicelayer/xsd";
                                     writeStartElement(null, namespace, "name", xmlWriter);
                              
@@ -11778,7 +11934,19 @@
                                           }
                                     
                                    xmlWriter.writeEndElement();
-                             } if (localUpdatedDateTimeUTCTracker){
+                             } if (localSellerTracker){
+                                    if (localSeller==null){
+
+                                        writeStartElement(null, "http://valueObject.entity.servicelayer/xsd", "seller", xmlWriter);
+
+                                       // write the nil attribute
+                                      writeAttribute("xsi","http://www.w3.org/2001/XMLSchema-instance","nil","1",xmlWriter);
+                                      xmlWriter.writeEndElement();
+                                    }else{
+                                     localSeller.serialize(new javax.xml.namespace.QName("http://valueObject.entity.servicelayer/xsd","seller"),
+                                        xmlWriter);
+                                    }
+                                } if (localUpdatedDateTimeUTCTracker){
                                     namespace = "http://valueObject.entity.servicelayer/xsd";
                                     writeStartElement(null, namespace, "updatedDateTimeUTC", xmlWriter);
                              
@@ -11982,6 +12150,12 @@
                                  
                                          elementList.add(localCreatedDateTimeUTC==null?null:
                                          org.apache.axis2.databinding.utils.ConverterUtil.convertToString(localCreatedDateTimeUTC));
+                                    } if (localDescriptionTracker){
+                                      elementList.add(new javax.xml.namespace.QName("http://valueObject.entity.servicelayer/xsd",
+                                                                      "description"));
+                                 
+                                         elementList.add(localDescription==null?null:
+                                         org.apache.axis2.databinding.utils.ConverterUtil.convertToString(localDescription));
                                     } if (localEnabledTracker){
                                       elementList.add(new javax.xml.namespace.QName("http://valueObject.entity.servicelayer/xsd",
                                                                       "enabled"));
@@ -11994,7 +12168,14 @@
                                  
                                 elementList.add(
                                    org.apache.axis2.databinding.utils.ConverterUtil.convertToString(localId));
-                            } if (localNameTracker){
+                            } if (localManagerTracker){
+                            elementList.add(new javax.xml.namespace.QName("http://valueObject.entity.servicelayer/xsd",
+                                                                      "manager"));
+                            
+                            
+                                    elementList.add(localManager==null?null:
+                                    localManager);
+                                } if (localNameTracker){
                                       elementList.add(new javax.xml.namespace.QName("http://valueObject.entity.servicelayer/xsd",
                                                                       "name"));
                                  
@@ -12006,7 +12187,14 @@
                                  
                                          elementList.add(localNotes==null?null:
                                          org.apache.axis2.databinding.utils.ConverterUtil.convertToString(localNotes));
-                                    } if (localUpdatedDateTimeUTCTracker){
+                                    } if (localSellerTracker){
+                            elementList.add(new javax.xml.namespace.QName("http://valueObject.entity.servicelayer/xsd",
+                                                                      "seller"));
+                            
+                            
+                                    elementList.add(localSeller==null?null:
+                                    localSeller);
+                                } if (localUpdatedDateTimeUTCTracker){
                                       elementList.add(new javax.xml.namespace.QName("http://valueObject.entity.servicelayer/xsd",
                                                                       "updatedDateTimeUTC"));
                                  
@@ -12118,6 +12306,33 @@
                                     
                                     while (!reader.isStartElement() && !reader.isEndElement()) reader.next();
                                 
+                                    if (reader.isStartElement() && new javax.xml.namespace.QName("http://valueObject.entity.servicelayer/xsd","description").equals(reader.getName())){
+                                
+                                       nillableValue = reader.getAttributeValue("http://www.w3.org/2001/XMLSchema-instance","nil");
+                                       if (!"true".equals(nillableValue) && !"1".equals(nillableValue)){
+                                    
+                                    java.lang.String content = reader.getElementText();
+                                    
+                                              object.setDescription(
+                                                    org.apache.axis2.databinding.utils.ConverterUtil.convertToString(content));
+                                            
+                                       } else {
+                                           
+                                           
+                                           reader.getElementText(); // throw away text nodes if any.
+                                       }
+                                      
+                                        reader.next();
+                                    
+                              }  // End of if for expected property start element
+                                
+                                    else {
+                                        
+                                    }
+                                
+                                    
+                                    while (!reader.isStartElement() && !reader.isEndElement()) reader.next();
+                                
                                     if (reader.isStartElement() && new javax.xml.namespace.QName("http://valueObject.entity.servicelayer/xsd","enabled").equals(reader.getName())){
                                 
                                     java.lang.String content = reader.getElementText();
@@ -12151,6 +12366,30 @@
                                         
                                                object.setId(java.lang.Integer.MIN_VALUE);
                                            
+                                    }
+                                
+                                    
+                                    while (!reader.isStartElement() && !reader.isEndElement()) reader.next();
+                                
+                                    if (reader.isStartElement() && new javax.xml.namespace.QName("http://valueObject.entity.servicelayer/xsd","manager").equals(reader.getName())){
+                                
+                                      nillableValue = reader.getAttributeValue("http://www.w3.org/2001/XMLSchema-instance","nil");
+                                      if ("true".equals(nillableValue) || "1".equals(nillableValue)){
+                                          object.setManager(null);
+                                          reader.next();
+                                            
+                                            reader.next();
+                                          
+                                      }else{
+                                    
+                                                object.setManager(VOUser.Factory.parse(reader));
+                                              
+                                        reader.next();
+                                    }
+                              }  // End of if for expected property start element
+                                
+                                    else {
+                                        
                                     }
                                 
                                     
@@ -12201,6 +12440,30 @@
                                       
                                         reader.next();
                                     
+                              }  // End of if for expected property start element
+                                
+                                    else {
+                                        
+                                    }
+                                
+                                    
+                                    while (!reader.isStartElement() && !reader.isEndElement()) reader.next();
+                                
+                                    if (reader.isStartElement() && new javax.xml.namespace.QName("http://valueObject.entity.servicelayer/xsd","seller").equals(reader.getName())){
+                                
+                                      nillableValue = reader.getAttributeValue("http://www.w3.org/2001/XMLSchema-instance","nil");
+                                      if ("true".equals(nillableValue) || "1".equals(nillableValue)){
+                                          object.setSeller(null);
+                                          reader.next();
+                                            
+                                            reader.next();
+                                          
+                                      }else{
+                                    
+                                                object.setSeller(VOEmployed.Factory.parse(reader));
+                                              
+                                        reader.next();
+                                    }
                               }  // End of if for expected property start element
                                 
                                     else {
@@ -18807,9 +19070,9 @@
               
                   if (
                   "http://valueObject.entity.servicelayer/xsd".equals(namespaceURI) &&
-                  "VOEmployed".equals(typeName)){
+                  "VOCategory".equals(typeName)){
                    
-                            return  VOEmployed.Factory.parse(reader);
+                            return  VOCategory.Factory.parse(reader);
                         
 
                   }
@@ -18817,9 +19080,9 @@
               
                   if (
                   "http://valueObject.entity.servicelayer/xsd".equals(namespaceURI) &&
-                  "VOCategory".equals(typeName)){
+                  "VOEmployed".equals(typeName)){
                    
-                            return  VOCategory.Factory.parse(reader);
+                            return  VOEmployed.Factory.parse(reader);
                         
 
                   }

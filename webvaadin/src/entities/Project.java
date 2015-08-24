@@ -6,6 +6,7 @@ import java.util.Date;
 
 import servicelayer.service.ServiceWebStub.VOProject;
 
+
 public class Project implements Serializable{
 
 	/**
@@ -17,7 +18,10 @@ public class Project implements Serializable{
 	private Date createdDateTimeUTC;
 	private Date updatedDateTimeUTC;
 	private String enabledToShow;
-	private String createDateTimeUTCToShow;
+	private String createDateTimeUTCToShow;	
+	private User manager;
+	private Employee seller;
+	private String description;
 	
 	public Project(VOProject voProject)
 	{
@@ -31,6 +35,11 @@ public class Project implements Serializable{
 			setEnabledToShow("Deshabilitado");
 		
 		this.createDateTimeUTCToShow = new SimpleDateFormat("dd-MM-yyyy").format(createdDateTimeUTC);
+		this.manager = new User(voProject.getManager());
+		if(voProject.getSeller() != null){
+			this.seller = new Employee(voProject.getSeller());
+		}		
+		this.description = voProject.getDescription();
 	}
 	
 	public int getId() {
@@ -73,4 +82,29 @@ public class Project implements Serializable{
 	public void setCreateDateTimeUTCToShow(String createDateTimeUTCToShow) {
 		this.createDateTimeUTCToShow = createDateTimeUTCToShow;
 	}
+
+	public User getManager() {
+		return manager;
+	}
+
+	public void setManager(User manager) {
+		this.manager = manager;
+	}
+
+	public Employee getSeller() {
+		return seller;
+	}
+
+	public void setSeller(Employee seller) {
+		this.seller = seller;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+	
 }
