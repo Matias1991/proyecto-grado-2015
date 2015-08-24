@@ -13,6 +13,9 @@ public class VOProject implements Serializable{
 	private Date createdDateTimeUTC;
 	private Date updatedDateTimeUTC;
 	private boolean enabled;
+	private String description;
+	private VOUser manager;
+	private VOEmployed seller;
 	
 	public int getId() {
 		return id;
@@ -50,4 +53,23 @@ public class VOProject implements Serializable{
 	public void setEnabled(boolean enabled) {
 		this.enabled = enabled;
 	}
+	public String getDescription() {
+		return description;
+	}
+	public void setDescription(String description) {
+		this.description = description;
+	}
+	public VOUser getManager() {
+		return manager;
+	}
+	public void setManager(VOUser manager) {
+		this.manager = manager;
+	}
+	public VOEmployed getSeller() {
+		return seller;
+	}
+	public void setSeller(VOEmployed seller) {
+		this.seller = seller;
+	}
+	
 }

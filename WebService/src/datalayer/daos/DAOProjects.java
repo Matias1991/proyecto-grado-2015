@@ -40,16 +40,19 @@ public class DAOProjects implements IDAOProjects {
 		int newProjectId = -1;
 		PreparedStatement preparedStatement = null;
 
-		String insertSQL = "INSERT INTO PROJECT (NAME, CREATEDDATETIMEUTC, UPDATEDDATETIMEUTC, ENABLED) VALUES"
-				+ "(?,?,?,?)";
+		String insertSQL = "INSERT INTO PROJECT (NAME, DESCRIPTION, MANAGERID, SELLERID, CREATEDDATETIMEUTC, UPDATEDDATETIMEUTC, ENABLED) VALUES"
+				+ "(?,?,?,?,?,?,?)";
 
 		try {
 			preparedStatement = this.connection.prepareStatement(insertSQL, Statement.RETURN_GENERATED_KEYS);
 
 			preparedStatement.setString(1, obj.getName());
-			preparedStatement.setTimestamp(2, new Timestamp(obj.getCreatedDateTimeUTC().getTime()));
-			preparedStatement.setTimestamp(3, new Timestamp(obj.getUpdatedDateTimeUTC().getTime()));
-			preparedStatement.setBoolean(4, obj.getEnabled());
+			preparedStatement.setString(2, obj.getDescription());
+			preparedStatement.setInt(3, obj.getManager().getId());
+			preparedStatement.setInt(4, obj.getSeller().getId());
+			preparedStatement.setTimestamp(5, new Timestamp(obj.getCreatedDateTimeUTC().getTime()));
+			preparedStatement.setTimestamp(6, new Timestamp(obj.getUpdatedDateTimeUTC().getTime()));
+			preparedStatement.setBoolean(7, obj.getEnabled());
 
 			preparedStatement.executeUpdate();
 			
