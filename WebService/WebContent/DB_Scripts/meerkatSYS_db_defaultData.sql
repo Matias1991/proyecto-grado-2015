@@ -12,3 +12,7 @@ INSERT INTO `EmployedType` (`Id`, `Name`) VALUES ('2', 'PARTNER');
 
 INSERT INTO `CategoryType` (`Id`, `Name`) VALUES ('1', 'COMPANY');
 INSERT INTO `CategoryType` (`Id`, `Name`) VALUES ('2', 'PROJECT');
+
+INSERT INTO `DistributionType` (`Id`, `Value`, `Description`) VALUES ('1', '50','Reparto equitativo para ambos socios');
+INSERT INTO `DistributionType` (`Id`, `Value`, `Description`) VALUES ('2', '2/3','Reparto mayoritario para el socio activo');
+INSERT INTO `DistributionType` (`Id`, `Value`, `Description`) VALUES ('3', '1/3','Reparto minoritario para el socio inactivo');

@@ -102,10 +102,15 @@ CREATE TABLE IF NOT EXISTS Project
 (
 	Id				INTEGER NOT NULL AUTO_INCREMENT,
 	Name			VARCHAR(50) NULL,
+	Description		VARCHAR(250) NULL,
+	ManagerId		INTEGER NOT NULL,
+	SellerId		INTEGER NOT NULL,
 	CreatedDateTimeUTC  TIMESTAMP NULL,
 	UpdatedDateTimeUTC  TIMESTAMP NULL,
 	Enabled		BIT NULL,
 	PRIMARY KEY (Id),
+	FOREIGN KEY FK_Project_ManagerId (ManagerId) REFERENCES User (Id),
+	FOREIGN KEY FK_Project_SellerId (SellerId) REFERENCES Employed (Id),
 	UNIQUE KEY `projectName` (`Name`)
 );
 
@@ -155,4 +160,43 @@ CREATE TABLE IF NOT EXISTS Charge
 	PRIMARY KEY (Id, BillId),
 	FOREIGN KEY FK_Charge_Bill (BillId) REFERENCES Bill (Id)
 );
+
+CREATE TABLE IF NOT EXISTS DistributionType
+(
+	Id                  INTEGER NOT NULL,
+	Value               VARCHAR(40) NULL,
+	Description			VARCHAR(250) NULL,
+	PRIMARY KEY (Id)
+);
+
+CREATE TABLE IF NOT EXISTS Partner_Project
+(
+	ProyectId			INTEGER NOT NULL,
+	EmployedId			INTEGER NOT NULL,
+	DistributionTypeId	INTEGER NOT NULL,
+	Version				INTEGER NOT NULL,
+	Enabled				BIT NULL,
+	CreatedDateTimeUTC	TIMESTAMP NULL,
+	UpdatedDateTimeUTC	TIMESTAMP NULL,
+	PRIMARY KEY (proyectId,employedId,distributionTypeId,version),
+	FOREIGN KEY FK_ParterProject_Project (proyectId) REFERENCES Project (Id),
+	FOREIGN KEY FK_PartnerProject_Employed (employedId) REFERENCES Employed (Id),
+	FOREIGN KEY FK_PartnerProject_DistributionType (distributionTypeId) REFERENCES DistributionType (Id)
+);
+
+CREATE TABLE IF NOT EXISTS Employed_Project
+(
+	ProyectId			INTEGER NOT NULL,
+	EmployedId			INTEGER NOT NULL,
+	Version				INTEGER NOT NULL,
+	Hours               INTEGER NULL,	
+	Enabled				BIT NULL,
+	CreatedDateTimeUTC	TIMESTAMP NULL,
+	UpdatedDateTimeUTC	TIMESTAMP NULL,
+	PRIMARY KEY (proyectId,employedId,version),
+	FOREIGN KEY FK_EmployedProject_Project (proyectId) REFERENCES Project (Id),
+	FOREIGN KEY FK_EmployedProject_Employed (employedId) REFERENCES Employed (Id)	
+);
+
+
 
