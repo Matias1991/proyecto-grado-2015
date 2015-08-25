@@ -42,6 +42,8 @@ public class CoreProject implements ICoreProject {
 			project.setUpdatedDateTimeUTC(new Date());
 			project.setEnabled(true);
 			iDAOProjects.insert(project);
+			
+			//ACA VA LA LOGICA PARA INSERTAR EN PARTNERPROJECT Y EMPLOYEDPROJECT
 		}
 		else
 			throw new ClientException("Ya existe un proyecto con ese nombre");
