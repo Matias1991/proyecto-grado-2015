@@ -16,6 +16,7 @@ import views.employees.DeleteEmployeeView;
 import views.employees.UpdateEmployeeView;
 import views.profile.ChangePasswordView;
 import views.profile.ModifyProfileView;
+import views.project.CreateProjectView;
 import views.user.CatalogUsersView;
 import views.user.CreateUserView;
 import views.user.DeleteUsersView;
@@ -78,6 +79,9 @@ public class WebvaadinUI extends UI {
 	//Facturas
 	public static final String CREATEBILL = "CreateBillView";
 	public static final String BILLS = "CatalogBillsView";
+	
+	//Proyectos
+	public static final String CREATEPROJECT = "CreateProjectView";	
 	
 	private static GridLayout mainLayout;
 	private static MenuBar mainMenuBar;
@@ -169,6 +173,8 @@ public class WebvaadinUI extends UI {
 		// Facturas
 		navigator.addView(CREATEBILL, new CreateBillView());
 		navigator.addView(BILLS, new CatalogBillsView());
+		//Proyectos
+		navigator.addView(CREATEPROJECT, new CreateProjectView());
 		
 		if (RequestContext.getRequestContext() == null) {
 			changeToLogin();
@@ -244,6 +250,9 @@ public class WebvaadinUI extends UI {
 				case "Catálogo facturas":
 					navigator.navigateTo(BILLS);
 					break;
+				case "Crear proyecto":
+					navigator.navigateTo(CREATEPROJECT);
+					break;
 				default:
 					new PopupWindow("AVISO",
 							"No hay configuracion para el item: "
@@ -286,6 +295,9 @@ public class WebvaadinUI extends UI {
 			MenuItem bill = menuBar.addItem("Facturas", null, null);
 			bill.addItem("Crear factura", null, mainMenuBarCommand);
 			bill.addItem("Catálogo facturas", null, mainMenuBarCommand);
+			//Proyectos
+			MenuItem project = menuBar.addItem("Proyectos",null,null);
+			project.addItem("Crear proyecto", null, mainMenuBarCommand);
 			break;
 		case 3:
 			// Rol Gerente
