@@ -23,6 +23,11 @@ public class Project implements Serializable{
 	private Employee seller;
 	private String description;
 	
+	public Project()
+	{
+		
+	}
+	
 	public Project(VOProject voProject)
 	{
 		this.id = voProject.getId();

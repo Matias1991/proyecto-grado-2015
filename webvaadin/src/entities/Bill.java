@@ -38,7 +38,10 @@ public class Bill {
     	this.typeExchange = voBill.getTypeExchange();
     	this.appliedDateTimeUTC = voBill.getAppliedDateTimeUTC();
     	if(voBill.getProjectId() != 0)
+    	{
+    		this.projectId = voBill.getProjectId();
     		this.projectName = voBill.getProjectName();
+    	}
     	
     	this.setAppliedDateTimeUTCToShow(new SimpleDateFormat("MM-yyyy").format(appliedDateTimeUTC));
     	
