@@ -3,6 +3,7 @@ package views.bill;
 import java.util.Collection;
 import java.util.Date;
 
+import utils.PopupWindow;
 import views.BaseView;
 
 import com.example.webvaadin.WebvaadinUI;
@@ -21,6 +22,7 @@ import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.shared.ui.datefield.Resolution;
 import com.vaadin.ui.AbsoluteLayout;
 import com.vaadin.ui.Button;
+import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.Grid;
 import com.vaadin.ui.Grid.HeaderCell;
@@ -112,6 +114,78 @@ public class UpdateBillView extends BaseView {
 				buildGrid(); 
 			}
 		});
+		
+		btnUpdate.addClickListener(new Button.ClickListener() {
+
+			@Override
+			public void buttonClick(ClickEvent event) {
+				btnUpdate.setEnabled(false);
+				btnCancel.setEnabled(false);
+				txtDescription.setValidationVisible(true);
+				txtAmount.setValidationVisible(true);
+				comboBoxProjects.setValidationVisible(true);
+				txtTypeExchange.setValidationVisible(true);
+				
+				boolean valid = true;
+				
+				if(optionGroupCurrency.getValue() == "Dolares" && !txtTypeExchange.isValid())
+				{
+					txtTypeExchange.setRequiredError("Es requerido");
+					valid = false;
+				}
+				
+				if(!txtAmount.isValid() || !txtDescription.isValid() || !popupDateFieldAppliedDate.isValid() || !comboBoxProjects.isValid()){
+					txtAmount.setRequiredError("Es requerido");
+					txtDescription.setRequiredError("Es requerido");
+					txtAmount.setConversionError("Debe ser numérico");
+					popupDateFieldAppliedDate.setRequiredError("Es requerido");
+					comboBoxProjects.setRequiredError("Es requerido");
+					valid = false;
+				}
+				
+				if(valid)
+				{
+					Bill item = (Bill) billsGrid.getSelectedRow();
+					Bill bill = new Bill();
+					bill.setCode(item.getCode());
+					bill.setDescription(txtDescription.getValue());
+					bill.setProjectId(Integer.parseInt(comboBoxProjects.getValue().toString()));
+					bill.setAppliedDateTimeUTC(popupDateFieldAppliedDate.getValue());
+					
+					if(optionGroupCurrency.getValue() == "Pesos")
+					{
+						bill.setAmountPeso((Double)(txtAmount.getConvertedValue()));
+						bill.setIsCurrencyDollar(false);
+					}
+					else
+					{
+						bill.setAmountDollar((Double)(txtAmount.getConvertedValue()));
+						bill.setTypeExchange((Double)(txtTypeExchange.getConvertedValue()));
+						bill.setIsCurrencyDollar(true);
+					}
+					
+					Bill billUpdated = BillController.updateBill(item.getId(), bill);
+
+					new PopupWindow("AVISO", "Factura creada correctamente");
+					
+					buildGrid();
+					buildEntityData(billUpdated);
+				}
+				
+				btnUpdate.setEnabled(true);
+				btnCancel.setEnabled(true);
+			}
+		
+		});
+		
+		btnCancel.addClickListener(new Button.ClickListener() {
+
+			@Override
+			public void buttonClick(ClickEvent event) {
+				getUI().getNavigator().navigateTo(WebvaadinUI.MAINMENU);
+			}
+		});
+
 		
 		// TODO add user code here
 	}
@@ -226,7 +300,6 @@ public class UpdateBillView extends BaseView {
 					   if (null != newValue && !newValue.isEmpty()) {
 						   container.addContainerFilter(new SimpleStringFilter(pid, newValue, true, false));
 					   }					   
-					   //grid.recalculateColumnWidths();
 					  }	
 					 });
 					cell.setComponent(txtFilter);	
