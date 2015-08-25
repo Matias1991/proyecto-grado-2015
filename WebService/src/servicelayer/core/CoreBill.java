@@ -60,9 +60,12 @@ public class CoreBill implements ICoreBill{
 	public VOBill updateBill(int id, VOBill voBill) throws ServerException,
 			ClientException {
 		
-		Bill currentBill = iDAOBills.getBill(voBill.getCode());
-		if(currentBill == null || currentBill.getId() == id)
+		if(iDAOBills.getBill(voBill.getCode()) != null)
 		{
+			if(voBill.getIsCurrencyDollar())
+			{
+				voBill.setAmountPeso(voBill.getAmountDollar() * voBill.getTypeExchange());
+			}
 			Bill bill = new Bill(voBill);
 			iDAOBills.update(id, bill);
 		}

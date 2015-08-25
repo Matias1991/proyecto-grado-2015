@@ -1,5 +1,7 @@
 package com.example.webvaadin;
 
+import java.awt.Menu;
+
 import utils.PopupWindow;
 import views.ForgotPasswordView;
 import views.LoginView;
@@ -16,6 +18,7 @@ import views.employees.DeleteEmployeeView;
 import views.employees.UpdateEmployeeView;
 import views.profile.ChangePasswordView;
 import views.profile.ModifyProfileView;
+import views.project.CatalogProjectView;
 import views.project.CreateProjectView;
 import views.user.CatalogUsersView;
 import views.user.CreateUserView;
@@ -81,6 +84,7 @@ public class WebvaadinUI extends UI {
 	public static final String BILLS = "CatalogBillsView";
 	
 	//Proyectos
+	public static final String CATALOGPROJECTS = "CatalogProjectView";
 	public static final String CREATEPROJECT = "CreateProjectView";	
 	
 	private static GridLayout mainLayout;
@@ -173,7 +177,8 @@ public class WebvaadinUI extends UI {
 		// Facturas
 		navigator.addView(CREATEBILL, new CreateBillView());
 		navigator.addView(BILLS, new CatalogBillsView());
-		//Proyectos
+		// Proyectos
+		navigator.addView(CATALOGPROJECTS, new CatalogProjectView());
 		navigator.addView(CREATEPROJECT, new CreateProjectView());
 		
 		if (RequestContext.getRequestContext() == null) {
@@ -250,6 +255,9 @@ public class WebvaadinUI extends UI {
 				case "Catálogo facturas":
 					navigator.navigateTo(BILLS);
 					break;
+				case "Catálogo proyectos":
+					navigator.navigateTo(CATALOGPROJECTS);
+					break;
 				case "Crear proyecto":
 					navigator.navigateTo(CREATEPROJECT);
 					break;
@@ -295,8 +303,10 @@ public class WebvaadinUI extends UI {
 			MenuItem bill = menuBar.addItem("Facturas", null, null);
 			bill.addItem("Crear factura", null, mainMenuBarCommand);
 			bill.addItem("Catálogo facturas", null, mainMenuBarCommand);
-			//Proyectos
-			MenuItem project = menuBar.addItem("Proyectos",null,null);
+
+			// Proyectos
+			MenuItem project = menuBar.addItem("Proyectos", null, null);
+			project.addItem("Catálogo proyectos", null, mainMenuBarCommand);
 			project.addItem("Crear proyecto", null, mainMenuBarCommand);
 			break;
 		case 3:
