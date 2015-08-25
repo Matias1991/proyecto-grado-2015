@@ -44,15 +44,16 @@ public class CatalogProjectView extends BaseView{
 					
 			catalogProjectsGrid = new Grid(beanContainer);
 			catalogProjectsGrid.removeColumn("id");
-			catalogProjectsGrid.removeColumn("managerId");
-			catalogProjectsGrid.removeColumn("sellerId");
-			catalogProjectsGrid.removeColumn("createdDataTimeUTC");
-			catalogProjectsGrid.removeColumn("updatedDataTimeUTC");
-			catalogProjectsGrid.setColumnOrder("name", "description", "enabled");
+			catalogProjectsGrid.removeColumn("manager");
+			catalogProjectsGrid.removeColumn("seller");
+			catalogProjectsGrid.removeColumn("createdDateTimeUTC");
+			catalogProjectsGrid.removeColumn("updatedDateTimeUTC");
+			catalogProjectsGrid.setColumnOrder("name", "description", "enabledToShow", "createDateTimeUTCToShow");
 	
 			catalogProjectsGrid.getColumn("name").setHeaderCaption("Nombre");
 			catalogProjectsGrid.getColumn("description").setHeaderCaption("Descripción");
-			catalogProjectsGrid.getColumn("enabled").setHeaderCaption("Habilitado");
+			catalogProjectsGrid.getColumn("enabledToShow").setHeaderCaption("Habilitado");
+			catalogProjectsGrid.getColumn("createDateTimeUTCToShow").setHeaderCaption("Fecha creación");
 			catalogProjectsGrid.setWidth(100, Unit.PERCENTAGE);
 			catalogProjectsGrid.setHeight(100, Unit.PERCENTAGE);
 			catalogProjectsGrid.setSelectionMode(SelectionMode.SINGLE);

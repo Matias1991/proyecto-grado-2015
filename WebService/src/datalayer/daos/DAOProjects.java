@@ -11,6 +11,7 @@ import java.util.Date;
 import com.mysql.jdbc.Statement;
 
 import datalayer.utilities.ManageConnection;
+import servicelayer.entity.businessEntity.Employed;
 import servicelayer.entity.businessEntity.Project;
 import servicelayer.entity.businessEntity.User;
 import shared.LoggerMSMP;
@@ -175,6 +176,9 @@ public class DAOProjects implements IDAOProjects {
 	{
 		int _id = rs.getInt("id");
 		String name = rs.getString("name");
+		String description = rs.getString("description");
+		int managerId = rs.getInt("managerId");
+		int sellerId = rs.getInt("sellerId");
 		Date createdDateTimeUTC = rs.getTimestamp("createdDateTimeUTC");
 		Date updatedDateTimeUTC = rs.getTimestamp("updatedDateTimeUTC");
 		boolean enabled = rs.getBoolean("enabled");
@@ -185,6 +189,18 @@ public class DAOProjects implements IDAOProjects {
 		project.setCreatedDateTimeUTC(createdDateTimeUTC);
 		project.setUpdatedDateTimeUTC(updatedDateTimeUTC);
 		project.setEnabled(enabled);
+		project.setDescription(description);
+		
+		if(sellerId != 0){
+			Employed manager = new Employed();
+			manager.setId(sellerId);
+			project.setSeller(manager);
+		}
+		if(managerId != 0){
+			Employed seller = new Employed();
+			seller.setId(managerId);
+			project.setSeller(seller);
+		}	
 		
 		return project;
 	}
