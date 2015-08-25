@@ -39,6 +39,7 @@ import entities.Bill;
 import entities.Category;
 import entities.Project;
 import entities.RequestContext;
+import java.util.*;
 
 public class UpdateBillView extends BaseView {
 
@@ -169,7 +170,6 @@ public class UpdateBillView extends BaseView {
 					new PopupWindow("AVISO", "Factura creada correctamente");
 					
 					buildGrid();
-					buildEntityData(billUpdated);
 				}
 				
 				btnUpdate.setEnabled(true);
