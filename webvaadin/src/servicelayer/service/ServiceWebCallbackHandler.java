@@ -349,6 +349,22 @@
             }
                 
            /**
+            * auto generated Axis2 call back method for deleteBills method
+            * override this method for handling normal response from deleteBills operation
+            */
+           public void receiveResultdeleteBills(
+                    servicelayer.service.ServiceWebStub.DeleteBillsResponse result
+                        ) {
+           }
+
+          /**
+           * auto generated Axis2 Error handler
+           * override this method for handling error response from deleteBills operation
+           */
+            public void receiveErrordeleteBills(java.lang.Exception e) {
+            }
+                
+           /**
             * auto generated Axis2 call back method for updateCategory method
             * override this method for handling normal response from updateCategory operation
             */

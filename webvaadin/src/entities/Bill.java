@@ -47,7 +47,7 @@ public class Bill {
     	
     	if(isCurrencyDollar)
     	{
-    		this.amountToShow = new DecimalFormat("U$ ###,###.###").format(this.amountDollar);
+    		this.amountToShow = new DecimalFormat("U$S ###,###.###").format(this.amountDollar);
     		this.typeExchangeToShow = String.valueOf(this.typeExchange);
     	}
     	else

@@ -713,6 +713,26 @@ public class ServiceWeb extends ServiceBase {
 		}
 		return null;
 	}
+	
+	public boolean deleteBills(int [] ids)
+	{
+		try {
+			transactionLock.tryLock(Constants.DEFAULT_TRANSACTION_TIME,
+					TimeUnit.SECONDS);
+
+			iCoreBill.deleteBills(ids);
+			return true;
+		} catch (ServerException e) {
+			ThrowServerExceptionAndLogError(e, "eliminar multiples facturas");
+		} catch (InterruptedException e) {
+			throw new RuntimeException(Constants.TRANSACTION_ERROR);
+		} catch (Exception e) {
+			ThrowGenericExceptionAndLogError(e);
+		} finally {
+			transactionLock.unlock();
+		}
+		return false;
+	}
 
 	/* PROYECTOS */
 

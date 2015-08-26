@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
+import org.apache.axis.wsdl.symbolTable.Undefined;
+
 import datalayer.utilities.ManageConnection;
 import servicelayer.entity.businessEntity.Bill;
 import servicelayer.entity.businessEntity.Project;
@@ -82,6 +84,49 @@ public class DAOBills implements IDAOBills{
 			String deleteSQL = "DELETE FROM BILL WHERE ID = ?";
 			preparedStatement = this.connection.prepareStatement(deleteSQL);
 			preparedStatement.setInt(1, id);
+			preparedStatement.execute();
+
+		} catch (SQLException e) {
+			throw new ServerException(e);
+		} finally {
+			if (preparedStatement != null) {
+				try {
+					preparedStatement.close();
+				} catch (SQLException e) {
+					LoggerMSMP.setLog(e.getMessage());
+				}
+			}
+		}
+	}
+	
+	@Override
+	public void deleteBills(int [] ids) throws ServerException {
+		PreparedStatement preparedStatement = null;
+
+		try {
+			StringBuilder strBuilder = new StringBuilder();
+			strBuilder.append("(");
+			
+			int indexParameter = 0;
+			while(indexParameter < ids.length)
+			{
+				strBuilder.append("?");
+				strBuilder.append(",");
+				indexParameter ++;
+			}
+			strBuilder.append(")");
+			strBuilder.replace(strBuilder.length() - 2, strBuilder.length() - 1, "");
+			
+			String deleteSQL = "DELETE FROM BILL WHERE ID IN "  + strBuilder.toString();
+			preparedStatement = this.connection.prepareStatement(deleteSQL);
+		
+			int index = 1;
+			for(int id : ids)
+			{
+				preparedStatement.setInt(index, id);
+				index ++;
+			}
+			
 			preparedStatement.execute();
 
 		} catch (SQLException e) {
