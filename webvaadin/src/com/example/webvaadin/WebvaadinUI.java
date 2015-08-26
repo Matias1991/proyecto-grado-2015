@@ -325,8 +325,8 @@ public class WebvaadinUI extends UI {
 			bill.addItem("Eliminar facturas", null, mainMenuBarCommand);
 			// Proyectos
 			MenuItem project = menuBar.addItem("Proyectos", null, null);
-			project.addItem("Catálogo proyectos", null, mainMenuBarCommand);
 			project.addItem("Crear proyecto", null, mainMenuBarCommand);
+			project.addItem("Catálogo proyectos", null, mainMenuBarCommand);
 			project.addItem("Eliminar proyectos", null, mainMenuBarCommand);
 			break;
 		case 3:
