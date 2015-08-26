@@ -18,12 +18,17 @@ import com.vaadin.data.util.BeanItem;
 import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.data.util.converter.StringToDoubleConverter;
 import com.vaadin.data.util.converter.StringToIntegerConverter;
+import com.vaadin.data.util.filter.SimpleStringFilter;
 import com.vaadin.event.SelectionEvent;
+import com.vaadin.event.FieldEvents.TextChangeEvent;
+import com.vaadin.event.FieldEvents.TextChangeListener;
 import com.vaadin.event.SelectionEvent.SelectionListener;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.ui.AbsoluteLayout;
 import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.Grid;
+import com.vaadin.ui.Grid.HeaderCell;
+import com.vaadin.ui.Grid.HeaderRow;
 import com.vaadin.ui.Grid.SelectionMode;
 import com.vaadin.ui.GridLayout;
 import com.vaadin.ui.Label;
@@ -33,6 +38,7 @@ import com.vaadin.ui.TabSheet;
 import com.vaadin.ui.TextField;
 
 import controllers.EmployeeController;
+import entities.Category;
 import entities.Employee;
 import entities.RequestContext;
 import entities.SalarySummary;
@@ -416,6 +422,7 @@ public class CatalogEmployeesView extends BaseView {
 		tabEmployee.setVisible(false);
 	}
 	
+	@SuppressWarnings("serial")
 	public void buildGrid() {
 		Collection<Employee> employees = EmployeeController.GetEmployees();
 
@@ -446,6 +453,40 @@ public class CatalogEmployeesView extends BaseView {
 			catalogEmployeesGrid.getSelectedRows().clear();
 			catalogEmployeesGrid.select(employees.iterator().next());
 			buildVersion(employees.iterator().next().getId());
+			
+			// Filtros
+			HeaderRow filterRow = catalogEmployeesGrid.appendHeaderRow();
+			
+			for (final Object pid : catalogEmployeesGrid.getContainerDataSource()
+					.getContainerPropertyIds()) {
+				HeaderCell cell = filterRow.getCell(pid);
+				if (cell != null) {
+					TextField txtFilter = new TextField();
+					txtFilter.setImmediate(true);
+					txtFilter.setWidth("125px");
+					txtFilter.setHeight("30px");
+					txtFilter.setInputPrompt("Filtro");
+
+					txtFilter.addTextChangeListener(new TextChangeListener() {
+						@Override
+						public void textChange(TextChangeEvent event) {
+							String newValue = (String) event.getText();
+
+							@SuppressWarnings("unchecked")
+							BeanItemContainer<Category> container = ((BeanItemContainer<Category>) catalogEmployeesGrid
+									.getContainerDataSource());
+
+							container.removeContainerFilters(pid);
+							if (null != newValue && !newValue.isEmpty()) {
+								container.addContainerFilter(new SimpleStringFilter(
+												pid, newValue, true, false));
+							}
+						}
+					});
+					cell.setComponent(txtFilter);
+				}
+			}
+			
 			mainLayout.addComponent(catalogEmployeesGrid, "top:34%;left:0.0px;");
 			
 			catalogEmployeesGrid.addSelectionListener(new SelectionListener() {
