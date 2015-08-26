@@ -11,4 +11,8 @@ public interface ICoreProject {
 	void insertProject(VOProject voProject) throws ServerException, ClientException;
 	
 	ArrayList<VOProject> getProjects() throws ServerException;
+
+	void deleteProject(int id) throws ServerException, ClientException;
+
+	ArrayList<VOProject> getProjectByStatus(boolean projectStatus) throws ServerException;
 }

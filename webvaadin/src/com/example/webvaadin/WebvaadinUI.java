@@ -20,6 +20,7 @@ import views.profile.ChangePasswordView;
 import views.profile.ModifyProfileView;
 import views.project.CatalogProjectView;
 import views.project.CreateProjectView;
+import views.project.DeleteProjectView;
 import views.user.CatalogUsersView;
 import views.user.CreateUserView;
 import views.user.DeleteUsersView;
@@ -86,6 +87,7 @@ public class WebvaadinUI extends UI {
 	//Proyectos
 	public static final String CATALOGPROJECTS = "CatalogProjectView";
 	public static final String CREATEPROJECT = "CreateProjectView";	
+	public static final String DELETEPROJECT = "CreateProjectView";	
 	
 	private static GridLayout mainLayout;
 	private static MenuBar mainMenuBar;
@@ -178,8 +180,9 @@ public class WebvaadinUI extends UI {
 		navigator.addView(CREATEBILL, new CreateBillView());
 		navigator.addView(BILLS, new CatalogBillsView());
 		// Proyectos
-		navigator.addView(CATALOGPROJECTS, new CatalogProjectView());
 		navigator.addView(CREATEPROJECT, new CreateProjectView());
+		navigator.addView(CATALOGPROJECTS, new CatalogProjectView());
+		navigator.addView(DELETEPROJECT, new DeleteProjectView());
 		
 		if (RequestContext.getRequestContext() == null) {
 			changeToLogin();
@@ -255,11 +258,14 @@ public class WebvaadinUI extends UI {
 				case "Catálogo facturas":
 					navigator.navigateTo(BILLS);
 					break;
+				case "Crear proyecto":
+					navigator.navigateTo(CREATEPROJECT);
+					break;
 				case "Catálogo proyectos":
 					navigator.navigateTo(CATALOGPROJECTS);
 					break;
-				case "Crear proyecto":
-					navigator.navigateTo(CREATEPROJECT);
+				case "Eliminar proyectos":
+					navigator.navigateTo(DELETEPROJECT);
 					break;
 				default:
 					new PopupWindow("AVISO",
@@ -308,6 +314,7 @@ public class WebvaadinUI extends UI {
 			MenuItem project = menuBar.addItem("Proyectos", null, null);
 			project.addItem("Catálogo proyectos", null, mainMenuBarCommand);
 			project.addItem("Crear proyecto", null, mainMenuBarCommand);
+			project.addItem("Eliminar proyectos", null, mainMenuBarCommand);
 			break;
 		case 3:
 			// Rol Gerente
