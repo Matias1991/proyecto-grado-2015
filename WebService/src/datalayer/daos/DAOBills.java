@@ -101,14 +101,14 @@ public class DAOBills implements IDAOBills{
 	public void update(int id, Bill obj) throws ServerException {
 		PreparedStatement preparedStatement = null;
 
-		String updateSQL = "UPDATE CATEGORY "
+		String updateSQL = "UPDATE BILL "
 				+ "SET DESCRIPTION = ?, "
 				+ "CODE = ?, "
 				+ "AMOUNTPESO = ?, "
 				+ "AMOUNTDOLLAR = ?, "
 				+ "ISCURRENCYDOLLAR = ?, "
 				+ "TYPEEXCHANGE = ?, "
-				+ "CREATEDDATETIMEUTC = ?, "
+				+ "APPLIEDDATETIMEUTC = ?, "
 				+ "PROJECTID = ? "
 				+ "WHERE id = ?";
 

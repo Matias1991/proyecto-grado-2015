@@ -8,6 +8,7 @@ import views.LoginView;
 import views.MainMenuView;
 import views.bill.CatalogBillsView;
 import views.bill.CreateBillView;
+import views.bill.UpdateBillView;
 import views.category.CatalogCategoriesView;
 import views.category.CreateCategoryView;
 import views.category.DeleteCategoriesView;
@@ -83,6 +84,7 @@ public class WebvaadinUI extends UI {
 	//Facturas
 	public static final String CREATEBILL = "CreateBillView";
 	public static final String BILLS = "CatalogBillsView";
+	public static final String UPDATEBILL = "UpdateBillView";
 	
 	//Proyectos
 	public static final String CATALOGPROJECTS = "CatalogProjectView";
@@ -179,6 +181,7 @@ public class WebvaadinUI extends UI {
 		// Facturas
 		navigator.addView(CREATEBILL, new CreateBillView());
 		navigator.addView(BILLS, new CatalogBillsView());
+		navigator.addView(UPDATEBILL, new UpdateBillView());
 		// Proyectos
 		navigator.addView(CREATEPROJECT, new CreateProjectView());
 		navigator.addView(CATALOGPROJECTS, new CatalogProjectView());
@@ -255,6 +258,9 @@ public class WebvaadinUI extends UI {
 				case "Crear factura":
 					navigator.navigateTo(CREATEBILL);
 					break;
+				case "Modificar facturas":
+					navigator.navigateTo(UPDATEBILL);
+					break;
 				case "Catálogo facturas":
 					navigator.navigateTo(BILLS);
 					break;
@@ -309,7 +315,8 @@ public class WebvaadinUI extends UI {
 			MenuItem bill = menuBar.addItem("Facturas", null, null);
 			bill.addItem("Crear factura", null, mainMenuBarCommand);
 			bill.addItem("Catálogo facturas", null, mainMenuBarCommand);
-
+			bill.addItem("Modificar facturas", null, mainMenuBarCommand);
+			
 			// Proyectos
 			MenuItem project = menuBar.addItem("Proyectos", null, null);
 			project.addItem("Catálogo proyectos", null, mainMenuBarCommand);
