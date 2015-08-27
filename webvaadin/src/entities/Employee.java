@@ -38,8 +38,7 @@ public class Employee {
 		this.createdDateTimeUTC = voEmployee.getCreatedDateTimeUTC();
 		this.createdDateTimeUTC = voEmployee.getCreatedDateTimeUTC();
 		this.updatedDateTimeUTC = voEmployee.getUpdatedDateTimeUTC();
-		this.employedType = getEmployeeTypeToShow(voEmployee.getEmployedType());
-		this.user = new User(voEmployee.getUser());
+		this.employedType = getEmployeeTypeToShow(voEmployee.getEmployedType());		
 		this.salarySummary = new SalarySummary(voEmployee.getVOSalarySummary());
 	}
 
@@ -183,10 +182,7 @@ public class Employee {
 		voEmployed.setId(this.id);
 		voEmployed.setLastName(this.lastName);
 		voEmployed.setName(this.name);
-		voEmployed.setUpdatedDateTimeUTC(this.updatedDateTimeUTC);
-		if(this.user != null){
-			voEmployed.setUser(this.user.toVOUser());
-		}
+		voEmployed.setUpdatedDateTimeUTC(this.updatedDateTimeUTC);		
 		//voEmployed.setVOSalarySummaries(param);
 		if(this.salarySummary != null){
 			voEmployed.setVOSalarySummary(this.salarySummary.toVOSalarySummary());

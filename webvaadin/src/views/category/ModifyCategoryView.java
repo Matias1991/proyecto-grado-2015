@@ -67,7 +67,7 @@ public class ModifyCategoryView extends BaseView {
 	private int idSelected;
 	private Label lblMessage;
 	private PopupDateField creationDate;
-	private OptionGroup isRRHH;	
+	private OptionGroup isRRHH;
 	private OptionGroup optCurrency;
 	private TextField txtTypeExchange;
 	private ComboBox cboProject;
@@ -81,7 +81,7 @@ public class ModifyCategoryView extends BaseView {
 
 		categoryType.addItems("Empresa", "Proyecto");
 		categoryType.select("Empresa");
-		
+
 		optCurrency.addItems("Pesos", "Dolares");
 		optCurrency.select("Pesos");
 
@@ -91,28 +91,29 @@ public class ModifyCategoryView extends BaseView {
 		categoryType.addValueChangeListener(new ValueChangeListener() {
 			@Override
 			public void valueChange(ValueChangeEvent event) {
-				if (categoryType.getValue() == "Empresa") {					
+				if (categoryType.getValue() == "Empresa") {
 					isRRHH.setValue("Recurso material");
 					enablePanelProject(false);
 				} else {
 					enablePanelProject(true);
-					buildProjectCombo(container.getItem(grid.getSelectedRow()).getBean().getProjectId());					
+					buildProjectCombo(container.getItem(grid.getSelectedRow())
+							.getBean().getProjectId());
 				}
 			}
 		});
-		
-		 optCurrency.addValueChangeListener(new ValueChangeListener() {
-				
-				@Override
-				public void valueChange(ValueChangeEvent event) {
-					// TODO Auto-generated method stub
-					if(optCurrency.getValue() == "Dolares"){
-						txtTypeExchange.setVisible(true);
-					}else{
-						txtTypeExchange.setVisible(false);
-					}
+
+		optCurrency.addValueChangeListener(new ValueChangeListener() {
+
+			@Override
+			public void valueChange(ValueChangeEvent event) {
+				// TODO Auto-generated method stub
+				if (optCurrency.getValue() == "Dolares") {
+					txtTypeExchange.setVisible(true);
+				} else {
+					txtTypeExchange.setVisible(false);
 				}
-			});
+			}
+		});
 
 		// boton de confirmacion
 		btnUpdate.addClickListener(new Button.ClickListener() {
@@ -120,84 +121,77 @@ public class ModifyCategoryView extends BaseView {
 			public void buttonClick(ClickEvent event) {
 				btnUpdate.setEnabled(false);
 
-				ConfirmDialog.show(WebvaadinUI.getCurrent(), "Confirmación",
-						"¿Desea modificar este rubro?", "Si", "No",
-						new ConfirmDialog.Listener() {
+				boolean valid = true;
 
-							@Override
-							public void onClose(ConfirmDialog confirm) {
-								boolean valid = true;
+				if (categoryType.getValue() == "Proyecto"
+						&& cboProject.getValue() == null) {
+					cboProject.setRequiredError("Es requerido");
+					valid = false;
+				}
 
-								if (categoryType.getValue() == "Proyecto" && cboProject.getValue() == null) {
-									cboProject.setRequiredError("Es requerido");
-									valid = false;
-								}
-								
-								if(optCurrency.getValue() == "Dolares" && !txtTypeExchange.isValid()){
-									txtTypeExchange.setRequiredError("Es requerido");
-									txtTypeExchange.setConversionError("Debe ser numérico");
-									valid = false;
-								}
+				if (optCurrency.getValue() == "Dolares"
+						&& !txtTypeExchange.isValid()) {
+					txtTypeExchange.setRequiredError("Es requerido");
+					txtTypeExchange.setConversionError("Debe ser numérico");
+					valid = false;
+				}
 
-								if (confirm.isConfirmed() && txtAmount.isValid()  && valid) {
-									Category category = new Category();									
-									//category.setAmountPeso((Double) (txtAmount.getConvertedValue()));
-									//lblProjectTitle.setComponentError(null);
+				if (txtAmount.isValid() && valid) {
+					Category category = new Category();
+					// category.setAmountPeso((Double)
+					// (txtAmount.getConvertedValue()));
+					// lblProjectTitle.setComponentError(null);
 
-									if (categoryType.getValue().equals("Empresa")) {
-										category.setCategoryTypeId(1);
-										category.setProjectId(0);
-									} else if (categoryType.getValue().equals("Proyecto")) {
-										category.setCategoryTypeId(2);
-									}
-									
-									if(categoryType.getValue() == "Proyecto"){
-										//category.setProjectName(cboProject.getValue().toString());
-										category.setProjectId((Integer)cboProject.getValue());
-									}else{
-										category.setProjectId(0);
-									}									
+					if (categoryType.getValue().equals("Empresa")) {
+						category.setCategoryTypeId(1);
+						category.setProjectId(0);
+					} else if (categoryType.getValue().equals("Proyecto")) {
+						category.setCategoryTypeId(2);
+					}
 
-									if (isRRHH.getValue() == "Material") {
-										category.setIsRRHH(false);
-									} else {
-										category.setIsRRHH(true);
-									}
-									category.setCreatedDateTimeUTC(creationDate
-											.getValue());
-									
-									if(optCurrency.getValue() == "Pesos")
-									{
-										category.setAmountPeso((Double)(txtAmount.getConvertedValue()));
-										category.setIsCurrencyDollar(false);
-									}
-									else
-									{
-										category.setAmountDollar((Double)(txtAmount.getConvertedValue()));
-										category.setTypeExchange((Double)(txtTypeExchange.getConvertedValue()));
-										category.setIsCurrencyDollar(true);
-									}
+					if (categoryType.getValue() == "Proyecto") {
+						// category.setProjectName(cboProject.getValue().toString());
+						category.setProjectId((Integer) cboProject.getValue());
+					} else {
+						category.setProjectId(0);
+					}
 
-									CategoryController.modifyCategory(category,
-											idSelected);
+					if (isRRHH.getValue() == "Material") {
+						category.setIsRRHH(false);
+					} else {
+						category.setIsRRHH(true);
+					}
+					category.setCreatedDateTimeUTC(creationDate.getValue());
 
-									txtAmount.setValidationVisible(false);
-									if (grid != null) {
-										mainLayout.removeComponent(grid);
-									}
-									buildGrid();
+					if (optCurrency.getValue() == "Pesos") {
+						category.setAmountPeso((Double) (txtAmount
+								.getConvertedValue()));
+						category.setIsCurrencyDollar(false);
+					} else {
+						category.setAmountDollar((Double) (txtAmount
+								.getConvertedValue()));
+						category.setTypeExchange((Double) (txtTypeExchange
+								.getConvertedValue()));
+						category.setIsCurrencyDollar(true);
+					}
 
-									//lblProjectTitle.setVisible(false);
-									enablePanelProject(false);
-									setComponentsVisible(false);
+					CategoryController.modifyCategory(category, idSelected);
 
-								} else {
-									txtAmount.setRequiredError("Es requerido");
-									txtAmount.setConversionError("Debe ser numérico");
-								}
+					txtAmount.setValidationVisible(false);
+					if (grid != null) {
+						mainLayout.removeComponent(grid);
+					}
+					buildGrid();
 
-							}
-						});
+					// lblProjectTitle.setVisible(false);
+					enablePanelProject(false);
+					setComponentsVisible(false);
+
+				} else {
+					txtAmount.setRequiredError("Es requerido");
+					txtAmount.setConversionError("Debe ser numérico");
+				}
+
 				btnUpdate.setEnabled(true);
 			}
 		});
@@ -241,7 +235,6 @@ public class ModifyCategoryView extends BaseView {
 			grid.removeColumn("typeExchangeToShow");
 			grid.removeColumn("isDollarToShow");
 			grid.removeColumn("currencyDollar");
-			
 
 			grid.getColumn("description").setHeaderCaption("Descripción");
 			grid.getColumn("projectName").setHeaderCaption("Proyecto");
@@ -250,36 +243,40 @@ public class ModifyCategoryView extends BaseView {
 			grid.setHeight(310, Unit.PIXELS);
 			grid.setSelectionMode(SelectionMode.SINGLE);
 			grid.getSelectedRows().clear();
-			
+
 			HeaderRow filterRow = grid.appendHeaderRow();
 			// Set up a filter for all columns
-			for ( final Object pid: grid.getContainerDataSource().getContainerPropertyIds()){
+			for (final Object pid : grid.getContainerDataSource()
+					.getContainerPropertyIds()) {
 				HeaderCell cell = filterRow.getCell(pid);
-				if(cell != null){
+				if (cell != null) {
 					TextField txtFilter = new TextField();
 					txtFilter.setImmediate(true);
 					txtFilter.setWidth("125px");
 					txtFilter.setHeight("30px");
 					txtFilter.setInputPrompt("Filtro");
-					
-					txtFilter.addTextChangeListener(new TextChangeListener() {	 
-					  @Override
-					  public void textChange(TextChangeEvent event) {
-					   String newValue = (String) event.getText();
-					  
-					   BeanItemContainer<Category> container = ((BeanItemContainer<Category>) grid.getContainerDataSource());
-					  
-					   container.removeContainerFilters(pid);
-					   if (null != newValue && !newValue.isEmpty()) {
-						   container.addContainerFilter(new SimpleStringFilter(pid, newValue, true, false));
-					   }					   
-					   //grid.recalculateColumnWidths();
-					  }	
-					 });
-					cell.setComponent(txtFilter);	
+
+					txtFilter.addTextChangeListener(new TextChangeListener() {
+						@Override
+						public void textChange(TextChangeEvent event) {
+							String newValue = (String) event.getText();
+
+							BeanItemContainer<Category> container = ((BeanItemContainer<Category>) grid
+									.getContainerDataSource());
+
+							container.removeContainerFilters(pid);
+							if (null != newValue && !newValue.isEmpty()) {
+								container
+										.addContainerFilter(new SimpleStringFilter(
+												pid, newValue, true, false));
+							}
+							// grid.recalculateColumnWidths();
+						}
+					});
+					cell.setComponent(txtFilter);
 				}
 			}
-			
+
 			mainLayout.addComponent(grid, "top:20%;left:0px;");
 
 			grid.addSelectionListener(new SelectionListener() {
@@ -292,33 +289,38 @@ public class ModifyCategoryView extends BaseView {
 					if (item != null) {
 						setComponentsVisible(true);
 						Category catToModify = item.getBean();
-						if(catToModify.isCurrencyDollar()){
+						if (catToModify.isCurrencyDollar()) {
 							optCurrency.setValue("Dolares");
-							txtAmount.setConvertedValue(catToModify.getAmountDollar());
-							txtTypeExchange.setConvertedValue(catToModify.getTypeExchange());
+							txtAmount.setConvertedValue(catToModify
+									.getAmountDollar());
+							txtTypeExchange.setConvertedValue(catToModify
+									.getTypeExchange());
 							txtTypeExchange.setVisible(true);
-						}else{
+						} else {
 							optCurrency.setValue("Pesos");
-							txtAmount.setConvertedValue(catToModify.getAmountPeso());
+							txtAmount.setConvertedValue(catToModify
+									.getAmountPeso());
 							txtTypeExchange.setVisible(false);
 						}
 						txtDescription.setEnabled(true);
 						txtDescription.setValue(catToModify.getDescription());
 						txtDescription.setEnabled(false);
 						categoryType.select(catToModify.getCategoryTypeToShow());
-						if(catToModify.getCategoryTypeToShow().equals("Proyecto")){
+						if (catToModify.getCategoryTypeToShow().equals(
+								"Proyecto")) {
 							enablePanelProject(true);
-							buildProjectCombo(catToModify.getProjectId());							
+							buildProjectCombo(catToModify.getProjectId());
 						}
 						idSelected = catToModify.getId();
-						if(catToModify.getIsRRHH()){
+						if (catToModify.getIsRRHH()) {
 							isRRHH.select("Humano");
 						} else {
 							isRRHH.select("Material");
 						}
-						creationDate.setValue(catToModify.getCreatedDateTimeUTC());
+						creationDate.setValue(catToModify
+								.getCreatedDateTimeUTC());
 					} else {
-						setComponentsVisible(false);						
+						setComponentsVisible(false);
 						enablePanelProject(false);
 					}
 				}
@@ -332,22 +334,21 @@ public class ModifyCategoryView extends BaseView {
 			btnUpdate.setVisible(false);
 		}
 	}
-	
-	public void buildProjectCombo(int projectToSelect){
+
+	public void buildProjectCombo(int projectToSelect) {
 		Collection<Project> projects = ProjectController.getProjects();
-		
+
 		cboProject.removeAllItems();
-		if(projects != null && projects.size() > 0){					
+		if (projects != null && projects.size() > 0) {
 			for (Project project : projects) {
 				cboProject.addItem(project.getId());
 				cboProject.setItemCaption(project.getId(), project.getName());
-			}			
-		}		
-		if(projectToSelect != 0){
+			}
+		}
+		if (projectToSelect != 0) {
 			cboProject.select(projectToSelect);
-		}		
+		}
 	}
-
 
 	private void setComponentsVisible(boolean visible) {
 		txtAmount.setVisible(visible);
@@ -358,12 +359,10 @@ public class ModifyCategoryView extends BaseView {
 		creationDate.setVisible(visible);
 		isRRHH.setVisible(visible);
 		optCurrency.setVisible(visible);
-		if(!visible){
+		if (!visible) {
 			txtTypeExchange.setVisible(visible);
-		}		
+		}
 	}
-	
-	
 
 	@Override
 	public void enter(ViewChangeEvent event) {
@@ -378,7 +377,7 @@ public class ModifyCategoryView extends BaseView {
 			}
 			buildGrid();
 			txtDescription.clear();
-			txtAmount.clear();			
+			txtAmount.clear();
 			setComponentsVisible(false);
 			enablePanelProject(false);
 		}
@@ -413,8 +412,7 @@ public class ModifyCategoryView extends BaseView {
 		btnUpdate.setVisible(false);
 		btnUpdate.setHeight("-1px");
 		btnUpdate.setTabIndex(3);
-		mainLayout.addComponent(btnUpdate,"top:414.0px;left:0.0px;");
-		
+		mainLayout.addComponent(btnUpdate, "top:414.0px;left:0.0px;");
 
 		// txtDescripcion
 		txtDescription = new TextField();
@@ -455,7 +453,8 @@ public class ModifyCategoryView extends BaseView {
 		creationDate.setDateFormat("MM-yyyy");
 		creationDate.setValue(new Date());
 		creationDate.setResolution(Resolution.MONTH);
-		mainLayout.addComponent(creationDate,"top:318.0px;right:490.0px;left:345.0px;");
+		mainLayout.addComponent(creationDate,
+				"top:318.0px;right:490.0px;left:345.0px;");
 
 		// txtAmount
 		txtAmount = new TextField();
@@ -469,16 +468,16 @@ public class ModifyCategoryView extends BaseView {
 		txtAmount.setVisible(false);
 		txtAmount.setNullRepresentation("");
 		mainLayout.addComponent(txtAmount, "top:252.0px;left:345.0px;");
-		
-		//optCurrency
+
+		// optCurrency
 		optCurrency = new OptionGroup();
 		optCurrency.setCaption("Moneda");
 		optCurrency.setImmediate(true);
 		optCurrency.setWidth("-1px");
 		optCurrency.setHeight("-1px");
-		mainLayout.addComponent(optCurrency,"top:175.0px;left:345.0px;");
-	
-		//txtTypeExchange
+		mainLayout.addComponent(optCurrency, "top:175.0px;left:345.0px;");
+
+		// txtTypeExchange
 		txtTypeExchange = new TextField();
 		txtTypeExchange.setCaption("Tipo de cambio");
 		txtTypeExchange.setImmediate(true);
@@ -487,7 +486,7 @@ public class ModifyCategoryView extends BaseView {
 		txtTypeExchange.setRequired(true);
 		txtTypeExchange.setNullRepresentation("");
 		txtTypeExchange.setConverter(new StringToDoubleConverter());
-		mainLayout.addComponent(txtTypeExchange,"top:252.0px;left:600.0px;");
+		mainLayout.addComponent(txtTypeExchange, "top:252.0px;left:600.0px;");
 
 		// btnCancel
 		btnCancel = new Button();
@@ -498,9 +497,9 @@ public class ModifyCategoryView extends BaseView {
 		btnCancel.setTabIndex(4);
 		btnCancel.setTabIndex(4);
 		btnCancel.setVisible(false);
-		mainLayout.addComponent(btnCancel,"top:414.0px;left:120.0px;");		
-		
-		//cboProject
+		mainLayout.addComponent(btnCancel, "top:414.0px;left:120.0px;");
+
+		// cboProject
 		cboProject = new ComboBox();
 		cboProject.setImmediate(true);
 		cboProject.setWidth("250px");
@@ -510,17 +509,15 @@ public class ModifyCategoryView extends BaseView {
 		cboProject.setNullSelectionAllowed(false);
 		cboProject.setRequired(true);
 		mainLayout.addComponent(cboProject, "top:110.0px;left:600.0px;");
-		
 
 		return mainLayout;
 	}
 
 	void enablePanelProject(boolean value) {
 		cboProject.setVisible(value);
-		if(!value){
+		if (!value) {
 			cboProject.removeAllItems();
 		}
 	}
 
-	
 }

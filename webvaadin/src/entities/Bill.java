@@ -38,13 +38,16 @@ public class Bill {
     	this.typeExchange = voBill.getTypeExchange();
     	this.appliedDateTimeUTC = voBill.getAppliedDateTimeUTC();
     	if(voBill.getProjectId() != 0)
+    	{
+    		this.projectId = voBill.getProjectId();
     		this.projectName = voBill.getProjectName();
+    	}
     	
     	this.setAppliedDateTimeUTCToShow(new SimpleDateFormat("MM-yyyy").format(appliedDateTimeUTC));
     	
     	if(isCurrencyDollar)
     	{
-    		this.amountToShow = new DecimalFormat("U$ ###,###.###").format(this.amountDollar);
+    		this.amountToShow = new DecimalFormat("U$S ###,###.###").format(this.amountDollar);
     		this.typeExchangeToShow = String.valueOf(this.typeExchange);
     	}
     	else

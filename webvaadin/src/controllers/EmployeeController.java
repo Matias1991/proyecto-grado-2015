@@ -11,7 +11,6 @@ import servicelayer.service.ServiceWebStub.EstimateSalarySummary;
 import servicelayer.service.ServiceWebStub.GetAllSalarySummaryVersion;
 import servicelayer.service.ServiceWebStub.GetAllVersionsSalarySummary;
 import servicelayer.service.ServiceWebStub.GetEmployees;
-import servicelayer.service.ServiceWebStub.GetEmployedHours;
 import servicelayer.service.ServiceWebStub.GetSalarySummaryByVersion;
 import servicelayer.service.ServiceWebStub.InsertEmployed;
 import servicelayer.service.ServiceWebStub.VOEmployed;
@@ -193,17 +192,17 @@ public class EmployeeController {
 		
 		try {
 			ServiceWebStub service = new ServiceWebStub();
-			GetEmployedHours getEmployedHours = new GetEmployedHours();
-			
-			VOEmployedProject [] voEmployedProject = service.getEmployedHours(getEmployedHours).get_return();
-			
-			if(voEmployedProject != null){
-				for(VOEmployedProject voAux : voEmployedProject)
-				{
-					EmployedHours auxEmployedHours = new EmployedHours(voAux);
-					employedHours.add(auxEmployedHours);
-				}				
-			}
+//			//GetEmployedHours getEmployedHours = new GetEmployedHours();
+//			
+//			VOEmployedProject [] voEmployedProject = service.getEmployedHours(null).get_return();
+//			
+//			if(voEmployedProject != null){
+//				for(VOEmployedProject voAux : voEmployedProject)
+//				{
+//					EmployedHours auxEmployedHours = new EmployedHours(voAux);
+//					employedHours.add(auxEmployedHours);
+//				}				
+//			}
 			
 		} catch (AxisFault e) {
 			String error = e.getMessage().replace("<faultstring>", "");

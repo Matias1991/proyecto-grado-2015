@@ -11,6 +11,9 @@ import servicelayer.service.ServiceWebStub;
 import servicelayer.service.ServiceWebStub.InsertProject;
 import servicelayer.service.ServiceWebStub.VOEmployed;
 import servicelayer.service.ServiceWebStub.VOEmployedProject;
+import servicelayer.service.ServiceWebStub.DeleteProject;
+import servicelayer.service.ServiceWebStub.GetProjects;
+import servicelayer.service.ServiceWebStub.GetProjectsByStatus;
 import servicelayer.service.ServiceWebStub.VOProject;
 import utils.PopupWindow;
 import entities.EmployedHours;
@@ -56,8 +59,8 @@ public class ProjectController {
 			VOProject voProject = new VOProject();
 			voProject.setName(project.getName());
 			voProject.setDescription(project.getDescription());
-			voProject.setSeller(project.getSeller().toVOEmployee());
-			voProject.setManager(project.getManager().toVOUser());
+//			voProject.setSeller(project.getSeller().toVOEmployee());
+//			voProject.setManager(project.getManager().toVOUser());
 			
 			createProject.setVoProject(voProject);
 			
@@ -69,9 +72,9 @@ public class ProjectController {
 				VOEmployed voEmployed = new VOEmployed();
 				
 				voEmployed.setId(aux.getId());
-				voEmployedProject.setEmployed(voEmployed);
-				voEmployedProject.setHours(aux.getHours());
-				voEmployedProject.setProject(voProject);
+//				voEmployedProject.setEmployed(voEmployed);
+//				voEmployedProject.setHours(aux.getHours());
+//				voEmployedProject.setProject(voProject);
 				
 				listVOEmployedProject.add(voEmployedProject);	
 				
@@ -83,7 +86,7 @@ public class ProjectController {
 				listToInsert[i] = listVOEmployedProject.get(i);
 			}
 			
-			createProject.setListVOEmployedProject(listToInsert);
+//			createProject.setListVOEmployedProject(listToInsert);
 			//createProject.setListVOEmployedProject(listVOEmployedProject);
 			
 			
@@ -97,5 +100,52 @@ public class ProjectController {
 		}
 		
 		return result;
+	}
+	
+	public static boolean deleteProject(int id)
+	{
+		boolean result = false;
+		try {
+			ServiceWebStub service = new ServiceWebStub();
+			DeleteProject deletedProject = new DeleteProject();
+			
+			deletedProject.setId(id);
+			
+			result = service.deleteProject(deletedProject).get_return();
+			
+		} catch (AxisFault e) {
+			String error = e.getMessage().replace("<faultstring>", "");
+			PopupWindow popup = new PopupWindow("ERROR", error.replace("</faultstring>", ""));
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
+		
+		return result;
+	}
+
+	public static Collection<Project> GetProjectsByStatus(boolean status){
+		Collection <Project> projects = new ArrayList<Project>();
+		
+		try {
+			ServiceWebStub service = new ServiceWebStub();
+			GetProjectsByStatus getProjects = new GetProjectsByStatus();
+			getProjects.setProjectStatus(status);
+			
+			VOProject [] voProjects = service.getProjectsByStatus(getProjects).get_return();
+			
+			if(voProjects != null){
+				for(VOProject voProject : voProjects)
+				{
+					Project project = new Project(voProject);
+					projects.add(project);
+				}				
+			}
+		} catch (AxisFault e) {
+			e.printStackTrace();
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
+		
+		return projects;
 	}
 }

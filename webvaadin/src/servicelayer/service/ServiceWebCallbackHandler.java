@@ -349,51 +349,19 @@
             }
                 
            /**
-            * auto generated Axis2 call back method for getEmployedHours method
-            * override this method for handling normal response from getEmployedHours operation
+            * auto generated Axis2 call back method for deleteBills method
+            * override this method for handling normal response from deleteBills operation
             */
-           public void receiveResultgetEmployedHours(
-                    servicelayer.service.ServiceWebStub.GetEmployedHoursResponse result
+           public void receiveResultdeleteBills(
+                    servicelayer.service.ServiceWebStub.DeleteBillsResponse result
                         ) {
            }
 
           /**
            * auto generated Axis2 Error handler
-           * override this method for handling error response from getEmployedHours operation
+           * override this method for handling error response from deleteBills operation
            */
-            public void receiveErrorgetEmployedHours(java.lang.Exception e) {
-            }
-                
-           /**
-            * auto generated Axis2 call back method for getUsersByType method
-            * override this method for handling normal response from getUsersByType operation
-            */
-           public void receiveResultgetUsersByType(
-                    servicelayer.service.ServiceWebStub.GetUsersByTypeResponse result
-                        ) {
-           }
-
-          /**
-           * auto generated Axis2 Error handler
-           * override this method for handling error response from getUsersByType operation
-           */
-            public void receiveErrorgetUsersByType(java.lang.Exception e) {
-            }
-                
-           /**
-            * auto generated Axis2 call back method for getEmployed method
-            * override this method for handling normal response from getEmployed operation
-            */
-           public void receiveResultgetEmployed(
-                    servicelayer.service.ServiceWebStub.GetEmployedResponse result
-                        ) {
-           }
-
-          /**
-           * auto generated Axis2 Error handler
-           * override this method for handling error response from getEmployed operation
-           */
-            public void receiveErrorgetEmployed(java.lang.Exception e) {
+            public void receiveErrordeleteBills(java.lang.Exception e) {
             }
                 
            /**
@@ -413,19 +381,19 @@
             }
                 
            /**
-            * auto generated Axis2 call back method for getUsersByStatusAndType method
-            * override this method for handling normal response from getUsersByStatusAndType operation
+            * auto generated Axis2 call back method for getEmployed method
+            * override this method for handling normal response from getEmployed operation
             */
-           public void receiveResultgetUsersByStatusAndType(
-                    servicelayer.service.ServiceWebStub.GetUsersByStatusAndTypeResponse result
+           public void receiveResultgetEmployed(
+                    servicelayer.service.ServiceWebStub.GetEmployedResponse result
                         ) {
            }
 
           /**
            * auto generated Axis2 Error handler
-           * override this method for handling error response from getUsersByStatusAndType operation
+           * override this method for handling error response from getEmployed operation
            */
-            public void receiveErrorgetUsersByStatusAndType(java.lang.Exception e) {
+            public void receiveErrorgetEmployed(java.lang.Exception e) {
             }
                 
            /**
@@ -445,22 +413,6 @@
             }
                 
            /**
-            * auto generated Axis2 call back method for deleteEmployed method
-            * override this method for handling normal response from deleteEmployed operation
-            */
-           public void receiveResultdeleteEmployed(
-                    servicelayer.service.ServiceWebStub.DeleteEmployedResponse result
-                        ) {
-           }
-
-          /**
-           * auto generated Axis2 Error handler
-           * override this method for handling error response from deleteEmployed operation
-           */
-            public void receiveErrordeleteEmployed(java.lang.Exception e) {
-            }
-                
-           /**
             * auto generated Axis2 call back method for getAllVersionsSalarySummary method
             * override this method for handling normal response from getAllVersionsSalarySummary operation
             */
@@ -477,19 +429,19 @@
             }
                 
            /**
-            * auto generated Axis2 call back method for getUsers method
-            * override this method for handling normal response from getUsers operation
+            * auto generated Axis2 call back method for getProjectsByStatus method
+            * override this method for handling normal response from getProjectsByStatus operation
             */
-           public void receiveResultgetUsers(
-                    servicelayer.service.ServiceWebStub.GetUsersResponse result
+           public void receiveResultgetProjectsByStatus(
+                    servicelayer.service.ServiceWebStub.GetProjectsByStatusResponse result
                         ) {
            }
 
           /**
            * auto generated Axis2 Error handler
-           * override this method for handling error response from getUsers operation
+           * override this method for handling error response from getProjectsByStatus operation
            */
-            public void receiveErrorgetUsers(java.lang.Exception e) {
+            public void receiveErrorgetProjectsByStatus(java.lang.Exception e) {
             }
                 
            /**
@@ -522,6 +474,54 @@
            * override this method for handling error response from estimateSalarySummary operation
            */
             public void receiveErrorestimateSalarySummary(java.lang.Exception e) {
+            }
+                
+           /**
+            * auto generated Axis2 call back method for deleteEmployed method
+            * override this method for handling normal response from deleteEmployed operation
+            */
+           public void receiveResultdeleteEmployed(
+                    servicelayer.service.ServiceWebStub.DeleteEmployedResponse result
+                        ) {
+           }
+
+          /**
+           * auto generated Axis2 Error handler
+           * override this method for handling error response from deleteEmployed operation
+           */
+            public void receiveErrordeleteEmployed(java.lang.Exception e) {
+            }
+                
+           /**
+            * auto generated Axis2 call back method for deleteProject method
+            * override this method for handling normal response from deleteProject operation
+            */
+           public void receiveResultdeleteProject(
+                    servicelayer.service.ServiceWebStub.DeleteProjectResponse result
+                        ) {
+           }
+
+          /**
+           * auto generated Axis2 Error handler
+           * override this method for handling error response from deleteProject operation
+           */
+            public void receiveErrordeleteProject(java.lang.Exception e) {
+            }
+                
+           /**
+            * auto generated Axis2 call back method for getUsers method
+            * override this method for handling normal response from getUsers operation
+            */
+           public void receiveResultgetUsers(
+                    servicelayer.service.ServiceWebStub.GetUsersResponse result
+                        ) {
+           }
+
+          /**
+           * auto generated Axis2 Error handler
+           * override this method for handling error response from getUsers operation
+           */
+            public void receiveErrorgetUsers(java.lang.Exception e) {
             }
                 
            /**

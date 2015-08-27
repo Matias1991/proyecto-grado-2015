@@ -22,14 +22,14 @@ public class EmployedHours {
 	}
 	
 	public EmployedHours(VOEmployedProject voEmployedProject){
-		this.id = voEmployedProject.getEmployed().getId();
-		this.name = voEmployedProject.getEmployed().getName();
-		this.lastName = voEmployedProject.getEmployed().getLastName();
-		this.hours = voEmployedProject.getHours();
-		this.createdDateTimeUTC = voEmployedProject.getCreatedDateTimeUTC();
-		this.updatedDateTimeUTC = voEmployedProject.getUpdatedDateTimeUTC();
-		this.enabled = voEmployedProject.getEnabled();
-		this.version = voEmployedProject.getVersion();
+//		this.id = voEmployedProject.getEmployed().getId();
+//		this.name = voEmployedProject.getEmployed().getName();
+//		this.lastName = voEmployedProject.getEmployed().getLastName();
+//		this.hours = voEmployedProject.getHours();
+//		this.createdDateTimeUTC = voEmployedProject.getCreatedDateTimeUTC();
+//		this.updatedDateTimeUTC = voEmployedProject.getUpdatedDateTimeUTC();
+//		this.enabled = voEmployedProject.getEnabled();
+//		this.version = voEmployedProject.getVersion();
 		
 	}
 
@@ -104,7 +104,7 @@ public class EmployedHours {
 		
 		voEmployed.setId(this.id);
 		
-		voEmployedProject.setEmployed(voEmployed);			
+		//voEmployedProject.setEmployed(voEmployed);			
 		voEmployedProject.setCreatedDateTimeUTC(this.createdDateTimeUTC);
 		voEmployedProject.setUpdatedDateTimeUTC(this.updatedDateTimeUTC);
 		voEmployedProject.setHours(this.hours);		

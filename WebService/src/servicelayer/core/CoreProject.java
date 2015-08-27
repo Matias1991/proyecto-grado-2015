@@ -11,7 +11,6 @@ import servicelayer.entity.businessEntity.Project;
 import servicelayer.entity.businessEntity.User;
 import servicelayer.entity.valueObject.VOEmployedProject;
 import servicelayer.entity.valueObject.VOProject;
-import servicelayer.entity.valueObject.VOUser;
 import shared.exceptions.ClientException;
 import shared.exceptions.ServerException;
 import shared.interfaces.core.ICoreProject;
@@ -22,7 +21,8 @@ import shared.interfaces.dataLayer.IDAOProjects;
 public class CoreProject implements ICoreProject {
 
 	private static CoreProject instance = null;
-    private static IDAOProjects iDAOProjects;    
+    private static IDAOProjects iDAOProjects;
+
     
 	private CoreProject() throws ServerException
 	{
@@ -40,7 +40,6 @@ public class CoreProject implements ICoreProject {
 	
 	@Override
 	public void insertProject(VOProject voProject) throws ServerException, ClientException {
-		
 		DAOManager daoManager = new DAOManager();
 		try {
 			if(daoManager.getDAOProjects().getProjectUByUserName(voProject.getName()) == null)
@@ -82,6 +81,16 @@ public class CoreProject implements ICoreProject {
 			daoManager.close();
 		}
 	}
+	
+	@Override
+	public void deleteProject(int id) throws ServerException, ClientException {
+		Project project = iDAOProjects.getObject(id);
+		if (project == null){
+			throw new ClientException("No existe proyecto con ese id");
+		} else {
+			iDAOProjects.delete(id);
+		}
+	}
 
 	@Override
 	public ArrayList<VOProject> getProjects() throws ServerException {
@@ -111,4 +120,20 @@ public class CoreProject implements ICoreProject {
 		return voProject;
 	}
 
+	@Override
+	public ArrayList<VOProject> getProjectByStatus(boolean projectStatus) throws ServerException
+	{
+		ArrayList<Project> projects;
+		ArrayList<VOProject> voProjects = null;
+
+		projects = iDAOProjects.getProjectsByStatus(projectStatus);
+		voProjects = new ArrayList<VOProject>(); 
+		
+		for(Project project: projects)
+		{
+			voProjects.add(BuildVOProject(project));
+		}
+		
+		return voProjects;
+	}
 }

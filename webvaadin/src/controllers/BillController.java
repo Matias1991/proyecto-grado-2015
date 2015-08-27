@@ -8,10 +8,13 @@ import java.util.Date;
 import org.apache.axis2.AxisFault;
 
 import servicelayer.service.ServiceWebStub;
+import servicelayer.service.ServiceWebStub.DeleteBills;
+import servicelayer.service.ServiceWebStub.DeleteCategory;
 import servicelayer.service.ServiceWebStub.GetBills;
 import servicelayer.service.ServiceWebStub.GetBillsWithFilters;
 import servicelayer.service.ServiceWebStub.GetCategories;
 import servicelayer.service.ServiceWebStub.InsertBill;
+import servicelayer.service.ServiceWebStub.UpdateBill;
 import servicelayer.service.ServiceWebStub.VOBill;
 import servicelayer.service.ServiceWebStub.VOCategory;
 import utils.PopupWindow;
@@ -40,6 +43,38 @@ public class BillController {
 			createBill.setVoBill(voBill);
 			
 			result = service.insertBill(createBill).get_return();
+			
+		} catch (AxisFault e) {
+			String error = e.getMessage().replace("<faultstring>", "");
+			PopupWindow popup = new PopupWindow("ERROR", error.replace("</faultstring>", ""));
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
+		
+		return result;
+	}
+	
+	public static Bill updateBill(int id, Bill bill)
+	{
+		Bill result = null;
+		try {
+			ServiceWebStub service = new ServiceWebStub();
+			UpdateBill updateBill = new UpdateBill();
+			
+			VOBill voBill = new VOBill();
+			voBill.setDescription(bill.getDescription());
+			voBill.setCode(bill.getCode());
+			voBill.setAmountPeso(bill.getAmountPeso());
+			voBill.setAmountDollar(bill.getAmountDollar());
+			voBill.setIsCurrencyDollar(bill.getIsCurrencyDollar());
+			voBill.setTypeExchange(bill.getTypeExchange());
+			voBill.setAppliedDateTimeUTC(bill.getAppliedDateTimeUTC());
+			voBill.setProjectId(bill.getProjectId());
+			
+			updateBill.setId(id);
+			updateBill.setVoBill(voBill);
+			
+			 result = new Bill(service.updateBill(updateBill).get_return());
 			
 		} catch (AxisFault e) {
 			String error = e.getMessage().replace("<faultstring>", "");
@@ -84,5 +119,26 @@ public class BillController {
 		}
 		
 		return bills;
+	}
+	
+	public static boolean deleteBills(int [] ids)
+	{
+		boolean result = false;
+		try {
+			ServiceWebStub service = new ServiceWebStub();
+			DeleteBills deleteBills = new DeleteBills();
+			
+			deleteBills.setIds(ids);
+			
+			result = service.deleteBills(deleteBills).get_return();
+			
+		} catch (AxisFault e) {
+			String error = e.getMessage().replace("<faultstring>", "");
+			new PopupWindow("ERROR", error.replace("</faultstring>", ""));
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
+		
+		return result;
 	}
 }

@@ -12,6 +12,8 @@ public interface ICoreBill {
 	void insertBill(VOBill voBill) throws ServerException, ClientException;
 
 	void deleteBill(int id) throws ServerException, ClientException;
+	
+	void deleteBills(int [] ids) throws ServerException;
 
 	VOBill updateBill(int id, VOBill voBill) throws ServerException, ClientException;
 

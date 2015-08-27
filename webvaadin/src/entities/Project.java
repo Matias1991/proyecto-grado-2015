@@ -25,8 +25,9 @@ public class Project implements Serializable{
 	private Employee seller;
 	private String description;
 	private List<EmployedHours> employedHours;
-	
-	public Project(){
+		
+	public Project()
+	{
 		
 	}
 	
@@ -42,10 +43,10 @@ public class Project implements Serializable{
 			setEnabledToShow("Deshabilitado");
 		
 		this.createDateTimeUTCToShow = new SimpleDateFormat("dd-MM-yyyy").format(createdDateTimeUTC);
-		this.manager = new User(voProject.getManager());
-		if(voProject.getSeller() != null){
-			this.seller = new Employee(voProject.getSeller());
-		}		
+//		this.manager = new User(voProject.getManager());
+//		if(voProject.getSeller() != null){
+//			this.seller = new Employee(voProject.getSeller());
+//		}		
 		this.description = voProject.getDescription();
 	}
 	

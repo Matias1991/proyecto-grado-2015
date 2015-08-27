@@ -57,6 +57,14 @@ public class CoreBill implements ICoreBill{
 	}
 
 	@Override
+	public void deleteBills(int [] ids) throws ServerException {
+		if(ids.length > 0)
+		{
+			iDAOBills.deleteBills(ids);
+		}
+	}
+	
+	@Override
 	public VOBill updateBill(int id, VOBill voBill) throws ServerException,
 			ClientException {
 		
