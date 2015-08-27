@@ -21,6 +21,11 @@ public class Bill {
 
 	}
 
+	public Bill(int id)
+	{
+		this.id = id;
+	}
+	
 	public Bill(VOBill voBill) {
 		this.id = voBill.getId();
 		this.code = voBill.getCode();

@@ -26,7 +26,6 @@ public class DAOBills implements IDAOBills {
 	public int insert(Bill obj) throws ServerException {
 		PreparedStatement preparedStatement = null;
 
-		// TypeExchange
 		String insertSQL = "INSERT INTO BILL (CODE, DESCRIPTION, AMOUNTPESO, AMOUNTDOLLAR, ISCURRENCYDOLLAR, TYPEEXCHANGE, APPLIEDDATETIMEUTC, ISLIQUIDATED, PROJECTID) VALUES"
 				+ "(?,?,?,?,?,?,?,?,?)";
 
@@ -314,7 +313,7 @@ public class DAOBills implements IDAOBills {
 
 			StringBuilder sql = new StringBuilder();
 			sql.append("SELECT B.*, P.Name as ProjectName FROM BILL B ");
-			sql.append("LEFT OUTER JOIN PROJECT P ON P.Id = B.ProjectId ");
+			sql.append("INNER JOIN PROJECT P ON P.Id = B.ProjectId ");
 			sql.append("WHERE B.AppliedDateTimeUTC between ? AND ? ");
 			if (projectId != 0)
 				sql.append("and B.projectId = ? ");
