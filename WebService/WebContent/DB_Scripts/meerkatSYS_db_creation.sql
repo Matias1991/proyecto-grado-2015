@@ -153,6 +153,7 @@ CREATE TABLE IF NOT EXISTS Bill
 CREATE TABLE IF NOT EXISTS Charge
 (
 	Id                  INTEGER NOT NULL AUTO_INCREMENT,
+	Number				VARCHAR(50) NULL,
 	Description         VARCHAR(120) NULL,
 	AmountPeso 			DECIMAL(10,2) NULL,
 	AmountDollar 		DECIMAL(10,2) NULL,
@@ -161,6 +162,7 @@ CREATE TABLE IF NOT EXISTS Charge
 	CreatedDateTimeUTC  TIMESTAMP NULL,
 	BillId			INTEGER NULL,
 	PRIMARY KEY (Id, BillId),
+	UNIQUE KEY `number` (`Number`),
 	FOREIGN KEY FK_Charge_Bill (BillId) REFERENCES Bill (Id)
 );
 
