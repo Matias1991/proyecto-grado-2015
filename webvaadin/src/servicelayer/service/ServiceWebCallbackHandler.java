@@ -317,6 +317,22 @@
             }
                 
            /**
+            * auto generated Axis2 call back method for insertCharge method
+            * override this method for handling normal response from insertCharge operation
+            */
+           public void receiveResultinsertCharge(
+                    servicelayer.service.ServiceWebStub.InsertChargeResponse result
+                        ) {
+           }
+
+          /**
+           * auto generated Axis2 Error handler
+           * override this method for handling error response from insertCharge operation
+           */
+            public void receiveErrorinsertCharge(java.lang.Exception e) {
+            }
+                
+           /**
             * auto generated Axis2 call back method for changePassword method
             * override this method for handling normal response from changePassword operation
             */

@@ -9,8 +9,10 @@ import shared.exceptions.ServerException;
 public interface IDAOCategroy extends IDAOBase<Category> {
 
 	ArrayList<Category> getCategories(String description,
-	ArrayList<Category> getCategoriesByProject(int idProject) throws ServerException;;
 			CategoryType categoryType) throws ServerException;
+
+	ArrayList<Category> getCategoriesByProject(int idProject)
+			throws ServerException;
 
 	ArrayList<Category> getCategories(String description, int projectId)
 			throws ServerException;
@@ -19,5 +21,5 @@ public interface IDAOCategroy extends IDAOBase<Category> {
 			CategoryType categoryType) throws ServerException;
 
 	ArrayList<Category> getCategoriesLastVersion(String description,
-			int projectId) throws ServerException;;
+			int projectId) throws ServerException;
 }
