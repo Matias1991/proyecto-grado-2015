@@ -2,23 +2,20 @@ package servicelayer.entity.businessEntity;
 
 import java.util.Date;
 
-
 import servicelayer.entity.valueObject.VOSalarySummaryVersion;
 
 public class SalarySummaryVersion {
-	
+
 	private Date createdDateTimeUTC;
 	private int version;
-	
-	
-	public SalarySummaryVersion()
-	{
-		
+
+	public SalarySummaryVersion() {
+
 	}
-	
-	public SalarySummaryVersion(VOSalarySummaryVersion voSalarySummaryVersion)
-	{
-		this.createdDateTimeUTC = voSalarySummaryVersion.getCreatedDateTimeUTC();
+
+	public SalarySummaryVersion(VOSalarySummaryVersion voSalarySummaryVersion) {
+		this.createdDateTimeUTC = voSalarySummaryVersion
+				.getCreatedDateTimeUTC();
 		this.version = voSalarySummaryVersion.getVersion();
 	}
 
@@ -37,7 +34,5 @@ public class SalarySummaryVersion {
 	public void setVersion(int version) {
 		this.version = version;
 	}
-	
-	
 
 }

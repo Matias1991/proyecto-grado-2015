@@ -3,9 +3,7 @@ package servicelayer.entity.valueObject;
 import java.io.Serializable;
 import java.util.Date;
 
-import servicelayer.entity.businessEntity.CategoryType;
-
-public class VOCategory implements Serializable{
+public class VOCategory implements Serializable {
 
 	private int id;
 	private int version;
@@ -21,15 +19,15 @@ public class VOCategory implements Serializable{
 	private boolean isRRHH;
 	private static final long serialVersionUID = 1L;
 	private Date updatedDateTimeUTC;
-	
+
 	public int getId() {
 		return id;
 	}
-	
+
 	public void setId(int id) {
 		this.id = id;
 	}
-	
+
 	public int getVersion() {
 		return version;
 	}
@@ -41,11 +39,11 @@ public class VOCategory implements Serializable{
 	public String getDescription() {
 		return description;
 	}
-	
+
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	
+
 	public double getAmountPeso() {
 		return amountPeso;
 	}
@@ -81,7 +79,7 @@ public class VOCategory implements Serializable{
 	public Date getAppliedDateTimeUTC() {
 		return appliedDateTimeUTC;
 	}
-	
+
 	public void setAppliedDateTimeUTC(Date appliedDateTimeUTC) {
 		this.appliedDateTimeUTC = appliedDateTimeUTC;
 	}

@@ -4,7 +4,7 @@ import java.util.Date;
 
 import servicelayer.entity.valueObject.VOUser;
 
-public class User{
+public class User {
 
 	private int id;
 	private String userName;
@@ -14,49 +14,43 @@ public class User{
 	private String email;
 	private int attempts;
 	private Date lastAttemptDateTimeUTC;
-    private UserType userType;
-    private UserStatus userStatus;
-    
-	public User()
-	{
-		
+	private UserType userType;
+	private UserStatus userStatus;
+
+	public User() {
+
 	}
-	
-	public User(int id){
+
+	public User(int id) {
 		this.id = id;
 	}
-	
-	public User(VOUser voUser)
-	{
+
+	public User(VOUser voUser) {
 		this.id = voUser.getId();
 		this.name = voUser.getName();
 		this.lastName = voUser.getLastName();
 		this.email = voUser.getEmail();
 		this.userName = voUser.getUserName();
 		this.password = voUser.getPassword();
-		if(voUser.getUserType() != 0)
-			this.userType =  UserType.getEnum(voUser.getUserType());
-		if(voUser.getUserStatus() != 0)
+		if (voUser.getUserType() != 0)
+			this.userType = UserType.getEnum(voUser.getUserType());
+		if (voUser.getUserStatus() != 0)
 			this.userStatus = UserStatus.getEnum(voUser.getUserStatus());
 	}
-	
-	public void setId(int i)
-	{
+
+	public void setId(int i) {
 		id = i;
 	}
-	
-	public void setName(String n)
-	{
+
+	public void setName(String n) {
 		name = n;
 	}
-	
-	public int getId()
-	{
+
+	public int getId() {
 		return id;
 	}
-	
-	public String getName()
-	{
+
+	public String getName() {
 		return name;
 	}
 

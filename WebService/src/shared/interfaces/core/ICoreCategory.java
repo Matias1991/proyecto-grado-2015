@@ -8,11 +8,13 @@ import shared.exceptions.ServerException;
 
 public interface ICoreCategory {
 
-	void insertCategory(VOCategory voCategory) throws ServerException, ClientException;
+	void insertCategory(VOCategory voCategory) throws ServerException,
+			ClientException;
 
 	void deleteCateory(int id) throws ServerException, ClientException;
 
-	VOCategory updateCategory(int id, VOCategory voCategory) throws ServerException, ClientException;
+	VOCategory updateCategory(int id, VOCategory voCategory)
+			throws ServerException, ClientException;
 
 	VOCategory getCategory(int id) throws ServerException, ClientException;
 

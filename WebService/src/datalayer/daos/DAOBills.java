@@ -8,37 +8,25 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-
-import org.apache.axis.wsdl.symbolTable.Undefined;
-
-import datalayer.utilities.ManageConnection;
 import servicelayer.entity.businessEntity.Bill;
 import servicelayer.entity.businessEntity.Project;
 import shared.LoggerMSMP;
 import shared.exceptions.ServerException;
 import shared.interfaces.dataLayer.IDAOBills;
 
-public class DAOBills implements IDAOBills{
+public class DAOBills implements IDAOBills {
 
 	private Connection connection;
-
-	public DAOBills() throws ServerException {
-		try {
-			this.connection = new ManageConnection().GetConnection();
-		} catch (Exception e) {
-			throw new ServerException(e);
-		}
-	}
 
 	public DAOBills(Connection connection) {
 		this.connection = connection;
 	}
-	
+
 	@Override
 	public int insert(Bill obj) throws ServerException {
 		PreparedStatement preparedStatement = null;
 
-		//TypeExchange
+		// TypeExchange
 		String insertSQL = "INSERT INTO BILL (CODE, DESCRIPTION, AMOUNTPESO, AMOUNTDOLLAR, ISCURRENCYDOLLAR, TYPEEXCHANGE, APPLIEDDATETIMEUTC, ISLIQUIDATED, PROJECTID) VALUES"
 				+ "(?,?,?,?,?,?,?,?,?)";
 
@@ -51,13 +39,16 @@ public class DAOBills implements IDAOBills{
 			preparedStatement.setDouble(4, obj.getAmountDollar());
 			preparedStatement.setBoolean(5, obj.getIsCurrencyDollar());
 			preparedStatement.setDouble(6, obj.getTypeExchange());
-			preparedStatement.setTimestamp(7, new Timestamp(setFirstDayOfMonth(obj.getAppliedDateTimeUTC()).getTime()));
+			preparedStatement.setTimestamp(
+					7,
+					new Timestamp(setFirstDayOfMonth(
+							obj.getAppliedDateTimeUTC()).getTime()));
 			preparedStatement.setBoolean(8, false);
-			if(obj.getProject() != null)
+			if (obj.getProject() != null)
 				preparedStatement.setInt(9, obj.getProject().getId());
 			else
 				preparedStatement.setNull(9, java.sql.Types.INTEGER);
-			
+
 			preparedStatement.executeUpdate();
 
 		} catch (SQLException e) {
@@ -98,35 +89,35 @@ public class DAOBills implements IDAOBills{
 			}
 		}
 	}
-	
+
 	@Override
-	public void deleteBills(int [] ids) throws ServerException {
+	public void deleteBills(int[] ids) throws ServerException {
 		PreparedStatement preparedStatement = null;
 
 		try {
 			StringBuilder strBuilder = new StringBuilder();
 			strBuilder.append("(");
-			
+
 			int indexParameter = 0;
-			while(indexParameter < ids.length)
-			{
+			while (indexParameter < ids.length) {
 				strBuilder.append("?");
 				strBuilder.append(",");
-				indexParameter ++;
+				indexParameter++;
 			}
 			strBuilder.append(")");
-			strBuilder.replace(strBuilder.length() - 2, strBuilder.length() - 1, "");
-			
-			String deleteSQL = "DELETE FROM BILL WHERE ID IN "  + strBuilder.toString();
+			strBuilder.replace(strBuilder.length() - 2,
+					strBuilder.length() - 1, "");
+
+			String deleteSQL = "DELETE FROM BILL WHERE ID IN "
+					+ strBuilder.toString();
 			preparedStatement = this.connection.prepareStatement(deleteSQL);
-		
+
 			int index = 1;
-			for(int id : ids)
-			{
+			for (int id : ids) {
 				preparedStatement.setInt(index, id);
-				index ++;
+				index++;
 			}
-			
+
 			preparedStatement.execute();
 
 		} catch (SQLException e) {
@@ -146,15 +137,10 @@ public class DAOBills implements IDAOBills{
 	public void update(int id, Bill obj) throws ServerException {
 		PreparedStatement preparedStatement = null;
 
-		String updateSQL = "UPDATE BILL "
-				+ "SET DESCRIPTION = ?, "
-				+ "CODE = ?, "
-				+ "AMOUNTPESO = ?, "
-				+ "AMOUNTDOLLAR = ?, "
-				+ "ISCURRENCYDOLLAR = ?, "
-				+ "TYPEEXCHANGE = ?, "
-				+ "APPLIEDDATETIMEUTC = ?, "
-				+ "PROJECTID = ? "
+		String updateSQL = "UPDATE BILL " + "SET DESCRIPTION = ?, "
+				+ "CODE = ?, " + "AMOUNTPESO = ?, " + "AMOUNTDOLLAR = ?, "
+				+ "ISCURRENCYDOLLAR = ?, " + "TYPEEXCHANGE = ?, "
+				+ "APPLIEDDATETIMEUTC = ?, " + "PROJECTID = ? "
 				+ "WHERE id = ?";
 
 		try {
@@ -166,13 +152,16 @@ public class DAOBills implements IDAOBills{
 			preparedStatement.setDouble(4, obj.getAmountDollar());
 			preparedStatement.setBoolean(5, obj.getIsCurrencyDollar());
 			preparedStatement.setDouble(6, obj.getTypeExchange());
-			preparedStatement.setTimestamp(7, new Timestamp(setFirstDayOfMonth(obj.getAppliedDateTimeUTC()).getTime()));
-			if(obj.getProject() != null)
+			preparedStatement.setTimestamp(
+					7,
+					new Timestamp(setFirstDayOfMonth(
+							obj.getAppliedDateTimeUTC()).getTime()));
+			if (obj.getProject() != null)
 				preparedStatement.setInt(8, obj.getProject().getId());
 			else
 				preparedStatement.setNull(8, java.sql.Types.INTEGER);
-			preparedStatement.setInt(9 , id);
-			
+			preparedStatement.setInt(9, id);
+
 			preparedStatement.executeUpdate();
 
 		} catch (SQLException e) {
@@ -228,7 +217,8 @@ public class DAOBills implements IDAOBills{
 			sql.append("SELECT B.*, P.Name as ProjectName ");
 			sql.append("FROM BILL B ");
 			sql.append("LEFT OUTER JOIN PROJECT P ON P.Id = B.ProjectId");
-			preparedStatement = this.connection.prepareStatement(sql.toString());
+			preparedStatement = this.connection
+					.prepareStatement(sql.toString());
 			rs = preparedStatement.executeQuery();
 
 			while (rs.next()) {
@@ -282,7 +272,7 @@ public class DAOBills implements IDAOBills{
 
 		return bill;
 	}
-	
+
 	@Override
 	public Bill getBill(String code) throws ServerException {
 		Bill bill = null;
@@ -313,9 +303,10 @@ public class DAOBills implements IDAOBills{
 
 		return bill;
 	}
-	
+
 	@Override
-	public ArrayList<Bill> getBills(Date from, Date to, int projectId, String code, boolean isLiquidated) throws ServerException {
+	public ArrayList<Bill> getBills(Date from, Date to, int projectId,
+			String code, boolean isLiquidated) throws ServerException {
 		ArrayList<Bill> bills = new ArrayList<Bill>();
 		PreparedStatement preparedStatement = null;
 		ResultSet rs = null;
@@ -325,36 +316,37 @@ public class DAOBills implements IDAOBills{
 			sql.append("SELECT B.*, P.Name as ProjectName FROM BILL B ");
 			sql.append("LEFT OUTER JOIN PROJECT P ON P.Id = B.ProjectId ");
 			sql.append("WHERE B.AppliedDateTimeUTC between ? AND ? ");
-			if(projectId != 0)
+			if (projectId != 0)
 				sql.append("and B.projectId = ? ");
-			if(code != null)
+			if (code != null)
 				sql.append("and B.code = ? ");
 			sql.append("and B.IsLiquidated = ? ");
 			sql.append("ORDER BY B.AppliedDateTimeUTC DESC");
-			
+
 			int index = 1;
-			preparedStatement = this.connection.prepareStatement(sql.toString());
-			preparedStatement.setTimestamp(index, new Timestamp(setFirstDayOfMonth(from).getTime()));
-			index ++;
-			preparedStatement.setTimestamp(index, new Timestamp(setFirstDayOfMonth(to).getTime()));
-			index ++;
-			if(projectId != 0)
-			{
+			preparedStatement = this.connection
+					.prepareStatement(sql.toString());
+			preparedStatement.setTimestamp(index, new Timestamp(
+					setFirstDayOfMonth(from).getTime()));
+			index++;
+			preparedStatement.setTimestamp(index, new Timestamp(
+					setFirstDayOfMonth(to).getTime()));
+			index++;
+			if (projectId != 0) {
 				preparedStatement.setInt(index, projectId);
-				index ++;
+				index++;
 			}
-			if(code != null)
-			{
+			if (code != null) {
 				preparedStatement.setString(index, code);
-				index ++;
+				index++;
 			}
 			preparedStatement.setBoolean(index, isLiquidated);
-			
+
 			rs = preparedStatement.executeQuery();
 
 			while (rs.next()) {
 				Bill bill = BuildBill(rs);
-				if(bill.getProject() != null)
+				if (bill.getProject() != null)
 					bill.getProject().setName(rs.getString("projectName"));
 				bills.add(bill);
 			}
@@ -374,16 +366,15 @@ public class DAOBills implements IDAOBills{
 
 		return bills;
 	}
-	
-	Date setFirstDayOfMonth(Date date)
-	{
+
+	Date setFirstDayOfMonth(Date date) {
 		Calendar cal = Calendar.getInstance();
 		cal.setTime(date);
 		cal.set(Calendar.DAY_OF_MONTH, 01);
-		
+
 		return cal.getTime();
 	}
-	
+
 	private Bill BuildBill(ResultSet rs) throws SQLException {
 		int _id = rs.getInt("id");
 		String code = rs.getString("code");
@@ -404,17 +395,15 @@ public class DAOBills implements IDAOBills{
 		bill.setTypeExchange(typeExchange);
 		bill.setAppliedDateTimeUTC(appliedDateTimeUTC);
 		bill.setIsLiquidated(isLiquidated);
-		if(projectId != 0)
+		if (projectId != 0)
 			bill.setProject(new Project(projectId));
-		
-		if(bill.getIsCurrencyDollar())
-		{
+
+		if (bill.getIsCurrencyDollar()) {
 			bill.setAmountDollar(amountDollar);
 			bill.setTypeExchange(typeExchange);
-		}
-		else
+		} else
 			bill.setAmountPeso(amountPeso);
-		
+
 		return bill;
 	}
 }

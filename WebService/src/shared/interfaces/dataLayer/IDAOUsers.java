@@ -8,21 +8,25 @@ import servicelayer.entity.businessEntity.UserStatus;
 import servicelayer.entity.businessEntity.UserType;
 import shared.exceptions.ServerException;
 
-public interface IDAOUsers extends IDAOBase<User>{
+public interface IDAOUsers extends IDAOBase<User> {
 
-	ArrayList<User> getUsersByTypeAndStatus(UserType userType, UserStatus userStatus) throws ServerException;
-	
+	ArrayList<User> getUsersByTypeAndStatus(UserType userType,
+			UserStatus userStatus) throws ServerException;
+
 	User getUserByUserName(String userName) throws ServerException;
-	
+
 	User getUserByUserEmail(String userEmail) throws ServerException;
-	
+
 	void updatePassword(int id, String newPassword) throws ServerException;
-	
-	void update(int id, UserStatus userStatus, int attempts, Date lastAttemptDateTimeUTC) throws ServerException;
-	
-	ArrayList<User> getUsersByStatus(UserStatus userStatus) throws ServerException;
-	
+
+	void update(int id, UserStatus userStatus, int attempts,
+			Date lastAttemptDateTimeUTC) throws ServerException;
+
+	ArrayList<User> getUsersByStatus(UserStatus userStatus)
+			throws ServerException;
+
 	boolean existsEmail(String email) throws ServerException;
-	
-	public ArrayList<User> getUsersByType(UserType userType) throws ServerException;
+
+	public ArrayList<User> getUsersByType(UserType userType)
+			throws ServerException;
 }

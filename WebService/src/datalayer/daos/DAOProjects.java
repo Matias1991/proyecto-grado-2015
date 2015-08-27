@@ -7,10 +7,7 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
-
 import com.mysql.jdbc.Statement;
-
-import datalayer.utilities.ManageConnection;
 import servicelayer.entity.businessEntity.Project;
 import servicelayer.entity.businessEntity.Employed;
 import shared.LoggerMSMP;
@@ -20,14 +17,6 @@ import shared.interfaces.dataLayer.IDAOProjects;
 public class DAOProjects implements IDAOProjects {
 
 	private Connection connection;
-
-	public DAOProjects() throws ServerException {
-		try {
-			this.connection = new ManageConnection().GetConnection();
-		} catch (Exception e) {
-			throw new ServerException(e);
-		}
-	}
 
 	public DAOProjects(Connection connection) {
 		this.connection = connection;
@@ -130,7 +119,7 @@ public class DAOProjects implements IDAOProjects {
 			while (rs.next()) {
 				project = BuildProject(rs);
 			}
-			
+
 		} catch (SQLException e) {
 			throw new ServerException(e);
 		} finally {

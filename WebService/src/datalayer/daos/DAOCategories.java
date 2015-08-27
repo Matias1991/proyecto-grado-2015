@@ -7,8 +7,6 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
-
-import datalayer.utilities.ManageConnection;
 import servicelayer.entity.businessEntity.Category;
 import servicelayer.entity.businessEntity.CategoryType;
 import servicelayer.entity.businessEntity.Project;
@@ -20,12 +18,7 @@ public class DAOCategories implements IDAOCategroy {
 
 	private Connection connection;
 
-	public DAOCategories() throws ServerException {
-		try {
-			this.connection = new ManageConnection().GetConnection();
-		} catch (Exception e) {
-			throw new ServerException(e);
-		}
+	public DAOCategories() {
 	}
 
 	public DAOCategories(Connection connection) {
@@ -51,14 +44,15 @@ public class DAOCategories implements IDAOCategroy {
 			preparedStatement.setDouble(6, obj.getTypeExchange());
 			preparedStatement.setTimestamp(7, new Timestamp(obj
 					.getAppliedDateTimeUTC().getTime()));
-			if(obj.getProject() != null)
+			if (obj.getProject() != null)
 				preparedStatement.setInt(8, obj.getProject().getId());
 			else
 				preparedStatement.setNull(8, java.sql.Types.INTEGER);
 			preparedStatement.setInt(9, obj.getCategoryType().getValue());
 			preparedStatement.setBoolean(10, obj.getIsRRHH());
-			preparedStatement.setTimestamp(11, new Timestamp(new Date().getTime()));
-			
+			preparedStatement.setTimestamp(11,
+					new Timestamp(new Date().getTime()));
+
 			preparedStatement.executeUpdate();
 
 		} catch (SQLException e) {
@@ -104,12 +98,12 @@ public class DAOCategories implements IDAOCategroy {
 	public void update(int change, Category obj) throws ServerException {
 		PreparedStatement preparedStatement = null;
 
-		String updateSQL =  "";
+		String updateSQL = "";
 		try {
-			
+
 			// Si cambió el rubro el mismo día modifico el registro anterior
-			if(change == 0){
-				updateSQL =  "UPDATE CATEGORY SET AMOUNTPESO = ?, APPLIEDDATETIMEUTC = ?, "
+			if (change == 0) {
+				updateSQL = "UPDATE CATEGORY SET AMOUNTPESO = ?, APPLIEDDATETIMEUTC = ?, "
 						+ "PROJECTID = ?, CATEGORYTYPE = ?, ISRRHH = ?, UPDATEDDATETIMEUTC = ?,"
 						+ "AMOUNTDOLLAR = ?, ISCURRENCYDOLLAR = ?, TYPEEXCHANGE = ?"
 						+ "  WHERE ID = ? AND VERSION = ?";
@@ -118,13 +112,14 @@ public class DAOCategories implements IDAOCategroy {
 				preparedStatement.setDouble(1, obj.getAmountPeso());
 				preparedStatement.setTimestamp(2, new Timestamp(obj
 						.getAppliedDateTimeUTC().getTime()));
-				if(obj.getProject() != null)
+				if (obj.getProject() != null)
 					preparedStatement.setInt(3, obj.getProject().getId());
 				else
 					preparedStatement.setNull(3, java.sql.Types.INTEGER);
 				preparedStatement.setInt(4, obj.getCategoryType().getValue());
 				preparedStatement.setBoolean(5, obj.getIsRRHH());
-				preparedStatement.setTimestamp(6, new Timestamp(new Date().getTime()));
+				preparedStatement.setTimestamp(6,
+						new Timestamp(new Date().getTime()));
 				preparedStatement.setDouble(7, obj.getAmountDollar());
 				preparedStatement.setBoolean(8, obj.getIsCurrencyDollar());
 				preparedStatement.setDouble(9, obj.getTypeExchange());
@@ -132,10 +127,10 @@ public class DAOCategories implements IDAOCategroy {
 				preparedStatement.setInt(11, obj.getVersion());
 
 			} else {
-				updateSQL =  "INSERT INTO CATEGORY (VERSION, DESCRIPTION, AMOUNTPESO, AMOUNTDOLLAR, ISCURRENCYDOLLAR, TYPEEXCHANGE,"
+				updateSQL = "INSERT INTO CATEGORY (VERSION, DESCRIPTION, AMOUNTPESO, AMOUNTDOLLAR, ISCURRENCYDOLLAR, TYPEEXCHANGE,"
 						+ " APPLIEDDATETIMEUTC, PROJECTID, CATEGORYTYPE, ISRRHH, ID, UPDATEDDATETIMEUTC) VALUES"
 						+ "(?,?,?,?,?,?,?,?,?,?,?,?)";
-				
+
 				preparedStatement = this.connection.prepareStatement(updateSQL);
 
 				preparedStatement.setInt(1, obj.getVersion() + 1);
@@ -146,16 +141,17 @@ public class DAOCategories implements IDAOCategroy {
 				preparedStatement.setDouble(6, obj.getTypeExchange());
 				preparedStatement.setTimestamp(7, new Timestamp(obj
 						.getAppliedDateTimeUTC().getTime()));
-				if(obj.getProject() != null)
+				if (obj.getProject() != null)
 					preparedStatement.setInt(8, obj.getProject().getId());
 				else
 					preparedStatement.setNull(8, java.sql.Types.INTEGER);
 				preparedStatement.setInt(9, obj.getCategoryType().getValue());
 				preparedStatement.setBoolean(10, obj.getIsRRHH());
 				preparedStatement.setInt(11, obj.getId());
-				preparedStatement.setTimestamp(12, new Timestamp(new Date().getTime()));
+				preparedStatement.setTimestamp(12,
+						new Timestamp(new Date().getTime()));
 			}
-						
+
 			preparedStatement.executeUpdate();
 
 		} catch (SQLException e) {
@@ -213,7 +209,7 @@ public class DAOCategories implements IDAOCategroy {
 			String getSQL = "SELECT C.*, P.NAME FROM CATEGORY C"
 					+ " LEFT OUTER JOIN PROJECT P ON P.Id = C.ProjectId"
 					+ " WHERE C.ID = ? AND VERSION = (SELECT MAX(VERSION) FROM CATEGORY WHERE ID = ?)";
-			
+
 			preparedStatement = this.connection.prepareStatement(getSQL);
 			preparedStatement.setInt(1, id);
 			preparedStatement.setInt(2, id);
@@ -244,21 +240,25 @@ public class DAOCategories implements IDAOCategroy {
 		PreparedStatement preparedStatement = null;
 		ResultSet rs = null;
 		try {
-			
+
 			StringBuilder strBuilder = new StringBuilder();
 			strBuilder.append("SELECT C_1.*, P.NAME as ProjectName ");
 			strBuilder.append("FROM CATEGORY C_1 ");
-			strBuilder.append("LEFT OUTER JOIN PROJECT P ON P.Id = C_1.ProjectId ");
-			strBuilder.append("WHERE (C_1.Id, C_1.Version) in (SELECT C_2.Id, MAX(VERSION) ");
+			strBuilder
+					.append("LEFT OUTER JOIN PROJECT P ON P.Id = C_1.ProjectId ");
+			strBuilder
+					.append("WHERE (C_1.Id, C_1.Version) in (SELECT C_2.Id, MAX(VERSION) ");
 			strBuilder.append("FROM CATEGORY C_2 ");
-			strBuilder.append("LEFT OUTER JOIN PROJECT P ON P.Id = C_2.ProjectId ");
+			strBuilder
+					.append("LEFT OUTER JOIN PROJECT P ON P.Id = C_2.ProjectId ");
 			strBuilder.append("GROUP BY C_2.Id )");
-			preparedStatement = this.connection.prepareStatement(strBuilder.toString());
+			preparedStatement = this.connection.prepareStatement(strBuilder
+					.toString());
 			rs = preparedStatement.executeQuery();
 
 			while (rs.next()) {
 				Category category = BuildCategory(rs);
-				if(category.getProject() != null)
+				if (category.getProject() != null)
 					category.getProject().setName(rs.getString("projectName"));
 				categories.add(category);
 			}
@@ -278,10 +278,12 @@ public class DAOCategories implements IDAOCategroy {
 
 		return categories;
 	}
-	
+
 	@Override
-	public ArrayList<Category> getCategories(String description, CategoryType categoryType) throws ServerException {
-		ArrayList<Category> categories = new ArrayList<Category>();;
+	public ArrayList<Category> getCategories(String description,
+			CategoryType categoryType) throws ServerException {
+		ArrayList<Category> categories = new ArrayList<Category>();
+		;
 		PreparedStatement preparedStatement = null;
 		ResultSet rs = null;
 		try {
@@ -310,10 +312,12 @@ public class DAOCategories implements IDAOCategroy {
 
 		return categories;
 	}
-	
+
 	@Override
-	public ArrayList<Category> getCategories(String description, int projectId) throws ServerException {
-		ArrayList<Category> categories = new ArrayList<Category>();;
+	public ArrayList<Category> getCategories(String description, int projectId)
+			throws ServerException {
+		ArrayList<Category> categories = new ArrayList<Category>();
+		;
 		PreparedStatement preparedStatement = null;
 		ResultSet rs = null;
 		try {
@@ -342,10 +346,12 @@ public class DAOCategories implements IDAOCategroy {
 
 		return categories;
 	}
-	
+
 	@Override
-	public ArrayList<Category> getCategoriesLastVersion(String description, CategoryType categoryType) throws ServerException {
-		ArrayList<Category> categories = new ArrayList<Category>();;
+	public ArrayList<Category> getCategoriesLastVersion(String description,
+			CategoryType categoryType) throws ServerException {
+		ArrayList<Category> categories = new ArrayList<Category>();
+		;
 		PreparedStatement preparedStatement = null;
 		ResultSet rs = null;
 		try {
@@ -377,10 +383,12 @@ public class DAOCategories implements IDAOCategroy {
 
 		return categories;
 	}
-	
+
 	@Override
-	public ArrayList<Category> getCategoriesLastVersion(String description, int projectId) throws ServerException {
-		ArrayList<Category> categories = new ArrayList<Category>();;
+	public ArrayList<Category> getCategoriesLastVersion(String description,
+			int projectId) throws ServerException {
+		ArrayList<Category> categories = new ArrayList<Category>();
+		;
 		PreparedStatement preparedStatement = null;
 		ResultSet rs = null;
 		try {
@@ -412,7 +420,7 @@ public class DAOCategories implements IDAOCategroy {
 
 		return categories;
 	}
-	
+
 	private Category BuildCategory(ResultSet rs) throws SQLException {
 		int _id = rs.getInt("id");
 		String description = rs.getString("description");
@@ -435,13 +443,13 @@ public class DAOCategories implements IDAOCategroy {
 		category.setIsCurrencyDollar(isCurrencyDollar);
 		category.setTypeExchange(typeExchange);
 		category.setAppliedDateTimeUTC(appliedDateTimeUTC);
-		if(projectId != 0)
+		if (projectId != 0)
 			category.setProject(new Project(projectId));
 		category.setCategoryType(CategoryType.getEnum(categoryType));
 		category.setIsRRHH(isRRhh);
 		category.setVersion(version);
 		category.setUpdatedDateTimeUTC(updatedDateTimeUTC);
-		
+
 		return category;
 	}
 }

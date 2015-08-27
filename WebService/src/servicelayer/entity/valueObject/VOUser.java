@@ -2,7 +2,7 @@ package servicelayer.entity.valueObject;
 
 import java.io.Serializable;
 
-public class VOUser implements Serializable{
+public class VOUser implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	private int id;
@@ -13,24 +13,20 @@ public class VOUser implements Serializable{
 	private String Email;
 	private int userType;
 	private int userStatus;
-	
-	public void setId(int i)
-	{
+
+	public void setId(int i) {
 		id = i;
 	}
-	
-	public void setName(String n)
-	{
+
+	public void setName(String n) {
 		name = n;
 	}
-	
-	public int getId()
-	{
+
+	public int getId() {
 		return id;
 	}
-	
-	public String getName()
-	{
+
+	public String getName() {
 		return name;
 	}
 

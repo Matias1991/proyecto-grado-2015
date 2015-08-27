@@ -5,8 +5,6 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
-
-import datalayer.utilities.ManageConnection;
 import servicelayer.entity.businessEntity.Charge;
 import shared.LoggerMSMP;
 import shared.exceptions.ServerException;
@@ -16,18 +14,13 @@ public class DAOCharges implements IDAOCharges {
 
 	private Connection connection;
 
-	public DAOCharges() throws ServerException {
-		try {
-			this.connection = new ManageConnection().GetConnection();
-		} catch (Exception e) {
-			throw new ServerException(e);
-		}
+	public DAOCharges() {
 	}
 
 	public DAOCharges(Connection connection) {
 		this.connection = connection;
 	}
-	
+
 	@Override
 	public int insert(Charge obj) throws ServerException {
 		PreparedStatement preparedStatement = null;
@@ -43,12 +36,13 @@ public class DAOCharges implements IDAOCharges {
 			preparedStatement.setDouble(3, obj.getAmountDollar());
 			preparedStatement.setBoolean(4, obj.getIsCurrencyDollar());
 			preparedStatement.setDouble(5, obj.getTypeExchange());
-			preparedStatement.setTimestamp(6, new Timestamp(obj.getCreatedDateTimeUTC().getTime()));
-			if(obj.getBill() != null)
+			preparedStatement.setTimestamp(6, new Timestamp(obj
+					.getCreatedDateTimeUTC().getTime()));
+			if (obj.getBill() != null)
 				preparedStatement.setInt(8, obj.getBill().getId());
 			else
 				preparedStatement.setNull(8, java.sql.Types.INTEGER);
-			
+
 			preparedStatement.executeUpdate();
 
 		} catch (SQLException e) {
@@ -70,13 +64,13 @@ public class DAOCharges implements IDAOCharges {
 	@Override
 	public void delete(int id) throws ServerException {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void update(int id, Charge obj) throws ServerException {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override

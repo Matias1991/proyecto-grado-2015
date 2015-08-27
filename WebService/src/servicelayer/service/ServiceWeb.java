@@ -3,7 +3,6 @@ package servicelayer.service;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
-
 import servicelayer.core.CoreBill;
 import servicelayer.core.CoreCategory;
 import servicelayer.core.CoreEmployed;
@@ -17,7 +16,6 @@ import servicelayer.entity.valueObject.VOSalarySummary;
 import servicelayer.entity.valueObject.VOSalarySummaryVersion;
 import servicelayer.entity.valueObject.VOUser;
 import servicelayer.utilities.Constants;
-import shared.LoggerMSMP;
 import shared.exceptions.ClientException;
 import shared.exceptions.ServerException;
 import shared.interfaces.core.ICoreBill;
@@ -713,9 +711,8 @@ public class ServiceWeb extends ServiceBase {
 		}
 		return null;
 	}
-	
-	public boolean deleteBills(int [] ids)
-	{
+
+	public boolean deleteBills(int[] ids) {
 		try {
 			transactionLock.tryLock(Constants.DEFAULT_TRANSACTION_TIME,
 					TimeUnit.SECONDS);
@@ -800,7 +797,7 @@ public class ServiceWeb extends ServiceBase {
 		}
 		return false;
 	}
-	
+
 	public VOProject[] getProjectsByStatus(boolean projectStatus) {
 		ArrayList<VOProject> voProjects;
 		try {
