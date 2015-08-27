@@ -3,13 +3,16 @@ package servicelayer.service;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
+
 import servicelayer.core.CoreBill;
 import servicelayer.core.CoreCategory;
+import servicelayer.core.CoreCharge;
 import servicelayer.core.CoreEmployed;
 import servicelayer.core.CoreProject;
 import servicelayer.core.CoreUser;
 import servicelayer.entity.valueObject.VOBill;
 import servicelayer.entity.valueObject.VOCategory;
+import servicelayer.entity.valueObject.VOCharge;
 import servicelayer.entity.valueObject.VOEmployed;
 import servicelayer.entity.valueObject.VOProject;
 import servicelayer.entity.valueObject.VOSalarySummary;
@@ -20,6 +23,7 @@ import shared.exceptions.ClientException;
 import shared.exceptions.ServerException;
 import shared.interfaces.core.ICoreBill;
 import shared.interfaces.core.ICoreCategory;
+import shared.interfaces.core.ICoreCharge;
 import shared.interfaces.core.ICoreEmployed;
 import shared.interfaces.core.ICoreProject;
 import shared.interfaces.core.ICoreUser;
@@ -35,7 +39,8 @@ public class ServiceWeb extends ServiceBase {
 	private ICoreCategory iCoreCategory = null;
 	private ICoreProject iCoreProject = null;
 	private ICoreBill iCoreBill = null;
-
+	private ICoreCharge iCoreCharge = null;
+	
 	public ServiceWeb() {
 		try {
 			transactionLock.tryLock(Constants.DEFAULT_TRANSACTION_TIME,
@@ -46,6 +51,7 @@ public class ServiceWeb extends ServiceBase {
 			iCoreCategory = CoreCategory.GetInstance();
 			iCoreProject = CoreProject.GetInstance();
 			iCoreBill = CoreBill.GetInstance();
+			iCoreCharge = CoreCharge.GetInstance();
 		} catch (Exception e) {
 			ThrowGenericExceptionAndLogError(e);
 		} finally {
@@ -820,4 +826,28 @@ public class ServiceWeb extends ServiceBase {
 		}
 		return null;
 	}
+	
+	/*COMIENZO COBROS*/
+	public boolean insertCharge(VOCharge voCharge) {
+		try {
+			transactionLock.tryLock(Constants.DEFAULT_TRANSACTION_TIME,
+					TimeUnit.SECONDS);
+
+			iCoreCharge.insertCharge(voCharge);
+
+			return true;
+		} catch (ServerException e) {
+			ThrowServerExceptionAndLogError(e, "insertar cobro");
+		} catch (ClientException e) {
+			throw new RuntimeException(e.getMessage());
+		} catch (InterruptedException e) {
+			throw new RuntimeException(Constants.TRANSACTION_ERROR);
+		} catch (Exception e) {
+			ThrowGenericExceptionAndLogError(e);
+		} finally {
+			transactionLock.unlock();
+		}
+		return false;
+	}
+	/*COMIENZO COBROS*/
 }

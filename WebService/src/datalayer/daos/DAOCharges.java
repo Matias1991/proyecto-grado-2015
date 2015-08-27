@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
+
 import servicelayer.entity.businessEntity.Bill;
 import servicelayer.entity.businessEntity.Charge;
 import shared.LoggerMSMP;
@@ -28,23 +29,24 @@ public class DAOCharges implements IDAOCharges {
 	public int insert(Charge obj) throws ServerException {
 		PreparedStatement preparedStatement = null;
 
-		String insertSQL = "INSERT INTO CHARGE (DESCRIPTION, AMOUNTPESO, AMOUNTDOLLAR, ISCURRENCYDOLLAR, TYPEEXCHANGE, APPLIEDDATETIMEUTC, BILLID) VALUES"
+		String insertSQL = "INSERT INTO CHARGE (NUMBER, DESCRIPTION, AMOUNTPESO, AMOUNTDOLLAR, ISCURRENCYDOLLAR, TYPEEXCHANGE, CREATEDDATETIMEUTC, BILLID) VALUES"
 				+ "(?,?,?,?,?,?,?,?)";
 
 		try {
 			preparedStatement = this.connection.prepareStatement(insertSQL);
 
-			preparedStatement.setString(1, obj.getDescription());
-			preparedStatement.setDouble(2, obj.getAmountPeso());
-			preparedStatement.setDouble(3, obj.getAmountDollar());
-			preparedStatement.setBoolean(4, obj.getIsCurrencyDollar());
-			preparedStatement.setDouble(5, obj.getTypeExchange());
-			preparedStatement.setTimestamp(6, new Timestamp(obj
+			preparedStatement.setString(1, obj.getNumber());
+			preparedStatement.setString(2, obj.getDescription());
+			preparedStatement.setDouble(3, obj.getAmountPeso());
+			preparedStatement.setDouble(4, obj.getAmountDollar());
+			preparedStatement.setBoolean(5, obj.getIsCurrencyDollar());
+			preparedStatement.setDouble(6, obj.getTypeExchange());
+			preparedStatement.setTimestamp(7, new Timestamp(obj
 					.getCreatedDateTimeUTC().getTime()));
 			if (obj.getBill() != null)
-				preparedStatement.setInt(7, obj.getBill().getId());
+				preparedStatement.setInt(8, obj.getBill().getId());
 			else
-				preparedStatement.setNull(7, java.sql.Types.INTEGER);
+				preparedStatement.setNull(8, java.sql.Types.INTEGER);
 
 			preparedStatement.executeUpdate();
 
@@ -192,6 +194,37 @@ public class DAOCharges implements IDAOCharges {
 		}
 
 		return charges;
+	}
+
+	@Override
+	public Charge getCharge(String number) throws ServerException {
+		Charge charge = null;
+		PreparedStatement preparedStatement = null;
+		ResultSet rs = null;
+		try {
+
+			String getSQL = "SELECT * FROM CHARGE WHERE number = ?";
+			preparedStatement = this.connection.prepareStatement(getSQL);
+			preparedStatement.setString(1, number);
+			rs = preparedStatement.executeQuery();
+
+			while (rs.next()) {
+				charge = BuildCharge(rs);
+			}
+		} catch (SQLException e) {
+			throw new ServerException(e);
+		} finally {
+			try {
+				if (preparedStatement != null)
+					preparedStatement.close();
+				if (rs != null)
+					rs.close();
+			} catch (SQLException e) {
+				LoggerMSMP.setLog(e.getMessage());
+			}
+		}
+
+		return charge;
 	}
 
 	private Charge BuildCharge(ResultSet rs) throws SQLException {

@@ -2,9 +2,12 @@ package servicelayer.entity.businessEntity;
 
 import java.util.Date;
 
+import servicelayer.entity.valueObject.VOCharge;
+
 public class Charge {
 
 	private int id;
+	private String number;
 	private String description;
 	private double amountPeso;
 	private double amountDollar;
@@ -17,12 +20,33 @@ public class Charge {
 
 	}
 
+	public Charge(VOCharge voCharge)
+	{
+		this.id = voCharge.getId();
+		this.number = voCharge.getNumber();
+		this.description = voCharge.getDescription();
+		this.amountPeso = voCharge.getAmountPeso();
+		this.amountDollar = voCharge.getAmountDollar();
+		this.isCurrencyDollar = voCharge.getIsCurrencyDollar();
+		this.typeExchange = voCharge.getTypeExchange();
+		if(voCharge.getBillId() != 0)
+			this.bill = new Bill(voCharge.getBillId());
+	}
+	
 	public int getId() {
 		return id;
 	}
 
 	public void setId(int id) {
 		this.id = id;
+	}
+
+	public String getNumber() {
+		return number;
+	}
+
+	public void setNumber(String number) {
+		this.number = number;
 	}
 
 	public String getDescription() {

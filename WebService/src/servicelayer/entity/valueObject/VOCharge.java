@@ -5,19 +5,29 @@ import java.util.Date;
 public class VOCharge {
 
 	private int id;
+	private String number;
 	private String description;
 	private double amountPeso;
 	private double amountDollar;
 	private boolean isCurrencyDollar;
 	private double typeExchange;
 	private Date createdDateTimeUTC;
-
+	private int billId;
+	
 	public int getId() {
 		return id;
 	}
 
 	public void setId(int id) {
 		this.id = id;
+	}
+
+	public String getNumber() {
+		return number;
+	}
+
+	public void setNumber(String number) {
+		this.number = number;
 	}
 
 	public String getDescription() {
@@ -44,11 +54,11 @@ public class VOCharge {
 		this.amountDollar = amountDollar;
 	}
 
-	public boolean isCurrencyDollar() {
+	public boolean getIsCurrencyDollar() {
 		return isCurrencyDollar;
 	}
 
-	public void setCurrencyDollar(boolean isCurrencyDollar) {
+	public void setIsCurrencyDollar(boolean isCurrencyDollar) {
 		this.isCurrencyDollar = isCurrencyDollar;
 	}
 
@@ -66,5 +76,13 @@ public class VOCharge {
 
 	public void setCreatedDateTimeUTC(Date createdDateTimeUTC) {
 		this.createdDateTimeUTC = createdDateTimeUTC;
+	}
+
+	public int getBillId() {
+		return billId;
+	}
+
+	public void setBillId(int billId) {
+		this.billId = billId;
 	}
 }
