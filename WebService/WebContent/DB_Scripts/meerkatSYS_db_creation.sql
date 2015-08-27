@@ -154,7 +154,10 @@ CREATE TABLE IF NOT EXISTS Charge
 (
 	Id                  INTEGER NOT NULL AUTO_INCREMENT,
 	Description         VARCHAR(120) NULL,
-	Amount 				DECIMAL(10,2) NULL,
+	AmountPeso 			DECIMAL(10,2) NULL,
+	AmountDollar 		DECIMAL(10,2) NULL,
+	IsCurrencyDollar	BIT NULL,
+	TypeExchange		DECIMAL(10,2) NULL,
 	CreatedDateTimeUTC  TIMESTAMP NULL,
 	BillId			INTEGER NULL,
 	PRIMARY KEY (Id, BillId),
