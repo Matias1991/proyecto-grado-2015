@@ -2,6 +2,7 @@ package servicelayer.service;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import servicelayer.core.CoreBill;
@@ -12,6 +13,7 @@ import servicelayer.core.CoreUser;
 import servicelayer.entity.valueObject.VOBill;
 import servicelayer.entity.valueObject.VOCategory;
 import servicelayer.entity.valueObject.VOEmployed;
+import servicelayer.entity.valueObject.VOEmployedProject;
 import servicelayer.entity.valueObject.VOProject;
 import servicelayer.entity.valueObject.VOSalarySummary;
 import servicelayer.entity.valueObject.VOSalarySummaryVersion;
@@ -321,6 +323,55 @@ public class ServiceWeb extends ServiceBase{
 			transactionLock.tryLock(Constants.DEFAULT_TRANSACTION_TIME, TimeUnit.SECONDS);
 			
 			voUsers = iCoreUser.getUsersByStatus(userStatusId);
+			VOUser [] arrayVoUser = new VOUser[voUsers.size()];
+		    voUsers.toArray(arrayVoUser);
+		    return arrayVoUser;
+		    
+		} catch (ServerException e) {
+			ThrowServerExceptionAndLogError(e, "obtener todos los usuarios");
+		} catch (InterruptedException e) {
+			throw new RuntimeException(Constants.TRANSACTION_ERROR);
+		} catch (Exception e) {
+			ThrowGenericExceptionAndLogError(e);
+		}
+		finally
+		{
+			transactionLock.unlock();
+		}
+		return null;
+	}
+	
+	public VOUser [] getUsersByType(int userTypeId)
+	{
+		ArrayList<VOUser> voUsers;
+		try {
+			transactionLock.tryLock(Constants.DEFAULT_TRANSACTION_TIME, TimeUnit.SECONDS);
+			
+			voUsers = iCoreUser.getUsersByType(userTypeId);
+			VOUser [] arrayVoUser = new VOUser[voUsers.size()];
+		    voUsers.toArray(arrayVoUser);
+		    return arrayVoUser;
+		    
+		} catch (ServerException e) {
+			ThrowServerExceptionAndLogError(e, "obtener todos los usuarios");
+		} catch (InterruptedException e) {
+			throw new RuntimeException(Constants.TRANSACTION_ERROR);
+		} catch (Exception e) {
+			ThrowGenericExceptionAndLogError(e);
+		}
+		finally
+		{
+			transactionLock.unlock();
+		}
+		return null;
+	}
+	
+	public VOUser [] getUsersByStatusAndType(int userStatusId, int userTypeId){
+		ArrayList<VOUser> voUsers;
+		try{
+			transactionLock.tryLock(Constants.DEFAULT_TRANSACTION_TIME, TimeUnit.SECONDS);
+			
+			voUsers = iCoreUser.getUsersByTypeIdAndStatus(userStatusId, userTypeId);
 			VOUser [] arrayVoUser = new VOUser[voUsers.size()];
 		    voUsers.toArray(arrayVoUser);
 		    return arrayVoUser;
@@ -662,10 +713,11 @@ public class ServiceWeb extends ServiceBase{
 		return null;
 	}
 	
-	public boolean insertProject(VOProject voProject)
+	public boolean insertProject(VOProject voProject)	
 	{
 		try {
-			transactionLock.tryLock(Constants.DEFAULT_TRANSACTION_TIME, TimeUnit.SECONDS);
+			transactionLock.tryLock(Constants.DEFAULT_TRANSACTION_TIME, TimeUnit.SECONDS);		
+			
 			
 			iCoreProject.insertProject(voProject);
 			
@@ -708,6 +760,29 @@ public class ServiceWeb extends ServiceBase{
 		}
 		return null;
 	}
+	
+	public VOEmployedProject[] getEmployedHours() {
+		ArrayList<VOEmployedProject> voEmployedProject;
+		try {
+			transactionLock.tryLock(Constants.DEFAULT_TRANSACTION_TIME, TimeUnit.SECONDS);
+			
+			voEmployedProject = null;
+					//iCoreEmployed.getEmployedHours();
+			VOEmployedProject [] arrayVOEmployedHours= new VOEmployedProject[voEmployedProject.size()];
+			voEmployedProject.toArray(arrayVOEmployedHours);
+			return arrayVOEmployedHours;		    
+		} catch (InterruptedException e) {
+			throw new RuntimeException(Constants.TRANSACTION_ERROR);
+		} catch (Exception e) {
+			ThrowGenericExceptionAndLogError(e);
+		}
+		finally
+		{
+			transactionLock.unlock();
+		}
+		return null;
+	}
+	
 	
 	public boolean insertBill(VOBill voBill)
 	{

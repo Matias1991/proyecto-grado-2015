@@ -7,10 +7,14 @@ import java.util.Date;
 import datalayer.daos.DAOEmployees;
 import datalayer.daos.DAOManager;
 import servicelayer.entity.businessEntity.Employed;
+import servicelayer.entity.businessEntity.EmployedProject;
+import servicelayer.entity.businessEntity.Project;
 import servicelayer.entity.businessEntity.SalarySummary;
 import servicelayer.entity.businessEntity.SalarySummaryVersion;
 import servicelayer.entity.businessEntity.User;
 import servicelayer.entity.valueObject.VOEmployed;
+import servicelayer.entity.valueObject.VOEmployedProject;
+import servicelayer.entity.valueObject.VOProject;
 import servicelayer.entity.valueObject.VOSalarySummary;
 import servicelayer.entity.valueObject.VOSalarySummaryVersion;
 import servicelayer.entity.valueObject.VOUser;
@@ -364,12 +368,6 @@ public class CoreEmployed implements ICoreEmployed{
 		voEmployed.setCreatedDateTimeUTC(employed.getCreatedDateTimeUTC());
 		voEmployed.setUpdatedDateTimeUTC(employed.getUpdatedDateTimeUTC());
 		voEmployed.setEmployedType(employed.getEmployedType().getValue());
-		if(employed.getUser() != null)
-		{
-			VOUser voUser = new VOUser();
-			voUser.setId(employed.getUser().getId());
-			voEmployed.setUser(voUser);
-		}
 		
 		if(salarySummary != null)
 			voEmployed.setvOSalarySummary(BuildVOSalarySummary(salarySummary));
@@ -462,4 +460,46 @@ public class CoreEmployed implements ICoreEmployed{
 		
 		return list;		
 	}
+
+//	@Override
+//	public ArrayList<VOEmployedProject> getEmployedHours()throws ServerException, ClientException {
+//		// TODO Auto-generated method stub
+//		ArrayList<VOEmployedProject> voEmployedProject = new ArrayList<VOEmployedProject>();
+//		
+//		ArrayList<EmployedProject> employedProject = iDAOEmployees.getEmployedHours();
+//		
+//		for (EmployedProject aux : employedProject) {
+//			voEmployedProject.add(BuildVOEmployedProject(aux));			
+//		}
+//		
+//		return voEmployedProject;
+//	}
+	
+//	VOEmployedProject BuildVOEmployedProject(EmployedProject employedProject){
+//		VOEmployedProject voEmployedProject = new VOEmployedProject();
+//		VOProject voProject = new VOProject();
+//		VOEmployed voEmployed = new VOEmployed();
+//		
+//		if(employedProject.getProject() != null){
+//		voProject.setId(employedProject.getProject().getId());	
+//		}
+//		
+//		voEmployedProject.setProject(voProject);
+//		
+//		voEmployed.setId(employedProject.getEmployed().getId());
+//		voEmployed.setName(employedProject.getEmployed().getName());
+//		voEmployed.setLastName(employedProject.getEmployed().getLastName());
+//		voEmployedProject.setEmployed(voEmployed);		
+//		
+//		voEmployedProject.setEnabled(employedProject.isEnabled());
+//		voEmployedProject.setHours(employedProject.getHours());
+//		voEmployedProject.setVersion(employedProject.getVersion());
+//		voEmployedProject.setDistributionType(employedProject.getDistributionType());
+//		voEmployedProject.setCreatedDateTimeUTC(employedProject.getCreatedDateTimeUTC());
+//		voEmployedProject.setUpdatedDateTimeUTC(employedProject.getUpdatedDateTimeUTC());	
+//		
+//		return voEmployedProject;
+//	}
+	
+	
 }

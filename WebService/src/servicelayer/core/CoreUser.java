@@ -313,6 +313,42 @@ public class CoreUser implements ICoreUser {
 		
 		return voUsers;
 	}
+	@Override
+	public ArrayList<VOUser> getUsersByType(int userTypeId) throws ServerException
+	{
+		ArrayList<User> users;
+		ArrayList<VOUser> voUsers = null;
+
+		UserType userType = UserType.getEnum(userTypeId);
+		users = iDAOUsers.getUsersByType(userType);
+		voUsers = new ArrayList<VOUser>(); 
+		
+		for(User user: users)
+		{
+			voUsers.add(BuildVOUser(user));
+		}
+		
+		return voUsers;
+	}
+	
+	@Override
+	public ArrayList<VOUser> getUsersByTypeIdAndStatus(int userStatusId, int usersTypeId) throws ServerException{
+		
+		ArrayList<User> users;
+		ArrayList<VOUser> voUsers = null;
+		
+		UserStatus userStatus = UserStatus.getEnum(userStatusId);
+		UserType userType = UserType.getEnum(usersTypeId);
+		users = iDAOUsers.getUsersByTypeAndStatus(userType, userStatus);
+		voUsers = new ArrayList<VOUser>();
+		
+		for(User user: users){
+			voUsers.add(BuildVOUser(user));
+		}		
+		
+		return voUsers;
+		
+	}
 	
 	VOUser BuildVOUser(User user)
 	{

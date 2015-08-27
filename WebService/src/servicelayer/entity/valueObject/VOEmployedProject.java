@@ -1,11 +1,14 @@
 package servicelayer.entity.valueObject;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class VOEmployedProject {
+public class VOEmployedProject implements Serializable{
 	
-	private VOProject project;
-	private VOEmployed employed;
+	private static final long serialVersionUID = 1L;	
+	private int employedId;
+	private String employedName;
+	private String employedLastname;
 	private int distributionType;
 	private int version;
 	private int hours;
@@ -13,18 +16,23 @@ public class VOEmployedProject {
 	private Date createdDateTimeUTC;
 	private Date updatedDateTimeUTC;
 	
-	
-	public VOProject getProject() {
-		return project;
+	public int getEmployedId() {
+		return employedId;
 	}
-	public void setProject(VOProject project) {
-		this.project = project;
+	public void setEmployedId(int employedId) {
+		this.employedId = employedId;
 	}
-	public VOEmployed getEmployed() {
-		return employed;
+	public String getEmployedName() {
+		return employedName;
 	}
-	public void setEmployed(VOEmployed employed) {
-		this.employed = employed;
+	public void setEmployedName(String employedName) {
+		this.employedName = employedName;
+	}
+	public String getEmployedLastname() {
+		return employedLastname;
+	}
+	public void setEmployedLastname(String employedLastname) {
+		this.employedLastname = employedLastname;
 	}
 	public int getDistributionType() {
 		return distributionType;
@@ -62,7 +70,4 @@ public class VOEmployedProject {
 	public void setUpdatedDateTimeUTC(Date updatedDateTimeUTC) {
 		this.updatedDateTimeUTC = updatedDateTimeUTC;
 	}
-	
-	
-
 }

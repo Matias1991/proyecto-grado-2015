@@ -18,12 +18,15 @@ public class Employed {
 	private Date createdDateTimeUTC;
 	private Date updatedDateTimeUTC;
 	private EmployedType employedType;
-	private User user;
 	private IDAOSalarySummaries iDAOSalarySummaries;
 	
 	public Employed() throws ServerException
 	{
 		iDAOSalarySummaries = new DAOSalarySummaries();
+	}
+	
+	public Employed(int id){
+		this.id = id;
 	}
 	
 	public Employed(VOEmployed voEmployed)
@@ -35,9 +38,7 @@ public class Employed {
 		this.address = voEmployed.getAddress();
 		this.cellPhone = voEmployed.getCellPhone();
 		if(voEmployed.getEmployedType() != 0)
-			this.employedType = EmployedType.getEnum(voEmployed.getEmployedType());
-		if(voEmployed.getUser() != null)
-			this.user = new User(voEmployed.getUser());
+			this.employedType = EmployedType.getEnum(voEmployed.getEmployedType());		
 	}
 	
 	public Employed(VOEmployed voEmployed, IDAOSalarySummaries idaoSalarySummaries)
@@ -52,9 +53,6 @@ public class Employed {
 		this.updatedDateTimeUTC = voEmployed.getUpdatedDateTimeUTC();
 		if(voEmployed.getEmployedType() != 0)
 			this.employedType = EmployedType.getEnum(voEmployed.getEmployedType());
-		if(voEmployed.getUser() != null)
-			this.user = new User(voEmployed.getUser());
-		
 		this.iDAOSalarySummaries = idaoSalarySummaries;
 	}
 	
@@ -125,14 +123,6 @@ public class Employed {
 
 	public void setEmployedType(EmployedType employedType) {
 		this.employedType = employedType;
-	}
-
-	public User getUser() {
-		return user;
-	}
-
-	public void setUser(User user) {
-		this.user = user;
 	}
 	
 	public void setIDAOSalarySummaries(IDAOSalarySummaries iDAOSalarySummaries)

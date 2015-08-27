@@ -6,7 +6,7 @@ import servicelayer.entity.valueObject.VOEmployedProject;
 
 public class EmployedProject {
 	
-	private Project project;
+
 	private Employed employed;
 	private int distributionType;
 	private int version;
@@ -20,26 +20,14 @@ public class EmployedProject {
 		
 	}
 	
-	public EmployedProject(VOEmployedProject voEmployedProject){
-		
-		this.project = new Project(voEmployedProject.getProject());
-		this.employed = new Employed(voEmployedProject.getEmployed());
+	public EmployedProject(VOEmployedProject voEmployedProject){		
+		this.employed = new Employed(voEmployedProject.getEmployedId());
 		this.distributionType = voEmployedProject.getDistributionType();
 		this.version = voEmployedProject.getVersion();
 		this.hours = voEmployedProject.getHours();
 		this.enabled = voEmployedProject.isEnabled();
-		this.createdDateTimeUTC = voEmployedProject.getCreatedDateTimeUTC();
-		this.updatedDateTimeUTC = voEmployedProject.getUpdatedDateTimeUTC();
-		
 	}
-	
-	
-	public Project getProject() {
-		return project;
-	}
-	public void setProject(Project project) {
-		this.project = project;
-	}
+
 	public Employed getEmployed() {
 		return employed;
 	}

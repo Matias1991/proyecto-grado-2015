@@ -12,6 +12,8 @@ import servicelayer.service.ServiceWebStub.DeleteUser;
 import servicelayer.service.ServiceWebStub.ForgotPassword;
 import servicelayer.service.ServiceWebStub.GetUsers;
 import servicelayer.service.ServiceWebStub.GetUsersByStatus;
+import servicelayer.service.ServiceWebStub.GetUsersByStatusAndType;
+import servicelayer.service.ServiceWebStub.GetUsersByType;
 import servicelayer.service.ServiceWebStub.InsertUser;
 import servicelayer.service.ServiceWebStub.Login;
 import servicelayer.service.ServiceWebStub.ResetPassword;
@@ -263,5 +265,60 @@ public class UserController {
 		}
 		
 		return users;
+	}
+	
+	public static Collection<User> getUsersByStatusAndType(int status, int type){
+		Collection<User> users = new ArrayList<User>();
+		
+		try {
+			ServiceWebStub service = new ServiceWebStub();
+			GetUsersByStatusAndType getUsers = new GetUsersByStatusAndType();
+			getUsers.setUserStatusId(status);
+			getUsers.setUserTypeId(type);
+			
+			VOUser [] voUsers = service.getUsersByStatusAndType(getUsers).get_return();
+
+			if(voUsers != null){
+				for(VOUser voUser : voUsers){
+					User user = new User(voUser);
+					users.add(user);
+				}
+			}
+			
+		} catch (AxisFault e) {
+			String error = e.getMessage().replace("<faultstring>", "");
+			PopupWindow popup = new PopupWindow("ERROR", error.replace("</faultstring>", ""));
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
+		
+		return users;		
+	}
+	
+	public static Collection<User> getUsersByType(int type){
+		Collection<User> users = new ArrayList<User>();
+		
+		try {
+			ServiceWebStub service = new ServiceWebStub();
+			GetUsersByType getUsers = new GetUsersByType();
+			getUsers.setUserTypeId(type);
+			
+			VOUser [] voUsers = service.getUsersByType(getUsers).get_return();
+
+			if(voUsers != null){
+				for(VOUser voUser : voUsers){
+					User user = new User(voUser);
+					users.add(user);
+				}
+			}
+			
+		} catch (AxisFault e) {
+			String error = e.getMessage().replace("<faultstring>", "");
+			PopupWindow popup = new PopupWindow("ERROR", error.replace("</faultstring>", ""));
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
+		
+		return users;		
 	}
 }

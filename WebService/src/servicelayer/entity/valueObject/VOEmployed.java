@@ -16,8 +16,7 @@ public class VOEmployed implements Serializable{
 	private String cellPhone;
 	private Date createdDateTimeUTC;
 	private Date updatedDateTimeUTC;
-	private int employedType;
-	private VOUser user;
+	private int employedType;	
 	private VOSalarySummary vOSalarySummary;
 	private List<VOSalarySummary> vOSalarySummaries;
 	
@@ -75,12 +74,7 @@ public class VOEmployed implements Serializable{
 	public void setEmployedType(int employedType) {
 		this.employedType = employedType;
 	}
-	public VOUser getUser() {
-		return user;
-	}
-	public void setUser(VOUser user) {
-		this.user = user;
-	}
+	
 	public VOSalarySummary getvOSalarySummary() {
 		return vOSalarySummary;
 	}

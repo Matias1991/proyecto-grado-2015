@@ -171,7 +171,7 @@ CREATE TABLE IF NOT EXISTS DistributionType
 
 CREATE TABLE IF NOT EXISTS Partner_Project
 (
-	ProyectId			INTEGER NOT NULL,
+	ProjectId			INTEGER NOT NULL,
 	EmployedId			INTEGER NOT NULL,
 	DistributionTypeId	INTEGER NOT NULL,
 	Version				INTEGER NOT NULL,
@@ -186,7 +186,7 @@ CREATE TABLE IF NOT EXISTS Partner_Project
 
 CREATE TABLE IF NOT EXISTS Employed_Project
 (
-	ProyectId			INTEGER NOT NULL,
+	ProjectId			INTEGER NOT NULL,
 	EmployedId			INTEGER NOT NULL,
 	Version				INTEGER NOT NULL,
 	Hours               INTEGER NULL,	

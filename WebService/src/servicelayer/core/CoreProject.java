@@ -2,21 +2,27 @@ package servicelayer.core;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
+import datalayer.daos.DAOManager;
 import datalayer.daos.DAOProjects;
+import servicelayer.entity.businessEntity.EmployedProject;
 import servicelayer.entity.businessEntity.Project;
 import servicelayer.entity.businessEntity.User;
+import servicelayer.entity.valueObject.VOEmployedProject;
 import servicelayer.entity.valueObject.VOProject;
 import servicelayer.entity.valueObject.VOUser;
 import shared.exceptions.ClientException;
 import shared.exceptions.ServerException;
 import shared.interfaces.core.ICoreProject;
+import shared.interfaces.dataLayer.IDAOEmployedProject;
+import shared.interfaces.dataLayer.IDAOEmployees;
 import shared.interfaces.dataLayer.IDAOProjects;
 
 public class CoreProject implements ICoreProject {
 
 	private static CoreProject instance = null;
-    private static IDAOProjects iDAOProjects;
+    private static IDAOProjects iDAOProjects;    
     
 	private CoreProject() throws ServerException
 	{
@@ -35,18 +41,46 @@ public class CoreProject implements ICoreProject {
 	@Override
 	public void insertProject(VOProject voProject) throws ServerException, ClientException {
 		
-		if(iDAOProjects.getProjectUByUserName(voProject.getName()) == null)
-		{
-			Project project = new Project(voProject);
-			project.setCreatedDateTimeUTC(new Date());
-			project.setUpdatedDateTimeUTC(new Date());
-			project.setEnabled(true);
-			iDAOProjects.insert(project);
+		DAOManager daoManager = new DAOManager();
+		try {
+			if(daoManager.getDAOProjects().getProjectUByUserName(voProject.getName()) == null)
+			{
+				//Datos propios del proyecto
+				Project project = new Project(voProject, daoManager.getDAOEmployedProjects());
+				project.setCreatedDateTimeUTC(new Date());
+				project.setUpdatedDateTimeUTC(new Date());
+				project.setEnabled(true);				
+				int newProjectId = daoManager.getDAOProjects().insert(project);
+				
+				project.setId(newProjectId);
+											
+				//Todos los usuarios asociados al proyecto
+				for (VOEmployedProject voEmployedProject : voProject.getVoEmployedProjects()) {
+					EmployedProject employedProject = new EmployedProject(voEmployedProject);				
+					employedProject.setCreatedDateTimeUTC(new Date());
+					employedProject.setUpdatedDateTimeUTC(new Date());
+					employedProject.setEnabled(true);				
+					project.associateEmployed(employedProject);
+				}
+				
+				//La distribucion asociada al proyecto			
+				
+				
+			}
+			else
+				throw new ClientException("Ya existe un proyecto con ese nombre");
 			
-			//ACA VA LA LOGICA PARA INSERTAR EN PARTNERPROJECT Y EMPLOYEDPROJECT
+			daoManager.commit();		
+			
+	
+		} catch (ServerException e) {
+			daoManager.rollback();
+			throw e;
 		}
-		else
-			throw new ClientException("Ya existe un proyecto con ese nombre");
+		finally
+		{
+			daoManager.close();
+		}
 	}
 
 	@Override

@@ -12,6 +12,7 @@ import com.mysql.jdbc.Statement;
 
 import datalayer.utilities.ManageConnection;
 import servicelayer.entity.businessEntity.Employed;
+import servicelayer.entity.businessEntity.EmployedProject;
 import servicelayer.entity.businessEntity.EmployedType;
 import servicelayer.entity.businessEntity.User;
 import shared.LoggerMSMP;
@@ -55,10 +56,7 @@ public class DAOEmployees implements IDAOEmployees{
 			preparedStatement.setTimestamp(6, new Timestamp(obj.getCreatedDateTimeUTC().getTime()));
 			preparedStatement.setTimestamp(7, new Timestamp(obj.getUpdatedDateTimeUTC().getTime()));
 			preparedStatement.setInt(8, obj.getEmployedType().getValue());
-			if(obj.getUser() != null)
-				preparedStatement.setInt(9, obj.getUser().getId());
-			else
-				preparedStatement.setNull(9, java.sql.Types.INTEGER);
+			preparedStatement.setNull(9, java.sql.Types.INTEGER);
 			
 			preparedStatement.executeUpdate();
 			
@@ -225,10 +223,7 @@ public class DAOEmployees implements IDAOEmployees{
 			preparedStatement.setString(5, obj.getCellPhone());			
 			preparedStatement.setTimestamp(6, new Timestamp(obj.getUpdatedDateTimeUTC().getTime()));
 			preparedStatement.setInt(7, obj.getEmployedType().getValue());
-			if(obj.getUser() != null)
-				preparedStatement.setInt(8, obj.getUser().getId());
-			else
-				preparedStatement.setNull(8, java.sql.Types.INTEGER);
+			preparedStatement.setNull(8, java.sql.Types.INTEGER);
 			
 			preparedStatement.setInt(9, id);
 			
@@ -263,13 +258,47 @@ public class DAOEmployees implements IDAOEmployees{
 		employed.setUpdatedDateTimeUTC(updatedDateTimeUTC);
 		employed.setEmployedType(EmployedType.getEnum(employedTypeId));
 		
-		if(userId != 0)
-		{
-			User user = new User();
-			user.setId(userId);
-			employed.setUser(user);
-		}
+		
 		
 		return employed;
+	}
+	
+	public ArrayList<EmployedProject> getEmployedHours() throws ServerException{
+		ArrayList<EmployedProject> result = new ArrayList<EmployedProject>();
+		
+		PreparedStatement preparedStatement = null;
+		ResultSet rs = null;
+		
+		String getSQL = "SELECT employed.Id, employed.Name, employed.LastName, salarysummary.Hours "+
+				"FROM employed "+
+				"INNER JOIN salarysummary "+
+				"ON employed.id=salarysummary.EmployedId "+
+				"WHERE (salarysummary.EmployedId, salarysummary.Version) in (select salarysummary.EmployedId, Max(version) from salarysummary s2 where salarysummary.EmployedId = s2.EmployedId)";
+		try{
+			preparedStatement = this.connection.prepareStatement(getSQL);
+			rs = preparedStatement.executeQuery();
+			
+			while(rs.next()){
+				EmployedProject aux = new EmployedProject();
+				aux.setEmployed(this.getObject(rs.getInt("id")));
+				aux.setHours(rs.getInt("hours"));				
+				result.add(aux);
+			}
+			
+		}catch (SQLException e) {
+			throw new ServerException(e);
+		}finally {
+				try {
+					if (preparedStatement != null)
+						preparedStatement.close();
+					if (rs != null)
+						rs.close();
+				} catch (SQLException e) {
+					LoggerMSMP.setLog(e.getMessage());
+				}
+		}
+		
+		
+		return result;
 	}
 }

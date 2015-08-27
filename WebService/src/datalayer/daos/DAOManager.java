@@ -5,8 +5,10 @@ import java.sql.Connection;
 import java.sql.SQLException;
 
 import shared.exceptions.ServerException;
+import shared.interfaces.dataLayer.IDAOEmployedProject;
 import shared.interfaces.dataLayer.IDAOEmployees;
 import shared.interfaces.dataLayer.IDAOManager;
+import shared.interfaces.dataLayer.IDAOProjects;
 import shared.interfaces.dataLayer.IDAOSalarySummaries;
 import shared.interfaces.dataLayer.IDAOUsers;
 import datalayer.utilities.ManageConnection;
@@ -17,6 +19,8 @@ public class DAOManager implements IDAOManager{
 	private IDAOUsers iDAOUsers;
 	private IDAOEmployees iDAOEmployees;
 	private IDAOSalarySummaries iDAOSalarySummaries;
+	private IDAOProjects iDAOProjects;
+	private IDAOEmployedProject iDAOEmployedProjects;
 	
 	public DAOManager() throws ServerException
 	{
@@ -85,4 +89,25 @@ public class DAOManager implements IDAOManager{
 		
 		return iDAOSalarySummaries;
 	}
+	
+	public IDAOProjects getDAOProjects()
+	{
+		if(iDAOProjects == null)
+		{
+			return new DAOProjects(connection);
+		}
+		
+		return iDAOProjects;
+	}
+	
+	public IDAOEmployedProject getDAOEmployedProjects()
+	{
+		if(iDAOEmployedProjects == null)
+		{
+			return new DAOEmployedProject(connection);
+		}
+		
+		return iDAOEmployedProjects;
+	}
+	
 }

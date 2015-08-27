@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import servicelayer.entity.businessEntity.SalarySummaryVersion;
 import servicelayer.entity.valueObject.VOEmployed;
+import servicelayer.entity.valueObject.VOEmployedProject;
 import servicelayer.entity.valueObject.VOSalarySummary;
 import servicelayer.entity.valueObject.VOSalarySummaryVersion;
 import shared.exceptions.ClientException;
@@ -28,4 +29,6 @@ public interface ICoreEmployed {
     ArrayList<VOSalarySummaryVersion> getAllSalarySummaryVersion(int employedId) throws ServerException, ClientException;
     
     VOSalarySummary getSalarySummaryByVersion(int employedId, int version) throws ServerException, ClientException;
+    
+    //ArrayList<VOEmployedProject> getEmployedHours() throws ServerException, ClientException;
 }

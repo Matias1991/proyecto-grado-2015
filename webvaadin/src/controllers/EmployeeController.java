@@ -11,13 +11,16 @@ import servicelayer.service.ServiceWebStub.EstimateSalarySummary;
 import servicelayer.service.ServiceWebStub.GetAllSalarySummaryVersion;
 import servicelayer.service.ServiceWebStub.GetAllVersionsSalarySummary;
 import servicelayer.service.ServiceWebStub.GetEmployees;
+import servicelayer.service.ServiceWebStub.GetEmployedHours;
 import servicelayer.service.ServiceWebStub.GetSalarySummaryByVersion;
 import servicelayer.service.ServiceWebStub.InsertEmployed;
 import servicelayer.service.ServiceWebStub.VOEmployed;
 import servicelayer.service.ServiceWebStub.DeleteEmployed;
 import servicelayer.service.ServiceWebStub.UpdatedEmployed;
+import servicelayer.service.ServiceWebStub.VOEmployedProject;
 import servicelayer.service.ServiceWebStub.VOSalarySummaryVersion;
 import utils.PopupWindow;
+import entities.EmployedHours;
 import entities.Employee;
 import entities.SalarySummary;
 import entities.SalarySummaryVersion;
@@ -181,8 +184,35 @@ public class EmployeeController {
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		}
-		return aux;	
+		return aux;			
+	}
+	
+	public static Collection<EmployedHours> GetEmployedHours()
+	{
+		Collection<EmployedHours> employedHours = new ArrayList<EmployedHours>();
 		
+		try {
+			ServiceWebStub service = new ServiceWebStub();
+			GetEmployedHours getEmployedHours = new GetEmployedHours();
+			
+			VOEmployedProject [] voEmployedProject = service.getEmployedHours(getEmployedHours).get_return();
+			
+			if(voEmployedProject != null){
+				for(VOEmployedProject voAux : voEmployedProject)
+				{
+					EmployedHours auxEmployedHours = new EmployedHours(voAux);
+					employedHours.add(auxEmployedHours);
+				}				
+			}
+			
+		} catch (AxisFault e) {
+			String error = e.getMessage().replace("<faultstring>", "");
+			PopupWindow popup = new PopupWindow("ERROR", error.replace("</faultstring>", ""));
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
+		return employedHours;
 	}
 }

@@ -18,7 +18,7 @@ public class PartnerProject {
 	}
 	
 	public PartnerProject(VOPartnerProject voPartnerProject){
-		this.project = new Project(voPartnerProject.getProject());
+		//this.project = new Project(voPartnerProject.getProject());
 		this.employed = new Employed(voPartnerProject.getEmployed());
 		this.distributionType = voPartnerProject.getDistributionType();
 		this.version = voPartnerProject.getVersion();

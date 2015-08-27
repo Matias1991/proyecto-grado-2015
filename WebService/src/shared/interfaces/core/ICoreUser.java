@@ -31,4 +31,8 @@ public interface ICoreUser {
 	void unlockUser(int id) throws ServerException, ClientException;
 	
 	ArrayList<VOUser> getUsersByStatus(int userStatusId) throws ServerException;
+	
+	ArrayList<VOUser> getUsersByTypeIdAndStatus(int userStatusId, int usersTypeId) throws ServerException;
+	
+	ArrayList<VOUser> getUsersByType(int userTypeId) throws ServerException;
 }

@@ -23,4 +23,6 @@ public interface IDAOUsers extends IDAOBase<User>{
 	ArrayList<User> getUsersByStatus(UserStatus userStatus) throws ServerException;
 	
 	boolean existsEmail(String email) throws ServerException;
+	
+	public ArrayList<User> getUsersByType(UserType userType) throws ServerException;
 }

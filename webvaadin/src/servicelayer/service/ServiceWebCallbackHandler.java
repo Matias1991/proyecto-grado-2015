@@ -349,19 +349,35 @@
             }
                 
            /**
-            * auto generated Axis2 call back method for updateCategory method
-            * override this method for handling normal response from updateCategory operation
+            * auto generated Axis2 call back method for getEmployedHours method
+            * override this method for handling normal response from getEmployedHours operation
             */
-           public void receiveResultupdateCategory(
-                    servicelayer.service.ServiceWebStub.UpdateCategoryResponse result
+           public void receiveResultgetEmployedHours(
+                    servicelayer.service.ServiceWebStub.GetEmployedHoursResponse result
                         ) {
            }
 
           /**
            * auto generated Axis2 Error handler
-           * override this method for handling error response from updateCategory operation
+           * override this method for handling error response from getEmployedHours operation
            */
-            public void receiveErrorupdateCategory(java.lang.Exception e) {
+            public void receiveErrorgetEmployedHours(java.lang.Exception e) {
+            }
+                
+           /**
+            * auto generated Axis2 call back method for getUsersByType method
+            * override this method for handling normal response from getUsersByType operation
+            */
+           public void receiveResultgetUsersByType(
+                    servicelayer.service.ServiceWebStub.GetUsersByTypeResponse result
+                        ) {
+           }
+
+          /**
+           * auto generated Axis2 Error handler
+           * override this method for handling error response from getUsersByType operation
+           */
+            public void receiveErrorgetUsersByType(java.lang.Exception e) {
             }
                 
            /**
@@ -378,6 +394,38 @@
            * override this method for handling error response from getEmployed operation
            */
             public void receiveErrorgetEmployed(java.lang.Exception e) {
+            }
+                
+           /**
+            * auto generated Axis2 call back method for updateCategory method
+            * override this method for handling normal response from updateCategory operation
+            */
+           public void receiveResultupdateCategory(
+                    servicelayer.service.ServiceWebStub.UpdateCategoryResponse result
+                        ) {
+           }
+
+          /**
+           * auto generated Axis2 Error handler
+           * override this method for handling error response from updateCategory operation
+           */
+            public void receiveErrorupdateCategory(java.lang.Exception e) {
+            }
+                
+           /**
+            * auto generated Axis2 call back method for getUsersByStatusAndType method
+            * override this method for handling normal response from getUsersByStatusAndType operation
+            */
+           public void receiveResultgetUsersByStatusAndType(
+                    servicelayer.service.ServiceWebStub.GetUsersByStatusAndTypeResponse result
+                        ) {
+           }
+
+          /**
+           * auto generated Axis2 Error handler
+           * override this method for handling error response from getUsersByStatusAndType operation
+           */
+            public void receiveErrorgetUsersByStatusAndType(java.lang.Exception e) {
             }
                 
            /**

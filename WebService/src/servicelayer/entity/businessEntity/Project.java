@@ -2,9 +2,12 @@ package servicelayer.entity.businessEntity;
 
 import java.util.Date;
 
+import datalayer.daos.DAOEmployedProject;
 import servicelayer.entity.valueObject.VOEmployed;
+import servicelayer.entity.valueObject.VOEmployedProject;
 import servicelayer.entity.valueObject.VOProject;
 import shared.exceptions.ServerException;
+import shared.interfaces.dataLayer.IDAOEmployedProject;
 
 
 public class Project {
@@ -18,9 +21,11 @@ public class Project {
 	private User manager;
 	private Employed seller;
 	private String description;
+	private IDAOEmployedProject iDAOEmployedProject;
 	
 	public Project() throws ServerException
 	{
+		iDAOEmployedProject = new DAOEmployedProject();
 	}
 	
 	public Project(int id)
@@ -40,20 +45,20 @@ public class Project {
 		this.updatedDateTimeUTC = updatedDateTimeUTC;
 	}
 	
-	public Project(VOProject voProject)
+	public Project(VOProject voProject, IDAOEmployedProject idaoEmployedProject)
 	{
 		this.name = voProject.getName();
 		this.description = voProject.getDescription();
-		if(voProject.getSeller() != null){
-			this.seller = new Employed(voProject.getSeller());
+		if(voProject.getSellerId() != 0){
+			this.seller = new Employed(voProject.getSellerId());			
 		}
-		if(voProject.getManager() != null){
-			this.manager = new User(voProject.getManager());
+		if(voProject.getManagerId() != 0){
+			this.manager = new User(voProject.getManagerId());			
 		}		
 		this.updatedDateTimeUTC = voProject.getUpdatedDateTimeUTC();
 		this.createdDateTimeUTC = voProject.getCreatedDateTimeUTC();
 		this.enabled = voProject.isEnabled();
-		
+		this.iDAOEmployedProject = idaoEmployedProject;
 	}
 	
 	public int getId() {
@@ -122,5 +127,19 @@ public class Project {
 	public void setEnabled(boolean enabled) {
 		this.enabled = enabled;
 	}
+
+	public IDAOEmployedProject getiDAOEmployedProject() {
+		return iDAOEmployedProject;
+	}
+
+	public void setiDAOEmployedProject(IDAOEmployedProject iDAOEmployedProject) {
+		this.iDAOEmployedProject = iDAOEmployedProject;
+	}
+	
+	public void associateEmployed(EmployedProject employedProject) throws ServerException{
+		this.iDAOEmployedProject.insertEmployedProject(this.id, employedProject);
+	}
+	
+	
 
 }
