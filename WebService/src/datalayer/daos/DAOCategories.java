@@ -412,6 +412,39 @@ public class DAOCategories implements IDAOCategroy {
 
 		return categories;
 	}
+
+	@Override
+	public ArrayList<Category> getCategoriesByProject(int idProject) throws ServerException {
+		ArrayList<Category> categories = new ArrayList<Category>();;
+		PreparedStatement preparedStatement = null;
+		ResultSet rs = null;
+		try {
+
+			String getSQL = "SELECT * FROM CATEGORY C WHERE PROJECTID = ?  "
+					+ "AND C.VERSION IN (SELECT MAX(VERSION) FROM CATEGORY C2 WHERE C2.PROJECTID = ? AND C.ID = C2.ID)";
+			preparedStatement = this.connection.prepareStatement(getSQL);
+			preparedStatement.setInt(1, idProject);
+			preparedStatement.setInt(2, idProject);
+			rs = preparedStatement.executeQuery();
+
+			while (rs.next()) {
+				categories.add(BuildCategory(rs));
+			}
+		} catch (SQLException e) {
+			throw new ServerException(e);
+		} finally {
+			try {
+				if (preparedStatement != null)
+					preparedStatement.close();
+				if (rs != null)
+					rs.close();
+			} catch (SQLException e) {
+				LoggerMSMP.setLog(e.getMessage());
+			}
+		}
+
+		return categories;
+	}
 	
 	private Category BuildCategory(ResultSet rs) throws SQLException {
 		int _id = rs.getInt("id");

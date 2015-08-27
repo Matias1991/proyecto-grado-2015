@@ -91,7 +91,7 @@ public class WebvaadinUI extends UI {
 	//Proyectos
 	public static final String CATALOGPROJECTS = "CatalogProjectView";
 	public static final String CREATEPROJECT = "CreateProjectView";	
-	public static final String DELETEPROJECT = "CreateProjectView";	
+	public static final String DELETEPROJECT = "DeleteProjectView";	
 	
 	private static GridLayout mainLayout;
 	private static MenuBar mainMenuBar;

@@ -14,6 +14,8 @@ public interface IDAOCategroy extends IDAOBase<Category> {
 	
 	ArrayList<Category> getCategoriesLastVersion(String description, CategoryType categoryType) throws ServerException;
 	
-	ArrayList<Category> getCategoriesLastVersion(String description, int projectId) throws ServerException;;
+	ArrayList<Category> getCategoriesLastVersion(String description, int projectId) throws ServerException;
+
+	ArrayList<Category> getCategoriesByProject(int idProject) throws ServerException;;
 
 }

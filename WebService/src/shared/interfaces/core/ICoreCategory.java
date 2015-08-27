@@ -17,4 +17,6 @@ public interface ICoreCategory {
 	VOCategory getCategory(int id) throws ServerException, ClientException;
 
 	ArrayList<VOCategory> getCategories() throws ServerException;
+
+	ArrayList<VOCategory> getCategoriesByProject(int projectId) throws ServerException, ClientException;
 }

@@ -625,6 +625,28 @@ public class ServiceWeb extends ServiceBase {
 		}
 		return null;
 	}
+	
+	public VOCategory[] getCategoriesByProject(int id) {
+		ArrayList<VOCategory> voCategories;
+		try {
+			transactionLock.tryLock(Constants.DEFAULT_TRANSACTION_TIME,
+					TimeUnit.SECONDS);
+
+			voCategories = iCoreCategory.getCategoriesByProject(id);
+			VOCategory[] arrayVOCategories = new VOCategory[voCategories.size()];
+			voCategories.toArray(arrayVOCategories);
+			return arrayVOCategories;
+		} catch (ServerException e) {
+			ThrowServerExceptionAndLogError(e, "obtener los rubros del proyecto");
+		} catch (InterruptedException e) {
+			throw new RuntimeException(Constants.TRANSACTION_ERROR);
+		} catch (Exception e) {
+			ThrowGenericExceptionAndLogError(e);
+		} finally {
+			transactionLock.unlock();
+		}
+		return null;
+	}
 
 	public boolean insertBill(VOBill voBill) {
 		try {

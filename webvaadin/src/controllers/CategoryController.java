@@ -9,6 +9,7 @@ import org.apache.axis2.AxisFault;
 import servicelayer.service.ServiceWebStub;
 import servicelayer.service.ServiceWebStub.DeleteCategory;
 import servicelayer.service.ServiceWebStub.GetCategories;
+import servicelayer.service.ServiceWebStub.GetCategoriesByProject;
 import servicelayer.service.ServiceWebStub.InsertCategory;
 import servicelayer.service.ServiceWebStub.UpdateCategory;
 import servicelayer.service.ServiceWebStub.VOCategory;
@@ -136,4 +137,35 @@ public class CategoryController {
 		
 		return category;
 	}
+	
+	public static Collection<Category> getCategoriesByProject(int id)
+	{
+		Collection<Category> categories = new ArrayList<Category>();
+		
+		try {
+			ServiceWebStub service = new ServiceWebStub();
+			GetCategoriesByProject getCategory = new GetCategoriesByProject();
+			getCategory.setId(id);
+			
+			VOCategory [] voCategories = service.getCategoriesByProject(getCategory).get_return();
+
+			if(voCategories != null)
+			{
+				for(VOCategory voCategory : voCategories)
+				{
+					Category category = new Category(voCategory);
+					categories.add(category);
+				}
+			}
+			
+		} catch (AxisFault e) {
+			String error = e.getMessage().replace("<faultstring>", "");
+			PopupWindow popup = new PopupWindow("ERROR", error.replace("</faultstring>", ""));
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
+		
+		return categories;
+	}
+	
 }

@@ -153,6 +153,21 @@ public class CoreCategory implements ICoreCategory {
 		return voCategories;
 	}
 	
+	@Override
+	public ArrayList<VOCategory> getCategoriesByProject(int projectId) throws ServerException,	ClientException {
+		ArrayList<Category> categories;
+		ArrayList<VOCategory> voCategories = null;
+		
+		categories = iDAOCategory.getCategoriesByProject(projectId);
+		voCategories = new ArrayList<VOCategory>();
+		
+		for (Category category : categories) {
+			voCategories.add(BuildVOCategory(category));
+		}
+		
+		return voCategories;
+	}
+	
 	private VOCategory BuildVOCategory(Category category)
 	{
 		VOCategory voCategory = new VOCategory();
