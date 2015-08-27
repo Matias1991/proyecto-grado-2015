@@ -359,7 +359,6 @@ public class UpdateBillView extends BaseView {
 		txtAmount.setVisible(visible);
 		comboBoxProjects.setVisible(visible);
 		popupDateFieldAppliedDate.setVisible(visible);
-		txtTypeExchange.setVisible(visible);
 	}
 	
 	@Override

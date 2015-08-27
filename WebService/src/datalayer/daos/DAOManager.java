@@ -5,8 +5,12 @@ import java.sql.Connection;
 import java.sql.SQLException;
 
 import shared.exceptions.ServerException;
+import shared.interfaces.dataLayer.IDAOBills;
+import shared.interfaces.dataLayer.IDAOCategroy;
+import shared.interfaces.dataLayer.IDAOEmployedProject;
 import shared.interfaces.dataLayer.IDAOEmployees;
 import shared.interfaces.dataLayer.IDAOManager;
+import shared.interfaces.dataLayer.IDAOProjects;
 import shared.interfaces.dataLayer.IDAOSalarySummaries;
 import shared.interfaces.dataLayer.IDAOUsers;
 import datalayer.utilities.ManageConnection;
@@ -17,6 +21,10 @@ public class DAOManager implements IDAOManager{
 	private IDAOUsers iDAOUsers;
 	private IDAOEmployees iDAOEmployees;
 	private IDAOSalarySummaries iDAOSalarySummaries;
+	private IDAOProjects iDAOProjects;
+	private IDAOEmployedProject iDAOEmployedProjects;
+	private IDAOBills iDAOBills;
+	private IDAOCategroy iDAOCategories;
 	
 	public DAOManager() throws ServerException
 	{
@@ -84,5 +92,45 @@ public class DAOManager implements IDAOManager{
 		}
 		
 		return iDAOSalarySummaries;
+	}
+	
+	public IDAOProjects getDAOProjects()
+	{
+		if(iDAOProjects == null)
+		{
+			return new DAOProjects(connection);
+		}
+		
+		return iDAOProjects;
+	}
+	
+	public IDAOEmployedProject getDAOEmployedProjects()
+	{
+		if(iDAOEmployedProjects == null)
+		{
+			return new DAOEmployedProject(connection);
+		}
+		
+		return iDAOEmployedProjects;
+	}
+	
+	public IDAOBills getDAOBills()
+	{
+		if(iDAOBills == null)
+		{
+			return new DAOBills(connection);
+		}
+		
+		return iDAOBills;
+	}
+	
+	public IDAOCategroy getDAOCategories()
+	{
+		if(iDAOCategories == null)
+		{
+			return new DAOCategories(connection);
+		}
+		
+		return iDAOCategories;
 	}
 }

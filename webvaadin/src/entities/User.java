@@ -129,19 +129,21 @@ public class User {
 	
 	public int getUserTypeId(String userType){
 		int result = 0;
-		switch(userType){
-		case "Administrador":
-			result = 1;
-			break;
-		case "Socio":
-			result = 2;
-			break;
-		case "Gerente":
-			result = 3;
-			break;
-		default:
-			result = 0;
-			break;
+		if(userType != null){
+			switch(userType){
+			case "Administrador":
+				result = 1;
+				break;
+			case "Socio":
+				result = 2;
+				break;
+			case "Gerente":
+				result = 3;
+				break;
+			default:
+				result = 0;
+				break;
+			}
 		}
 		return result;
 	}

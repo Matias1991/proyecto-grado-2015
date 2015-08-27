@@ -353,7 +353,6 @@ public class WebvaadinUI extends UI {
 				switch (selectedItem.getText()) {
 				case "Salir":
 					RequestContext.setRequestContext(null);
-					getSession().close();
 					getUI().getNavigator().navigateTo("LoginView");
 					break;
 				case "Perfil":

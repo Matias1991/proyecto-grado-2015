@@ -17,13 +17,13 @@ public class DAOPartnerProject implements IDAOParnerProject {
 	@Override
 	public void delete(int id) throws ServerException {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void update(int id, PartnerProject obj) throws ServerException {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override

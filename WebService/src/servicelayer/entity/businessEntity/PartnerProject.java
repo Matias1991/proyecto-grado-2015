@@ -13,18 +13,18 @@ public class PartnerProject {
 	private Date createdDateTimeUTC;
 	private Date updatedDateTimeUTC;
 
-	public PartnerProject(){
-		
+	public PartnerProject() {
+
 	}
-	
-	public PartnerProject(VOPartnerProject voPartnerProject){
-		this.project = new Project(voPartnerProject.getProject());
+
+	public PartnerProject(VOPartnerProject voPartnerProject) {
+		// this.project = new Project(voPartnerProject.getProject());
 		this.employed = new Employed(voPartnerProject.getEmployed());
 		this.distributionType = voPartnerProject.getDistributionType();
 		this.version = voPartnerProject.getVersion();
 		this.enabled = voPartnerProject.isEnabled();
 		this.createdDateTimeUTC = voPartnerProject.getCreatedDateTimeUTC();
-		this.updatedDateTimeUTC = voPartnerProject.getUpdatedDateTimeUTC();		
+		this.updatedDateTimeUTC = voPartnerProject.getUpdatedDateTimeUTC();
 	}
 
 	public Project getProject() {
@@ -82,6 +82,5 @@ public class PartnerProject {
 	public void setUpdatedDateTimeUTC(Date updatedDateTimeUTC) {
 		this.updatedDateTimeUTC = updatedDateTimeUTC;
 	}
-	
-	
+
 }

@@ -2,7 +2,9 @@ package entities;
 
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import servicelayer.service.ServiceWebStub.VOProject;
 
@@ -22,7 +24,8 @@ public class Project implements Serializable{
 	private User manager;
 	private Employee seller;
 	private String description;
-	
+	private List<EmployedHours> employedHours;
+		
 	public Project()
 	{
 		
@@ -40,10 +43,10 @@ public class Project implements Serializable{
 			setEnabledToShow("Deshabilitado");
 		
 		this.createDateTimeUTCToShow = new SimpleDateFormat("dd-MM-yyyy").format(createdDateTimeUTC);
-		this.manager = new User(voProject.getManager());
-		if(voProject.getSeller() != null){
-			this.seller = new Employee(voProject.getSeller());
-		}		
+//		this.manager = new User(voProject.getManager());
+//		if(voProject.getSeller() != null){
+//			this.seller = new Employee(voProject.getSeller());
+//		}		
 		this.description = voProject.getDescription();
 	}
 	
@@ -111,5 +114,13 @@ public class Project implements Serializable{
 	public void setDescription(String description) {
 		this.description = description;
 	}
+
+	public List<EmployedHours> getEmployedHours() {
+		return employedHours;
+	}
+
+	public void setEmployedHours(List<EmployedHours> employedHours) {
+		this.employedHours = employedHours;
+	}	
 	
 }

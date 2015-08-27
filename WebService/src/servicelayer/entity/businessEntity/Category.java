@@ -18,10 +18,11 @@ public class Category {
 	private CategoryType categoryType;
 	private boolean isRRHH;
 	private Date updatedDateTimeUTC;
-	
-	public Category(){}
-	
-	public Category(VOCategory voCategory){
+
+	public Category() {
+	}
+
+	public Category(VOCategory voCategory) {
 		this.id = voCategory.getId();
 		this.version = voCategory.getVersion();
 		this.description = voCategory.getDescription();
@@ -30,9 +31,9 @@ public class Category {
 		this.isCurrencyDollar = voCategory.getIsCurrencyDollar();
 		this.typeExchange = voCategory.getTypeExchange();
 		this.appliedDateTimeUTC = voCategory.getAppliedDateTimeUTC();
-		if(voCategory.getProjectId() != 0)
+		if (voCategory.getProjectId() != 0)
 			this.project = new Project(voCategory.getProjectId());
-		if(voCategory.getCategoryType() == 1)
+		if (voCategory.getCategoryType() == 1)
 			this.project = null;
 		this.categoryType = CategoryType.getEnum(voCategory.getCategoryType());
 		this.isRRHH = voCategory.getIsRRHH();
@@ -47,7 +48,7 @@ public class Category {
 	public void setId(int id) {
 		this.id = id;
 	}
-	
+
 	public int getVersion() {
 		return version;
 	}
@@ -83,7 +84,7 @@ public class Category {
 	public boolean getIsCurrencyDollar() {
 		return isCurrencyDollar;
 	}
-	
+
 	public void setIsCurrencyDollar(boolean isCurrencyDollar) {
 		this.isCurrencyDollar = isCurrencyDollar;
 	}
@@ -103,7 +104,7 @@ public class Category {
 	public void setAppliedDateTimeUTC(Date appliedDateTimeUTC) {
 		this.appliedDateTimeUTC = appliedDateTimeUTC;
 	}
-	
+
 	public CategoryType getCategoryType() {
 		return categoryType;
 	}
@@ -135,5 +136,5 @@ public class Category {
 	public void setUpdatedDateTimeUTC(Date UpdatedDateTimeUTC) {
 		this.updatedDateTimeUTC = UpdatedDateTimeUTC;
 	}
-	
+
 }

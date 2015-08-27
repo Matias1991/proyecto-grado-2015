@@ -38,127 +38,11 @@ public class Employee {
 		this.createdDateTimeUTC = voEmployee.getCreatedDateTimeUTC();
 		this.createdDateTimeUTC = voEmployee.getCreatedDateTimeUTC();
 		this.updatedDateTimeUTC = voEmployee.getUpdatedDateTimeUTC();
-		this.employedType = getEmployeeTypeToShow(voEmployee.getEmployedType());
-		this.user = new User(voEmployee.getUser());
+		this.employedType = getEmployeeTypeToShow(voEmployee.getEmployedType());		
 		this.salarySummary = new SalarySummary(voEmployee.getVOSalarySummary());
-//		this.voSalarySummaries = (List<VOSalarySummary>) voEmployee.getVOSalarySummary();
+	}
+
 		
-		
-	}
-
-	/*public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public String getLastName() {
-		return lastName;
-	}
-
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
-	}
-
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
-	public String getAddress() {
-		return address;
-	}
-
-	public void setAddress(String address) {
-		this.address = address;
-	}
-
-	public String getCellPhone() {
-		return cellPhone;
-	}
-
-	public void setCellPhone(String cellPhone) {
-		this.cellPhone = cellPhone;
-	}
-
-	public Date getCreatedDateTimeUTC() {
-		return createdDateTimeUTC;
-	}
-
-	public void setCreatedDateTimeUTC(Date createdDateTimeUTC) {
-		this.createdDateTimeUTC = createdDateTimeUTC;
-	}
-
-	public Date getUpdatedDateTimeUTC() {
-		return updatedDateTimeUTC;
-	}
-
-	public void setUpdatedDateTimeUTC(Date updatedDateTimeUTC) {
-		this.updatedDateTimeUTC = updatedDateTimeUTC;
-	}
-
-	//ver de casear lo tipos como en usuario
-	public String getEmployedType() {
-		return employedType;
-	}
-
-	public List<SalarySummary> getSalarySummaries() {
-		return salarySummaries;
-	}
-
-	public void setSalarySummaries(List<SalarySummary> salarySummaries) {
-		this.salarySummaries = salarySummaries;
-	}
-
-	public void setUser(User user) {
-		this.user = user;
-	}
-
-	public void setSalarySummary(SalarySummary salarySummary) {
-		this.salarySummary = salarySummary;
-	}
-
-	public void setEmployedType(String employedType) {
-		this.employedType = employedType;
-	}
-
-	public VOUser getUser() {
-		return user.toVOUser();
-	}
-
-	public void setUser(VOUser user) {
-		this.user = new User(user);
-	}
-
-	public VOSalarySummary getSalarySummary() {
-		return salarySummary;
-	}
-
-	public void setSalarySummary(VOSalarySummary voSalarySummary) {
-		this.salarySummary = voSalarySummary;
-	}
-
-	public List<VOSalarySummary> getVoSalarySummaries() {
-		return salarySummaries;
-	}
-
-	public void setVoSalarySummaries(List<VOSalarySummary> voSalarySummaries) {
-		this.voSalarySummaries = voSalarySummaries;
-	}*/
-	
 	public String getEmployeeTypeToShow(int employeeTypeId){
 		String result ="";
 		switch(employeeTypeId){
@@ -272,15 +156,17 @@ public class Employee {
 
 	private int getEmployedTypeId(String employedType){
 		int result = 0;
-		switch(employedType){
-		case "Empleado":
-			result = 1;
-			break;
-		case "Socio":
-			result = 2;
-			break;
-		default:
-				result = 0;
+		if(employedType != null){
+			switch(employedType){
+			case "Empleado":
+				result = 1;
+				break;
+			case "Socio":
+				result = 2;
+				break;
+			default:
+					result = 0;
+			}
 		}
 		return result;
 		
@@ -296,12 +182,13 @@ public class Employee {
 		voEmployed.setId(this.id);
 		voEmployed.setLastName(this.lastName);
 		voEmployed.setName(this.name);
-		voEmployed.setUpdatedDateTimeUTC(this.updatedDateTimeUTC);
-		if(this.user != null){
-			voEmployed.setUser(this.user.toVOUser());
-		}
+		voEmployed.setUpdatedDateTimeUTC(this.updatedDateTimeUTC);		
 		//voEmployed.setVOSalarySummaries(param);
-		voEmployed.setVOSalarySummary(this.salarySummary.toVOSalarySummary());
+		if(this.salarySummary != null){
+			voEmployed.setVOSalarySummary(this.salarySummary.toVOSalarySummary());
+		}else{
+			voEmployed.setVOSalarySummary(new VOSalarySummary());
+		}
 		
 		return voEmployed;
 	}
