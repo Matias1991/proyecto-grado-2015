@@ -11,6 +11,7 @@ import shared.interfaces.dataLayer.IDAOCharges;
 import shared.interfaces.dataLayer.IDAOEmployedProject;
 import shared.interfaces.dataLayer.IDAOEmployees;
 import shared.interfaces.dataLayer.IDAOManager;
+import shared.interfaces.dataLayer.IDAOPartnerProject;
 import shared.interfaces.dataLayer.IDAOProjects;
 import shared.interfaces.dataLayer.IDAOSalarySummaries;
 import shared.interfaces.dataLayer.IDAOUsers;
@@ -27,6 +28,7 @@ public class DAOManager implements IDAOManager{
 	private IDAOBills iDAOBills;
 	private IDAOCategroy iDAOCategories;
 	private IDAOCharges iDAOCharges;
+	private IDAOPartnerProject iDAOPartnerProjects;
 	
 	public DAOManager() throws ServerException
 	{
@@ -144,5 +146,15 @@ public class DAOManager implements IDAOManager{
 		}
 		
 		return iDAOCharges;
+	}
+	
+	public IDAOPartnerProject getDAOPartnerProjects()
+	{
+		if(iDAOPartnerProjects == null)
+		{
+			return new DAOPartnerProject(connection);
+		}
+		
+		return iDAOPartnerProjects;
 	}
 }

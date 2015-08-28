@@ -3,9 +3,13 @@ package servicelayer.core;
 import java.util.ArrayList;
 import java.util.Date;
 
+
+import datalayer.daos.DAOManager;
 import servicelayer.entity.businessEntity.EmployedProject;
+import servicelayer.entity.businessEntity.PartnerProject;
 import servicelayer.entity.businessEntity.Project;
 import servicelayer.entity.valueObject.VOEmployedProject;
+import servicelayer.entity.valueObject.VOPartnerProject;
 import servicelayer.entity.valueObject.VOProject;
 import shared.exceptions.ClientException;
 import shared.exceptions.ServerException;
@@ -35,7 +39,7 @@ public class CoreProject implements ICoreProject {
 					voProject.getName()) == null) {
 				// Datos propios del proyecto
 				Project project = new Project(voProject,
-						daoManager.getDAOEmployedProjects());
+						daoManager.getDAOEmployedProjects(), daoManager.getDAOPartnerProjects());
 				project.setCreatedDateTimeUTC(new Date());
 				project.setUpdatedDateTimeUTC(new Date());
 				project.setEnabled(true);
@@ -55,6 +59,13 @@ public class CoreProject implements ICoreProject {
 				}
 
 				// La distribucion asociada al proyecto
+				for(VOPartnerProject voPartnerProject : voProject.getVoPartnerProjects()){
+					PartnerProject partnerProject = new PartnerProject(voPartnerProject);
+					partnerProject.setCreatedDateTimeUTC(new Date());
+					partnerProject.setUpdatedDateTimeUTC(new Date());
+					partnerProject.setEnabled(true);
+					project.associateDistribution(partnerProject);
+				}
 
 			} else
 				throw new ClientException(

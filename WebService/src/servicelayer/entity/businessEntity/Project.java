@@ -1,9 +1,11 @@
 package servicelayer.entity.businessEntity;
 
 import java.util.Date;
+
 import servicelayer.entity.valueObject.VOProject;
 import shared.exceptions.ServerException;
 import shared.interfaces.dataLayer.IDAOEmployedProject;
+import shared.interfaces.dataLayer.IDAOPartnerProject;
 
 public class Project {
 
@@ -17,6 +19,7 @@ public class Project {
 	private Employed seller;
 	private String description;
 	private IDAOEmployedProject iDAOEmployedProject;
+	private IDAOPartnerProject iDAOPartnerProject;
 
 	public Project() {
 	}
@@ -38,7 +41,7 @@ public class Project {
 		this.updatedDateTimeUTC = updatedDateTimeUTC;
 	}
 
-	public Project(VOProject voProject, IDAOEmployedProject idaoEmployedProject) {
+	public Project(VOProject voProject, IDAOEmployedProject idaoEmployedProject, IDAOPartnerProject idaoPartnerProject) {
 		this.name = voProject.getName();
 		this.description = voProject.getDescription();
 		if (voProject.getSellerId() != 0) {
@@ -51,6 +54,7 @@ public class Project {
 		this.createdDateTimeUTC = voProject.getCreatedDateTimeUTC();
 		this.enabled = voProject.isEnabled();
 		this.iDAOEmployedProject = idaoEmployedProject;
+		this.iDAOPartnerProject = idaoPartnerProject;
 	}
 
 	public int getId() {
@@ -137,6 +141,10 @@ public class Project {
 			throws ServerException {
 		this.iDAOEmployedProject
 				.insertEmployedProject(this.id, employedProject);
+	}
+	
+	public void associateDistribution(PartnerProject partnerProject) throws ServerException{
+		this.iDAOPartnerProject.insertPartnerProject(this.id, partnerProject);
 	}
 
 }
