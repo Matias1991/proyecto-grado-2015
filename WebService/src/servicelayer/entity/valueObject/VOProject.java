@@ -20,6 +20,7 @@ public class VOProject implements Serializable {
 	private String sellerName;
 	private String sellerLastname;
 	private VOEmployedProject[] voEmployedProjects;
+	private VOPartnerProject[] voPartnerProjects;
 
 	public VOEmployedProject[] getVoEmployedProjects() {
 		return voEmployedProjects;
@@ -124,4 +125,13 @@ public class VOProject implements Serializable {
 	public void setSellerLastname(String sellerLastname) {
 		this.sellerLastname = sellerLastname;
 	}
+
+	public VOPartnerProject[] getVoPartnerProjects() {
+		return voPartnerProjects;
+	}
+
+	public void setVoPartnerProjects(VOPartnerProject[] voPartnerProjects) {
+		this.voPartnerProjects = voPartnerProjects;
+	}
+	
 }

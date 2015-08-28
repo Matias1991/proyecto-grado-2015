@@ -6,8 +6,7 @@ import servicelayer.entity.valueObject.VOEmployedProject;
 
 public class EmployedProject {
 
-	private Employed employed;
-	private int distributionType;
+	private Employed employed;	
 	private int version;
 	private int hours;
 	private boolean enabled;
@@ -19,8 +18,7 @@ public class EmployedProject {
 	}
 
 	public EmployedProject(VOEmployedProject voEmployedProject) {
-		this.employed = new Employed(voEmployedProject.getEmployedId());
-		this.distributionType = voEmployedProject.getDistributionType();
+		this.employed = new Employed(voEmployedProject.getEmployedId());		
 		this.version = voEmployedProject.getVersion();
 		this.hours = voEmployedProject.getHours();
 		this.enabled = voEmployedProject.isEnabled();
@@ -32,15 +30,7 @@ public class EmployedProject {
 
 	public void setEmployed(Employed employed) {
 		this.employed = employed;
-	}
-
-	public int getDistributionType() {
-		return distributionType;
-	}
-
-	public void setDistributionType(int distributionType) {
-		this.distributionType = distributionType;
-	}
+	}	
 
 	public int getVersion() {
 		return version;

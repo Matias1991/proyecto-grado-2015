@@ -1,23 +1,49 @@
 package servicelayer.entity.businessEntity;
 
-public enum DistributionType {
-	FIFTY_FIFTY(1), TWO_THIRD(2), ONE_THIRD(3);
+import java.util.Date;
 
-	private final int id;
-
-	DistributionType(int id) {
-		this.id = id;
+public class DistributionType {
+	
+	private int id;
+	private String value;
+	private String description;
+	
+	public DistributionType() {		
 	}
+	
+	public DistributionType(int id, String value, String description){
+		this.id = id;
+		this.value = value;
+		this.description = description;		
+	}
+	
+//	public DistributionType(VODistributionType){
+	//	if(voDistributionType.getEmployed().getId() != 0){
+	//		
+	//	}
+//	}
 
-	public int getValue() {
+	public int getId() {
 		return id;
 	}
 
-	public static DistributionType getEnum(int value) {
-		for (DistributionType v : values())
-			if (v.getValue() == value)
-				return v;
-		throw new IllegalArgumentException();
+	public void setId(int id) {
+		this.id = id;
 	}
 
+	public String getValue() {
+		return value;
+	}
+
+	public void setValue(String value) {
+		this.value = value;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
 }
