@@ -7,7 +7,9 @@ import java.util.List;
 
 import org.apache.axis2.AxisFault;
 
+import servicelayer.service.ServiceWebCallbackHandler;
 import servicelayer.service.ServiceWebStub;
+import servicelayer.service.ServiceWebStub.GetProject;
 import servicelayer.service.ServiceWebStub.InsertProject;
 import servicelayer.service.ServiceWebStub.VOEmployed;
 import servicelayer.service.ServiceWebStub.VOEmployedProject;
@@ -123,7 +125,27 @@ public class ProjectController {
 		return result;
 	}
 
-	public static Collection<Project> GetProjectsByStatus(boolean status){
+	public static Project getProject (int projectId){
+		Project project = null;
+		
+		try {
+			ServiceWebStub service = new ServiceWebStub();
+			GetProject getProject = new GetProject();
+			getProject.setId(projectId);
+			
+			VOProject voProject = service.getProject(getProject).get_return();
+			project = new Project(voProject);
+			
+		} catch (AxisFault e) {
+			e.printStackTrace();
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
+		
+		return project;
+	}
+
+	public static Collection<Project> getProjectsByStatus(boolean status){
 		Collection <Project> projects = new ArrayList<Project>();
 		
 		try {

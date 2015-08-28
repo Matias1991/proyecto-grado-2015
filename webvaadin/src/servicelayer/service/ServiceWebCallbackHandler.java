@@ -61,6 +61,22 @@
             }
                 
            /**
+            * auto generated Axis2 call back method for getProject method
+            * override this method for handling normal response from getProject operation
+            */
+           public void receiveResultgetProject(
+                    servicelayer.service.ServiceWebStub.GetProjectResponse result
+                        ) {
+           }
+
+          /**
+           * auto generated Axis2 Error handler
+           * override this method for handling error response from getProject operation
+           */
+            public void receiveErrorgetProject(java.lang.Exception e) {
+            }
+                
+           /**
             * auto generated Axis2 call back method for getUsersByStatus method
             * override this method for handling normal response from getUsersByStatus operation
             */

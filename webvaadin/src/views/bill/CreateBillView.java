@@ -171,7 +171,7 @@ public class CreateBillView extends BaseView {
 				getUI().getNavigator().navigateTo(WebvaadinUI.MAINMENU);
 			}
 			
-			Collection<Project> projects = ProjectController.GetProjectsByStatus(true);
+			Collection<Project> projects = ProjectController.getProjectsByStatus(true);
 			for(Project project : projects)
 			{
 				cboxProject.addItem(project.getId());

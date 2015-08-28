@@ -19,7 +19,6 @@ import servicelayer.entity.valueObject.VOSalarySummary;
 import servicelayer.entity.valueObject.VOSalarySummaryVersion;
 import servicelayer.entity.valueObject.VOUser;
 import servicelayer.utilities.Constants;
-import shared.LoggerMSMP;
 import shared.exceptions.ClientException;
 import shared.exceptions.ServerException;
 import shared.interfaces.core.ICoreBill;
@@ -41,7 +40,7 @@ public class ServiceWeb extends ServiceBase {
 	private ICoreProject iCoreProject = null;
 	private ICoreBill iCoreBill = null;
 	private ICoreCharge iCoreCharge = null;
-	
+
 	public ServiceWeb() {
 		try {
 			transactionLock.tryLock(Constants.DEFAULT_TRANSACTION_TIME,
@@ -630,7 +629,7 @@ public class ServiceWeb extends ServiceBase {
 		}
 		return null;
 	}
-	
+
 	public VOCategory[] getCategoriesByProject(int id) {
 		ArrayList<VOCategory> voCategories;
 		try {
@@ -642,7 +641,8 @@ public class ServiceWeb extends ServiceBase {
 			voCategories.toArray(arrayVOCategories);
 			return arrayVOCategories;
 		} catch (ServerException e) {
-			ThrowServerExceptionAndLogError(e, "obtener los rubros del proyecto");
+			ThrowServerExceptionAndLogError(e,
+					"obtener los rubros del proyecto");
 		} catch (InterruptedException e) {
 			throw new RuntimeException(Constants.TRANSACTION_ERROR);
 		} catch (Exception e) {
@@ -740,9 +740,8 @@ public class ServiceWeb extends ServiceBase {
 		}
 		return null;
 	}
-	
-	public boolean deleteBills(int [] ids)
-	{
+
+	public boolean deleteBills(int[] ids) {
 		try {
 			transactionLock.tryLock(Constants.DEFAULT_TRANSACTION_TIME,
 					TimeUnit.SECONDS);
@@ -783,6 +782,26 @@ public class ServiceWeb extends ServiceBase {
 			transactionLock.unlock();
 		}
 		return false;
+	}
+
+	public VOProject getProject(int id) {
+		try {
+			transactionLock.tryLock(Constants.DEFAULT_TRANSACTION_TIME,
+					TimeUnit.SECONDS);
+
+			return iCoreProject.getProject(id);
+		} catch (ServerException e) {
+			ThrowServerExceptionAndLogError(e, "obtener el proyecto.");
+		} catch (ClientException e) {
+			throw new RuntimeException(e.getMessage());
+		} catch (InterruptedException e) {
+			throw new RuntimeException(Constants.TRANSACTION_ERROR);
+		} catch (Exception e) {
+			ThrowGenericExceptionAndLogError(e);
+		} finally {
+			transactionLock.unlock();
+		}
+		return null;
 	}
 
 	public VOProject[] getProjects() {
@@ -827,7 +846,7 @@ public class ServiceWeb extends ServiceBase {
 		}
 		return false;
 	}
-	
+
 	public VOProject[] getProjectsByStatus(boolean projectStatus) {
 		ArrayList<VOProject> voProjects;
 		try {
@@ -850,8 +869,8 @@ public class ServiceWeb extends ServiceBase {
 		}
 		return null;
 	}
-	
-	/*COMIENZO COBROS*/
+
+	/* COMIENZO COBROS */
 	public boolean insertCharge(VOCharge voCharge) {
 		try {
 			transactionLock.tryLock(Constants.DEFAULT_TRANSACTION_TIME,
@@ -873,5 +892,5 @@ public class ServiceWeb extends ServiceBase {
 		}
 		return false;
 	}
-	/*COMIENZO COBROS*/
+	/* COMIENZO COBROS */
 }

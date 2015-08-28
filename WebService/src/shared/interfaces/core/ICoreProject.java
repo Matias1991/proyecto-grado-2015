@@ -16,4 +16,6 @@ public interface ICoreProject {
 
 	ArrayList<VOProject> getProjectByStatus(boolean projectStatus)
 			throws ServerException;
+
+	VOProject getProject(int id) throws ServerException, ClientException;
 }

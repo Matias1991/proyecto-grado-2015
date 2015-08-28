@@ -67,7 +67,7 @@ public class DeleteProjectView extends BaseView {
 
 	public void buildGrid() {
 		// listo los proyectos habilitados
-		Collection<Project> projects = ProjectController.GetProjectsByStatus(true);
+		Collection<Project> projects = ProjectController.getProjectsByStatus(true);
 
 		if (projects != null && projects.size() > 0) {
 			beanContainer = new BeanItemContainer<Project>(Project.class, projects);

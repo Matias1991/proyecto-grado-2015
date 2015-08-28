@@ -2,7 +2,7 @@ package servicelayer.core;
 
 import java.util.ArrayList;
 import java.util.Date;
-import datalayer.daos.DAOManager;
+
 import servicelayer.entity.businessEntity.EmployedProject;
 import servicelayer.entity.businessEntity.Project;
 import servicelayer.entity.valueObject.VOEmployedProject;
@@ -10,6 +10,7 @@ import servicelayer.entity.valueObject.VOProject;
 import shared.exceptions.ClientException;
 import shared.exceptions.ServerException;
 import shared.interfaces.core.ICoreProject;
+import datalayer.daos.DAOManager;
 
 public class CoreProject implements ICoreProject {
 
@@ -90,6 +91,22 @@ public class CoreProject implements ICoreProject {
 	}
 
 	@Override
+	public VOProject getProject(int id) throws ServerException, ClientException {
+		DAOManager daoManager = new DAOManager();
+		try {
+			Project project;
+			VOProject voProject = null;
+			project = daoManager.getDAOProjects().getObject(id);
+			voProject = BuildVOProject(project);
+			return voProject;
+		} catch (ServerException e) {
+			throw e;
+		} finally {
+			daoManager.close();
+		}
+	}
+
+	@Override
 	public ArrayList<VOProject> getProjects() throws ServerException {
 		DAOManager daoManager = new DAOManager();
 		try {
@@ -115,6 +132,7 @@ public class CoreProject implements ICoreProject {
 		VOProject voProject = new VOProject();
 		voProject.setId(project.getId());
 		voProject.setName(project.getName());
+		voProject.setDescription(project.getDescription());
 		voProject.setCreatedDateTimeUTC(project.getCreatedDateTimeUTC());
 		voProject.setUpdatedDateTimeUTC(project.getUpdatedDateTimeUTC());
 		voProject.setEnabled(project.getEnabled());
