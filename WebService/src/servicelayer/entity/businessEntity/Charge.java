@@ -19,19 +19,6 @@ public class Charge {
 	public Charge() {
 
 	}
-
-	public Charge(VOCharge voCharge)
-	{
-		this.id = voCharge.getId();
-		this.number = voCharge.getNumber();
-		this.description = voCharge.getDescription();
-		this.amountPeso = voCharge.getAmountPeso();
-		this.amountDollar = voCharge.getAmountDollar();
-		this.isCurrencyDollar = voCharge.getIsCurrencyDollar();
-		this.typeExchange = voCharge.getTypeExchange();
-		if(voCharge.getBillId() != 0)
-			this.bill = new Bill(voCharge.getBillId());
-	}
 	
 	public int getId() {
 		return id;

@@ -26,6 +26,7 @@ public class Employed {
 		this.id = id;
 	}
 
+	/*
 	public Employed(VOEmployed voEmployed) {
 		this.id = voEmployed.getId();
 		this.name = voEmployed.getName();
@@ -53,6 +54,7 @@ public class Employed {
 					.getEmployedType());
 		this.iDAOSalarySummaries = idaoSalarySummaries;
 	}
+	*/
 
 	public int getId() {
 		return id;

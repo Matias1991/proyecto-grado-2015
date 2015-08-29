@@ -226,6 +226,46 @@ public class DAOCharges implements IDAOCharges {
 
 		return charge;
 	}
+	
+	@Override
+	public ArrayList<Charge> getChargesByBill(int billId) throws ServerException {
+		ArrayList<Charge> charges = new ArrayList<Charge>();
+		PreparedStatement preparedStatement = null;
+		ResultSet rs = null;
+		try {
+
+			StringBuilder sql = new StringBuilder();
+			sql.append("SELECT C.*, B.Description as BillDescription FROM CHARGE C ");
+			sql.append("INNER JOIN BILL B ON B.Id = C.BillId ");
+			sql.append("WHERE B.Id = ?");
+			preparedStatement = this.connection
+					.prepareStatement(sql.toString());
+			preparedStatement.setInt(1, billId);
+			rs = preparedStatement.executeQuery();
+
+			while (rs.next()) {
+				Charge charge = BuildCharge(rs);
+				if (charge.getBill() != null)
+					charge.getBill().setDescription(
+							rs.getString("billDescription"));
+				charges.add(charge);
+			}
+
+		} catch (SQLException e) {
+			throw new ServerException(e);
+		} finally {
+			try {
+				if (preparedStatement != null)
+					preparedStatement.close();
+				if (rs != null)
+					rs.close();
+			} catch (SQLException e) {
+				LoggerMSMP.setLog(e.getMessage());
+			}
+		}
+
+		return charges;
+	}
 
 	private Charge BuildCharge(ResultSet rs) throws SQLException {
 		int _id = rs.getInt("id");

@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import datalayer.daos.DAOManager;
 import servicelayer.entity.businessEntity.Bill;
-import servicelayer.entity.valueObject.VOBill;
+import servicelayer.entity.businessEntity.Charge;
 import shared.exceptions.ClientException;
 import shared.exceptions.ServerException;
 import shared.interfaces.core.ICoreBill;
@@ -24,18 +24,15 @@ public class CoreBill implements ICoreBill {
 	}
 
 	@Override
-	public void insertBill(VOBill voBill) throws ServerException,
-			ClientException {
+	public void insertBill(Bill bill) throws ServerException, ClientException {
 
 		DAOManager daoManager = new DAOManager();
 		try {
-			if (daoManager.getDAOBills().getBill(voBill.getCode()) == null) {
-				if (voBill.getIsCurrencyDollar()) {
-					voBill.setAmountPeso(voBill.getAmountDollar()
-							* voBill.getTypeExchange());
+			if (daoManager.getDAOBills().getBill(bill.getCode()) == null) {
+				if (bill.getIsCurrencyDollar()) {
+					bill.setAmountPeso(bill.getAmountDollar()
+							* bill.getTypeExchange());
 				}
-
-				Bill bill = new Bill(voBill);
 				daoManager.getDAOBills().insert(bill);
 				daoManager.commit();
 			} else
@@ -89,17 +86,17 @@ public class CoreBill implements ICoreBill {
 	}
 
 	@Override
-	public VOBill updateBill(int id, VOBill voBill) throws ServerException,
+	public Bill updateBill(int id, Bill bill) throws ServerException,
 			ClientException {
 
 		DAOManager daoManager = new DAOManager();
 		try {
-			if (daoManager.getDAOBills().getBill(voBill.getCode()) != null) {
-				if (voBill.getIsCurrencyDollar()) {
-					voBill.setAmountPeso(voBill.getAmountDollar()
-							* voBill.getTypeExchange());
+			if (daoManager.getDAOBills().getBill(bill.getCode()) != null) {
+				if (bill.getIsCurrencyDollar()) {
+					bill.setAmountPeso(bill.getAmountDollar()
+							* bill.getTypeExchange());
 				}
-				Bill bill = new Bill(voBill);
+
 				daoManager.getDAOBills().update(id, bill);
 				daoManager.commit();
 			} else
@@ -117,64 +114,74 @@ public class CoreBill implements ICoreBill {
 	}
 
 	@Override
-	public VOBill getBill(int id) throws ServerException, ClientException {
+	public Bill getBill(int id) throws ServerException, ClientException {
 		Bill bill;
-		VOBill voBill = null;
 
 		DAOManager daoManager = new DAOManager();
 		try {
 			bill = daoManager.getDAOBills().getObject(id);
-			if (bill != null) {
-				voBill = BuildVOBill(bill);
-			} else {
+			if (bill == null)
 				throw new ClientException(
 						"No existe ningúna facrura con ese id");
-			}
 
 		} catch (ServerException e) {
 			throw e;
 		} finally {
 			daoManager.close();
 		}
-		return voBill;
+		return bill;
 	}
 
 	@Override
-	public ArrayList<VOBill> getBills() throws ServerException {
+	public ArrayList<Bill> getBills() throws ServerException {
 		ArrayList<Bill> bills;
-		ArrayList<VOBill> voBills = null;
 
 		DAOManager daoManager = new DAOManager();
 		try {
 			bills = daoManager.getDAOBills().getObjects();
-			voBills = new ArrayList<VOBill>();
-
-			for (Bill bill : bills) {
-				voBills.add(BuildVOBill(bill));
-			}
 
 		} catch (ServerException e) {
 			throw e;
 		} finally {
 			daoManager.close();
 		}
-		return voBills;
+		return bills;
 	}
 
 	@Override
-	public ArrayList<VOBill> getBills(Date from, Date to, int projectId,
+	public ArrayList<Bill> getBills(Date from, Date to, int projectId,
 			String code, boolean isLiquidated) throws ServerException {
 		ArrayList<Bill> bills;
-		ArrayList<VOBill> voBills = null;
 
 		DAOManager daoManager = new DAOManager();
 		try {
 			bills = daoManager.getDAOBills().getBills(from, to, projectId,
 					code, isLiquidated);
-			voBills = new ArrayList<VOBill>();
 
-			for (Bill bill : bills) {
-				voBills.add(BuildVOBill(bill));
+		} catch (ServerException e) {
+			throw e;
+		} finally {
+			daoManager.close();
+		}
+		return bills;
+	}
+
+	// retorna el monto cobrado de esa factura
+	public double getAmountChargedByBill(int billId) throws ServerException {
+		double amountCharged = 0;
+		DAOManager daoManager = new DAOManager();
+		try {
+			Bill bill = daoManager.getDAOBills().getObject(billId);
+
+			ArrayList<Charge> charges = null;// CoreCharge.GetInstance().getChargesByBill(billId);
+
+			// obtiene todos los cobros para esa factura y suma en monto de los
+			// cobros en dolares
+			for (Charge charge : charges) {
+				if (bill.getIsCurrencyDollar())
+					amountCharged += charge.getAmountDollar();
+				else
+					amountCharged += charge.getAmountPeso();
 			}
 
 		} catch (ServerException e) {
@@ -182,25 +189,7 @@ public class CoreBill implements ICoreBill {
 		} finally {
 			daoManager.close();
 		}
-		return voBills;
-	}
 
-	private VOBill BuildVOBill(Bill bill) {
-		VOBill voBill = new VOBill();
-		voBill.setId(bill.getId());
-		voBill.setCode(bill.getCode());
-		voBill.setDescription(bill.getDescription());
-		voBill.setAmountDollar(bill.getAmountDollar());
-		voBill.setAmountPeso(bill.getAmountPeso());
-		voBill.setIsCurrencyDollar(bill.getIsCurrencyDollar());
-		voBill.setTypeExchange(bill.getTypeExchange());
-		voBill.setAppliedDateTimeUTC(bill.getAppliedDateTimeUTC());
-		voBill.setLiquidated(bill.getIsLiquidated());
-		if (bill.getProject() != null) {
-			voBill.setProjectId(bill.getProject().getId());
-			voBill.setProjectName(bill.getProject().getName());
-		}
-
-		return voBill;
+		return amountCharged;
 	}
 }

@@ -25,18 +25,17 @@ public class CoreCharge implements ICoreCharge {
 	}
 
 	@Override
-	public void insertCharge(VOCharge voCharge) throws ServerException,
+	public void insertCharge(Charge charge) throws ServerException,
 			ClientException {
 		DAOManager daoManager = new DAOManager();
 		try {
 
-			if (daoManager.getDAOCharges().getCharge(voCharge.getNumber()) == null) {
-				if (voCharge.getIsCurrencyDollar()) {
-					voCharge.setAmountPeso(voCharge.getAmountDollar()
-							* voCharge.getTypeExchange());
+			if (daoManager.getDAOCharges().getCharge(charge.getNumber()) == null) {
+				if (charge.getIsCurrencyDollar()) {
+					charge.setAmountPeso(charge.getAmountDollar()
+							* charge.getTypeExchange());
 				}
 				
-				Charge charge = new Charge(voCharge);
 				charge.setCreatedDateTimeUTC(new Date());
 				daoManager.getDAOCharges().insert(charge);
 			}
@@ -66,22 +65,21 @@ public class CoreCharge implements ICoreCharge {
 	}
 
 	@Override
-	public VOCharge updateCharge(int id, VOCharge voCharge)
+	public Charge updateCharge(int id, Charge charge)
 			throws ServerException, ClientException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public VOCharge getCharge(int id) throws ServerException, ClientException {
+	public Charge getCharge(int id) throws ServerException, ClientException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public ArrayList<VOCharge> getCharges() throws ServerException {
+	public ArrayList<Charge> getCharges() throws ServerException {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
 }

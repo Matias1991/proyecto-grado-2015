@@ -4,6 +4,7 @@ import java.util.concurrent.TimeUnit;
 
 import servicelayer.core.CoreUser;
 import servicelayer.entity.valueObject.VOUser;
+import servicelayer.service.builder.UserBuilder;
 import servicelayer.utilities.Constants;
 import shared.exceptions.ClientException;
 import shared.exceptions.ServerException;
@@ -12,6 +13,7 @@ import shared.interfaces.core.ICoreUser;
 public class ServiceMobile extends ServiceBase{
 
 	private ICoreUser iCoreUser = null;
+	private static UserBuilder userBuilser = new UserBuilder();
 	
 	public ServiceMobile()
 	{
@@ -27,7 +29,7 @@ public class ServiceMobile extends ServiceBase{
 		try {
 			transactionLock.tryLock(Constants.DEFAULT_TRANSACTION_TIME, TimeUnit.SECONDS);
 			
-			return iCoreUser.login(userName, password);
+			return userBuilser.BuildVOObject(iCoreUser.login(userName, password));
 		} catch (ServerException e) {
 			ThrowServerExceptionAndLogError(e, "realizar el ingreso del usuario en el sistema");
 		} catch (ClientException e) {

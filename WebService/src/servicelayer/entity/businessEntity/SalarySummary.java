@@ -32,14 +32,11 @@ public class SalarySummary {
 	private double costSaleHour;
 	private int hours;
 	private Date createdDateTimeUTC;
+	// 0.08, 0.06, 0.03
+	private double percentageTypeFONASA;
 
 	public SalarySummary() {
 
-	}
-
-	public SalarySummary(VOSalarySummary voSalarySummary) {
-		this.nominalSalary = voSalarySummary.getNominalSalary();
-		this.tickets = voSalarySummary.getTickets();
 	}
 
 	public int getId() {
@@ -252,6 +249,14 @@ public class SalarySummary {
 
 	public void setCreatedDateTimeUTC(Date createdDateTimeUTC) {
 		this.createdDateTimeUTC = createdDateTimeUTC;
+	}
+
+	public double getPercentageTypeFONASA() {
+		return percentageTypeFONASA;
+	}
+
+	public void setPercentageTypeFONASA(double percentageTypeFONASA) {
+		this.percentageTypeFONASA = percentageTypeFONASA;
 	}
 
 }

@@ -37,17 +37,16 @@ public class CoreUser implements ICoreUser {
 	}
 
 	@Override
-	public void insertUser(VOUser voUser) throws ServerException,
+	public void insertUser(User user) throws ServerException,
 			ClientException {
 
 		DAOManager daoManager = new DAOManager();
 		try {
 			if (daoManager.getDAOUsers()
-					.getUserByUserName(voUser.getUserName()) == null) {
-				if (!daoManager.getDAOUsers().existsEmail(voUser.getEmail())) {
+					.getUserByUserName(user.getUserName()) == null) {
+				if (!daoManager.getDAOUsers().existsEmail(user.getEmail())) {
 					// setear el estado del usuario en activo
-					voUser.setUserStatus(UserStatus.ACTIVE.getValue());
-					User user = new User(voUser);
+					user.setUserStatus(UserStatus.ACTIVE);
 
 					String newPassword = generateRandomPassword();
 
@@ -111,17 +110,14 @@ public class CoreUser implements ICoreUser {
 	}
 
 	@Override
-	public VOUser getUser(int id) throws ServerException, ClientException {
+	public User getUser(int id) throws ServerException, ClientException {
 
 		User user;
-		VOUser voUser = null;
 		DAOManager daoManager = new DAOManager();
 		try {
 
 			user = daoManager.getDAOUsers().getObject(id);
-			if (user != null)
-				voUser = BuildVOUser(user);
-			else
+			if (user == null)
 				throw new ClientException("No existe un usuario con ese id");
 
 		} catch (ServerException e) {
@@ -129,7 +125,7 @@ public class CoreUser implements ICoreUser {
 		} finally {
 			daoManager.close();
 		}
-		return voUser;
+		return user;
 	}
 
 	@Override
@@ -146,46 +142,36 @@ public class CoreUser implements ICoreUser {
 	}
 
 	@Override
-	public ArrayList<VOUser> getUsers() throws ServerException {
-
-		ArrayList<User> users;
-		ArrayList<VOUser> voUsers = null;
+	public ArrayList<User> getUsers() throws ServerException {
 
 		DAOManager daoManager = new DAOManager();
 		try {
 
-			users = daoManager.getDAOUsers().getObjects();
-			voUsers = new ArrayList<VOUser>();
-
-			for (User user : users) {
-				voUsers.add(BuildVOUser(user));
-			}
+			return daoManager.getDAOUsers().getObjects();
 
 		} catch (ServerException e) {
 			throw e;
 		} finally {
 			daoManager.close();
 		}
-		return voUsers;
 	}
 
 	@Override
-	public VOUser login(String userName, String password)
+	public User login(String userName, String password)
 			throws ServerException, ClientException {
-		VOUser voUser = null;
 
+		User user = null;
 		DAOManager daoManager = new DAOManager();
 		try {
 			// tOdo: move this to UI
 			String hashPassword = HashMD5.Encrypt(password);
 			//
-			User user = daoManager.getDAOUsers().getUserByUserName(userName);
+			user = daoManager.getDAOUsers().getUserByUserName(userName);
 			if (user != null) {
 				if (user.getUserStatus() == UserStatus.ACTIVE) {
 
 					Date now = new Date();
 					if (user.getPassword().equals(hashPassword)) {
-						voUser = BuildVOUser(user);
 						daoManager.getDAOUsers().update(user.getId(),
 								UserStatus.ACTIVE, 0, now);
 					} else {
@@ -239,16 +225,15 @@ public class CoreUser implements ICoreUser {
 		} finally {
 			daoManager.close();
 		}
-		return voUser;
+		return user;
 	}
 
 	@Override
-	public VOUser update(int id, VOUser voUser) throws ServerException,
+	public User update(int id, User user) throws ServerException,
 			ClientException {
 
 		DAOManager daoManager = new DAOManager();
 		try {
-			User user = new User(voUser);
 			User currentUser = daoManager.getDAOUsers().getObject(id);
 
 			if (currentUser.getUserType() == UserType.ADMINISTRATOR
@@ -259,7 +244,7 @@ public class CoreUser implements ICoreUser {
 							"No se puede modificar el tipo de usuario, el sistema debe tener al menos un usuario Administrador");
 			}
 			if (!user.getEmail().equals(currentUser.getEmail())
-					&& daoManager.getDAOUsers().existsEmail(voUser.getEmail())) {
+					&& daoManager.getDAOUsers().existsEmail(user.getEmail())) {
 				throw new ClientException(
 						"Ya existe un usuario con este correo electrónico");
 			}
@@ -397,92 +382,53 @@ public class CoreUser implements ICoreUser {
 	}
 
 	@Override
-	public ArrayList<VOUser> getUsersByStatus(int userStatusId)
+	public ArrayList<User> getUsersByStatus(int userStatusId)
 			throws ServerException {
-		ArrayList<User> users;
-		ArrayList<VOUser> voUsers = null;
 
 		DAOManager daoManager = new DAOManager();
 		try {
 			UserStatus userStatus = UserStatus.getEnum(userStatusId);
-			users = daoManager.getDAOUsers().getUsersByStatus(userStatus);
-			voUsers = new ArrayList<VOUser>();
-
-			for (User user : users) {
-				voUsers.add(BuildVOUser(user));
-			}
+			return daoManager.getDAOUsers().getUsersByStatus(userStatus);
 
 		} catch (ServerException e) {
 			throw e;
 		} finally {
 			daoManager.close();
 		}
-		return voUsers;
 	}
 
 	@Override
-	public ArrayList<VOUser> getUsersByType(int userTypeId)
+	public ArrayList<User> getUsersByType(int userTypeId)
 			throws ServerException {
-		ArrayList<User> users;
-		ArrayList<VOUser> voUsers = null;
 
 		DAOManager daoManager = new DAOManager();
 		try {
 			UserType userType = UserType.getEnum(userTypeId);
-			users = daoManager.getDAOUsers().getUsersByType(userType);
-			voUsers = new ArrayList<VOUser>();
-
-			for (User user : users) {
-				voUsers.add(BuildVOUser(user));
-			}
+			return daoManager.getDAOUsers().getUsersByType(userType);
 
 		} catch (ServerException e) {
 			throw e;
 		} finally {
 			daoManager.close();
 		}
-		return voUsers;
 	}
 
 	@Override
-	public ArrayList<VOUser> getUsersByTypeIdAndStatus(int userStatusId,
+	public ArrayList<User> getUsersByTypeIdAndStatus(int userStatusId,
 			int usersTypeId) throws ServerException {
-
-		ArrayList<User> users;
-		ArrayList<VOUser> voUsers = null;
 
 		DAOManager daoManager = new DAOManager();
 		try {
 			UserStatus userStatus = UserStatus.getEnum(userStatusId);
 			UserType userType = UserType.getEnum(usersTypeId);
-			users = daoManager.getDAOUsers().getUsersByTypeAndStatus(userType,
+			return daoManager.getDAOUsers().getUsersByTypeAndStatus(userType,
 					userStatus);
-			voUsers = new ArrayList<VOUser>();
-
-			for (User user : users) {
-				voUsers.add(BuildVOUser(user));
-			}
 
 		} catch (ServerException e) {
 			throw e;
 		} finally {
 			daoManager.close();
 		}
-		return voUsers;
-
-	}
-
-	VOUser BuildVOUser(User user) {
-		VOUser voUser = new VOUser();
-		voUser.setId(user.getId());
-		voUser.setName(user.getName());
-		voUser.setUserName(user.getUserName());
-		voUser.setLastName(user.getLastName());
-		voUser.setEmail(user.getEmail());
-		voUser.setUserType(user.getUserType().getValue());
-		voUser.setUserStatus(user.getUserStatus().getValue());
-
-		return voUser;
 	}
 
 	boolean IsLastUserAdmin(User user, IDAOUsers iDAOUsers)

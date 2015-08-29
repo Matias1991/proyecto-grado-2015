@@ -1,27 +1,26 @@
 package shared.interfaces.core;
 
 import java.util.ArrayList;
-
-import servicelayer.entity.valueObject.VOUser;
+import servicelayer.entity.businessEntity.User;
 import shared.exceptions.ClientException;
 import shared.exceptions.ServerException;
 
 public interface ICoreUser {
 
-	void insertUser(VOUser voUser) throws ServerException, ClientException;
+	void insertUser(User user) throws ServerException, ClientException;
 
 	void deleteUser(int id) throws ServerException, ClientException;
 
-	VOUser update(int id, VOUser voUser) throws ServerException,
+	User update(int id, User user) throws ServerException,
 			ClientException;
 
-	VOUser getUser(int id) throws ServerException, ClientException;
+	User getUser(int id) throws ServerException, ClientException;
 
 	boolean existUser(int id) throws ServerException;
 
-	ArrayList<VOUser> getUsers() throws ServerException;
+	ArrayList<User> getUsers() throws ServerException;
 
-	VOUser login(String userName, String password) throws ServerException,
+	User login(String userName, String password) throws ServerException,
 			ClientException;
 
 	void forgotPassord(String userEmail) throws ServerException,
@@ -34,10 +33,10 @@ public interface ICoreUser {
 
 	void unlockUser(int id) throws ServerException, ClientException;
 
-	ArrayList<VOUser> getUsersByStatus(int userStatusId) throws ServerException;
+	ArrayList<User> getUsersByStatus(int userStatusId) throws ServerException;
 
-	ArrayList<VOUser> getUsersByTypeIdAndStatus(int userStatusId,
+	ArrayList<User> getUsersByTypeIdAndStatus(int userStatusId,
 			int usersTypeId) throws ServerException;
 
-	ArrayList<VOUser> getUsersByType(int userTypeId) throws ServerException;
+	ArrayList<User> getUsersByType(int userTypeId) throws ServerException;
 }

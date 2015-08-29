@@ -10,6 +10,9 @@ import servicelayer.core.CoreCharge;
 import servicelayer.core.CoreEmployed;
 import servicelayer.core.CoreProject;
 import servicelayer.core.CoreUser;
+import servicelayer.entity.businessEntity.Bill;
+import servicelayer.entity.businessEntity.Employed;
+import servicelayer.entity.businessEntity.SalarySummary;
 import servicelayer.entity.valueObject.VOBill;
 import servicelayer.entity.valueObject.VOCategory;
 import servicelayer.entity.valueObject.VOCharge;
@@ -18,6 +21,11 @@ import servicelayer.entity.valueObject.VOProject;
 import servicelayer.entity.valueObject.VOSalarySummary;
 import servicelayer.entity.valueObject.VOSalarySummaryVersion;
 import servicelayer.entity.valueObject.VOUser;
+import servicelayer.service.builder.BillBuilder;
+import servicelayer.service.builder.CategoryBuilder;
+import servicelayer.service.builder.ChargeBuilder;
+import servicelayer.service.builder.EmployedBuilder;
+import servicelayer.service.builder.UserBuilder;
 import servicelayer.utilities.Constants;
 import shared.exceptions.ClientException;
 import shared.exceptions.ServerException;
@@ -41,6 +49,15 @@ public class ServiceWeb extends ServiceBase {
 	private ICoreBill iCoreBill = null;
 	private ICoreCharge iCoreCharge = null;
 
+	// Builder's para mapear
+	// value objects a entidades de negocio
+	// value objects a entidades de negocio
+	private static BillBuilder billBuilder = new BillBuilder();
+	private static CategoryBuilder categoryBuilder = new CategoryBuilder();
+	private static ChargeBuilder chargeBuilder = new ChargeBuilder();
+	private static EmployedBuilder employedBuilder = new EmployedBuilder();
+	private static UserBuilder userBuilser = new UserBuilder();
+	
 	public ServiceWeb() {
 		try {
 			transactionLock.tryLock(Constants.DEFAULT_TRANSACTION_TIME,
@@ -64,7 +81,7 @@ public class ServiceWeb extends ServiceBase {
 			transactionLock.tryLock(Constants.DEFAULT_TRANSACTION_TIME,
 					TimeUnit.SECONDS);
 
-			iCoreUser.insertUser(voUser);
+			iCoreUser.insertUser(userBuilser.BuildBusinessObject(voUser));
 
 			return true;
 		} catch (ServerException e) {
@@ -86,7 +103,7 @@ public class ServiceWeb extends ServiceBase {
 			transactionLock.tryLock(Constants.DEFAULT_TRANSACTION_TIME,
 					TimeUnit.SECONDS);
 
-			return iCoreUser.getUser(id);
+			return userBuilser.BuildVOObject(iCoreUser.getUser(id));
 		} catch (ServerException e) {
 			ThrowServerExceptionAndLogError(e, "obtener los datos del usuario");
 		} catch (ClientException e) {
@@ -127,7 +144,7 @@ public class ServiceWeb extends ServiceBase {
 			transactionLock.tryLock(Constants.DEFAULT_TRANSACTION_TIME,
 					TimeUnit.SECONDS);
 
-			return iCoreUser.update(id, voUser);
+			return userBuilser.BuildVOObject(iCoreUser.update(id, userBuilser.BuildBusinessObject(voUser)));
 		} catch (ServerException e) {
 			ThrowServerExceptionAndLogError(e,
 					"modificar los datos del usuario");
@@ -166,7 +183,7 @@ public class ServiceWeb extends ServiceBase {
 			transactionLock.tryLock(Constants.DEFAULT_TRANSACTION_TIME,
 					TimeUnit.SECONDS);
 
-			return iCoreUser.login(userName, password);
+			return userBuilser.BuildVOObject(iCoreUser.login(userName, password));
 		} catch (ServerException e) {
 			ThrowServerExceptionAndLogError(e,
 					"realizar el ingreso del usuario en el sistema");
@@ -183,15 +200,11 @@ public class ServiceWeb extends ServiceBase {
 	}
 
 	public VOUser[] getUsers() {
-		ArrayList<VOUser> voUsers;
 		try {
 			transactionLock.tryLock(Constants.DEFAULT_TRANSACTION_TIME,
 					TimeUnit.SECONDS);
 
-			voUsers = iCoreUser.getUsers();
-			VOUser[] arrayVoUser = new VOUser[voUsers.size()];
-			voUsers.toArray(arrayVoUser);
-			return arrayVoUser;
+			return userBuilser.BuildArrayVOObject(VOUser.class, iCoreUser.getUsers());
 
 		} catch (ServerException e) {
 			ThrowServerExceptionAndLogError(e, "obtener todos los usuarios");
@@ -300,15 +313,11 @@ public class ServiceWeb extends ServiceBase {
 	}
 
 	public VOUser[] getUsersByStatus(int userStatusId) {
-		ArrayList<VOUser> voUsers;
 		try {
 			transactionLock.tryLock(Constants.DEFAULT_TRANSACTION_TIME,
 					TimeUnit.SECONDS);
 
-			voUsers = iCoreUser.getUsersByStatus(userStatusId);
-			VOUser[] arrayVoUser = new VOUser[voUsers.size()];
-			voUsers.toArray(arrayVoUser);
-			return arrayVoUser;
+			return userBuilser.BuildArrayVOObject(VOUser.class, iCoreUser.getUsersByStatus(userStatusId));
 
 		} catch (ServerException e) {
 			ThrowServerExceptionAndLogError(e, "obtener todos los usuarios");
@@ -327,7 +336,10 @@ public class ServiceWeb extends ServiceBase {
 			transactionLock.tryLock(Constants.DEFAULT_TRANSACTION_TIME,
 					TimeUnit.SECONDS);
 
-			iCoreEmployed.insertEmployed(voEmployed);
+			Employed employed = employedBuilder.BuildBusinessObject(voEmployed);
+			SalarySummary salarySummary = employedBuilder
+					.BuildBusinessSalarySummary(voEmployed.getvOSalarySummary());
+			iCoreEmployed.insertEmployed(employed, salarySummary);
 
 			return true;
 		} catch (ServerException e) {
@@ -345,15 +357,21 @@ public class ServiceWeb extends ServiceBase {
 	}
 
 	public VOEmployed[] getEmployees() {
-		ArrayList<VOEmployed> voEmployees;
 		try {
 			transactionLock.tryLock(Constants.DEFAULT_TRANSACTION_TIME,
 					TimeUnit.SECONDS);
 
-			voEmployees = iCoreEmployed.getEmployess();
-			VOEmployed[] arrayVOEmployed = new VOEmployed[voEmployees.size()];
-			voEmployees.toArray(arrayVOEmployed);
-			return arrayVOEmployed;
+			VOEmployed[] employees = employedBuilder.BuildArrayVOObject(
+					VOEmployed.class, iCoreEmployed.getEmployess());
+			
+			for (VOEmployed voEmployed : employees) {
+				SalarySummary salarySummary = iCoreEmployed
+						.getSalarySummaryByVersion(voEmployed.getId(), -1);
+				voEmployed.setvOSalarySummary(employedBuilder
+						.BuildVOSalarySummary(salarySummary));
+			}
+		
+			return employees;
 
 		} catch (ServerException e) {
 			ThrowServerExceptionAndLogError(e, "obtener todos los empleados");
@@ -372,7 +390,15 @@ public class ServiceWeb extends ServiceBase {
 			transactionLock.tryLock(Constants.DEFAULT_TRANSACTION_TIME,
 					TimeUnit.SECONDS);
 
-			return iCoreEmployed.getEmployed(id);
+			VOEmployed voEmployed = employedBuilder.BuildVOObject(iCoreEmployed
+					.getEmployed(id));
+			SalarySummary salarySummary = iCoreEmployed
+					.getSalarySummaryByVersion(voEmployed.getId(), -1);
+			voEmployed.setvOSalarySummary(employedBuilder
+					.BuildVOSalarySummary(salarySummary));
+			
+			return voEmployed;
+
 		} catch (ServerException e) {
 			ThrowServerExceptionAndLogError(e, "obtener los datos del empleado");
 		} catch (ClientException e) {
@@ -392,7 +418,11 @@ public class ServiceWeb extends ServiceBase {
 			transactionLock.tryLock(Constants.DEFAULT_TRANSACTION_TIME,
 					TimeUnit.SECONDS);
 
-			return iCoreEmployed.estimateSalarySummary(voSalarySummary);
+			SalarySummary salarySummary = iCoreEmployed
+					.estimateSalarySummary(employedBuilder
+							.BuildBusinessSalarySummary(voSalarySummary));
+			return employedBuilder.BuildVOSalarySummary(salarySummary);
+
 		} catch (ServerException e) {
 			ThrowServerExceptionAndLogError(e,
 					"estimar el resumen de salario del empleado");
@@ -433,7 +463,11 @@ public class ServiceWeb extends ServiceBase {
 			transactionLock.tryLock(Constants.DEFAULT_TRANSACTION_TIME,
 					TimeUnit.SECONDS);
 
-			iCoreEmployed.updateEmployed(id, voEmployed);
+			Employed employed = employedBuilder.BuildBusinessObject(voEmployed);
+			SalarySummary salarySummary = employedBuilder
+					.BuildBusinessSalarySummary(voEmployed.getvOSalarySummary());
+			iCoreEmployed.updateEmployed(id, employed, salarySummary);
+			
 			return true;
 		} catch (ServerException e) {
 			ThrowServerExceptionAndLogError(e,
@@ -508,7 +542,7 @@ public class ServiceWeb extends ServiceBase {
 			transactionLock.tryLock(Constants.DEFAULT_TRANSACTION_TIME,
 					TimeUnit.SECONDS);
 
-			return iCoreEmployed.getSalarySummaryByVersion(employedId, version);
+			return employedBuilder.BuildVOSalarySummary(iCoreEmployed.getSalarySummaryByVersion(employedId, version));
 
 		} catch (ServerException e) {
 			ThrowServerExceptionAndLogError(e,
@@ -530,7 +564,8 @@ public class ServiceWeb extends ServiceBase {
 			transactionLock.tryLock(Constants.DEFAULT_TRANSACTION_TIME,
 					TimeUnit.SECONDS);
 
-			iCoreCategory.insertCategory(voCategory);
+			iCoreCategory.insertCategory(categoryBuilder
+					.BuildBusinessObject(voCategory));
 
 			return true;
 		} catch (ServerException e) {
@@ -552,7 +587,8 @@ public class ServiceWeb extends ServiceBase {
 			transactionLock.tryLock(Constants.DEFAULT_TRANSACTION_TIME,
 					TimeUnit.SECONDS);
 
-			return iCoreCategory.getCategory(id);
+			return categoryBuilder.BuildVOObject(iCoreCategory.getCategory(id));
+
 		} catch (ServerException e) {
 			ThrowServerExceptionAndLogError(e, "obtener los datos del rubro");
 		} catch (ClientException e) {
@@ -589,15 +625,13 @@ public class ServiceWeb extends ServiceBase {
 	}
 
 	public VOCategory[] getCategories() {
-		ArrayList<VOCategory> voCategories;
 		try {
 			transactionLock.tryLock(Constants.DEFAULT_TRANSACTION_TIME,
 					TimeUnit.SECONDS);
 
-			voCategories = iCoreCategory.getCategories();
-			VOCategory[] arrayVOCategories = new VOCategory[voCategories.size()];
-			voCategories.toArray(arrayVOCategories);
-			return arrayVOCategories;
+			return categoryBuilder.BuildArrayVOObject(VOCategory.class,
+					iCoreCategory.getCategories());
+
 		} catch (ServerException e) {
 			ThrowServerExceptionAndLogError(e, "obtener todos los rubros");
 		} catch (InterruptedException e) {
@@ -610,12 +644,14 @@ public class ServiceWeb extends ServiceBase {
 		return null;
 	}
 
-	public VOCategory updateCategory(int id, VOCategory category) {
+	public VOCategory updateCategory(int id, VOCategory voCategory) {
 		try {
 			transactionLock.tryLock(Constants.DEFAULT_TRANSACTION_TIME,
 					TimeUnit.SECONDS);
 
-			return iCoreCategory.updateCategory(id, category);
+			return categoryBuilder.BuildVOObject(iCoreCategory.updateCategory(
+					id, categoryBuilder.BuildBusinessObject(voCategory)));
+
 		} catch (ServerException e) {
 			ThrowServerExceptionAndLogError(e, "obtener todos los rubros");
 		} catch (ClientException e) {
@@ -631,15 +667,13 @@ public class ServiceWeb extends ServiceBase {
 	}
 
 	public VOCategory[] getCategoriesByProject(int id) {
-		ArrayList<VOCategory> voCategories;
 		try {
 			transactionLock.tryLock(Constants.DEFAULT_TRANSACTION_TIME,
 					TimeUnit.SECONDS);
 
-			voCategories = iCoreCategory.getCategoriesByProject(id);
-			VOCategory[] arrayVOCategories = new VOCategory[voCategories.size()];
-			voCategories.toArray(arrayVOCategories);
-			return arrayVOCategories;
+			return categoryBuilder.BuildArrayVOObject(VOCategory.class,
+					iCoreCategory.getCategoriesByProject(id));
+
 		} catch (ServerException e) {
 			ThrowServerExceptionAndLogError(e,
 					"obtener los rubros del proyecto");
@@ -658,7 +692,7 @@ public class ServiceWeb extends ServiceBase {
 			transactionLock.tryLock(Constants.DEFAULT_TRANSACTION_TIME,
 					TimeUnit.SECONDS);
 
-			iCoreBill.insertBill(voBill);
+			iCoreBill.insertBill(billBuilder.BuildBusinessObject(voBill));
 
 			return true;
 		} catch (ServerException e) {
@@ -680,7 +714,11 @@ public class ServiceWeb extends ServiceBase {
 			transactionLock.tryLock(Constants.DEFAULT_TRANSACTION_TIME,
 					TimeUnit.SECONDS);
 
-			return iCoreBill.updateBill(id, voBill);
+			Bill bill = iCoreBill.updateBill(id,
+					billBuilder.BuildBusinessObject(voBill));
+
+			return billBuilder.BuildVOObject(bill);
+
 		} catch (ServerException e) {
 			ThrowServerExceptionAndLogError(e, "modificar la factura");
 		} catch (ClientException e) {
@@ -696,15 +734,15 @@ public class ServiceWeb extends ServiceBase {
 	}
 
 	public VOBill[] getBills() {
-		ArrayList<VOBill> voBills;
 		try {
 			transactionLock.tryLock(Constants.DEFAULT_TRANSACTION_TIME,
 					TimeUnit.SECONDS);
 
-			voBills = iCoreBill.getBills();
-			VOBill[] arrayVOBills = new VOBill[voBills.size()];
-			voBills.toArray(arrayVOBills);
-			return arrayVOBills;
+			BillBuilder builder = new BillBuilder();
+
+			return builder.BuildArrayVOObject(VOBill.class,
+					iCoreBill.getBills());
+
 		} catch (ServerException e) {
 			ThrowServerExceptionAndLogError(e, "obtener todos las facturas");
 		} catch (InterruptedException e) {
@@ -719,16 +757,13 @@ public class ServiceWeb extends ServiceBase {
 
 	public VOBill[] getBillsWithFilters(Date from, Date to, int projectId,
 			String code, boolean isLiquidated) {
-		ArrayList<VOBill> voBills;
 		try {
 			transactionLock.tryLock(Constants.DEFAULT_TRANSACTION_TIME,
 					TimeUnit.SECONDS);
 
-			voBills = iCoreBill.getBills(from, to, projectId, code,
-					isLiquidated);
-			VOBill[] arrayVOBills = new VOBill[voBills.size()];
-			voBills.toArray(arrayVOBills);
-			return arrayVOBills;
+			return billBuilder
+					.BuildArrayVOObject(VOBill.class, iCoreBill.getBills(from,
+							to, projectId, code, isLiquidated));
 		} catch (ServerException e) {
 			ThrowServerExceptionAndLogError(e, "obtener todos las facturas");
 		} catch (InterruptedException e) {
@@ -876,7 +911,8 @@ public class ServiceWeb extends ServiceBase {
 			transactionLock.tryLock(Constants.DEFAULT_TRANSACTION_TIME,
 					TimeUnit.SECONDS);
 
-			iCoreCharge.insertCharge(voCharge);
+			iCoreCharge.insertCharge(chargeBuilder
+					.BuildBusinessObject(voCharge));
 
 			return true;
 		} catch (ServerException e) {

@@ -19,7 +19,8 @@ public class PartnerProject {
 
 	public PartnerProject(VOPartnerProject voPartnerProject) {
 		// this.project = new Project(voPartnerProject.getProject());
-		this.employed = new Employed(voPartnerProject.getEmployed());
+		//todo:cambiar para que no utilice VO a nivel de la logica de negocio
+		//this.employed = new Employed(voPartnerProject.getEmployed());
 		this.distributionType = voPartnerProject.getDistributionType();
 		this.version = voPartnerProject.getVersion();
 		this.enabled = voPartnerProject.isEnabled();

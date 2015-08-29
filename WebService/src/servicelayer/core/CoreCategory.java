@@ -30,201 +30,199 @@ public class CoreCategory implements ICoreCategory {
 	}
 
 	@Override
-	public void insertCategory(VOCategory voCategory) throws ServerException, ClientException {
+	public void insertCategory(Category category) throws ServerException,
+			ClientException {
 
-		Category category = new Category(voCategory);
-		if(category.getCategoryType() == CategoryType.COMPANY)
-		{	
-			if(iDAOCategory.getCategories(category.getDescription(), CategoryType.COMPANY).size() > 0)
-				throw new ClientException("Ya existe un rubro con esta descripcion");
+		if (category.getCategoryType() == CategoryType.COMPANY) {
+			if (iDAOCategory.getCategories(category.getDescription(),
+					CategoryType.COMPANY).size() > 0)
+				throw new ClientException(
+						"Ya existe un rubro con esta descripcion");
 		}
-		
-		if(category.getCategoryType() == CategoryType.PROJECT && !category.getIsRRHH())
-		{
-			ArrayList<Category> categoriesByDescription = iDAOCategory.getCategories(category.getDescription(), category.getProject().getId());
-			if(categoriesByDescription.size() > 0)
-				throw new ClientException("Ya existe un rubro con esta descripcion");
+
+		if (category.getCategoryType() == CategoryType.PROJECT
+				&& !category.getIsRRHH()) {
+			ArrayList<Category> categoriesByDescription = iDAOCategory
+					.getCategories(category.getDescription(), category
+							.getProject().getId());
+			if (categoriesByDescription.size() > 0)
+				throw new ClientException(
+						"Ya existe un rubro con esta descripcion");
 		}
-		
-		if(category.getCategoryType() == CategoryType.PROJECT && category.getIsRRHH())
-		{
-			ArrayList<Category> categoriesByDescription = iDAOCategory.getCategories(category.getDescription(), category.getProject().getId());
-			
-			if(categoriesByDescription.size() > 0)
-					throw new ClientException("Ese rubro ya esta asosicado al proyecto seleccionado");
+
+		if (category.getCategoryType() == CategoryType.PROJECT
+				&& category.getIsRRHH()) {
+			ArrayList<Category> categoriesByDescription = iDAOCategory
+					.getCategories(category.getDescription(), category
+							.getProject().getId());
+
+			if (categoriesByDescription.size() > 0)
+				throw new ClientException(
+						"Ese rubro ya esta asosicado al proyecto seleccionado");
 		}
-		
-		if(category.getIsCurrencyDollar()){
-			category.setAmountPeso(category.getAmountDollar() * category.getTypeExchange());
+
+		if (category.getIsCurrencyDollar()) {
+			category.setAmountPeso(category.getAmountDollar()
+					* category.getTypeExchange());
 		}
-		
+
 		iDAOCategory.insert(category);
 	}
 
 	@Override
 	public void deleteCateory(int id) throws ServerException, ClientException {
 		Category category = iDAOCategory.getObject(id);
-		if (category == null){
+		if (category == null) {
 			throw new ClientException("No existe rubro con ese id");
 		} else {
 			iDAOCategory.delete(id);
 		}
-		
+
 	}
 
 	@Override
-	public VOCategory updateCategory(int id, VOCategory voCategory)
+	public Category updateCategory(int id, Category category)
 			throws ServerException, ClientException {
-		Category categoryUpdate = new Category(voCategory);
+		Category categoryUpdate = category;
 		Category categoryOld = iDAOCategory.getObject(id);
-		
-		if(!categoryOld.getCategoryType().equals(categoryUpdate.getCategoryType()) || categoryUpdate.getIsRRHH() != categoryOld.getIsRRHH() ||
-				(categoryUpdate.getProject() != null && categoryOld.getProject() != null && categoryUpdate.getProject().getId() != categoryOld.getProject().getId())){
-			if(categoryUpdate.getCategoryType() == CategoryType.COMPANY ) {	
-				if(iDAOCategory.getCategoriesLastVersion(categoryOld.getDescription(), CategoryType.COMPANY).size() > 0
-						&& !categoryUpdate.getCategoryType().equals(categoryOld.getCategoryType()))
-					throw new ClientException("Ya existe un rubro con esta descripcion");
+
+		if (!categoryOld.getCategoryType().equals(
+				categoryUpdate.getCategoryType())
+				|| categoryUpdate.getIsRRHH() != categoryOld.getIsRRHH()
+				|| (categoryUpdate.getProject() != null
+						&& categoryOld.getProject() != null && categoryUpdate
+						.getProject().getId() != categoryOld.getProject()
+						.getId())) {
+			if (categoryUpdate.getCategoryType() == CategoryType.COMPANY) {
+				if (iDAOCategory.getCategoriesLastVersion(
+						categoryOld.getDescription(), CategoryType.COMPANY)
+						.size() > 0
+						&& !categoryUpdate.getCategoryType().equals(
+								categoryOld.getCategoryType()))
+					throw new ClientException(
+							"Ya existe un rubro con esta descripcion");
 			}
-			
-			if(categoryUpdate.getCategoryType() == CategoryType.PROJECT && categoryOld.getProject() != null && !categoryUpdate.getIsRRHH() && categoryOld.getProject().getId() != categoryUpdate.getProject().getId())	{
-				ArrayList<Category> categoriesByDescription = iDAOCategory.getCategoriesLastVersion(categoryOld.getDescription(), categoryUpdate.getProject().getId());
-				if(categoriesByDescription.size() > 0)
-					throw new ClientException("Ya existe un rubro con esta descripcion");
+
+			if (categoryUpdate.getCategoryType() == CategoryType.PROJECT
+					&& categoryOld.getProject() != null
+					&& !categoryUpdate.getIsRRHH()
+					&& categoryOld.getProject().getId() != categoryUpdate
+							.getProject().getId()) {
+				ArrayList<Category> categoriesByDescription = iDAOCategory
+						.getCategoriesLastVersion(categoryOld.getDescription(),
+								categoryUpdate.getProject().getId());
+				if (categoriesByDescription.size() > 0)
+					throw new ClientException(
+							"Ya existe un rubro con esta descripcion");
 			}
-			
-			if(categoryUpdate.getCategoryType() == CategoryType.PROJECT && categoryOld.getProject() != null && categoryUpdate.getIsRRHH() && categoryOld.getProject().getId() != categoryUpdate.getProject().getId()){
-				ArrayList<Category> categoriesByDescription = iDAOCategory.getCategoriesLastVersion(categoryOld.getDescription(), categoryUpdate.getProject().getId());
-				if(categoriesByDescription.size() > 0)
-						throw new ClientException("Ese rubro ya esta asosicado al proyecto seleccionado");
+
+			if (categoryUpdate.getCategoryType() == CategoryType.PROJECT
+					&& categoryOld.getProject() != null
+					&& categoryUpdate.getIsRRHH()
+					&& categoryOld.getProject().getId() != categoryUpdate
+							.getProject().getId()) {
+				ArrayList<Category> categoriesByDescription = iDAOCategory
+						.getCategoriesLastVersion(categoryOld.getDescription(),
+								categoryUpdate.getProject().getId());
+				if (categoriesByDescription.size() > 0)
+					throw new ClientException(
+							"Ese rubro ya esta asosicado al proyecto seleccionado");
 			}
 		}
-			
-		if(changeCategory(categoryOld, categoryUpdate)){
+
+		if (changeCategory(categoryOld, categoryUpdate)) {
 			categoryUpdate.setDescription(categoryOld.getDescription());
 			categoryUpdate.setId(categoryOld.getId());
 			categoryUpdate.setVersion(categoryOld.getVersion());
-			if(categoryUpdate.getIsCurrencyDollar()){
-				categoryUpdate.setAmountPeso(categoryUpdate.getAmountDollar() * categoryUpdate.getTypeExchange());
+			if (categoryUpdate.getIsCurrencyDollar()) {
+				categoryUpdate.setAmountPeso(categoryUpdate.getAmountDollar()
+						* categoryUpdate.getTypeExchange());
 			} else {
 				categoryUpdate.setAmountDollar(0.00);
 			}
-			
+
 			// si se modifica en el mismo dia, actualizo el registro
 			// si no inserto una nueva version
-			if(categoryOld.getUpdatedDateTimeUTC() != null && 
-					DateFormat.getDateInstance().format(categoryOld.getUpdatedDateTimeUTC()).equals(DateFormat.getDateInstance().format(new Date()))){
+			if (categoryOld.getUpdatedDateTimeUTC() != null
+					&& DateFormat
+							.getDateInstance()
+							.format(categoryOld.getUpdatedDateTimeUTC())
+							.equals(DateFormat.getDateInstance().format(
+									new Date()))) {
 				iDAOCategory.update(0, categoryUpdate);
 			} else {
-				iDAOCategory.update(1, categoryUpdate);	
+				iDAOCategory.update(1, categoryUpdate);
 			}
 		}
-		
+
 		return getCategory(id);
 	}
 
 	@Override
-	public VOCategory getCategory(int id) throws ServerException,
-			ClientException {
+	public Category getCategory(int id) throws ServerException, ClientException {
 		Category category;
-		VOCategory voCategory = null;
-		
+
 		category = iDAOCategory.getObject(id);
-		if(category != null){
-			voCategory = BuildVOCategory(category);
-		} else {	
-			throw new ClientException ("No existe ningún rubro con ese id");
-		}
-		
-		return voCategory;
+		if (category == null)
+			throw new ClientException("No existe ningún rubro con ese id");
+
+		return category;
 	}
 
 	@Override
-	public ArrayList<VOCategory> getCategories() throws ServerException {
-		ArrayList<Category> categories;
-		ArrayList<VOCategory> voCategories = null;
+	public ArrayList<Category> getCategories() throws ServerException {
 
-		categories = iDAOCategory.getObjects();
-		voCategories = new ArrayList<VOCategory>();
-		
-		for (Category category : categories) {
-			voCategories.add(BuildVOCategory(category));
-		}
-		
-		return voCategories;
+		return iDAOCategory.getObjects();
 	}
-	
+
 	@Override
-	public ArrayList<VOCategory> getCategoriesByProject(int projectId) throws ServerException,	ClientException {
-		ArrayList<Category> categories;
-		ArrayList<VOCategory> voCategories = null;
-		
-		categories = iDAOCategory.getCategoriesByProject(projectId);
-		voCategories = new ArrayList<VOCategory>();
-		
-		for (Category category : categories) {
-			voCategories.add(BuildVOCategory(category));
-		}
-		
-		return voCategories;
+	public ArrayList<Category> getCategoriesByProject(int projectId)
+			throws ServerException, ClientException {
+
+		return iDAOCategory.getCategoriesByProject(projectId);
 	}
-	
-	private VOCategory BuildVOCategory(Category category)
-	{
-		VOCategory voCategory = new VOCategory();
-		voCategory.setId(category.getId());
-		voCategory.setDescription(category.getDescription());
-		voCategory.setAmountPeso(category.getAmountPeso());
-		voCategory.setAmountDollar(category.getAmountDollar());
-		voCategory.setIsCurrencyDollar(category.getIsCurrencyDollar());
-		voCategory.setTypeExchange(category.getTypeExchange());
-		voCategory.setAppliedDateTimeUTC(category.getAppliedDateTimeUTC());
-		if(category.getProject() != null)
-		{
-			voCategory.setProjectId(category.getProject().getId());
-			voCategory.setProjectName(category.getProject().getName());
-		}
-		voCategory.setCategoryType(category.getCategoryType().getValue());
-		voCategory.setIsRRHH(category.getIsRRHH());
-		
-		return voCategory;
-	}
-	
-	private boolean changeCategory(Category toUpdate, Category oldCategory){
+
+	private boolean changeCategory(Category toUpdate, Category oldCategory) {
 		boolean change = false;
-		
-		if(toUpdate.getAmountPeso() != oldCategory.getAmountPeso()){
-			change = true;
-		}
-		
-		if(toUpdate.getIsCurrencyDollar() != oldCategory.getIsCurrencyDollar()){
+
+		if (toUpdate.getAmountPeso() != oldCategory.getAmountPeso()) {
 			change = true;
 		}
 
-		if(toUpdate.getTypeExchange() != oldCategory.getTypeExchange()){
+		if (toUpdate.getIsCurrencyDollar() != oldCategory.getIsCurrencyDollar()) {
 			change = true;
 		}
-		
-		if (toUpdate.getIsRRHH() != oldCategory.getIsRRHH()){
+
+		if (toUpdate.getTypeExchange() != oldCategory.getTypeExchange()) {
 			change = true;
 		}
-		
-		if (toUpdate.getCategoryType() != oldCategory.getCategoryType()){
+
+		if (toUpdate.getIsRRHH() != oldCategory.getIsRRHH()) {
 			change = true;
 		}
-		
-		if (toUpdate.getProject() != null && oldCategory.getProject() != null){
-			if(toUpdate.getProject().getId() != oldCategory.getProject().getId()){
+
+		if (toUpdate.getCategoryType() != oldCategory.getCategoryType()) {
+			change = true;
+		}
+
+		if (toUpdate.getProject() != null && oldCategory.getProject() != null) {
+			if (toUpdate.getProject().getId() != oldCategory.getProject()
+					.getId()) {
 				change = true;
 			}
-		} else if((toUpdate.getProject() == null && oldCategory.getProject() != null) ||
-				(toUpdate.getProject() != null && oldCategory.getProject() == null)){
+		} else if ((toUpdate.getProject() == null && oldCategory.getProject() != null)
+				|| (toUpdate.getProject() != null && oldCategory.getProject() == null)) {
 			change = true;
 		}
-		
-		if (!DateFormat.getDateInstance().format(toUpdate.getAppliedDateTimeUTC()).equals(DateFormat.getDateInstance().format(oldCategory.getAppliedDateTimeUTC()))){
+
+		if (!DateFormat
+				.getDateInstance()
+				.format(toUpdate.getAppliedDateTimeUTC())
+				.equals(DateFormat.getDateInstance().format(
+						oldCategory.getAppliedDateTimeUTC()))) {
 			change = true;
 		}
-		
+
 		return change;
 	}
 

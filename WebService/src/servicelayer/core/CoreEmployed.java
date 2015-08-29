@@ -3,8 +3,10 @@ package servicelayer.core;
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+
 import datalayer.daos.DAOManager;
 import servicelayer.entity.businessEntity.Employed;
+import servicelayer.entity.businessEntity.EmployedType;
 import servicelayer.entity.businessEntity.SalarySummary;
 import servicelayer.entity.businessEntity.SalarySummaryVersion;
 import servicelayer.entity.valueObject.VOEmployed;
@@ -30,8 +32,8 @@ public class CoreEmployed implements ICoreEmployed {
 	}
 
 	@Override
-	public void insertEmployed(VOEmployed voEmployed) throws ServerException,
-			ClientException {
+	public void insertEmployed(Employed employed, SalarySummary salarySummary)
+			throws ServerException, ClientException {
 
 		// utlizar el dao manager para realizar el insertar el empleado y su
 		// respectivo resumen de salario
@@ -40,24 +42,26 @@ public class CoreEmployed implements ICoreEmployed {
 		DAOManager daoManager = new DAOManager();
 		try {
 			int countPartners = daoManager.getDAOEmployees().getCountPartners();
-			if (countPartners >= 2 && voEmployed.getEmployedType() == 2) {
+			if (countPartners >= 2
+					&& employed.getEmployedType() == EmployedType.PARTNER) {
 				throw new ClientException(
 						"No se pueden crear más de dos empleados de tipo socio");
 			} else {
-				Employed emp = new Employed(voEmployed,
-						daoManager.getDAOSalarySummaries());
-				emp.setCreatedDateTimeUTC(new Date());
-				emp.setUpdatedDateTimeUTC(new Date());
+
+				employed.setIDAOSalarySummaries(daoManager
+						.getDAOSalarySummaries());
+				employed.setCreatedDateTimeUTC(new Date());
+				employed.setUpdatedDateTimeUTC(new Date());
 				// add new employed
-				int newEmployedId = daoManager.getDAOEmployees().insert(emp);
+				int newEmployedId = daoManager.getDAOEmployees().insert(
+						employed);
 
-				emp.setId(newEmployedId);
+				employed.setId(newEmployedId);
 
-				SalarySummary salarySummary = calculateSalarySummary(voEmployed
-						.getvOSalarySummary());
-				salarySummary.setCreatedDateTimeUTC(new Date());
+				SalarySummary calculateSalarySummary = calculateSalarySummary(salarySummary);
+				calculateSalarySummary.setCreatedDateTimeUTC(new Date());
 				// add new salary summary for employed
-				emp.addNewSalarySummary(salarySummary);
+				employed.addNewSalarySummary(calculateSalarySummary);
 
 				daoManager.commit();
 			}
@@ -71,50 +75,28 @@ public class CoreEmployed implements ICoreEmployed {
 	}
 
 	@Override
-	public ArrayList<VOEmployed> getEmployess() throws ServerException {
-
-		ArrayList<Employed> employees;
-		ArrayList<VOEmployed> voEmployess = null;
+	public ArrayList<Employed> getEmployess() throws ServerException {
 
 		DAOManager daoManager = new DAOManager();
 		try {
-			employees = daoManager.getDAOEmployees().getObjects();
-			voEmployess = new ArrayList<VOEmployed>();
-
-			for (Employed employed : employees) {
-				employed.setIDAOSalarySummaries(daoManager
-						.getDAOSalarySummaries());
-				SalarySummary salarySummary = employed
-						.getLatestVersionSalarySummary();
-				VOEmployed voEmployed = BuildVOEmployed(employed, salarySummary);
-
-				voEmployess.add(voEmployed);
-			}
+			return daoManager.getDAOEmployees().getObjects();
 
 		} catch (ServerException e) {
 			throw e;
 		} finally {
 			daoManager.close();
 		}
-		return voEmployess;
 	}
 
 	@Override
-	public VOEmployed getEmployed(int id) throws ServerException,
-			ClientException {
+	public Employed getEmployed(int id) throws ServerException, ClientException {
 
 		Employed employed;
-		VOEmployed voEmployed = null;
 
 		DAOManager daoManager = new DAOManager();
 		try {
-
 			employed = daoManager.getDAOEmployees().getObject(id);
-			if (employed != null) {
-				SalarySummary salarySummary = employed
-						.getLatestVersionSalarySummary();
-				voEmployed = BuildVOEmployed(employed, salarySummary);
-			} else
+			if (employed == null)
 				throw new ClientException("No existe un empleado con ese id");
 
 		} catch (ServerException e) {
@@ -122,15 +104,15 @@ public class CoreEmployed implements ICoreEmployed {
 		} finally {
 			daoManager.close();
 		}
-		return voEmployed;
+		return employed;
 	}
 
 	@Override
-	public VOSalarySummary estimateSalarySummary(VOSalarySummary voSummarySalary)
+	public SalarySummary estimateSalarySummary(SalarySummary voSummarySalary)
 			throws ServerException {
 		SalarySummary salarySummary = calculateSalarySummary(voSummarySalary);
 
-		return BuildVOSalarySummary(salarySummary);
+		return salarySummary;
 	}
 
 	@Override
@@ -160,7 +142,7 @@ public class CoreEmployed implements ICoreEmployed {
 	}
 
 	@Override
-	public void updateEmployed(int id, VOEmployed voEmployed)
+	public void updateEmployed(int id, Employed employed, SalarySummary salarySummary)
 			throws ServerException, ClientException {
 		DAOManager daoManager = new DAOManager();
 
@@ -177,39 +159,37 @@ public class CoreEmployed implements ICoreEmployed {
 						.getCountPartners();
 
 				if (countPartners >= 2
-						&& voEmployed.getEmployedType() == 2
-						&& currentEmployed.getEmployedType().getValue() != voEmployed
+						&& employed.getEmployedType() == EmployedType.PARTNER
+						&& currentEmployed.getEmployedType() != employed
 								.getEmployedType()) {
 					throw new ClientException(
 							"No pueden haber más de dos empleados de tipo socio");
 
 				} else {
-					Employed updatedEmployed = new Employed(voEmployed);
+
 					// UPDATE EMPLOYED
-					updatedEmployed.setUpdatedDateTimeUTC(new Date());
-					daoManager.getDAOEmployees().update(id, updatedEmployed);
+					employed.setUpdatedDateTimeUTC(new Date());
+					daoManager.getDAOEmployees().update(id, employed);
 
 					// CREATE NEW VERSION OF SALARY SUMMARY
-					SalarySummary currentSalarySummary = currentEmployed
-							.getLatestVersionSalarySummary();
-					SalarySummary salarySummary = calculateSalarySummary(voEmployed
-							.getvOSalarySummary());
+					SalarySummary currentSalarySummary = currentEmployed.getLatestVersionSalarySummary();
+					SalarySummary calculateSalarySummary = calculateSalarySummary(salarySummary);
 					if (updatedSalarySummaries(currentSalarySummary,
-							salarySummary)) {
+							calculateSalarySummary)) {
 						if (!DateFormat
 								.getDateInstance()
 								.format(currentSalarySummary
 										.getCreatedDateTimeUTC())
 								.equals(DateFormat.getDateInstance().format(
 										new Date()))) {
-							salarySummary.setCreatedDateTimeUTC(new Date());
-							currentEmployed.addNewSalarySummary(salarySummary);
+							calculateSalarySummary.setCreatedDateTimeUTC(new Date());
+							currentEmployed.addNewSalarySummary(calculateSalarySummary);
 						} else {
 							// Actualizar el mismo registro que esta
 							// salarySummary.setCreatedDateTimeUTC(currentSalarySummary.getCreatedDateTimeUTC());
-							salarySummary.setCreatedDateTimeUTC(new Date());
-							salarySummary.setId(currentSalarySummary.getId());
-							currentEmployed.updateSalarySummary(salarySummary);
+							calculateSalarySummary.setCreatedDateTimeUTC(new Date());
+							calculateSalarySummary.setId(currentSalarySummary.getId());
+							currentEmployed.updateSalarySummary(calculateSalarySummary);
 						}
 					}
 
@@ -251,21 +231,21 @@ public class CoreEmployed implements ICoreEmployed {
 	}
 
 	@Override
-	public VOSalarySummary getSalarySummaryByVersion(int employedId, int version)
+	public SalarySummary getSalarySummaryByVersion(int employedId, int version)
 			throws ServerException, ClientException {
-		VOSalarySummary voSalarySummary = null;
+		SalarySummary salarySummary = null;
 		DAOManager daoManager = new DAOManager();
 		try {
 			Employed employed = daoManager.getDAOEmployees().getObject(
 					employedId);
 			if (employed != null) {
-				employed.setIDAOSalarySummaries(daoManager
-						.getDAOSalarySummaries());
-				SalarySummary salarySummary = employed
-						.getSalarySummaryByVersion(version);
-				if (salarySummary != null) {
-					voSalarySummary = BuildVOSalarySummary(salarySummary);
-				}
+				employed.setIDAOSalarySummaries(daoManager.getDAOSalarySummaries());
+				
+				//version -1, indica la ultima version
+				if(version == -1)
+					salarySummary = employed.getLatestVersionSalarySummary();
+				else
+					salarySummary = employed.getSalarySummaryByVersion(version);
 			} else
 				throw new ClientException("No existe un empleado con ese id");
 
@@ -274,9 +254,10 @@ public class CoreEmployed implements ICoreEmployed {
 		} finally {
 			daoManager.close();
 		}
-		return voSalarySummary;
+		return salarySummary;
 	}
 
+	//todo: eliminar el value object de este metodo
 	@Override
 	public ArrayList<VOSalarySummaryVersion> getAllSalarySummaryVersion(
 			int employedId) throws ServerException, ClientException {
@@ -329,9 +310,9 @@ public class CoreEmployed implements ICoreEmployed {
 	// return voEmployedProject;
 	// }
 
-	SalarySummary calculateSalarySummary(VOSalarySummary voSalarySummary)
+	SalarySummary calculateSalarySummary(SalarySummary salarySummary)
 			throws ServerException {
-		SalarySummary salarySummary = new SalarySummary();
+		SalarySummary newSalarySummary = new SalarySummary();
 
 		double percentage_persoanl_retirement_contribution = Double
 				.parseDouble(ConfigurationProperties
@@ -358,188 +339,129 @@ public class CoreEmployed implements ICoreEmployed {
 				.parseDouble(ConfigurationProperties
 						.GetConfigValue("PERCENTAGE_INCIDENCE_SALARY"));
 
-		salarySummary.setNominalSalary(voSalarySummary.getNominalSalary());
-		salarySummary.setTickets(voSalarySummary.getTickets());
+		newSalarySummary.setNominalSalary(salarySummary.getNominalSalary());
+		newSalarySummary.setTickets(salarySummary.getTickets());
 
-		salarySummary.setiRPF(voSalarySummary.getiRPF());
-		salarySummary.setbSE(voSalarySummary.getbSE());
-		salarySummary.setrET(voSalarySummary.getrET());
-		salarySummary.setHours(voSalarySummary.getHours());
-		salarySummary.setCostSaleHour(voSalarySummary.getCostSaleHour());
+		newSalarySummary.setiRPF(salarySummary.getiRPF());
+		newSalarySummary.setbSE(salarySummary.getbSE());
+		newSalarySummary.setrET(salarySummary.getrET());
+		newSalarySummary.setHours(salarySummary.getHours());
+		newSalarySummary.setCostSaleHour(salarySummary.getCostSaleHour());
 
 		// aporte jubilatorio personal
-		double personalRetirementContribution = (voSalarySummary
+		double personalRetirementContribution = (salarySummary
 				.getNominalSalary() * percentage_persoanl_retirement_contribution);
-		salarySummary
+		newSalarySummary
 				.setPersonalRetirementContribution(personalRetirementContribution);
 
 		// aporte jubilatorio patronal
-		double employersContributionsRetirement = (voSalarySummary
+		double employersContributionsRetirement = (salarySummary
 				.getNominalSalary() * percentage_employers_contributions_retirement);
-		salarySummary
+		newSalarySummary
 				.setEmployersContributionsRetirement(employersContributionsRetirement);
 
 		// aporte FONASA personal
-		double personalFONASAContribution = voSalarySummary.getNominalSalary()
-				* voSalarySummary.getPercentageTypeFONASA();
-		salarySummary.setPersonalFONASAContribution(personalFONASAContribution);
+		double personalFONASAContribution = salarySummary.getNominalSalary()
+				* salarySummary.getPercentageTypeFONASA();
+		newSalarySummary
+				.setPersonalFONASAContribution(personalFONASAContribution);
 
 		// aporte FONASA patronal
-		double employersFONASAContribution = voSalarySummary.getNominalSalary()
+		double employersFONASAContribution = salarySummary.getNominalSalary()
 				* percentage_employers_FONASA_contribution;
-		salarySummary
+		newSalarySummary
 				.setEmployersFONASAContribution(employersFONASAContribution);
 
 		// aporte FRL personal
-		double personalFRLContribution = voSalarySummary.getNominalSalary()
+		double personalFRLContribution = salarySummary.getNominalSalary()
 				* percentage_FRL_contribution;
-		salarySummary.setPersonalFRLContribution(personalFRLContribution);
+		newSalarySummary.setPersonalFRLContribution(personalFRLContribution);
 
-		double employersFRLContribution = voSalarySummary.getNominalSalary()
+		double employersFRLContribution = salarySummary.getNominalSalary()
 				* percentage_FRL_contribution;
-		salarySummary.setEmployersFRLContribution(employersFRLContribution);
+		newSalarySummary.setEmployersFRLContribution(employersFRLContribution);
 
 		// tickets patronal
-		double ticketsEmployers = voSalarySummary.getTickets()
+		double ticketsEmployers = salarySummary.getTickets()
 				* percentage_tickets_employers;
-		salarySummary.setTicketsEmployers(ticketsEmployers);
+		newSalarySummary.setTicketsEmployers(ticketsEmployers);
 
 		// total de descuentos
 		// aporte jubilatorio personal + FONASA personal + FRL personal + IRPF
-		double totalDiscounts = salarySummary
+		double totalDiscounts = newSalarySummary
 				.getPersonalRetirementContribution()
-				+ salarySummary.getPersonalFONASAContribution()
-				+ salarySummary.getPersonalFRLContribution()
-				+ salarySummary.getiRPF();
-		salarySummary.setTotalDiscounts(totalDiscounts);
+				+ newSalarySummary.getPersonalFONASAContribution()
+				+ newSalarySummary.getPersonalFRLContribution()
+				+ newSalarySummary.getiRPF();
+		newSalarySummary.setTotalDiscounts(totalDiscounts);
 
 		// total aportes patronales
 		// aporte jubilatorio patronal + FONASA patronal + FRL patronal + total
 		// tickets patronal + BSE
-		double totalEmployerContributions = salarySummary
+		double totalEmployerContributions = newSalarySummary
 				.getEmployersContributionsRetirement()
-				+ salarySummary.getEmployersFONASAContribution()
-				+ salarySummary.getEmployersFRLContribution()
-				+ salarySummary.getTicketsEmployers() + salarySummary.getbSE();
-		salarySummary.setTotalEmployerContributions(totalEmployerContributions);
+				+ newSalarySummary.getEmployersFONASAContribution()
+				+ newSalarySummary.getEmployersFRLContribution()
+				+ newSalarySummary.getTicketsEmployers()
+				+ newSalarySummary.getbSE();
+		newSalarySummary
+				.setTotalEmployerContributions(totalEmployerContributions);
 
 		// nominal sin aportes
-		double nominalWithoutContributions = salarySummary.getNominalSalary()
-				- salarySummary.getTotalDiscounts();
-		salarySummary
+		double nominalWithoutContributions = newSalarySummary
+				.getNominalSalary() - newSalarySummary.getTotalDiscounts();
+		newSalarySummary
 				.setNominalWithoutContributions(nominalWithoutContributions);
 
 		// prevencion de despido
 		// =(nominal/12)+((nominal/12)*var3)+(nominal/30*var1*var2)
-		double nominal = salarySummary.getNominalSalary();
+		double nominal = newSalarySummary.getNominalSalary();
 		double dismissalPrevention = (nominal / 12)
 				+ ((nominal / 12) * var3_prev)
 				+ (nominal / 30 * var1_prev * var2_prev);
-		salarySummary.setDismissalPrevention(dismissalPrevention);
+		newSalarySummary.setDismissalPrevention(dismissalPrevention);
 
 		// incidencia sueldo
-		double incidenceSalary = salarySummary.getNominalSalary()
+		double incidenceSalary = newSalarySummary.getNominalSalary()
 				* percentage_incidence_salary;
-		salarySummary.setIncidenceSalary(incidenceSalary);
+		newSalarySummary.setIncidenceSalary(incidenceSalary);
 
 		// incidencia tickets
 		// =(nominal/12)+((nominal/12)*var3)
-		double tickets = salarySummary.getTickets();
+		double tickets = newSalarySummary.getTickets();
 		double incidenceTickets = (tickets / 12) + ((tickets / 12) * var3_prev);
-		salarySummary.setIncidenceTickets(incidenceTickets);
+		newSalarySummary.setIncidenceTickets(incidenceTickets);
 
 		// salario a pagar(sueldo liquido del empleado)
 		// nominal + tickets - total descuentos - ret
-		double salaryToPay = salarySummary.getNominalSalary()
-				+ salarySummary.getTickets()
-				- salarySummary.getTotalDiscounts() - salarySummary.getrET();
-		salarySummary.setSalaryToPay(salaryToPay);
+		double salaryToPay = newSalarySummary.getNominalSalary()
+				+ newSalarySummary.getTickets()
+				- newSalarySummary.getTotalDiscounts()
+				- newSalarySummary.getrET();
+		newSalarySummary.setSalaryToPay(salaryToPay);
 
 		// costo mensual
 		// nominal + tickets + total aportes patronales + incidencia de sueldo +
 		// incidencia de tickes + prevencion de despido
-		double _nominal = salarySummary.getNominalSalary();
-		double _tickets = salarySummary.getTickets();
-		double _totalEmployersContributions = salarySummary
+		double _nominal = newSalarySummary.getNominalSalary();
+		double _tickets = newSalarySummary.getTickets();
+		double _totalEmployersContributions = newSalarySummary
 				.getTotalEmployerContributions();
-		double _incidenceSalary = salarySummary.getIncidenceSalary();
-		double _incidenceTickets = salarySummary.getIncidenceTickets();
-		double _dismissalPrevention = salarySummary.getDismissalPrevention();
+		double _incidenceSalary = newSalarySummary.getIncidenceSalary();
+		double _incidenceTickets = newSalarySummary.getIncidenceTickets();
+		double _dismissalPrevention = newSalarySummary.getDismissalPrevention();
 		;
 		double costMonth = _nominal + _tickets + _totalEmployersContributions
 				+ _incidenceSalary + _incidenceTickets + _dismissalPrevention;
-		salarySummary.setCostMonth(costMonth);
+		newSalarySummary.setCostMonth(costMonth);
 
 		// costo hora
 		// costo mensual / cantidad de horas
-		double costRealHour = salarySummary.getCostMonth()
-				/ salarySummary.getHours();
-		salarySummary.setCostRealHour(costRealHour);
+		double costRealHour = newSalarySummary.getCostMonth()
+				/ newSalarySummary.getHours();
+		newSalarySummary.setCostRealHour(costRealHour);
 
-		return salarySummary;
-	}
-
-	VOEmployed BuildVOEmployed(Employed employed, SalarySummary salarySummary) {
-		VOEmployed voEmployed = new VOEmployed();
-		voEmployed.setId(employed.getId());
-		voEmployed.setName(employed.getName());
-		voEmployed.setLastName(employed.getLastName());
-		voEmployed.setEmail(employed.getEmail());
-		voEmployed.setAddress(employed.getAddress());
-		voEmployed.setCellPhone(employed.getCellPhone());
-		voEmployed.setCreatedDateTimeUTC(employed.getCreatedDateTimeUTC());
-		voEmployed.setUpdatedDateTimeUTC(employed.getUpdatedDateTimeUTC());
-		voEmployed.setEmployedType(employed.getEmployedType().getValue());
-
-		if (salarySummary != null)
-			voEmployed.setvOSalarySummary(BuildVOSalarySummary(salarySummary));
-
-		return voEmployed;
-	}
-
-	VOSalarySummary BuildVOSalarySummary(SalarySummary salarySummary) {
-		VOSalarySummary voSalarySummary = new VOSalarySummary();
-		voSalarySummary.setId(salarySummary.getId());
-		voSalarySummary.setVersion(salarySummary.getVersion());
-		voSalarySummary.setNominalSalary(salarySummary.getNominalSalary());
-		voSalarySummary.setTickets(salarySummary.getTickets());
-		voSalarySummary.setPersonalRetirementContribution(salarySummary
-				.getPersonalRetirementContribution());
-		voSalarySummary.setEmployersContributionsRetirement(salarySummary
-				.getEmployersContributionsRetirement());
-		voSalarySummary.setPersonalFONASAContribution(salarySummary
-				.getPersonalFONASAContribution());
-		voSalarySummary.setEmployersFONASAContribution(salarySummary
-				.getEmployersFONASAContribution());
-		voSalarySummary.setPersonalFRLContribution(salarySummary
-				.getPersonalFRLContribution());
-		voSalarySummary.setEmployersFRLContribution(salarySummary
-				.getEmployersFRLContribution());
-		voSalarySummary.setiRPF(salarySummary.getiRPF());
-		voSalarySummary
-				.setTicketsEmployers(salarySummary.getTicketsEmployers());
-		voSalarySummary.setbSE(salarySummary.getbSE());
-		voSalarySummary.setTotalDiscounts(salarySummary.getTotalDiscounts());
-		voSalarySummary.setTotalEmployerContributions(salarySummary
-				.getTotalEmployerContributions());
-		voSalarySummary.setNominalWithoutContributions(salarySummary
-				.getNominalWithoutContributions());
-		voSalarySummary.setDismissalPrevention(salarySummary
-				.getDismissalPrevention());
-		voSalarySummary.setIncidenceSalary(salarySummary.getIncidenceSalary());
-		voSalarySummary
-				.setIncidenceTickets(salarySummary.getIncidenceTickets());
-		voSalarySummary.setrET(salarySummary.getrET());
-		voSalarySummary.setSalaryToPay(salarySummary.getSalaryToPay());
-		voSalarySummary.setCostMonth(salarySummary.getCostMonth());
-		voSalarySummary.setCostRealHour(salarySummary.getCostRealHour());
-		voSalarySummary.setCostSaleHour(salarySummary.getCostSaleHour());
-		voSalarySummary.setHours(salarySummary.getHours());
-		voSalarySummary.setPercentageTypeFONASA(voSalarySummary
-				.getPersonalFONASAContribution()
-				/ voSalarySummary.getNominalSalary());
-
-		return voSalarySummary;
+		return newSalarySummary;
 	}
 
 	boolean updatedSalarySummaries(SalarySummary currentSalarySummary,

@@ -1,27 +1,28 @@
 package shared.interfaces.core;
 
 import java.util.ArrayList;
-import servicelayer.entity.valueObject.VOEmployed;
-import servicelayer.entity.valueObject.VOSalarySummary;
+
+import servicelayer.entity.businessEntity.Employed;
+import servicelayer.entity.businessEntity.SalarySummary;
 import servicelayer.entity.valueObject.VOSalarySummaryVersion;
 import shared.exceptions.ClientException;
 import shared.exceptions.ServerException;
 
 public interface ICoreEmployed {
 
-	void insertEmployed(VOEmployed voEmployed) throws ServerException,
+	void insertEmployed(Employed employed, SalarySummary salarySummary) throws ServerException,
 			ClientException;
 
-	ArrayList<VOEmployed> getEmployess() throws ServerException;
+	ArrayList<Employed> getEmployess() throws ServerException;
 
-	VOEmployed getEmployed(int id) throws ServerException, ClientException;
+	Employed getEmployed(int id) throws ServerException, ClientException;
 
-	VOSalarySummary estimateSalarySummary(VOSalarySummary voSummarySalary)
+	SalarySummary estimateSalarySummary(SalarySummary voSummarySalary)
 			throws ServerException;
 
 	void deleteEmployed(int id) throws ServerException, ClientException;
 
-	void updateEmployed(int id, VOEmployed voEmployed) throws ServerException,
+	void updateEmployed(int id, Employed employed, SalarySummary salarySummary) throws ServerException,
 			ClientException;
 
 	ArrayList<Integer> getAllVersionSalarySummary(int employedId)
@@ -30,7 +31,7 @@ public interface ICoreEmployed {
 	ArrayList<VOSalarySummaryVersion> getAllSalarySummaryVersion(int employedId)
 			throws ServerException, ClientException;
 
-	VOSalarySummary getSalarySummaryByVersion(int employedId, int version)
+	SalarySummary getSalarySummaryByVersion(int employedId, int version)
 			throws ServerException, ClientException;
 
 	// ArrayList<VOEmployedProject> getEmployedHours() throws ServerException,

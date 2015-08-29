@@ -22,25 +22,6 @@ public class Category {
 	public Category() {
 	}
 
-	public Category(VOCategory voCategory) {
-		this.id = voCategory.getId();
-		this.version = voCategory.getVersion();
-		this.description = voCategory.getDescription();
-		this.amountPeso = voCategory.getAmountPeso();
-		this.amountDollar = voCategory.getAmountDollar();
-		this.isCurrencyDollar = voCategory.getIsCurrencyDollar();
-		this.typeExchange = voCategory.getTypeExchange();
-		this.appliedDateTimeUTC = voCategory.getAppliedDateTimeUTC();
-		if (voCategory.getProjectId() != 0)
-			this.project = new Project(voCategory.getProjectId());
-		if (voCategory.getCategoryType() == 1)
-			this.project = null;
-		this.categoryType = CategoryType.getEnum(voCategory.getCategoryType());
-		this.isRRHH = voCategory.getIsRRHH();
-		this.appliedDateTimeUTC = voCategory.getAppliedDateTimeUTC();
-		this.updatedDateTimeUTC = voCategory.getUpdatedDateTimeUTC();
-	}
-
 	public int getId() {
 		return id;
 	}

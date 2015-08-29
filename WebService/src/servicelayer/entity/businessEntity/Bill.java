@@ -25,19 +25,6 @@ public class Bill {
 	{
 		this.id = id;
 	}
-	
-	public Bill(VOBill voBill) {
-		this.id = voBill.getId();
-		this.code = voBill.getCode();
-		this.description = voBill.getDescription();
-		this.amountPeso = voBill.getAmountPeso();
-		this.amountDollar = voBill.getAmountDollar();
-		this.isCurrencyDollar = voBill.getIsCurrencyDollar();
-		this.typeExchange = voBill.getTypeExchange();
-		this.appliedDateTimeUTC = voBill.getAppliedDateTimeUTC();
-		if (voBill.getProjectId() != 0)
-			this.project = new Project(voBill.getProjectId());
-	}
 
 	public int getId() {
 		return id;

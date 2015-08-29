@@ -124,7 +124,7 @@ public class CategoryController {
 			ServiceWebStub service = new ServiceWebStub();
 			UpdateCategory modifyCategory = new UpdateCategory();
 			
-			modifyCategory.setCategory(result);
+			modifyCategory.setVoCategory(result);
 			modifyCategory.setId(idCategory);
 			result = service.updateCategory(modifyCategory).get_return();
 			category = new Category(result);
