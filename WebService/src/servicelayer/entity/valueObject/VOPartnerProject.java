@@ -1,30 +1,42 @@
 package servicelayer.entity.valueObject;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class VOPartnerProject {
-	private VOProject project;
-	private VOEmployed employed;
+public class VOPartnerProject implements Serializable {
+	
+	private static final long serialVersionUID = 1L;
+	private int employedId;
+	private String employedName;
+	private String employedLastName;
 	private int distributionType;
 	private int version;
 	private boolean enabled;
 	private Date createdDateTimeUTC;
 	private Date updatedDateTimeUTC;
-
-	public VOProject getProject() {
-		return project;
+	
+	public int getEmployedId() {
+		return employedId;
 	}
 
-	public void setProject(VOProject project) {
-		this.project = project;
+	public void setEmployedId(int employedId) {
+		this.employedId = employedId;
 	}
 
-	public VOEmployed getEmployed() {
-		return employed;
+	public String getEmployedName() {
+		return employedName;
 	}
 
-	public void setEmployed(VOEmployed employed) {
-		this.employed = employed;
+	public void setEmployedName(String employedName) {
+		this.employedName = employedName;
+	}
+
+	public String getEmployedLastName() {
+		return employedLastName;
+	}
+
+	public void setEmployedLastName(String employedLastName) {
+		this.employedLastName = employedLastName;
 	}
 
 	public int getDistributionType() {

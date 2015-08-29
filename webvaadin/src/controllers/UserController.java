@@ -294,29 +294,31 @@ public class UserController {
 	}
 	
 	public static Collection<User> getUsersByType(int type){
-//		Collection<User> users = new ArrayList<User>();
-//		
-//		try {
-//			ServiceWebStub service = new ServiceWebStub();
-//			GetUsersByType getUsers = new GetUsersByType();
-//			getUsers.setUserTypeId(type);
-//			
-//			VOUser [] voUsers = service.getUsersByType(getUsers).get_return();
-//
-//			if(voUsers != null){
-//				for(VOUser voUser : voUsers){
-//					User user = new User(voUser);
-//					users.add(user);
-//				}
-//			}
-//			
-//		} catch (AxisFault e) {
-//			String error = e.getMessage().replace("<faultstring>", "");
-//			PopupWindow popup = new PopupWindow("ERROR", error.replace("</faultstring>", ""));
-//		} catch (RemoteException e) {
-//			e.printStackTrace();
-//		}
-//		
-		return null;		
+		Collection<User> users = new ArrayList<User>();
+		
+		try {
+			ServiceWebStub service = new ServiceWebStub();
+			GetUsersByStatus getUsers = new GetUsersByStatus();
+			getUsers.setUserStatusId(1);
+						
+			VOUser [] voUsers = service.getUsersByStatus(getUsers).get_return();
+
+			if(voUsers != null){
+				for(VOUser voUser : voUsers){
+					if(voUser.getUserType() == type){
+						User user = new User(voUser);
+						users.add(user);
+					}
+				}
+			}
+			
+		} catch (AxisFault e) {
+			String error = e.getMessage().replace("<faultstring>", "");
+			PopupWindow popup = new PopupWindow("ERROR", error.replace("</faultstring>", ""));
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
+	
+		return users;		
 	}
 }

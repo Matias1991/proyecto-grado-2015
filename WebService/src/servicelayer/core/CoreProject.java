@@ -3,8 +3,8 @@ package servicelayer.core;
 import java.util.ArrayList;
 import java.util.Date;
 
-
 import datalayer.daos.DAOManager;
+import datalayer.daos.DAOProjects;
 import servicelayer.entity.businessEntity.EmployedProject;
 import servicelayer.entity.businessEntity.PartnerProject;
 import servicelayer.entity.businessEntity.Project;
@@ -14,13 +14,16 @@ import servicelayer.entity.valueObject.VOProject;
 import shared.exceptions.ClientException;
 import shared.exceptions.ServerException;
 import shared.interfaces.core.ICoreProject;
+import shared.interfaces.dataLayer.IDAOProjects;
 import datalayer.daos.DAOManager;
 
 public class CoreProject implements ICoreProject {
 
 	private static CoreProject instance = null;
+	private IDAOProjects iDAOProject;
 
-	private CoreProject() {
+	private CoreProject()throws ServerException {
+		iDAOProject = new DAOProjects();
 	}
 
 	public static CoreProject GetInstance() throws ServerException {
@@ -31,15 +34,14 @@ public class CoreProject implements ICoreProject {
 	}
 
 	@Override
-	public void insertProject(VOProject voProject) throws ServerException,
+	public void insertProject(Project project, ArrayList<EmployedProject> employedProjects,
+			ArrayList<PartnerProject> partnerProjects) throws ServerException,
 			ClientException {
 		DAOManager daoManager = new DAOManager();
 		try {
 			if (daoManager.getDAOProjects().getProjectUByUserName(
-					voProject.getName()) == null) {
+					project.getName()) == null) {
 				// Datos propios del proyecto
-				Project project = new Project(voProject,
-						daoManager.getDAOEmployedProjects(), daoManager.getDAOPartnerProjects());
 				project.setCreatedDateTimeUTC(new Date());
 				project.setUpdatedDateTimeUTC(new Date());
 				project.setEnabled(true);
@@ -48,25 +50,20 @@ public class CoreProject implements ICoreProject {
 				project.setId(newProjectId);
 
 				// Todos los usuarios asociados al proyecto
-				for (VOEmployedProject voEmployedProject : voProject
-						.getVoEmployedProjects()) {
-					EmployedProject employedProject = new EmployedProject(
-							voEmployedProject);
-					employedProject.setCreatedDateTimeUTC(new Date());
-					employedProject.setUpdatedDateTimeUTC(new Date());
-					employedProject.setEnabled(true);
-					project.associateEmployed(employedProject);
+				for (EmployedProject empProject : employedProjects) {
+					empProject.setCreatedDateTimeUTC(new Date());
+					empProject.setUpdatedDateTimeUTC(new Date());
+					empProject.setEnabled(true);
+					project.associateEmployed(empProject);					
 				}
-
+				
 				// La distribucion asociada al proyecto
-				for(VOPartnerProject voPartnerProject : voProject.getVoPartnerProjects()){
-					PartnerProject partnerProject = new PartnerProject(voPartnerProject);
-					partnerProject.setCreatedDateTimeUTC(new Date());
-					partnerProject.setUpdatedDateTimeUTC(new Date());
-					partnerProject.setEnabled(true);
-					project.associateDistribution(partnerProject);
+				for (PartnerProject partProject : partnerProjects) {
+					partProject.setCreatedDateTimeUTC(new Date());
+					partProject.setUpdatedDateTimeUTC(new Date());
+					partProject.setEnabled(true);
+					project.associateDistribution(partProject);					
 				}
-
 			} else
 				throw new ClientException(
 						"Ya existe un proyecto con ese nombre");
@@ -102,14 +99,11 @@ public class CoreProject implements ICoreProject {
 	}
 
 	@Override
-	public VOProject getProject(int id) throws ServerException, ClientException {
+	public Project getProject(int id) throws ServerException, ClientException {
 		DAOManager daoManager = new DAOManager();
 		try {
-			Project project;
-			VOProject voProject = null;
-			project = daoManager.getDAOProjects().getObject(id);
-			voProject = BuildVOProject(project);
-			return voProject;
+			return daoManager.getDAOProjects().getObject(id);
+
 		} catch (ServerException e) {
 			throw e;
 		} finally {
@@ -118,20 +112,11 @@ public class CoreProject implements ICoreProject {
 	}
 
 	@Override
-	public ArrayList<VOProject> getProjects() throws ServerException {
+	public ArrayList<Project> getProjects() throws ServerException {
 		DAOManager daoManager = new DAOManager();
 		try {
-			ArrayList<Project> projects;
-			ArrayList<VOProject> voProjects = null;
+			return daoManager.getDAOProjects().getObjects();
 
-			projects = daoManager.getDAOProjects().getObjects();
-			voProjects = new ArrayList<VOProject>();
-
-			for (Project project : projects) {
-				voProjects.add(BuildVOProject(project));
-			}
-
-			return voProjects;
 		} catch (ServerException e) {
 			throw e;
 		} finally {
@@ -139,35 +124,14 @@ public class CoreProject implements ICoreProject {
 		}
 	}
 
-	VOProject BuildVOProject(Project project) {
-		VOProject voProject = new VOProject();
-		voProject.setId(project.getId());
-		voProject.setName(project.getName());
-		voProject.setDescription(project.getDescription());
-		voProject.setCreatedDateTimeUTC(project.getCreatedDateTimeUTC());
-		voProject.setUpdatedDateTimeUTC(project.getUpdatedDateTimeUTC());
-		voProject.setEnabled(project.getEnabled());
-
-		return voProject;
-	}
-
 	@Override
-	public ArrayList<VOProject> getProjectByStatus(boolean projectStatus)
+	public ArrayList<Project> getProjectByStatus(boolean projectStatus)
 			throws ServerException {
 		DAOManager daoManager = new DAOManager();
 		try {
-			ArrayList<Project> projects;
-			ArrayList<VOProject> voProjects = null;
-
-			projects = daoManager.getDAOProjects().getProjectsByStatus(
+			return daoManager.getDAOProjects().getProjectsByStatus(
 					projectStatus);
-			voProjects = new ArrayList<VOProject>();
 
-			for (Project project : projects) {
-				voProjects.add(BuildVOProject(project));
-			}
-
-			return voProjects;
 		} catch (ServerException e) {
 			throw e;
 		} finally {

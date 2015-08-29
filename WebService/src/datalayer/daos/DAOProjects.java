@@ -7,9 +7,13 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
+
 import com.mysql.jdbc.Statement;
+
+import datalayer.utilities.ManageConnection;
 import servicelayer.entity.businessEntity.Project;
 import servicelayer.entity.businessEntity.Employed;
+import servicelayer.entity.businessEntity.User;
 import shared.LoggerMSMP;
 import shared.exceptions.ServerException;
 import shared.interfaces.dataLayer.IDAOProjects;
@@ -20,6 +24,14 @@ public class DAOProjects implements IDAOProjects {
 
 	public DAOProjects(Connection connection) {
 		this.connection = connection;
+	}
+	
+	public DAOProjects() throws ServerException {
+		try {
+			this.connection = new ManageConnection().GetConnection();
+		} catch (Exception e) {
+			throw new ServerException(e);
+		}
 	}
 
 	@Override
@@ -140,7 +152,7 @@ public class DAOProjects implements IDAOProjects {
 	public ArrayList<Project> getObjects() throws ServerException {
 		ArrayList<Project> projects = new ArrayList<Project>();
 		PreparedStatement preparedStatement = null;
-		ResultSet rs = null;
+		ResultSet rs = null;		
 		try {
 
 			String sql;
@@ -148,8 +160,9 @@ public class DAOProjects implements IDAOProjects {
 			preparedStatement = this.connection.prepareStatement(sql);
 			rs = preparedStatement.executeQuery(sql);
 
-			while (rs.next()) {
-				projects.add(BuildProject(rs));
+			while (rs.next()) {		
+				Project project = BuildProject(rs);
+				projects.add(project);
 			}
 
 		} catch (SQLException e) {
@@ -253,14 +266,14 @@ public class DAOProjects implements IDAOProjects {
 		project.setEnabled(enabled);
 		project.setDescription(description);
 
-		if (sellerId != 0) {
-			Employed manager = new Employed();
-			manager.setId(sellerId);
-			project.setSeller(manager);
-		}
 		if (managerId != 0) {
+			User manager = new User();
+			manager.setId(managerId);
+			project.setManager(manager);
+		}
+		if (sellerId != 0) {
 			Employed seller = new Employed();
-			seller.setId(managerId);
+			seller.setId(sellerId);
 			project.setSeller(seller);
 		}
 

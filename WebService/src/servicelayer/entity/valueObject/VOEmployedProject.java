@@ -8,8 +8,7 @@ public class VOEmployedProject implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private int employedId;
 	private String employedName;
-	private String employedLastname;
-	private int distributionType;
+	private String employedLastname;	
 	private int version;
 	private int hours;
 	private boolean enabled;
@@ -38,14 +37,6 @@ public class VOEmployedProject implements Serializable {
 
 	public void setEmployedLastname(String employedLastname) {
 		this.employedLastname = employedLastname;
-	}
-
-	public int getDistributionType() {
-		return distributionType;
-	}
-
-	public void setDistributionType(int distributionType) {
-		this.distributionType = distributionType;
 	}
 
 	public int getVersion() {

@@ -14,7 +14,7 @@ public class VOProject implements Serializable {
 	private boolean enabled;
 	private String description;
 	private int managerId;
-	private String managetName;
+	private String managerName;
 	private String managerLastName;
 	private int sellerId;
 	private String sellerName;
@@ -86,12 +86,12 @@ public class VOProject implements Serializable {
 		this.managerId = managerId;
 	}
 
-	public String getManagetName() {
-		return managetName;
+	public String getManagerName() {
+		return managerName;
 	}
 
-	public void setManagetName(String managetName) {
-		this.managetName = managetName;
+	public void setManagerName(String managetName) {
+		this.managerName = managetName;
 	}
 
 	public String getManagerLastName() {

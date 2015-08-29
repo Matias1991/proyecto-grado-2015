@@ -11,7 +11,6 @@ public class Project {
 
 	private int id;
 	private String name;
-	private String notes;
 	private Date createdDateTimeUTC;
 	private Date updatedDateTimeUTC;
 	private boolean enabled;
@@ -73,14 +72,6 @@ public class Project {
 		this.name = name;
 	}
 
-	public String getNotes() {
-		return notes;
-	}
-
-	public void setNotes(String notes) {
-		this.notes = notes;
-	}
-
 	public User getManager() {
 		return manager;
 	}
@@ -135,6 +126,14 @@ public class Project {
 
 	public void setiDAOEmployedProject(IDAOEmployedProject iDAOEmployedProject) {
 		this.iDAOEmployedProject = iDAOEmployedProject;
+	}
+	
+	public IDAOPartnerProject getiDAOPartnerProject() {
+		return iDAOPartnerProject;
+	}
+
+	public void setiDAOPartnerProject(IDAOPartnerProject iDAOPartnerProject) {
+		this.iDAOPartnerProject = iDAOPartnerProject;
 	}
 
 	public void associateEmployed(EmployedProject employedProject)
