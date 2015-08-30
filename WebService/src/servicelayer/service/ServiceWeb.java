@@ -786,6 +786,25 @@ public class ServiceWeb extends ServiceBase {
 		return null;
 	}
 
+	public VOBill[] getBillsByProject(int projectId) {
+		try {
+			transactionLock.tryLock(Constants.DEFAULT_TRANSACTION_TIME,
+					TimeUnit.SECONDS);
+
+			return billBuilder
+					.BuildArrayVOObject(VOBill.class, iCoreBill.getBills(projectId));
+		} catch (ServerException e) {
+			ThrowServerExceptionAndLogError(e, "obtener todos las facturas asociadas al proyecto");
+		} catch (InterruptedException e) {
+			throw new RuntimeException(Constants.TRANSACTION_ERROR);
+		} catch (Exception e) {
+			ThrowGenericExceptionAndLogError(e);
+		} finally {
+			transactionLock.unlock();
+		}
+		return null;
+	}
+
 	public boolean deleteBills(int[] ids) {
 		try {
 			transactionLock.tryLock(Constants.DEFAULT_TRANSACTION_TIME,

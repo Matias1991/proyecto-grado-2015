@@ -78,13 +78,14 @@ public class DeleteProjectView extends BaseView {
 			catalogProjectsGrid.removeColumn("seller");
 			catalogProjectsGrid.removeColumn("createdDateTimeUTC");
 			catalogProjectsGrid.removeColumn("updatedDateTimeUTC");
+			catalogProjectsGrid.removeColumn("employedHours");
 			catalogProjectsGrid.setColumnOrder("name", "description", "enabledToShow", "createDateTimeUTCToShow");
 
 			catalogProjectsGrid.getColumn("name").setHeaderCaption("Nombre");
 			catalogProjectsGrid.getColumn("description").setHeaderCaption("Descripción");
 			catalogProjectsGrid.getColumn("enabledToShow").setHeaderCaption("Habilitado");
 			catalogProjectsGrid.getColumn("createDateTimeUTCToShow").setHeaderCaption("Fecha creación");
-			catalogProjectsGrid.setWidth(100, Unit.PERCENTAGE);
+			catalogProjectsGrid.setWidth(80, Unit.PERCENTAGE);
 			catalogProjectsGrid.setHeight(100, Unit.PERCENTAGE);
 			catalogProjectsGrid.setSelectionMode(SelectionMode.SINGLE);
 			catalogProjectsGrid.getSelectedRows().clear();
@@ -148,7 +149,7 @@ public class DeleteProjectView extends BaseView {
 		btnDelete.setImmediate(true);
 		btnDelete.setWidth("-1px");
 		btnDelete.setHeight("-1px");
-		mainLayout.addComponent(btnDelete, "top:50.0px;left:710.0px;");
+		mainLayout.addComponent(btnDelete, "top:50.0px;left:540.0px;");
 
 		return mainLayout;
 	}

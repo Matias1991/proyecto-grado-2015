@@ -11,6 +11,7 @@ import servicelayer.service.ServiceWebStub;
 import servicelayer.service.ServiceWebStub.DeleteBills;
 import servicelayer.service.ServiceWebStub.DeleteCategory;
 import servicelayer.service.ServiceWebStub.GetBills;
+import servicelayer.service.ServiceWebStub.GetBillsByProject;
 import servicelayer.service.ServiceWebStub.GetBillsWithFilters;
 import servicelayer.service.ServiceWebStub.GetCategories;
 import servicelayer.service.ServiceWebStub.InsertBill;
@@ -101,6 +102,36 @@ public class BillController {
 			getBillsWithFilters.setIsLiquidated(isLiquidated);
 			
 			VOBill [] voBills = service.getBillsWithFilters(getBillsWithFilters).get_return();
+
+			if(voBills != null)
+			{
+				for(VOBill voBill : voBills)
+				{
+					Bill bill = new Bill(voBill);
+					bills.add(bill);
+				}
+			}
+			
+		} catch (AxisFault e) {
+			String error = e.getMessage().replace("<faultstring>", "");
+			PopupWindow popup = new PopupWindow("ERROR", error.replace("</faultstring>", ""));
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
+		
+		return bills;
+	}
+	
+	public static Collection<Bill> getBills(int projectId) {
+		Collection<Bill> bills = new ArrayList<Bill>();
+		
+		try {
+			ServiceWebStub service = new ServiceWebStub();
+			GetBillsByProject getBills = new GetBillsByProject();
+			
+			getBills.setProjectId(projectId);
+			
+			VOBill [] voBills = service.getBillsByProject(getBills).get_return();
 
 			if(voBills != null)
 			{
