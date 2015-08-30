@@ -221,6 +221,22 @@
             }
                 
            /**
+            * auto generated Axis2 call back method for getBillsByProject method
+            * override this method for handling normal response from getBillsByProject operation
+            */
+           public void receiveResultgetBillsByProject(
+                    servicelayer.service.ServiceWebStub.GetBillsByProjectResponse result
+                        ) {
+           }
+
+          /**
+           * auto generated Axis2 Error handler
+           * override this method for handling error response from getBillsByProject operation
+           */
+            public void receiveErrorgetBillsByProject(java.lang.Exception e) {
+            }
+                
+           /**
             * auto generated Axis2 call back method for login method
             * override this method for handling normal response from login operation
             */

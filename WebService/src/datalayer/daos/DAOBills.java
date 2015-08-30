@@ -366,6 +366,51 @@ public class DAOBills implements IDAOBills {
 		return bills;
 	}
 
+	@Override
+	public ArrayList<Bill> getBills(int projectId) throws ServerException {
+		ArrayList<Bill> bills = new ArrayList<Bill>();
+		PreparedStatement preparedStatement = null;
+		ResultSet rs = null;
+		try {
+
+			StringBuilder sql = new StringBuilder();
+			sql.append("SELECT B.*, P.Name as ProjectName FROM BILL B ");
+			sql.append("INNER JOIN PROJECT P ON P.Id = B.ProjectId ");
+			sql.append("WHERE B.projectId = ? ");
+			sql.append("ORDER BY B.AppliedDateTimeUTC DESC");
+
+			int index = 1;
+			preparedStatement = this.connection
+					.prepareStatement(sql.toString());
+
+			preparedStatement.setInt(index, projectId);
+			index++;
+
+			rs = preparedStatement.executeQuery();
+
+			while (rs.next()) {
+				Bill bill = BuildBill(rs);
+				if (bill.getProject() != null)
+					bill.getProject().setName(rs.getString("projectName"));
+				bills.add(bill);
+			}
+
+		} catch (SQLException e) {
+			throw new ServerException(e);
+		} finally {
+			try {
+				if (preparedStatement != null)
+					preparedStatement.close();
+				if (rs != null)
+					rs.close();
+			} catch (SQLException e) {
+				LoggerMSMP.setLog(e.getMessage());
+			}
+		}
+
+		return bills;
+	}
+
 	Date setFirstDayOfMonth(Date date) {
 		Calendar cal = Calendar.getInstance();
 		cal.setTime(date);

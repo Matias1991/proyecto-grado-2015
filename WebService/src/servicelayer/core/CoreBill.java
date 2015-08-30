@@ -166,6 +166,22 @@ public class CoreBill implements ICoreBill {
 		return bills;
 	}
 
+	@Override
+	public ArrayList<Bill> getBills(int projectId) throws ServerException {
+		ArrayList<Bill> bills;
+		
+		DAOManager daoManager = new DAOManager();
+		try {
+			bills = daoManager.getDAOBills().getBills(projectId);
+
+		} catch (ServerException e) {
+			throw e;
+		} finally {
+			daoManager.close();
+		}
+		return bills;
+	}
+
 	// retorna el monto cobrado de esa factura
 	public double getAmountChargedByBill(int billId) throws ServerException {
 		double amountCharged = 0;
