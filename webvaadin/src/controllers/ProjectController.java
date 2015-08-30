@@ -9,8 +9,10 @@ import org.apache.axis2.AxisFault;
 
 import servicelayer.service.ServiceWebCallbackHandler;
 import servicelayer.service.ServiceWebStub;
+import servicelayer.service.ServiceWebStub.GetDistributionTypes;
 import servicelayer.service.ServiceWebStub.GetProject;
 import servicelayer.service.ServiceWebStub.InsertProject;
+import servicelayer.service.ServiceWebStub.VODistributionType;
 import servicelayer.service.ServiceWebStub.VOEmployed;
 import servicelayer.service.ServiceWebStub.VOEmployedProject;
 import servicelayer.service.ServiceWebStub.DeleteProject;
@@ -18,7 +20,10 @@ import servicelayer.service.ServiceWebStub.GetProjects;
 import servicelayer.service.ServiceWebStub.GetProjectsByStatus;
 import servicelayer.service.ServiceWebStub.VOProject;
 import utils.PopupWindow;
+import entities.DistributionType;
 import entities.EmployedHours;
+import entities.EmployedProject;
+import entities.Employee;
 import entities.Project;
 
 public class ProjectController {
@@ -52,7 +57,7 @@ public class ProjectController {
 		return projects;
 	}
 	
-	public static boolean createProject(Project project, List<EmployedHours> employedHours){
+	public static boolean createProject(Project project, List<EmployedProject> employedHours){
 		boolean result = false;
 		try{
 			ServiceWebStub service = new ServiceWebStub();
@@ -69,11 +74,11 @@ public class ProjectController {
 			List<VOEmployedProject> listVOEmployedProject = new ArrayList<VOEmployedProject>();
 			//VOEmployedProject[] listVOEmployedProject = new VOEmployedProject[employedHours.size()];
 						
-			for (EmployedHours aux : employedHours) {				
+			for (EmployedProject aux : employedHours) {				
 				VOEmployedProject voEmployedProject = new VOEmployedProject();
 				VOEmployed voEmployed = new VOEmployed();
 				
-				voEmployed.setId(aux.getId());
+				voEmployed.setId(aux.getEmployedId());
 //				voEmployedProject.setEmployed(voEmployed);
 //				voEmployedProject.setHours(aux.getHours());
 //				voEmployedProject.setProject(voProject);
@@ -169,5 +174,33 @@ public class ProjectController {
 		}
 		
 		return projects;
+	}
+	
+	public static Collection<DistributionType> getDistributionTypes(){
+		Collection<DistributionType> distributions = new ArrayList<DistributionType>();
+		
+		try{
+			ServiceWebStub service = new ServiceWebStub();
+			GetDistributionTypes getDistributions = new GetDistributionTypes();
+			
+			VODistributionType[] voDistributions = service.getDistributionTypes(getDistributions).get_return();
+			
+			if(voDistributions != null){
+				for(VODistributionType voDistribution : voDistributions)
+				{
+					DistributionType distribution = new DistributionType(voDistribution);
+					distributions.add(distribution);
+				}				
+			}
+			
+		} catch (AxisFault e) {
+			String error = e.getMessage().replace("<faultstring>", "");
+			PopupWindow popup = new PopupWindow("ERROR", error.replace("</faultstring>", ""));
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return distributions;		
 	}
 }

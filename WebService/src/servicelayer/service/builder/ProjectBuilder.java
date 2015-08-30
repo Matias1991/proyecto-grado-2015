@@ -2,11 +2,13 @@ package servicelayer.service.builder;
 
 import java.util.ArrayList;
 
+import servicelayer.entity.businessEntity.DistributionType;
 import servicelayer.entity.businessEntity.Employed;
 import servicelayer.entity.businessEntity.EmployedProject;
 import servicelayer.entity.businessEntity.PartnerProject;
 import servicelayer.entity.businessEntity.Project;
 import servicelayer.entity.businessEntity.User;
+import servicelayer.entity.valueObject.VODistributionType;
 import servicelayer.entity.valueObject.VOEmployedProject;
 import servicelayer.entity.valueObject.VOPartnerProject;
 import servicelayer.entity.valueObject.VOProject;
@@ -67,7 +69,7 @@ public class ProjectBuilder extends BaseBuilder<VOProject, Project> {
 		voPartnerProject.setEmployedId(partnerProject.getEmployed().getId());
 		voPartnerProject.setEmployedName(partnerProject.getEmployed().getName());
 		voPartnerProject.setEmployedLastName(partnerProject.getEmployed().getLastName());
-		voPartnerProject.setDistributionType(partnerProject.getDistributionType());		
+		voPartnerProject.setDistributionType(this.BuildVODistributionType(partnerProject.getDistributionType()));		
 		voPartnerProject.setVersion(partnerProject.getVersion());
 		voPartnerProject.setEnabled(partnerProject.isEnabled());
 		voPartnerProject.setCreatedDateTimeUTC(partnerProject.getCreatedDateTimeUTC());
@@ -84,7 +86,7 @@ public class ProjectBuilder extends BaseBuilder<VOProject, Project> {
 		employed.setName(voPartnerProject.getEmployedName());
 		employed.setLastName(voPartnerProject.getEmployedLastName());
 		partnerProject.setEmployed(employed);
-		partnerProject.setDistributionType(voPartnerProject.getDistributionType());		
+		partnerProject.setDistributionType(this.BuildDistritbutionType(voPartnerProject.getDistributionType()));		
 		partnerProject.setVersion(voPartnerProject.getVersion());
 		partnerProject.setEnabled(voPartnerProject.isEnabled());
 		partnerProject.setCreatedDateTimeUTC(voPartnerProject.getCreatedDateTimeUTC());
@@ -163,6 +165,45 @@ public class ProjectBuilder extends BaseBuilder<VOProject, Project> {
 		}
 		
 		return employedProjects;		
+	}
+	
+	public DistributionType BuildDistritbutionType(VODistributionType voDistributionType){
+		DistributionType distributionType = new DistributionType();
+		distributionType.setId(voDistributionType.getId());
+		distributionType.setValue(voDistributionType.getValue());
+		distributionType.setDescription(voDistributionType.getDescription());
+		
+		return distributionType;
+	}
+	
+	public VODistributionType BuildVODistributionType(DistributionType distributionType){
+		VODistributionType voDistributionType = new VODistributionType();
+		voDistributionType.setId(distributionType.getId());
+		voDistributionType.setValue(distributionType.getValue());
+		voDistributionType.setDescription(distributionType.getDescription());
+		
+		return voDistributionType;
+	}
+	
+	public VODistributionType[] BuildVOArrayDistributionType (ArrayList<DistributionType> distributionTypes){
+		int i = 0;
+		VODistributionType[] voDistTypes = new VODistributionType[distributionTypes.size()];
+		for (DistributionType distributions : distributionTypes) {
+			voDistTypes[i] = BuildVODistributionType(distributions);
+			i++;			
+		}
+		
+		return voDistTypes;		
+	}
+	
+	public ArrayList<DistributionType> BuildDistributionTypes(VODistributionType[] voDistributionTypes){
+		ArrayList<DistributionType> distributions = new ArrayList<DistributionType>();
+		
+		for (VODistributionType voDistribution : voDistributionTypes) {
+			distributions.add(BuildDistritbutionType(voDistribution));			
+		}
+		
+		return distributions;		
 	}
 
 }

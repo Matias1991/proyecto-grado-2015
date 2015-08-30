@@ -21,6 +21,7 @@ public class VOProject implements Serializable {
 	private String sellerLastname;
 	private VOEmployedProject[] voEmployedProjects;
 	private VOPartnerProject[] voPartnerProjects;
+	
 
 	public VOEmployedProject[] getVoEmployedProjects() {
 		return voEmployedProjects;

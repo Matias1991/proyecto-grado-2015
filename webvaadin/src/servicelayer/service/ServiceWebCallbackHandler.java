@@ -413,22 +413,6 @@
             }
                 
            /**
-            * auto generated Axis2 call back method for updateCategory method
-            * override this method for handling normal response from updateCategory operation
-            */
-           public void receiveResultupdateCategory(
-                    servicelayer.service.ServiceWebStub.UpdateCategoryResponse result
-                        ) {
-           }
-
-          /**
-           * auto generated Axis2 Error handler
-           * override this method for handling error response from updateCategory operation
-           */
-            public void receiveErrorupdateCategory(java.lang.Exception e) {
-            }
-                
-           /**
             * auto generated Axis2 call back method for getEmployed method
             * override this method for handling normal response from getEmployed operation
             */
@@ -442,6 +426,38 @@
            * override this method for handling error response from getEmployed operation
            */
             public void receiveErrorgetEmployed(java.lang.Exception e) {
+            }
+                
+           /**
+            * auto generated Axis2 call back method for getDistributionTypes method
+            * override this method for handling normal response from getDistributionTypes operation
+            */
+           public void receiveResultgetDistributionTypes(
+                    servicelayer.service.ServiceWebStub.GetDistributionTypesResponse result
+                        ) {
+           }
+
+          /**
+           * auto generated Axis2 Error handler
+           * override this method for handling error response from getDistributionTypes operation
+           */
+            public void receiveErrorgetDistributionTypes(java.lang.Exception e) {
+            }
+                
+           /**
+            * auto generated Axis2 call back method for updateCategory method
+            * override this method for handling normal response from updateCategory operation
+            */
+           public void receiveResultupdateCategory(
+                    servicelayer.service.ServiceWebStub.UpdateCategoryResponse result
+                        ) {
+           }
+
+          /**
+           * auto generated Axis2 Error handler
+           * override this method for handling error response from updateCategory operation
+           */
+            public void receiveErrorupdateCategory(java.lang.Exception e) {
             }
                 
            /**

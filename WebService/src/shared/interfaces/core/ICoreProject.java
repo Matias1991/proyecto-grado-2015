@@ -2,6 +2,7 @@ package shared.interfaces.core;
 
 import java.util.ArrayList;
 
+import servicelayer.entity.businessEntity.DistributionType;
 import servicelayer.entity.businessEntity.EmployedProject;
 import servicelayer.entity.businessEntity.PartnerProject;
 import servicelayer.entity.businessEntity.Project;
@@ -22,4 +23,6 @@ public interface ICoreProject {
 			throws ServerException;
 
 	Project getProject(int id) throws ServerException, ClientException;
+	
+	ArrayList<DistributionType> getDistributionTypes() throws ServerException;
 }

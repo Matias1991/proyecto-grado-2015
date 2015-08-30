@@ -3,13 +3,15 @@ package servicelayer.entity.valueObject;
 import java.io.Serializable;
 import java.util.Date;
 
+import servicelayer.entity.businessEntity.DistributionType;
+
 public class VOPartnerProject implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
 	private int employedId;
 	private String employedName;
 	private String employedLastName;
-	private int distributionType;
+	private VODistributionType distributionType;
 	private int version;
 	private boolean enabled;
 	private Date createdDateTimeUTC;
@@ -39,11 +41,11 @@ public class VOPartnerProject implements Serializable {
 		this.employedLastName = employedLastName;
 	}
 
-	public int getDistributionType() {
+	public VODistributionType getDistributionType() {
 		return distributionType;
 	}
 
-	public void setDistributionType(int distributionType) {
+	public void setDistributionType(VODistributionType distributionType) {
 		this.distributionType = distributionType;
 	}
 

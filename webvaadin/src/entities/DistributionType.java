@@ -1,8 +1,10 @@
 package entities;
 
+import servicelayer.service.ServiceWebStub.VODistributionType;
+
 public class DistributionType {
 	int id;	
-	int value;
+	String value;
 	String description;
 	int partnerId;
 	String partnerName;
@@ -11,7 +13,11 @@ public class DistributionType {
 	public DistributionType(){		
 	}
 	
-	//public DistributionType(VODistributionType voDistribution){}
+	public DistributionType(VODistributionType voDistribution){
+		this.id = voDistribution.getId();
+		this.value = voDistribution.getValue();
+		this.description = voDistribution.getDescription();
+	}
 
 	public int getId() {
 		return id;
@@ -21,11 +27,11 @@ public class DistributionType {
 		this.id = id;
 	}
 
-	public int getValue() {
+	public String getValue() {
 		return value;
 	}
 
-	public void setValue(int value) {
+	public void setValue(String value) {
 		this.value = value;
 	}
 

@@ -35,7 +35,7 @@ public class DAOPartnerProject implements IDAOPartnerProject {
 			
 			preparedStatement.setInt(1,projectId);
 			preparedStatement.setInt(2, partnerProject.getEmployed().getId());
-			preparedStatement.setInt(3,partnerProject.getDistributionType());
+			preparedStatement.setInt(3,partnerProject.getDistributionType().getId());
 			preparedStatement.setInt(4,1);
 			preparedStatement.setBoolean(5,partnerProject.isEnabled());
 			preparedStatement.setTimestamp(6, new Timestamp(partnerProject.getCreatedDateTimeUTC().getTime()));

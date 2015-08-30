@@ -7,7 +7,7 @@ import servicelayer.entity.valueObject.VOPartnerProject;
 public class PartnerProject {
 	private Project project;
 	private Employed employed;
-	private int distributionType;
+	private DistributionType distributionType;
 	private int version;
 	private boolean enabled;
 	private Date createdDateTimeUTC;
@@ -21,7 +21,7 @@ public class PartnerProject {
 		// this.project = new Project(voPartnerProject.getProject());
 		//todo:cambiar para que no utilice VO a nivel de la logica de negocio
 		//this.employed = new Employed(voPartnerProject.getEmployed());
-		this.distributionType = voPartnerProject.getDistributionType();
+		this.distributionType = new DistributionType(voPartnerProject.getDistributionType().getId(), voPartnerProject.getDistributionType().getValue(), voPartnerProject.getDistributionType().getDescription());		
 		this.version = voPartnerProject.getVersion();
 		this.enabled = voPartnerProject.isEnabled();
 		this.createdDateTimeUTC = voPartnerProject.getCreatedDateTimeUTC();
@@ -44,11 +44,11 @@ public class PartnerProject {
 		this.employed = employed;
 	}
 
-	public int getDistributionType() {
+	public DistributionType getDistributionType() {
 		return distributionType;
 	}
 
-	public void setDistributionType(int distributionType) {
+	public void setDistributionType(DistributionType distributionType) {
 		this.distributionType = distributionType;
 	}
 

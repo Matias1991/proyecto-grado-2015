@@ -19,6 +19,7 @@ import servicelayer.entity.businessEntity.SalarySummary;
 import servicelayer.entity.valueObject.VOBill;
 import servicelayer.entity.valueObject.VOCategory;
 import servicelayer.entity.valueObject.VOCharge;
+import servicelayer.entity.valueObject.VODistributionType;
 import servicelayer.entity.valueObject.VOEmployed;
 import servicelayer.entity.valueObject.VOProject;
 import servicelayer.entity.valueObject.VOSalarySummary;
@@ -871,6 +872,25 @@ public class ServiceWeb extends ServiceBase {
 
 		} catch (ServerException e) {
 			ThrowServerExceptionAndLogError(e, "obtener todos los proyectos");
+		} catch (InterruptedException e) {
+			throw new RuntimeException(Constants.TRANSACTION_ERROR);
+		} catch (Exception e) {
+			ThrowGenericExceptionAndLogError(e);
+		} finally {
+			transactionLock.unlock();
+		}
+		return null;
+	}
+	
+	public VODistributionType[] getDistributionTypes(){
+		try{
+			transactionLock.tryLock(Constants.DEFAULT_TRANSACTION_TIME,
+					TimeUnit.SECONDS);
+			
+			return projectBuilder.BuildVOArrayDistributionType(iCoreProject.getDistributionTypes()); 
+			
+		}catch (ServerException e) {
+			ThrowServerExceptionAndLogError(e, "obtener todos las distribuciones de las ganancias");
 		} catch (InterruptedException e) {
 			throw new RuntimeException(Constants.TRANSACTION_ERROR);
 		} catch (Exception e) {

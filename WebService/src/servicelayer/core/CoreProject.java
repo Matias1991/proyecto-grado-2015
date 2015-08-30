@@ -5,6 +5,7 @@ import java.util.Date;
 
 import datalayer.daos.DAOManager;
 import datalayer.daos.DAOProjects;
+import servicelayer.entity.businessEntity.DistributionType;
 import servicelayer.entity.businessEntity.EmployedProject;
 import servicelayer.entity.businessEntity.PartnerProject;
 import servicelayer.entity.businessEntity.Project;
@@ -137,5 +138,19 @@ public class CoreProject implements ICoreProject {
 		} finally {
 			daoManager.close();
 		}
+	}
+
+	@Override
+	public ArrayList<DistributionType> getDistributionTypes()
+			throws ServerException {
+		DAOManager daoManager = new DAOManager();
+		try {
+			return daoManager.getDAODistributionTypes().getOjects();
+
+		} catch (ServerException e) {
+			throw e;
+		} finally {
+			daoManager.close();
+		}		
 	}
 }
