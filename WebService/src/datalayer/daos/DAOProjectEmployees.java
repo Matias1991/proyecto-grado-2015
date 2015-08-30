@@ -34,7 +34,7 @@ public class DAOProjectEmployees implements IDAOProjectEmployees {
 			preparedStatement = this.connection.prepareStatement(insertSQL);
 
 			preparedStatement.setInt(1, projectId);
-			preparedStatement.setInt(2, employedProyect.getEmployed().getId());
+			preparedStatement.setInt(2, employedProyect.getEmployed().getId());			
 			preparedStatement.setInt(3, 1);
 			preparedStatement.setInt(4, employedProyect.getHours());
 			preparedStatement.setBoolean(5, employedProyect.isEnabled());

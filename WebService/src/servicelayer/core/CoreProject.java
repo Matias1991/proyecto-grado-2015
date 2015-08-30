@@ -37,6 +37,9 @@ public class CoreProject implements ICoreProject {
 		try {
 			if (daoManager.getDAOProjects().getProjectUByUserName(
 					project.getName()) == null) {
+				project.setiDAOEmployedProject(daoManager.getDAOEmployedProjects());
+				project.setiDAOPartnerProject(daoManager.getDAOPartnerProjects());
+				
 				// Datos propios del proyecto
 				project.setCreatedDateTimeUTC(new Date());
 				project.setUpdatedDateTimeUTC(new Date());

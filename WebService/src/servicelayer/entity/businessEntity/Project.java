@@ -138,6 +138,7 @@ public class Project {
 
 	public void associateEmployed(ProjectEmployed employedProject)
 			throws ServerException {
+		System.out.println(this.id + " " + employedProject.getEmployed().getId());
 		this.iDAOEmployedProject
 				.insertEmployedProject(this.id, employedProject);
 	}
