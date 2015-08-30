@@ -6,24 +6,24 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 
-import servicelayer.entity.businessEntity.PartnerProject;
+import servicelayer.entity.businessEntity.ProjectPartner;
 import shared.LoggerMSMP;
 import shared.exceptions.ServerException;
-import shared.interfaces.dataLayer.IDAOPartnerProject;
+import shared.interfaces.dataLayer.IDAOProjectPartners;
 
-public class DAOPartnerProject implements IDAOPartnerProject {
+public class DAOProjectPartners implements IDAOProjectPartners {
 	
 	private Connection connection;
 	
-	public DAOPartnerProject(){		
+	public DAOProjectPartners(){		
 	}
 	
-	public DAOPartnerProject(Connection connection){
+	public DAOProjectPartners(Connection connection){
 		this.connection = connection;
 	}
 
 	@Override
-	public int insertPartnerProject(int projectId, PartnerProject partnerProject)
+	public int insertPartnerProject(int projectId, ProjectPartner partnerProject)
 			throws ServerException {
 		int newPartnerProjectId = -1;
 		PreparedStatement preparedStatement = null;
@@ -59,7 +59,7 @@ public class DAOPartnerProject implements IDAOPartnerProject {
 	}
 
 	@Override
-	public ArrayList<PartnerProject> getPartnersProject(int projectId)
+	public ArrayList<ProjectPartner> getPartnersProject(int projectId)
 			throws ServerException {
 		// TODO Auto-generated method stub
 		return null;

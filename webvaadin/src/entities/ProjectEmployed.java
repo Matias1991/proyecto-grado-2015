@@ -2,9 +2,9 @@ package entities;
 
 import java.util.Date;
 
-import servicelayer.service.ServiceWebStub.VOEmployedProject;
+import servicelayer.service.ServiceWebStub.VOProjectEmployed;
 
-public class EmployedProject {
+public class ProjectEmployed {
 	
 	int employedId;
 	String employedName;
@@ -15,18 +15,18 @@ public class EmployedProject {
 	Date updatedDateTimeUTC;
 	int version;
 	
-	public EmployedProject(){		
+	public ProjectEmployed(){		
 	}
 	
-	public EmployedProject(VOEmployedProject voEmployedProject){
-		this.employedId = voEmployedProject.getEmployedId();
-		this.employedName = voEmployedProject.getEmployedName();		
-		this.employedLastName = voEmployedProject.getEmployedLastname();
-		this.employedHours = voEmployedProject.getHours();
-		this.enable = voEmployedProject.getEnabled();		
-		this.createdDateTimeUTC = voEmployedProject.getCreatedDateTimeUTC();
-		this.updatedDateTimeUTC = voEmployedProject.getUpdatedDateTimeUTC();
-		this.version = voEmployedProject.getVersion();
+	public ProjectEmployed(VOProjectEmployed voProjectEmployed){
+		this.employedId = voProjectEmployed.getEmployedId();
+		this.employedName = voProjectEmployed.getEmployedName();		
+		this.employedLastName = voProjectEmployed.getEmployedLastname();
+		this.employedHours = voProjectEmployed.getHours();
+		this.enable = voProjectEmployed.getEnabled();		
+		this.createdDateTimeUTC = voProjectEmployed.getCreatedDateTimeUTC();
+		this.updatedDateTimeUTC = voProjectEmployed.getUpdatedDateTimeUTC();
+		this.version = voProjectEmployed.getVersion();
 	}
 
 	public int getEmployedId() {

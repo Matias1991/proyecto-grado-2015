@@ -7,8 +7,8 @@ import java.util.Date;
 import java.util.List;
 
 import servicelayer.service.ServiceWebStub.VOEmployed;
-import servicelayer.service.ServiceWebStub.VOEmployedProject;
 import servicelayer.service.ServiceWebStub.VOProject;
+import servicelayer.service.ServiceWebStub.VOProjectEmployed;
 
 
 public class Project{
@@ -22,7 +22,7 @@ public class Project{
 	private User manager;
 	private Employee seller;
 	private String description;
-	private List<EmployedProject> employedHours;
+	private List<ProjectEmployed> employedHours;
 	private List<DistributionType> distributions;
 		
 	public Project()
@@ -54,8 +54,8 @@ public class Project{
 		this.seller.setLastName(voProject.getSellerLastname());
 		
 	//QUEDA LA LISTA DE EMPLEADOS Y LA LISTA DE DISTRIBUCIONES
-		for (VOEmployedProject voEmployedProject : voProject.getVoEmployedProjects()) {
-			EmployedProject emp = new EmployedProject(voEmployedProject);
+		for (VOProjectEmployed voEmployedProject : voProject.getVoEmployedProjects()) {
+			ProjectEmployed emp = new ProjectEmployed(voEmployedProject);
 			employedHours.add(emp);			
 		}
 		
@@ -132,7 +132,7 @@ public class Project{
 		this.description = description;
 	}
 
-	public List<EmployedProject> getEmployedHours() {
+	public List<ProjectEmployed> getEmployedHours() {
 		return employedHours;
 	}	
 
@@ -144,7 +144,7 @@ public class Project{
 		this.distributions = distributions;
 	}
 
-	public void setEmployedHours(List<EmployedProject> employedHours) {
+	public void setEmployedHours(List<ProjectEmployed> employedHours) {
 		this.employedHours = employedHours;
 	}	
 }

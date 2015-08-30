@@ -2,9 +2,9 @@ package entities;
 
 import java.util.Date;
 
-import servicelayer.service.ServiceWebStub.VOPartnerProject;
+import servicelayer.service.ServiceWebStub.VOProjectPartner;
 
-public class PartnerProject {
+public class ProjectPartner {
 	
 	int employedId;
 	String employedName;
@@ -15,19 +15,19 @@ public class PartnerProject {
 	boolean enable;
 	int version;	
 	
-	public PartnerProject(){
+	public ProjectPartner(){
 	}
 	
-	public PartnerProject(VOPartnerProject voPartnerProject){
+	public ProjectPartner(VOProjectPartner voProjectPartner){
 		
-		this.employedId = voPartnerProject.getEmployedId();
-		this.employedName = voPartnerProject.getEmployedName();
-		this.employedLastName = voPartnerProject.getEmployedLastName();
-		this.distributionType = new DistributionType(voPartnerProject.getDistributionType());		
-		this.createdDateTimeUTC = voPartnerProject.getCreatedDateTimeUTC();		
-		this.updatedDateTimeUTC = voPartnerProject.getUpdatedDateTimeUTC();
-		this.enable = voPartnerProject.getEnabled();
-		this.version = voPartnerProject.getVersion();		
+		this.employedId = voProjectPartner.getEmployedId();
+		this.employedName = voProjectPartner.getEmployedName();
+		this.employedLastName = voProjectPartner.getEmployedLastName();
+		this.distributionType = new DistributionType(voProjectPartner.getDistributionType());		
+		this.createdDateTimeUTC = voProjectPartner.getCreatedDateTimeUTC();		
+		this.updatedDateTimeUTC = voProjectPartner.getUpdatedDateTimeUTC();
+		this.enable = voProjectPartner.getEnabled();
+		this.version = voProjectPartner.getVersion();		
 	}
 
 	public int getEmployedId() {

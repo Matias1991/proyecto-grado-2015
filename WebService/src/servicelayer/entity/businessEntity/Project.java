@@ -4,8 +4,8 @@ import java.util.Date;
 
 import servicelayer.entity.valueObject.VOProject;
 import shared.exceptions.ServerException;
-import shared.interfaces.dataLayer.IDAOEmployedProject;
-import shared.interfaces.dataLayer.IDAOPartnerProject;
+import shared.interfaces.dataLayer.IDAOProjectEmployees;
+import shared.interfaces.dataLayer.IDAOProjectPartners;
 
 public class Project {
 
@@ -17,8 +17,8 @@ public class Project {
 	private User manager;
 	private Employed seller;
 	private String description;
-	private IDAOEmployedProject iDAOEmployedProject;
-	private IDAOPartnerProject iDAOPartnerProject;
+	private IDAOProjectEmployees iDAOEmployedProject;
+	private IDAOProjectPartners iDAOPartnerProject;
 
 	public Project() {
 	}
@@ -40,7 +40,7 @@ public class Project {
 		this.updatedDateTimeUTC = updatedDateTimeUTC;
 	}
 
-	public Project(VOProject voProject, IDAOEmployedProject idaoEmployedProject, IDAOPartnerProject idaoPartnerProject) {
+	public Project(VOProject voProject, IDAOProjectEmployees idaoEmployedProject, IDAOProjectPartners idaoPartnerProject) {
 		this.name = voProject.getName();
 		this.description = voProject.getDescription();
 		if (voProject.getSellerId() != 0) {
@@ -120,29 +120,29 @@ public class Project {
 		this.enabled = enabled;
 	}
 
-	public IDAOEmployedProject getiDAOEmployedProject() {
+	public IDAOProjectEmployees getiDAOEmployedProject() {
 		return iDAOEmployedProject;
 	}
 
-	public void setiDAOEmployedProject(IDAOEmployedProject iDAOEmployedProject) {
+	public void setiDAOEmployedProject(IDAOProjectEmployees iDAOEmployedProject) {
 		this.iDAOEmployedProject = iDAOEmployedProject;
 	}
 	
-	public IDAOPartnerProject getiDAOPartnerProject() {
+	public IDAOProjectPartners getiDAOPartnerProject() {
 		return iDAOPartnerProject;
 	}
 
-	public void setiDAOPartnerProject(IDAOPartnerProject iDAOPartnerProject) {
+	public void setiDAOPartnerProject(IDAOProjectPartners iDAOPartnerProject) {
 		this.iDAOPartnerProject = iDAOPartnerProject;
 	}
 
-	public void associateEmployed(EmployedProject employedProject)
+	public void associateEmployed(ProjectEmployed employedProject)
 			throws ServerException {
 		this.iDAOEmployedProject
 				.insertEmployedProject(this.id, employedProject);
 	}
 	
-	public void associateDistribution(PartnerProject partnerProject) throws ServerException{
+	public void associateDistribution(ProjectPartner partnerProject) throws ServerException{
 		this.iDAOPartnerProject.insertPartnerProject(this.id, partnerProject);
 	}
 

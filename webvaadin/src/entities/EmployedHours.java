@@ -3,7 +3,7 @@ package entities;
 import java.util.Date;
 
 import servicelayer.service.ServiceWebStub.VOEmployed;
-import servicelayer.service.ServiceWebStub.VOEmployedProject;
+import servicelayer.service.ServiceWebStub.VOProjectEmployed;
 
 
 public class EmployedHours {
@@ -21,7 +21,7 @@ public class EmployedHours {
 		
 	}
 	
-	public EmployedHours(VOEmployedProject voEmployedProject){
+	public EmployedHours(VOProjectEmployed voEmployedProject){
 //		this.id = voEmployedProject.getEmployed().getId();
 //		this.name = voEmployedProject.getEmployed().getName();
 //		this.lastName = voEmployedProject.getEmployed().getLastName();
@@ -98,8 +98,8 @@ public class EmployedHours {
 		this.version = version;
 	}
 
-	public VOEmployedProject toVOEmployedProject(){
-		VOEmployedProject voEmployedProject = new VOEmployedProject();
+	public VOProjectEmployed toVOEmployedProject(){
+		VOProjectEmployed voEmployedProject = new VOProjectEmployed();
 		VOEmployed voEmployed = new VOEmployed();
 		
 		voEmployed.setId(this.id);

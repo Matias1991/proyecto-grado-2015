@@ -39,9 +39,9 @@ import controllers.ProjectController;
 import controllers.UserController;
 import entities.DistributionType;
 import entities.EmployedHours;
-import entities.EmployedProject;
+import entities.ProjectEmployed;
 import entities.Employee;
-import entities.PartnerProject;
+import entities.ProjectPartner;
 import entities.Project;
 import entities.RequestContext;
 import entities.User;
@@ -110,17 +110,17 @@ public class CreateProjectView extends BaseView {
 					seller.setId((Integer)cboSeller.getValue());
 					newProject.setSeller(seller);					
 					
-					List<EmployedProject> listEmployedHours = new ArrayList<EmployedProject>();
+					List<ProjectEmployed> listEmployedHours = new ArrayList<ProjectEmployed>();
 					for (Iterator i = tblEmployedHours.getItemIds().iterator(); i.hasNext();){
-						EmployedProject emp = new EmployedProject();
+						ProjectEmployed emp = new ProjectEmployed();
 						emp.setEmployedId(((Employee)i.next()).getId());
 						emp.setEmployedHours(((Employee)i.next()).getSalarySummary().getHours());
 						listEmployedHours.add(emp);
 					}	
 					newProject.setEmployedHours(listEmployedHours);
 					
-					List<PartnerProject> listPartnerProject = new ArrayList<PartnerProject>();
-					PartnerProject partner1 = new PartnerProject();
+					List<ProjectPartner> listPartnerProject = new ArrayList<ProjectPartner>();
+					ProjectPartner partner1 = new ProjectPartner();
 					partner1.setEmployedId((Integer)cboManager.getValue());
 					DistributionType distribution1 = new DistributionType();
 					distribution1.setId((Integer)cboDistribution1.getValue());

@@ -3,20 +3,18 @@ package servicelayer.entity.valueObject;
 import java.io.Serializable;
 import java.util.Date;
 
-import servicelayer.entity.businessEntity.DistributionType;
+public class VOProjectEmployed implements Serializable {
 
-public class VOPartnerProject implements Serializable {
-	
 	private static final long serialVersionUID = 1L;
 	private int employedId;
 	private String employedName;
-	private String employedLastName;
-	private VODistributionType distributionType;
+	private String employedLastname;	
 	private int version;
+	private int hours;
 	private boolean enabled;
 	private Date createdDateTimeUTC;
 	private Date updatedDateTimeUTC;
-	
+
 	public int getEmployedId() {
 		return employedId;
 	}
@@ -33,20 +31,12 @@ public class VOPartnerProject implements Serializable {
 		this.employedName = employedName;
 	}
 
-	public String getEmployedLastName() {
-		return employedLastName;
+	public String getEmployedLastname() {
+		return employedLastname;
 	}
 
-	public void setEmployedLastName(String employedLastName) {
-		this.employedLastName = employedLastName;
-	}
-
-	public VODistributionType getDistributionType() {
-		return distributionType;
-	}
-
-	public void setDistributionType(VODistributionType distributionType) {
-		this.distributionType = distributionType;
+	public void setEmployedLastname(String employedLastname) {
+		this.employedLastname = employedLastname;
 	}
 
 	public int getVersion() {
@@ -55,6 +45,14 @@ public class VOPartnerProject implements Serializable {
 
 	public void setVersion(int version) {
 		this.version = version;
+	}
+
+	public int getHours() {
+		return hours;
+	}
+
+	public void setHours(int hours) {
+		this.hours = hours;
 	}
 
 	public boolean isEnabled() {
@@ -80,5 +78,4 @@ public class VOPartnerProject implements Serializable {
 	public void setUpdatedDateTimeUTC(Date updatedDateTimeUTC) {
 		this.updatedDateTimeUTC = updatedDateTimeUTC;
 	}
-
 }

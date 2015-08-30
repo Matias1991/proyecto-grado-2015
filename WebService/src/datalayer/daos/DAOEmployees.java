@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import com.mysql.jdbc.Statement;
 import servicelayer.entity.businessEntity.Employed;
-import servicelayer.entity.businessEntity.EmployedProject;
+import servicelayer.entity.businessEntity.ProjectEmployed;
 import servicelayer.entity.businessEntity.EmployedType;
 import shared.LoggerMSMP;
 import shared.exceptions.ServerException;
@@ -244,8 +244,8 @@ public class DAOEmployees implements IDAOEmployees {
 		return employed;
 	}
 
-	public ArrayList<EmployedProject> getEmployedHours() throws ServerException {
-		ArrayList<EmployedProject> result = new ArrayList<EmployedProject>();
+	public ArrayList<ProjectEmployed> getEmployedHours() throws ServerException {
+		ArrayList<ProjectEmployed> result = new ArrayList<ProjectEmployed>();
 
 		PreparedStatement preparedStatement = null;
 		ResultSet rs = null;
@@ -260,7 +260,7 @@ public class DAOEmployees implements IDAOEmployees {
 			rs = preparedStatement.executeQuery();
 
 			while (rs.next()) {
-				EmployedProject aux = new EmployedProject();
+				ProjectEmployed aux = new ProjectEmployed();
 				aux.setEmployed(this.getObject(rs.getInt("id")));
 				aux.setHours(rs.getInt("hours"));
 				result.add(aux);

@@ -19,15 +19,15 @@ public class VOProject implements Serializable {
 	private int sellerId;
 	private String sellerName;
 	private String sellerLastname;
-	private VOEmployedProject[] voEmployedProjects;
-	private VOPartnerProject[] voPartnerProjects;
+	private VOProjectEmployed[] voEmployedProjects;
+	private VOProjectPartner[] voPartnerProjects;
 	
 
-	public VOEmployedProject[] getVoEmployedProjects() {
+	public VOProjectEmployed[] getVoEmployedProjects() {
 		return voEmployedProjects;
 	}
 
-	public void setVoEmployedProjects(VOEmployedProject[] voEmployedProjects) {
+	public void setVoEmployedProjects(VOProjectEmployed[] voEmployedProjects) {
 		this.voEmployedProjects = voEmployedProjects;
 	}
 
@@ -127,11 +127,11 @@ public class VOProject implements Serializable {
 		this.sellerLastname = sellerLastname;
 	}
 
-	public VOPartnerProject[] getVoPartnerProjects() {
+	public VOProjectPartner[] getVoPartnerProjects() {
 		return voPartnerProjects;
 	}
 
-	public void setVoPartnerProjects(VOPartnerProject[] voPartnerProjects) {
+	public void setVoPartnerProjects(VOProjectPartner[] voPartnerProjects) {
 		this.voPartnerProjects = voPartnerProjects;
 	}
 	

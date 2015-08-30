@@ -14,15 +14,15 @@ import servicelayer.service.ServiceWebStub.GetProject;
 import servicelayer.service.ServiceWebStub.InsertProject;
 import servicelayer.service.ServiceWebStub.VODistributionType;
 import servicelayer.service.ServiceWebStub.VOEmployed;
-import servicelayer.service.ServiceWebStub.VOEmployedProject;
 import servicelayer.service.ServiceWebStub.DeleteProject;
 import servicelayer.service.ServiceWebStub.GetProjects;
 import servicelayer.service.ServiceWebStub.GetProjectsByStatus;
 import servicelayer.service.ServiceWebStub.VOProject;
+import servicelayer.service.ServiceWebStub.VOProjectEmployed;
 import utils.PopupWindow;
 import entities.DistributionType;
 import entities.EmployedHours;
-import entities.EmployedProject;
+import entities.ProjectEmployed;
 import entities.Employee;
 import entities.Project;
 
@@ -57,7 +57,7 @@ public class ProjectController {
 		return projects;
 	}
 	
-	public static boolean createProject(Project project, List<EmployedProject> employedHours){
+	public static boolean createProject(Project project, List<ProjectEmployed> employedHours){
 		boolean result = false;
 		try{
 			ServiceWebStub service = new ServiceWebStub();
@@ -71,11 +71,11 @@ public class ProjectController {
 			
 			createProject.setVoProject(voProject);
 			
-			List<VOEmployedProject> listVOEmployedProject = new ArrayList<VOEmployedProject>();
+			List<VOProjectEmployed> listVOEmployedProject = new ArrayList<VOProjectEmployed>();
 			//VOEmployedProject[] listVOEmployedProject = new VOEmployedProject[employedHours.size()];
 						
-			for (EmployedProject aux : employedHours) {				
-				VOEmployedProject voEmployedProject = new VOEmployedProject();
+			for (ProjectEmployed aux : employedHours) {				
+				VOProjectEmployed voEmployedProject = new VOProjectEmployed();
 				VOEmployed voEmployed = new VOEmployed();
 				
 				voEmployed.setId(aux.getEmployedId());
@@ -87,7 +87,7 @@ public class ProjectController {
 				
 			}				
 			
-			VOEmployedProject[] listToInsert = new VOEmployedProject[employedHours.size()];
+			VOProjectEmployed[] listToInsert = new VOProjectEmployed[employedHours.size()];
 			
 			for(int i = 0; i<employedHours.size();i++){
 				listToInsert[i] = listVOEmployedProject.get(i);

@@ -2,9 +2,9 @@ package servicelayer.entity.businessEntity;
 
 import java.util.Date;
 
-import servicelayer.entity.valueObject.VOEmployedProject;
+import servicelayer.entity.valueObject.VOProjectEmployed;
 
-public class EmployedProject {
+public class ProjectEmployed {
 
 	private Employed employed;	
 	private int version;
@@ -13,11 +13,11 @@ public class EmployedProject {
 	private Date createdDateTimeUTC;
 	private Date updatedDateTimeUTC;
 
-	public EmployedProject() {
+	public ProjectEmployed() {
 
 	}
 
-	public EmployedProject(VOEmployedProject voEmployedProject) {
+	public ProjectEmployed(VOProjectEmployed voEmployedProject) {
 		this.employed = new Employed(voEmployedProject.getEmployedId());		
 		this.version = voEmployedProject.getVersion();
 		this.hours = voEmployedProject.getHours();

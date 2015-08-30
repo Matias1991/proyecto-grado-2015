@@ -3,16 +3,16 @@ package shared.interfaces.core;
 import java.util.ArrayList;
 
 import servicelayer.entity.businessEntity.DistributionType;
-import servicelayer.entity.businessEntity.EmployedProject;
-import servicelayer.entity.businessEntity.PartnerProject;
+import servicelayer.entity.businessEntity.ProjectEmployed;
+import servicelayer.entity.businessEntity.ProjectPartner;
 import servicelayer.entity.businessEntity.Project;
 import shared.exceptions.ClientException;
 import shared.exceptions.ServerException;
 
 public interface ICoreProject {
 
-	void insertProject(Project project, ArrayList<EmployedProject> employedProjects,
-			ArrayList<PartnerProject> partnerProjects) throws ServerException,
+	void insertProject(Project project, ArrayList<ProjectEmployed> employedProjects,
+			ArrayList<ProjectPartner> partnerProjects) throws ServerException,
 			ClientException;
 
 	ArrayList<Project> getProjects() throws ServerException;

@@ -11,14 +11,14 @@ import shared.LoggerMSMP;
 import shared.exceptions.ServerException;
 import shared.interfaces.dataLayer.IDAODistributionType;
 
-public class DAODistributionType implements IDAODistributionType{
+public class DAODistributionTypes implements IDAODistributionType{
 	
 	private Connection connection;
 	
-	public DAODistributionType(){
+	public DAODistributionTypes(){
 	}
 	
-	public DAODistributionType (Connection connection){
+	public DAODistributionTypes (Connection connection){
 		this.connection = connection;
 	}	
 

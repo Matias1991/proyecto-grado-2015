@@ -4,27 +4,22 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import datalayer.daos.DAOManager;
-import datalayer.daos.DAOProjects;
 import servicelayer.entity.businessEntity.DistributionType;
-import servicelayer.entity.businessEntity.EmployedProject;
-import servicelayer.entity.businessEntity.PartnerProject;
+import servicelayer.entity.businessEntity.ProjectEmployed;
+import servicelayer.entity.businessEntity.ProjectPartner;
 import servicelayer.entity.businessEntity.Project;
-import servicelayer.entity.valueObject.VOEmployedProject;
-import servicelayer.entity.valueObject.VOPartnerProject;
-import servicelayer.entity.valueObject.VOProject;
 import shared.exceptions.ClientException;
 import shared.exceptions.ServerException;
 import shared.interfaces.core.ICoreProject;
-import shared.interfaces.dataLayer.IDAOProjects;
-import datalayer.daos.DAOManager;
 
 public class CoreProject implements ICoreProject {
 
 	private static CoreProject instance = null;
-	private IDAOProjects iDAOProject;
+	//private IDAOProjects iDAOProject;
 
-	private CoreProject()throws ServerException {
-		iDAOProject = new DAOProjects();
+	//private CoreProject()throws ServerException {
+		//iDAOProject = new DAOProjects();
+	private CoreProject(){
 	}
 
 	public static CoreProject GetInstance() throws ServerException {
@@ -35,8 +30,8 @@ public class CoreProject implements ICoreProject {
 	}
 
 	@Override
-	public void insertProject(Project project, ArrayList<EmployedProject> employedProjects,
-			ArrayList<PartnerProject> partnerProjects) throws ServerException,
+	public void insertProject(Project project, ArrayList<ProjectEmployed> employedProjects,
+			ArrayList<ProjectPartner> partnerProjects) throws ServerException,
 			ClientException {
 		DAOManager daoManager = new DAOManager();
 		try {
@@ -51,7 +46,7 @@ public class CoreProject implements ICoreProject {
 				project.setId(newProjectId);
 
 				// Todos los usuarios asociados al proyecto
-				for (EmployedProject empProject : employedProjects) {
+				for (ProjectEmployed empProject : employedProjects) {
 					empProject.setCreatedDateTimeUTC(new Date());
 					empProject.setUpdatedDateTimeUTC(new Date());
 					empProject.setEnabled(true);
@@ -59,7 +54,7 @@ public class CoreProject implements ICoreProject {
 				}
 				
 				// La distribucion asociada al proyecto
-				for (PartnerProject partProject : partnerProjects) {
+				for (ProjectPartner partProject : partnerProjects) {
 					partProject.setCreatedDateTimeUTC(new Date());
 					partProject.setUpdatedDateTimeUTC(new Date());
 					partProject.setEnabled(true);

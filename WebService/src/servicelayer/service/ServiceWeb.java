@@ -12,8 +12,8 @@ import servicelayer.core.CoreProject;
 import servicelayer.core.CoreUser;
 import servicelayer.entity.businessEntity.Bill;
 import servicelayer.entity.businessEntity.Employed;
-import servicelayer.entity.businessEntity.EmployedProject;
-import servicelayer.entity.businessEntity.PartnerProject;
+import servicelayer.entity.businessEntity.ProjectEmployed;
+import servicelayer.entity.businessEntity.ProjectPartner;
 import servicelayer.entity.businessEntity.Project;
 import servicelayer.entity.businessEntity.SalarySummary;
 import servicelayer.entity.valueObject.VOBill;
@@ -833,9 +833,9 @@ public class ServiceWeb extends ServiceBase {
 					TimeUnit.SECONDS);
 
 			Project project = projectBuilder.BuildBusinessObject(voProject);
-			ArrayList<EmployedProject> employedProjects = projectBuilder
+			ArrayList<ProjectEmployed> employedProjects = projectBuilder
 					.BuildEmployedProjects(voProject.getVoEmployedProjects());
-			ArrayList<PartnerProject> partnerProjects = projectBuilder
+			ArrayList<ProjectPartner> partnerProjects = projectBuilder
 					.BuildPartnerProjects(voProject.getVoPartnerProjects());
 
 			iCoreProject.insertProject(project, employedProjects,

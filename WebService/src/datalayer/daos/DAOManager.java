@@ -9,10 +9,10 @@ import shared.interfaces.dataLayer.IDAOBills;
 import shared.interfaces.dataLayer.IDAOCategroy;
 import shared.interfaces.dataLayer.IDAOCharges;
 import shared.interfaces.dataLayer.IDAODistributionType;
-import shared.interfaces.dataLayer.IDAOEmployedProject;
+import shared.interfaces.dataLayer.IDAOProjectEmployees;
 import shared.interfaces.dataLayer.IDAOEmployees;
 import shared.interfaces.dataLayer.IDAOManager;
-import shared.interfaces.dataLayer.IDAOPartnerProject;
+import shared.interfaces.dataLayer.IDAOProjectPartners;
 import shared.interfaces.dataLayer.IDAOProjects;
 import shared.interfaces.dataLayer.IDAOSalarySummaries;
 import shared.interfaces.dataLayer.IDAOUsers;
@@ -25,11 +25,11 @@ public class DAOManager implements IDAOManager{
 	private IDAOEmployees iDAOEmployees;
 	private IDAOSalarySummaries iDAOSalarySummaries;
 	private IDAOProjects iDAOProjects;
-	private IDAOEmployedProject iDAOEmployedProjects;
+	private IDAOProjectEmployees iDAOEmployedProjects;
 	private IDAOBills iDAOBills;
 	private IDAOCategroy iDAOCategories;
 	private IDAOCharges iDAOCharges;
-	private IDAOPartnerProject iDAOPartnerProjects;
+	private IDAOProjectPartners iDAOPartnerProjects;
 	private IDAODistributionType iDAODistributionTypes;
 	
 	public DAOManager() throws ServerException
@@ -110,11 +110,11 @@ public class DAOManager implements IDAOManager{
 		return iDAOProjects;
 	}
 	
-	public IDAOEmployedProject getDAOEmployedProjects()
+	public IDAOProjectEmployees getDAOEmployedProjects()
 	{
 		if(iDAOEmployedProjects == null)
 		{
-			return new DAOEmployedProject(connection);
+			return new DAOProjectEmployees(connection);
 		}
 		
 		return iDAOEmployedProjects;
@@ -150,11 +150,11 @@ public class DAOManager implements IDAOManager{
 		return iDAOCharges;
 	}
 	
-	public IDAOPartnerProject getDAOPartnerProjects()
+	public IDAOProjectPartners getDAOPartnerProjects()
 	{
 		if(iDAOPartnerProjects == null)
 		{
-			return new DAOPartnerProject(connection);
+			return new DAOProjectPartners(connection);
 		}
 		
 		return iDAOPartnerProjects;
@@ -162,7 +162,7 @@ public class DAOManager implements IDAOManager{
 	
 	public IDAODistributionType getDAODistributionTypes(){
 		if(iDAODistributionTypes == null){
-			return new DAODistributionType(connection);
+			return new DAODistributionTypes(connection);
 		}
 		return iDAODistributionTypes;
 	}

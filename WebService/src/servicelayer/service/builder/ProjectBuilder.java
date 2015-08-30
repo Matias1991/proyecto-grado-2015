@@ -4,13 +4,13 @@ import java.util.ArrayList;
 
 import servicelayer.entity.businessEntity.DistributionType;
 import servicelayer.entity.businessEntity.Employed;
-import servicelayer.entity.businessEntity.EmployedProject;
-import servicelayer.entity.businessEntity.PartnerProject;
+import servicelayer.entity.businessEntity.ProjectEmployed;
+import servicelayer.entity.businessEntity.ProjectPartner;
 import servicelayer.entity.businessEntity.Project;
 import servicelayer.entity.businessEntity.User;
 import servicelayer.entity.valueObject.VODistributionType;
-import servicelayer.entity.valueObject.VOEmployedProject;
-import servicelayer.entity.valueObject.VOPartnerProject;
+import servicelayer.entity.valueObject.VOProjectEmployed;
+import servicelayer.entity.valueObject.VOProjectPartner;
 import servicelayer.entity.valueObject.VOProject;
 
 public class ProjectBuilder extends BaseBuilder<VOProject, Project> {
@@ -63,9 +63,9 @@ public class ProjectBuilder extends BaseBuilder<VOProject, Project> {
 		return project;
 	}
 	
-	public VOPartnerProject BuildVOPartnerProject(PartnerProject partnerProject){
+	public VOProjectPartner BuildVOPartnerProject(ProjectPartner partnerProject){
 		
-		VOPartnerProject voPartnerProject = new VOPartnerProject();		
+		VOProjectPartner voPartnerProject = new VOProjectPartner();		
 		voPartnerProject.setEmployedId(partnerProject.getEmployed().getId());
 		voPartnerProject.setEmployedName(partnerProject.getEmployed().getName());
 		voPartnerProject.setEmployedLastName(partnerProject.getEmployed().getLastName());
@@ -78,9 +78,9 @@ public class ProjectBuilder extends BaseBuilder<VOProject, Project> {
 		return voPartnerProject;
 	}
 	
-	public PartnerProject BuildBusinessPartnerProject(VOPartnerProject voPartnerProject){
+	public ProjectPartner BuildBusinessPartnerProject(VOProjectPartner voPartnerProject){
 		
-		PartnerProject partnerProject = new PartnerProject();
+		ProjectPartner partnerProject = new ProjectPartner();
 		Employed employed = new Employed();
 		employed.setId(voPartnerProject.getEmployedId());
 		employed.setName(voPartnerProject.getEmployedName());
@@ -95,10 +95,10 @@ public class ProjectBuilder extends BaseBuilder<VOProject, Project> {
 		return partnerProject;
 	}
 	
-	public VOPartnerProject[] BuildVOPartnerProjects(ArrayList<PartnerProject> partnerProjects){
+	public VOProjectPartner[] BuildVOPartnerProjects(ArrayList<ProjectPartner> partnerProjects){
 		int i = 0;
-		VOPartnerProject[] voPartProjects = new VOPartnerProject[partnerProjects.size()];
-		for (PartnerProject partnerProject : partnerProjects) {
+		VOProjectPartner[] voPartProjects = new VOProjectPartner[partnerProjects.size()];
+		for (ProjectPartner partnerProject : partnerProjects) {
 			voPartProjects[i] = BuildVOPartnerProject(partnerProject);
 			i++;	
 		}
@@ -106,18 +106,18 @@ public class ProjectBuilder extends BaseBuilder<VOProject, Project> {
 		return voPartProjects;
 	}
 	
-	public ArrayList<PartnerProject> BuildPartnerProjects(VOPartnerProject[] voPartnerProjects){
-		ArrayList<PartnerProject> partnerProjects = new ArrayList<PartnerProject>();
+	public ArrayList<ProjectPartner> BuildPartnerProjects(VOProjectPartner[] voPartnerProjects){
+		ArrayList<ProjectPartner> partnerProjects = new ArrayList<ProjectPartner>();
 		
-		for (VOPartnerProject voPartnerProject : voPartnerProjects) {
+		for (VOProjectPartner voPartnerProject : voPartnerProjects) {
 			partnerProjects.add(BuildBusinessPartnerProject(voPartnerProject));			
 		}
 		
 		return partnerProjects;		
 	}
 	
-	public VOEmployedProject BuildVOEmployedProject(EmployedProject employedProject){
-		VOEmployedProject voEmployedProject = new VOEmployedProject();		
+	public VOProjectEmployed BuildVOEmployedProject(ProjectEmployed employedProject){
+		VOProjectEmployed voEmployedProject = new VOProjectEmployed();		
 		voEmployedProject.setEmployedId(employedProject.getEmployed().getId());
 		voEmployedProject.setEmployedName(employedProject.getEmployed().getName());
 		voEmployedProject.setEmployedLastname(employedProject.getEmployed().getLastName());
@@ -130,8 +130,8 @@ public class ProjectBuilder extends BaseBuilder<VOProject, Project> {
 		return voEmployedProject;		
 	}
 	
-	public EmployedProject BuildBusinessEmployedProject(VOEmployedProject voEmployedProject){
-		EmployedProject employedProject = new EmployedProject();	
+	public ProjectEmployed BuildBusinessEmployedProject(VOProjectEmployed voEmployedProject){
+		ProjectEmployed employedProject = new ProjectEmployed();	
 		Employed employed = new Employed();
 		employed.setId(voEmployedProject.getEmployedId());
 		employed.setName(voEmployedProject.getEmployedName());
@@ -146,10 +146,10 @@ public class ProjectBuilder extends BaseBuilder<VOProject, Project> {
 		return employedProject;	
 	}
 	
-	public VOEmployedProject[] BuildVOEmployedProjects(ArrayList<EmployedProject> employedProjects){
+	public VOProjectEmployed[] BuildVOEmployedProjects(ArrayList<ProjectEmployed> employedProjects){
 		int i = 0;
-		VOEmployedProject[] voEmpProjects = new VOEmployedProject[employedProjects.size()];
-		for (EmployedProject employedProject : employedProjects) {
+		VOProjectEmployed[] voEmpProjects = new VOProjectEmployed[employedProjects.size()];
+		for (ProjectEmployed employedProject : employedProjects) {
 			voEmpProjects[i] = BuildVOEmployedProject(employedProject);
 			i++;			
 		}
@@ -157,10 +157,10 @@ public class ProjectBuilder extends BaseBuilder<VOProject, Project> {
 		return voEmpProjects;
 	}
 	
-	public ArrayList<EmployedProject> BuildEmployedProjects(VOEmployedProject[] voEmployedProjects){
-		ArrayList<EmployedProject> employedProjects = new ArrayList<EmployedProject>();
+	public ArrayList<ProjectEmployed> BuildEmployedProjects(VOProjectEmployed[] voEmployedProjects){
+		ArrayList<ProjectEmployed> employedProjects = new ArrayList<ProjectEmployed>();
 		
-		for (VOEmployedProject voEmployedProject : voEmployedProjects) {
+		for (VOProjectEmployed voEmployedProject : voEmployedProjects) {
 			employedProjects.add(BuildBusinessEmployedProject(voEmployedProject));			
 		}
 		

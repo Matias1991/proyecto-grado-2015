@@ -5,25 +5,25 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import servicelayer.entity.businessEntity.EmployedProject;
+import servicelayer.entity.businessEntity.ProjectEmployed;
 import shared.LoggerMSMP;
 import shared.exceptions.ServerException;
-import shared.interfaces.dataLayer.IDAOEmployedProject;
+import shared.interfaces.dataLayer.IDAOProjectEmployees;
 
-public class DAOEmployedProject implements IDAOEmployedProject {
+public class DAOProjectEmployees implements IDAOProjectEmployees {
 
 	private Connection connection;
 
-	public DAOEmployedProject() {
+	public DAOProjectEmployees() {
 	}
 
-	public DAOEmployedProject(Connection connection) {
+	public DAOProjectEmployees(Connection connection) {
 		this.connection = connection;
 	}
 
 	@Override
 	public int insertEmployedProject(int projectId,
-			EmployedProject employedProyect) throws ServerException {
+			ProjectEmployed employedProyect) throws ServerException {
 		// TODO Auto-generated method stub
 		int newEmployedProjectId = -1;
 		PreparedStatement preparedStatement = null;
@@ -63,7 +63,7 @@ public class DAOEmployedProject implements IDAOEmployedProject {
 	}
 
 	@Override
-	public ArrayList<EmployedProject> getEmployeesProject(int projectId)
+	public ArrayList<ProjectEmployed> getEmployeesProject(int projectId)
 			throws ServerException {
 		// TODO Auto-generated method stub
 
