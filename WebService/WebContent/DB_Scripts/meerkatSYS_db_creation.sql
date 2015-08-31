@@ -142,8 +142,6 @@ CREATE TABLE IF NOT EXISTS Bill
 	AmountDollar 		DECIMAL(10,2) NULL,
 	IsCurrencyDollar	BIT NULL,
 	TypeExchange		DECIMAL(10,2) NULL,
-	AmountChargedPeso 	DECIMAL(10,2) NULL,
-	AmountChargedDollar DECIMAL(10,2) NULL,
 	AppliedDateTimeUTC  TIMESTAMP NULL,
 	IsLiquidated		BIT NULL,
 	ProjectId			INTEGER NULL,
