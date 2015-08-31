@@ -110,8 +110,7 @@ CREATE TABLE IF NOT EXISTS Project
 	Closed		BIT NULL,
 	PRIMARY KEY (Id),
 	FOREIGN KEY FK_Project_ManagerId (ManagerId) REFERENCES User (Id),
-	FOREIGN KEY FK_Project_SellerId (SellerId) REFERENCES Employed (Id),
-	UNIQUE KEY `projectName` (`Name`)
+	FOREIGN KEY FK_Project_SellerId (SellerId) REFERENCES Employed (Id)	
 );
 
 CREATE TABLE IF NOT EXISTS Category

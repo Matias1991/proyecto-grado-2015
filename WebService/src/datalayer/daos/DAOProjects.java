@@ -192,9 +192,10 @@ public class DAOProjects implements IDAOProjects {
 		ResultSet rs = null;
 
 		try {
-			String getSQL = "SELECT * FROM Project WHERE name = ?";
+			String getSQL = "SELECT * FROM Project WHERE name = ? AND closed = ?";
 			preparedStatement = this.connection.prepareStatement(getSQL);
 			preparedStatement.setString(1, name);
+			preparedStatement.setInt(2, 0);
 
 			rs = preparedStatement.executeQuery();
 
