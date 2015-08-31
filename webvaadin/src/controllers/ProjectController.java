@@ -50,6 +50,37 @@ public class ProjectController {
 
 		return projects;
 	}
+	
+	public static Collection<Project> getActiveProjects() {
+		Collection<Project> projects = new ArrayList<Project>();
+
+		try {
+			ServiceWebStub service = new ServiceWebStub();
+			servicelayer.service.ServiceWebStub.GetProjects getActiveProjects = new servicelayer.service.ServiceWebStub.GetProjects();
+
+			VOProject[] voProjects = service.getProjects(getActiveProjects)
+					.get_return();
+
+			if (voProjects != null) {
+				for (VOProject voProject : voProjects) {
+					if(voProject.getClosed())
+						continue;
+					
+					Project project = new Project(voProject);
+					projects.add(project);
+				}
+			}
+
+		} catch (AxisFault e) {
+			String error = e.getMessage().replace("<faultstring>", "");
+			new PopupWindow("ERROR", error.replace(
+					"</faultstring>", ""));
+		} catch (RemoteException e) {			
+			e.printStackTrace();
+		}
+
+		return projects;
+	}
 
 	public static boolean createProject(Project project) {
 		boolean result = false;

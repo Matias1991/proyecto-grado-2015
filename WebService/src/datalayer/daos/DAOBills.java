@@ -312,7 +312,7 @@ public class DAOBills implements IDAOBills {
 		try {
 
 			StringBuilder sql = new StringBuilder();
-			sql.append("SELECT B.*, P.Name as ProjectName FROM BILL B ");
+			sql.append("SELECT B.*, P.Name as ProjectName, P.Closed as ProjectClosed FROM BILL B ");
 			sql.append("INNER JOIN PROJECT P ON P.Id = B.ProjectId ");
 			sql.append("WHERE B.AppliedDateTimeUTC between ? AND ? ");
 			if (projectId != 0)
@@ -346,7 +346,10 @@ public class DAOBills implements IDAOBills {
 			while (rs.next()) {
 				Bill bill = BuildBill(rs);
 				if (bill.getProject() != null)
+				{
 					bill.getProject().setName(rs.getString("projectName"));
+					bill.getProject().setClosed(rs.getBoolean("projectClosed"));
+				}
 				bills.add(bill);
 			}
 

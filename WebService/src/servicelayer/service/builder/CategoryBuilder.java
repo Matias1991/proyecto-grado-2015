@@ -22,6 +22,7 @@ public class CategoryBuilder extends BaseBuilder<VOCategory, Category>{
 		{
 			voCategory.setProjectId(businessObject.getProject().getId());
 			voCategory.setProjectName(businessObject.getProject().getName());
+			voCategory.setProjectClosed(businessObject.getProject().getClosed());
 		}
 		voCategory.setCategoryType(businessObject.getCategoryType().getValue());
 		voCategory.setIsRRHH(businessObject.getIsRRHH());

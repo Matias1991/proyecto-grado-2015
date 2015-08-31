@@ -186,7 +186,7 @@ public class DAOProjects implements IDAOProjects {
 	}
 
 	@Override
-	public Project getProjectUByUserName(String name) throws ServerException {
+	public Project getProjectByName(String name) throws ServerException {
 		Project project = null;
 		PreparedStatement preparedStatement = null;
 		ResultSet rs = null;

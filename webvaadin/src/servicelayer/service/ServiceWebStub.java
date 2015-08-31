@@ -19603,6 +19603,51 @@
                             
 
                         /**
+                        * field for ProjectClosed
+                        */
+
+                        
+                                    protected boolean localProjectClosed ;
+                                
+                           /*  This tracker boolean wil be used to detect whether the user called the set method
+                          *   for this attribute. It will be used to determine whether to include this field
+                           *   in the serialized XML
+                           */
+                           protected boolean localProjectClosedTracker = false ;
+
+                           public boolean isProjectClosedSpecified(){
+                               return localProjectClosedTracker;
+                           }
+
+                           
+
+                           /**
+                           * Auto generated getter method
+                           * @return boolean
+                           */
+                           public  boolean getProjectClosed(){
+                               return localProjectClosed;
+                           }
+
+                           
+                        
+                            /**
+                               * Auto generated setter method
+                               * @param param ProjectClosed
+                               */
+                               public void setProjectClosed(boolean param){
+                            
+                                       // setting primitive attribute tracker to true
+                                       localProjectClosedTracker =
+                                       true;
+                                   
+                                            this.localProjectClosed=param;
+                                    
+
+                               }
+                            
+
+                        /**
                         * field for ProjectId
                         */
 
@@ -19993,6 +20038,19 @@
                                                }
                                     
                                    xmlWriter.writeEndElement();
+                             } if (localProjectClosedTracker){
+                                    namespace = "http://valueObject.entity.servicelayer/xsd";
+                                    writeStartElement(null, namespace, "projectClosed", xmlWriter);
+                             
+                                               if (false) {
+                                           
+                                                         throw new org.apache.axis2.databinding.ADBException("projectClosed cannot be null!!");
+                                                      
+                                               } else {
+                                                    xmlWriter.writeCharacters(org.apache.axis2.databinding.utils.ConverterUtil.convertToString(localProjectClosed));
+                                               }
+                                    
+                                   xmlWriter.writeEndElement();
                              } if (localProjectIdTracker){
                                     namespace = "http://valueObject.entity.servicelayer/xsd";
                                     writeStartElement(null, namespace, "projectId", xmlWriter);
@@ -20296,6 +20354,12 @@
                                  
                                 elementList.add(
                                    org.apache.axis2.databinding.utils.ConverterUtil.convertToString(localIsRRHH));
+                            } if (localProjectClosedTracker){
+                                      elementList.add(new javax.xml.namespace.QName("http://valueObject.entity.servicelayer/xsd",
+                                                                      "projectClosed"));
+                                 
+                                elementList.add(
+                                   org.apache.axis2.databinding.utils.ConverterUtil.convertToString(localProjectClosed));
                             } if (localProjectIdTracker){
                                       elementList.add(new javax.xml.namespace.QName("http://valueObject.entity.servicelayer/xsd",
                                                                       "projectId"));
@@ -20562,6 +20626,24 @@
                                     java.lang.String content = reader.getElementText();
                                     
                                               object.setIsRRHH(
+                                                    org.apache.axis2.databinding.utils.ConverterUtil.convertToBoolean(content));
+                                              
+                                        reader.next();
+                                    
+                              }  // End of if for expected property start element
+                                
+                                    else {
+                                        
+                                    }
+                                
+                                    
+                                    while (!reader.isStartElement() && !reader.isEndElement()) reader.next();
+                                
+                                    if (reader.isStartElement() && new javax.xml.namespace.QName("http://valueObject.entity.servicelayer/xsd","projectClosed").equals(reader.getName())){
+                                
+                                    java.lang.String content = reader.getElementText();
+                                    
+                                              object.setProjectClosed(
                                                     org.apache.axis2.databinding.utils.ConverterUtil.convertToBoolean(content));
                                               
                                         reader.next();
@@ -40253,6 +40335,51 @@
                             
 
                         /**
+                        * field for ProjectClosed
+                        */
+
+                        
+                                    protected boolean localProjectClosed ;
+                                
+                           /*  This tracker boolean wil be used to detect whether the user called the set method
+                          *   for this attribute. It will be used to determine whether to include this field
+                           *   in the serialized XML
+                           */
+                           protected boolean localProjectClosedTracker = false ;
+
+                           public boolean isProjectClosedSpecified(){
+                               return localProjectClosedTracker;
+                           }
+
+                           
+
+                           /**
+                           * Auto generated getter method
+                           * @return boolean
+                           */
+                           public  boolean getProjectClosed(){
+                               return localProjectClosed;
+                           }
+
+                           
+                        
+                            /**
+                               * Auto generated setter method
+                               * @param param ProjectClosed
+                               */
+                               public void setProjectClosed(boolean param){
+                            
+                                       // setting primitive attribute tracker to true
+                                       localProjectClosedTracker =
+                                       true;
+                                   
+                                            this.localProjectClosed=param;
+                                    
+
+                               }
+                            
+
+                        /**
                         * field for ProjectId
                         */
 
@@ -40587,6 +40714,19 @@
                                                }
                                     
                                    xmlWriter.writeEndElement();
+                             } if (localProjectClosedTracker){
+                                    namespace = "http://valueObject.entity.servicelayer/xsd";
+                                    writeStartElement(null, namespace, "projectClosed", xmlWriter);
+                             
+                                               if (false) {
+                                           
+                                                         throw new org.apache.axis2.databinding.ADBException("projectClosed cannot be null!!");
+                                                      
+                                               } else {
+                                                    xmlWriter.writeCharacters(org.apache.axis2.databinding.utils.ConverterUtil.convertToString(localProjectClosed));
+                                               }
+                                    
+                                   xmlWriter.writeEndElement();
                              } if (localProjectIdTracker){
                                     namespace = "http://valueObject.entity.servicelayer/xsd";
                                     writeStartElement(null, namespace, "projectId", xmlWriter);
@@ -40871,6 +41011,12 @@
                                  
                                 elementList.add(
                                    org.apache.axis2.databinding.utils.ConverterUtil.convertToString(localLiquidated));
+                            } if (localProjectClosedTracker){
+                                      elementList.add(new javax.xml.namespace.QName("http://valueObject.entity.servicelayer/xsd",
+                                                                      "projectClosed"));
+                                 
+                                elementList.add(
+                                   org.apache.axis2.databinding.utils.ConverterUtil.convertToString(localProjectClosed));
                             } if (localProjectIdTracker){
                                       elementList.add(new javax.xml.namespace.QName("http://valueObject.entity.servicelayer/xsd",
                                                                       "projectId"));
@@ -41172,6 +41318,24 @@
                                     java.lang.String content = reader.getElementText();
                                     
                                               object.setLiquidated(
+                                                    org.apache.axis2.databinding.utils.ConverterUtil.convertToBoolean(content));
+                                              
+                                        reader.next();
+                                    
+                              }  // End of if for expected property start element
+                                
+                                    else {
+                                        
+                                    }
+                                
+                                    
+                                    while (!reader.isStartElement() && !reader.isEndElement()) reader.next();
+                                
+                                    if (reader.isStartElement() && new javax.xml.namespace.QName("http://valueObject.entity.servicelayer/xsd","projectClosed").equals(reader.getName())){
+                                
+                                    java.lang.String content = reader.getElementText();
+                                    
+                                              object.setProjectClosed(
                                                     org.apache.axis2.databinding.utils.ConverterUtil.convertToBoolean(content));
                                               
                                         reader.next();

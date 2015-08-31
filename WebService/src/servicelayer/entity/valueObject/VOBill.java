@@ -16,6 +16,7 @@ public class VOBill implements Serializable {
 	private Date appliedDateTimeUTC;
 	private int projectId;
 	private String projectName;
+	private boolean projectClosed;
 	private boolean isLiquidated;
 	private double amountChargedDollar;
 	private double amountChargedPeso;
@@ -122,5 +123,13 @@ public class VOBill implements Serializable {
 
 	public void setAmountDollar(double amountDollar) {
 		this.amountDollar = amountDollar;
+	}
+
+	public boolean isProjectClosed() {
+		return projectClosed;
+	}
+
+	public void setProjectClosed(boolean projectClosed) {
+		this.projectClosed = projectClosed;
 	}
 }

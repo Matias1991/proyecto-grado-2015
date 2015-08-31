@@ -330,8 +330,8 @@ public class WebvaadinUI extends UI {
 			MenuItem bill = menuBar.addItem("Facturas", null, null);
 			bill.addItem("Crear factura", null, mainMenuBarCommand);
 			bill.addItem("Modificar facturas", null, mainMenuBarCommand);
-			bill.addItem("Catálogo facturas", null, mainMenuBarCommand);
 			bill.addItem("Eliminar facturas", null, mainMenuBarCommand);
+			bill.addItem("Catálogo facturas", null, mainMenuBarCommand);
 			// Cobros
 			MenuItem charge = menuBar.addItem("Cobros", null, null);
 			charge.addItem("Crear cobro", null, mainMenuBarCommand);

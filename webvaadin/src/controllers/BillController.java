@@ -122,6 +122,44 @@ public class BillController {
 		return bills;
 	}
 	
+	public static Collection<Bill> getBillsByActiveProjects(Date from, Date to, int projectId, String code, boolean isLiquidated)
+	{
+		Collection<Bill> bills = new ArrayList<Bill>();
+		
+		try {
+			ServiceWebStub service = new ServiceWebStub();
+			GetBillsWithFilters getBillsWithFilters = new GetBillsWithFilters();
+			
+			getBillsWithFilters.setFrom(from);
+			getBillsWithFilters.setTo(to);
+			getBillsWithFilters.setProjectId(projectId);
+			getBillsWithFilters.setCode(code);
+			getBillsWithFilters.setIsLiquidated(isLiquidated);
+			
+			VOBill [] voBills = service.getBillsWithFilters(getBillsWithFilters).get_return();
+
+			if(voBills != null)
+			{
+				for(VOBill voBill : voBills)
+				{
+					if(voBill.getProjectClosed())
+						continue;
+					
+					Bill bill = new Bill(voBill);
+					bills.add(bill);
+				}
+			}
+			
+		} catch (AxisFault e) {
+			String error = e.getMessage().replace("<faultstring>", "");
+			PopupWindow popup = new PopupWindow("ERROR", error.replace("</faultstring>", ""));
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
+		
+		return bills;
+	}
+	
 	public static Collection<Bill> getBills(int projectId) {
 		Collection<Bill> bills = new ArrayList<Bill>();
 		

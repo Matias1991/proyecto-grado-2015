@@ -189,7 +189,7 @@ public class CreateCategoryView extends BaseView {
 	}
 	
 	public void buildProjectCombo(){
-		Collection<Project> projects = ProjectController.getProjects();
+		Collection<Project> projects = ProjectController.getActiveProjects();
 		
 		cboProject.removeAllItems();
 		if(projects != null && projects.size() > 0){					

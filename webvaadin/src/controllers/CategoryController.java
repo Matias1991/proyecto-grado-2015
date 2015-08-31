@@ -79,6 +79,40 @@ public class CategoryController {
 		return categories;
 	}
 	
+	public static Collection<Category> getCategoriesByActiveProjects()
+	{
+		Collection<Category> categories = new ArrayList<Category>();
+		
+		try {
+			ServiceWebStub service = new ServiceWebStub();
+			GetCategories getCategory = new GetCategories();
+			
+			VOCategory [] voCategories = service.getCategories(getCategory).get_return();
+
+			if(voCategories != null)
+			{
+				for(VOCategory voCategory : voCategories)
+				{
+					if(voCategory.getProjectId() != 0)
+					{
+						if(voCategory.getProjectClosed())
+							continue;
+					}
+					Category category = new Category(voCategory);
+					categories.add(category);
+				}
+			}
+			
+		} catch (AxisFault e) {
+			String error = e.getMessage().replace("<faultstring>", "");
+			PopupWindow popup = new PopupWindow("ERROR", error.replace("</faultstring>", ""));
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
+		
+		return categories;
+	}
+	
 	public static boolean deleteCategory(int id)
 	{
 		boolean result = false;

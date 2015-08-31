@@ -15,6 +15,7 @@ public class VOCategory implements Serializable {
 	private Date appliedDateTimeUTC;
 	private int projectId;
 	private String projectName;
+	private boolean projectClosed;
 	private int categoryType;
 	private boolean isRRHH;
 	private static final long serialVersionUID = 1L;
@@ -122,5 +123,13 @@ public class VOCategory implements Serializable {
 
 	public void setUpdatedDateTimeUTC(Date updatedDateTimeUTC) {
 		this.updatedDateTimeUTC = updatedDateTimeUTC;
+	}
+
+	public boolean isProjectClosed() {
+		return projectClosed;
+	}
+
+	public void setProjectClosed(boolean projectClosed) {
+		this.projectClosed = projectClosed;
 	}
 }

@@ -90,7 +90,7 @@ public class DeleteCategoriesView extends BaseView {
 	}
 
 	public void buildGrid() {
-		Collection<Category> categories = CategoryController.getCategories();
+		Collection<Category> categories = CategoryController.getCategoriesByActiveProjects();
 
 		container = new BeanItemContainer<Category>(Category.class, categories);
 

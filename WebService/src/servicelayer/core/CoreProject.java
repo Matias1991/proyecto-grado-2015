@@ -37,7 +37,7 @@ public class CoreProject implements ICoreProject {
 			ClientException {
 		DAOManager daoManager = new DAOManager();
 		try {
-			if (daoManager.getDAOProjects().getProjectUByUserName(
+			if (daoManager.getDAOProjects().getProjectByName(
 					project.getName()) == null) {
 				project.setiDAOEmployedProject(daoManager
 						.getDAOEmployedProjects());
@@ -126,7 +126,7 @@ public class CoreProject implements ICoreProject {
 			daoManager.close();
 		}
 	}
-
+	
 	@Override
 	public ArrayList<Project> getProjectByStatus(boolean projectStatus)
 			throws ServerException {

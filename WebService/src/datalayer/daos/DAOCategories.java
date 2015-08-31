@@ -246,7 +246,7 @@ public class DAOCategories implements IDAOCategroy {
 		try {
 			
 			StringBuilder strBuilder = new StringBuilder();
-			strBuilder.append("SELECT C_1.*, P.NAME as ProjectName ");
+			strBuilder.append("SELECT C_1.*, P.NAME as ProjectName, P.CLOSED as ProjectClosed ");
 			strBuilder.append("FROM CATEGORY C_1 ");
 			strBuilder.append("LEFT OUTER JOIN PROJECT P ON P.Id = C_1.ProjectId ");
 			strBuilder.append("WHERE (C_1.Id, C_1.Version) in (SELECT C_2.Id, MAX(VERSION) ");
@@ -259,7 +259,10 @@ public class DAOCategories implements IDAOCategroy {
 			while (rs.next()) {
 				Category category = BuildCategory(rs);
 				if(category.getProject() != null)
+				{
 					category.getProject().setName(rs.getString("projectName"));
+					category.getProject().setClosed(rs.getBoolean("projectClosed"));
+				}
 				categories.add(category);
 			}
 

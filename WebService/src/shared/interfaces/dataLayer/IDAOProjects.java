@@ -6,7 +6,7 @@ import shared.exceptions.ServerException;
 
 public interface IDAOProjects extends IDAOBase<Project> {
 
-	Project getProjectUByUserName(String name) throws ServerException;
+	Project getProjectByName(String name) throws ServerException;
 
 	int insert(Project project) throws ServerException;
 

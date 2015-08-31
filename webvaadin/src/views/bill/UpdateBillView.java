@@ -250,7 +250,7 @@ public class UpdateBillView extends BaseView {
 		int projectId = 0;
 		String code = null;
 		
-		Collection<Bill> bills = BillController.getBills(popupDateFieldFrom.getValue(), popupDateFieldTo.getValue(), projectId, code, false);
+		Collection<Bill> bills = BillController.getBillsByActiveProjects(popupDateFieldFrom.getValue(), popupDateFieldTo.getValue(), projectId, code, false);
 		
 		if (bills != null && bills.size() > 0) {
 			
@@ -371,7 +371,7 @@ public class UpdateBillView extends BaseView {
 				getUI().getNavigator().navigateTo(WebvaadinUI.MAINMENU);
 			}
 			
-			Collection<Project> projects = ProjectController.getProjects();
+			Collection<Project> projects = ProjectController.getActiveProjects();
 			for(Project project : projects)
 			{
 				comboBoxProjects.addItem(project.getId());

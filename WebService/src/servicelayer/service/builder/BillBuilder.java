@@ -22,6 +22,7 @@ public class BillBuilder extends BaseBuilder<VOBill, Bill>{
 		if (businessObject.getProject() != null) {
 			voBill.setProjectId(businessObject.getProject().getId());
 			voBill.setProjectName(businessObject.getProject().getName());
+			voBill.setProjectClosed(businessObject.getProject().getClosed());
 		}
 
 		voBill.setAmountChargedDollar(businessObject.getAmountChargedDollar());

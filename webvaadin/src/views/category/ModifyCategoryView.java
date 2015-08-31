@@ -207,7 +207,7 @@ public class ModifyCategoryView extends BaseView {
 	}
 
 	public void buildGrid() {
-		Collection<Category> categories = CategoryController.getCategories();
+		Collection<Category> categories = CategoryController.getCategoriesByActiveProjects();
 
 		if (categories != null && categories.size() > 0) {
 			lblMessage.setValue("");
