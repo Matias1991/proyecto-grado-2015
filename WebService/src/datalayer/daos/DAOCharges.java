@@ -269,6 +269,7 @@ public class DAOCharges implements IDAOCharges {
 
 	private Charge BuildCharge(ResultSet rs) throws SQLException {
 		int _id = rs.getInt("id");
+		String number = rs.getString("number");
 		String description = rs.getString("description");
 		double amountPeso = rs.getDouble("amountPeso");
 		double amountDollar = rs.getDouble("amountDollar");
@@ -279,6 +280,7 @@ public class DAOCharges implements IDAOCharges {
 
 		Charge charge = new Charge();
 		charge.setId(_id);
+		charge.setNumber(number);
 		charge.setDescription(description);
 		charge.setIsCurrencyDollar(isCurrencyDollar);
 		charge.setTypeExchange(typeExchange);

@@ -8,8 +8,20 @@ public class ChargeBuilder extends BaseBuilder<VOCharge, Charge>{
 
 	@Override
 	public VOCharge BuildVOObject(Charge businessObject) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		VOCharge voCharge = new VOCharge();
+		voCharge.setId(businessObject.getId());
+		voCharge.setNumber(businessObject.getNumber());
+		voCharge.setDescription(businessObject.getDescription());
+		voCharge.setAmountPeso(businessObject.getAmountPeso());
+		voCharge.setAmountDollar(businessObject.getAmountDollar());
+		voCharge.setIsCurrencyDollar(businessObject.getIsCurrencyDollar());
+		voCharge.setTypeExchange(businessObject.getTypeExchange());
+		voCharge.setCreatedDateTimeUTC(businessObject.getCreatedDateTimeUTC());
+		if(businessObject.getBill() != null)
+			voCharge.setBillId(businessObject.getBill().getId());
+		
+		return voCharge;
 	}
 
 	@Override

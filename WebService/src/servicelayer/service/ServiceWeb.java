@@ -767,14 +767,14 @@ public class ServiceWeb extends ServiceBase {
 	}
 
 	public VOBill[] getBillsWithFilters(Date from, Date to, int projectId,
-			String code, boolean isLiquidated) {
+			String code, boolean isLiquidated, boolean withCharges) {
 		try {
 			transactionLock.tryLock(Constants.DEFAULT_TRANSACTION_TIME,
 					TimeUnit.SECONDS);
 
 			return billBuilder
 					.BuildArrayVOObject(VOBill.class, iCoreBill.getBills(from,
-							to, projectId, code, isLiquidated));
+							to, projectId, code, isLiquidated, withCharges));
 		} catch (ServerException e) {
 			ThrowServerExceptionAndLogError(e, "obtener todos las facturas");
 		} catch (InterruptedException e) {
@@ -987,6 +987,23 @@ public class ServiceWeb extends ServiceBase {
 			transactionLock.unlock();
 		}
 		return false;
+	}
+	
+	public VOCharge[] getChargesByBill(int billId) {
+		try {
+			transactionLock.tryLock(Constants.DEFAULT_TRANSACTION_TIME,
+					TimeUnit.SECONDS);
+
+			return chargeBuilder.BuildArrayVOObject(VOCharge.class, iCoreCharge.getChargesByBill(billId));
+
+		} catch (InterruptedException e) {
+			throw new RuntimeException(Constants.TRANSACTION_ERROR);
+		} catch (Exception e) {
+			ThrowGenericExceptionAndLogError(e);
+		} finally {
+			transactionLock.unlock();
+		}
+		return null;
 	}
 	/* COMIENZO COBROS */
 }
