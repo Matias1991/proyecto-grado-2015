@@ -792,10 +792,11 @@ public class ServiceWeb extends ServiceBase {
 			transactionLock.tryLock(Constants.DEFAULT_TRANSACTION_TIME,
 					TimeUnit.SECONDS);
 
-			return billBuilder
-					.BuildArrayVOObject(VOBill.class, iCoreBill.getBills(projectId));
+			return billBuilder.BuildArrayVOObject(VOBill.class,
+					iCoreBill.getBills(projectId));
 		} catch (ServerException e) {
-			ThrowServerExceptionAndLogError(e, "obtener todos las facturas asociadas al proyecto");
+			ThrowServerExceptionAndLogError(e,
+					"obtener todos las facturas asociadas al proyecto");
 		} catch (InterruptedException e) {
 			throw new RuntimeException(Constants.TRANSACTION_ERROR);
 		} catch (Exception e) {
@@ -860,7 +861,7 @@ public class ServiceWeb extends ServiceBase {
 		try {
 			transactionLock.tryLock(Constants.DEFAULT_TRANSACTION_TIME,
 					TimeUnit.SECONDS);
-			
+
 			ProjectBuilder builder = new ProjectBuilder();
 
 			return builder.BuildVOObject(iCoreProject.getProject(id));
@@ -883,8 +884,8 @@ public class ServiceWeb extends ServiceBase {
 		try {
 			transactionLock.tryLock(Constants.DEFAULT_TRANSACTION_TIME,
 					TimeUnit.SECONDS);
-			
-			//ProjectBuilder builder = new ProjectBuilder();
+
+			// ProjectBuilder builder = new ProjectBuilder();
 
 			return projectBuilder.BuildArrayVOObject(VOProject.class,
 					iCoreProject.getProjects());
@@ -900,16 +901,18 @@ public class ServiceWeb extends ServiceBase {
 		}
 		return null;
 	}
-	
-	public VODistributionType[] getDistributionTypes(){
-		try{
+
+	public VODistributionType[] getDistributionTypes() {
+		try {
 			transactionLock.tryLock(Constants.DEFAULT_TRANSACTION_TIME,
 					TimeUnit.SECONDS);
-			
-			return projectBuilder.BuildVOArrayDistributionType(iCoreProject.getDistributionTypes()); 
-			
-		}catch (ServerException e) {
-			ThrowServerExceptionAndLogError(e, "obtener todos las distribuciones de las ganancias");
+
+			return projectBuilder.BuildVOArrayDistributionType(iCoreProject
+					.getDistributionTypes());
+
+		} catch (ServerException e) {
+			ThrowServerExceptionAndLogError(e,
+					"obtener todos las distribuciones de las ganancias");
 		} catch (InterruptedException e) {
 			throw new RuntimeException(Constants.TRANSACTION_ERROR);
 		} catch (Exception e) {
@@ -946,7 +949,7 @@ public class ServiceWeb extends ServiceBase {
 			transactionLock.tryLock(Constants.DEFAULT_TRANSACTION_TIME,
 					TimeUnit.SECONDS);
 			ProjectBuilder builder = new ProjectBuilder();
-			
+
 			return builder.BuildArrayVOObject(VOProject.class,
 					iCoreProject.getProjectByStatus(projectStatus));
 
