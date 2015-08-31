@@ -157,7 +157,15 @@ public class CoreBill implements ICoreBill {
 		try {
 			bills = daoManager.getDAOBills().getBills(from, to, projectId,
 					code, isLiquidated);
-
+			
+			for(Bill bill : bills)
+			{
+				if(bill.getIsCurrencyDollar())
+					bill.setAmountChargedDollar(getAmountChargedByBill(bill));
+				else
+					bill.setAmountChargedPeso(getAmountChargedByBill(bill));
+			}
+			
 		} catch (ServerException e) {
 			throw e;
 		} finally {
@@ -183,18 +191,21 @@ public class CoreBill implements ICoreBill {
 	}
 
 	// retorna el monto cobrado de esa factura
-	public double getAmountChargedByBill(int billId) throws ServerException {
+	public double getAmountChargedByBill(Bill bill) throws ServerException {
 		double amountCharged = 0;
 		DAOManager daoManager = new DAOManager();
 		try {
-			Bill bill = daoManager.getDAOBills().getObject(billId);
-
-			ArrayList<Charge> charges = null;// CoreCharge.GetInstance().getChargesByBill(billId);
+			//obtener la factura
+			//Bill bill = daoManager.getDAOBills().getObject(bill);
+			bill.setIDAOCharges(daoManager.getDAOCharges());
+			
+			//obtener los cobros de la factura
+			ArrayList<Charge> charges = bill.getCharges();
 
 			// obtiene todos los cobros para esa factura y suma en monto de los
 			// cobros en dolares
 			for (Charge charge : charges) {
-				if (bill.getIsCurrencyDollar())
+				if (charge.getIsCurrencyDollar())
 					amountCharged += charge.getAmountDollar();
 				else
 					amountCharged += charge.getAmountPeso();

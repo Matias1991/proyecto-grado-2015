@@ -132,12 +132,13 @@ public class CatalogBillsView extends BaseView {
 			billsGrid.removeColumn("amountDollar");
 			billsGrid.removeColumn("isCurrencyDollar");
 			billsGrid.removeColumn("typeExchange");
-			billsGrid.setColumnOrder("code", "description", "amountToShow", "typeExchangeToShow", "appliedDateTimeUTCToShow", "projectName");
+			billsGrid.setColumnOrder("code", "description", "amountToShow", "typeExchangeToShow", "amountChargedToShow" ,"appliedDateTimeUTCToShow", "projectName");
 	
 			billsGrid.getColumn("code").setHeaderCaption("Código");
 			billsGrid.getColumn("description").setHeaderCaption("Descripción");
 			billsGrid.getColumn("amountToShow").setHeaderCaption("Monto");
 			billsGrid.getColumn("typeExchangeToShow").setHeaderCaption("Tipo de cambio");
+			billsGrid.getColumn("amountChargedToShow").setHeaderCaption("Monto cobrado");
 			billsGrid.getColumn("appliedDateTimeUTCToShow").setHeaderCaption("Mes");
 			billsGrid.getColumn("projectName").setHeaderCaption("Proyecto");
 			billsGrid.setWidth(100, Unit.PERCENTAGE);

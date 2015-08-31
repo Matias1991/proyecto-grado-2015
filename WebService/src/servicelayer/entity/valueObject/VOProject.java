@@ -11,7 +11,7 @@ public class VOProject implements Serializable {
 	private String name;
 	private Date createdDateTimeUTC;
 	private Date updatedDateTimeUTC;
-	private boolean enabled;
+	private boolean closed;
 	private String description;
 	private int managerId;
 	private String managerName;
@@ -63,12 +63,12 @@ public class VOProject implements Serializable {
 		this.updatedDateTimeUTC = updatedDateTimeUTC;
 	}
 
-	public boolean isEnabled() {
-		return enabled;
+	public boolean isClosed() {
+		return closed;
 	}
 
-	public void setEnabled(boolean enabled) {
-		this.enabled = enabled;
+	public void setClosed(boolean closed) {
+		this.closed = closed;
 	}
 
 	public String getDescription() {

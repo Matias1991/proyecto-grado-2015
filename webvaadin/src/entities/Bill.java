@@ -21,6 +21,7 @@ public class Bill {
     private String appliedDateTimeUTCToShow;
     private String amountToShow;
     private String typeExchangeToShow;
+    private String amountChargedToShow;
     
     public Bill()
     {
@@ -48,11 +49,13 @@ public class Bill {
     	if(isCurrencyDollar)
     	{
     		this.amountToShow = new DecimalFormat("U$S ###,###.###").format(this.amountDollar);
+    		this.setAmountChargedToShow(new DecimalFormat("U$S ###,###.###").format(voBill.getAmountChargedDollar()));
     		this.typeExchangeToShow = String.valueOf(this.typeExchange);
     	}
     	else
     	{
     		this.amountToShow = new DecimalFormat("$ ###,###.###").format(this.amountPeso);
+    		this.setAmountChargedToShow(new DecimalFormat("$ ###,###.###").format(voBill.getAmountChargedPeso()));
     		this.typeExchangeToShow = "N/A";
     	}
     }
@@ -148,5 +151,13 @@ public class Bill {
 
 	public void setTypeExchangeToShow(String typeExchangeToShow) {
 		this.typeExchangeToShow = typeExchangeToShow;
+	}
+
+	public String getAmountChargedToShow() {
+		return amountChargedToShow;
+	}
+
+	public void setAmountChargedToShow(String amountChargedToShow) {
+		this.amountChargedToShow = amountChargedToShow;
 	}
 }

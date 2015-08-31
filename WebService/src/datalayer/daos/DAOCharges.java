@@ -274,7 +274,7 @@ public class DAOCharges implements IDAOCharges {
 		double amountDollar = rs.getDouble("amountDollar");
 		boolean isCurrencyDollar = rs.getBoolean("isCurrencyDollar");
 		double typeExchange = rs.getDouble("typeExchange");
-		Date appliedDateTimeUTC = rs.getTimestamp("appliedDateTimeUTC");
+		Date createdDateTimeUTC = rs.getTimestamp("createdDateTimeUTC");
 		int billId = rs.getInt("billId");
 
 		Charge charge = new Charge();
@@ -282,7 +282,7 @@ public class DAOCharges implements IDAOCharges {
 		charge.setDescription(description);
 		charge.setIsCurrencyDollar(isCurrencyDollar);
 		charge.setTypeExchange(typeExchange);
-		charge.setCreatedDateTimeUTC(appliedDateTimeUTC);
+		charge.setCreatedDateTimeUTC(createdDateTimeUTC);
 		if (billId != 0)
 			charge.setBill(new Bill(billId));
 

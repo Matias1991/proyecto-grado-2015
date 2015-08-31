@@ -1,8 +1,11 @@
 package servicelayer.entity.businessEntity;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 import servicelayer.entity.valueObject.VOBill;
+import shared.exceptions.ServerException;
+import shared.interfaces.dataLayer.IDAOCharges;
 
 public class Bill {
 
@@ -16,6 +19,13 @@ public class Bill {
 	private Date appliedDateTimeUTC;
 	private Project project;
 	private boolean isLiquidated;
+	
+	//
+	private double amountChargedDollar;
+	private double amountChargedPeso;
+	//
+	
+	private IDAOCharges iDAOCharges;
 
 	public Bill() {
 
@@ -104,5 +114,30 @@ public class Bill {
 
 	public void setAmountDollar(double amountDollar) {
 		this.amountDollar = amountDollar;
+	}
+
+	public double getAmountChargedDollar() {
+		return amountChargedDollar;
+	}
+
+	public void setAmountChargedDollar(double amountChargedDollar) {
+		this.amountChargedDollar = amountChargedDollar;
+	}
+
+	public double getAmountChargedPeso() {
+		return amountChargedPeso;
+	}
+
+	public void setAmountChargedPeso(double amountChargedPeso) {
+		this.amountChargedPeso = amountChargedPeso;
+	}
+	
+	public void setIDAOCharges(IDAOCharges iDAOCharges) {
+		this.iDAOCharges = iDAOCharges;
+	}
+	
+	public ArrayList<Charge> getCharges() throws ServerException
+	{
+		return iDAOCharges.getChargesByBill(this.id);
 	}
 }
