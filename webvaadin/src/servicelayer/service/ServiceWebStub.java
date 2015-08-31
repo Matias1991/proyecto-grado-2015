@@ -39812,6 +39812,96 @@
             
 
                         /**
+                        * field for AmountChargedDollar
+                        */
+
+                        
+                                    protected double localAmountChargedDollar ;
+                                
+                           /*  This tracker boolean wil be used to detect whether the user called the set method
+                          *   for this attribute. It will be used to determine whether to include this field
+                           *   in the serialized XML
+                           */
+                           protected boolean localAmountChargedDollarTracker = false ;
+
+                           public boolean isAmountChargedDollarSpecified(){
+                               return localAmountChargedDollarTracker;
+                           }
+
+                           
+
+                           /**
+                           * Auto generated getter method
+                           * @return double
+                           */
+                           public  double getAmountChargedDollar(){
+                               return localAmountChargedDollar;
+                           }
+
+                           
+                        
+                            /**
+                               * Auto generated setter method
+                               * @param param AmountChargedDollar
+                               */
+                               public void setAmountChargedDollar(double param){
+                            
+                                       // setting primitive attribute tracker to true
+                                       localAmountChargedDollarTracker =
+                                       !java.lang.Double.isNaN(param);
+                                   
+                                            this.localAmountChargedDollar=param;
+                                    
+
+                               }
+                            
+
+                        /**
+                        * field for AmountChargedPeso
+                        */
+
+                        
+                                    protected double localAmountChargedPeso ;
+                                
+                           /*  This tracker boolean wil be used to detect whether the user called the set method
+                          *   for this attribute. It will be used to determine whether to include this field
+                           *   in the serialized XML
+                           */
+                           protected boolean localAmountChargedPesoTracker = false ;
+
+                           public boolean isAmountChargedPesoSpecified(){
+                               return localAmountChargedPesoTracker;
+                           }
+
+                           
+
+                           /**
+                           * Auto generated getter method
+                           * @return double
+                           */
+                           public  double getAmountChargedPeso(){
+                               return localAmountChargedPeso;
+                           }
+
+                           
+                        
+                            /**
+                               * Auto generated setter method
+                               * @param param AmountChargedPeso
+                               */
+                               public void setAmountChargedPeso(double param){
+                            
+                                       // setting primitive attribute tracker to true
+                                       localAmountChargedPesoTracker =
+                                       !java.lang.Double.isNaN(param);
+                                   
+                                            this.localAmountChargedPeso=param;
+                                    
+
+                               }
+                            
+
+                        /**
                         * field for AmountDollar
                         */
 
@@ -40352,7 +40442,33 @@
 
                
                    }
-                if (localAmountDollarTracker){
+                if (localAmountChargedDollarTracker){
+                                    namespace = "http://valueObject.entity.servicelayer/xsd";
+                                    writeStartElement(null, namespace, "amountChargedDollar", xmlWriter);
+                             
+                                               if (java.lang.Double.isNaN(localAmountChargedDollar)) {
+                                           
+                                                         throw new org.apache.axis2.databinding.ADBException("amountChargedDollar cannot be null!!");
+                                                      
+                                               } else {
+                                                    xmlWriter.writeCharacters(org.apache.axis2.databinding.utils.ConverterUtil.convertToString(localAmountChargedDollar));
+                                               }
+                                    
+                                   xmlWriter.writeEndElement();
+                             } if (localAmountChargedPesoTracker){
+                                    namespace = "http://valueObject.entity.servicelayer/xsd";
+                                    writeStartElement(null, namespace, "amountChargedPeso", xmlWriter);
+                             
+                                               if (java.lang.Double.isNaN(localAmountChargedPeso)) {
+                                           
+                                                         throw new org.apache.axis2.databinding.ADBException("amountChargedPeso cannot be null!!");
+                                                      
+                                               } else {
+                                                    xmlWriter.writeCharacters(org.apache.axis2.databinding.utils.ConverterUtil.convertToString(localAmountChargedPeso));
+                                               }
+                                    
+                                   xmlWriter.writeEndElement();
+                             } if (localAmountDollarTracker){
                                     namespace = "http://valueObject.entity.servicelayer/xsd";
                                     writeStartElement(null, namespace, "amountDollar", xmlWriter);
                              
@@ -40695,7 +40811,19 @@
                  java.util.ArrayList elementList = new java.util.ArrayList();
                  java.util.ArrayList attribList = new java.util.ArrayList();
 
-                 if (localAmountDollarTracker){
+                 if (localAmountChargedDollarTracker){
+                                      elementList.add(new javax.xml.namespace.QName("http://valueObject.entity.servicelayer/xsd",
+                                                                      "amountChargedDollar"));
+                                 
+                                elementList.add(
+                                   org.apache.axis2.databinding.utils.ConverterUtil.convertToString(localAmountChargedDollar));
+                            } if (localAmountChargedPesoTracker){
+                                      elementList.add(new javax.xml.namespace.QName("http://valueObject.entity.servicelayer/xsd",
+                                                                      "amountChargedPeso"));
+                                 
+                                elementList.add(
+                                   org.apache.axis2.databinding.utils.ConverterUtil.convertToString(localAmountChargedPeso));
+                            } if (localAmountDollarTracker){
                                       elementList.add(new javax.xml.namespace.QName("http://valueObject.entity.servicelayer/xsd",
                                                                       "amountDollar"));
                                  
@@ -40837,6 +40965,46 @@
                     
                     reader.next();
                 
+                                    
+                                    while (!reader.isStartElement() && !reader.isEndElement()) reader.next();
+                                
+                                    if (reader.isStartElement() && new javax.xml.namespace.QName("http://valueObject.entity.servicelayer/xsd","amountChargedDollar").equals(reader.getName())){
+                                
+                                    java.lang.String content = reader.getElementText();
+                                    
+                                              object.setAmountChargedDollar(
+                                                    org.apache.axis2.databinding.utils.ConverterUtil.convertToDouble(content));
+                                              
+                                        reader.next();
+                                    
+                              }  // End of if for expected property start element
+                                
+                                    else {
+                                        
+                                               object.setAmountChargedDollar(java.lang.Double.NaN);
+                                           
+                                    }
+                                
+                                    
+                                    while (!reader.isStartElement() && !reader.isEndElement()) reader.next();
+                                
+                                    if (reader.isStartElement() && new javax.xml.namespace.QName("http://valueObject.entity.servicelayer/xsd","amountChargedPeso").equals(reader.getName())){
+                                
+                                    java.lang.String content = reader.getElementText();
+                                    
+                                              object.setAmountChargedPeso(
+                                                    org.apache.axis2.databinding.utils.ConverterUtil.convertToDouble(content));
+                                              
+                                        reader.next();
+                                    
+                              }  // End of if for expected property start element
+                                
+                                    else {
+                                        
+                                               object.setAmountChargedPeso(java.lang.Double.NaN);
+                                           
+                                    }
+                                
                                     
                                     while (!reader.isStartElement() && !reader.isEndElement()) reader.next();
                                 

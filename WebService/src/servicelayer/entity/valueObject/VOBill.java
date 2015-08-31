@@ -17,6 +17,24 @@ public class VOBill implements Serializable {
 	private int projectId;
 	private String projectName;
 	private boolean isLiquidated;
+	private double amountChargedDollar;
+	private double amountChargedPeso;
+
+	public double getAmountChargedDollar() {
+		return amountChargedDollar;
+	}
+
+	public void setAmountChargedDollar(double amountChargedDollar) {
+		this.amountChargedDollar = amountChargedDollar;
+	}
+
+	public double getAmountChargedPeso() {
+		return amountChargedPeso;
+	}
+
+	public void setAmountChargedPeso(double amountChargedPeso) {
+		this.amountChargedPeso = amountChargedPeso;
+	}
 
 	public int getId() {
 		return id;

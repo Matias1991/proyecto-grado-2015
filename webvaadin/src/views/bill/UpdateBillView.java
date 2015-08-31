@@ -273,11 +273,12 @@ public class UpdateBillView extends BaseView {
 			billsGrid.removeColumn("typeExchangeToShow");
 			billsGrid.removeColumn("appliedDateTimeUTCToShow");
 			billsGrid.removeColumn("projectName");
-			billsGrid.setColumnOrder("code", "description", "amountToShow");
+			billsGrid.setColumnOrder("code", "description", "amountToShow", "amountChargedToShow");
 	
 			billsGrid.getColumn("code").setHeaderCaption("Código");
 			billsGrid.getColumn("description").setHeaderCaption("Descripción");
 			billsGrid.getColumn("amountToShow").setHeaderCaption("Monto");
+			billsGrid.getColumn("amountChargedToShow").setHeaderCaption("Monto cobrado");
 			billsGrid.setWidth(480, Unit.PIXELS);
 			billsGrid.setHeight(285, Unit.PIXELS);
 			billsGrid.setSelectionMode(SelectionMode.SINGLE);

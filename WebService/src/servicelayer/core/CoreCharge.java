@@ -1,9 +1,11 @@
 package servicelayer.core;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
 import datalayer.daos.DAOManager;
+import servicelayer.entity.businessEntity.Bill;
 import servicelayer.entity.businessEntity.Charge;
 import servicelayer.entity.valueObject.VOCharge;
 import shared.exceptions.ClientException;
@@ -32,8 +34,26 @@ public class CoreCharge implements ICoreCharge {
 
 			if (daoManager.getDAOCharges().getCharge(charge.getNumber()) == null) {
 				if (charge.getIsCurrencyDollar()) {
-					charge.setAmountPeso(charge.getAmountDollar()
-							* charge.getTypeExchange());
+					charge.setAmountPeso(charge.getAmountDollar() * charge.getTypeExchange());
+				}
+				
+				//si la factura asociada en el cobro ya no sobre pasa el valor
+				Bill bill = CoreBill.GetInstance().getBill(charge.getBill().getId());
+				
+				double amoutCharged = CoreBill.GetInstance().getAmountChargedByBill(charge.getBill());
+				double amountCurrentCharge = 0;
+				
+				if(bill.getIsCurrencyDollar())
+				{
+					amountCurrentCharge += charge.getAmountDollar();
+					if((amoutCharged + amountCurrentCharge) > bill.getAmountDollar())
+						throw new ClientException("Este cobro no se puede emitir, supera el monto de la factura");
+				}
+				else 
+				{
+					amountCurrentCharge += charge.getAmountPeso();
+					if((amoutCharged + amountCurrentCharge) > bill.getAmountPeso())
+						throw new ClientException("Este cobro no se puede emitir, supera el monto de la factura");
 				}
 				
 				charge.setCreatedDateTimeUTC(new Date());
