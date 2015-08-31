@@ -1,6 +1,7 @@
 package views.charge;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 
@@ -74,6 +75,7 @@ public class UpdateChargeView extends BaseView {
 	private Grid billsGrid;
 	private BeanItemContainer<Bill> beanContainer;
 	private Label lblMessage;
+	private Collection<Charge> charges;
 	
 	@SuppressWarnings("deprecation")
 	public UpdateChargeView() {
@@ -116,6 +118,7 @@ public class UpdateChargeView extends BaseView {
 				txtDescription.setValidationVisible(true);
 				txtAmount.setValidationVisible(true);
 				txtTypeExchange.setValidationVisible(true);
+				comboBoxCharges.setValidationVisible(true);
 				
 				boolean valid = true;
 				
@@ -125,15 +128,17 @@ public class UpdateChargeView extends BaseView {
 					valid = false;
 				}
 				
-				if(!txtAmount.isValid() || !txtDescription.isValid()){
+				if(!txtAmount.isValid() || !txtDescription.isValid() || !comboBoxCharges.isValid()){
 					txtAmount.setRequiredError("Es requerido");
 					txtDescription.setRequiredError("Es requerido");
 					txtAmount.setConversionError("Debe ser numérico");
+					comboBoxCharges.setRequiredError("Es requerido");
 					valid = false;
 				}
 				
 				if(valid)
 				{
+					/*
 					Bill item = (Bill) billsGrid.getSelectedRow();
 					Charge charge = new Charge();
 					charge.setDescription(txtDescription.getValue());
@@ -154,11 +159,15 @@ public class UpdateChargeView extends BaseView {
 					boolean result = ChargeController.createCharge(charge);
 
 					if(result)
-						new PopupWindow("AVISO", "Cobro creado correctamente");
+						
+					*/
 					
+					new PopupWindow("AVISO", "Cobro creado correctamente");
 					ClearInputs();
 					buildGrid();
 				}
+				btnCancel.setEnabled(true);
+				btnUpdate.setEnabled(true);
 			}
 		
 		});
@@ -171,20 +180,20 @@ public class UpdateChargeView extends BaseView {
 				getUI().getNavigator().navigateTo(WebvaadinUI.MAINMENU);
 			}
 		});
-
+		
 		comboBoxCharges.addValueChangeListener(new  ValueChangeListener() {
 			
 			@Override
 			public void valueChange(ValueChangeEvent event) {
-				// TODO Auto-generated method stub
 				if(comboBoxCharges.getValue() != null){
 					
-					setEnabledEditionInputs(true);
-					setRequiredEditionInputs(true);
-					
-				}else{
-					setEnabledEditionInputs(true);
-					setRequiredEditionInputs(true);
+					int id = (int) comboBoxCharges.getValue();
+					Charge charge = getChargeById(id);
+					txtDescription.setValue(charge.getDescription());
+					if(charge.getIsCurrencyDollar())
+						txtAmount.setConvertedValue(charge.getAmountDollar());
+					else
+						txtAmount.setConvertedValue(charge.getAmountPeso());
 				}
 			}
 		});
@@ -215,6 +224,7 @@ public class UpdateChargeView extends BaseView {
 		txtDescription.setValidationVisible(false);
 		txtAmount.setValidationVisible(false);
 		txtTypeExchange.setValidationVisible(false);
+		comboBoxCharges.setValidationVisible(false);
 		
 		txtTypeExchange.setVisible(false);
 		
@@ -317,7 +327,8 @@ public class UpdateChargeView extends BaseView {
 					if(item != null)
 					{
 						buildCharges(item.getBean().getId());
-						
+						setEnabledEditionInputs(true);
+						setRequiredEditionInputs(true);
 						buildChargeCurrency(item.getBean().getIsCurrencyDollar());
 					}
 					else
@@ -352,6 +363,7 @@ public class UpdateChargeView extends BaseView {
 		btnCancel.setVisible(visible);
 		txtDescription.setVisible(visible);
 		txtAmount.setVisible(visible);
+		comboBoxCharges.setVisible(visible);
 	}
 	
 	void setEnabledEditionInputs(boolean enabled)
@@ -360,25 +372,40 @@ public class UpdateChargeView extends BaseView {
 		btnCancel.setEnabled(enabled);
 		txtDescription.setEnabled(enabled);
 		txtAmount.setEnabled(enabled);
+		comboBoxCharges.setEnabled(enabled);
 	}
 	
 	void setRequiredEditionInputs(boolean required)
 	{
 		txtDescription.setRequired(required);
 		txtAmount.setRequired(required);
+		comboBoxCharges.setRequired(required);
 	}
 	
 	void buildCharges(int billId)
 	{
 		comboBoxCharges.clear();
 		comboBoxCharges.removeAllItems();
-		Collection<Charge> charges = ChargeController.getChargesByBill(billId);
+		
+		charges = ChargeController.getChargesByBill(billId);
 		for(Charge charge : charges)
 		{
 			comboBoxCharges.addItem(charge.getId());
 			String caption = String.format("N°: %s - Fecha: %s", charge.getNumber(), charge.getCreatedDateTimeUTCToShow());
 			comboBoxCharges.setItemCaption(charge.getId(), caption);
 		}
+	}
+	
+	Charge getChargeById(int id)
+	{
+		for(Charge c : charges)
+		{
+			if(c.getId() == id)
+			{
+				return c;
+			}
+		}
+		return null;
 	}
 	
 	@Override
