@@ -107,7 +107,7 @@ CREATE TABLE IF NOT EXISTS Project
 	SellerId		INTEGER NOT NULL,
 	CreatedDateTimeUTC  TIMESTAMP NULL,
 	UpdatedDateTimeUTC  TIMESTAMP NULL,
-	Enabled		BIT NULL,
+	Closed		BIT NULL,
 	PRIMARY KEY (Id),
 	FOREIGN KEY FK_Project_ManagerId (ManagerId) REFERENCES User (Id),
 	FOREIGN KEY FK_Project_SellerId (SellerId) REFERENCES Employed (Id),
@@ -185,8 +185,8 @@ CREATE TABLE IF NOT EXISTS Partner_Project
 	Enabled				BIT NULL,
 	CreatedDateTimeUTC	TIMESTAMP NULL,
 	UpdatedDateTimeUTC	TIMESTAMP NULL,
-	PRIMARY KEY (proyectId,employedId,distributionTypeId,version),
-	FOREIGN KEY FK_ParterProject_Project (proyectId) REFERENCES Project (Id),
+	PRIMARY KEY (ProjectId,employedId,distributionTypeId,version),
+	FOREIGN KEY FK_ParterProject_Project (ProjectId) REFERENCES Project (Id),
 	FOREIGN KEY FK_PartnerProject_Employed (employedId) REFERENCES Employed (Id),
 	FOREIGN KEY FK_PartnerProject_DistributionType (distributionTypeId) REFERENCES DistributionType (Id)
 );
@@ -200,8 +200,8 @@ CREATE TABLE IF NOT EXISTS Employed_Project
 	Enabled				BIT NULL,
 	CreatedDateTimeUTC	TIMESTAMP NULL,
 	UpdatedDateTimeUTC	TIMESTAMP NULL,
-	PRIMARY KEY (proyectId,employedId,version),
-	FOREIGN KEY FK_EmployedProject_Project (proyectId) REFERENCES Project (Id),
+	PRIMARY KEY (ProjectId,employedId,version),
+	FOREIGN KEY FK_EmployedProject_Project (ProjectId) REFERENCES Project (Id),
 	FOREIGN KEY FK_EmployedProject_Employed (employedId) REFERENCES Employed (Id)	
 );
 

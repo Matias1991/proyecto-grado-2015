@@ -17,7 +17,7 @@ public class Project{
 	private String name;
 	private Date createdDateTimeUTC;
 	private Date updatedDateTimeUTC;
-	private String enabledToShow;
+	private String closedToShow;
 	private String createDateTimeUTCToShow;	
 	private User manager;
 	private Employee seller;
@@ -37,10 +37,10 @@ public class Project{
 		this.description = voProject.getDescription();
 		this.createdDateTimeUTC = voProject.getCreatedDateTimeUTC();
 		this.updatedDateTimeUTC = voProject.getUpdatedDateTimeUTC();
-		if(voProject.getEnabled())
-			setEnabledToShow("Habilitado");
+		if(!voProject.getClosed())
+			setClosedToShow("Abierto");
 		else
-			setEnabledToShow("Deshabilitado");		
+			setClosedToShow("Cerrado");		
 		this.createDateTimeUTCToShow = new SimpleDateFormat("dd-MM-yyyy").format(createdDateTimeUTC);
 		this.manager = new User();
 		if(voProject.getManagerId() != 0){		
@@ -54,10 +54,10 @@ public class Project{
 		this.seller.setLastName(voProject.getSellerLastname());
 		
 	//QUEDA LA LISTA DE EMPLEADOS Y LA LISTA DE DISTRIBUCIONES
-		for (VOProjectEmployed voEmployedProject : voProject.getVoEmployedProjects()) {
-			ProjectEmployed emp = new ProjectEmployed(voEmployedProject);
-			employedHours.add(emp);			
-		}
+//		for (VOProjectEmployed voEmployedProject : voProject.getVoEmployedProjects()) {
+//			ProjectEmployed emp = new ProjectEmployed(voEmployedProject);
+//			employedHours.add(emp);			
+//		}
 		
 //		for (VODistributionType voDistributionType : distributions) {
 //			
@@ -92,12 +92,12 @@ public class Project{
 		this.updatedDateTimeUTC = updatedDateTimeUTC;
 	}
 
-	public String getEnabledToShow() {
-		return enabledToShow;
+	public String getClosedToShow() {
+		return closedToShow;
 	}
 
-	public void setEnabledToShow(String enabledToShow) {
-		this.enabledToShow = enabledToShow;
+	public void setClosedToShow(String closedToShow) {
+		this.closedToShow = closedToShow;
 	}
 
 	public String getCreateDateTimeUTCToShow() {

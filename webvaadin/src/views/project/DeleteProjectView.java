@@ -46,7 +46,7 @@ public class DeleteProjectView extends BaseView {
 			public void buttonClick(ClickEvent event) {
 				btnDelete.setEnabled(false);
 				
-				ConfirmDialog.show(WebvaadinUI.getCurrent(), "Confirmación", "Desea eliminar el proyecto?", "Si", "No",
+				ConfirmDialog.show(WebvaadinUI.getCurrent(), "Confirmación", "Desea cerrar el proyecto?", "Si", "No",
 						new ConfirmDialog.Listener() {
 					
 					@Override
@@ -66,8 +66,8 @@ public class DeleteProjectView extends BaseView {
 	}
 
 	public void buildGrid() {
-		// listo los proyectos habilitados
-		Collection<Project> projects = ProjectController.getProjectsByStatus(true);
+		// listo los proyectos abiertos
+		Collection<Project> projects = ProjectController.getProjectsByStatus(false);
 
 		if (projects != null && projects.size() > 0) {
 			beanContainer = new BeanItemContainer<Project>(Project.class, projects);
@@ -79,11 +79,12 @@ public class DeleteProjectView extends BaseView {
 			catalogProjectsGrid.removeColumn("createdDateTimeUTC");
 			catalogProjectsGrid.removeColumn("updatedDateTimeUTC");
 			catalogProjectsGrid.removeColumn("employedHours");
-			catalogProjectsGrid.setColumnOrder("name", "description", "enabledToShow", "createDateTimeUTCToShow");
+			catalogProjectsGrid.removeColumn("distributions");
+			catalogProjectsGrid.setColumnOrder("name", "description", "closedToShow", "createDateTimeUTCToShow");
 
 			catalogProjectsGrid.getColumn("name").setHeaderCaption("Nombre");
 			catalogProjectsGrid.getColumn("description").setHeaderCaption("Descripción");
-			catalogProjectsGrid.getColumn("enabledToShow").setHeaderCaption("Habilitado");
+			catalogProjectsGrid.getColumn("closedToShow").setHeaderCaption("Abierto");
 			catalogProjectsGrid.getColumn("createDateTimeUTCToShow").setHeaderCaption("Fecha creación");
 			catalogProjectsGrid.setWidth(80, Unit.PERCENTAGE);
 			catalogProjectsGrid.setHeight(100, Unit.PERCENTAGE);
@@ -139,12 +140,12 @@ public class DeleteProjectView extends BaseView {
 		lblTitle.setImmediate(false);
 		lblTitle.setWidth("-1px");
 		lblTitle.setHeight("-1px");
-		lblTitle.setValue("Eliminar proyectos");
+		lblTitle.setValue("Cerrar proyectos");
 		mainLayout.addComponent(lblTitle, "top:42.0px;left:0.0px;");
 
 		// btnDelete
 		btnDelete = new Button();
-		btnDelete.setCaption("Eliminar proyecto");
+		btnDelete.setCaption("Cerrar proyecto");
 		btnDelete.setEnabled(false);
 		btnDelete.setImmediate(true);
 		btnDelete.setWidth("-1px");

@@ -13,7 +13,7 @@ public class Project {
 	private String name;
 	private Date createdDateTimeUTC;
 	private Date updatedDateTimeUTC;
-	private boolean enabled;
+	private boolean closed;
 	private User manager;
 	private Employed seller;
 	private String description;
@@ -28,14 +28,14 @@ public class Project {
 	}
 
 	public Project(int id, String name, String description, User manager,
-			Employed seller, boolean enabled, Date createdDateTimeUTC,
+			Employed seller, boolean closed, Date createdDateTimeUTC,
 			Date updatedDateTimeUTC) {
 		this.id = id;
 		this.name = name;
 		this.description = description;
 		this.manager = manager;
 		this.seller = seller;
-		this.enabled = enabled;
+		this.closed = closed;
 		this.createdDateTimeUTC = createdDateTimeUTC;
 		this.updatedDateTimeUTC = updatedDateTimeUTC;
 	}
@@ -51,7 +51,7 @@ public class Project {
 		}
 		this.updatedDateTimeUTC = voProject.getUpdatedDateTimeUTC();
 		this.createdDateTimeUTC = voProject.getCreatedDateTimeUTC();
-		this.enabled = voProject.isEnabled();
+		this.closed = voProject.isClosed();
 		this.iDAOEmployedProject = idaoEmployedProject;
 		this.iDAOPartnerProject = idaoPartnerProject;
 	}
@@ -112,12 +112,12 @@ public class Project {
 		this.updatedDateTimeUTC = updatedDateTimeUTC;
 	}
 
-	public boolean getEnabled() {
-		return enabled;
+	public boolean getClosed() {
+		return closed;
 	}
 
-	public void setEnabled(boolean enabled) {
-		this.enabled = enabled;
+	public void setClosed(boolean closed) {
+		this.closed = closed;
 	}
 
 	public IDAOProjectEmployees getiDAOEmployedProject() {
