@@ -48,7 +48,11 @@ public class DAOProjects implements IDAOProjects {
 
 			preparedStatement.setString(1, obj.getName());
 			preparedStatement.setString(2, obj.getDescription());
-			preparedStatement.setInt(3, obj.getManager().getId());
+			if(obj.getManager().getId() == 0){
+				preparedStatement.setNull(3, java.sql.Types.INTEGER);
+			}else{
+				preparedStatement.setInt(3, obj.getManager().getId());
+			}
 			preparedStatement.setInt(4, obj.getSeller().getId());
 			preparedStatement.setTimestamp(5, new Timestamp(obj
 					.getCreatedDateTimeUTC().getTime()));
@@ -266,13 +270,14 @@ public class DAOProjects implements IDAOProjects {
 		project.setClosed(closed);
 		project.setDescription(description);
 
+		User manager = new User();
 		if (managerId != 0) {
-			User manager = new User();
+			
 			manager.setId(managerId);
 			project.setManager(manager);
 		}
-		if (sellerId != 0) {
-			Employed seller = new Employed();
+		Employed seller = new Employed();
+		if (sellerId != 0) {			
 			seller.setId(sellerId);
 			project.setSeller(seller);
 		}

@@ -98,9 +98,9 @@ public class CreateProjectView extends BaseView {
 					Project newProject = new Project();
 					newProject.setName(txtName.getValue());
 					newProject.setDescription(txtDescription.getValue());
-
-					if (cboManager.getValue() != null) {
-						User manager = new User();
+					
+					User manager = new User();
+					if (cboManager.getValue() != null) {						
 						manager.setId((Integer) cboManager.getValue());
 						newProject.setManager(manager);
 					}
@@ -152,7 +152,7 @@ public class CreateProjectView extends BaseView {
 				}
 
 				btnCreate.setEnabled(true);
-
+				cleanInputs();
 			}
 		});
 
@@ -210,7 +210,22 @@ public class CreateProjectView extends BaseView {
 
 		buildTables();
 		loadComboBoxes();
+		txtName.clear();
+		txtDescription.clear();
 
+	}
+	
+	private void cleanInputs(){
+		if (tblEmployed != null) {
+			mainLayout.removeComponent(tblEmployed);
+		}
+		if (tblEmployedHours != null) {
+			mainLayout.removeComponent(tblEmployedHours);
+		}
+		buildTables();
+		loadComboBoxes();
+		txtName.clear();
+		txtDescription.clear();		
 	}
 
 	private void buildTables() {
@@ -325,12 +340,12 @@ public class CreateProjectView extends BaseView {
 			}
 		}
 
-		Collection<User> partners = UserController.getUsersByType(2);
+		Collection<Employee> partners = EmployeeController.GetEmployeesByType(2);
 
 		cboPartner1.removeAllItems();
 		cboPartner2.removeAllItems();
 		if (partners != null && partners.size() > 0) {
-			for (User user : partners) {
+			for (Employee user : partners) {
 				cboPartner1.addItem(user.getId());
 				cboPartner1.setItemCaption(user.getId(), user.getName() + " "
 						+ user.getLastName());
@@ -410,6 +425,7 @@ public class CreateProjectView extends BaseView {
 		txtName.setHeight("-1px");
 		txtName.setTabIndex(1);
 		txtName.setRequired(true);
+		txtName.setNullRepresentation("");
 		mainLayout.addComponent(txtName, "top:116.0px;left:0.0px;");
 
 		// txtDescription
@@ -420,6 +436,7 @@ public class CreateProjectView extends BaseView {
 		txtDescription.setHeight("-1px");
 		txtDescription.setMaxLength(240);
 		txtDescription.setRows(6);
+		txtDescription.setNullRepresentation("");
 		mainLayout.addComponent(txtDescription, "top:116.0px;left:260.0px;");
 
 		// cboSeller

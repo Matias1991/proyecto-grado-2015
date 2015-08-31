@@ -57,14 +57,18 @@ public class Project{
 		
 		for (VOProjectEmployed voEmployedProject : voProject
 				.getVoEmployedProjects()) {
-			ProjectEmployed emp = new ProjectEmployed(voEmployedProject);
-			employedHours.add(emp);
+			if(voEmployedProject != null){
+				ProjectEmployed emp = new ProjectEmployed(voEmployedProject);			
+				employedHours.add(emp);
+			}
 		}
 
 		for (VOProjectPartner voProjectPartner : voProject
 				.getVoPartnerProjects()) {
+			if(voProjectPartner != null){
 			ProjectPartner part = new ProjectPartner(voProjectPartner);
 			projectPartners.add(part);
+			}
 		}
 		
 		

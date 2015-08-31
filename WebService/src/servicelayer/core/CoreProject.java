@@ -15,11 +15,12 @@ import shared.interfaces.core.ICoreProject;
 public class CoreProject implements ICoreProject {
 
 	private static CoreProject instance = null;
-	//private IDAOProjects iDAOProject;
 
-	//private CoreProject()throws ServerException {
-		//iDAOProject = new DAOProjects();
-	private CoreProject(){
+	// private IDAOProjects iDAOProject;
+
+	// private CoreProject()throws ServerException {
+	// iDAOProject = new DAOProjects();
+	private CoreProject() {
 	}
 
 	public static CoreProject GetInstance() throws ServerException {
@@ -30,16 +31,19 @@ public class CoreProject implements ICoreProject {
 	}
 
 	@Override
-	public void insertProject(Project project, ArrayList<ProjectEmployed> employedProjects,
+	public void insertProject(Project project,
+			ArrayList<ProjectEmployed> employedProjects,
 			ArrayList<ProjectPartner> partnerProjects) throws ServerException,
 			ClientException {
 		DAOManager daoManager = new DAOManager();
 		try {
 			if (daoManager.getDAOProjects().getProjectUByUserName(
 					project.getName()) == null) {
-				project.setiDAOEmployedProject(daoManager.getDAOEmployedProjects());
-				project.setiDAOPartnerProject(daoManager.getDAOPartnerProjects());
-				
+				project.setiDAOEmployedProject(daoManager
+						.getDAOEmployedProjects());
+				project.setiDAOPartnerProject(daoManager
+						.getDAOPartnerProjects());
+
 				// Datos propios del proyecto
 				project.setCreatedDateTimeUTC(new Date());
 				project.setUpdatedDateTimeUTC(new Date());
@@ -53,15 +57,15 @@ public class CoreProject implements ICoreProject {
 					empProject.setCreatedDateTimeUTC(new Date());
 					empProject.setUpdatedDateTimeUTC(new Date());
 					empProject.setEnabled(true);
-					project.associateEmployed(empProject);					
+					project.associateEmployed(empProject);
 				}
-				
+
 				// La distribucion asociada al proyecto
 				for (ProjectPartner partProject : partnerProjects) {
 					partProject.setCreatedDateTimeUTC(new Date());
 					partProject.setUpdatedDateTimeUTC(new Date());
 					partProject.setEnabled(true);
-					project.associateDistribution(partProject);					
+					project.associateDistribution(partProject);
 				}
 			} else
 				throw new ClientException(
@@ -149,6 +153,6 @@ public class CoreProject implements ICoreProject {
 			throw e;
 		} finally {
 			daoManager.close();
-		}		
+		}
 	}
 }

@@ -62,7 +62,9 @@ public class ProjectController {
 			voProject.setName(project.getName());
 			voProject.setDescription(project.getDescription());
 			voProject.setSellerId(project.getSeller().getId());
-			voProject.setManagerId(project.getManager().getId());
+			if(project.getManager() != null){
+				voProject.setManagerId(project.getManager().getId());
+			}
 
 			// ProjectEmployed
 			VOProjectEmployed[] voProjectEmployees = new VOProjectEmployed[project
