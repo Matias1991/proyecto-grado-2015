@@ -20,4 +20,6 @@ public interface ICoreCharge {
 	Charge getCharge(int id) throws ServerException, ClientException;
 
 	ArrayList<Charge> getCharges() throws ServerException;
+	
+	ArrayList<Charge> getChargesByBill(int billId) throws ServerException;
 }

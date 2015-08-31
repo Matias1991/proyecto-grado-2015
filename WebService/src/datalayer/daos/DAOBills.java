@@ -305,7 +305,7 @@ public class DAOBills implements IDAOBills {
 
 	@Override
 	public ArrayList<Bill> getBills(Date from, Date to, int projectId,
-			String code, boolean isLiquidated) throws ServerException {
+			String code, boolean isLiquidated, boolean withCharges) throws ServerException {
 		ArrayList<Bill> bills = new ArrayList<Bill>();
 		PreparedStatement preparedStatement = null;
 		ResultSet rs = null;
@@ -314,6 +314,8 @@ public class DAOBills implements IDAOBills {
 			StringBuilder sql = new StringBuilder();
 			sql.append("SELECT B.*, P.Name as ProjectName, P.Closed as ProjectClosed FROM BILL B ");
 			sql.append("INNER JOIN PROJECT P ON P.Id = B.ProjectId ");
+			if(withCharges)
+				sql.append("INNER JOIN CHARGE C ON C.BillId = B.Id ");
 			sql.append("WHERE B.AppliedDateTimeUTC between ? AND ? ");
 			if (projectId != 0)
 				sql.append("and B.projectId = ? ");

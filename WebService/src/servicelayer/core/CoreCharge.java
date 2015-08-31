@@ -102,4 +102,20 @@ public class CoreCharge implements ICoreCharge {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	@Override
+	public ArrayList<Charge> getChargesByBill(int billId)
+			throws ServerException {
+		
+		DAOManager daoManager = new DAOManager();
+		try {
+			return daoManager.getDAOCharges().getChargesByBill(billId);
+			
+		} catch (ServerException e) {
+			daoManager.rollback();
+			throw e;
+		} finally {
+			daoManager.close();
+		}
+	}
 }

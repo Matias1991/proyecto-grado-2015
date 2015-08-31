@@ -13,7 +13,7 @@ public interface IDAOBills extends IDAOBase<Bill> {
 	Bill getBill(String code) throws ServerException;
 
 	ArrayList<Bill> getBills(Date from, Date to, int projectId, String code,
-			boolean isLiquidated) throws ServerException;
+			boolean isLiquidated, boolean withCharges) throws ServerException;
 
 	void deleteBills(int[] ids) throws ServerException;
 

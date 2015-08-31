@@ -1,9 +1,11 @@
 package servicelayer.entity.valueObject;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class VOCharge {
+public class VOCharge implements Serializable{
 
+	private static final long serialVersionUID = 1L;
 	private int id;
 	private String number;
 	private String description;
