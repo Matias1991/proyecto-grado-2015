@@ -95,7 +95,7 @@ public class WebvaadinUI extends UI {
 	//Proyectos
 	public static final String CATALOGPROJECTS = "CatalogProjectView";
 	public static final String CREATEPROJECT = "CreateProjectView";	
-	public static final String DELETEPROJECT = "DeleteProjectView";	
+	public static final String CLOSEPROJECT = "DeleteProjectView";	
 	
 	private static GridLayout mainLayout;
 	private static MenuBar mainMenuBar;
@@ -194,7 +194,7 @@ public class WebvaadinUI extends UI {
 		// Proyectos
 		navigator.addView(CREATEPROJECT, new CreateProjectView());
 		navigator.addView(CATALOGPROJECTS, new CatalogProjectView());
-		navigator.addView(DELETEPROJECT, new DeleteProjectView());
+		navigator.addView(CLOSEPROJECT, new DeleteProjectView());
 		
 		if (RequestContext.getRequestContext() == null) {
 			changeToLogin();
@@ -285,8 +285,8 @@ public class WebvaadinUI extends UI {
 				case "Catálogo proyectos":
 					navigator.navigateTo(CATALOGPROJECTS);
 					break;
-				case "Eliminar proyectos":
-					navigator.navigateTo(DELETEPROJECT);
+				case "Cerrar proyectos":
+					navigator.navigateTo(CLOSEPROJECT);
 					break;
 				default:
 					new PopupWindow("AVISO",
@@ -338,8 +338,8 @@ public class WebvaadinUI extends UI {
 			// Proyectos
 			MenuItem project = menuBar.addItem("Proyectos", null, null);
 			project.addItem("Crear proyecto", null, mainMenuBarCommand);
+			project.addItem("Cerrar proyectos", null, mainMenuBarCommand);
 			project.addItem("Catálogo proyectos", null, mainMenuBarCommand);
-			project.addItem("Eliminar proyectos", null, mainMenuBarCommand);
 			break;
 		case 3:
 			// Rol Gerente
