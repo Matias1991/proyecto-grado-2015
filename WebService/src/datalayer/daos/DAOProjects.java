@@ -39,7 +39,7 @@ public class DAOProjects implements IDAOProjects {
 		int newProjectId = -1;
 		PreparedStatement preparedStatement = null;
 
-		String insertSQL = "INSERT INTO PROJECT (NAME, DESCRIPTION, MANAGERID, SELLERID, CREATEDDATETIMEUTC, UPDATEDDATETIMEUTC, ENABLED) VALUES"
+		String insertSQL = "INSERT INTO PROJECT (NAME, DESCRIPTION, MANAGERID, SELLERID, CREATEDDATETIMEUTC, UPDATEDDATETIMEUTC, CLOSED) VALUES"
 				+ "(?,?,?,?,?,?,?)";
 
 		try {
@@ -54,7 +54,7 @@ public class DAOProjects implements IDAOProjects {
 					.getCreatedDateTimeUTC().getTime()));
 			preparedStatement.setTimestamp(6, new Timestamp(obj
 					.getUpdatedDateTimeUTC().getTime()));
-			preparedStatement.setBoolean(7, obj.getEnabled());
+			preparedStatement.setBoolean(7, obj.getClosed());
 
 			preparedStatement.executeUpdate();
 
@@ -85,7 +85,7 @@ public class DAOProjects implements IDAOProjects {
 		PreparedStatement preparedStatement = null;
 
 		try {
-			String deleteSQL = "UPDATE PROJECT SET ENABLED = 0 WHERE ID = ?";
+			String deleteSQL = "UPDATE PROJECT SET CLOSED = 1 WHERE ID = ?";
 			preparedStatement = this.connection.prepareStatement(deleteSQL);
 			preparedStatement.setInt(1, id);
 			preparedStatement.execute();
@@ -222,7 +222,7 @@ public class DAOProjects implements IDAOProjects {
 		ResultSet rs = null;
 		try {
 
-			String getSQL = "SELECT * FROM PROJECT WHERE ENABLED = ?";
+			String getSQL = "SELECT * FROM PROJECT WHERE CLOSED = ?";
 			preparedStatement = this.connection.prepareStatement(getSQL);
 			preparedStatement.setBoolean(1, projectStatus);
 
@@ -256,14 +256,14 @@ public class DAOProjects implements IDAOProjects {
 		int sellerId = rs.getInt("sellerId");
 		Date createdDateTimeUTC = rs.getTimestamp("createdDateTimeUTC");
 		Date updatedDateTimeUTC = rs.getTimestamp("updatedDateTimeUTC");
-		boolean enabled = rs.getBoolean("enabled");
+		boolean closed = rs.getBoolean("closed");
 
 		Project project = new Project();
 		project.setId(_id);
 		project.setName(name);
 		project.setCreatedDateTimeUTC(createdDateTimeUTC);
 		project.setUpdatedDateTimeUTC(updatedDateTimeUTC);
-		project.setEnabled(enabled);
+		project.setClosed(closed);
 		project.setDescription(description);
 
 		if (managerId != 0) {

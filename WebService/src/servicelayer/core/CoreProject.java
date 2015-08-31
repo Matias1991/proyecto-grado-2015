@@ -43,7 +43,7 @@ public class CoreProject implements ICoreProject {
 				// Datos propios del proyecto
 				project.setCreatedDateTimeUTC(new Date());
 				project.setUpdatedDateTimeUTC(new Date());
-				project.setEnabled(true);
+				project.setClosed(true);
 				int newProjectId = daoManager.getDAOProjects().insert(project);
 
 				project.setId(newProjectId);

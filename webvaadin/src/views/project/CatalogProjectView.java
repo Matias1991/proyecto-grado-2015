@@ -98,6 +98,7 @@ public class CatalogProjectView extends BaseView {
 		txtDescription = new TextField();
 		txtDescription.setCaption("Descripción");
 		txtDescription.setImmediate(false);
+		txtDescription.setReadOnly(true);
 		txtDescription.setWidth("390px");
 		txtDescription.setHeight("60px");
 
@@ -105,6 +106,7 @@ public class CatalogProjectView extends BaseView {
 		txtSeller = new TextField();
 		txtSeller.setCaption("Vendedor");
 		txtSeller.setImmediate(false);
+		txtSeller.setReadOnly(true);
 		txtSeller.setWidth("390px");
 		txtSeller.setHeight("-1px");
 
@@ -112,6 +114,7 @@ public class CatalogProjectView extends BaseView {
 		txtManager = new TextField();
 		txtManager.setCaption("Gerente");
 		txtManager.setImmediate(false);
+		txtManager.setReadOnly(true);
 		txtManager.setWidth("-1px");
 		txtManager.setHeight("-1px");
 

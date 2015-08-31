@@ -28,7 +28,7 @@ public class ProjectBuilder extends BaseBuilder<VOProject, Project> {
 		voProject.setSellerId(businessObject.getSeller().getId());
 		voProject.setSellerName(businessObject.getSeller().getName());
 		voProject.setSellerLastname(businessObject.getSeller().getLastName());		
-		voProject.setEnabled(businessObject.getEnabled());		
+		voProject.setClosed(businessObject.getClosed());		
 		voProject.setCreatedDateTimeUTC(businessObject.getCreatedDateTimeUTC());		
 		voProject.setUpdatedDateTimeUTC(businessObject.getUpdatedDateTimeUTC());
 		//voProject.setVoEmployedProjects(BuildVOEmployedProjects(businessObject.getiDAOEmployedProject().getEmployeesProject(businessObject.getId())));		
@@ -56,7 +56,7 @@ public class ProjectBuilder extends BaseBuilder<VOProject, Project> {
 		seller.setName(voObject.getSellerName());
 		seller.setLastName(voObject.getSellerLastname());
 		project.setSeller(seller);	
-		project.setEnabled(voObject.isEnabled());		
+		project.setClosed(voObject.isClosed());		
 		project.setCreatedDateTimeUTC(voObject.getCreatedDateTimeUTC());
 		project.setUpdatedDateTimeUTC(voObject.getUpdatedDateTimeUTC());
 		
