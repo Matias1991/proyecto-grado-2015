@@ -226,7 +226,7 @@ public class CreateChargeView extends BaseView {
 		int projectId = 0;
 		String code = null;
 		
-		Collection<Bill> bills = BillController.getBillsByActiveProjects(popupDateFieldFrom.getValue(), popupDateFieldTo.getValue(), projectId, code, false);
+		Collection<Bill> bills = BillController.getBillsByActiveProjects(popupDateFieldFrom.getValue(), popupDateFieldTo.getValue(), projectId, code, false, false);
 		
 		if (bills != null && bills.size() > 0) {
 			

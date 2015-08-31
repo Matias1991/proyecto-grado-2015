@@ -41,7 +41,7 @@ public class Charge {
     		this.billId = voCharge.getBillId();
     	}
     	
-    	this.setCreatedDateTimeUTCToShow(new SimpleDateFormat("MM-yyyy").format(createdDateTimeUTC));
+    	this.setCreatedDateTimeUTCToShow(new SimpleDateFormat("dd/MM/yyyy").format(createdDateTimeUTC));
     	
     	if(isCurrencyDollar)
     	{
