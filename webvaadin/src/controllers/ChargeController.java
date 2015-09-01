@@ -8,10 +8,12 @@ import java.util.Date;
 import org.apache.axis2.AxisFault;
 
 import servicelayer.service.ServiceWebStub;
-import servicelayer.service.ServiceWebStub.GetBillsWithFilters;
+import servicelayer.service.ServiceWebStub.DeleteCharges;
+import servicelayer.service.ServiceWebStub.GetBillsByFiltersWithCharges;
+import servicelayer.service.ServiceWebStub.GetCharges;
 import servicelayer.service.ServiceWebStub.GetChargesByBill;
+import servicelayer.service.ServiceWebStub.GetChargesByFilters;
 import servicelayer.service.ServiceWebStub.InsertCharge;
-import servicelayer.service.ServiceWebStub.UpdateBill;
 import servicelayer.service.ServiceWebStub.UpdateCharge;
 import servicelayer.service.ServiceWebStub.VOBill;
 import servicelayer.service.ServiceWebStub.VOCharge;
@@ -112,5 +114,87 @@ public class ChargeController {
 		}
 		
 		return result;
+	}
+	
+	public static boolean deleteCharges(int [] ids)
+	{
+		boolean result = false;
+		try {
+			ServiceWebStub service = new ServiceWebStub();
+			DeleteCharges deleteCharges = new DeleteCharges();
+			
+			deleteCharges.setIds(ids);
+			
+			result = service.deleteCharges(deleteCharges).get_return();
+			
+		} catch (AxisFault e) {
+			String error = e.getMessage().replace("<faultstring>", "");
+			new PopupWindow("ERROR", error.replace("</faultstring>", ""));
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
+		
+		return result;
+	}
+	
+	public static Collection<Charge> getCharges()
+	{
+		Collection<Charge> charges = new ArrayList<Charge>();
+		
+		try {
+			ServiceWebStub service = new ServiceWebStub();
+			GetCharges getCharges = new GetCharges();
+			
+			VOCharge [] voCharges = service.getCharges(getCharges).get_return();
+
+			if(voCharges != null)
+			{
+				for(VOCharge voCharge : voCharges)
+				{
+					Charge charge = new Charge(voCharge);
+					charges.add(charge);
+				}
+			}
+			
+		} catch (AxisFault e) {
+			String error = e.getMessage().replace("<faultstring>", "");
+			new PopupWindow("ERROR", error.replace("</faultstring>", ""));
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
+		
+		return charges;
+	}
+	
+	public static Collection<Charge> getCharges(boolean isBillLiquidated, boolean isProjectClosed)
+	{
+		Collection<Charge> charges = new ArrayList<Charge>();
+		
+		try {
+			ServiceWebStub service = new ServiceWebStub();
+			GetChargesByFilters getChargesByFilters = new GetChargesByFilters();
+			
+			getChargesByFilters.setIsBillLiquidated(isBillLiquidated);
+			getChargesByFilters.setIsProjectClosed(isProjectClosed);
+			
+			VOCharge [] voCharges = service.getChargesByFilters(getChargesByFilters).get_return();
+
+			if(voCharges != null)
+			{
+				for(VOCharge voCharge : voCharges)
+				{
+					Charge charge = new Charge(voCharge);
+					charges.add(charge);
+				}
+			}
+			
+		} catch (AxisFault e) {
+			String error = e.getMessage().replace("<faultstring>", "");
+			new PopupWindow("ERROR", error.replace("</faultstring>", ""));
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
+		
+		return charges;
 	}
 }

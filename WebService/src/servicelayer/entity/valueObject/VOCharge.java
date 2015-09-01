@@ -15,6 +15,8 @@ public class VOCharge implements Serializable{
 	private double typeExchange;
 	private Date createdDateTimeUTC;
 	private int billId;
+	private String billCode;
+	private String billDescription;
 	
 	public int getId() {
 		return id;
@@ -78,6 +80,22 @@ public class VOCharge implements Serializable{
 
 	public void setCreatedDateTimeUTC(Date createdDateTimeUTC) {
 		this.createdDateTimeUTC = createdDateTimeUTC;
+	}
+	
+	public String getBillCode() {
+		return billCode;
+	}
+
+	public void setBillCode(String billCode) {
+		this.billCode = billCode;
+	}
+
+	public String getBillDescription() {
+		return billDescription;
+	}
+
+	public void setBillDescription(String billDescription) {
+		this.billDescription = billDescription;
 	}
 
 	public int getBillId() {

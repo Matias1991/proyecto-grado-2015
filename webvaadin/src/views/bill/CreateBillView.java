@@ -172,6 +172,7 @@ public class CreateBillView extends BaseView {
 			}
 			
 			Collection<Project> projects = ProjectController.getActiveProjects();
+			cboxProject.removeAllItems();
 			for(Project project : projects)
 			{
 				cboxProject.addItem(project.getId());

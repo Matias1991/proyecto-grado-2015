@@ -744,13 +744,13 @@ public class ServiceWeb extends ServiceBase {
 		return null;
 	}
 
-	public VOBill[] getBills() {
+	public VOBill[] getBills(Date from, Date to) {
 		try {
 			transactionLock.tryLock(Constants.DEFAULT_TRANSACTION_TIME,
 					TimeUnit.SECONDS);
 
 			return billBuilder.BuildArrayVOObject(VOBill.class,
-					iCoreBill.getBills());
+					iCoreBill.getBills(from, to));
 
 		} catch (ServerException e) {
 			ThrowServerExceptionAndLogError(e, "obtener todos las facturas");
@@ -764,15 +764,14 @@ public class ServiceWeb extends ServiceBase {
 		return null;
 	}
 
-	public VOBill[] getBillsWithFilters(Date from, Date to, int projectId,
-			String code, boolean isLiquidated, boolean withCharges) {
+	public VOBill[] getAllBillsByFilters(Date from, Date to, boolean isLiquidated) {
 		try {
 			transactionLock.tryLock(Constants.DEFAULT_TRANSACTION_TIME,
 					TimeUnit.SECONDS);
 
-			return billBuilder
-					.BuildArrayVOObject(VOBill.class, iCoreBill.getBills(from,
-							to, projectId, code, isLiquidated, withCharges));
+			return billBuilder.BuildArrayVOObject(VOBill.class,
+					iCoreBill.getBills(from, to, isLiquidated));
+
 		} catch (ServerException e) {
 			ThrowServerExceptionAndLogError(e, "obtener todos las facturas");
 		} catch (InterruptedException e) {
@@ -784,7 +783,47 @@ public class ServiceWeb extends ServiceBase {
 		}
 		return null;
 	}
+	
+	public VOBill[] getBillsByFilters(Date from, Date to, boolean isLiquidated, boolean withCharges) {
+		try {
+			transactionLock.tryLock(Constants.DEFAULT_TRANSACTION_TIME,
+					TimeUnit.SECONDS);
 
+			return billBuilder.BuildArrayVOObject(VOBill.class,
+					iCoreBill.getBills(from, to, isLiquidated, withCharges));
+
+		} catch (ServerException e) {
+			ThrowServerExceptionAndLogError(e, "obtener todos las facturas");
+		} catch (InterruptedException e) {
+			throw new RuntimeException(Constants.TRANSACTION_ERROR);
+		} catch (Exception e) {
+			ThrowGenericExceptionAndLogError(e);
+		} finally {
+			transactionLock.unlock();
+		}
+		return null;
+	}
+	
+	public VOBill[] getBillsByFiltersWithCharges(Date from, Date to) {
+		try {
+			transactionLock.tryLock(Constants.DEFAULT_TRANSACTION_TIME,
+					TimeUnit.SECONDS);
+
+			return billBuilder.BuildArrayVOObject(VOBill.class,
+					iCoreBill.getBillsWithCharges(from, to));
+
+		} catch (ServerException e) {
+			ThrowServerExceptionAndLogError(e, "obtener todos las facturas");
+		} catch (InterruptedException e) {
+			throw new RuntimeException(Constants.TRANSACTION_ERROR);
+		} catch (Exception e) {
+			ThrowGenericExceptionAndLogError(e);
+		} finally {
+			transactionLock.unlock();
+		}
+		return null;
+	}
+	
 	public VOBill[] getBillsByProject(int projectId) {
 		try {
 			transactionLock.tryLock(Constants.DEFAULT_TRANSACTION_TIME,
@@ -792,9 +831,9 @@ public class ServiceWeb extends ServiceBase {
 
 			return billBuilder.BuildArrayVOObject(VOBill.class,
 					iCoreBill.getBills(projectId));
+
 		} catch (ServerException e) {
-			ThrowServerExceptionAndLogError(e,
-					"obtener todos las facturas asociadas al proyecto");
+			ThrowServerExceptionAndLogError(e, "obtener todos las facturas");
 		} catch (InterruptedException e) {
 			throw new RuntimeException(Constants.TRANSACTION_ERROR);
 		} catch (Exception e) {
@@ -942,7 +981,7 @@ public class ServiceWeb extends ServiceBase {
 		try {
 			transactionLock.tryLock(Constants.DEFAULT_TRANSACTION_TIME,
 					TimeUnit.SECONDS);
-			
+
 			return projectBuilder.BuildArrayVOObject(VOProject.class,
 					iCoreProject.getProjectByStatus(projectStatus));
 
@@ -981,14 +1020,39 @@ public class ServiceWeb extends ServiceBase {
 		}
 		return false;
 	}
-	
+
 	public VOCharge[] getChargesByBill(int billId) {
 		try {
 			transactionLock.tryLock(Constants.DEFAULT_TRANSACTION_TIME,
 					TimeUnit.SECONDS);
 
-			return chargeBuilder.BuildArrayVOObject(VOCharge.class, iCoreCharge.getChargesByBill(billId));
+			return chargeBuilder.BuildArrayVOObject(VOCharge.class,
+					iCoreCharge.getChargesByBill(billId));
 
+		} catch (ServerException e) {
+			ThrowServerExceptionAndLogError(e, "obtener cobros por factura");
+		} catch (InterruptedException e) {
+			throw new RuntimeException(Constants.TRANSACTION_ERROR);
+		} catch (Exception e) {
+			ThrowGenericExceptionAndLogError(e);
+		} finally {
+			transactionLock.unlock();
+		}
+		return null;
+	}
+
+	public VOCharge updateCharge(int id, VOCharge voCharge) {
+		try {
+			transactionLock.tryLock(Constants.DEFAULT_TRANSACTION_TIME,
+					TimeUnit.SECONDS);
+
+			return chargeBuilder.BuildVOObject(iCoreCharge.updateCharge(id,
+					chargeBuilder.BuildBusinessObject(voCharge)));
+
+		} catch (ServerException e) {
+			ThrowServerExceptionAndLogError(e, "modificar cobro");
+		} catch (ClientException e) {
+			throw new RuntimeException(e.getMessage());
 		} catch (InterruptedException e) {
 			throw new RuntimeException(Constants.TRANSACTION_ERROR);
 		} catch (Exception e) {
@@ -999,18 +1063,55 @@ public class ServiceWeb extends ServiceBase {
 		return null;
 	}
 	
-	public VOCharge updateCharge(int id, VOCharge voCharge) {
+	public boolean deleteCharges(int[] ids) {
 		try {
 			transactionLock.tryLock(Constants.DEFAULT_TRANSACTION_TIME,
 					TimeUnit.SECONDS);
 
-			return chargeBuilder.BuildVOObject(iCoreCharge.updateCharge(
-					id, chargeBuilder.BuildBusinessObject(voCharge)));
+			iCoreCharge.deleteCharges(ids);
+			return true;
+		} catch (ServerException e) {
+			ThrowServerExceptionAndLogError(e, "eliminar multiples cobros");
+		} catch (InterruptedException e) {
+			throw new RuntimeException(Constants.TRANSACTION_ERROR);
+		} catch (Exception e) {
+			ThrowGenericExceptionAndLogError(e);
+		} finally {
+			transactionLock.unlock();
+		}
+		return false;
+	}
+	
+	public VOCharge[] getCharges() {
+		try {
+			transactionLock.tryLock(Constants.DEFAULT_TRANSACTION_TIME,
+					TimeUnit.SECONDS);
+
+			return chargeBuilder.BuildArrayVOObject(VOCharge.class,
+					iCoreCharge.getCharges());
 
 		} catch (ServerException e) {
-			ThrowServerExceptionAndLogError(e, "obtener todos los rubros");
-		} catch (ClientException e) {
-			throw new RuntimeException(e.getMessage());
+			ThrowServerExceptionAndLogError(e, "obtener cobros por factura");
+		} catch (InterruptedException e) {
+			throw new RuntimeException(Constants.TRANSACTION_ERROR);
+		} catch (Exception e) {
+			ThrowGenericExceptionAndLogError(e);
+		} finally {
+			transactionLock.unlock();
+		}
+		return null;
+	}
+	
+	public VOCharge[] getChargesByFilters(boolean isBillLiquidated, boolean isProjectClosed) {
+		try {
+			transactionLock.tryLock(Constants.DEFAULT_TRANSACTION_TIME,
+					TimeUnit.SECONDS);
+
+			return chargeBuilder.BuildArrayVOObject(VOCharge.class,
+					iCoreCharge.getCharges(isBillLiquidated, isProjectClosed));
+
+		} catch (ServerException e) {
+			ThrowServerExceptionAndLogError(e, "obtener cobros por factura");
 		} catch (InterruptedException e) {
 			throw new RuntimeException(Constants.TRANSACTION_ERROR);
 		} catch (Exception e) {

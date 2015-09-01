@@ -88,6 +88,49 @@ public class DAOCharges implements IDAOCharges {
 			}
 		}
 	}
+	
+	@Override
+	public void deleteCharges(int[] ids) throws ServerException {
+		PreparedStatement preparedStatement = null;
+
+		try {
+			StringBuilder strBuilder = new StringBuilder();
+			strBuilder.append("(");
+
+			int indexParameter = 0;
+			while (indexParameter < ids.length) {
+				strBuilder.append("?");
+				strBuilder.append(",");
+				indexParameter++;
+			}
+			strBuilder.append(")");
+			strBuilder.replace(strBuilder.length() - 2,
+					strBuilder.length() - 1, "");
+
+			String deleteSQL = "DELETE FROM CHARGE WHERE ID IN "
+					+ strBuilder.toString();
+			preparedStatement = this.connection.prepareStatement(deleteSQL);
+
+			int index = 1;
+			for (int id : ids) {
+				preparedStatement.setInt(index, id);
+				index++;
+			}
+
+			preparedStatement.execute();
+
+		} catch (SQLException e) {
+			throw new ServerException(e);
+		} finally {
+			if (preparedStatement != null) {
+				try {
+					preparedStatement.close();
+				} catch (SQLException e) {
+					LoggerMSMP.setLog(e.getMessage());
+				}
+			}
+		}
+	}
 
 	@Override
 	public void update(int id, Charge obj) throws ServerException {
@@ -191,6 +234,50 @@ public class DAOCharges implements IDAOCharges {
 		return charges;
 	}
 
+	@Override
+	public ArrayList<Charge> getCharges(boolean isBillLiquidated, boolean isProjectClosed) throws ServerException {
+		ArrayList<Charge> charges = new ArrayList<Charge>();
+		PreparedStatement preparedStatement = null;
+		ResultSet rs = null;
+		try {
+
+			StringBuilder sql = new StringBuilder();
+			sql.append("SELECT C.*, B.Code as BillCode, B.Description as BillDescription FROM CHARGE C ");
+			sql.append("INNER JOIN BILL B ON B.Id = C.BillId ");
+			sql.append("INNER JOIN Project P ON P.Id = B.ProjectId ");
+			sql.append("WHERE B.IsLiquidated = ? AND P.Closed = ?");
+			preparedStatement = this.connection
+					.prepareStatement(sql.toString());
+			preparedStatement.setBoolean(1, isBillLiquidated);
+			preparedStatement.setBoolean(2, isProjectClosed);
+			rs = preparedStatement.executeQuery();
+
+			while (rs.next()) {
+				Charge charge = BuildCharge(rs);
+				if (charge.getBill() != null)
+				{
+					charge.getBill().setCode(rs.getString("billCode"));
+					charge.getBill().setDescription(rs.getString("billDescription"));
+				}
+				charges.add(charge);
+			}
+
+		} catch (SQLException e) {
+			throw new ServerException(e);
+		} finally {
+			try {
+				if (preparedStatement != null)
+					preparedStatement.close();
+				if (rs != null)
+					rs.close();
+			} catch (SQLException e) {
+				LoggerMSMP.setLog(e.getMessage());
+			}
+		}
+
+		return charges;
+	}
+	
 	@Override
 	public Charge getCharge(String number) throws ServerException {
 		Charge charge = null;

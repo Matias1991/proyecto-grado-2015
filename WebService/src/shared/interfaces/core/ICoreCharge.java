@@ -12,8 +12,6 @@ public interface ICoreCharge {
 
 	void deleteCharge(int id) throws ServerException, ClientException;
 
-	void deleteBills(int[] ids) throws ServerException;
-
 	Charge updateCharge(int id, Charge charge) throws ServerException,
 			ClientException;
 
@@ -22,4 +20,8 @@ public interface ICoreCharge {
 	ArrayList<Charge> getCharges() throws ServerException;
 	
 	ArrayList<Charge> getChargesByBill(int billId) throws ServerException;
+	
+	void deleteCharges(int[] ids) throws ServerException;
+	
+	ArrayList<Charge> getCharges(boolean isBillLiquidated, boolean isProjectClosed) throws ServerException;
 }

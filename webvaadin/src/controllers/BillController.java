@@ -10,9 +10,11 @@ import org.apache.axis2.AxisFault;
 import servicelayer.service.ServiceWebStub;
 import servicelayer.service.ServiceWebStub.DeleteBills;
 import servicelayer.service.ServiceWebStub.DeleteCategory;
+import servicelayer.service.ServiceWebStub.GetAllBillsByFilters;
 import servicelayer.service.ServiceWebStub.GetBills;
+import servicelayer.service.ServiceWebStub.GetBillsByFilters;
+import servicelayer.service.ServiceWebStub.GetBillsByFiltersWithCharges;
 import servicelayer.service.ServiceWebStub.GetBillsByProject;
-import servicelayer.service.ServiceWebStub.GetBillsWithFilters;
 import servicelayer.service.ServiceWebStub.GetCategories;
 import servicelayer.service.ServiceWebStub.InsertBill;
 import servicelayer.service.ServiceWebStub.UpdateBill;
@@ -63,6 +65,7 @@ public class BillController {
 			UpdateBill updateBill = new UpdateBill();
 			
 			VOBill voBill = new VOBill();
+			voBill.setId(bill.getId());
 			voBill.setDescription(bill.getDescription());
 			voBill.setCode(bill.getCode());
 			voBill.setAmountPeso(bill.getAmountPeso());
@@ -79,7 +82,7 @@ public class BillController {
 			
 		} catch (AxisFault e) {
 			String error = e.getMessage().replace("<faultstring>", "");
-			PopupWindow popup = new PopupWindow("ERROR", error.replace("</faultstring>", ""));
+			new PopupWindow("ERROR", error.replace("</faultstring>", ""));
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		}
@@ -87,22 +90,50 @@ public class BillController {
 		return result;
 	}
 	
-	public static Collection<Bill> getBills(Date from, Date to, int projectId, String code, boolean isLiquidated)
+	public static Collection<Bill> getBills(int projectId)
 	{
 		Collection<Bill> bills = new ArrayList<Bill>();
 		
 		try {
 			ServiceWebStub service = new ServiceWebStub();
-			GetBillsWithFilters getBillsWithFilters = new GetBillsWithFilters();
+			GetBillsByProject getBillsByProject = new GetBillsByProject();
 			
-			getBillsWithFilters.setFrom(from);
-			getBillsWithFilters.setTo(to);
-			getBillsWithFilters.setProjectId(projectId);
-			getBillsWithFilters.setCode(code);
-			getBillsWithFilters.setIsLiquidated(isLiquidated);
-			getBillsWithFilters.setWithCharges(false);
+			getBillsByProject.setProjectId(projectId);
 			
-			VOBill [] voBills = service.getBillsWithFilters(getBillsWithFilters).get_return();
+			VOBill [] voBills = service.getBillsByProject(getBillsByProject).get_return();
+
+			if(voBills != null)
+			{
+				for(VOBill voBill : voBills)
+				{
+					Bill bill = new Bill(voBill);
+					bills.add(bill);
+				}
+			}
+			
+		} catch (AxisFault e) {
+			String error = e.getMessage().replace("<faultstring>", "");
+			new PopupWindow("ERROR", error.replace("</faultstring>", ""));
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
+		
+		return bills;
+	}
+	
+	public static Collection<Bill> getAllBillsByFilters(Date from, Date to, boolean isLiquidated)
+	{
+		Collection<Bill> bills = new ArrayList<Bill>();
+		
+		try {
+			ServiceWebStub service = new ServiceWebStub();
+			GetAllBillsByFilters getAllBillsByFilters = new GetAllBillsByFilters();
+			
+			getAllBillsByFilters.setFrom(from);
+			getAllBillsByFilters.setTo(to);
+			getAllBillsByFilters.setIsLiquidated(isLiquidated);
+			
+			VOBill [] voBills = service.getAllBillsByFilters(getAllBillsByFilters).get_return();
 
 			if(voBills != null)
 			{
@@ -123,22 +154,20 @@ public class BillController {
 		return bills;
 	}
 	
-	public static Collection<Bill> getBillsByActiveProjects(Date from, Date to, int projectId, String code, boolean isLiquidated, boolean withCharges)
+	public static Collection<Bill> getBillsByFiltersAndActiveProjects(Date from, Date to, boolean isLiquidated, boolean withCharges)
 	{
 		Collection<Bill> bills = new ArrayList<Bill>();
 		
 		try {
 			ServiceWebStub service = new ServiceWebStub();
-			GetBillsWithFilters getBillsWithFilters = new GetBillsWithFilters();
+			GetBillsByFilters getBillsByFilters = new GetBillsByFilters();
 			
-			getBillsWithFilters.setFrom(from);
-			getBillsWithFilters.setTo(to);
-			getBillsWithFilters.setProjectId(projectId);
-			getBillsWithFilters.setCode(code);
-			getBillsWithFilters.setIsLiquidated(isLiquidated);
-			getBillsWithFilters.setWithCharges(withCharges);
+			getBillsByFilters.setFrom(from);
+			getBillsByFilters.setTo(to);
+			getBillsByFilters.setIsLiquidated(isLiquidated);
+			getBillsByFilters.setWithCharges(withCharges);
 			
-			VOBill [] voBills = service.getBillsWithFilters(getBillsWithFilters).get_return();
+			VOBill [] voBills = service.getBillsByFilters(getBillsByFilters).get_return();
 
 			if(voBills != null)
 			{
@@ -154,7 +183,7 @@ public class BillController {
 			
 		} catch (AxisFault e) {
 			String error = e.getMessage().replace("<faultstring>", "");
-			PopupWindow popup = new PopupWindow("ERROR", error.replace("</faultstring>", ""));
+			new PopupWindow("ERROR", error.replace("</faultstring>", ""));
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		}
@@ -162,21 +191,26 @@ public class BillController {
 		return bills;
 	}
 	
-	public static Collection<Bill> getBills(int projectId) {
+	public static Collection<Bill> getBillsByFiltersAndActiveProjects(Date from, Date to)
+	{
 		Collection<Bill> bills = new ArrayList<Bill>();
 		
 		try {
 			ServiceWebStub service = new ServiceWebStub();
-			GetBillsByProject getBills = new GetBillsByProject();
+			GetBills getBills = new GetBills();
 			
-			getBills.setProjectId(projectId);
+			getBills.setFrom(from);
+			getBills.setTo(to);
 			
-			VOBill [] voBills = service.getBillsByProject(getBills).get_return();
+			VOBill [] voBills = service.getBills(getBills).get_return();
 
 			if(voBills != null)
 			{
 				for(VOBill voBill : voBills)
 				{
+					if(voBill.getProjectClosed())
+						continue;
+					
 					Bill bill = new Bill(voBill);
 					bills.add(bill);
 				}
@@ -184,7 +218,42 @@ public class BillController {
 			
 		} catch (AxisFault e) {
 			String error = e.getMessage().replace("<faultstring>", "");
-			PopupWindow popup = new PopupWindow("ERROR", error.replace("</faultstring>", ""));
+			new PopupWindow("ERROR", error.replace("</faultstring>", ""));
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
+		
+		return bills;
+	}
+	
+	public static Collection<Bill> getBillsByFiltersWithChargesAndActiveProjects(Date from, Date to)
+	{
+		Collection<Bill> bills = new ArrayList<Bill>();
+		
+		try {
+			ServiceWebStub service = new ServiceWebStub();
+			GetBillsByFiltersWithCharges getBillsByFiltersWithCharges = new GetBillsByFiltersWithCharges();
+			
+			getBillsByFiltersWithCharges.setFrom(from);
+			getBillsByFiltersWithCharges.setTo(to);
+			
+			VOBill [] voBills = service.getBillsByFiltersWithCharges(getBillsByFiltersWithCharges).get_return();
+
+			if(voBills != null)
+			{
+				for(VOBill voBill : voBills)
+				{
+					if(voBill.getProjectClosed())
+						continue;
+					
+					Bill bill = new Bill(voBill);
+					bills.add(bill);
+				}
+			}
+			
+		} catch (AxisFault e) {
+			String error = e.getMessage().replace("<faultstring>", "");
+			new PopupWindow("ERROR", error.replace("</faultstring>", ""));
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		}

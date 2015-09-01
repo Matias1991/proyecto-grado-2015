@@ -304,8 +304,8 @@ public class DAOBills implements IDAOBills {
 	}
 
 	@Override
-	public ArrayList<Bill> getBills(Date from, Date to, int projectId,
-			String code, boolean isLiquidated, boolean withCharges) throws ServerException {
+	public ArrayList<Bill> getBills(Date from, Date to, boolean isLiquidated)
+			throws ServerException {
 		ArrayList<Bill> bills = new ArrayList<Bill>();
 		PreparedStatement preparedStatement = null;
 		ResultSet rs = null;
@@ -314,41 +314,172 @@ public class DAOBills implements IDAOBills {
 			StringBuilder sql = new StringBuilder();
 			sql.append("SELECT B.*, P.Name as ProjectName, P.Closed as ProjectClosed FROM BILL B ");
 			sql.append("INNER JOIN PROJECT P ON P.Id = B.ProjectId ");
-			if(withCharges)
-				sql.append("INNER JOIN CHARGE C ON C.BillId = B.Id ");
 			sql.append("WHERE B.AppliedDateTimeUTC between ? AND ? ");
-			if (projectId != 0)
-				sql.append("and B.projectId = ? ");
-			if (code != null)
-				sql.append("and B.code = ? ");
-			sql.append("and B.IsLiquidated = ? ");
+			sql.append("AND B.IsLiquidated = ? ");
 			sql.append("ORDER BY B.AppliedDateTimeUTC DESC");
 
-			int index = 1;
 			preparedStatement = this.connection
 					.prepareStatement(sql.toString());
-			preparedStatement.setTimestamp(index, new Timestamp(
-					setFirstDayOfMonth(from).getTime()));
-			index++;
-			preparedStatement.setTimestamp(index, new Timestamp(
-					setFirstDayOfMonth(to).getTime()));
-			index++;
-			if (projectId != 0) {
-				preparedStatement.setInt(index, projectId);
-				index++;
-			}
-			if (code != null) {
-				preparedStatement.setString(index, code);
-				index++;
-			}
-			preparedStatement.setBoolean(index, isLiquidated);
+			preparedStatement.setTimestamp(1,
+					new Timestamp(setFirstDayOfMonth(from).getTime()));
+			preparedStatement.setTimestamp(2,
+					new Timestamp(setFirstDayOfMonth(to).getTime()));
+			preparedStatement.setBoolean(3, isLiquidated);
 
 			rs = preparedStatement.executeQuery();
 
 			while (rs.next()) {
 				Bill bill = BuildBill(rs);
-				if (bill.getProject() != null)
-				{
+				if (bill.getProject() != null) {
+					bill.getProject().setName(rs.getString("projectName"));
+					bill.getProject().setClosed(rs.getBoolean("projectClosed"));
+				}
+				bills.add(bill);
+			}
+
+		} catch (SQLException e) {
+			throw new ServerException(e);
+		} finally {
+			try {
+				if (preparedStatement != null)
+					preparedStatement.close();
+				if (rs != null)
+					rs.close();
+			} catch (SQLException e) {
+				LoggerMSMP.setLog(e.getMessage());
+			}
+		}
+
+		return bills;
+	}
+
+	@Override
+	public ArrayList<Bill> getBills(Date from, Date to, boolean isLiquidated,
+			boolean withCharges) throws ServerException {
+		ArrayList<Bill> bills = new ArrayList<Bill>();
+		PreparedStatement preparedStatement = null;
+		ResultSet rs = null;
+		try {
+
+			StringBuilder sql = new StringBuilder();
+			sql.append("SELECT B.*, P.Name as ProjectName, P.Closed as ProjectClosed FROM BILL B ");
+			sql.append("INNER JOIN PROJECT P ON P.Id = B.ProjectId ");
+			sql.append("WHERE B.AppliedDateTimeUTC between ? AND ? ");
+			sql.append("AND B.IsLiquidated = ? ");
+			if (withCharges)
+				sql.append("AND B.Id IN (SELECT BillId FROM CHARGE) ");
+			else
+				sql.append("AND B.Id NOT IN (SELECT BillId FROM CHARGE) ");
+			sql.append("ORDER BY B.AppliedDateTimeUTC DESC");
+
+			preparedStatement = this.connection
+					.prepareStatement(sql.toString());
+			preparedStatement.setTimestamp(1,
+					new Timestamp(setFirstDayOfMonth(from).getTime()));
+			preparedStatement.setTimestamp(2,
+					new Timestamp(setFirstDayOfMonth(to).getTime()));
+			preparedStatement.setBoolean(3, isLiquidated);
+
+			rs = preparedStatement.executeQuery();
+
+			while (rs.next()) {
+				Bill bill = BuildBill(rs);
+				if (bill.getProject() != null) {
+					bill.getProject().setName(rs.getString("projectName"));
+					bill.getProject().setClosed(rs.getBoolean("projectClosed"));
+				}
+				bills.add(bill);
+			}
+
+		} catch (SQLException e) {
+			throw new ServerException(e);
+		} finally {
+			try {
+				if (preparedStatement != null)
+					preparedStatement.close();
+				if (rs != null)
+					rs.close();
+			} catch (SQLException e) {
+				LoggerMSMP.setLog(e.getMessage());
+			}
+		}
+
+		return bills;
+	}
+
+	@Override
+	public ArrayList<Bill> getBills(Date from, Date to) throws ServerException {
+		ArrayList<Bill> bills = new ArrayList<Bill>();
+		PreparedStatement preparedStatement = null;
+		ResultSet rs = null;
+		try {
+
+			StringBuilder sql = new StringBuilder();
+			sql.append("SELECT B.*, P.Name as ProjectName, P.Closed as ProjectClosed FROM BILL B ");
+			sql.append("INNER JOIN PROJECT P ON P.Id = B.ProjectId ");
+			sql.append("WHERE B.AppliedDateTimeUTC between ? AND ? ");
+			sql.append("ORDER BY B.AppliedDateTimeUTC DESC");
+
+			preparedStatement = this.connection
+					.prepareStatement(sql.toString());
+			preparedStatement.setTimestamp(1,
+					new Timestamp(setFirstDayOfMonth(from).getTime()));
+			preparedStatement.setTimestamp(2,
+					new Timestamp(setFirstDayOfMonth(to).getTime()));
+
+			rs = preparedStatement.executeQuery();
+
+			while (rs.next()) {
+				Bill bill = BuildBill(rs);
+				if (bill.getProject() != null) {
+					bill.getProject().setName(rs.getString("projectName"));
+					bill.getProject().setClosed(rs.getBoolean("projectClosed"));
+				}
+				bills.add(bill);
+			}
+
+		} catch (SQLException e) {
+			throw new ServerException(e);
+		} finally {
+			try {
+				if (preparedStatement != null)
+					preparedStatement.close();
+				if (rs != null)
+					rs.close();
+			} catch (SQLException e) {
+				LoggerMSMP.setLog(e.getMessage());
+			}
+		}
+
+		return bills;
+	}
+	
+	@Override
+	public ArrayList<Bill> getBillsWithCharges(Date from, Date to) throws ServerException {
+		ArrayList<Bill> bills = new ArrayList<Bill>();
+		PreparedStatement preparedStatement = null;
+		ResultSet rs = null;
+		try {
+
+			StringBuilder sql = new StringBuilder();
+			sql.append("SELECT B.*, P.Name as ProjectName, P.Closed as ProjectClosed FROM BILL B ");
+			sql.append("INNER JOIN PROJECT P ON P.Id = B.ProjectId ");
+			sql.append("WHERE B.AppliedDateTimeUTC between ? AND ? ");
+			sql.append("AND B.Id IN (SELECT BillId FROM CHARGE) ");
+			sql.append("ORDER BY B.AppliedDateTimeUTC DESC");
+
+			preparedStatement = this.connection
+					.prepareStatement(sql.toString());
+			preparedStatement.setTimestamp(1,
+					new Timestamp(setFirstDayOfMonth(from).getTime()));
+			preparedStatement.setTimestamp(2,
+					new Timestamp(setFirstDayOfMonth(to).getTime()));
+
+			rs = preparedStatement.executeQuery();
+
+			while (rs.next()) {
+				Bill bill = BuildBill(rs);
+				if (bill.getProject() != null) {
 					bill.getProject().setName(rs.getString("projectName"));
 					bill.getProject().setClosed(rs.getBoolean("projectClosed"));
 				}
