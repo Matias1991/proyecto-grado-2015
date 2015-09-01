@@ -862,9 +862,7 @@ public class ServiceWeb extends ServiceBase {
 			transactionLock.tryLock(Constants.DEFAULT_TRANSACTION_TIME,
 					TimeUnit.SECONDS);
 
-			ProjectBuilder builder = new ProjectBuilder();
-
-			return builder.BuildVOObject(iCoreProject.getProject(id));
+			return projectBuilder.BuildVOObject(iCoreProject.getProject(id));
 
 		} catch (ServerException e) {
 			ThrowServerExceptionAndLogError(e, "obtener el proyecto.");
@@ -884,8 +882,6 @@ public class ServiceWeb extends ServiceBase {
 		try {
 			transactionLock.tryLock(Constants.DEFAULT_TRANSACTION_TIME,
 					TimeUnit.SECONDS);
-
-			// ProjectBuilder builder = new ProjectBuilder();
 
 			return projectBuilder.BuildArrayVOObject(VOProject.class,
 					iCoreProject.getProjects());
@@ -948,9 +944,8 @@ public class ServiceWeb extends ServiceBase {
 		try {
 			transactionLock.tryLock(Constants.DEFAULT_TRANSACTION_TIME,
 					TimeUnit.SECONDS);
-			ProjectBuilder builder = new ProjectBuilder();
-
-			return builder.BuildArrayVOObject(VOProject.class,
+			
+			return projectBuilder.BuildArrayVOObject(VOProject.class,
 					iCoreProject.getProjectByStatus(projectStatus));
 
 		} catch (ServerException e) {
