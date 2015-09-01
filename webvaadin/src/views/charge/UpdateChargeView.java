@@ -472,7 +472,7 @@ public class UpdateChargeView extends BaseView {
 		lblInfo.setWidth("-1px");
 		lblInfo.setHeight("-1px");
 		StringBuilder strBuilder = new StringBuilder();
-		strBuilder.append("<b>Importante:</b> Las facturas que se muestra cumplen con lo siguiente</br>");
+		strBuilder.append("<b>Importante:</b> Las facturas que se muestran cumplen con lo siguiente</br>");
 		strBuilder.append("- Tienen cobros asociados</br>");
 		strBuilder.append("- Pertenecen a proyectos activos");
 		lblInfo.setValue(strBuilder.toString());

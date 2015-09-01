@@ -475,7 +475,7 @@ public class UpdateBillView extends BaseView {
 		lblInfo.setWidth("-1px");
 		lblInfo.setHeight("-1px");
 		StringBuilder strBuilder = new StringBuilder();
-		strBuilder.append("<b>Importante:</b> Las facturas que se muestra cumplen con lo siguiente</br>");
+		strBuilder.append("<b>Importante:</b> Las facturas que se muestran cumplen con lo siguiente</br>");
 		strBuilder.append("- No estan liquidadas aun</br>");
 		strBuilder.append("- No tienen cobros asociados</br>");
 		strBuilder.append("- Pertenecen a proyectos activos");

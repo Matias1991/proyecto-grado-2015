@@ -37,9 +37,8 @@ public class Charge {
     	this.isCurrencyDollar = voCharge.getIsCurrencyDollar();
     	this.typeExchange = voCharge.getTypeExchange();
     	this.createdDateTimeUTC = voCharge.getCreatedDateTimeUTC();
-    	if(voCharge.getBillId() != 0)
+    	if(voCharge.getBillCode() != null)
     	{
-    		this.billId = voCharge.getBillId();
     		this.billCode = voCharge.getBillCode();
     		this.billDescription = voCharge.getBillDescription();
     	}
