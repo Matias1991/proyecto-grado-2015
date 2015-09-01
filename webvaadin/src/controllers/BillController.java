@@ -100,6 +100,7 @@ public class BillController {
 			getBillsWithFilters.setProjectId(projectId);
 			getBillsWithFilters.setCode(code);
 			getBillsWithFilters.setIsLiquidated(isLiquidated);
+			getBillsWithFilters.setWithCharges(false);
 			
 			VOBill [] voBills = service.getBillsWithFilters(getBillsWithFilters).get_return();
 
