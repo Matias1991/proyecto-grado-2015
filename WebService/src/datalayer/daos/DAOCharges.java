@@ -88,7 +88,7 @@ public class DAOCharges implements IDAOCharges {
 			}
 		}
 	}
-	
+
 	@Override
 	public void deleteCharges(int[] ids) throws ServerException {
 		PreparedStatement preparedStatement = null;
@@ -136,12 +136,9 @@ public class DAOCharges implements IDAOCharges {
 	public void update(int id, Charge obj) throws ServerException {
 		PreparedStatement preparedStatement = null;
 
-		String updateSQL = "UPDATE CHARGE " 
-				+ "SET DESCRIPTION = ?, "
-				+ "AMOUNTPESO = ?, " 
-				+ "AMOUNTDOLLAR = ?, "
-				+ "TYPEEXCHANGE = ? "
-				+ "WHERE id = ?";
+		String updateSQL = "UPDATE CHARGE " + "SET DESCRIPTION = ?, "
+				+ "AMOUNTPESO = ?, " + "AMOUNTDOLLAR = ?, "
+				+ "TYPEEXCHANGE = ? " + "WHERE id = ?";
 
 		try {
 			preparedStatement = this.connection.prepareStatement(updateSQL);
@@ -204,7 +201,7 @@ public class DAOCharges implements IDAOCharges {
 		try {
 
 			StringBuilder sql = new StringBuilder();
-			sql.append("SELECT C.*, B.Description as BillDescription FROM CHARGE C ");
+			sql.append("SELECT C.*, B.Code as BillCode, B.Description as BillDescription FROM CHARGE C ");
 			sql.append("INNER JOIN BILL B ON B.Id = C.BillId ");
 			preparedStatement = this.connection
 					.prepareStatement(sql.toString());
@@ -212,9 +209,11 @@ public class DAOCharges implements IDAOCharges {
 
 			while (rs.next()) {
 				Charge charge = BuildCharge(rs);
-				if (charge.getBill() != null)
+				if (charge.getBill() != null) {
+					charge.getBill().setCode(rs.getString("billCode"));
 					charge.getBill().setDescription(
 							rs.getString("billDescription"));
+				}
 				charges.add(charge);
 			}
 
@@ -235,7 +234,8 @@ public class DAOCharges implements IDAOCharges {
 	}
 
 	@Override
-	public ArrayList<Charge> getCharges(boolean isBillLiquidated, boolean isProjectClosed) throws ServerException {
+	public ArrayList<Charge> getCharges(boolean isBillLiquidated,
+			boolean isProjectClosed) throws ServerException {
 		ArrayList<Charge> charges = new ArrayList<Charge>();
 		PreparedStatement preparedStatement = null;
 		ResultSet rs = null;
@@ -254,10 +254,10 @@ public class DAOCharges implements IDAOCharges {
 
 			while (rs.next()) {
 				Charge charge = BuildCharge(rs);
-				if (charge.getBill() != null)
-				{
+				if (charge.getBill() != null) {
 					charge.getBill().setCode(rs.getString("billCode"));
-					charge.getBill().setDescription(rs.getString("billDescription"));
+					charge.getBill().setDescription(
+							rs.getString("billDescription"));
 				}
 				charges.add(charge);
 			}
@@ -277,7 +277,7 @@ public class DAOCharges implements IDAOCharges {
 
 		return charges;
 	}
-	
+
 	@Override
 	public Charge getCharge(String number) throws ServerException {
 		Charge charge = null;
@@ -308,9 +308,10 @@ public class DAOCharges implements IDAOCharges {
 
 		return charge;
 	}
-	
+
 	@Override
-	public ArrayList<Charge> getChargesByBill(int billId) throws ServerException {
+	public ArrayList<Charge> getChargesByBill(int billId)
+			throws ServerException {
 		ArrayList<Charge> charges = new ArrayList<Charge>();
 		PreparedStatement preparedStatement = null;
 		ResultSet rs = null;

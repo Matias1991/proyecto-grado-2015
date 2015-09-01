@@ -267,8 +267,8 @@ public class CreateChargeView extends BaseView {
 	
 			billsGrid.getColumn("code").setHeaderCaption("Código");
 			billsGrid.getColumn("description").setHeaderCaption("Descripción");
-			billsGrid.getColumn("amountToShow").setHeaderCaption("Monto");
-			billsGrid.getColumn("amountChargedToShow").setHeaderCaption("Monto cobrado");
+			billsGrid.getColumn("amountToShow").setHeaderCaption("Importe");
+			billsGrid.getColumn("amountChargedToShow").setHeaderCaption("Importe cobrado");
 			billsGrid.setWidth(620, Unit.PIXELS);
 			billsGrid.setHeight(285, Unit.PIXELS);
 			billsGrid.setSelectionMode(SelectionMode.SINGLE);

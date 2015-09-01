@@ -174,9 +174,9 @@ public class DeleteBillsView extends BaseView {
 	
 			billsGrid.getColumn("code").setHeaderCaption("Código");
 			billsGrid.getColumn("description").setHeaderCaption("Descripción");
-			billsGrid.getColumn("amountToShow").setHeaderCaption("Monto");
+			billsGrid.getColumn("amountToShow").setHeaderCaption("Importe");
 			billsGrid.getColumn("typeExchangeToShow").setHeaderCaption("Tipo de cambio");
-			billsGrid.getColumn("amountChargedToShow").setHeaderCaption("Monto cobrado");
+			billsGrid.getColumn("amountChargedToShow").setHeaderCaption("Importe cobrado");
 			billsGrid.getColumn("appliedDateTimeUTCToShow").setHeaderCaption("Mes");
 			billsGrid.getColumn("projectName").setHeaderCaption("Proyecto");
 			billsGrid.setWidth(100, Unit.PERCENTAGE);
