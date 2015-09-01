@@ -749,9 +749,7 @@ public class ServiceWeb extends ServiceBase {
 			transactionLock.tryLock(Constants.DEFAULT_TRANSACTION_TIME,
 					TimeUnit.SECONDS);
 
-			BillBuilder builder = new BillBuilder();
-
-			return builder.BuildArrayVOObject(VOBill.class,
+			return billBuilder.BuildArrayVOObject(VOBill.class,
 					iCoreBill.getBills());
 
 		} catch (ServerException e) {
@@ -767,14 +765,14 @@ public class ServiceWeb extends ServiceBase {
 	}
 
 	public VOBill[] getBillsWithFilters(Date from, Date to, int projectId,
-			String code, boolean isLiquidated) {
+			String code, boolean isLiquidated, boolean withCharges) {
 		try {
 			transactionLock.tryLock(Constants.DEFAULT_TRANSACTION_TIME,
 					TimeUnit.SECONDS);
 
 			return billBuilder
 					.BuildArrayVOObject(VOBill.class, iCoreBill.getBills(from,
-							to, projectId, code, isLiquidated));
+							to, projectId, code, isLiquidated, withCharges));
 		} catch (ServerException e) {
 			ThrowServerExceptionAndLogError(e, "obtener todos las facturas");
 		} catch (InterruptedException e) {
@@ -862,9 +860,7 @@ public class ServiceWeb extends ServiceBase {
 			transactionLock.tryLock(Constants.DEFAULT_TRANSACTION_TIME,
 					TimeUnit.SECONDS);
 
-			ProjectBuilder builder = new ProjectBuilder();
-
-			return builder.BuildVOObject(iCoreProject.getProject(id));
+			return projectBuilder.BuildVOObject(iCoreProject.getProject(id));
 
 		} catch (ServerException e) {
 			ThrowServerExceptionAndLogError(e, "obtener el proyecto.");
@@ -884,8 +880,6 @@ public class ServiceWeb extends ServiceBase {
 		try {
 			transactionLock.tryLock(Constants.DEFAULT_TRANSACTION_TIME,
 					TimeUnit.SECONDS);
-
-			// ProjectBuilder builder = new ProjectBuilder();
 
 			return projectBuilder.BuildArrayVOObject(VOProject.class,
 					iCoreProject.getProjects());
@@ -948,9 +942,8 @@ public class ServiceWeb extends ServiceBase {
 		try {
 			transactionLock.tryLock(Constants.DEFAULT_TRANSACTION_TIME,
 					TimeUnit.SECONDS);
-			ProjectBuilder builder = new ProjectBuilder();
-
-			return builder.BuildArrayVOObject(VOProject.class,
+			
+			return projectBuilder.BuildArrayVOObject(VOProject.class,
 					iCoreProject.getProjectByStatus(projectStatus));
 
 		} catch (ServerException e) {
@@ -987,6 +980,45 @@ public class ServiceWeb extends ServiceBase {
 			transactionLock.unlock();
 		}
 		return false;
+	}
+	
+	public VOCharge[] getChargesByBill(int billId) {
+		try {
+			transactionLock.tryLock(Constants.DEFAULT_TRANSACTION_TIME,
+					TimeUnit.SECONDS);
+
+			return chargeBuilder.BuildArrayVOObject(VOCharge.class, iCoreCharge.getChargesByBill(billId));
+
+		} catch (InterruptedException e) {
+			throw new RuntimeException(Constants.TRANSACTION_ERROR);
+		} catch (Exception e) {
+			ThrowGenericExceptionAndLogError(e);
+		} finally {
+			transactionLock.unlock();
+		}
+		return null;
+	}
+	
+	public VOCharge updateCharge(int id, VOCharge voCharge) {
+		try {
+			transactionLock.tryLock(Constants.DEFAULT_TRANSACTION_TIME,
+					TimeUnit.SECONDS);
+
+			return chargeBuilder.BuildVOObject(iCoreCharge.updateCharge(
+					id, chargeBuilder.BuildBusinessObject(voCharge)));
+
+		} catch (ServerException e) {
+			ThrowServerExceptionAndLogError(e, "obtener todos los rubros");
+		} catch (ClientException e) {
+			throw new RuntimeException(e.getMessage());
+		} catch (InterruptedException e) {
+			throw new RuntimeException(Constants.TRANSACTION_ERROR);
+		} catch (Exception e) {
+			ThrowGenericExceptionAndLogError(e);
+		} finally {
+			transactionLock.unlock();
+		}
+		return null;
 	}
 	/* COMIENZO COBROS */
 }

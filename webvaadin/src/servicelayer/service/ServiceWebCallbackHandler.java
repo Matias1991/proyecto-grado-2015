@@ -509,6 +509,22 @@
             }
                 
            /**
+            * auto generated Axis2 call back method for getChargesByBill method
+            * override this method for handling normal response from getChargesByBill operation
+            */
+           public void receiveResultgetChargesByBill(
+                    servicelayer.service.ServiceWebStub.GetChargesByBillResponse result
+                        ) {
+           }
+
+          /**
+           * auto generated Axis2 Error handler
+           * override this method for handling error response from getChargesByBill operation
+           */
+            public void receiveErrorgetChargesByBill(java.lang.Exception e) {
+            }
+                
+           /**
             * auto generated Axis2 call back method for getProjectsByStatus method
             * override this method for handling normal response from getProjectsByStatus operation
             */
@@ -618,6 +634,22 @@
            * override this method for handling error response from insertEmployed operation
            */
             public void receiveErrorinsertEmployed(java.lang.Exception e) {
+            }
+                
+           /**
+            * auto generated Axis2 call back method for updateCharge method
+            * override this method for handling normal response from updateCharge operation
+            */
+           public void receiveResultupdateCharge(
+                    servicelayer.service.ServiceWebStub.UpdateChargeResponse result
+                        ) {
+           }
+
+          /**
+           * auto generated Axis2 Error handler
+           * override this method for handling error response from updateCharge operation
+           */
+            public void receiveErrorupdateCharge(java.lang.Exception e) {
             }
                 
            /**

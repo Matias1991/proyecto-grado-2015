@@ -150,13 +150,13 @@ public class CoreBill implements ICoreBill {
 
 	@Override
 	public ArrayList<Bill> getBills(Date from, Date to, int projectId,
-			String code, boolean isLiquidated) throws ServerException {
+			String code, boolean isLiquidated, boolean withCharges) throws ServerException {
 		ArrayList<Bill> bills;
 
 		DAOManager daoManager = new DAOManager();
 		try {
 			bills = daoManager.getDAOBills().getBills(from, to, projectId,
-					code, isLiquidated);
+					code, isLiquidated, withCharges);
 			
 			for(Bill bill : bills)
 			{
@@ -195,8 +195,7 @@ public class CoreBill implements ICoreBill {
 		double amountCharged = 0;
 		DAOManager daoManager = new DAOManager();
 		try {
-			//obtener la factura
-			//Bill bill = daoManager.getDAOBills().getObject(bill);
+
 			bill.setIDAOCharges(daoManager.getDAOCharges());
 			
 			//obtener los cobros de la factura

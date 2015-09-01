@@ -98,9 +98,9 @@ public class CreateProjectView extends BaseView {
 					Project newProject = new Project();
 					newProject.setName(txtName.getValue());
 					newProject.setDescription(txtDescription.getValue());
-					
+
 					User manager = new User();
-					if (cboManager.getValue() != null) {						
+					if (cboManager.getValue() != null) {
 						manager.setId((Integer) cboManager.getValue());
 						newProject.setManager(manager);
 					}
@@ -148,11 +148,14 @@ public class CreateProjectView extends BaseView {
 					if (result) {
 						new PopupWindow("AVISO",
 								"Proyecto creado correctamente");
+						cboSeller.setValidationVisible(false);
+						cboManager.setValidationVisible(false);
+						txtName.setValidationVisible(false);
+						cleanInputs();
+						
 					}
 				}
-
 				btnCreate.setEnabled(true);
-				cleanInputs();
 			}
 		});
 
@@ -211,11 +214,14 @@ public class CreateProjectView extends BaseView {
 		buildTables();
 		loadComboBoxes();
 		txtName.clear();
-		txtDescription.clear();
+		txtDescription.clear();		
+		cboSeller.setValidationVisible(false);
+		cboManager.setValidationVisible(false);
+		txtName.setValidationVisible(false);
 
 	}
-	
-	private void cleanInputs(){
+
+	private void cleanInputs() {
 		if (tblEmployed != null) {
 			mainLayout.removeComponent(tblEmployed);
 		}
@@ -225,7 +231,7 @@ public class CreateProjectView extends BaseView {
 		buildTables();
 		loadComboBoxes();
 		txtName.clear();
-		txtDescription.clear();		
+		txtDescription.clear();
 	}
 
 	private void buildTables() {
@@ -340,7 +346,8 @@ public class CreateProjectView extends BaseView {
 			}
 		}
 
-		Collection<Employee> partners = EmployeeController.GetEmployeesByType(2);
+		Collection<Employee> partners = EmployeeController
+				.GetEmployeesByType(2);
 
 		cboPartner1.removeAllItems();
 		cboPartner2.removeAllItems();
@@ -403,7 +410,7 @@ public class CreateProjectView extends BaseView {
 		btnCreate.setImmediate(true);
 		btnCreate.setWidth("120px");
 		btnCreate.setHeight("-1px");
-		btnCreate.setTabIndex(3);
+		btnCreate.setTabIndex(7);
 		mainLayout.addComponent(btnCreate,
 				"top:484.0px;right:500.0px;left:0.0px;");
 
@@ -413,7 +420,7 @@ public class CreateProjectView extends BaseView {
 		btnCancel.setImmediate(true);
 		btnCancel.setWidth("120px");
 		btnCancel.setHeight("-1px");
-		btnCancel.setTabIndex(4);
+		btnCancel.setTabIndex(8);
 		mainLayout.addComponent(btnCancel,
 				"top:484.0px;right:340.0px;left:140.0px;");
 
@@ -436,6 +443,7 @@ public class CreateProjectView extends BaseView {
 		txtDescription.setHeight("-1px");
 		txtDescription.setMaxLength(240);
 		txtDescription.setRows(6);
+		txtDescription.setTabIndex(4);
 		txtDescription.setNullRepresentation("");
 		mainLayout.addComponent(txtDescription, "top:116.0px;left:260.0px;");
 
@@ -446,6 +454,7 @@ public class CreateProjectView extends BaseView {
 		cboSeller.setHeight("-1px");
 		cboSeller.setCaption("Vendedor");
 		cboSeller.setInputPrompt("Seleccione el vendedor");
+		cboSeller.setTabIndex(2);
 		cboSeller.setNullSelectionAllowed(false);
 		cboSeller.setRequired(true);
 		mainLayout.addComponent(cboSeller,
@@ -458,6 +467,7 @@ public class CreateProjectView extends BaseView {
 		cboManager.setHeight("-1px");
 		cboManager.setCaption("Gerente");
 		cboManager.setInputPrompt("Seleccione el gerente");
+		cboManager.setTabIndex(3);
 		cboManager.setNullSelectionAllowed(true);
 		mainLayout.addComponent(cboManager,
 				"top:245.0px;right:372.0px;left:3.0px;");
@@ -469,6 +479,7 @@ public class CreateProjectView extends BaseView {
 		cboPartner1.setHeight("-1px");
 		cboPartner1.setCaption("Socio");
 		cboPartner1.setInputPrompt("Seleccione el socio");
+		cboPartner1.setTabIndex(5);
 		cboPartner1.setNullSelectionAllowed(false);
 		cboPartner1.setRequired(true);
 		mainLayout.addComponent(cboPartner1,
@@ -481,6 +492,7 @@ public class CreateProjectView extends BaseView {
 		cboDistribution1.setHeight("-1px");
 		cboDistribution1.setCaption("Distribución ganancias");
 		cboDistribution1.setInputPrompt("Seleccione la distribución");
+		cboDistribution1.setTabIndex(6);
 		cboDistribution1.setNullSelectionAllowed(false);
 		cboDistribution1.setRequired(true);
 		mainLayout.addComponent(cboDistribution1,

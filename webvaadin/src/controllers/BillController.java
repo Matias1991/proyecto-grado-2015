@@ -122,7 +122,7 @@ public class BillController {
 		return bills;
 	}
 	
-	public static Collection<Bill> getBillsByActiveProjects(Date from, Date to, int projectId, String code, boolean isLiquidated)
+	public static Collection<Bill> getBillsByActiveProjects(Date from, Date to, int projectId, String code, boolean isLiquidated, boolean withCharges)
 	{
 		Collection<Bill> bills = new ArrayList<Bill>();
 		
@@ -135,6 +135,7 @@ public class BillController {
 			getBillsWithFilters.setProjectId(projectId);
 			getBillsWithFilters.setCode(code);
 			getBillsWithFilters.setIsLiquidated(isLiquidated);
+			getBillsWithFilters.setWithCharges(withCharges);
 			
 			VOBill [] voBills = service.getBillsWithFilters(getBillsWithFilters).get_return();
 
