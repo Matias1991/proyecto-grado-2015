@@ -11,6 +11,8 @@ import servicelayer.service.ServiceWebStub;
 import servicelayer.service.ServiceWebStub.GetBillsWithFilters;
 import servicelayer.service.ServiceWebStub.GetChargesByBill;
 import servicelayer.service.ServiceWebStub.InsertCharge;
+import servicelayer.service.ServiceWebStub.UpdateBill;
+import servicelayer.service.ServiceWebStub.UpdateCharge;
 import servicelayer.service.ServiceWebStub.VOBill;
 import servicelayer.service.ServiceWebStub.VOCharge;
 import utils.PopupWindow;
@@ -79,5 +81,36 @@ public class ChargeController {
 		}
 		
 		return charges;
+	}
+	
+	public static Charge updateCharge(int id, Charge charge)
+	{
+		Charge result = null;
+		try {
+			ServiceWebStub service = new ServiceWebStub();
+			UpdateCharge updateCharge = new UpdateCharge();
+			
+			VOCharge voCharge = new VOCharge();
+			voCharge.setDescription(charge.getDescription());
+			voCharge.setAmountPeso(charge.getAmountPeso());
+			voCharge.setAmountDollar(charge.getAmountDollar());
+			voCharge.setIsCurrencyDollar(charge.getIsCurrencyDollar());
+			voCharge.setTypeExchange(charge.getTypeExchange());
+			voCharge.setId(charge.getId());
+			voCharge.setBillId(charge.getBillId());
+			
+			updateCharge.setId(id);
+			updateCharge.setVoCharge(voCharge);
+			
+			 result = new Charge(service.updateCharge(updateCharge).get_return());
+			
+		} catch (AxisFault e) {
+			String error = e.getMessage().replace("<faultstring>", "");
+			new PopupWindow("ERROR", error.replace("</faultstring>", ""));
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
+		
+		return result;
 	}
 }

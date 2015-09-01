@@ -138,11 +138,9 @@ public class UpdateChargeView extends BaseView {
 				
 				if(valid)
 				{
-					/*
 					Bill item = (Bill) billsGrid.getSelectedRow();
 					Charge charge = new Charge();
 					charge.setDescription(txtDescription.getValue());
-					charge.setBillId(item.getId());
 					
 					if(txtTypeExchange.isVisible() && txtTypeExchange.getValue() != null)
 					{
@@ -156,18 +154,29 @@ public class UpdateChargeView extends BaseView {
 						charge.setIsCurrencyDollar(false);
 					}
 					
-					boolean result = ChargeController.createCharge(charge);
-
-					if(result)
-						
-					*/
+					int id = (int) comboBoxCharges.getValue();
 					
-					new PopupWindow("AVISO", "Cobro creado correctamente");
-					ClearInputs();
-					buildGrid();
+					charge.setId(id);
+					charge.setBillId(item.getId());
+					Charge result = ChargeController.updateCharge(id, charge);
+
+					if(result != null)
+					{
+						new PopupWindow("AVISO", "Cobro modificado correctamente");
+						clearInputs();
+						buildGrid();
+					}
+					else
+					{
+						btnCancel.setEnabled(true);
+						btnUpdate.setEnabled(true);
+					}
 				}
-				btnCancel.setEnabled(true);
-				btnUpdate.setEnabled(true);
+				else
+				{
+					btnCancel.setEnabled(true);
+					btnUpdate.setEnabled(true);
+				}
 			}
 		
 		});
@@ -191,7 +200,10 @@ public class UpdateChargeView extends BaseView {
 					Charge charge = getChargeById(id);
 					txtDescription.setValue(charge.getDescription());
 					if(charge.getIsCurrencyDollar())
+					{
 						txtAmount.setConvertedValue(charge.getAmountDollar());
+						txtTypeExchange.setConvertedValue(charge.getTypeExchange());
+					}
 					else
 						txtAmount.setConvertedValue(charge.getAmountPeso());
 				}
@@ -211,11 +223,11 @@ public class UpdateChargeView extends BaseView {
 		popupDateFieldTo.setDateFormat("MM-yyyy");
 		popupDateFieldTo.setResolution(Resolution.MONTH);
 		
-		ClearInputs();
+		clearInputs();
 		
 	}
 	
-	void ClearInputs()
+	void clearInputs()
 	{
 		txtDescription.clear();
 		txtAmount.clear();
@@ -227,6 +239,8 @@ public class UpdateChargeView extends BaseView {
 		comboBoxCharges.setValidationVisible(false);
 		
 		txtTypeExchange.setVisible(false);
+		
+		comboBoxCharges.removeAllItems();
 		
 		txtAmount.setCaption("Importe");
 	}
@@ -326,6 +340,7 @@ public class UpdateChargeView extends BaseView {
 					BeanItem<Bill> item = beanContainer.getItem(billsGrid.getSelectedRow());
 					if(item != null)
 					{
+						clearInputs();
 						buildCharges(item.getBean().getId());
 						setEnabledEditionInputs(true);
 						setRequiredEditionInputs(true);

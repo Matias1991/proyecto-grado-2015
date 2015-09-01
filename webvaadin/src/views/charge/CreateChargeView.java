@@ -159,6 +159,11 @@ public class CreateChargeView extends BaseView {
 					ClearInputs();
 					buildGrid();
 				}
+				else
+				{
+					btnCancel.setEnabled(true);
+					btnCreate.setEnabled(true);
+				}
 			}
 		
 		});
