@@ -637,6 +637,22 @@
             }
                 
            /**
+            * auto generated Axis2 call back method for updateCharge method
+            * override this method for handling normal response from updateCharge operation
+            */
+           public void receiveResultupdateCharge(
+                    servicelayer.service.ServiceWebStub.UpdateChargeResponse result
+                        ) {
+           }
+
+          /**
+           * auto generated Axis2 Error handler
+           * override this method for handling error response from updateCharge operation
+           */
+            public void receiveErrorupdateCharge(java.lang.Exception e) {
+            }
+                
+           /**
             * auto generated Axis2 call back method for insertCategory method
             * override this method for handling normal response from insertCategory operation
             */

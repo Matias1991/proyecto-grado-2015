@@ -87,8 +87,26 @@ public class CoreCharge implements ICoreCharge {
 	@Override
 	public Charge updateCharge(int id, Charge charge)
 			throws ServerException, ClientException {
-		// TODO Auto-generated method stub
-		return null;
+		
+		DAOManager daoManager = new DAOManager();
+		try {
+			
+			if (charge.getIsCurrencyDollar()) {
+				charge.setAmountPeso(charge.getAmountDollar()
+						* charge.getTypeExchange());
+			}
+
+			daoManager.getDAOCharges().update(id, charge);
+			daoManager.commit();
+
+			return getCharge(id);
+
+		} catch (ServerException e) {
+			daoManager.rollback();
+			throw e;
+		} finally {
+			daoManager.close();
+		}
 	}
 
 	@Override
