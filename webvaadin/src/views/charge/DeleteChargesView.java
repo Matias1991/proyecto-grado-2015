@@ -96,7 +96,7 @@ public class DeleteChargesView extends BaseView {
 										i++;
 									}
 
-									BillController.deleteBills(ids);
+									ChargeController.deleteCharges(ids);
 
 									btnDelete.setEnabled(false);
 									if (billsGrid != null) {
