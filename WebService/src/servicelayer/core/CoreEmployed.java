@@ -8,10 +8,6 @@ import datalayer.daos.DAOManager;
 import servicelayer.entity.businessEntity.Employed;
 import servicelayer.entity.businessEntity.EmployedType;
 import servicelayer.entity.businessEntity.SalarySummary;
-import servicelayer.entity.businessEntity.SalarySummaryVersion;
-import servicelayer.entity.valueObject.VOEmployed;
-import servicelayer.entity.valueObject.VOSalarySummary;
-import servicelayer.entity.valueObject.VOSalarySummaryVersion;
 import shared.ConfigurationProperties;
 import shared.exceptions.ClientException;
 import shared.exceptions.ServerException;
@@ -257,11 +253,11 @@ public class CoreEmployed implements ICoreEmployed {
 		return salarySummary;
 	}
 
-	//todo: eliminar el value object de este metodo
+	
 	@Override
-	public ArrayList<VOSalarySummaryVersion> getAllSalarySummaryVersion(
+	public ArrayList<SalarySummary> getAllSalarySummaryVersion(
 			int employedId) throws ServerException, ClientException {
-		ArrayList<VOSalarySummaryVersion> list = new ArrayList<VOSalarySummaryVersion>();
+		ArrayList<SalarySummary> list = new ArrayList<SalarySummary>();
 
 		DAOManager daoManager = new DAOManager();
 		try {
@@ -270,14 +266,13 @@ public class CoreEmployed implements ICoreEmployed {
 			if (employed != null) {
 				employed.setIDAOSalarySummaries(daoManager
 						.getDAOSalarySummaries());
-				ArrayList<SalarySummaryVersion> aux = employed
-						.getAllSalarySummaryVersion();
+				ArrayList<SalarySummary> aux = employed.getAllSalarySummaryVersion(employedId);
 
-				for (SalarySummaryVersion salarySummaryVersion : aux) {
-					VOSalarySummaryVersion voSSV = new VOSalarySummaryVersion();
-					voSSV.setCreatedDateTimeUTC(salarySummaryVersion
+				for (SalarySummary salarySummary : aux) {
+					SalarySummary voSSV = new SalarySummary();
+					voSSV.setCreatedDateTimeUTC(salarySummary
 							.getCreatedDateTimeUTC());
-					voSSV.setVersion(salarySummaryVersion.getVersion());
+					voSSV.setVersion(salarySummary.getVersion());
 					list.add(voSSV);
 				}
 

@@ -42,7 +42,6 @@ import entities.Category;
 import entities.Employee;
 import entities.RequestContext;
 import entities.SalarySummary;
-import entities.SalarySummaryVersion;
 
 public class CatalogEmployeesView extends BaseView {
 
@@ -592,15 +591,15 @@ public class CatalogEmployeesView extends BaseView {
 	}
 	
 	private void buildVersion(int employeeId){		
-		Collection<SalarySummaryVersion> aux = EmployeeController.GetVersions(employeeId);
+		Collection<SalarySummary> aux = EmployeeController.GetVersions(employeeId);
 		
 		cboVersion.removeAllItems();	
-		for (SalarySummaryVersion salarySummaryVersion : aux) {
+		for (SalarySummary salarySummaryVersion : aux) {
 			cboVersion.addItem(salarySummaryVersion.getVersion());			
 			cboVersion.setItemCaption(salarySummaryVersion.getVersion(), new SimpleDateFormat("dd-MM-yyyy").format(salarySummaryVersion.getCreatedDateTimeUTC()));
 		}
 		cboVersion.setValue(aux.iterator().next().getVersion());
-		cboVersion.setNullSelectionItemId(new SalarySummaryVersion());
+		cboVersion.setNullSelectionItemId(new SalarySummary());
 	}
 	
 	@Override

@@ -3,7 +3,6 @@ package shared.interfaces.dataLayer;
 import java.util.ArrayList;
 
 import servicelayer.entity.businessEntity.SalarySummary;
-import servicelayer.entity.businessEntity.SalarySummaryVersion;
 import shared.exceptions.ServerException;
 
 public interface IDAOSalarySummaries {
@@ -30,6 +29,6 @@ public interface IDAOSalarySummaries {
 	SalarySummary getSalarySummaryByVersion(int employedId, int version)
 			throws ServerException;
 
-	ArrayList<SalarySummaryVersion> getAllVersionsDateSalarySummary(
+	ArrayList<SalarySummary> getAllVersionsDateSalarySummary(
 			int employedId) throws ServerException;
 }

@@ -5,47 +5,101 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
  <wsdl:types>
   <schema elementFormDefault="qualified" targetNamespace="http://service.servicelayer" xmlns="http://www.w3.org/2001/XMLSchema">
    <import namespace="http://valueObject.entity.servicelayer"/>
-   <element name="delete">
+   <import namespace="http://xml.apache.org/xml-soap"/>
+   <element name="getUsers">
+    <complexType/>
+   </element>
+   <element name="getUsersResponse">
+    <complexType>
+     <sequence>
+      <element maxOccurs="unbounded" name="getUsersReturn" type="tns1:VOUser"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="login">
+    <complexType>
+     <sequence>
+      <element name="userName" type="xsd:string"/>
+      <element name="password" type="xsd:string"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="loginResponse">
+    <complexType>
+     <sequence>
+      <element name="loginReturn" type="tns1:VOUser"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="getCategories">
+    <complexType/>
+   </element>
+   <element name="getCategoriesResponse">
+    <complexType>
+     <sequence>
+      <element maxOccurs="unbounded" name="getCategoriesReturn" type="tns1:VOCategory"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="getCategory">
     <complexType>
      <sequence>
       <element name="id" type="xsd:int"/>
      </sequence>
     </complexType>
    </element>
-   <element name="deleteResponse">
-    <complexType/>
-   </element>
-   <element name="insert">
+   <element name="getCategoryResponse">
     <complexType>
      <sequence>
-      <element name="voUser" type="tns1:VOUser"/>
+      <element name="getCategoryReturn" type="tns1:VOCategory"/>
      </sequence>
     </complexType>
    </element>
-   <element name="insertResponse">
-    <complexType/>
-   </element>
-   <element name="getAllUsers">
-    <complexType/>
-   </element>
-   <element name="getAllUsersResponse">
-    <complexType>
-     <sequence>
-      <element maxOccurs="unbounded" name="getAllUsersReturn" type="tns1:VOUser"/>
-     </sequence>
-    </complexType>
-   </element>
-   <element name="exist">
+   <element name="getProject">
     <complexType>
      <sequence>
       <element name="id" type="xsd:int"/>
      </sequence>
     </complexType>
    </element>
-   <element name="existResponse">
+   <element name="getProjectResponse">
     <complexType>
      <sequence>
-      <element name="existReturn" type="xsd:boolean"/>
+      <element name="getProjectReturn" type="tns1:VOProject"/>
+     </sequence>
+    </complexType>
+   </element>
+   <complexType name="ArrayOf_tns1_VOProjectEmployed">
+    <sequence>
+     <element maxOccurs="unbounded" minOccurs="0" name="item" type="tns1:VOProjectEmployed"/>
+    </sequence>
+   </complexType>
+   <complexType name="ArrayOf_tns1_VOProjectPartner">
+    <sequence>
+     <element maxOccurs="unbounded" minOccurs="0" name="item" type="tns1:VOProjectPartner"/>
+    </sequence>
+   </complexType>
+   <element name="getProjects">
+    <complexType/>
+   </element>
+   <element name="getProjectsResponse">
+    <complexType>
+     <sequence>
+      <element maxOccurs="unbounded" name="getProjectsReturn" type="tns1:VOProject"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="deleteProject">
+    <complexType>
+     <sequence>
+      <element name="id" type="xsd:int"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="deleteProjectResponse">
+    <complexType>
+     <sequence>
+      <element name="deleteProjectReturn" type="xsd:boolean"/>
      </sequence>
     </complexType>
    </element>
@@ -63,8 +117,462 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
      </sequence>
     </complexType>
    </element>
+   <element name="updateCategory">
+    <complexType>
+     <sequence>
+      <element name="id" type="xsd:int"/>
+      <element name="voCategory" type="tns1:VOCategory"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="updateCategoryResponse">
+    <complexType>
+     <sequence>
+      <element name="updateCategoryReturn" type="tns1:VOCategory"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="changePassword">
+    <complexType>
+     <sequence>
+      <element name="id" type="xsd:int"/>
+      <element name="oldPassword" type="xsd:string"/>
+      <element name="newPassword" type="xsd:string"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="changePasswordResponse">
+    <complexType>
+     <sequence>
+      <element name="changePasswordReturn" type="xsd:boolean"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="deleteCategory">
+    <complexType>
+     <sequence>
+      <element name="id" type="xsd:int"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="deleteCategoryResponse">
+    <complexType>
+     <sequence>
+      <element name="deleteCategoryReturn" type="xsd:boolean"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="getCategoriesByProject">
+    <complexType>
+     <sequence>
+      <element name="id" type="xsd:int"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="getCategoriesByProjectResponse">
+    <complexType>
+     <sequence>
+      <element maxOccurs="unbounded" name="getCategoriesByProjectReturn" type="tns1:VOCategory"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="getAllSalarySummaryVersion">
+    <complexType>
+     <sequence>
+      <element name="employedId" type="xsd:int"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="getAllSalarySummaryVersionResponse">
+    <complexType>
+     <sequence>
+      <element maxOccurs="unbounded" name="getAllSalarySummaryVersionReturn" type="tns1:VOSalarySummary"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="getAllVersionsSalarySummary">
+    <complexType>
+     <sequence>
+      <element name="employedId" type="xsd:int"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="getAllVersionsSalarySummaryResponse">
+    <complexType>
+     <sequence>
+      <element maxOccurs="unbounded" name="getAllVersionsSalarySummaryReturn" type="xsd:int"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="getSalarySummaryByVersion">
+    <complexType>
+     <sequence>
+      <element name="employedId" type="xsd:int"/>
+      <element name="version" type="xsd:int"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="getSalarySummaryByVersionResponse">
+    <complexType>
+     <sequence>
+      <element name="getSalarySummaryByVersionReturn" type="tns1:VOSalarySummary"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="existUser">
+    <complexType>
+     <sequence>
+      <element name="id" type="xsd:int"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="existUserResponse">
+    <complexType>
+     <sequence>
+      <element name="existUserReturn" type="xsd:boolean"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="deleteUser">
+    <complexType>
+     <sequence>
+      <element name="id" type="xsd:int"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="deleteUserResponse">
+    <complexType>
+     <sequence>
+      <element name="deleteUserReturn" type="xsd:boolean"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="unlockUser">
+    <complexType>
+     <sequence>
+      <element name="id" type="xsd:int"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="unlockUserResponse">
+    <complexType>
+     <sequence>
+      <element name="unlockUserReturn" type="xsd:boolean"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="updateUser">
+    <complexType>
+     <sequence>
+      <element name="id" type="xsd:int"/>
+      <element name="voUser" type="tns1:VOUser"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="updateUserResponse">
+    <complexType>
+     <sequence>
+      <element name="updateUserReturn" type="tns1:VOUser"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="resetPassword">
+    <complexType>
+     <sequence>
+      <element name="id" type="xsd:int"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="resetPasswordResponse">
+    <complexType>
+     <sequence>
+      <element name="resetPasswordReturn" type="xsd:boolean"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="getEmployees">
+    <complexType/>
+   </element>
+   <element name="getEmployeesResponse">
+    <complexType>
+     <sequence>
+      <element maxOccurs="unbounded" name="getEmployeesReturn" type="tns1:VOEmployed"/>
+     </sequence>
+    </complexType>
+   </element>
+   <complexType name="ArrayOf_xsd_anyType">
+    <sequence>
+     <element maxOccurs="unbounded" minOccurs="0" name="item" type="xsd:anyType"/>
+    </sequence>
+   </complexType>
+   <element name="getEmployed">
+    <complexType>
+     <sequence>
+      <element name="id" type="xsd:int"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="getEmployedResponse">
+    <complexType>
+     <sequence>
+      <element name="getEmployedReturn" type="tns1:VOEmployed"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="insertUser">
+    <complexType>
+     <sequence>
+      <element name="voUser" type="tns1:VOUser"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="insertUserResponse">
+    <complexType>
+     <sequence>
+      <element name="insertUserReturn" type="xsd:boolean"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="deleteBills">
+    <complexType>
+     <sequence>
+      <element maxOccurs="unbounded" name="ids" type="xsd:int"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="deleteBillsResponse">
+    <complexType>
+     <sequence>
+      <element name="deleteBillsReturn" type="xsd:boolean"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="insertBill">
+    <complexType>
+     <sequence>
+      <element name="voBill" type="tns1:VOBill"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="insertBillResponse">
+    <complexType>
+     <sequence>
+      <element name="insertBillReturn" type="xsd:boolean"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="getBills">
+    <complexType/>
+   </element>
+   <element name="getBillsResponse">
+    <complexType>
+     <sequence>
+      <element maxOccurs="unbounded" name="getBillsReturn" type="tns1:VOBill"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="insertCharge">
+    <complexType>
+     <sequence>
+      <element name="voCharge" type="tns1:VOCharge"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="insertChargeResponse">
+    <complexType>
+     <sequence>
+      <element name="insertChargeReturn" type="xsd:boolean"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="updateBill">
+    <complexType>
+     <sequence>
+      <element name="id" type="xsd:int"/>
+      <element name="voBill" type="tns1:VOBill"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="updateBillResponse">
+    <complexType>
+     <sequence>
+      <element name="updateBillReturn" type="tns1:VOBill"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="insertProject">
+    <complexType>
+     <sequence>
+      <element name="voProject" type="tns1:VOProject"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="insertProjectResponse">
+    <complexType>
+     <sequence>
+      <element name="insertProjectReturn" type="xsd:boolean"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="forgotPassword">
+    <complexType>
+     <sequence>
+      <element name="userEmail" type="xsd:string"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="forgotPasswordResponse">
+    <complexType>
+     <sequence>
+      <element name="forgotPasswordReturn" type="xsd:boolean"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="getUsersByStatus">
+    <complexType>
+     <sequence>
+      <element name="userStatusId" type="xsd:int"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="getUsersByStatusResponse">
+    <complexType>
+     <sequence>
+      <element maxOccurs="unbounded" name="getUsersByStatusReturn" type="tns1:VOUser"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="insertEmployed">
+    <complexType>
+     <sequence>
+      <element name="voEmployed" type="tns1:VOEmployed"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="insertEmployedResponse">
+    <complexType>
+     <sequence>
+      <element name="insertEmployedReturn" type="xsd:boolean"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="estimateSalarySummary">
+    <complexType>
+     <sequence>
+      <element name="voSalarySummary" type="tns1:VOSalarySummary"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="estimateSalarySummaryResponse">
+    <complexType>
+     <sequence>
+      <element name="estimateSalarySummaryReturn" type="tns1:VOSalarySummary"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="deleteEmployed">
+    <complexType>
+     <sequence>
+      <element name="id" type="xsd:int"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="deleteEmployedResponse">
+    <complexType>
+     <sequence>
+      <element name="deleteEmployedReturn" type="xsd:boolean"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="updatedEmployed">
+    <complexType>
+     <sequence>
+      <element name="id" type="xsd:int"/>
+      <element name="voEmployed" type="tns1:VOEmployed"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="updatedEmployedResponse">
+    <complexType>
+     <sequence>
+      <element name="updatedEmployedReturn" type="xsd:boolean"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="getProjectsByStatus">
+    <complexType>
+     <sequence>
+      <element name="projectStatus" type="xsd:boolean"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="getProjectsByStatusResponse">
+    <complexType>
+     <sequence>
+      <element maxOccurs="unbounded" name="getProjectsByStatusReturn" type="tns1:VOProject"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="getBillsWithFilters">
+    <complexType>
+     <sequence>
+      <element name="from" type="xsd:dateTime"/>
+      <element name="to" type="xsd:dateTime"/>
+      <element name="projectId" type="xsd:int"/>
+      <element name="code" type="xsd:string"/>
+      <element name="isLiquidated" type="xsd:boolean"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="getBillsWithFiltersResponse">
+    <complexType>
+     <sequence>
+      <element maxOccurs="unbounded" name="getBillsWithFiltersReturn" type="tns1:VOBill"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="insertCategory">
+    <complexType>
+     <sequence>
+      <element name="voCategory" type="tns1:VOCategory"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="insertCategoryResponse">
+    <complexType>
+     <sequence>
+      <element name="insertCategoryReturn" type="xsd:boolean"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="getBillsByProject">
+    <complexType>
+     <sequence>
+      <element name="projectId" type="xsd:int"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="getBillsByProjectResponse">
+    <complexType>
+     <sequence>
+      <element maxOccurs="unbounded" name="getBillsByProjectReturn" type="tns1:VOBill"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="getDistributionTypes">
+    <complexType/>
+   </element>
+   <element name="getDistributionTypesResponse">
+    <complexType>
+     <sequence>
+      <element maxOccurs="unbounded" name="getDistributionTypesReturn" type="tns1:VODistributionType"/>
+     </sequence>
+    </complexType>
+   </element>
   </schema>
   <schema elementFormDefault="qualified" targetNamespace="http://valueObject.entity.servicelayer" xmlns="http://www.w3.org/2001/XMLSchema">
+   <import namespace="http://service.servicelayer"/>
+   <import namespace="http://xml.apache.org/xml-soap"/>
    <complexType name="VOUser">
     <sequence>
      <element name="email" nillable="true" type="xsd:string"/>
@@ -73,30 +581,385 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
      <element name="name" nillable="true" type="xsd:string"/>
      <element name="password" nillable="true" type="xsd:string"/>
      <element name="userName" nillable="true" type="xsd:string"/>
+     <element name="userStatus" type="xsd:int"/>
+     <element name="userType" type="xsd:int"/>
+    </sequence>
+   </complexType>
+   <complexType name="VOCategory">
+    <sequence>
+     <element name="amountDollar" type="xsd:double"/>
+     <element name="amountPeso" type="xsd:double"/>
+     <element name="appliedDateTimeUTC" nillable="true" type="xsd:dateTime"/>
+     <element name="categoryType" type="xsd:int"/>
+     <element name="description" nillable="true" type="xsd:string"/>
+     <element name="id" type="xsd:int"/>
+     <element name="isCurrencyDollar" type="xsd:boolean"/>
+     <element name="isRRHH" type="xsd:boolean"/>
+     <element name="projectClosed" type="xsd:boolean"/>
+     <element name="projectId" type="xsd:int"/>
+     <element name="projectName" nillable="true" type="xsd:string"/>
+     <element name="typeExchange" type="xsd:double"/>
+     <element name="updatedDateTimeUTC" nillable="true" type="xsd:dateTime"/>
+     <element name="version" type="xsd:int"/>
+    </sequence>
+   </complexType>
+   <complexType name="VOProjectEmployed">
+    <sequence>
+     <element name="createdDateTimeUTC" nillable="true" type="xsd:dateTime"/>
+     <element name="employedId" type="xsd:int"/>
+     <element name="employedLastname" nillable="true" type="xsd:string"/>
+     <element name="employedName" nillable="true" type="xsd:string"/>
+     <element name="enabled" type="xsd:boolean"/>
+     <element name="hours" type="xsd:int"/>
+     <element name="updatedDateTimeUTC" nillable="true" type="xsd:dateTime"/>
+     <element name="version" type="xsd:int"/>
+    </sequence>
+   </complexType>
+   <complexType name="VODistributionType">
+    <sequence>
+     <element name="description" nillable="true" type="xsd:string"/>
+     <element name="id" type="xsd:int"/>
+     <element name="value" nillable="true" type="xsd:string"/>
+    </sequence>
+   </complexType>
+   <complexType name="VOProjectPartner">
+    <sequence>
+     <element name="createdDateTimeUTC" nillable="true" type="xsd:dateTime"/>
+     <element name="distributionType" nillable="true" type="tns1:VODistributionType"/>
+     <element name="employedId" type="xsd:int"/>
+     <element name="employedLastName" nillable="true" type="xsd:string"/>
+     <element name="employedName" nillable="true" type="xsd:string"/>
+     <element name="enabled" type="xsd:boolean"/>
+     <element name="updatedDateTimeUTC" nillable="true" type="xsd:dateTime"/>
+     <element name="version" type="xsd:int"/>
+    </sequence>
+   </complexType>
+   <complexType name="VOProject">
+    <sequence>
+     <element name="closed" type="xsd:boolean"/>
+     <element name="createdDateTimeUTC" nillable="true" type="xsd:dateTime"/>
+     <element name="description" nillable="true" type="xsd:string"/>
+     <element name="id" type="xsd:int"/>
+     <element name="managerId" type="xsd:int"/>
+     <element name="managerLastName" nillable="true" type="xsd:string"/>
+     <element name="managerName" nillable="true" type="xsd:string"/>
+     <element name="name" nillable="true" type="xsd:string"/>
+     <element name="sellerId" type="xsd:int"/>
+     <element name="sellerLastname" nillable="true" type="xsd:string"/>
+     <element name="sellerName" nillable="true" type="xsd:string"/>
+     <element name="updatedDateTimeUTC" nillable="true" type="xsd:dateTime"/>
+     <element name="voEmployedProjects" nillable="true" type="impl:ArrayOf_tns1_VOProjectEmployed"/>
+     <element name="voPartnerProjects" nillable="true" type="impl:ArrayOf_tns1_VOProjectPartner"/>
+    </sequence>
+   </complexType>
+   <complexType name="VOSalarySummary">
+    <sequence>
+     <element name="bSE" type="xsd:double"/>
+     <element name="costMonth" type="xsd:double"/>
+     <element name="costRealHour" type="xsd:double"/>
+     <element name="costSaleHour" type="xsd:double"/>
+     <element name="createdDateTimeUTC" nillable="true" type="xsd:dateTime"/>
+     <element name="dismissalPrevention" type="xsd:double"/>
+     <element name="employersContributionsRetirement" type="xsd:double"/>
+     <element name="employersFONASAContribution" type="xsd:double"/>
+     <element name="employersFRLContribution" type="xsd:double"/>
+     <element name="hours" type="xsd:int"/>
+     <element name="iRPF" type="xsd:double"/>
+     <element name="id" type="xsd:int"/>
+     <element name="incidenceSalary" type="xsd:double"/>
+     <element name="incidenceTickets" type="xsd:double"/>
+     <element name="nominalSalary" type="xsd:double"/>
+     <element name="nominalWithoutContributions" type="xsd:double"/>
+     <element name="percentageTypeFONASA" type="xsd:double"/>
+     <element name="personalFONASAContribution" type="xsd:double"/>
+     <element name="personalFRLContribution" type="xsd:double"/>
+     <element name="personalRetirementContribution" type="xsd:double"/>
+     <element name="rET" type="xsd:double"/>
+     <element name="salaryToPay" type="xsd:double"/>
+     <element name="tickets" type="xsd:double"/>
+     <element name="ticketsEmployers" type="xsd:double"/>
+     <element name="totalDiscounts" type="xsd:double"/>
+     <element name="totalEmployerContributions" type="xsd:double"/>
+     <element name="version" type="xsd:int"/>
+    </sequence>
+   </complexType>
+   <complexType name="VOEmployed">
+    <sequence>
+     <element name="address" nillable="true" type="xsd:string"/>
+     <element name="cellPhone" nillable="true" type="xsd:string"/>
+     <element name="createdDateTimeUTC" nillable="true" type="xsd:dateTime"/>
+     <element name="email" nillable="true" type="xsd:string"/>
+     <element name="employedType" type="xsd:int"/>
+     <element name="id" type="xsd:int"/>
+     <element name="lastName" nillable="true" type="xsd:string"/>
+     <element name="name" nillable="true" type="xsd:string"/>
+     <element name="updatedDateTimeUTC" nillable="true" type="xsd:dateTime"/>
+     <element name="vOSalarySummaries" nillable="true" type="impl:ArrayOf_xsd_anyType"/>
+     <element name="vOSalarySummary" nillable="true" type="tns1:VOSalarySummary"/>
+    </sequence>
+   </complexType>
+   <complexType name="VOBill">
+    <sequence>
+     <element name="amountChargedDollar" type="xsd:double"/>
+     <element name="amountChargedPeso" type="xsd:double"/>
+     <element name="amountDollar" type="xsd:double"/>
+     <element name="amountPeso" type="xsd:double"/>
+     <element name="appliedDateTimeUTC" nillable="true" type="xsd:dateTime"/>
+     <element name="code" nillable="true" type="xsd:string"/>
+     <element name="description" nillable="true" type="xsd:string"/>
+     <element name="id" type="xsd:int"/>
+     <element name="isCurrencyDollar" type="xsd:boolean"/>
+     <element name="liquidated" type="xsd:boolean"/>
+     <element name="projectClosed" type="xsd:boolean"/>
+     <element name="projectId" type="xsd:int"/>
+     <element name="projectName" nillable="true" type="xsd:string"/>
+     <element name="typeExchange" type="xsd:double"/>
+    </sequence>
+   </complexType>
+   <complexType name="VOCharge">
+    <sequence>
+     <element name="amountDollar" type="xsd:double"/>
+     <element name="amountPeso" type="xsd:double"/>
+     <element name="billId" type="xsd:int"/>
+     <element name="createdDateTimeUTC" nillable="true" type="xsd:dateTime"/>
+     <element name="description" nillable="true" type="xsd:string"/>
+     <element name="id" type="xsd:int"/>
+     <element name="isCurrencyDollar" type="xsd:boolean"/>
+     <element name="number" nillable="true" type="xsd:string"/>
+     <element name="typeExchange" type="xsd:double"/>
+    </sequence>
+   </complexType>
+  </schema>
+  <schema elementFormDefault="qualified" targetNamespace="http://xml.apache.org/xml-soap" xmlns="http://www.w3.org/2001/XMLSchema">
+   <import namespace="http://service.servicelayer"/>
+   <import namespace="http://valueObject.entity.servicelayer"/>
+   <complexType name="Vector">
+    <sequence>
+     <element maxOccurs="unbounded" minOccurs="0" name="item" type="xsd:anyType"/>
     </sequence>
    </complexType>
   </schema>
  </wsdl:types>
 
-   <wsdl:message name="insertRequest">
+   <wsdl:message name="getProjectResponse">
 
-      <wsdl:part element="impl:insert" name="parameters">
-
-      </wsdl:part>
-
-   </wsdl:message>
-
-   <wsdl:message name="insertResponse">
-
-      <wsdl:part element="impl:insertResponse" name="parameters">
+      <wsdl:part element="impl:getProjectResponse" name="parameters">
 
       </wsdl:part>
 
    </wsdl:message>
 
-   <wsdl:message name="getAllUsersRequest">
+   <wsdl:message name="getUsersRequest">
 
-      <wsdl:part element="impl:getAllUsers" name="parameters">
+      <wsdl:part element="impl:getUsers" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="insertProjectRequest">
+
+      <wsdl:part element="impl:insertProject" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="getUsersByStatusResponse">
+
+      <wsdl:part element="impl:getUsersByStatusResponse" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="deleteEmployedRequest">
+
+      <wsdl:part element="impl:deleteEmployed" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="getAllVersionsSalarySummaryResponse">
+
+      <wsdl:part element="impl:getAllVersionsSalarySummaryResponse" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="getDistributionTypesResponse">
+
+      <wsdl:part element="impl:getDistributionTypesResponse" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="getCategoriesByProjectRequest">
+
+      <wsdl:part element="impl:getCategoriesByProject" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="insertUserResponse">
+
+      <wsdl:part element="impl:insertUserResponse" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="insertBillRequest">
+
+      <wsdl:part element="impl:insertBill" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="deleteBillsRequest">
+
+      <wsdl:part element="impl:deleteBills" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="changePasswordResponse">
+
+      <wsdl:part element="impl:changePasswordResponse" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="deleteUserRequest">
+
+      <wsdl:part element="impl:deleteUser" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="getEmployedRequest">
+
+      <wsdl:part element="impl:getEmployed" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="getProjectRequest">
+
+      <wsdl:part element="impl:getProject" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="getCategoriesByProjectResponse">
+
+      <wsdl:part element="impl:getCategoriesByProjectResponse" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="deleteCategoryResponse">
+
+      <wsdl:part element="impl:deleteCategoryResponse" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="insertChargeResponse">
+
+      <wsdl:part element="impl:insertChargeResponse" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="getProjectsResponse">
+
+      <wsdl:part element="impl:getProjectsResponse" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="getAllSalarySummaryVersionResponse">
+
+      <wsdl:part element="impl:getAllSalarySummaryVersionResponse" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="existUserResponse">
+
+      <wsdl:part element="impl:existUserResponse" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="deleteEmployedResponse">
+
+      <wsdl:part element="impl:deleteEmployedResponse" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="getSalarySummaryByVersionResponse">
+
+      <wsdl:part element="impl:getSalarySummaryByVersionResponse" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="deleteProjectRequest">
+
+      <wsdl:part element="impl:deleteProject" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="resetPasswordResponse">
+
+      <wsdl:part element="impl:resetPasswordResponse" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="insertProjectResponse">
+
+      <wsdl:part element="impl:insertProjectResponse" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="getBillsByProjectRequest">
+
+      <wsdl:part element="impl:getBillsByProject" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="getDistributionTypesRequest">
+
+      <wsdl:part element="impl:getDistributionTypes" name="parameters">
 
       </wsdl:part>
 
@@ -110,9 +973,153 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
 
    </wsdl:message>
 
-   <wsdl:message name="existRequest">
+   <wsdl:message name="deleteProjectResponse">
 
-      <wsdl:part element="impl:exist" name="parameters">
+      <wsdl:part element="impl:deleteProjectResponse" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="getSalarySummaryByVersionRequest">
+
+      <wsdl:part element="impl:getSalarySummaryByVersion" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="unlockUserRequest">
+
+      <wsdl:part element="impl:unlockUser" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="updatedEmployedRequest">
+
+      <wsdl:part element="impl:updatedEmployed" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="insertEmployedRequest">
+
+      <wsdl:part element="impl:insertEmployed" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="loginRequest">
+
+      <wsdl:part element="impl:login" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="unlockUserResponse">
+
+      <wsdl:part element="impl:unlockUserResponse" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="getCategoriesResponse">
+
+      <wsdl:part element="impl:getCategoriesResponse" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="getEmployeesResponse">
+
+      <wsdl:part element="impl:getEmployeesResponse" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="estimateSalarySummaryResponse">
+
+      <wsdl:part element="impl:estimateSalarySummaryResponse" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="getBillsRequest">
+
+      <wsdl:part element="impl:getBills" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="getCategoryRequest">
+
+      <wsdl:part element="impl:getCategory" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="getAllSalarySummaryVersionRequest">
+
+      <wsdl:part element="impl:getAllSalarySummaryVersion" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="resetPasswordRequest">
+
+      <wsdl:part element="impl:resetPassword" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="deleteBillsResponse">
+
+      <wsdl:part element="impl:deleteBillsResponse" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="insertBillResponse">
+
+      <wsdl:part element="impl:insertBillResponse" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="getEmployedResponse">
+
+      <wsdl:part element="impl:getEmployedResponse" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="estimateSalarySummaryRequest">
+
+      <wsdl:part element="impl:estimateSalarySummary" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="forgotPasswordRequest">
+
+      <wsdl:part element="impl:forgotPassword" name="parameters">
 
       </wsdl:part>
 
@@ -126,33 +1133,249 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
 
    </wsdl:message>
 
-   <wsdl:message name="deleteResponse">
+   <wsdl:message name="updatedEmployedResponse">
 
-      <wsdl:part element="impl:deleteResponse" name="parameters">
-
-      </wsdl:part>
-
-   </wsdl:message>
-
-   <wsdl:message name="deleteRequest">
-
-      <wsdl:part element="impl:delete" name="parameters">
+      <wsdl:part element="impl:updatedEmployedResponse" name="parameters">
 
       </wsdl:part>
 
    </wsdl:message>
 
-   <wsdl:message name="getAllUsersResponse">
+   <wsdl:message name="loginResponse">
 
-      <wsdl:part element="impl:getAllUsersResponse" name="parameters">
+      <wsdl:part element="impl:loginResponse" name="parameters">
 
       </wsdl:part>
 
    </wsdl:message>
 
-   <wsdl:message name="existResponse">
+   <wsdl:message name="getBillsWithFiltersRequest">
 
-      <wsdl:part element="impl:existResponse" name="parameters">
+      <wsdl:part element="impl:getBillsWithFilters" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="insertCategoryResponse">
+
+      <wsdl:part element="impl:insertCategoryResponse" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="updateCategoryResponse">
+
+      <wsdl:part element="impl:updateCategoryResponse" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="updateCategoryRequest">
+
+      <wsdl:part element="impl:updateCategory" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="getProjectsByStatusResponse">
+
+      <wsdl:part element="impl:getProjectsByStatusResponse" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="updateUserResponse">
+
+      <wsdl:part element="impl:updateUserResponse" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="insertEmployedResponse">
+
+      <wsdl:part element="impl:insertEmployedResponse" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="getUsersByStatusRequest">
+
+      <wsdl:part element="impl:getUsersByStatus" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="getBillsByProjectResponse">
+
+      <wsdl:part element="impl:getBillsByProjectResponse" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="getAllVersionsSalarySummaryRequest">
+
+      <wsdl:part element="impl:getAllVersionsSalarySummary" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="insertUserRequest">
+
+      <wsdl:part element="impl:insertUser" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="getBillsResponse">
+
+      <wsdl:part element="impl:getBillsResponse" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="getProjectsByStatusRequest">
+
+      <wsdl:part element="impl:getProjectsByStatus" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="getUsersResponse">
+
+      <wsdl:part element="impl:getUsersResponse" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="updateBillRequest">
+
+      <wsdl:part element="impl:updateBill" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="getEmployeesRequest">
+
+      <wsdl:part element="impl:getEmployees" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="getBillsWithFiltersResponse">
+
+      <wsdl:part element="impl:getBillsWithFiltersResponse" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="getProjectsRequest">
+
+      <wsdl:part element="impl:getProjects" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="updateUserRequest">
+
+      <wsdl:part element="impl:updateUser" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="getCategoriesRequest">
+
+      <wsdl:part element="impl:getCategories" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="changePasswordRequest">
+
+      <wsdl:part element="impl:changePassword" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="insertCategoryRequest">
+
+      <wsdl:part element="impl:insertCategory" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="updateBillResponse">
+
+      <wsdl:part element="impl:updateBillResponse" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="forgotPasswordResponse">
+
+      <wsdl:part element="impl:forgotPasswordResponse" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="getCategoryResponse">
+
+      <wsdl:part element="impl:getCategoryResponse" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="deleteUserResponse">
+
+      <wsdl:part element="impl:deleteUserResponse" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="insertChargeRequest">
+
+      <wsdl:part element="impl:insertCharge" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="existUserRequest">
+
+      <wsdl:part element="impl:existUser" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="deleteCategoryRequest">
+
+      <wsdl:part element="impl:deleteCategory" name="parameters">
 
       </wsdl:part>
 
@@ -160,49 +1383,85 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
 
    <wsdl:portType name="ServiceWeb">
 
-      <wsdl:operation name="delete">
+      <wsdl:operation name="getUsers">
 
-         <wsdl:input message="impl:deleteRequest" name="deleteRequest">
+         <wsdl:input message="impl:getUsersRequest" name="getUsersRequest">
 
        </wsdl:input>
 
-         <wsdl:output message="impl:deleteResponse" name="deleteResponse">
+         <wsdl:output message="impl:getUsersResponse" name="getUsersResponse">
 
        </wsdl:output>
 
       </wsdl:operation>
 
-      <wsdl:operation name="insert">
+      <wsdl:operation name="login">
 
-         <wsdl:input message="impl:insertRequest" name="insertRequest">
+         <wsdl:input message="impl:loginRequest" name="loginRequest">
 
        </wsdl:input>
 
-         <wsdl:output message="impl:insertResponse" name="insertResponse">
+         <wsdl:output message="impl:loginResponse" name="loginResponse">
 
        </wsdl:output>
 
       </wsdl:operation>
 
-      <wsdl:operation name="getAllUsers">
+      <wsdl:operation name="getCategories">
 
-         <wsdl:input message="impl:getAllUsersRequest" name="getAllUsersRequest">
+         <wsdl:input message="impl:getCategoriesRequest" name="getCategoriesRequest">
 
        </wsdl:input>
 
-         <wsdl:output message="impl:getAllUsersResponse" name="getAllUsersResponse">
+         <wsdl:output message="impl:getCategoriesResponse" name="getCategoriesResponse">
 
        </wsdl:output>
 
       </wsdl:operation>
 
-      <wsdl:operation name="exist">
+      <wsdl:operation name="getCategory">
 
-         <wsdl:input message="impl:existRequest" name="existRequest">
+         <wsdl:input message="impl:getCategoryRequest" name="getCategoryRequest">
 
        </wsdl:input>
 
-         <wsdl:output message="impl:existResponse" name="existResponse">
+         <wsdl:output message="impl:getCategoryResponse" name="getCategoryResponse">
+
+       </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getProject">
+
+         <wsdl:input message="impl:getProjectRequest" name="getProjectRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:getProjectResponse" name="getProjectResponse">
+
+       </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getProjects">
+
+         <wsdl:input message="impl:getProjectsRequest" name="getProjectsRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:getProjectsResponse" name="getProjectsResponse">
+
+       </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="deleteProject">
+
+         <wsdl:input message="impl:deleteProjectRequest" name="deleteProjectRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:deleteProjectResponse" name="deleteProjectResponse">
 
        </wsdl:output>
 
@@ -220,23 +1479,407 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
 
       </wsdl:operation>
 
+      <wsdl:operation name="updateCategory">
+
+         <wsdl:input message="impl:updateCategoryRequest" name="updateCategoryRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:updateCategoryResponse" name="updateCategoryResponse">
+
+       </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="changePassword">
+
+         <wsdl:input message="impl:changePasswordRequest" name="changePasswordRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:changePasswordResponse" name="changePasswordResponse">
+
+       </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="deleteCategory">
+
+         <wsdl:input message="impl:deleteCategoryRequest" name="deleteCategoryRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:deleteCategoryResponse" name="deleteCategoryResponse">
+
+       </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getCategoriesByProject">
+
+         <wsdl:input message="impl:getCategoriesByProjectRequest" name="getCategoriesByProjectRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:getCategoriesByProjectResponse" name="getCategoriesByProjectResponse">
+
+       </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getAllSalarySummaryVersion">
+
+         <wsdl:input message="impl:getAllSalarySummaryVersionRequest" name="getAllSalarySummaryVersionRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:getAllSalarySummaryVersionResponse" name="getAllSalarySummaryVersionResponse">
+
+       </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getAllVersionsSalarySummary">
+
+         <wsdl:input message="impl:getAllVersionsSalarySummaryRequest" name="getAllVersionsSalarySummaryRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:getAllVersionsSalarySummaryResponse" name="getAllVersionsSalarySummaryResponse">
+
+       </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getSalarySummaryByVersion">
+
+         <wsdl:input message="impl:getSalarySummaryByVersionRequest" name="getSalarySummaryByVersionRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:getSalarySummaryByVersionResponse" name="getSalarySummaryByVersionResponse">
+
+       </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="existUser">
+
+         <wsdl:input message="impl:existUserRequest" name="existUserRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:existUserResponse" name="existUserResponse">
+
+       </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="deleteUser">
+
+         <wsdl:input message="impl:deleteUserRequest" name="deleteUserRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:deleteUserResponse" name="deleteUserResponse">
+
+       </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="unlockUser">
+
+         <wsdl:input message="impl:unlockUserRequest" name="unlockUserRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:unlockUserResponse" name="unlockUserResponse">
+
+       </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="updateUser">
+
+         <wsdl:input message="impl:updateUserRequest" name="updateUserRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:updateUserResponse" name="updateUserResponse">
+
+       </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="resetPassword">
+
+         <wsdl:input message="impl:resetPasswordRequest" name="resetPasswordRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:resetPasswordResponse" name="resetPasswordResponse">
+
+       </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getEmployees">
+
+         <wsdl:input message="impl:getEmployeesRequest" name="getEmployeesRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:getEmployeesResponse" name="getEmployeesResponse">
+
+       </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getEmployed">
+
+         <wsdl:input message="impl:getEmployedRequest" name="getEmployedRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:getEmployedResponse" name="getEmployedResponse">
+
+       </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="insertUser">
+
+         <wsdl:input message="impl:insertUserRequest" name="insertUserRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:insertUserResponse" name="insertUserResponse">
+
+       </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="deleteBills">
+
+         <wsdl:input message="impl:deleteBillsRequest" name="deleteBillsRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:deleteBillsResponse" name="deleteBillsResponse">
+
+       </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="insertBill">
+
+         <wsdl:input message="impl:insertBillRequest" name="insertBillRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:insertBillResponse" name="insertBillResponse">
+
+       </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getBills">
+
+         <wsdl:input message="impl:getBillsRequest" name="getBillsRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:getBillsResponse" name="getBillsResponse">
+
+       </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="insertCharge">
+
+         <wsdl:input message="impl:insertChargeRequest" name="insertChargeRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:insertChargeResponse" name="insertChargeResponse">
+
+       </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="updateBill">
+
+         <wsdl:input message="impl:updateBillRequest" name="updateBillRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:updateBillResponse" name="updateBillResponse">
+
+       </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="insertProject">
+
+         <wsdl:input message="impl:insertProjectRequest" name="insertProjectRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:insertProjectResponse" name="insertProjectResponse">
+
+       </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="forgotPassword">
+
+         <wsdl:input message="impl:forgotPasswordRequest" name="forgotPasswordRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:forgotPasswordResponse" name="forgotPasswordResponse">
+
+       </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getUsersByStatus">
+
+         <wsdl:input message="impl:getUsersByStatusRequest" name="getUsersByStatusRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:getUsersByStatusResponse" name="getUsersByStatusResponse">
+
+       </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="insertEmployed">
+
+         <wsdl:input message="impl:insertEmployedRequest" name="insertEmployedRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:insertEmployedResponse" name="insertEmployedResponse">
+
+       </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="estimateSalarySummary">
+
+         <wsdl:input message="impl:estimateSalarySummaryRequest" name="estimateSalarySummaryRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:estimateSalarySummaryResponse" name="estimateSalarySummaryResponse">
+
+       </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="deleteEmployed">
+
+         <wsdl:input message="impl:deleteEmployedRequest" name="deleteEmployedRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:deleteEmployedResponse" name="deleteEmployedResponse">
+
+       </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="updatedEmployed">
+
+         <wsdl:input message="impl:updatedEmployedRequest" name="updatedEmployedRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:updatedEmployedResponse" name="updatedEmployedResponse">
+
+       </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getProjectsByStatus">
+
+         <wsdl:input message="impl:getProjectsByStatusRequest" name="getProjectsByStatusRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:getProjectsByStatusResponse" name="getProjectsByStatusResponse">
+
+       </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getBillsWithFilters">
+
+         <wsdl:input message="impl:getBillsWithFiltersRequest" name="getBillsWithFiltersRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:getBillsWithFiltersResponse" name="getBillsWithFiltersResponse">
+
+       </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="insertCategory">
+
+         <wsdl:input message="impl:insertCategoryRequest" name="insertCategoryRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:insertCategoryResponse" name="insertCategoryResponse">
+
+       </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getBillsByProject">
+
+         <wsdl:input message="impl:getBillsByProjectRequest" name="getBillsByProjectRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:getBillsByProjectResponse" name="getBillsByProjectResponse">
+
+       </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getDistributionTypes">
+
+         <wsdl:input message="impl:getDistributionTypesRequest" name="getDistributionTypesRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:getDistributionTypesResponse" name="getDistributionTypesResponse">
+
+       </wsdl:output>
+
+      </wsdl:operation>
+
    </wsdl:portType>
 
    <wsdl:binding name="ServiceWebSoapBinding" type="impl:ServiceWeb">
 
       <wsdlsoap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
 
-      <wsdl:operation name="delete">
+      <wsdl:operation name="getUsers">
 
          <wsdlsoap:operation soapAction=""/>
 
-         <wsdl:input name="deleteRequest">
+         <wsdl:input name="getUsersRequest">
 
             <wsdlsoap:body use="literal"/>
 
          </wsdl:input>
 
-         <wsdl:output name="deleteResponse">
+         <wsdl:output name="getUsersResponse">
 
             <wsdlsoap:body use="literal"/>
 
@@ -244,17 +1887,17 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
 
       </wsdl:operation>
 
-      <wsdl:operation name="insert">
+      <wsdl:operation name="login">
 
          <wsdlsoap:operation soapAction=""/>
 
-         <wsdl:input name="insertRequest">
+         <wsdl:input name="loginRequest">
 
             <wsdlsoap:body use="literal"/>
 
          </wsdl:input>
 
-         <wsdl:output name="insertResponse">
+         <wsdl:output name="loginResponse">
 
             <wsdlsoap:body use="literal"/>
 
@@ -262,17 +1905,17 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
 
       </wsdl:operation>
 
-      <wsdl:operation name="getAllUsers">
+      <wsdl:operation name="getCategories">
 
          <wsdlsoap:operation soapAction=""/>
 
-         <wsdl:input name="getAllUsersRequest">
+         <wsdl:input name="getCategoriesRequest">
 
             <wsdlsoap:body use="literal"/>
 
          </wsdl:input>
 
-         <wsdl:output name="getAllUsersResponse">
+         <wsdl:output name="getCategoriesResponse">
 
             <wsdlsoap:body use="literal"/>
 
@@ -280,17 +1923,71 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
 
       </wsdl:operation>
 
-      <wsdl:operation name="exist">
+      <wsdl:operation name="getCategory">
 
          <wsdlsoap:operation soapAction=""/>
 
-         <wsdl:input name="existRequest">
+         <wsdl:input name="getCategoryRequest">
 
             <wsdlsoap:body use="literal"/>
 
          </wsdl:input>
 
-         <wsdl:output name="existResponse">
+         <wsdl:output name="getCategoryResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getProject">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="getProjectRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="getProjectResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getProjects">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="getProjectsRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="getProjectsResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="deleteProject">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="deleteProjectRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="deleteProjectResponse">
 
             <wsdlsoap:body use="literal"/>
 
@@ -309,6 +2006,582 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
          </wsdl:input>
 
          <wsdl:output name="getUserResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="updateCategory">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="updateCategoryRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="updateCategoryResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="changePassword">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="changePasswordRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="changePasswordResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="deleteCategory">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="deleteCategoryRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="deleteCategoryResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getCategoriesByProject">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="getCategoriesByProjectRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="getCategoriesByProjectResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getAllSalarySummaryVersion">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="getAllSalarySummaryVersionRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="getAllSalarySummaryVersionResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getAllVersionsSalarySummary">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="getAllVersionsSalarySummaryRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="getAllVersionsSalarySummaryResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getSalarySummaryByVersion">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="getSalarySummaryByVersionRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="getSalarySummaryByVersionResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="existUser">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="existUserRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="existUserResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="deleteUser">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="deleteUserRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="deleteUserResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="unlockUser">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="unlockUserRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="unlockUserResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="updateUser">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="updateUserRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="updateUserResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="resetPassword">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="resetPasswordRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="resetPasswordResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getEmployees">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="getEmployeesRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="getEmployeesResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getEmployed">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="getEmployedRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="getEmployedResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="insertUser">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="insertUserRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="insertUserResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="deleteBills">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="deleteBillsRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="deleteBillsResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="insertBill">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="insertBillRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="insertBillResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getBills">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="getBillsRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="getBillsResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="insertCharge">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="insertChargeRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="insertChargeResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="updateBill">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="updateBillRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="updateBillResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="insertProject">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="insertProjectRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="insertProjectResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="forgotPassword">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="forgotPasswordRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="forgotPasswordResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getUsersByStatus">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="getUsersByStatusRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="getUsersByStatusResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="insertEmployed">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="insertEmployedRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="insertEmployedResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="estimateSalarySummary">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="estimateSalarySummaryRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="estimateSalarySummaryResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="deleteEmployed">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="deleteEmployedRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="deleteEmployedResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="updatedEmployed">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="updatedEmployedRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="updatedEmployedResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getProjectsByStatus">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="getProjectsByStatusRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="getProjectsByStatusResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getBillsWithFilters">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="getBillsWithFiltersRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="getBillsWithFiltersResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="insertCategory">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="insertCategoryRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="insertCategoryResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getBillsByProject">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="getBillsByProjectRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="getBillsByProjectResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getDistributionTypes">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="getDistributionTypesRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="getDistributionTypesResponse">
 
             <wsdlsoap:body use="literal"/>
 

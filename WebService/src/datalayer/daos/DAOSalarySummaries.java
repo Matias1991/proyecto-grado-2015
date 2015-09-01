@@ -8,7 +8,6 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
 import servicelayer.entity.businessEntity.SalarySummary;
-import servicelayer.entity.businessEntity.SalarySummaryVersion;
 import shared.LoggerMSMP;
 import shared.exceptions.ServerException;
 import shared.interfaces.dataLayer.IDAOSalarySummaries;
@@ -438,9 +437,9 @@ public class DAOSalarySummaries implements IDAOSalarySummaries {
 	}
 
 	@Override
-	public ArrayList<SalarySummaryVersion> getAllVersionsDateSalarySummary(
+	public ArrayList<SalarySummary> getAllVersionsDateSalarySummary(
 			int employedId) throws ServerException {
-		ArrayList<SalarySummaryVersion> list = new ArrayList<SalarySummaryVersion>();
+		ArrayList<SalarySummary> list = new ArrayList<SalarySummary>();
 		PreparedStatement preparedStatement = null;
 		ResultSet rs = null;
 		String getSQL = "SELECT VERSION, CREATEDDATETIMEUTC FROM SALARYSUMMARY WHERE EMPLOYEDID = ?  ORDER BY CREATEDDATETIMEUTC DESC";
@@ -453,7 +452,7 @@ public class DAOSalarySummaries implements IDAOSalarySummaries {
 			rs = preparedStatement.executeQuery();
 
 			while (rs.next()) {
-				SalarySummaryVersion aux = new SalarySummaryVersion();
+				SalarySummary aux = new SalarySummary();
 				aux.setCreatedDateTimeUTC(rs.getDate("createdDateTimeUTC"));
 				aux.setVersion(rs.getInt("version"));
 				list.add(aux);

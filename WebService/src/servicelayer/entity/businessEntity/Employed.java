@@ -159,9 +159,9 @@ public class Employed {
 		return iDAOSalarySummaries.getALLVersionsSalarySummary(this.id);
 	}
 
-	public ArrayList<SalarySummaryVersion> getAllSalarySummaryVersion()
+	public ArrayList<SalarySummary> getAllSalarySummaryVersion(int id)
 			throws ServerException {
-		return iDAOSalarySummaries.getAllVersionsDateSalarySummary(this.id);
+		return iDAOSalarySummaries.getAllVersionsDateSalarySummary(id);
 	}
 
 	public SalarySummary getSalarySummaryByVersion(int version)

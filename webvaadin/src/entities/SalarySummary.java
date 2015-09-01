@@ -1,5 +1,6 @@
 package entities;
 
+import java.util.Date;
 import java.util.List;
 
 import servicelayer.service.ServiceWebStub.VOSalarySummary;
@@ -32,6 +33,7 @@ public class SalarySummary {
 	private double costSaleHour;	
 	private double percentageTypeFONASA;
 	private int hours;
+	private Date createdDateTimeUTC;
 	
 	public SalarySummary(){
 		
@@ -64,6 +66,7 @@ public class SalarySummary {
 		this.costSaleHour = voSalarySummary.getCostSaleHour();
 		this.percentageTypeFONASA = voSalarySummary.getPercentageTypeFONASA();
 		this.hours = voSalarySummary.getHours();	
+		this.createdDateTimeUTC = voSalarySummary.getCreatedDateTimeUTC();
 	}
 
 	public int getId() {
@@ -276,6 +279,15 @@ public class SalarySummary {
 		this.hours = hours;
 	}
 	
+	
+	public Date getCreatedDateTimeUTC() {
+		return createdDateTimeUTC;
+	}
+
+	public void setCreatedDateTimeUTC(Date createdDateTimeUTC) {
+		this.createdDateTimeUTC = createdDateTimeUTC;
+	}
+
 	public VOSalarySummary toVOSalarySummary(){
 		VOSalarySummary voSalarySummary = new VOSalarySummary();
 		voSalarySummary.setBSE(this.bSE);
@@ -304,6 +316,7 @@ public class SalarySummary {
 		voSalarySummary.setTotalDiscounts(this.totalDiscounts);
 		voSalarySummary.setTotalEmployerContributions(this.totalEmployerContributions);
 		voSalarySummary.setVersion(this.version);
+		voSalarySummary.setCreatedDateTimeUTC(createdDateTimeUTC);
 		
 		return voSalarySummary;
 		

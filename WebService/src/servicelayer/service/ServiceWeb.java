@@ -23,13 +23,13 @@ import servicelayer.entity.valueObject.VODistributionType;
 import servicelayer.entity.valueObject.VOEmployed;
 import servicelayer.entity.valueObject.VOProject;
 import servicelayer.entity.valueObject.VOSalarySummary;
-import servicelayer.entity.valueObject.VOSalarySummaryVersion;
 import servicelayer.entity.valueObject.VOUser;
 import servicelayer.service.builder.BillBuilder;
 import servicelayer.service.builder.CategoryBuilder;
 import servicelayer.service.builder.ChargeBuilder;
 import servicelayer.service.builder.EmployedBuilder;
 import servicelayer.service.builder.ProjectBuilder;
+import servicelayer.service.builder.SalarySummaryBuilder;
 import servicelayer.service.builder.UserBuilder;
 import servicelayer.utilities.Constants;
 import shared.exceptions.ClientException;
@@ -63,6 +63,7 @@ public class ServiceWeb extends ServiceBase {
 	private static EmployedBuilder employedBuilder = new EmployedBuilder();
 	private static UserBuilder userBuilser = new UserBuilder();
 	private static ProjectBuilder projectBuilder = new ProjectBuilder();
+	private static SalarySummaryBuilder salarySummaryBuilder = new SalarySummaryBuilder();
 
 	public ServiceWeb() {
 		try {
@@ -520,16 +521,15 @@ public class ServiceWeb extends ServiceBase {
 		return null;
 	}
 
-	public VOSalarySummaryVersion[] getAllSalarySummaryVersion(int employedId) {
+	public VOSalarySummary[] getAllSalarySummaryVersion(int employedId) {
 		try {
 			transactionLock.tryLock(Constants.DEFAULT_TRANSACTION_TIME,
 					TimeUnit.SECONDS);
 
-			ArrayList<VOSalarySummaryVersion> listAllVersions = iCoreEmployed
-					.getAllSalarySummaryVersion(employedId);
-			VOSalarySummaryVersion[] arrayListVersion = new VOSalarySummaryVersion[listAllVersions
-					.size()];
-			listAllVersions.toArray(arrayListVersion);
+			VOSalarySummary[] arrayListVersion = salarySummaryBuilder
+					.BuildArrayVOObject(VOSalarySummary.class, iCoreEmployed
+							.getAllSalarySummaryVersion(employedId));
+
 			return arrayListVersion;
 
 		} catch (ServerException e) {

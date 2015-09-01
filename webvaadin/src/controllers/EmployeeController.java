@@ -15,12 +15,11 @@ import servicelayer.service.ServiceWebStub.InsertEmployed;
 import servicelayer.service.ServiceWebStub.VOEmployed;
 import servicelayer.service.ServiceWebStub.DeleteEmployed;
 import servicelayer.service.ServiceWebStub.UpdatedEmployed;
-import servicelayer.service.ServiceWebStub.VOSalarySummaryVersion;
+import servicelayer.service.ServiceWebStub.VOSalarySummary;
 import utils.PopupWindow;
 import entities.EmployedHours;
 import entities.Employee;
 import entities.SalarySummary;
-import entities.SalarySummaryVersion;
 
 public class EmployeeController {
 
@@ -145,18 +144,18 @@ public class EmployeeController {
 		return result;
 	}
 
-	public static Collection<SalarySummaryVersion> GetVersions(int idEmployee) {
-		Collection<SalarySummaryVersion> result = new ArrayList<SalarySummaryVersion>();
+	public static Collection<SalarySummary> GetVersions(int idEmployee) {
+		Collection<SalarySummary> result = new ArrayList<SalarySummary>();
 		try {
 			ServiceWebStub service = new ServiceWebStub();
 			GetAllSalarySummaryVersion version = new GetAllSalarySummaryVersion();
 
 			version.setEmployedId(idEmployee);
-			VOSalarySummaryVersion[] aux = service.getAllSalarySummaryVersion(
+			VOSalarySummary[] aux = service.getAllSalarySummaryVersion(
 					version).get_return();
 
-			for (VOSalarySummaryVersion voSalarySummaryVersion : aux) {
-				SalarySummaryVersion ssv = new SalarySummaryVersion(
+			for (VOSalarySummary voSalarySummaryVersion : aux) {
+				SalarySummary ssv = new SalarySummary(
 						voSalarySummaryVersion);
 				result.add(ssv);
 			}

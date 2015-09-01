@@ -1,6 +1,7 @@
 package servicelayer.entity.valueObject;
 
 import java.io.Serializable;
+import java.util.Date;
 
 public class VOSalarySummary implements Serializable {
 
@@ -33,6 +34,7 @@ public class VOSalarySummary implements Serializable {
 	// 0.08, 0.06, 0.03
 	private double percentageTypeFONASA;
 	private int hours;
+	private Date createdDateTimeUTC;
 
 	public int getId() {
 		return id;
@@ -245,4 +247,13 @@ public class VOSalarySummary implements Serializable {
 	public void setHours(int hours) {
 		this.hours = hours;
 	}
+
+	public Date getCreatedDateTimeUTC() {
+		return createdDateTimeUTC;
+	}
+
+	public void setCreatedDateTimeUTC(Date createdDateTimeUTC) {
+		this.createdDateTimeUTC = createdDateTimeUTC;
+	}
+	
 }

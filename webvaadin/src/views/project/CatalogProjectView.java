@@ -131,7 +131,7 @@ public class CatalogProjectView extends BaseView {
 		lblBillsEmpty.setHeight("-1px");
 
 		lblEmployeesEmpty = new Label();
-		lblEmployeesEmpty.setCaption("No tiene facturas asociadas");
+		lblEmployeesEmpty.setCaption("No tiene empleados asociados");
 		lblEmployeesEmpty.setImmediate(false);
 		lblEmployeesEmpty.setWidth("-1px");
 		lblEmployeesEmpty.setHeight("-1px");
@@ -159,6 +159,7 @@ public class CatalogProjectView extends BaseView {
 		// Empleados
 		vlbEmployees = new VerticalLayout();
 		vlbEmployees.setSpacing(true);
+		vlbEmployees.addComponent(lblEmployeesEmpty);
 		tabProject.addTab(vlbEmployees, "Empleados");
 
 		// tabProject.setVisible(false);
