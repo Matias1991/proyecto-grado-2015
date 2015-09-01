@@ -1,6 +1,7 @@
 package views.bill;
 
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
 
@@ -96,7 +97,9 @@ public class CatalogBillsView extends BaseView {
 
 	void builInputs()
 	{
-		popupDateFieldFrom.setValue(new Date());
+		Calendar cal = Calendar.getInstance();
+		cal.add(Calendar.MONTH, -1);
+		popupDateFieldFrom.setValue(cal.getTime());
 		popupDateFieldFrom.setDateFormat("MM-yyyy");
 		popupDateFieldFrom.setResolution(Resolution.MONTH);
 		
@@ -109,10 +112,7 @@ public class CatalogBillsView extends BaseView {
 	
 	public void buildGrid(){
 		
-		int projectId = 0;
-		String code = null;
-		
-		Collection<Bill> bills = BillController.getBills(popupDateFieldFrom.getValue(), popupDateFieldTo.getValue(), projectId, code, checkBoxIsLiquidated.getValue());
+		Collection<Bill> bills = BillController.getAllBillsByFilters(popupDateFieldFrom.getValue(), popupDateFieldTo.getValue(), checkBoxIsLiquidated.getValue());
 		
 		if (bills != null && bills.size() > 0) {
 			
@@ -136,9 +136,9 @@ public class CatalogBillsView extends BaseView {
 	
 			billsGrid.getColumn("code").setHeaderCaption("Código");
 			billsGrid.getColumn("description").setHeaderCaption("Descripción");
-			billsGrid.getColumn("amountToShow").setHeaderCaption("Monto");
+			billsGrid.getColumn("amountToShow").setHeaderCaption("Importe");
 			billsGrid.getColumn("typeExchangeToShow").setHeaderCaption("Tipo de cambio");
-			billsGrid.getColumn("amountChargedToShow").setHeaderCaption("Monto cobrado");
+			billsGrid.getColumn("amountChargedToShow").setHeaderCaption("Importe cobrado");
 			billsGrid.getColumn("appliedDateTimeUTCToShow").setHeaderCaption("Mes");
 			billsGrid.getColumn("projectName").setHeaderCaption("Proyecto");
 			billsGrid.setWidth(100, Unit.PERCENTAGE);

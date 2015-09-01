@@ -19,8 +19,10 @@ public class ChargeBuilder extends BaseBuilder<VOCharge, Charge>{
 		voCharge.setTypeExchange(businessObject.getTypeExchange());
 		voCharge.setCreatedDateTimeUTC(businessObject.getCreatedDateTimeUTC());
 		if(businessObject.getBill() != null)
-			voCharge.setBillId(businessObject.getBill().getId());
-		
+		{
+			voCharge.setBillCode(businessObject.getBill().getCode());
+			voCharge.setBillDescription(businessObject.getBill().getDescription());
+		}
 		return voCharge;
 	}
 

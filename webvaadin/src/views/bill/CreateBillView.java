@@ -172,6 +172,7 @@ public class CreateBillView extends BaseView {
 			}
 			
 			Collection<Project> projects = ProjectController.getActiveProjects();
+			cboxProject.removeAllItems();
 			for(Project project : projects)
 			{
 				cboxProject.addItem(project.getId());
@@ -276,9 +277,9 @@ public class CreateBillView extends BaseView {
 		
 		// txtAmount
 		txtAmount = new TextField();
-		txtAmount.setCaption("Monto");
+		txtAmount.setCaption("Importe");
 		txtAmount.setImmediate(true);
-		txtAmount.setWidth("240px");
+		txtAmount.setWidth("120px");
 		txtAmount.setHeight("-1px");
 		txtAmount.setRequired(true);
 		txtAmount.setNullRepresentation("");
@@ -317,7 +318,7 @@ public class CreateBillView extends BaseView {
 		txtTypeExchange.setNullRepresentation("");
 		txtTypeExchange.setConverter(new StringToDoubleConverter());
 		mainLayout.addComponent(txtTypeExchange,
-				"top:320.0px;right:265.0px;left:260.0px;");
+				"top:320.0px;right:265.0px;left:125px;");
 		
 		return mainLayout;
 	}

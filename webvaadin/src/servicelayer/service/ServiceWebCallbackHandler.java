@@ -109,19 +109,19 @@
             }
                 
            /**
-            * auto generated Axis2 call back method for getBillsWithFilters method
-            * override this method for handling normal response from getBillsWithFilters operation
+            * auto generated Axis2 call back method for unlockUser method
+            * override this method for handling normal response from unlockUser operation
             */
-           public void receiveResultgetBillsWithFilters(
-                    servicelayer.service.ServiceWebStub.GetBillsWithFiltersResponse result
+           public void receiveResultunlockUser(
+                    servicelayer.service.ServiceWebStub.UnlockUserResponse result
                         ) {
            }
 
           /**
            * auto generated Axis2 Error handler
-           * override this method for handling error response from getBillsWithFilters operation
+           * override this method for handling error response from unlockUser operation
            */
-            public void receiveErrorgetBillsWithFilters(java.lang.Exception e) {
+            public void receiveErrorunlockUser(java.lang.Exception e) {
             }
                 
            /**
@@ -138,22 +138,6 @@
            * override this method for handling error response from getBills operation
            */
             public void receiveErrorgetBills(java.lang.Exception e) {
-            }
-                
-           /**
-            * auto generated Axis2 call back method for unlockUser method
-            * override this method for handling normal response from unlockUser operation
-            */
-           public void receiveResultunlockUser(
-                    servicelayer.service.ServiceWebStub.UnlockUserResponse result
-                        ) {
-           }
-
-          /**
-           * auto generated Axis2 Error handler
-           * override this method for handling error response from unlockUser operation
-           */
-            public void receiveErrorunlockUser(java.lang.Exception e) {
             }
                 
            /**
@@ -317,6 +301,22 @@
             }
                 
            /**
+            * auto generated Axis2 call back method for getBillsByFiltersWithCharges method
+            * override this method for handling normal response from getBillsByFiltersWithCharges operation
+            */
+           public void receiveResultgetBillsByFiltersWithCharges(
+                    servicelayer.service.ServiceWebStub.GetBillsByFiltersWithChargesResponse result
+                        ) {
+           }
+
+          /**
+           * auto generated Axis2 Error handler
+           * override this method for handling error response from getBillsByFiltersWithCharges operation
+           */
+            public void receiveErrorgetBillsByFiltersWithCharges(java.lang.Exception e) {
+            }
+                
+           /**
             * auto generated Axis2 call back method for deleteUser method
             * override this method for handling normal response from deleteUser operation
             */
@@ -346,6 +346,22 @@
            * override this method for handling error response from getCategoriesByProject operation
            */
             public void receiveErrorgetCategoriesByProject(java.lang.Exception e) {
+            }
+                
+           /**
+            * auto generated Axis2 call back method for getAllBillsByFilters method
+            * override this method for handling normal response from getAllBillsByFilters operation
+            */
+           public void receiveResultgetAllBillsByFilters(
+                    servicelayer.service.ServiceWebStub.GetAllBillsByFiltersResponse result
+                        ) {
+           }
+
+          /**
+           * auto generated Axis2 Error handler
+           * override this method for handling error response from getAllBillsByFilters operation
+           */
+            public void receiveErrorgetAllBillsByFilters(java.lang.Exception e) {
             }
                 
            /**
@@ -394,6 +410,22 @@
            * override this method for handling error response from resetPassword operation
            */
             public void receiveErrorresetPassword(java.lang.Exception e) {
+            }
+                
+           /**
+            * auto generated Axis2 call back method for getCharges method
+            * override this method for handling normal response from getCharges operation
+            */
+           public void receiveResultgetCharges(
+                    servicelayer.service.ServiceWebStub.GetChargesResponse result
+                        ) {
+           }
+
+          /**
+           * auto generated Axis2 Error handler
+           * override this method for handling error response from getCharges operation
+           */
+            public void receiveErrorgetCharges(java.lang.Exception e) {
             }
                 
            /**
@@ -605,6 +637,22 @@
             }
                 
            /**
+            * auto generated Axis2 call back method for deleteCharges method
+            * override this method for handling normal response from deleteCharges operation
+            */
+           public void receiveResultdeleteCharges(
+                    servicelayer.service.ServiceWebStub.DeleteChargesResponse result
+                        ) {
+           }
+
+          /**
+           * auto generated Axis2 Error handler
+           * override this method for handling error response from deleteCharges operation
+           */
+            public void receiveErrordeleteCharges(java.lang.Exception e) {
+            }
+                
+           /**
             * auto generated Axis2 call back method for getUsers method
             * override this method for handling normal response from getUsers operation
             */
@@ -637,6 +685,22 @@
             }
                 
            /**
+            * auto generated Axis2 call back method for getBillsByFilters method
+            * override this method for handling normal response from getBillsByFilters operation
+            */
+           public void receiveResultgetBillsByFilters(
+                    servicelayer.service.ServiceWebStub.GetBillsByFiltersResponse result
+                        ) {
+           }
+
+          /**
+           * auto generated Axis2 Error handler
+           * override this method for handling error response from getBillsByFilters operation
+           */
+            public void receiveErrorgetBillsByFilters(java.lang.Exception e) {
+            }
+                
+           /**
             * auto generated Axis2 call back method for updateCharge method
             * override this method for handling normal response from updateCharge operation
             */
@@ -650,6 +714,22 @@
            * override this method for handling error response from updateCharge operation
            */
             public void receiveErrorupdateCharge(java.lang.Exception e) {
+            }
+                
+           /**
+            * auto generated Axis2 call back method for getChargesByFilters method
+            * override this method for handling normal response from getChargesByFilters operation
+            */
+           public void receiveResultgetChargesByFilters(
+                    servicelayer.service.ServiceWebStub.GetChargesByFiltersResponse result
+                        ) {
+           }
+
+          /**
+           * auto generated Axis2 Error handler
+           * override this method for handling error response from getChargesByFilters operation
+           */
+            public void receiveErrorgetChargesByFilters(java.lang.Exception e) {
             }
                 
            /**

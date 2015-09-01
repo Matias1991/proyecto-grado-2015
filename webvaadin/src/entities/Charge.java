@@ -16,6 +16,7 @@ public class Charge {
     private double typeExchange;
     private Date createdDateTimeUTC;
     private int billId;
+    private String billCode;
     private String billDescription;
     private String createdDateTimeUTCToShow;
     private String amountToShow;
@@ -36,9 +37,10 @@ public class Charge {
     	this.isCurrencyDollar = voCharge.getIsCurrencyDollar();
     	this.typeExchange = voCharge.getTypeExchange();
     	this.createdDateTimeUTC = voCharge.getCreatedDateTimeUTC();
-    	if(voCharge.getBillId() != 0)
+    	if(voCharge.getBillCode() != null)
     	{
-    		this.billId = voCharge.getBillId();
+    		this.billCode = voCharge.getBillCode();
+    		this.billDescription = voCharge.getBillDescription();
     	}
     	
     	this.setCreatedDateTimeUTCToShow(new SimpleDateFormat("dd/MM/yyyy").format(createdDateTimeUTC));
@@ -132,5 +134,13 @@ public class Charge {
 	}
 	public void setTypeExchangeToShow(String typeExchangeToShow) {
 		this.typeExchangeToShow = typeExchangeToShow;
+	}
+
+	public String getBillCode() {
+		return billCode;
+	}
+
+	public void setBillCode(String billCode) {
+		this.billCode = billCode;
 	}
 }
