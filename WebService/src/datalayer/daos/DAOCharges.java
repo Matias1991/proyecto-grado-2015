@@ -93,10 +93,12 @@ public class DAOCharges implements IDAOCharges {
 	public void update(int id, Charge obj) throws ServerException {
 		PreparedStatement preparedStatement = null;
 
-		String updateSQL = "UPDATE CHARGE " + "SET DESCRIPTION = ?, "
-				+ "AMOUNTPESO = ?, " + "AMOUNTDOLLAR = ?, "
-				+ "ISCURRENCYDOLLAR = ?, " + "TYPEEXCHANGE = ?, "
-				+ "BILLID = ? " + "WHERE id = ?";
+		String updateSQL = "UPDATE CHARGE " 
+				+ "SET DESCRIPTION = ?, "
+				+ "AMOUNTPESO = ?, " 
+				+ "AMOUNTDOLLAR = ?, "
+				+ "TYPEEXCHANGE = ? "
+				+ "WHERE id = ?";
 
 		try {
 			preparedStatement = this.connection.prepareStatement(updateSQL);
@@ -104,15 +106,8 @@ public class DAOCharges implements IDAOCharges {
 			preparedStatement.setString(1, obj.getDescription());
 			preparedStatement.setDouble(2, obj.getAmountPeso());
 			preparedStatement.setDouble(3, obj.getAmountDollar());
-			preparedStatement.setBoolean(4, obj.getIsCurrencyDollar());
-			preparedStatement.setDouble(5, obj.getTypeExchange());
-			preparedStatement.setTimestamp(7, new Timestamp(obj
-					.getCreatedDateTimeUTC().getTime()));
-			if (obj.getBill() != null)
-				preparedStatement.setInt(8, obj.getBill().getId());
-			else
-				preparedStatement.setNull(8, java.sql.Types.INTEGER);
-			preparedStatement.setInt(9, id);
+			preparedStatement.setDouble(4, obj.getTypeExchange());
+			preparedStatement.setInt(5, id);
 
 			preparedStatement.executeUpdate();
 
