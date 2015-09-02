@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import datalayer.daos.DAOManager;
+import datalayer.daos.DAOProjectEmployees;
 import servicelayer.entity.businessEntity.DistributionType;
 import servicelayer.entity.businessEntity.ProjectEmployed;
 import servicelayer.entity.businessEntity.ProjectPartner;
@@ -16,10 +17,6 @@ public class CoreProject implements ICoreProject {
 
 	private static CoreProject instance = null;
 
-	// private IDAOProjects iDAOProject;
-
-	// private CoreProject()throws ServerException {
-	// iDAOProject = new DAOProjects();
 	private CoreProject() {
 	}
 
@@ -105,8 +102,14 @@ public class CoreProject implements ICoreProject {
 	public Project getProject(int id) throws ServerException, ClientException {
 		DAOManager daoManager = new DAOManager();
 		try {
-			return daoManager.getDAOProjects().getObject(id);
-
+			Project project = daoManager.getDAOProjects().getObject(id);
+			// Manager
+			if(project.getManager() != null)
+				project.setManager(CoreUser.GetInstance().getUser(project.getManager().getId()));
+			// Seller
+			project.setSeller(CoreEmployed.GetInstance().getEmployed(project.getSeller().getId()));
+			
+			return project;
 		} catch (ServerException e) {
 			throw e;
 		} finally {
@@ -149,6 +152,18 @@ public class CoreProject implements ICoreProject {
 		try {
 			return daoManager.getDAODistributionTypes().getOjects();
 
+		} catch (ServerException e) {
+			throw e;
+		} finally {
+			daoManager.close();
+		}
+	}
+	
+	@Override
+	public ArrayList<ProjectEmployed> getProjectEmployees (int id) throws ServerException{
+		DAOManager daoManager = new DAOManager();
+		try {
+			return daoManager.getDAOEmployedProjects().getEmployeesProject(id);
 		} catch (ServerException e) {
 			throw e;
 		} finally {

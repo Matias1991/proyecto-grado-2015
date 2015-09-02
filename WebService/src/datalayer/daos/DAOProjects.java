@@ -273,7 +273,6 @@ public class DAOProjects implements IDAOProjects {
 
 		User manager = new User();
 		if (managerId != 0) {
-			
 			manager.setId(managerId);
 			project.setManager(manager);
 		}
