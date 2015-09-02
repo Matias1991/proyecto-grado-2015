@@ -6,5 +6,6 @@
     <string name="action_settings">Settings</string>
     <string name="autocompletetextview">AutoCompleteTextView</string>
     <string name="title_activity_search_user">SearchUser</string>
+    <string name="title_activity_partner_menu">PartnerMenu</string>
 
 </resources>

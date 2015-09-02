@@ -9,17 +9,6 @@
     tools:context="com.example.androidproject.Login" >
 
     <EditText
-        android:id="@+id/txtUsernameApp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="63dp"
-        android:ems="10"
-        android:hint="Usuario"
-        android:inputType="textPersonName" />
-
-    <EditText
         android:id="@+id/txtPasswordApp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -37,5 +26,27 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
         android:text="Ingresar" />
+
+    <TextView
+        android:id="@+id/lblTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="21dp"
+        android:text="Bienvenido al Sistema de Gestion y Liquidaciones de Proyectos"
+        android:textAlignment="center"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <EditText
+        android:id="@+id/txtUsernameApp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/lblTitle"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="44dp"
+        android:ems="10"
+        android:hint="Usuario"
+        android:inputType="textPersonName" />
 
 </RelativeLayout>
