@@ -109,7 +109,6 @@ public class DAOProjectEmployees implements IDAOProjectEmployees {
 	}
 
 	ProjectEmployed BuildProjectEmployees(ResultSet rs) throws SQLException {
-		int projectId = rs.getInt("projectId");
 		int employedId = rs.getInt("employedId");
 		int version = rs.getInt("version");
 		int hours = rs.getInt("hours");
@@ -120,6 +119,10 @@ public class DAOProjectEmployees implements IDAOProjectEmployees {
 		ProjectEmployed projectEmployed = new ProjectEmployed();
 		projectEmployed.setCreatedDateTimeUTC(createdDateTimeUTC);
 		projectEmployed.setEmployed(new Employed(employedId));
+		projectEmployed.setEnabled(enabled);
+		projectEmployed.setHours(hours);
+		projectEmployed.setUpdatedDateTimeUTC(updatedDateTimeUTC);
+		projectEmployed.setVersion(version);
 		
 		return projectEmployed;
 		

@@ -22,6 +22,7 @@ import servicelayer.entity.valueObject.VOCharge;
 import servicelayer.entity.valueObject.VODistributionType;
 import servicelayer.entity.valueObject.VOEmployed;
 import servicelayer.entity.valueObject.VOProject;
+import servicelayer.entity.valueObject.VOProjectEmployed;
 import servicelayer.entity.valueObject.VOSalarySummary;
 import servicelayer.entity.valueObject.VOUser;
 import servicelayer.service.builder.BillBuilder;
@@ -899,7 +900,15 @@ public class ServiceWeb extends ServiceBase {
 			transactionLock.tryLock(Constants.DEFAULT_TRANSACTION_TIME,
 					TimeUnit.SECONDS);
 
-			return projectBuilder.BuildVOObject(iCoreProject.getProject(id));
+			VOProject voProject = projectBuilder.BuildVOObject(iCoreProject.getProject(id));
+			ArrayList<ProjectEmployed> projEmpl = iCoreProject.getProjectEmployees(id);
+			for (ProjectEmployed projectEmployed : projEmpl) {
+				Employed employed = iCoreEmployed.getEmployed(projectEmployed.getEmployed().getId());
+				projectEmployed.getEmployed().setName(employed.getName());
+				projectEmployed.getEmployed().setLastName(employed.getLastName());				
+			}
+			voProject.setVoEmployedProjects(projectBuilder.BuildVOEmployedProjects(projEmpl));
+			return voProject;
 
 		} catch (ServerException e) {
 			ThrowServerExceptionAndLogError(e, "obtener el proyecto.");

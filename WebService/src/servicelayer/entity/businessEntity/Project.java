@@ -1,5 +1,6 @@
 package servicelayer.entity.businessEntity;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 import servicelayer.entity.valueObject.VOProject;
@@ -145,5 +146,9 @@ public class Project {
 	public void associateDistribution(ProjectPartner partnerProject) throws ServerException{
 		this.iDAOPartnerProject.insertPartnerProject(this.id, partnerProject);
 	}
-
+	
+	public ArrayList<ProjectEmployed> getProjectEmployed() throws ServerException
+	{
+		return iDAOEmployedProject.getEmployeesProject(this.id);
+	}
 }
