@@ -170,4 +170,16 @@ public class CoreProject implements ICoreProject {
 			daoManager.close();
 		}
 	}
+	
+	@Override
+	public ArrayList<ProjectPartner> getProjectPartners (int id) throws ServerException {
+		DAOManager daoManager = new DAOManager();
+		try {
+			return daoManager.getDAOPartnerProjects().getPartnersProject(id);
+		} catch (ServerException e) {
+			throw e;
+		} finally {
+			daoManager.close();
+		}		
+	}
 }

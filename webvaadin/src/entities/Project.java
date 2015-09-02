@@ -1,12 +1,10 @@
 package entities;
 
-import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import servicelayer.service.ServiceWebStub.VOEmployed;
 import servicelayer.service.ServiceWebStub.VOProject;
 import servicelayer.service.ServiceWebStub.VOProjectEmployed;
 import servicelayer.service.ServiceWebStub.VOProjectPartner;
@@ -55,23 +53,25 @@ public class Project{
 		this.seller.setName(voProject.getSellerName());
 		this.seller.setLastName(voProject.getSellerLastname());
 		
-		for (VOProjectEmployed voEmployedProject : voProject
-				.getVoEmployedProjects()) {
-			if(voEmployedProject != null){
-				ProjectEmployed emp = new ProjectEmployed(voEmployedProject);			
-				employedHours.add(emp);
+		employedHours = new ArrayList<ProjectEmployed>();
+		if(voProject.getVoEmployedProjects() != null){
+			for (VOProjectEmployed voEmployedProject : voProject.getVoEmployedProjects()) {
+				if(voEmployedProject != null){
+					ProjectEmployed emp = new ProjectEmployed(voEmployedProject);			
+					employedHours.add(emp);
+				}
 			}
 		}
 
-		for (VOProjectPartner voProjectPartner : voProject
-				.getVoPartnerProjects()) {
-			if(voProjectPartner != null){
-			ProjectPartner part = new ProjectPartner(voProjectPartner);
-			projectPartners.add(part);
+		if(voProject.getVoPartnerProjects() != null){
+			for (VOProjectPartner voProjectPartner : voProject
+					.getVoPartnerProjects()) {
+				if(voProjectPartner != null){
+				ProjectPartner part = new ProjectPartner(voProjectPartner);
+				projectPartners.add(part);
+				}
 			}
 		}
-		
-		
 		
 	}
 	
@@ -162,5 +162,27 @@ public class Project{
 
 	public void setProjectPartners(List<ProjectPartner> projectPartners) {
 		this.projectPartners = projectPartners;
+	}
+	
+	public String getDistributionType(int distributionType)
+	{
+		String result = "";
+		switch(distributionType)
+		{
+		   case 1: 
+			   	 result = "Administrador";
+		         break;
+		   case 2: 
+			   	 result = "Socio";
+		         break;
+		   case 3: 
+			   	 result = "Gerente";
+		         break;
+		    default:
+		    	result = "No definido";
+		          break;
+		}
+		
+		return result;
 	}
 }

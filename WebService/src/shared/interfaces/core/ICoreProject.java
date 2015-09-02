@@ -28,4 +28,6 @@ public interface ICoreProject {
 
 	ArrayList<ProjectEmployed> getProjectEmployees(int id)
 			throws ServerException;
+
+	ArrayList<ProjectPartner> getProjectPartners(int id) throws ServerException;
 }

@@ -17,6 +17,11 @@ public class DistributionType {
 		this.description = description;		
 	}
 	
+
+	public DistributionType(int id){
+		this.id = id;		
+	}
+	
 //	public DistributionType(VODistributionType){
 	//	if(voDistributionType.getEmployed().getId() != 0){
 	//		
