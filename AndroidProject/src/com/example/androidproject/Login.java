@@ -8,6 +8,10 @@ import org.ksoap2.serialization.SoapSerializationEnvelope;
 import org.ksoap2.transport.HttpTransportSE;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.StrictMode;
@@ -77,19 +81,30 @@ public class Login extends Activity {
         			//VOUser response = (VOUser)envelope.getResponse();
         			SoapObject response = (SoapObject)envelope.getResponse();
         			        			
-        			if(response != null){
+        			if(response != null && (Integer.parseInt(response.getProperty("userType").toString()) == 2 || Integer.parseInt(response.getProperty("userType").toString()) == 3)){
         				//if(Boolean.parseBoolean(response.toString()))
         				//Starting a new Intent
-                        Intent searchUser = new Intent(getApplicationContext(), MainActivity.class);
-                        startActivity(searchUser);
+        				Intent partnerMenu = new Intent(getApplicationContext(), MainMenu.class);
+                        //Intent searchUser = new Intent(getApplicationContext(), MainActivity.class);
+                        startActivity(partnerMenu);
         			}else{
         				txtUsername.setText("");
         				txtPassword.setText("");
-        				txtUsername.requestFocus();
+        				txtUsername.requestFocus();        				
         			}
 
         		} catch (Exception e) {
         			e.printStackTrace();
+        			new AlertDialog.Builder(Login.this)
+        				.setTitle("Error")
+        				.setMessage("¡Usuario y/o contraseña incorrecta!")        				
+        			   .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+        			        public void onClick(DialogInterface dialog, int which) { 
+        			            // continue with delete
+        			        }
+        			     })        			    
+        			    .setIcon(android.R.drawable.ic_dialog_alert)
+        			     .show();
         		}
                 
             }
