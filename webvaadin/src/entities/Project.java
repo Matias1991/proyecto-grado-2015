@@ -62,10 +62,10 @@ public class Project{
 				}
 			}
 		}
-
+		
+		projectPartners = new ArrayList<ProjectPartner>();
 		if(voProject.getVoPartnerProjects() != null){
-			for (VOProjectPartner voProjectPartner : voProject
-					.getVoPartnerProjects()) {
+			for (VOProjectPartner voProjectPartner : voProject.getVoPartnerProjects()) {
 				if(voProjectPartner != null){
 				ProjectPartner part = new ProjectPartner(voProjectPartner);
 				projectPartners.add(part);
@@ -162,27 +162,5 @@ public class Project{
 
 	public void setProjectPartners(List<ProjectPartner> projectPartners) {
 		this.projectPartners = projectPartners;
-	}
-	
-	public String getDistributionType(int distributionType)
-	{
-		String result = "";
-		switch(distributionType)
-		{
-		   case 1: 
-			   	 result = "Administrador";
-		         break;
-		   case 2: 
-			   	 result = "Socio";
-		         break;
-		   case 3: 
-			   	 result = "Gerente";
-		         break;
-		    default:
-		    	result = "No definido";
-		          break;
-		}
-		
-		return result;
 	}
 }

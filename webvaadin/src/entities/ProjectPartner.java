@@ -93,4 +93,25 @@ public class ProjectPartner {
 	public void setVersion(int version) {
 		this.version = version;
 	}	
+	
+	public String getDistributionTypeToShow(){
+		String result = "";
+		switch(this.getDistributionType().getId())
+		{
+		   case 1: 
+			   	 result = "50";
+		         break;
+		   case 2: 
+			   	 result = "2/3";
+		         break;
+		   case 3: 
+			   	 result = "1/3";
+		         break;
+		    default:
+		    	result = "No definido";
+		          break;
+		}
+		
+		return result;
+	}
 }

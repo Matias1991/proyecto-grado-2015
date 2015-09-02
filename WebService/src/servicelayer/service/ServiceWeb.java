@@ -11,6 +11,7 @@ import servicelayer.core.CoreEmployed;
 import servicelayer.core.CoreProject;
 import servicelayer.core.CoreUser;
 import servicelayer.entity.businessEntity.Bill;
+import servicelayer.entity.businessEntity.DistributionType;
 import servicelayer.entity.businessEntity.Employed;
 import servicelayer.entity.businessEntity.ProjectEmployed;
 import servicelayer.entity.businessEntity.ProjectPartner;
@@ -912,6 +913,13 @@ public class ServiceWeb extends ServiceBase {
 			voProject.setVoEmployedProjects(projectBuilder.BuildVOEmployedProjects(projEmpl));
 			// Distribucion
 			ArrayList<ProjectPartner> projectPartners = iCoreProject.getProjectPartners(id);
+			
+			for (ProjectPartner projectPartner : projectPartners) {
+				Employed employed = iCoreEmployed.getEmployed(projectPartner.getEmployed().getId());
+				projectPartner.getEmployed().setName(employed.getName());
+				projectPartner.getEmployed().setLastName(employed.getLastName());				
+			}
+			
 			voProject.setVoPartnerProjects(projectBuilder.BuildVOPartnerProjects(projectPartners));
 			return voProject;
 

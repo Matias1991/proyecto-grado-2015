@@ -66,4 +66,5 @@ public class DistributionType {
 	public void setPartnerLastname(String partnerLastname) {
 		this.partnerLastname = partnerLastname;
 	}
+	
 }

@@ -73,7 +73,7 @@ public class DAOProjectPartners implements IDAOProjectPartners {
 		ResultSet rs = null;
 		try {
 
-			String getSQL = "SELECT * FROM PARTNER_PROJECT WHERE id = ?";
+			String getSQL = "SELECT * FROM PARTNER_PROJECT WHERE PROJECTID = ?";
 			preparedStatement = this.connection.prepareStatement(getSQL);
 			preparedStatement.setInt(1, id);
 			rs = preparedStatement.executeQuery();
@@ -101,7 +101,7 @@ public class DAOProjectPartners implements IDAOProjectPartners {
 	private ProjectPartner BuildProjectPartner (ResultSet rs) throws SQLException {
 		int projectId = rs.getInt("projectId");
 		int employedId = rs.getInt("employedId");
-		int distribution = rs.getInt("ditributionTypeId");
+		int distribution = rs.getInt("distributionTypeId");
 		int version = rs.getInt("version");
 		boolean enabled = rs.getBoolean("enabled");
 		Date createdDateTimeUTC = rs.getTimestamp("createdDateTimeUTC");
