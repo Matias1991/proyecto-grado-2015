@@ -39,7 +39,7 @@ public class Login extends Activity {
                 EditText txtPassword = (EditText) findViewById(R.id.txtPasswordApp);
             	String username = txtUsername.getText().toString();
             	String password = txtPassword.getText().toString();
-            	
+            			
             	System.out.println(username +" "+password);
             	
             	//Create request
@@ -73,9 +73,12 @@ public class Login extends Activity {
         			//Invole web service
         			androidHttpTransport.call(SOAP_ACTION, envelope);
         			//Get the response
-        			SoapPrimitive response = (SoapPrimitive)envelope.getResponse();
-        			
-        			if(Boolean.parseBoolean(response.toString())){
+        			//SoapPrimitive response = (SoapPrimitive)envelope.getResponse();
+        			//VOUser response = (VOUser)envelope.getResponse();
+        			SoapObject response = (SoapObject)envelope.getResponse();
+        			        			
+        			if(response != null){
+        				//if(Boolean.parseBoolean(response.toString()))
         				//Starting a new Intent
                         Intent searchUser = new Intent(getApplicationContext(), MainActivity.class);
                         startActivity(searchUser);
