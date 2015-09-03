@@ -28,16 +28,12 @@ public class CoreBill implements ICoreBill {
 
 		DAOManager daoManager = new DAOManager();
 		try {
-			if (daoManager.getDAOBills().getBill(bill.getCode()) == null) {
-				if (bill.getIsCurrencyDollar()) {
-					bill.setAmountPeso(bill.getAmountDollar()
-							* bill.getTypeExchange());
-				}
-				daoManager.getDAOBills().insert(bill);
-				daoManager.commit();
-			} else
-				throw new ClientException(
-						"Ya existe una factura con ese codigo");
+			if (bill.getIsCurrencyDollar()) {
+				bill.setAmountPeso(bill.getAmountDollar()
+						* bill.getTypeExchange());
+			}
+			daoManager.getDAOBills().insert(bill);
+			daoManager.commit();
 
 		} catch (ServerException e) {
 			daoManager.rollback();
@@ -96,7 +92,7 @@ public class CoreBill implements ICoreBill {
 					bill.setAmountPeso(bill.getAmountDollar()
 							* bill.getTypeExchange());
 				}
-				
+
 				daoManager.getDAOBills().update(id, bill);
 				daoManager.commit();
 			} else
@@ -149,21 +145,21 @@ public class CoreBill implements ICoreBill {
 	}
 
 	@Override
-	public ArrayList<Bill> getBills(Date from, Date to, boolean isLiquidated) throws ServerException {
+	public ArrayList<Bill> getBills(Date from, Date to, boolean isLiquidated)
+			throws ServerException {
 		ArrayList<Bill> bills;
 
 		DAOManager daoManager = new DAOManager();
 		try {
 			bills = daoManager.getDAOBills().getBills(from, to, isLiquidated);
-			
-			for(Bill bill : bills)
-			{
-				if(bill.getIsCurrencyDollar())
+
+			for (Bill bill : bills) {
+				if (bill.getIsCurrencyDollar())
 					bill.setAmountChargedDollar(getAmountChargedByBill(bill));
 				else
 					bill.setAmountChargedPeso(getAmountChargedByBill(bill));
 			}
-			
+
 		} catch (ServerException e) {
 			throw e;
 		} finally {
@@ -171,23 +167,24 @@ public class CoreBill implements ICoreBill {
 		}
 		return bills;
 	}
-	
+
 	@Override
-	public ArrayList<Bill> getBills(Date from, Date to, boolean isLiquidated, boolean withCharges) throws ServerException {
+	public ArrayList<Bill> getBills(Date from, Date to, boolean isLiquidated,
+			boolean withCharges) throws ServerException {
 		ArrayList<Bill> bills;
 
 		DAOManager daoManager = new DAOManager();
 		try {
-			bills = daoManager.getDAOBills().getBills(from, to, isLiquidated, withCharges);
-			
-			for(Bill bill : bills)
-			{
-				if(bill.getIsCurrencyDollar())
+			bills = daoManager.getDAOBills().getBills(from, to, isLiquidated,
+					withCharges);
+
+			for (Bill bill : bills) {
+				if (bill.getIsCurrencyDollar())
 					bill.setAmountChargedDollar(getAmountChargedByBill(bill));
 				else
 					bill.setAmountChargedPeso(getAmountChargedByBill(bill));
 			}
-			
+
 		} catch (ServerException e) {
 			throw e;
 		} finally {
@@ -203,15 +200,14 @@ public class CoreBill implements ICoreBill {
 		DAOManager daoManager = new DAOManager();
 		try {
 			bills = daoManager.getDAOBills().getBills(from, to);
-			
-			for(Bill bill : bills)
-			{
-				if(bill.getIsCurrencyDollar())
+
+			for (Bill bill : bills) {
+				if (bill.getIsCurrencyDollar())
 					bill.setAmountChargedDollar(getAmountChargedByBill(bill));
 				else
 					bill.setAmountChargedPeso(getAmountChargedByBill(bill));
 			}
-			
+
 		} catch (ServerException e) {
 			throw e;
 		} finally {
@@ -219,23 +215,23 @@ public class CoreBill implements ICoreBill {
 		}
 		return bills;
 	}
-	
+
 	@Override
-	public ArrayList<Bill> getBillsWithCharges(Date from, Date to) throws ServerException {
+	public ArrayList<Bill> getBillsWithCharges(Date from, Date to)
+			throws ServerException {
 		ArrayList<Bill> bills;
 
 		DAOManager daoManager = new DAOManager();
 		try {
 			bills = daoManager.getDAOBills().getBillsWithCharges(from, to);
-			
-			for(Bill bill : bills)
-			{
-				if(bill.getIsCurrencyDollar())
+
+			for (Bill bill : bills) {
+				if (bill.getIsCurrencyDollar())
 					bill.setAmountChargedDollar(getAmountChargedByBill(bill));
 				else
 					bill.setAmountChargedPeso(getAmountChargedByBill(bill));
 			}
-			
+
 		} catch (ServerException e) {
 			throw e;
 		} finally {
@@ -247,7 +243,7 @@ public class CoreBill implements ICoreBill {
 	@Override
 	public ArrayList<Bill> getBills(int projectId) throws ServerException {
 		ArrayList<Bill> bills;
-		
+
 		DAOManager daoManager = new DAOManager();
 		try {
 			bills = daoManager.getDAOBills().getBills(projectId);
@@ -267,8 +263,8 @@ public class CoreBill implements ICoreBill {
 		try {
 
 			bill.setIDAOCharges(daoManager.getDAOCharges());
-			
-			//obtener los cobros de la factura
+
+			// obtener los cobros de la factura
 			ArrayList<Charge> charges = bill.getCharges();
 
 			// obtiene todos los cobros para esa factura y suma en monto de los

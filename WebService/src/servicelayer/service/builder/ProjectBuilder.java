@@ -31,6 +31,8 @@ public class ProjectBuilder extends BaseBuilder<VOProject, Project> {
 		voProject.setSellerId(businessObject.getSeller().getId());
 		voProject.setSellerName(businessObject.getSeller().getName());
 		voProject.setSellerLastname(businessObject.getSeller().getLastName());
+		voProject.setAmount(businessObject.getAmount());
+		voProject.setIsCurrencyDollar(businessObject.getIsCurrencyDollar());
 		voProject.setClosed(businessObject.getClosed());
 		voProject.setCreatedDateTimeUTC(businessObject.getCreatedDateTimeUTC());
 		voProject.setUpdatedDateTimeUTC(businessObject.getUpdatedDateTimeUTC());
@@ -47,6 +49,8 @@ public class ProjectBuilder extends BaseBuilder<VOProject, Project> {
 		project.setId(voObject.getId());
 		project.setName(voObject.getName());
 		project.setDescription(voObject.getDescription());
+		project.setAmount(voObject.getAmount());
+		project.setIsCurrencyDollar(voObject.getIsCurrencyDollar());
 		// project.setiDAOEmployedProject(voObject.get);
 		// project.setiDAOPartnerProject(iDAOPartnerProject);
 		User manager = new User();

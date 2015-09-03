@@ -104,6 +104,8 @@ CREATE TABLE IF NOT EXISTS Project
 	Name			VARCHAR(50) NULL,
 	Description		VARCHAR(250) NULL,
 	ManagerId		INTEGER NULL,
+	Amount 			DECIMAL(10,2) NULL,
+	IsCurrencyDollar	BIT NULL,
 	SellerId		INTEGER NOT NULL,
 	CreatedDateTimeUTC  TIMESTAMP NULL,
 	UpdatedDateTimeUTC  TIMESTAMP NULL,
@@ -145,7 +147,6 @@ CREATE TABLE IF NOT EXISTS Bill
 	IsLiquidated		BIT NULL,
 	ProjectId			INTEGER NULL,
 	PRIMARY KEY (Id, ProjectId),
-	UNIQUE KEY `code` (`Code`),
 	FOREIGN KEY FK_Bill_Project (ProjectId) REFERENCES Project (Id)
 );
 

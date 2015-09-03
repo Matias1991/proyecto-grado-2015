@@ -19,10 +19,11 @@ public class VOProject implements Serializable {
 	private int sellerId;
 	private String sellerName;
 	private String sellerLastname;
+	private double amount;
+	private boolean isCurrencyDollar;
 	private VOProjectEmployed[] voEmployedProjects;
 	private VOProjectPartner[] voPartnerProjects;
 	
-
 	public VOProjectEmployed[] getVoEmployedProjects() {
 		return voEmployedProjects;
 	}
@@ -134,5 +135,20 @@ public class VOProject implements Serializable {
 	public void setVoPartnerProjects(VOProjectPartner[] voPartnerProjects) {
 		this.voPartnerProjects = voPartnerProjects;
 	}
-	
+
+	public double getAmount() {
+		return amount;
+	}
+
+	public void setAmount(double amount) {
+		this.amount = amount;
+	}
+
+	public boolean getIsCurrencyDollar() {
+		return isCurrencyDollar;
+	}
+
+	public void setIsCurrencyDollar(boolean isCurrencyDollar) {
+		this.isCurrencyDollar = isCurrencyDollar;
+	}
 }

@@ -39,8 +39,8 @@ public class DAOProjects implements IDAOProjects {
 		int newProjectId = -1;
 		PreparedStatement preparedStatement = null;
 
-		String insertSQL = "INSERT INTO PROJECT (NAME, DESCRIPTION, MANAGERID, SELLERID, CREATEDDATETIMEUTC, UPDATEDDATETIMEUTC, CLOSED) VALUES"
-				+ "(?,?,?,?,?,?,?)";
+		String insertSQL = "INSERT INTO PROJECT (NAME, DESCRIPTION, MANAGERID, SELLERID, AMOUNT, ISCURRENCYDOLLAR, CREATEDDATETIMEUTC, UPDATEDDATETIMEUTC, CLOSED) VALUES"
+				+ "(?,?,?,?,?,?,?,?,?)";
 
 		try {
 			preparedStatement = this.connection.prepareStatement(insertSQL,
@@ -54,11 +54,13 @@ public class DAOProjects implements IDAOProjects {
 				preparedStatement.setInt(3, obj.getManager().getId());
 			}
 			preparedStatement.setInt(4, obj.getSeller().getId());
-			preparedStatement.setTimestamp(5, new Timestamp(obj
+			preparedStatement.setDouble(5, obj.getAmount());
+			preparedStatement.setBoolean(6, obj.getIsCurrencyDollar());
+			preparedStatement.setTimestamp(7, new Timestamp(obj
 					.getCreatedDateTimeUTC().getTime()));
-			preparedStatement.setTimestamp(6, new Timestamp(obj
+			preparedStatement.setTimestamp(8, new Timestamp(obj
 					.getUpdatedDateTimeUTC().getTime()));
-			preparedStatement.setBoolean(7, obj.getClosed());
+			preparedStatement.setBoolean(9, obj.getClosed());
 
 			preparedStatement.executeUpdate();
 
@@ -259,6 +261,8 @@ public class DAOProjects implements IDAOProjects {
 		String description = rs.getString("description");
 		int managerId = rs.getInt("managerId");
 		int sellerId = rs.getInt("sellerId");
+		double amount = rs.getDouble("amount");
+		boolean isCurrencyDollar = rs.getBoolean("isCurrencyDollar");
 		Date createdDateTimeUTC = rs.getTimestamp("createdDateTimeUTC");
 		Date updatedDateTimeUTC = rs.getTimestamp("updatedDateTimeUTC");
 		boolean closed = rs.getBoolean("closed");
@@ -270,7 +274,9 @@ public class DAOProjects implements IDAOProjects {
 		project.setUpdatedDateTimeUTC(updatedDateTimeUTC);
 		project.setClosed(closed);
 		project.setDescription(description);
-
+		project.setAmount(amount);
+		project.setIsCurrencyDollar(isCurrencyDollar);
+		
 		User manager = new User();
 		if (managerId != 0) {
 			manager.setId(managerId);

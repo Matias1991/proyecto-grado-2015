@@ -92,6 +92,8 @@ public class ProjectController {
 			VOProject voProject = new VOProject();
 			voProject.setName(project.getName());
 			voProject.setDescription(project.getDescription());
+			voProject.setAmount(project.getAmount());
+			voProject.setIsCurrencyDollar(project.getIsCurrencyDollar());
 			voProject.setSellerId(project.getSeller().getId());
 			if(project.getManager() != null){
 				voProject.setManagerId(project.getManager().getId());

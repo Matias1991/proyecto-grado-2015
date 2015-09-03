@@ -46017,6 +46017,51 @@
             
 
                         /**
+                        * field for Amount
+                        */
+
+                        
+                                    protected double localAmount ;
+                                
+                           /*  This tracker boolean wil be used to detect whether the user called the set method
+                          *   for this attribute. It will be used to determine whether to include this field
+                           *   in the serialized XML
+                           */
+                           protected boolean localAmountTracker = false ;
+
+                           public boolean isAmountSpecified(){
+                               return localAmountTracker;
+                           }
+
+                           
+
+                           /**
+                           * Auto generated getter method
+                           * @return double
+                           */
+                           public  double getAmount(){
+                               return localAmount;
+                           }
+
+                           
+                        
+                            /**
+                               * Auto generated setter method
+                               * @param param Amount
+                               */
+                               public void setAmount(double param){
+                            
+                                       // setting primitive attribute tracker to true
+                                       localAmountTracker =
+                                       !java.lang.Double.isNaN(param);
+                                   
+                                            this.localAmount=param;
+                                    
+
+                               }
+                            
+
+                        /**
                         * field for Closed
                         */
 
@@ -46185,6 +46230,51 @@
                                        param != java.lang.Integer.MIN_VALUE;
                                    
                                             this.localId=param;
+                                    
+
+                               }
+                            
+
+                        /**
+                        * field for IsCurrencyDollar
+                        */
+
+                        
+                                    protected boolean localIsCurrencyDollar ;
+                                
+                           /*  This tracker boolean wil be used to detect whether the user called the set method
+                          *   for this attribute. It will be used to determine whether to include this field
+                           *   in the serialized XML
+                           */
+                           protected boolean localIsCurrencyDollarTracker = false ;
+
+                           public boolean isIsCurrencyDollarSpecified(){
+                               return localIsCurrencyDollarTracker;
+                           }
+
+                           
+
+                           /**
+                           * Auto generated getter method
+                           * @return boolean
+                           */
+                           public  boolean getIsCurrencyDollar(){
+                               return localIsCurrencyDollar;
+                           }
+
+                           
+                        
+                            /**
+                               * Auto generated setter method
+                               * @param param IsCurrencyDollar
+                               */
+                               public void setIsCurrencyDollar(boolean param){
+                            
+                                       // setting primitive attribute tracker to true
+                                       localIsCurrencyDollarTracker =
+                                       true;
+                                   
+                                            this.localIsCurrencyDollar=param;
                                     
 
                                }
@@ -46750,7 +46840,20 @@
 
                
                    }
-                if (localClosedTracker){
+                if (localAmountTracker){
+                                    namespace = "http://valueObject.entity.servicelayer/xsd";
+                                    writeStartElement(null, namespace, "amount", xmlWriter);
+                             
+                                               if (java.lang.Double.isNaN(localAmount)) {
+                                           
+                                                         throw new org.apache.axis2.databinding.ADBException("amount cannot be null!!");
+                                                      
+                                               } else {
+                                                    xmlWriter.writeCharacters(org.apache.axis2.databinding.utils.ConverterUtil.convertToString(localAmount));
+                                               }
+                                    
+                                   xmlWriter.writeEndElement();
+                             } if (localClosedTracker){
                                     namespace = "http://valueObject.entity.servicelayer/xsd";
                                     writeStartElement(null, namespace, "closed", xmlWriter);
                              
@@ -46809,6 +46912,19 @@
                                                       
                                                } else {
                                                     xmlWriter.writeCharacters(org.apache.axis2.databinding.utils.ConverterUtil.convertToString(localId));
+                                               }
+                                    
+                                   xmlWriter.writeEndElement();
+                             } if (localIsCurrencyDollarTracker){
+                                    namespace = "http://valueObject.entity.servicelayer/xsd";
+                                    writeStartElement(null, namespace, "isCurrencyDollar", xmlWriter);
+                             
+                                               if (false) {
+                                           
+                                                         throw new org.apache.axis2.databinding.ADBException("isCurrencyDollar cannot be null!!");
+                                                      
+                                               } else {
+                                                    xmlWriter.writeCharacters(org.apache.axis2.databinding.utils.ConverterUtil.convertToString(localIsCurrencyDollar));
                                                }
                                     
                                    xmlWriter.writeEndElement();
@@ -47178,7 +47294,13 @@
                  java.util.ArrayList elementList = new java.util.ArrayList();
                  java.util.ArrayList attribList = new java.util.ArrayList();
 
-                 if (localClosedTracker){
+                 if (localAmountTracker){
+                                      elementList.add(new javax.xml.namespace.QName("http://valueObject.entity.servicelayer/xsd",
+                                                                      "amount"));
+                                 
+                                elementList.add(
+                                   org.apache.axis2.databinding.utils.ConverterUtil.convertToString(localAmount));
+                            } if (localClosedTracker){
                                       elementList.add(new javax.xml.namespace.QName("http://valueObject.entity.servicelayer/xsd",
                                                                       "closed"));
                                  
@@ -47202,6 +47324,12 @@
                                  
                                 elementList.add(
                                    org.apache.axis2.databinding.utils.ConverterUtil.convertToString(localId));
+                            } if (localIsCurrencyDollarTracker){
+                                      elementList.add(new javax.xml.namespace.QName("http://valueObject.entity.servicelayer/xsd",
+                                                                      "isCurrencyDollar"));
+                                 
+                                elementList.add(
+                                   org.apache.axis2.databinding.utils.ConverterUtil.convertToString(localIsCurrencyDollar));
                             } if (localManagerIdTracker){
                                       elementList.add(new javax.xml.namespace.QName("http://valueObject.entity.servicelayer/xsd",
                                                                       "managerId"));
@@ -47376,10 +47504,30 @@
                     
                     reader.next();
                 
-                        java.util.ArrayList list13 = new java.util.ArrayList();
+                        java.util.ArrayList list15 = new java.util.ArrayList();
                     
-                        java.util.ArrayList list14 = new java.util.ArrayList();
+                        java.util.ArrayList list16 = new java.util.ArrayList();
                     
+                                    
+                                    while (!reader.isStartElement() && !reader.isEndElement()) reader.next();
+                                
+                                    if (reader.isStartElement() && new javax.xml.namespace.QName("http://valueObject.entity.servicelayer/xsd","amount").equals(reader.getName())){
+                                
+                                    java.lang.String content = reader.getElementText();
+                                    
+                                              object.setAmount(
+                                                    org.apache.axis2.databinding.utils.ConverterUtil.convertToDouble(content));
+                                              
+                                        reader.next();
+                                    
+                              }  // End of if for expected property start element
+                                
+                                    else {
+                                        
+                                               object.setAmount(java.lang.Double.NaN);
+                                           
+                                    }
+                                
                                     
                                     while (!reader.isStartElement() && !reader.isEndElement()) reader.next();
                                 
@@ -47470,6 +47618,24 @@
                                         
                                                object.setId(java.lang.Integer.MIN_VALUE);
                                            
+                                    }
+                                
+                                    
+                                    while (!reader.isStartElement() && !reader.isEndElement()) reader.next();
+                                
+                                    if (reader.isStartElement() && new javax.xml.namespace.QName("http://valueObject.entity.servicelayer/xsd","isCurrencyDollar").equals(reader.getName())){
+                                
+                                    java.lang.String content = reader.getElementText();
+                                    
+                                              object.setIsCurrencyDollar(
+                                                    org.apache.axis2.databinding.utils.ConverterUtil.convertToBoolean(content));
+                                              
+                                        reader.next();
+                                    
+                              }  // End of if for expected property start element
+                                
+                                    else {
+                                        
                                     }
                                 
                                     
@@ -47685,14 +47851,14 @@
                                     
                                                           nillableValue = reader.getAttributeValue("http://www.w3.org/2001/XMLSchema-instance","nil");
                                                           if ("true".equals(nillableValue) || "1".equals(nillableValue)){
-                                                              list13.add(null);
+                                                              list15.add(null);
                                                               reader.next();
                                                           } else {
-                                                        list13.add(VOProjectEmployed.Factory.parse(reader));
+                                                        list15.add(VOProjectEmployed.Factory.parse(reader));
                                                                 }
                                                         //loop until we find a start element that is not part of this array
-                                                        boolean loopDone13 = false;
-                                                        while(!loopDone13){
+                                                        boolean loopDone15 = false;
+                                                        while(!loopDone15){
                                                             // We should be at the end element, but make sure
                                                             while (!reader.isEndElement())
                                                                 reader.next();
@@ -47703,19 +47869,19 @@
                                                                 reader.next();
                                                             if (reader.isEndElement()){
                                                                 //two continuous end elements means we are exiting the xml structure
-                                                                loopDone13 = true;
+                                                                loopDone15 = true;
                                                             } else {
                                                                 if (new javax.xml.namespace.QName("http://valueObject.entity.servicelayer/xsd","voEmployedProjects").equals(reader.getName())){
                                                                     
                                                                       nillableValue = reader.getAttributeValue("http://www.w3.org/2001/XMLSchema-instance","nil");
                                                                       if ("true".equals(nillableValue) || "1".equals(nillableValue)){
-                                                                          list13.add(null);
+                                                                          list15.add(null);
                                                                           reader.next();
                                                                       } else {
-                                                                    list13.add(VOProjectEmployed.Factory.parse(reader));
+                                                                    list15.add(VOProjectEmployed.Factory.parse(reader));
                                                                         }
                                                                 }else{
-                                                                    loopDone13 = true;
+                                                                    loopDone15 = true;
                                                                 }
                                                             }
                                                         }
@@ -47724,7 +47890,7 @@
                                                         object.setVoEmployedProjects((VOProjectEmployed[])
                                                             org.apache.axis2.databinding.utils.ConverterUtil.convertToArray(
                                                                 VOProjectEmployed.class,
-                                                                list13));
+                                                                list15));
                                                             
                               }  // End of if for expected property start element
                                 
@@ -47743,14 +47909,14 @@
                                     
                                                           nillableValue = reader.getAttributeValue("http://www.w3.org/2001/XMLSchema-instance","nil");
                                                           if ("true".equals(nillableValue) || "1".equals(nillableValue)){
-                                                              list14.add(null);
+                                                              list16.add(null);
                                                               reader.next();
                                                           } else {
-                                                        list14.add(VOProjectPartner.Factory.parse(reader));
+                                                        list16.add(VOProjectPartner.Factory.parse(reader));
                                                                 }
                                                         //loop until we find a start element that is not part of this array
-                                                        boolean loopDone14 = false;
-                                                        while(!loopDone14){
+                                                        boolean loopDone16 = false;
+                                                        while(!loopDone16){
                                                             // We should be at the end element, but make sure
                                                             while (!reader.isEndElement())
                                                                 reader.next();
@@ -47761,19 +47927,19 @@
                                                                 reader.next();
                                                             if (reader.isEndElement()){
                                                                 //two continuous end elements means we are exiting the xml structure
-                                                                loopDone14 = true;
+                                                                loopDone16 = true;
                                                             } else {
                                                                 if (new javax.xml.namespace.QName("http://valueObject.entity.servicelayer/xsd","voPartnerProjects").equals(reader.getName())){
                                                                     
                                                                       nillableValue = reader.getAttributeValue("http://www.w3.org/2001/XMLSchema-instance","nil");
                                                                       if ("true".equals(nillableValue) || "1".equals(nillableValue)){
-                                                                          list14.add(null);
+                                                                          list16.add(null);
                                                                           reader.next();
                                                                       } else {
-                                                                    list14.add(VOProjectPartner.Factory.parse(reader));
+                                                                    list16.add(VOProjectPartner.Factory.parse(reader));
                                                                         }
                                                                 }else{
-                                                                    loopDone14 = true;
+                                                                    loopDone16 = true;
                                                                 }
                                                             }
                                                         }
@@ -47782,7 +47948,7 @@
                                                         object.setVoPartnerProjects((VOProjectPartner[])
                                                             org.apache.axis2.databinding.utils.ConverterUtil.convertToArray(
                                                                 VOProjectPartner.class,
-                                                                list14));
+                                                                list16));
                                                             
                               }  // End of if for expected property start element
                                 

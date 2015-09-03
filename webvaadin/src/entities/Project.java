@@ -1,5 +1,6 @@
 package entities;
 
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -21,6 +22,9 @@ public class Project{
 	private User manager;
 	private Employee seller;
 	private String description;
+	private double amount;
+	private String amountToShow;
+	private boolean isCurrencyDollar;
 	private List<ProjectEmployed> employedHours;
 	private List<DistributionType> distributions;
 	private List<ProjectPartner> projectPartners;
@@ -35,6 +39,8 @@ public class Project{
 		this.id = voProject.getId();
 		this.name = voProject.getName();
 		this.description = voProject.getDescription();
+		this.amount = voProject.getAmount();
+		this.isCurrencyDollar = voProject.getIsCurrencyDollar();
 		this.createdDateTimeUTC = voProject.getCreatedDateTimeUTC();
 		this.updatedDateTimeUTC = voProject.getUpdatedDateTimeUTC();
 		if(!voProject.getClosed())
@@ -73,6 +79,10 @@ public class Project{
 			}
 		}
 		
+		if(isCurrencyDollar)
+    		this.amountToShow = new DecimalFormat("U$S ###,###.###").format(this.amount);
+    	else
+    		this.amountToShow = new DecimalFormat("$ ###,###.###").format(this.amount);	
 	}
 	
 	public int getId() {
@@ -162,5 +172,29 @@ public class Project{
 
 	public void setProjectPartners(List<ProjectPartner> projectPartners) {
 		this.projectPartners = projectPartners;
+	}
+	
+	public double getAmount() {
+		return amount;
+	}
+
+	public void setAmount(double amount) {
+		this.amount = amount;
+	}
+
+	public boolean getIsCurrencyDollar() {
+		return isCurrencyDollar;
+	}
+
+	public void setIsCurrencyDollar(boolean isCurrencyDollar) {
+		this.isCurrencyDollar = isCurrencyDollar;
+	}
+
+	public String getAmountToShow() {
+		return amountToShow;
+	}
+
+	public void setAmountToShow(String amountToShow) {
+		this.amountToShow = amountToShow;
 	}
 }

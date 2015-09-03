@@ -18,6 +18,8 @@ public class Project {
 	private User manager;
 	private Employed seller;
 	private String description;
+	private double amount;
+	private boolean isCurrencyDollar;
 	private IDAOProjectEmployees iDAOEmployedProject;
 	private IDAOProjectPartners iDAOPartnerProject;
 
@@ -119,6 +121,22 @@ public class Project {
 
 	public void setClosed(boolean closed) {
 		this.closed = closed;
+	}
+
+	public double getAmount() {
+		return amount;
+	}
+
+	public void setAmount(double amount) {
+		this.amount = amount;
+	}
+
+	public boolean getIsCurrencyDollar() {
+		return isCurrencyDollar;
+	}
+
+	public void setIsCurrencyDollar(boolean isCurrencyDollar) {
+		this.isCurrencyDollar = isCurrencyDollar;
 	}
 
 	public IDAOProjectEmployees getiDAOEmployedProject() {

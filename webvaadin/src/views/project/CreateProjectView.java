@@ -28,6 +28,7 @@ import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.Field;
 import com.vaadin.ui.Label;
+import com.vaadin.ui.OptionGroup;
 import com.vaadin.ui.Table;
 import com.vaadin.ui.TableFieldFactory;
 import com.vaadin.ui.TextArea;
@@ -66,7 +67,9 @@ public class CreateProjectView extends BaseView {
 	private ComboBox cboDistribution1;
 	private ComboBox cboPartner2;
 	private ComboBox cboDistribution2;
-
+	private OptionGroup optionGroupCurrency;
+	private TextField txtAmount;
+	
 	/**
 	 * The constructor should first build the main layout, set the composition
 	 * root and then do any custom initialization.
@@ -78,6 +81,9 @@ public class CreateProjectView extends BaseView {
 		buildMainLayout();
 		setCompositionRoot(mainLayout);
 
+		optionGroupCurrency.addItems("Pesos", "Dolares");
+		optionGroupCurrency.select("Pesos");
+		
 		btnCancel.addClickListener(new Button.ClickListener() {
 
 			@Override
@@ -98,7 +104,13 @@ public class CreateProjectView extends BaseView {
 					Project newProject = new Project();
 					newProject.setName(txtName.getValue());
 					newProject.setDescription(txtDescription.getValue());
-
+					newProject.setAmount((Double)(txtAmount.getConvertedValue()));
+					
+					if(optionGroupCurrency.getValue() == "Pesos")
+						newProject.setIsCurrencyDollar(false);
+					else
+						newProject.setIsCurrencyDollar(true);
+					
 					User manager = new User();
 					if (cboManager.getValue() != null) {
 						manager.setId((Integer) cboManager.getValue());
@@ -232,6 +244,8 @@ public class CreateProjectView extends BaseView {
 		loadComboBoxes();
 		txtName.clear();
 		txtDescription.clear();
+		txtAmount.clear();
+		optionGroupCurrency.select("Pesos");
 	}
 
 	private void buildTables() {
@@ -240,14 +254,14 @@ public class CreateProjectView extends BaseView {
 				EmployeeController.GetEmployees());
 		employedContainer.addNestedContainerProperty("salarySummary.hours");
 		tblEmployed = new Table("Empleados disponibles", employedContainer);
-		tblEmployed.setWidth("430px");
-		tblEmployed.setHeight("160px");
+		tblEmployed.setWidth("435px");
+		tblEmployed.setHeight("180px");
 		tblEmployed
 				.setVisibleColumns("name", "lastName", "salarySummary.hours");
 		tblEmployed.setColumnHeaders("Nombre", "Apellido", "Horas");
 		tblEmployed.setDragMode(TableDragMode.ROW);
 
-		mainLayout.addComponent(tblEmployed, "top:308.0px;left:450.0px;");
+		mainLayout.addComponent(tblEmployed, "top:315.0px;left:445.0px;");
 
 		// tblEmployedHours
 		Collection<Employee> employedHoursCollection = null;
@@ -258,14 +272,14 @@ public class CreateProjectView extends BaseView {
 		tblEmployedHours = new Table("Empleados asociados",
 				employedHoursContainer);
 		tblEmployedHours.setWidth("430px");
-		tblEmployedHours.setHeight("160px");
+		tblEmployedHours.setHeight("180px");
 		tblEmployedHours.setVisibleColumns("name", "lastName",
 				"salarySummary.hours");
 		tblEmployedHours.setColumnHeaders("Nombre", "Apellido", "Horas");
 		tblEmployedHours.setEditable(true);
 		tblEmployedHours.setDragMode(TableDragMode.ROW);
 
-		mainLayout.addComponent(tblEmployedHours, "top:308.0px;left:3.0px;");
+		mainLayout.addComponent(tblEmployedHours, "top:315.0px;left:0px;");
 
 		tblEmployedHours.setTableFieldFactory(new TableFieldFactory() {
 			@Override
@@ -388,11 +402,11 @@ public class CreateProjectView extends BaseView {
 		// common part: create layout
 		mainLayout = new AbsoluteLayout();
 		mainLayout.setImmediate(false);
-		mainLayout.setWidth("1000px");
+		mainLayout.setWidth("880px");
 		mainLayout.setHeight("540px");
 
 		// top-level component properties
-		setWidth("1000px");
+		setWidth("880px");
 		setHeight("540px");
 
 		// lblTitle
@@ -412,7 +426,7 @@ public class CreateProjectView extends BaseView {
 		btnCreate.setHeight("-1px");
 		btnCreate.setTabIndex(7);
 		mainLayout.addComponent(btnCreate,
-				"top:484.0px;right:500.0px;left:0.0px;");
+				"top:503.0px;right:500.0px;left:0.0px;");
 
 		// btnCancel
 		btnCancel = new Button();
@@ -422,7 +436,7 @@ public class CreateProjectView extends BaseView {
 		btnCancel.setHeight("-1px");
 		btnCancel.setTabIndex(8);
 		mainLayout.addComponent(btnCancel,
-				"top:484.0px;right:340.0px;left:140.0px;");
+				"top:503.0px;right:340.0px;left:140.0px;");
 
 		// txtName
 		txtName = new TextField();
@@ -442,7 +456,7 @@ public class CreateProjectView extends BaseView {
 		txtDescription.setWidth("175px");
 		txtDescription.setHeight("-1px");
 		txtDescription.setMaxLength(240);
-		txtDescription.setRows(6);
+		txtDescription.setRows(7);
 		txtDescription.setTabIndex(4);
 		txtDescription.setNullRepresentation("");
 		mainLayout.addComponent(txtDescription, "top:116.0px;left:260.0px;");
@@ -450,7 +464,7 @@ public class CreateProjectView extends BaseView {
 		// cboSeller
 		cboSeller = new ComboBox();
 		cboSeller.setImmediate(true);
-		cboSeller.setWidth("240px");
+		cboSeller.setWidth("215px");
 		cboSeller.setHeight("-1px");
 		cboSeller.setCaption("Vendedor");
 		cboSeller.setInputPrompt("Seleccione el vendedor");
@@ -458,24 +472,24 @@ public class CreateProjectView extends BaseView {
 		cboSeller.setNullSelectionAllowed(false);
 		cboSeller.setRequired(true);
 		mainLayout.addComponent(cboSeller,
-				"top:180.0px;right:372.0px;left:3.0px;");
+				"top:116px;right:0px;");
 
 		// cboManager
 		cboManager = new ComboBox();
 		cboManager.setImmediate(true);
-		cboManager.setWidth("240px");
+		cboManager.setWidth("215px");
 		cboManager.setHeight("-1px");
 		cboManager.setCaption("Gerente");
 		cboManager.setInputPrompt("Seleccione el gerente");
 		cboManager.setTabIndex(3);
 		cboManager.setNullSelectionAllowed(true);
 		mainLayout.addComponent(cboManager,
-				"top:245.0px;right:372.0px;left:3.0px;");
+				"top:116px;right:222px;");
 
 		// cboPartner
 		cboPartner1 = new ComboBox();
 		cboPartner1.setImmediate(true);
-		cboPartner1.setWidth("210px");
+		cboPartner1.setWidth("215px");
 		cboPartner1.setHeight("-1px");
 		cboPartner1.setCaption("Socio");
 		cboPartner1.setInputPrompt("Seleccione el socio");
@@ -483,12 +497,12 @@ public class CreateProjectView extends BaseView {
 		cboPartner1.setNullSelectionAllowed(false);
 		cboPartner1.setRequired(true);
 		mainLayout.addComponent(cboPartner1,
-				"top:116.0px;right:372.0px;left:450.0px;");
+				"top:180.0px;right:222px;");
 
 		// cboDistribution
 		cboDistribution1 = new ComboBox();
 		cboDistribution1.setImmediate(true);
-		cboDistribution1.setWidth("210px");
+		cboDistribution1.setWidth("215px");
 		cboDistribution1.setHeight("-1px");
 		cboDistribution1.setCaption("Distribución ganancias");
 		cboDistribution1.setInputPrompt("Seleccione la distribución");
@@ -496,30 +510,49 @@ public class CreateProjectView extends BaseView {
 		cboDistribution1.setNullSelectionAllowed(false);
 		cboDistribution1.setRequired(true);
 		mainLayout.addComponent(cboDistribution1,
-				"top:180.0px;right:372.0px;left:450.0px;");
+				"top:245.0px;right:222px;");
 
 		// txtPartner
 		cboPartner2 = new ComboBox();
 		cboPartner2.setCaption("Socio");
 		cboPartner2.setImmediate(true);
-		cboPartner2.setWidth("210px");
+		cboPartner2.setWidth("215px");
 		cboPartner2.setHeight("-1px");
 		cboPartner2.setEnabled(false);
 		cboPartner2.setRequired(true);
 		mainLayout.addComponent(cboPartner2,
-				"top:116.0px;right:372.0px;left:670.0px;");
+				"top:180.0px;right:0px;");
 
 		// txtDistribution
 		cboDistribution2 = new ComboBox();
 		cboDistribution2.setCaption("Distribución ganancias");
 		cboDistribution2.setImmediate(true);
-		cboDistribution2.setWidth("210px");
+		cboDistribution2.setWidth("215px");
 		cboDistribution2.setHeight("-1px");
 		cboDistribution2.setEnabled(false);
 		cboDistribution2.setRequired(true);
 		mainLayout.addComponent(cboDistribution2,
-				"top:180.0px;right:372.0px;left:670.0px;");
+				"top:245.0px;right:0px;");
+		
+		// optionGroupCurrency
+		optionGroupCurrency = new OptionGroup();
+		optionGroupCurrency.setCaption("Moneda");
+		optionGroupCurrency.setImmediate(true);
+		optionGroupCurrency.setTabIndex(3);
+		mainLayout.addComponent(optionGroupCurrency,
+				"top:200.0px;left:0.0px;");
 
+		// txtAmount
+		txtAmount = new TextField();
+		txtAmount.setCaption("Importe estimado");
+		txtAmount.setImmediate(true);
+		txtAmount.setWidth("140px");
+		txtAmount.setHeight("-1px");
+		txtAmount.setNullRepresentation("");
+		txtAmount.setConverter(new StringToDoubleConverter());
+		txtAmount.setTabIndex(4);
+		mainLayout.addComponent(txtAmount, "top:200.0px;left:100.0px;");
+				
 		return mainLayout;
 	}
 
