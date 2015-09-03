@@ -181,7 +181,7 @@ public class DeleteBillsView extends BaseView {
 			billsGrid.getColumn("projectName").setHeaderCaption("Proyecto");
 			billsGrid.setWidth(100, Unit.PERCENTAGE);
 			billsGrid.setHeight(100, Unit.PERCENTAGE);
-			billsGrid.setSelectionMode(SelectionMode.MULTI);
+			billsGrid.setSelectionMode(SelectionMode.SINGLE);
 			billsGrid.getSelectedRows().clear();
 			
 			HeaderRow filterRow = billsGrid.appendHeaderRow();

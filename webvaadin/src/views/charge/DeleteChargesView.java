@@ -151,7 +151,7 @@ public class DeleteChargesView extends BaseView {
 			billsGrid.getColumn("billDescription").setHeaderCaption("Descripción factura");
 			billsGrid.setWidth(100, Unit.PERCENTAGE);
 			billsGrid.setHeight(100, Unit.PERCENTAGE);
-			billsGrid.setSelectionMode(SelectionMode.MULTI);
+			billsGrid.setSelectionMode(SelectionMode.SINGLE);
 			billsGrid.getSelectedRows().clear();
 
 			HeaderRow filterRow = billsGrid.appendHeaderRow();
