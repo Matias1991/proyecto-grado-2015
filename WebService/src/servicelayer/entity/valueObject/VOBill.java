@@ -20,22 +20,7 @@ public class VOBill implements Serializable {
 	private boolean isLiquidated;
 	private double amountChargedDollar;
 	private double amountChargedPeso;
-
-	public double getAmountChargedDollar() {
-		return amountChargedDollar;
-	}
-
-	public void setAmountChargedDollar(double amountChargedDollar) {
-		this.amountChargedDollar = amountChargedDollar;
-	}
-
-	public double getAmountChargedPeso() {
-		return amountChargedPeso;
-	}
-
-	public void setAmountChargedPeso(double amountChargedPeso) {
-		this.amountChargedPeso = amountChargedPeso;
-	}
+	private int ivaType;
 
 	public int getId() {
 		return id;
@@ -131,5 +116,29 @@ public class VOBill implements Serializable {
 
 	public void setProjectClosed(boolean projectClosed) {
 		this.projectClosed = projectClosed;
+	}
+
+	public double getAmountChargedDollar() {
+		return amountChargedDollar;
+	}
+
+	public void setAmountChargedDollar(double amountChargedDollar) {
+		this.amountChargedDollar = amountChargedDollar;
+	}
+
+	public double getAmountChargedPeso() {
+		return amountChargedPeso;
+	}
+
+	public void setAmountChargedPeso(double amountChargedPeso) {
+		this.amountChargedPeso = amountChargedPeso;
+	}
+	
+	public int getIvaType() {
+		return ivaType;
+	}
+
+	public void setIvaType(int ivaType) {
+		this.ivaType = ivaType;
 	}
 }

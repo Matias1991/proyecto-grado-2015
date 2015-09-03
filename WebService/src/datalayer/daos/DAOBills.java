@@ -26,8 +26,8 @@ public class DAOBills implements IDAOBills {
 	public int insert(Bill obj) throws ServerException {
 		PreparedStatement preparedStatement = null;
 
-		String insertSQL = "INSERT INTO BILL (CODE, DESCRIPTION, AMOUNTPESO, AMOUNTDOLLAR, ISCURRENCYDOLLAR, TYPEEXCHANGE, APPLIEDDATETIMEUTC, ISLIQUIDATED, PROJECTID) VALUES"
-				+ "(?,?,?,?,?,?,?,?,?)";
+		String insertSQL = "INSERT INTO BILL (CODE, DESCRIPTION, AMOUNTPESO, AMOUNTDOLLAR, ISCURRENCYDOLLAR, TYPEEXCHANGE, IVA_TYPEID, APPLIEDDATETIMEUTC, ISLIQUIDATED, PROJECTID) VALUES"
+				+ "(?,?,?,?,?,?,?,?,?,?)";
 
 		try {
 			preparedStatement = this.connection.prepareStatement(insertSQL);
@@ -38,15 +38,16 @@ public class DAOBills implements IDAOBills {
 			preparedStatement.setDouble(4, obj.getAmountDollar());
 			preparedStatement.setBoolean(5, obj.getIsCurrencyDollar());
 			preparedStatement.setDouble(6, obj.getTypeExchange());
+			preparedStatement.setInt(7, obj.getIvaType().getValue());
 			preparedStatement.setTimestamp(
-					7,
+					8,
 					new Timestamp(setFirstDayOfMonth(
 							obj.getAppliedDateTimeUTC()).getTime()));
-			preparedStatement.setBoolean(8, false);
+			preparedStatement.setBoolean(9, false);
 			if (obj.getProject() != null)
-				preparedStatement.setInt(9, obj.getProject().getId());
+				preparedStatement.setInt(10, obj.getProject().getId());
 			else
-				preparedStatement.setNull(9, java.sql.Types.INTEGER);
+				preparedStatement.setNull(10, java.sql.Types.INTEGER);
 
 			preparedStatement.executeUpdate();
 

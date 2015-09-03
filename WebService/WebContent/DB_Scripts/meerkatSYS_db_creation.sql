@@ -91,6 +91,13 @@ CREATE TABLE IF NOT EXISTS SalarySummary
 	FOREIGN KEY R_SalarySummary_Employed (EmployedId) REFERENCES Employed (Id)
 );
 
+CREATE TABLE IF NOT EXISTS IVA_Type
+(
+	Id                   INTEGER NOT NULL,
+	Name                 VARCHAR(20) NOT NULL,
+	PRIMARY KEY (Id)
+);
+
 CREATE TABLE IF NOT EXISTS CategoryType
 (
 	Id                   INTEGER NOT NULL,
@@ -143,11 +150,13 @@ CREATE TABLE IF NOT EXISTS Bill
 	AmountDollar 		DECIMAL(10,2) NULL,
 	IsCurrencyDollar	BIT NULL,
 	TypeExchange		DECIMAL(10,2) NULL,
+	IVA_TypeId			INTEGER NULL,
 	AppliedDateTimeUTC  TIMESTAMP NULL,
 	IsLiquidated		BIT NULL,
 	ProjectId			INTEGER NULL,
 	PRIMARY KEY (Id, ProjectId),
-	FOREIGN KEY FK_Bill_Project (ProjectId) REFERENCES Project (Id)
+	FOREIGN KEY FK_Bill_Project (ProjectId) REFERENCES Project (Id),
+	FOREIGN KEY FK_Bill_IVA_Type (IVA_TypeId) REFERENCES IVA_Type (Id)
 );
 
 CREATE TABLE IF NOT EXISTS Charge

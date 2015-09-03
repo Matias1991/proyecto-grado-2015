@@ -2,9 +2,11 @@ package servicelayer.core;
 
 import java.util.ArrayList;
 import java.util.Date;
+
 import datalayer.daos.DAOManager;
 import servicelayer.entity.businessEntity.Bill;
 import servicelayer.entity.businessEntity.Charge;
+import servicelayer.entity.businessEntity.IVA_Type;
 import shared.exceptions.ClientException;
 import shared.exceptions.ServerException;
 import shared.interfaces.core.ICoreBill;
@@ -116,9 +118,27 @@ public class CoreBill implements ICoreBill {
 		DAOManager daoManager = new DAOManager();
 		try {
 			bill = daoManager.getDAOBills().getObject(id);
+			
 			if (bill == null)
 				throw new ClientException(
 						"No existe ningúna facrura con ese id");
+			else
+			{
+				/*
+				if(bill.getIsCurrencyDollar())
+				{
+					double iva = getIVA(bill.getAmountDollar(), bill.getIvaType());
+					double totalAmountDollar = bill.getAmountDollar() + iva;
+					bill.setTotalAmountDollar(totalAmountDollar);
+				}
+				else
+				{
+					double iva = getIVA(bill.getAmountPeso(), bill.getIvaType());
+					double totalAmountDollar = bill.getAmountDollar() + iva;
+					bill.setTotalAmountPeso(totalAmountDollar);
+				}
+				*/
+			}
 
 		} catch (ServerException e) {
 			throw e;
@@ -256,6 +276,17 @@ public class CoreBill implements ICoreBill {
 		return bills;
 	}
 
+	double getIVA(double amount, IVA_Type ivaType)
+	{
+		double iva = 0;
+		if(ivaType == IVA_Type.TEN || ivaType == IVA_Type.TWENTY_TWO)
+		{
+			iva = amount * ivaType.getPercentage();
+		}
+		
+		return iva;
+	}
+	
 	// retorna el monto cobrado de esa factura
 	public double getAmountChargedByBill(Bill bill) throws ServerException {
 		double amountCharged = 0;

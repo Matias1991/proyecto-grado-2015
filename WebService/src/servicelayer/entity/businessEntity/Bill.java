@@ -12,18 +12,25 @@ public class Bill {
 	private int id;
 	private String code;
 	private String description;
-	private double amountPeso;
-	private double amountDollar;
 	private boolean isCurrencyDollar;
 	private double typeExchange;
 	private Date appliedDateTimeUTC;
 	private Project project;
 	private boolean isLiquidated;
 	
-	//
+	private double amountPeso;
+	private double amountDollar;
+	
+	private double totalAmountDollar;
+	private double totalAmountPeso;
+	
 	private double amountChargedDollar;
 	private double amountChargedPeso;
-	//
+	
+	private double totalAmountChargedDollar;
+	private double totalAmountChargedPeso;
+	
+	private IVA_Type ivaType;
 	
 	private IDAOCharges iDAOCharges;
 
@@ -130,6 +137,46 @@ public class Bill {
 
 	public void setAmountChargedPeso(double amountChargedPeso) {
 		this.amountChargedPeso = amountChargedPeso;
+	}
+	
+	public double getTotalAmountDollar() {
+		return totalAmountDollar;
+	}
+
+	public void setTotalAmountDollar(double totalAmountDollar) {
+		this.totalAmountDollar = totalAmountDollar;
+	}
+
+	public double getTotalAmountPeso() {
+		return totalAmountPeso;
+	}
+
+	public void setTotalAmountPeso(double totalAmountPeso) {
+		this.totalAmountPeso = totalAmountPeso;
+	}
+
+	public double getTotalAmountChargedDollar() {
+		return totalAmountChargedDollar;
+	}
+
+	public void setTotalAmountChargedDollar(double totalAmountChargedDollar) {
+		this.totalAmountChargedDollar = totalAmountChargedDollar;
+	}
+
+	public double getTotalAmountChargedPeso() {
+		return totalAmountChargedPeso;
+	}
+
+	public void setTotalAmountChargedPeso(double totalAmountChargedPeso) {
+		this.totalAmountChargedPeso = totalAmountChargedPeso;
+	}
+
+	public IVA_Type getIvaType() {
+		return ivaType;
+	}
+
+	public void setIvaType(IVA_Type ivaType) {
+		this.ivaType = ivaType;
 	}
 	
 	public void setIDAOCharges(IDAOCharges iDAOCharges) {

@@ -1,7 +1,9 @@
 package servicelayer.service.builder;
 
 import servicelayer.entity.businessEntity.Bill;
+import servicelayer.entity.businessEntity.IVA_Type;
 import servicelayer.entity.businessEntity.Project;
+import servicelayer.entity.businessEntity.UserStatus;
 import servicelayer.entity.valueObject.VOBill;
 
 public class BillBuilder extends BaseBuilder<VOBill, Bill>{
@@ -19,6 +21,7 @@ public class BillBuilder extends BaseBuilder<VOBill, Bill>{
 		voBill.setTypeExchange(businessObject.getTypeExchange());
 		voBill.setAppliedDateTimeUTC(businessObject.getAppliedDateTimeUTC());
 		voBill.setLiquidated(businessObject.getIsLiquidated());
+		voBill.setIvaType(businessObject.getIvaType().getValue());
 		if (businessObject.getProject() != null) {
 			voBill.setProjectId(businessObject.getProject().getId());
 			voBill.setProjectName(businessObject.getProject().getName());
@@ -45,7 +48,8 @@ public class BillBuilder extends BaseBuilder<VOBill, Bill>{
 		bill.setAppliedDateTimeUTC(voObject.getAppliedDateTimeUTC());
 		if (voObject.getProjectId() != 0)
 			bill.setProject(new Project(voObject.getProjectId()));
-		
+		if (voObject.getIvaType() != 0)
+			bill.setIvaType(IVA_Type.getEnum(voObject.getIvaType()));
 		return bill;
 	}
 }
