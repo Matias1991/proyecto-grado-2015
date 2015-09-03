@@ -101,10 +101,13 @@ public class CatalogCategoriesView extends BaseView {
 					txtFilter.setInputPrompt("Filtro");
 
 					txtFilter.addTextChangeListener(new TextChangeListener() {
+						private static final long serialVersionUID = 1L;
+
 						@Override
 						public void textChange(TextChangeEvent event) {
 							String newValue = (String) event.getText();
 
+							@SuppressWarnings("unchecked")
 							BeanItemContainer<Category> container = ((BeanItemContainer<Category>) categoriesGrid
 									.getContainerDataSource());
 
