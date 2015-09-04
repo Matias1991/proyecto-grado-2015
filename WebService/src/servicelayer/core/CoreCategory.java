@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import datalayer.daos.DAOCategories;
+import datalayer.daos.DAOManager;
 import servicelayer.entity.businessEntity.Category;
 import servicelayer.entity.businessEntity.CategoryType;
 import servicelayer.entity.valueObject.VOCategory;
@@ -180,6 +181,22 @@ public class CoreCategory implements ICoreCategory {
 			throws ServerException, ClientException {
 
 		return iDAOCategory.getCategoriesByProject(projectId);
+	}
+
+	@Override
+	public ArrayList<Category> getCategories(Date from, Date to) throws ServerException {
+		ArrayList<Category> categories;
+
+		DAOManager daoManager = new DAOManager();
+		try {
+			categories = daoManager.getDAOCategories().getCategories(from, to);
+
+		} catch (ServerException e) {
+			throw e;
+		} finally {
+			daoManager.close();
+		}
+		return categories;
 	}
 
 	private boolean changeCategory(Category toUpdate, Category oldCategory) {

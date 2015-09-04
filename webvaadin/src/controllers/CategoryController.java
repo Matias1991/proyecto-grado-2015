@@ -3,12 +3,14 @@ package controllers;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 
 import org.apache.axis2.AxisFault;
 
 import servicelayer.service.ServiceWebStub;
 import servicelayer.service.ServiceWebStub.DeleteCategory;
 import servicelayer.service.ServiceWebStub.GetCategories;
+import servicelayer.service.ServiceWebStub.GetCategoriesByDate;
 import servicelayer.service.ServiceWebStub.GetCategoriesByProject;
 import servicelayer.service.ServiceWebStub.InsertCategory;
 import servicelayer.service.ServiceWebStub.UpdateCategory;
@@ -106,6 +108,40 @@ public class CategoryController {
 		} catch (AxisFault e) {
 			String error = e.getMessage().replace("<faultstring>", "");
 			PopupWindow popup = new PopupWindow("ERROR", error.replace("</faultstring>", ""));
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
+		
+		return categories;
+	}
+	
+	public static Collection<Category> getCategoriesByDate (Date from, Date to)
+	{
+		Collection<Category> categories = new ArrayList<Category>();
+		
+		try {
+			ServiceWebStub service = new ServiceWebStub();
+			GetCategoriesByDate getCategory = new GetCategoriesByDate();
+			
+			getCategory.setFrom(from);
+			getCategory.setTo(to);
+			
+			VOCategory [] voCategories = service.getCategoriesByDate(getCategory).get_return();
+
+			if(voCategories != null)
+			{
+				for(VOCategory voCategory : voCategories)
+				{
+					if(!voCategory.getProjectClosed()){
+						Category category = new Category(voCategory);
+						categories.add(category);						
+					}
+				}
+			}
+			
+		} catch (AxisFault e) {
+			String error = e.getMessage().replace("<faultstring>", "");
+			new PopupWindow("ERROR", error.replace("</faultstring>", ""));
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		}

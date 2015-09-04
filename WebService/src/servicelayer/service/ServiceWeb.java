@@ -700,6 +700,27 @@ public class ServiceWeb extends ServiceBase {
 		}
 		return null;
 	}
+	
+
+	public VOCategory[] getCategoriesByDate(Date from, Date to) {
+		try {
+			transactionLock.tryLock(Constants.DEFAULT_TRANSACTION_TIME,
+					TimeUnit.SECONDS);
+
+			return categoryBuilder.BuildArrayVOObject(VOCategory.class,
+					iCoreCategory.getCategories(from, to));
+
+		} catch (ServerException e) {
+			ThrowServerExceptionAndLogError(e, "obtener los rubros por intervalo de fecha");
+		} catch (InterruptedException e) {
+			throw new RuntimeException(Constants.TRANSACTION_ERROR);
+		} catch (Exception e) {
+			ThrowGenericExceptionAndLogError(e);
+		} finally {
+			transactionLock.unlock();
+		}
+		return null;
+	}
 
 	public boolean insertBill(VOBill voBill) {
 		try {
@@ -776,7 +797,7 @@ public class ServiceWeb extends ServiceBase {
 					iCoreBill.getBills(from, to, isLiquidated));
 
 		} catch (ServerException e) {
-			ThrowServerExceptionAndLogError(e, "obtener todos las facturas");
+			ThrowServerExceptionAndLogError(e, "obtener todas las facturas");
 		} catch (InterruptedException e) {
 			throw new RuntimeException(Constants.TRANSACTION_ERROR);
 		} catch (Exception e) {

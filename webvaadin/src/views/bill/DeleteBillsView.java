@@ -170,15 +170,19 @@ public class DeleteBillsView extends BaseView {
 			billsGrid.removeColumn("amountDollar");
 			billsGrid.removeColumn("isCurrencyDollar");
 			billsGrid.removeColumn("typeExchange");
-			billsGrid.setColumnOrder("code", "description", "amountToShow", "typeExchangeToShow", "amountChargedToShow", "appliedDateTimeUTCToShow", "projectName");
-	
+			billsGrid.removeColumn("ivaType");
+			billsGrid.removeColumn("amountToShow");
+			billsGrid.removeColumn("amountChargedToShow");
+			billsGrid.setColumnOrder("code", "description", "totalAmountToShow", "typeExchangeToShow", "ivaTypeToShow","appliedDateTimeUTCToShow", "projectName");
+			
 			billsGrid.getColumn("code").setHeaderCaption("Código");
 			billsGrid.getColumn("description").setHeaderCaption("Descripción");
-			billsGrid.getColumn("amountToShow").setHeaderCaption("Importe");
+			billsGrid.getColumn("ivaTypeToShow").setHeaderCaption("IVA");
+			billsGrid.getColumn("totalAmountToShow").setHeaderCaption("Importe IVA incl.");
 			billsGrid.getColumn("typeExchangeToShow").setHeaderCaption("Tipo de cambio");
-			billsGrid.getColumn("amountChargedToShow").setHeaderCaption("Importe cobrado");
 			billsGrid.getColumn("appliedDateTimeUTCToShow").setHeaderCaption("Mes");
 			billsGrid.getColumn("projectName").setHeaderCaption("Proyecto");
+			billsGrid.getColumn("description").setWidth(200);
 			billsGrid.setWidth(100, Unit.PERCENTAGE);
 			billsGrid.setHeight(100, Unit.PERCENTAGE);
 			billsGrid.setSelectionMode(SelectionMode.SINGLE);

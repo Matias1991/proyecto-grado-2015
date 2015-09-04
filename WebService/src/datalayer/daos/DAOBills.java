@@ -8,7 +8,9 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+
 import servicelayer.entity.businessEntity.Bill;
+import servicelayer.entity.businessEntity.IVA_Type;
 import servicelayer.entity.businessEntity.Project;
 import shared.LoggerMSMP;
 import shared.exceptions.ServerException;
@@ -139,7 +141,7 @@ public class DAOBills implements IDAOBills {
 
 		String updateSQL = "UPDATE BILL " + "SET DESCRIPTION = ?, "
 				+ "CODE = ?, " + "AMOUNTPESO = ?, " + "AMOUNTDOLLAR = ?, "
-				+ "ISCURRENCYDOLLAR = ?, " + "TYPEEXCHANGE = ?, "
+				+ "ISCURRENCYDOLLAR = ?, " + "TYPEEXCHANGE = ?, "  + "IVA_TYPEID = ?, "
 				+ "APPLIEDDATETIMEUTC = ?, " + "PROJECTID = ? "
 				+ "WHERE id = ?";
 
@@ -152,15 +154,16 @@ public class DAOBills implements IDAOBills {
 			preparedStatement.setDouble(4, obj.getAmountDollar());
 			preparedStatement.setBoolean(5, obj.getIsCurrencyDollar());
 			preparedStatement.setDouble(6, obj.getTypeExchange());
+			preparedStatement.setInt(7, obj.getIvaType().getValue());
 			preparedStatement.setTimestamp(
-					7,
+					8,
 					new Timestamp(setFirstDayOfMonth(
 							obj.getAppliedDateTimeUTC()).getTime()));
 			if (obj.getProject() != null)
-				preparedStatement.setInt(8, obj.getProject().getId());
+				preparedStatement.setInt(9, obj.getProject().getId());
 			else
-				preparedStatement.setNull(8, java.sql.Types.INTEGER);
-			preparedStatement.setInt(9, id);
+				preparedStatement.setNull(9, java.sql.Types.INTEGER);
+			preparedStatement.setInt(10, id);
 
 			preparedStatement.executeUpdate();
 
@@ -564,6 +567,7 @@ public class DAOBills implements IDAOBills {
 		double amountDollar = rs.getDouble("amountDollar");
 		boolean isCurrencyDollar = rs.getBoolean("isCurrencyDollar");
 		double typeExchange = rs.getDouble("typeExchange");
+		int ivaType = rs.getInt("iva_TypeId");
 		Date appliedDateTimeUTC = rs.getTimestamp("appliedDateTimeUTC");
 		boolean isLiquidated = rs.getBoolean("isLiquidated");
 		int projectId = rs.getInt("projectid");
@@ -574,6 +578,7 @@ public class DAOBills implements IDAOBills {
 		bill.setDescription(description);
 		bill.setIsCurrencyDollar(isCurrencyDollar);
 		bill.setTypeExchange(typeExchange);
+		bill.setIvaType(IVA_Type.getEnum(ivaType));
 		bill.setAppliedDateTimeUTC(appliedDateTimeUTC);
 		bill.setIsLiquidated(isLiquidated);
 		if (projectId != 0)

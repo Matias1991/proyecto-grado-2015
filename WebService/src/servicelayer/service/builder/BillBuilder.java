@@ -31,6 +31,9 @@ public class BillBuilder extends BaseBuilder<VOBill, Bill>{
 		voBill.setAmountChargedDollar(businessObject.getAmountChargedDollar());
 		voBill.setAmountChargedPeso(businessObject.getAmountChargedPeso());
 		
+		voBill.setTotalAmountDollar(businessObject.getTotalAmountDollar());
+		voBill.setTotalAmountPeso(businessObject.getTotalAmountPeso());
+		
 		return voBill;
 	}
 

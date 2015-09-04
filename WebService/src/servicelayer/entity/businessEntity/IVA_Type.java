@@ -26,10 +26,10 @@ public enum IVA_Type {
 		switch(getEnum(id))
 		{
 			case TEN:
-				value = 0.10;
+				value = 1.10;
 				break;
 			case TWENTY_TWO:
-				value = 0.22;
+				value = 1.22;
 				break;
 			default:
 				break;

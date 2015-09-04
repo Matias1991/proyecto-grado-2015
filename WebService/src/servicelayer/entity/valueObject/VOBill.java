@@ -9,8 +9,6 @@ public class VOBill implements Serializable {
 	private int id;
 	private String code;
 	private String description;
-	private double amountPeso;
-	private double amountDollar;
 	private boolean isCurrencyDollar;
 	private double typeExchange;
 	private Date appliedDateTimeUTC;
@@ -21,6 +19,11 @@ public class VOBill implements Serializable {
 	private double amountChargedDollar;
 	private double amountChargedPeso;
 	private int ivaType;
+	
+	private double amountPeso;
+	private double amountDollar;
+	private double totalAmountDollar;
+	private double totalAmountPeso;
 
 	public int getId() {
 		return id;
@@ -141,4 +144,20 @@ public class VOBill implements Serializable {
 	public void setIvaType(int ivaType) {
 		this.ivaType = ivaType;
 	}
+
+	public double getTotalAmountDollar() {
+		return totalAmountDollar;
+	}
+
+	public void setTotalAmountDollar(double totalAmountDollar) {
+		this.totalAmountDollar = totalAmountDollar;
+	}
+	
+	public double getTotalAmountPeso() {
+		return totalAmountPeso;
+	}
+
+	public void setTotalAmountPeso(double totalAmountPeso) {
+		this.totalAmountPeso = totalAmountPeso;
+	}	
 }

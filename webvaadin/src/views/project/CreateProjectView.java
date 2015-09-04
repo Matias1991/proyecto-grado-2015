@@ -84,6 +84,17 @@ public class CreateProjectView extends BaseView {
 		optionGroupCurrency.addItems("Pesos", "Dolares");
 		optionGroupCurrency.select("Pesos");
 		
+		optionGroupCurrency.addValueChangeListener(new ValueChangeListener() {
+
+			@Override
+			public void valueChange(ValueChangeEvent event) {
+				if(optionGroupCurrency.getValue() == "Pesos")
+					txtAmount.setCaption("Imp. estimado ($)");
+				else
+					txtAmount.setCaption("Imp. estimado (U$S)");
+			}
+		});
+		
 		btnCancel.addClickListener(new Button.ClickListener() {
 
 			@Override
@@ -104,7 +115,11 @@ public class CreateProjectView extends BaseView {
 					Project newProject = new Project();
 					newProject.setName(txtName.getValue());
 					newProject.setDescription(txtDescription.getValue());
-					newProject.setAmount((Double)(txtAmount.getConvertedValue()));
+					
+					if(txtAmount.getValue() != null)
+						newProject.setAmount((Double)(txtAmount.getConvertedValue()));
+					else
+						newProject.setAmount(0);
 					
 					if(optionGroupCurrency.getValue() == "Pesos")
 						newProject.setIsCurrencyDollar(false);
@@ -216,17 +231,10 @@ public class CreateProjectView extends BaseView {
 				getUI().getNavigator().navigateTo(WebvaadinUI.MAINMENU);
 			}
 		}
-		if (tblEmployed != null) {
-			mainLayout.removeComponent(tblEmployed);
-		}
-		if (tblEmployedHours != null) {
-			mainLayout.removeComponent(tblEmployedHours);
-		}
 
 		buildTables();
 		loadComboBoxes();
-		txtName.clear();
-		txtDescription.clear();		
+		cleanInputs();
 		cboSeller.setValidationVisible(false);
 		cboManager.setValidationVisible(false);
 		txtName.setValidationVisible(false);
@@ -246,6 +254,7 @@ public class CreateProjectView extends BaseView {
 		txtDescription.clear();
 		txtAmount.clear();
 		optionGroupCurrency.select("Pesos");
+		txtAmount.setCaption("Imp. estimado ($)");
 	}
 
 	private void buildTables() {
