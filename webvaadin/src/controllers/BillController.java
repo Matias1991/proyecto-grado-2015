@@ -42,6 +42,7 @@ public class BillController {
 			voBill.setTypeExchange(bill.getTypeExchange());
 			voBill.setAppliedDateTimeUTC(bill.getAppliedDateTimeUTC());
 			voBill.setProjectId(bill.getProjectId());
+			voBill.setIvaType(bill.getIvaType());
 			
 			createBill.setVoBill(voBill);
 			
@@ -74,6 +75,7 @@ public class BillController {
 			voBill.setTypeExchange(bill.getTypeExchange());
 			voBill.setAppliedDateTimeUTC(bill.getAppliedDateTimeUTC());
 			voBill.setProjectId(bill.getProjectId());
+			voBill.setIvaType(bill.getIvaType());
 			
 			updateBill.setId(id);
 			updateBill.setVoBill(voBill);

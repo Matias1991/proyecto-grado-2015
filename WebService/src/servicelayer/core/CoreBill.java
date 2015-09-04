@@ -89,17 +89,13 @@ public class CoreBill implements ICoreBill {
 
 		DAOManager daoManager = new DAOManager();
 		try {
-			if (daoManager.getDAOBills().getBill(bill.getCode()) != null) {
-				if (bill.getIsCurrencyDollar()) {
-					bill.setAmountPeso(bill.getAmountDollar()
-							* bill.getTypeExchange());
-				}
+			if (bill.getIsCurrencyDollar()) {
+				bill.setAmountPeso(bill.getAmountDollar()
+						* bill.getTypeExchange());
+			}
 
-				daoManager.getDAOBills().update(id, bill);
-				daoManager.commit();
-			} else
-				throw new ClientException(
-						"Ya existe una factura con ese codigo");
+			daoManager.getDAOBills().update(id, bill);
+			daoManager.commit();
 
 			return getBill(id);
 
@@ -124,22 +120,12 @@ public class CoreBill implements ICoreBill {
 						"No existe ningúna facrura con ese id");
 			else
 			{
-				/*
-				if(bill.getIsCurrencyDollar())
-				{
-					double iva = getIVA(bill.getAmountDollar(), bill.getIvaType());
-					double totalAmountDollar = bill.getAmountDollar() + iva;
-					bill.setTotalAmountDollar(totalAmountDollar);
-				}
+				if (bill.getIsCurrencyDollar())
+					bill.setTotalAmountDollar(getTotalAmount(bill.getAmountDollar(), bill.getIvaType()));
 				else
-				{
-					double iva = getIVA(bill.getAmountPeso(), bill.getIvaType());
-					double totalAmountDollar = bill.getAmountDollar() + iva;
-					bill.setTotalAmountPeso(totalAmountDollar);
-				}
-				*/
+					bill.setTotalAmountPeso(getTotalAmount(bill.getAmountPeso(), bill.getIvaType()));
 			}
-
+			
 		} catch (ServerException e) {
 			throw e;
 		} finally {
@@ -174,10 +160,7 @@ public class CoreBill implements ICoreBill {
 			bills = daoManager.getDAOBills().getBills(from, to, isLiquidated);
 
 			for (Bill bill : bills) {
-				if (bill.getIsCurrencyDollar())
-					bill.setAmountChargedDollar(getAmountChargedByBill(bill));
-				else
-					bill.setAmountChargedPeso(getAmountChargedByBill(bill));
+				buildTotalAmountAndTotalCharged(bill);
 			}
 
 		} catch (ServerException e) {
@@ -198,11 +181,23 @@ public class CoreBill implements ICoreBill {
 			bills = daoManager.getDAOBills().getBills(from, to, isLiquidated,
 					withCharges);
 
-			for (Bill bill : bills) {
-				if (bill.getIsCurrencyDollar())
-					bill.setAmountChargedDollar(getAmountChargedByBill(bill));
-				else
-					bill.setAmountChargedPeso(getAmountChargedByBill(bill));
+			if(withCharges)
+			{
+				for (Bill bill : bills) {
+					if (bill.getIsCurrencyDollar())
+						bill.setAmountChargedDollar(getAmountChargedByBill(bill));
+					else
+						bill.setAmountChargedPeso(getAmountChargedByBill(bill));
+				}
+			}
+			else
+			{
+				for (Bill bill : bills) {
+					if (bill.getIsCurrencyDollar())
+						bill.setTotalAmountDollar(getTotalAmount(bill.getAmountDollar(), bill.getIvaType()));
+					else
+						bill.setTotalAmountPeso(getTotalAmount(bill.getAmountPeso(), bill.getIvaType()));
+				}
 			}
 
 		} catch (ServerException e) {
@@ -222,12 +217,9 @@ public class CoreBill implements ICoreBill {
 			bills = daoManager.getDAOBills().getBills(from, to);
 
 			for (Bill bill : bills) {
-				if (bill.getIsCurrencyDollar())
-					bill.setAmountChargedDollar(getAmountChargedByBill(bill));
-				else
-					bill.setAmountChargedPeso(getAmountChargedByBill(bill));
+				buildTotalAmountAndTotalCharged(bill);
 			}
-
+			
 		} catch (ServerException e) {
 			throw e;
 		} finally {
@@ -246,10 +238,7 @@ public class CoreBill implements ICoreBill {
 			bills = daoManager.getDAOBills().getBillsWithCharges(from, to);
 
 			for (Bill bill : bills) {
-				if (bill.getIsCurrencyDollar())
-					bill.setAmountChargedDollar(getAmountChargedByBill(bill));
-				else
-					bill.setAmountChargedPeso(getAmountChargedByBill(bill));
+				buildTotalAmountAndTotalCharged(bill);
 			}
 
 		} catch (ServerException e) {
@@ -276,19 +265,19 @@ public class CoreBill implements ICoreBill {
 		return bills;
 	}
 
-	double getIVA(double amount, IVA_Type ivaType)
+	double getTotalAmount(double amount, IVA_Type ivaType)
 	{
-		double iva = 0;
+		double totalAmount = amount;
 		if(ivaType == IVA_Type.TEN || ivaType == IVA_Type.TWENTY_TWO)
 		{
-			iva = amount * ivaType.getPercentage();
+			totalAmount = amount * ivaType.getPercentage();
 		}
 		
-		return iva;
+		return totalAmount;
 	}
 	
 	// retorna el monto cobrado de esa factura
-	public double getAmountChargedByBill(Bill bill) throws ServerException {
+	double getAmountChargedByBill(Bill bill) throws ServerException {
 		double amountCharged = 0;
 		DAOManager daoManager = new DAOManager();
 		try {
@@ -314,5 +303,21 @@ public class CoreBill implements ICoreBill {
 		}
 
 		return amountCharged;
+	}
+	
+	//Carga el monto total de la factura con iva incl.
+	//Carga el monto total cobrado de la factura
+	void buildTotalAmountAndTotalCharged(Bill bill) throws ServerException
+	{
+		if (bill.getIsCurrencyDollar())
+		{
+			bill.setAmountChargedDollar(getAmountChargedByBill(bill));
+			bill.setTotalAmountDollar(getTotalAmount(bill.getAmountDollar(), bill.getIvaType()));
+		}
+		else
+		{
+			bill.setAmountChargedPeso(getAmountChargedByBill(bill));
+			bill.setTotalAmountPeso(getTotalAmount(bill.getAmountPeso(), bill.getIvaType()));
+		}
 	}
 }

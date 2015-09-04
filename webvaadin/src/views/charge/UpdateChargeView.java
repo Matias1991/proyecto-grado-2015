@@ -290,12 +290,16 @@ public class UpdateChargeView extends BaseView {
 			billsGrid.removeColumn("typeExchangeToShow");
 			billsGrid.removeColumn("appliedDateTimeUTCToShow");
 			billsGrid.removeColumn("projectName");
-			billsGrid.setColumnOrder("code", "description", "amountToShow", "amountChargedToShow");
-	
+			billsGrid.removeColumn("amountToShow");
+			billsGrid.removeColumn("ivaType");
+			billsGrid.removeColumn("ivaTypeToShow");
+			billsGrid.setColumnOrder("code", "description", "totalAmountToShow", "amountChargedToShow");
+			
 			billsGrid.getColumn("code").setHeaderCaption("Código");
 			billsGrid.getColumn("description").setHeaderCaption("Descripción");
-			billsGrid.getColumn("amountToShow").setHeaderCaption("Importe");
+			billsGrid.getColumn("totalAmountToShow").setHeaderCaption("Importe IVA incl.");
 			billsGrid.getColumn("amountChargedToShow").setHeaderCaption("Importe cobrado");
+			billsGrid.getColumn("description").setWidth(200);
 			billsGrid.setWidth(620, Unit.PIXELS);
 			billsGrid.setHeight(285, Unit.PIXELS);
 			billsGrid.setSelectionMode(SelectionMode.SINGLE);

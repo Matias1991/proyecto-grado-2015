@@ -11,17 +11,23 @@ public class Bill {
 	private int id;
 	private String code;
 	private String description;
-    private double amountPeso;
-	private double amountDollar;
     private boolean isCurrencyDollar;
     private double typeExchange;
     private Date appliedDateTimeUTC;
     private int projectId;
     private String projectName;
     private String appliedDateTimeUTCToShow;
+    
+    private int ivaType;
+    
+    private double amountPeso;
+   	private double amountDollar;
+    
     private String amountToShow;
     private String typeExchangeToShow;
-    private String amountChargedToShow;
+   	private String amountChargedToShow;
+    private String totalAmountToShow;
+    private String ivaTypeToShow;
     
     public Bill()
     {
@@ -44,20 +50,27 @@ public class Bill {
     		this.projectName = voBill.getProjectName();
     	}
     	
-    	this.setAppliedDateTimeUTCToShow(new SimpleDateFormat("MM-yyyy").format(appliedDateTimeUTC));
+    	this.appliedDateTimeUTCToShow = new SimpleDateFormat("MM-yyyy").format(appliedDateTimeUTC);
     	
     	if(isCurrencyDollar)
     	{
     		this.amountToShow = new DecimalFormat("U$S ###,###.###").format(this.amountDollar);
-    		this.setAmountChargedToShow(new DecimalFormat("U$S ###,###.###").format(voBill.getAmountChargedDollar()));
+    		this.amountChargedToShow = new DecimalFormat("U$S ###,###.###").format(voBill.getAmountChargedDollar());
     		this.typeExchangeToShow = String.valueOf(this.typeExchange);
+    		
+    		this.totalAmountToShow = new DecimalFormat("U$S ###,###.###").format(voBill.getTotalAmountDollar());
     	}
     	else
     	{
     		this.amountToShow = new DecimalFormat("$ ###,###.###").format(this.amountPeso);
-    		this.setAmountChargedToShow(new DecimalFormat("$ ###,###.###").format(voBill.getAmountChargedPeso()));
+    		this.amountChargedToShow = new DecimalFormat("$ ###,###.###").format(voBill.getAmountChargedPeso());
     		this.typeExchangeToShow = "N/A";
+    		
+    		this.totalAmountToShow = new DecimalFormat("$ ###,###.###").format(voBill.getTotalAmountPeso());
     	}
+    	
+    	this.ivaType = voBill.getIvaType();
+    	this.ivaTypeToShow = getIvaTypeToShow(voBill.getIvaType());
     }
     
 	public int getId() {
@@ -100,10 +113,6 @@ public class Bill {
 	public String getAppliedDateTimeUTCToShow() {
 		return appliedDateTimeUTCToShow;
 	}
-
-	public void setAppliedDateTimeUTCToShow(String appliedDateTimeUTCToShow) {
-		this.appliedDateTimeUTCToShow = appliedDateTimeUTCToShow;
-	}
 	
 	public double getAmountPeso() {
 		return amountPeso;
@@ -141,23 +150,47 @@ public class Bill {
 		return amountToShow;
 	}
 
-	public void setAmountToShow(String amountToShow) {
-		this.amountToShow = amountToShow;
-	}
-
 	public String getTypeExchangeToShow() {
 		return typeExchangeToShow;
-	}
-
-	public void setTypeExchangeToShow(String typeExchangeToShow) {
-		this.typeExchangeToShow = typeExchangeToShow;
 	}
 
 	public String getAmountChargedToShow() {
 		return amountChargedToShow;
 	}
 
-	public void setAmountChargedToShow(String amountChargedToShow) {
-		this.amountChargedToShow = amountChargedToShow;
+	public int getIvaType() {
+		return ivaType;
+	}
+	
+	public void setIvaType(int ivaType) {
+		this.ivaType = ivaType;
+	}
+
+	public String getTotalAmountToShow() {
+		return totalAmountToShow;
+	}
+
+	public String getIvaTypeToShow() {
+		return ivaTypeToShow;
+	}
+	
+	String getIvaTypeToShow(int ivaTypeId) {
+		
+		String result = "";
+		switch (ivaTypeId) {
+			case 1:
+				result = "0%";
+				break;
+			case 2:
+				result = "10%";
+				break;
+			case 3:
+				result = "22%";
+				break;
+			default:
+				break;
+		}
+		
+		return result;
 	}
 }

@@ -132,17 +132,23 @@ public class CatalogBillsView extends BaseView {
 			billsGrid.removeColumn("amountDollar");
 			billsGrid.removeColumn("isCurrencyDollar");
 			billsGrid.removeColumn("typeExchange");
-			billsGrid.setColumnOrder("code", "description", "amountToShow", "typeExchangeToShow", "amountChargedToShow" ,"appliedDateTimeUTCToShow", "projectName");
+			billsGrid.removeColumn("ivaType");
+			billsGrid.setColumnOrder("code", "description", "amountToShow", "ivaTypeToShow", "totalAmountToShow", "typeExchangeToShow", "amountChargedToShow" ,"appliedDateTimeUTCToShow", "projectName");
 	
 			billsGrid.getColumn("code").setHeaderCaption("Código");
 			billsGrid.getColumn("description").setHeaderCaption("Descripción");
-			billsGrid.getColumn("amountToShow").setHeaderCaption("Importe");
+			billsGrid.getColumn("amountToShow").setHeaderCaption("Importe sin IVA incl.");
+			billsGrid.getColumn("ivaTypeToShow").setHeaderCaption("IVA");
+			billsGrid.getColumn("totalAmountToShow").setHeaderCaption("Importe IVA incl.");
 			billsGrid.getColumn("typeExchangeToShow").setHeaderCaption("Tipo de cambio");
 			billsGrid.getColumn("amountChargedToShow").setHeaderCaption("Importe cobrado");
 			billsGrid.getColumn("appliedDateTimeUTCToShow").setHeaderCaption("Mes");
 			billsGrid.getColumn("projectName").setHeaderCaption("Proyecto");
+		
+			billsGrid.getColumn("description").setWidth(200);
+			
 			billsGrid.setWidth(100, Unit.PERCENTAGE);
-			billsGrid.setHeight(100, Unit.PERCENTAGE);
+			billsGrid.setHeight(500, Unit.PIXELS);
 			billsGrid.setSelectionMode(SelectionMode.NONE);
 			billsGrid.getSelectedRows().clear();
 			
@@ -176,7 +182,7 @@ public class CatalogBillsView extends BaseView {
 				}
 			}
 			
-			mainLayout.addComponent(billsGrid, "top:35%;left:0px;");
+			mainLayout.addComponent(billsGrid, "top:20%;left:0px;");
 		}
 		else
 		{
@@ -215,11 +221,11 @@ public class CatalogBillsView extends BaseView {
 		mainLayout = new AbsoluteLayout();
 		mainLayout.setImmediate(false);
 		mainLayout.setWidth("880px");
-		mainLayout.setHeight("501px");
+		mainLayout.setHeight("880px");
 		
 		// top-level component properties
 		setWidth("880px");
-		setHeight("501px");
+		setHeight("880px");
 		
 		// lblTitle
 		lblTitle = new Label();

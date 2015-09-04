@@ -186,13 +186,13 @@ public class CoreCharge implements ICoreCharge {
 		if(bill.getIsCurrencyDollar())
 		{
 			amountCurrentCharge += charge.getAmountDollar();
-			if((amoutCharged + amountCurrentCharge) > bill.getAmountDollar())
+			if((amoutCharged + amountCurrentCharge) > bill.getTotalAmountDollar())
 				throw new ClientException("Este cobro no se puede emitir, supera el monto de la factura");
 		}
 		else 
 		{
 			amountCurrentCharge += charge.getAmountPeso();
-			if((amoutCharged + amountCurrentCharge) > bill.getAmountPeso())
+			if((amoutCharged + amountCurrentCharge) > bill.getTotalAmountPeso())
 				throw new ClientException("Este cobro no se puede emitir, supera el monto de la factura");
 		}
 	}
