@@ -206,9 +206,13 @@ public class CoreUser implements ICoreUser {
 									daoManager.getDAOUsers().update(
 											user.getId(), UserStatus.ACTIVE,
 											attempts, now);
+									
 								}
+								
 							}
+							daoManager.commit();
 						}
+						
 						throw new ClientException(
 								"Usuario y/o constraseña incorrecta");
 					}
@@ -245,6 +249,7 @@ public class CoreUser implements ICoreUser {
 			}
 			if (!user.getEmail().equals(currentUser.getEmail())
 					&& daoManager.getDAOUsers().existsEmail(user.getEmail())) {
+				
 				throw new ClientException(
 						"Ya existe un usuario con este correo electrónico");
 			}
