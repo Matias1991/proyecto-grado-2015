@@ -1,7 +1,5 @@
 package com.example.webvaadin;
 
-import java.awt.Menu;
-
 import utils.PopupWindow;
 import views.ForgotPasswordView;
 import views.LoginView;
@@ -38,8 +36,6 @@ import com.vaadin.annotations.PreserveOnRefresh;
 import com.vaadin.annotations.Theme;
 import com.vaadin.navigator.Navigator;
 import com.vaadin.navigator.Navigator.ComponentContainerViewDisplay;
-import com.vaadin.navigator.View;
-import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.server.ThemeResource;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.ui.Alignment;
@@ -48,7 +44,6 @@ import com.vaadin.ui.Image;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.MenuBar;
 import com.vaadin.ui.MenuBar.MenuItem;
-import com.vaadin.ui.Notification;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 
@@ -59,7 +54,14 @@ import entities.RequestContext;
 @PreserveOnRefresh
 public class WebvaadinUI extends UI {
 
-	public static Navigator navigator;
+	public Navigator navigator;
+	VerticalLayout layoutViews;	
+	public GridLayout mainLayout;
+	public MenuBar mainMenuBar;
+	public MenuBar userMenuBar;
+	public Label lblTitle;
+	public Label lblTitle2;
+	
 	public static final String MAINMENU = "";
 	public static final String LOGINVIEW = "LoginView";
 
@@ -103,14 +105,16 @@ public class WebvaadinUI extends UI {
 	public static final String CREATEPROJECT = "CreateProjectView";	
 	public static final String CLOSEPROJECT = "DeleteProjectView";	
 	
-	private static GridLayout mainLayout;
-	private static MenuBar mainMenuBar;
-	private static MenuBar userMenuBar;
-	private static Label lblTitle;
-	private static Label lblTitle2;
 
 	@Override
 	protected void init(VaadinRequest request) {
+		layoutViews = new VerticalLayout();
+		layoutViews.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
+		ComponentContainerViewDisplay viewDisplay = new ComponentContainerViewDisplay(
+				layoutViews);
+		navigator = new Navigator(UI.getCurrent(), viewDisplay);
+		
+		
 		buildLayout();
 	}
 
@@ -158,13 +162,13 @@ public class WebvaadinUI extends UI {
 		/**
 		 * Contenedor del navigator
 		 */
-		VerticalLayout layoutViews = new VerticalLayout();
-		layoutViews.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
-		ComponentContainerViewDisplay viewDisplay = new ComponentContainerViewDisplay(
-				layoutViews);
+//		VerticalLayout layoutViews = new VerticalLayout();
+//		layoutViews.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
+//		ComponentContainerViewDisplay viewDisplay = new ComponentContainerViewDisplay(
+//				layoutViews);
 		mainLayout.addComponent(layoutViews, 2, 2, 11, 2);
 
-		navigator = new Navigator(this, viewDisplay);
+//		navigator = new Navigator(this, viewDisplay);
 		
 		navigator.setErrorView(new LoginView());
 
@@ -220,91 +224,91 @@ public class WebvaadinUI extends UI {
 	/**
 	 * Carga del menu principal segun el rol del sistema
 	 */
-	private static void loadMenuItems(MenuBar menuBar) {
+	private void loadMenuItems(MenuBar menuBar) {
 
 		/**
 		 * Acciones al seleccionar un item en el menu
 		 */
 		MenuBar.Command mainMenuBarCommand = new MenuBar.Command() {
-
+		
 			@Override
 			public void menuSelected(MenuItem selectedItem) {
 				// TODO Auto-generated method stub
 				switch (selectedItem.getText()) {
-				case "Crear usuario":
-					navigator.navigateTo(CREATEUSER);
+				case "Crear usuario":					
+					UI.getCurrent().getNavigator().navigateTo(CREATEUSER);
 					break;
 				case "Modificar usuarios":
-					navigator.navigateTo(MODIFYUSER);
+					UI.getCurrent().getNavigator().navigateTo(MODIFYUSER);
 					break;
 				case "Eliminar usuarios":
-					navigator.navigateTo(DELETEUSERS);
+					UI.getCurrent().getNavigator().navigateTo(DELETEUSERS);
 					break;
 				case "Catálogo usuarios":
-					navigator.navigateTo(CATALOGUSERS);
+					UI.getCurrent().getNavigator().navigateTo(CATALOGUSERS);
 					break;
 				case "Resetear contraseña":
-					navigator.navigateTo(RESETPASSWORD);
+					UI.getCurrent().getNavigator().navigateTo(RESETPASSWORD);
 					break;
 				case "Desbloquear usuarios":
-					navigator.navigateTo(UNLOCKUSER);
+					UI.getCurrent().getNavigator().navigateTo(UNLOCKUSER);
 					break;
 				case "Catálogo empleados":
-					navigator.navigateTo(CATALOGEMPLOYEES);
+					UI.getCurrent().getNavigator().navigateTo(CATALOGEMPLOYEES);
 					break;
 				case "Crear empleado":
-					navigator.navigateTo(CREATEEMPLOYEE);
+					UI.getCurrent().getNavigator().navigateTo(CREATEEMPLOYEE);
 					break;
 				case "Eliminar empleados":
-					navigator.navigateTo(DELETEEMPLOYEE);
+					UI.getCurrent().getNavigator().navigateTo(DELETEEMPLOYEE);
 					break;
 				case "Modificar empleados":
-					navigator.navigateTo(UPDATEEMPLOYEE);
+					UI.getCurrent().getNavigator().navigateTo(UPDATEEMPLOYEE);
 					break;
 				case "Crear rubro":
-					navigator.navigateTo(CREATECATEGORY);
+					UI.getCurrent().getNavigator().navigateTo(CREATECATEGORY);
 					break;
 				case "Eliminar rubros":
-					navigator.navigateTo(DELETECATEGORY);
+					UI.getCurrent().getNavigator().navigateTo(DELETECATEGORY);
 					break;
 				case "Modificar rubros":
-					navigator.navigateTo(MODIFYCATEGORY);
+					UI.getCurrent().getNavigator().navigateTo(MODIFYCATEGORY);
 					break;
 				case "Catálogo rubros":
-					navigator.navigateTo(CATEGORIES);
+					UI.getCurrent().getNavigator().navigateTo(CATEGORIES);
 					break;
 				case "Crear factura":
-					navigator.navigateTo(CREATEBILL);
+					UI.getCurrent().getNavigator().navigateTo(CREATEBILL);
 					break;
 				case "Modificar facturas":
-					navigator.navigateTo(UPDATEBILL);
+					UI.getCurrent().getNavigator().navigateTo(UPDATEBILL);
 					break;
 				case "Eliminar facturas":
-					navigator.navigateTo(DELETEBILLS);
+					UI.getCurrent().getNavigator().navigateTo(DELETEBILLS);
 					break;
 				case "Catálogo facturas":
-					navigator.navigateTo(BILLS);
+					UI.getCurrent().getNavigator().navigateTo(BILLS);
 					break;
 				case "Crear cobro":
-					navigator.navigateTo(CREATECHARGE);
+					UI.getCurrent().getNavigator().navigateTo(CREATECHARGE);
 					break;
 				case "Modificar cobros":
-					navigator.navigateTo(UPDATECHARGE);
+					UI.getCurrent().getNavigator().navigateTo(UPDATECHARGE);
 					break;
 				case "Eliminar cobros":
-					navigator.navigateTo(DELETECHARGES);
+					UI.getCurrent().getNavigator().navigateTo(DELETECHARGES);
 					break;
 				case "Catálogo cobros":
-					navigator.navigateTo(CHARGES);
+					UI.getCurrent().getNavigator().navigateTo(CHARGES);
 					break;
 				case "Crear proyecto":
-					navigator.navigateTo(CREATEPROJECT);
+					UI.getCurrent().getNavigator().navigateTo(CREATEPROJECT);
 					break;
 				case "Catálogo proyectos":
-					navigator.navigateTo(CATALOGPROJECTS);
+					UI.getCurrent().getNavigator().navigateTo(CATALOGPROJECTS);
 					break;
 				case "Cerrar proyectos":
-					navigator.navigateTo(CLOSEPROJECT);
+					UI.getCurrent().getNavigator().navigateTo(CLOSEPROJECT);
 					break;
 				default:
 					new PopupWindow("AVISO",
@@ -386,18 +390,18 @@ public class WebvaadinUI extends UI {
 				switch (selectedItem.getText()) {
 				case "Salir":
 					RequestContext.setRequestContext(null);
-					getUI().getNavigator().navigateTo("LoginView");
+					UI.getCurrent().getNavigator().navigateTo("LoginView");
 					break;
 				case "Perfil":
-					getUI().getNavigator().navigateTo(
+					UI.getCurrent().getNavigator().navigateTo(
 							WebvaadinUI.MODIFYPROFILEUSER);
 					break;
 				case "Cambiar contraseña":
-					getUI().getNavigator().navigateTo(
+					UI.getCurrent().getNavigator().navigateTo(
 							WebvaadinUI.CHANGEPASSWORD);
 					break;
 				default:					
-					PopupWindow popup = new PopupWindow("AVISO",
+					new PopupWindow("AVISO",
 							"No hay configuración para el item: "
 									+ selectedItem.getText());
 					break;
@@ -417,16 +421,16 @@ public class WebvaadinUI extends UI {
 	 * Cambia del login para el menu principal. Remueve el label y/o los dos
 	 * menuBar Agrega dos menuBar
 	 */
-	public static void changeToMainMenu() {
-		if (mainLayout.getComponent(2, 0) != null) {
-			mainLayout.removeComponent(2, 0);
+	 public void changeToMainMenu() {
+		if (((WebvaadinUI)UI.getCurrent()).mainLayout.getComponent(2, 0) != null) {
+			((WebvaadinUI)UI.getCurrent()).mainLayout.removeComponent(2, 0);
 		}
-		if (mainLayout.getComponent(10, 0) != null) {
-			mainLayout.removeComponent(10, 0);
+		if (((WebvaadinUI)UI.getCurrent()).mainLayout.getComponent(10, 0) != null) {
+			((WebvaadinUI)UI.getCurrent()).mainLayout.removeComponent(10, 0);
 		}
-		mainLayout.addComponent(mainMenuBar, 2, 0, 9, 0);
-		mainLayout.addComponent(userMenuBar, 10, 0, 11, 0);
-		loadMenuItems(mainMenuBar);
+		((WebvaadinUI)UI.getCurrent()).mainLayout.addComponent(((WebvaadinUI)UI.getCurrent()).mainMenuBar, 2, 0, 9, 0);
+		((WebvaadinUI)UI.getCurrent()).mainLayout.addComponent(((WebvaadinUI)UI.getCurrent()).userMenuBar, 10, 0, 11, 0);
+		loadMenuItems(((WebvaadinUI)UI.getCurrent()).mainMenuBar);
 
 	}
 
@@ -434,15 +438,15 @@ public class WebvaadinUI extends UI {
 	 * Cambia del menu princial para el login Remueve los dos menuBar Agrega el
 	 * label del titulo
 	 */
-	public static void changeToLogin() {
-		if (mainLayout.getComponent(2, 0) != null) {
-			mainLayout.removeComponent(2, 0);
+	public void changeToLogin() {		
+		if (((WebvaadinUI)UI.getCurrent()).mainLayout.getComponent(2, 0) != null) {
+			((WebvaadinUI)UI.getCurrent()).mainLayout.removeComponent(2, 0);
 		}
-		if (mainLayout.getComponent(10, 0) != null) {
-			mainLayout.removeComponent(10, 0);
+		if (((WebvaadinUI)UI.getCurrent()).mainLayout.getComponent(10, 0) != null) {
+			((WebvaadinUI)UI.getCurrent()).mainLayout.removeComponent(10, 0);
 		}
-		mainLayout.addComponent(lblTitle, 2, 0, 9, 0);
-		mainLayout.addComponent(lblTitle2, 10, 0, 11, 0);
+		((WebvaadinUI)UI.getCurrent()).mainLayout.addComponent(((WebvaadinUI)UI.getCurrent()).lblTitle, 2, 0, 9, 0);
+		((WebvaadinUI)UI.getCurrent()).mainLayout.addComponent(((WebvaadinUI)UI.getCurrent()).lblTitle2, 10, 0, 11, 0);
 	}
 
 }

@@ -6,6 +6,7 @@ import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.server.ExternalResource;
 import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.Link;
+import com.vaadin.ui.UI;
 
 import entities.RequestContext;
 
@@ -31,12 +32,14 @@ public class BaseView extends CustomComponent implements View {
 	public void enter(ViewChangeEvent event) {
 		if(RequestContext.getRequestContext() == null)
 		{
-			WebvaadinUI.changeToLogin();
+			//WebvaadinUI.changeToLogin();
+			((WebvaadinUI)UI.getCurrent()).changeToLogin();
 			getUI().getNavigator().navigateTo(WebvaadinUI.LOGINVIEW);
 		}
 		else
 		{
-			WebvaadinUI.changeToMainMenu();
+			//WebvaadinUI.changeToMainMenu();
+			((WebvaadinUI)UI.getCurrent()).changeToMainMenu();
 		}
 	}
 

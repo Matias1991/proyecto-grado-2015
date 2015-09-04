@@ -12,6 +12,7 @@ import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Link;
 import com.vaadin.ui.PasswordField;
 import com.vaadin.ui.TextField;
+import com.vaadin.ui.UI;
 
 import controllers.UserController;
 import entities.RequestContext;
@@ -68,7 +69,7 @@ public class LoginView extends BaseView {
 						
 						RequestContext.setRequestContext(new UserData(voUser.getId(), voUser.getName(), voUser.getUserType()));
 											
-						getUI().getNavigator().navigateTo("");
+						UI.getCurrent().getNavigator().navigateTo("");
 						
 					}else{
 						txtPassword.setValue("");
@@ -85,13 +86,15 @@ public class LoginView extends BaseView {
 		// TODO Auto-generated method stub
 		if(RequestContext.getRequestContext() == null)
 		{
-			WebvaadinUI.changeToLogin();
+			//WebvaadinUI.changeToLogin();
+			((WebvaadinUI)UI.getCurrent()).changeToLogin();
 			this.txtUsername.focus();
 						
 		}
 		else
 		{
-			WebvaadinUI.changeToMainMenu();
+			//WebvaadinUI.changeToMainMenu();
+			((WebvaadinUI)UI.getCurrent()).changeToMainMenu();
 			getUI().getNavigator().navigateTo(WebvaadinUI.MAINMENU);
 		}
 	}
