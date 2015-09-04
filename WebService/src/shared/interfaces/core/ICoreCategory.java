@@ -1,6 +1,8 @@
 package shared.interfaces.core;
 
 import java.util.ArrayList;
+import java.util.Date;
+
 import servicelayer.entity.businessEntity.Category;
 import shared.exceptions.ClientException;
 import shared.exceptions.ServerException;
@@ -20,4 +22,6 @@ public interface ICoreCategory {
 	ArrayList<Category> getCategories() throws ServerException;
 
 	ArrayList<Category> getCategoriesByProject(int projectId) throws ServerException, ClientException;
+
+	ArrayList<Category> getCategories(Date from, Date to) throws ServerException;
 }

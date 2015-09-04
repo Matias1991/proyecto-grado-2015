@@ -189,6 +189,22 @@
             }
                 
            /**
+            * auto generated Axis2 call back method for getCategoriesByDate method
+            * override this method for handling normal response from getCategoriesByDate operation
+            */
+           public void receiveResultgetCategoriesByDate(
+                    servicelayer.service.ServiceWebStub.GetCategoriesByDateResponse result
+                        ) {
+           }
+
+          /**
+           * auto generated Axis2 Error handler
+           * override this method for handling error response from getCategoriesByDate operation
+           */
+            public void receiveErrorgetCategoriesByDate(java.lang.Exception e) {
+            }
+                
+           /**
             * auto generated Axis2 call back method for getCategory method
             * override this method for handling normal response from getCategory operation
             */
