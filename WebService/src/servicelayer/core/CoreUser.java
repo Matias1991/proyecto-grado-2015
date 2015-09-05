@@ -5,7 +5,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
+
 import datalayer.daos.DAOManager;
+import servicelayer.entity.businessEntity.ChanelType;
 import servicelayer.entity.businessEntity.User;
 import servicelayer.entity.businessEntity.UserStatus;
 import servicelayer.entity.businessEntity.UserType;
@@ -37,13 +39,11 @@ public class CoreUser implements ICoreUser {
 	}
 
 	@Override
-	public void insertUser(User user) throws ServerException,
-			ClientException {
+	public void insertUser(User user) throws ServerException, ClientException {
 
 		DAOManager daoManager = new DAOManager();
 		try {
-			if (daoManager.getDAOUsers()
-					.getUserByUserName(user.getUserName()) == null) {
+			if (daoManager.getDAOUsers().getUserByUserName(user.getUserName()) == null) {
 				if (!daoManager.getDAOUsers().existsEmail(user.getEmail())) {
 					// setear el estado del usuario en activo
 					user.setUserStatus(UserStatus.ACTIVE);
@@ -157,7 +157,7 @@ public class CoreUser implements ICoreUser {
 	}
 
 	@Override
-	public User login(String userName, String password)
+	public User login(String userName, String password, ChanelType chanel)
 			throws ServerException, ClientException {
 
 		User user = null;
@@ -172,6 +172,11 @@ public class CoreUser implements ICoreUser {
 
 					Date now = new Date();
 					if (user.getPassword().equals(hashPassword)) {
+						if (user.getUserType().getValue() == 1
+								&& chanel == ChanelType.MOBILE) {
+							throw new ClientException(
+									"Usuario no posee privilegios para acceder por este canal");
+						}
 						daoManager.getDAOUsers().update(user.getId(),
 								UserStatus.ACTIVE, 0, now);
 					} else {
@@ -206,13 +211,13 @@ public class CoreUser implements ICoreUser {
 									daoManager.getDAOUsers().update(
 											user.getId(), UserStatus.ACTIVE,
 											attempts, now);
-									
+
 								}
-								
+
 							}
 							daoManager.commit();
 						}
-						
+
 						throw new ClientException(
 								"Usuario y/o constraseña incorrecta");
 					}
@@ -249,7 +254,7 @@ public class CoreUser implements ICoreUser {
 			}
 			if (!user.getEmail().equals(currentUser.getEmail())
 					&& daoManager.getDAOUsers().existsEmail(user.getEmail())) {
-				
+
 				throw new ClientException(
 						"Ya existe un usuario con este correo electrónico");
 			}

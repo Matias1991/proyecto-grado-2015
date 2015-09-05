@@ -1,6 +1,8 @@
 package shared.interfaces.core;
 
 import java.util.ArrayList;
+
+import servicelayer.entity.businessEntity.ChanelType;
 import servicelayer.entity.businessEntity.User;
 import shared.exceptions.ClientException;
 import shared.exceptions.ServerException;
@@ -20,7 +22,7 @@ public interface ICoreUser {
 
 	ArrayList<User> getUsers() throws ServerException;
 
-	User login(String userName, String password) throws ServerException,
+	User login(String userName, String password, ChanelType chanel) throws ServerException,
 			ClientException;
 
 	void forgotPassord(String userEmail) throws ServerException,
