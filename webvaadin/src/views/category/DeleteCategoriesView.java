@@ -120,7 +120,7 @@ public class DeleteCategoriesView extends BaseView {
 			grid.getColumn("typeExchangeToShow").setHeaderCaption(
 					"Tipo de cambio");
 			grid.getColumn("createDateTimeUTCToShow").setHeaderCaption(
-					"Fecha de creación");
+					"Correspondiente al mes");
 			grid.getColumn("isRRHHToShow").setHeaderCaption("Tipo de recurso");
 			grid.setWidth(100, Unit.PERCENTAGE);
 			grid.setHeight(100, Unit.PERCENTAGE);

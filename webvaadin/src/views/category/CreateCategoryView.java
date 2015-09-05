@@ -331,7 +331,7 @@ public class CreateCategoryView extends BaseView {
 		
 		// popupDateField_1
 		createdDateTimeField = new PopupDateField();
-		createdDateTimeField.setCaption("Fecha");
+		createdDateTimeField.setCaption("Correspondiente al mes");
 		createdDateTimeField.setImmediate(true);
 		createdDateTimeField.setWidth("140px");
 		createdDateTimeField.setHeight("-1px");

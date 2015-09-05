@@ -42,7 +42,7 @@ public class Category {
 		this.projectId = voCategory.getProjectId();
 		this.isRRHH = voCategory.getIsRRHH();
 		this.isCurrencyDollar = voCategory.getIsCurrencyDollar();
-		this.setCreateDateTimeUTCToShow(new SimpleDateFormat("dd-MM-yyyy").format(createdDateTimeUTC));	
+		this.setCreateDateTimeUTCToShow(new SimpleDateFormat("MM-yyyy").format(createdDateTimeUTC));	
 		this.setTypeExchange(voCategory.getTypeExchange());
 		
 		if(isCurrencyDollar){

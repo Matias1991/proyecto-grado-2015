@@ -118,7 +118,7 @@ public class CatalogCategoriesView extends BaseView {
 			categoriesGrid.getColumn("amountToShow").setHeaderCaption("Importe");
 			categoriesGrid.getColumn("projectName").setHeaderCaption("Asociado a");
 			categoriesGrid.getColumn("typeExchangeToShow").setHeaderCaption("Tipo de cambio");
-			categoriesGrid.getColumn("createDateTimeUTCToShow").setHeaderCaption("Fecha de creación");
+			categoriesGrid.getColumn("createDateTimeUTCToShow").setHeaderCaption("Correspondiente al mes");
 			categoriesGrid.getColumn("isRRHHToShow").setHeaderCaption("Tipo de recurso");
 			
 			categoriesGrid.setWidth(100, Unit.PERCENTAGE);

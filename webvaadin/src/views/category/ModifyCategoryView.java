@@ -427,7 +427,7 @@ public class ModifyCategoryView extends BaseView {
 
 		// creationDate
 		creationDate = new PopupDateField();
-		creationDate.setCaption("Fecha");
+		creationDate.setCaption("Correspondiente al mes");
 		creationDate.setImmediate(true);
 		creationDate.setWidth("140px");
 		creationDate.setHeight("-1px");
