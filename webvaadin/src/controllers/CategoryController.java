@@ -20,13 +20,12 @@ import entities.Category;
 
 public class CategoryController {
 
-	public static boolean createCategory(Category category)
-	{
+	public static boolean createCategory(Category category) {
 		boolean result = false;
 		try {
 			ServiceWebStub service = new ServiceWebStub();
 			InsertCategory createCategory = new InsertCategory();
-			
+
 			VOCategory voCategory = new VOCategory();
 			voCategory.setDescription(category.getDescription());
 			voCategory.setAmountPeso(category.getAmountPeso());
@@ -36,142 +35,135 @@ public class CategoryController {
 			voCategory.setCategoryType(category.getCategoryTypeId());
 			voCategory.setProjectId(category.getProjectId());
 			voCategory.setIsRRHH(category.getIsRRHH());
-			voCategory.setAppliedDateTimeUTC(category.getCreatedDateTimeUTC());			
-			
+			voCategory.setAppliedDateTimeUTC(category.getCreatedDateTimeUTC());
+
 			createCategory.setVoCategory(voCategory);
-			
+
 			result = service.insertCategory(createCategory).get_return();
-			
+
 		} catch (AxisFault e) {
 			String error = e.getMessage().replace("<faultstring>", "");
-			PopupWindow popup = new PopupWindow("ERROR", error.replace("</faultstring>", ""));
+			PopupWindow popup = new PopupWindow("ERROR", error.replace(
+					"</faultstring>", ""));
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		}
-		
+
 		return result;
 	}
-	
-	public static Collection<Category> getCategories()
-	{
+
+	public static Collection<Category> getCategories() {
 		Collection<Category> categories = new ArrayList<Category>();
-		
+
 		try {
 			ServiceWebStub service = new ServiceWebStub();
 			GetCategories getCategory = new GetCategories();
-			
-			VOCategory [] voCategories = service.getCategories(getCategory).get_return();
 
-			if(voCategories != null)
-			{
-				for(VOCategory voCategory : voCategories)
-				{
+			VOCategory[] voCategories = service.getCategories(getCategory)
+					.get_return();
+
+			if (voCategories != null) {
+				for (VOCategory voCategory : voCategories) {
 					Category category = new Category(voCategory);
 					categories.add(category);
 				}
 			}
-			
+
 		} catch (AxisFault e) {
 			String error = e.getMessage().replace("<faultstring>", "");
-			PopupWindow popup = new PopupWindow("ERROR", error.replace("</faultstring>", ""));
+			PopupWindow popup = new PopupWindow("ERROR", error.replace(
+					"</faultstring>", ""));
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		}
-		
+
 		return categories;
 	}
-	
-	public static Collection<Category> getCategoriesByActiveProjects()
-	{
+
+	public static Collection<Category> getCategoriesByActiveProjects() {
 		Collection<Category> categories = new ArrayList<Category>();
-		
+
 		try {
 			ServiceWebStub service = new ServiceWebStub();
 			GetCategories getCategory = new GetCategories();
-			
-			VOCategory [] voCategories = service.getCategories(getCategory).get_return();
 
-			if(voCategories != null)
-			{
-				for(VOCategory voCategory : voCategories)
-				{
-					if(voCategory.getProjectId() != 0)
-					{
-						if(voCategory.getProjectClosed())
+			VOCategory[] voCategories = service.getCategories(getCategory)
+					.get_return();
+
+			if (voCategories != null) {
+				for (VOCategory voCategory : voCategories) {
+					if (voCategory.getProjectId() != 0) {
+						if (voCategory.getProjectClosed())
 							continue;
 					}
 					Category category = new Category(voCategory);
 					categories.add(category);
 				}
 			}
-			
+
 		} catch (AxisFault e) {
 			String error = e.getMessage().replace("<faultstring>", "");
-			PopupWindow popup = new PopupWindow("ERROR", error.replace("</faultstring>", ""));
+			PopupWindow popup = new PopupWindow("ERROR", error.replace(
+					"</faultstring>", ""));
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		}
-		
+
 		return categories;
 	}
-	
-	public static Collection<Category> getCategoriesByDate (Date from, Date to)
-	{
+
+	public static Collection<Category> getCategoriesByDate(Date from, Date to) {
 		Collection<Category> categories = new ArrayList<Category>();
-		
+
 		try {
 			ServiceWebStub service = new ServiceWebStub();
 			GetCategoriesByDate getCategory = new GetCategoriesByDate();
-			
+
 			getCategory.setFrom(from);
 			getCategory.setTo(to);
-			
-			VOCategory [] voCategories = service.getCategoriesByDate(getCategory).get_return();
 
-			if(voCategories != null)
-			{
-				for(VOCategory voCategory : voCategories)
-				{
-					if(!voCategory.getProjectClosed()){
-						Category category = new Category(voCategory);
-						categories.add(category);						
-					}
+			VOCategory[] voCategories = service
+					.getCategoriesByDate(getCategory).get_return();
+
+			if (voCategories != null) {
+				for (VOCategory voCategory : voCategories) {
+					Category category = new Category(voCategory);
+					categories.add(category);
 				}
 			}
-			
+
 		} catch (AxisFault e) {
 			String error = e.getMessage().replace("<faultstring>", "");
 			new PopupWindow("ERROR", error.replace("</faultstring>", ""));
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		}
-		
+
 		return categories;
 	}
-	
-	public static boolean deleteCategory(int id)
-	{
+
+	public static boolean deleteCategory(int id) {
 		boolean result = false;
 		try {
 			ServiceWebStub service = new ServiceWebStub();
 			DeleteCategory deleteCategory = new DeleteCategory();
-			
+
 			deleteCategory.setId(id);
-			
+
 			result = service.deleteCategory(deleteCategory).get_return();
-			
+
 		} catch (AxisFault e) {
 			String error = e.getMessage().replace("<faultstring>", "");
-			PopupWindow popup = new PopupWindow("ERROR", error.replace("</faultstring>", ""));
+			PopupWindow popup = new PopupWindow("ERROR", error.replace(
+					"</faultstring>", ""));
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		}
-		
+
 		return result;
 	}
-	
-	public static Category modifyCategory(Category cat, int idCategory)
-	{
+
+	public static Category modifyCategory(Category cat, int idCategory) {
 		Category category = null;
 		VOCategory result = new VOCategory();
 		result.setDescription(cat.getDescription());
@@ -179,63 +171,63 @@ public class CategoryController {
 		result.setAmountDollar(cat.getAmountDollar());
 		result.setAmountPeso(cat.getAmountPeso());
 		result.setTypeExchange(cat.getTypeExchange());
-		
-		if(cat.getCategoryTypeId() == 1){
+
+		if (cat.getCategoryTypeId() == 1) {
 			result.setProjectId(0);
-		}else{
+		} else {
 			result.setProjectId(cat.getProjectId());
 		}
 		result.setCategoryType(cat.getCategoryTypeId());
 		result.setProjectId(cat.getProjectId());
 		result.setIsRRHH(cat.getIsRRHH());
 		result.setAppliedDateTimeUTC(cat.getCreatedDateTimeUTC());
-		
+
 		try {
 			ServiceWebStub service = new ServiceWebStub();
 			UpdateCategory modifyCategory = new UpdateCategory();
-			
+
 			modifyCategory.setVoCategory(result);
 			modifyCategory.setId(idCategory);
 			result = service.updateCategory(modifyCategory).get_return();
 			category = new Category(result);
 		} catch (AxisFault e) {
 			String error = e.getMessage().replace("<faultstring>", "");
-			PopupWindow popup = new PopupWindow("ERROR", error.replace("</faultstring>", ""));
+			PopupWindow popup = new PopupWindow("ERROR", error.replace(
+					"</faultstring>", ""));
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		}
-		
+
 		return category;
 	}
-	
-	public static Collection<Category> getCategoriesByProject(int id)
-	{
+
+	public static Collection<Category> getCategoriesByProject(int id) {
 		Collection<Category> categories = new ArrayList<Category>();
-		
+
 		try {
 			ServiceWebStub service = new ServiceWebStub();
 			GetCategoriesByProject getCategory = new GetCategoriesByProject();
 			getCategory.setId(id);
-			
-			VOCategory [] voCategories = service.getCategoriesByProject(getCategory).get_return();
 
-			if(voCategories != null)
-			{
-				for(VOCategory voCategory : voCategories)
-				{
+			VOCategory[] voCategories = service.getCategoriesByProject(
+					getCategory).get_return();
+
+			if (voCategories != null) {
+				for (VOCategory voCategory : voCategories) {
 					Category category = new Category(voCategory);
 					categories.add(category);
 				}
 			}
-			
+
 		} catch (AxisFault e) {
 			String error = e.getMessage().replace("<faultstring>", "");
-			PopupWindow popup = new PopupWindow("ERROR", error.replace("</faultstring>", ""));
+			PopupWindow popup = new PopupWindow("ERROR", error.replace(
+					"</faultstring>", ""));
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		}
-		
+
 		return categories;
 	}
-	
+
 }
