@@ -69,6 +69,8 @@ public class ModifyCategoryView extends BaseView {
 	private Label lblInfo;
 
 	public ModifyCategoryView() {
+		
+		super("Rubros", "Modificar rubros");
 		buildMainLayout();
 		setCompositionRoot(mainLayout);
 
@@ -389,7 +391,7 @@ public class ModifyCategoryView extends BaseView {
 		lblTitle.setImmediate(false);
 		lblTitle.setWidth("-1px");
 		lblTitle.setHeight("-1px");
-		lblTitle.setValue("Modificar rubros");
+		lblTitle.setValue(getBreadCrumbToShow());
 		mainLayout.addComponent(lblTitle, "top:42.0px;left:0.0px;");
 
 		// btnUpdate

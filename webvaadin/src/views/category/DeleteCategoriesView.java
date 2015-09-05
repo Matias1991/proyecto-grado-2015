@@ -48,6 +48,9 @@ public class DeleteCategoriesView extends BaseView {
 	private Label lblInfo;
 
 	public DeleteCategoriesView() {
+
+		super("Rubros", "Eliminar rubros");
+		
 		buildMainLayout();
 		setCompositionRoot(mainLayout);
 
@@ -212,7 +215,7 @@ public class DeleteCategoriesView extends BaseView {
 		lblTitle.setImmediate(false);
 		lblTitle.setWidth("-1px");
 		lblTitle.setHeight("-1px");
-		lblTitle.setValue("Eliminar rubros");
+		lblTitle.setValue(getBreadCrumbToShow());
 		mainLayout.addComponent(lblTitle, "top:42.0px;left:0.0px;");
 
 		// btn_delete

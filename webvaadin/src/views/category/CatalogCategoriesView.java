@@ -45,6 +45,7 @@ public class CatalogCategoriesView extends BaseView {
 	
 	@SuppressWarnings("deprecation")
 	public CatalogCategoriesView() {
+		super("Rubros", "Catálogo de rubros");
 		buildMainLayout();
 		setCompositionRoot(mainLayout);	
 
@@ -224,7 +225,7 @@ public class CatalogCategoriesView extends BaseView {
 		lblTitle.setImmediate(false);
 		lblTitle.setWidth("-1px");
 		lblTitle.setHeight("-1px");
-		lblTitle.setValue("Catálogo de rubros");
+		lblTitle.setValue(getBreadCrumbToShow());
 		lblTitle.setStyleName("titleLabel");
 		mainLayout.addComponent(lblTitle, "top:42.0px;left:0.0px;");
 		

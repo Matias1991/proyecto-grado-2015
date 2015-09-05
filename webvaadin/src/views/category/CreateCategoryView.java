@@ -70,6 +70,9 @@ public class CreateCategoryView extends BaseView {
 	 * visual editor.
 	 */
 	public CreateCategoryView() {
+
+		super("Rubros", "Crear rubro");
+		
 		buildMainLayout();
 		setCompositionRoot(mainLayout);
 
@@ -255,7 +258,7 @@ public class CreateCategoryView extends BaseView {
 		lblTitle.setImmediate(false);
 		lblTitle.setWidth("-1px");
 		lblTitle.setHeight("-1px");
-		lblTitle.setValue("Crear rubro");
+		lblTitle.setValue(getBreadCrumbToShow());
 		mainLayout.addComponent(lblTitle, "top:42.0px;left:0.0px;");
 		
 		// txtDescription
