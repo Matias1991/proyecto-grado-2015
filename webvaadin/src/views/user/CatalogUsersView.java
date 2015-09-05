@@ -39,7 +39,7 @@ public class CatalogUsersView extends BaseView{
 	 */
 	public CatalogUsersView() {
 		
-		super("Usuarios", "Crear usuario");
+		super("Usuarios", "Catálogo usuarios");
 		
 		buildMainLayout();
 		setCompositionRoot(mainLayout);

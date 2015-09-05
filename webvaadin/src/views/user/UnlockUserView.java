@@ -41,6 +41,8 @@ public class UnlockUserView extends BaseView{
 	private Label lblMessage;
 	
 	public UnlockUserView() {
+		super("Usuarios", "Desbloquear usuario");
+		
 		buildMainLayout();
 		setCompositionRoot(mainLayout);
 		

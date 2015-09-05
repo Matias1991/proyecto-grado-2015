@@ -38,6 +38,8 @@ public class DeleteUsersView extends BaseView{
 	private BeanItemContainer<User> container;
 	
 	public DeleteUsersView() {
+		super("Usuarios", "Eliminar usuario");
+		
 		buildMainLayout();
 		setCompositionRoot(mainLayout);
 		//buildGrid();

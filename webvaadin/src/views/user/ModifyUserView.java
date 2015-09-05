@@ -63,6 +63,8 @@ public class ModifyUserView extends BaseView {
 
 	
 	public ModifyUserView() {
+		super("Usuarios", "Modificar usuario");
+		
 		buildMainLayout();
 		setCompositionRoot(mainLayout);
 		

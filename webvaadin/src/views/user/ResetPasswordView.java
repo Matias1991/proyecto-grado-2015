@@ -37,6 +37,8 @@ public class ResetPasswordView extends BaseView{
 	private BeanItemContainer<User> container;
 	
 	public ResetPasswordView() {
+		super("Usuarios", "Resetear contraseña");
+		
 		buildMainLayout();
 		setCompositionRoot(mainLayout);
 		
