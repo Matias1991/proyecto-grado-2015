@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 
 import datalayer.utilities.ManageConnection;
@@ -49,8 +50,8 @@ public class DAOCategories implements IDAOCategroy {
 			preparedStatement.setDouble(4, obj.getAmountDollar());
 			preparedStatement.setBoolean(5, obj.getIsCurrencyDollar());
 			preparedStatement.setDouble(6, obj.getTypeExchange());
-			preparedStatement.setTimestamp(7, new Timestamp(obj
-					.getAppliedDateTimeUTC().getTime()));
+			preparedStatement.setTimestamp(7, new Timestamp(setFirstDayOfMonth(obj
+					.getAppliedDateTimeUTC()).getTime()));
 			if(obj.getProject() != null)
 				preparedStatement.setInt(8, obj.getProject().getId());
 			else
@@ -144,8 +145,8 @@ public class DAOCategories implements IDAOCategroy {
 				preparedStatement.setDouble(4, obj.getAmountDollar());
 				preparedStatement.setBoolean(5, obj.getIsCurrencyDollar());
 				preparedStatement.setDouble(6, obj.getTypeExchange());
-				preparedStatement.setTimestamp(7, new Timestamp(obj
-						.getAppliedDateTimeUTC().getTime()));
+				preparedStatement.setTimestamp(7, new Timestamp(setFirstDayOfMonth(obj
+						.getAppliedDateTimeUTC()).getTime()));
 				if(obj.getProject() != null)
 					preparedStatement.setInt(8, obj.getProject().getId());
 				else
@@ -316,7 +317,7 @@ public class DAOCategories implements IDAOCategroy {
 	
 	@Override
 	public ArrayList<Category> getCategories(String description, int projectId) throws ServerException {
-		ArrayList<Category> categories = new ArrayList<Category>();;
+		ArrayList<Category> categories = new ArrayList<Category>();
 		PreparedStatement preparedStatement = null;
 		ResultSet rs = null;
 		try {
@@ -527,5 +528,14 @@ public class DAOCategories implements IDAOCategroy {
 		category.setUpdatedDateTimeUTC(updatedDateTimeUTC);
 		
 		return category;
+	}
+	
+	// Setea el dia en 1
+	Date setFirstDayOfMonth(Date date) {
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(date);
+		cal.set(Calendar.DAY_OF_MONTH, 01);
+
+		return cal.getTime();
 	}
 }
