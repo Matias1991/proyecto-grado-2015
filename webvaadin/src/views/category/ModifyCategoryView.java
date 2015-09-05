@@ -490,7 +490,7 @@ public class ModifyCategoryView extends BaseView {
 		lblInfo.setWidth("-1px");
 		lblInfo.setHeight("-1px");
 		StringBuilder strBuilder = new StringBuilder();
-		strBuilder.append("<b>Importante:</b> Los rubros que se muestran cumplen con lo siguiente</br>");
+		strBuilder.append("<b>Importante:</b> Los rubros que se muestran cumplen con lo siguiente:</br>");
 		strBuilder.append("- Pertenecen a proyectos activos");
 		lblInfo.setValue(strBuilder.toString());
 		mainLayout.addComponent(lblInfo, "top:90.0px;left:0.0px;");

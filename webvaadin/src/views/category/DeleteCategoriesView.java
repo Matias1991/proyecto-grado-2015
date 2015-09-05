@@ -17,6 +17,7 @@ import com.vaadin.event.FieldEvents.TextChangeListener;
 import com.vaadin.event.SelectionEvent.SelectionListener;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.server.Sizeable.Unit;
+import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.AbsoluteLayout;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.TextField;
@@ -44,6 +45,7 @@ public class DeleteCategoriesView extends BaseView {
 	private Grid grid;
 	private BeanItemContainer<Category> container;
 	private Label lblMessage;
+	private Label lblInfo;
 
 	public DeleteCategoriesView() {
 		buildMainLayout();
@@ -159,7 +161,7 @@ public class DeleteCategoriesView extends BaseView {
 					cell.setComponent(txtFilter);
 				}
 			}
-			mainLayout.addComponent(grid, "top:20%;left:0px;");
+			mainLayout.addComponent(grid, "top:28%;left:0px;");
 
 			grid.addSelectionListener(new SelectionListener() {
 
@@ -220,7 +222,20 @@ public class DeleteCategoriesView extends BaseView {
 		btnDelete.setImmediate(true);
 		btnDelete.setWidth("-1px");
 		btnDelete.setHeight("-1px");
-		mainLayout.addComponent(btnDelete, "top:50.0px;left:740.0px;");
+		mainLayout.addComponent(btnDelete, "top:86.0px;left:740.0px;");
+
+		// lblInfo
+		lblInfo = new Label();
+		lblInfo.setStyleName("update-bill-lblInformation");
+		lblInfo.setContentMode(ContentMode.HTML);
+		lblInfo.setImmediate(false);
+		lblInfo.setWidth("-1px");
+		lblInfo.setHeight("-1px");
+		StringBuilder strBuilder = new StringBuilder();
+		strBuilder.append("<b>Importante:</b> Los rubros que se muestran cumplen con lo siguiente:</br>");
+		strBuilder.append("- Pertenecen a proyectos activos");
+		lblInfo.setValue(strBuilder.toString());
+		mainLayout.addComponent(lblInfo, "top:90.0px;left:0.0px;");
 
 		return mainLayout;
 	}
