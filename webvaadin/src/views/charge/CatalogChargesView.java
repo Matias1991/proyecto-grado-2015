@@ -102,6 +102,8 @@ public class CatalogChargesView extends BaseView {
 					"Fecha de creación");
 			billsGrid.getColumn("billCode").setHeaderCaption("Codigo de factura");
 			billsGrid.getColumn("billDescription").setHeaderCaption("Descripción factura");
+			billsGrid.getColumn("description").setWidth(200);
+			billsGrid.getColumn("billDescription").setWidth(200);
 			billsGrid.setWidth(100, Unit.PERCENTAGE);
 			billsGrid.setHeight(100, Unit.PERCENTAGE);
 			billsGrid.setSelectionMode(SelectionMode.NONE);

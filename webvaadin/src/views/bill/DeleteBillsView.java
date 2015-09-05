@@ -173,16 +173,16 @@ public class DeleteBillsView extends BaseView {
 			billsGrid.removeColumn("ivaType");
 			billsGrid.removeColumn("amountToShow");
 			billsGrid.removeColumn("amountChargedToShow");
-			billsGrid.setColumnOrder("code", "description", "totalAmountToShow", "typeExchangeToShow", "ivaTypeToShow","appliedDateTimeUTCToShow", "projectName");
+			billsGrid.removeColumn("amountReceivableToShow");
+			billsGrid.removeColumn("description");
+			billsGrid.setColumnOrder("code", "totalAmountToShow", "typeExchangeToShow", "ivaTypeToShow","appliedDateTimeUTCToShow", "projectName");
 			
 			billsGrid.getColumn("code").setHeaderCaption("Código");
-			billsGrid.getColumn("description").setHeaderCaption("Descripción");
 			billsGrid.getColumn("ivaTypeToShow").setHeaderCaption("IVA");
 			billsGrid.getColumn("totalAmountToShow").setHeaderCaption("Importe IVA incl.");
 			billsGrid.getColumn("typeExchangeToShow").setHeaderCaption("Tipo de cambio");
 			billsGrid.getColumn("appliedDateTimeUTCToShow").setHeaderCaption("Mes");
 			billsGrid.getColumn("projectName").setHeaderCaption("Proyecto");
-			billsGrid.getColumn("description").setWidth(200);
 			billsGrid.setWidth(100, Unit.PERCENTAGE);
 			billsGrid.setHeight(100, Unit.PERCENTAGE);
 			billsGrid.setSelectionMode(SelectionMode.SINGLE);

@@ -234,6 +234,8 @@ public class CreateBillView extends BaseView {
 			cboxIVA_Types.addItem(3);
 			cboxIVA_Types.setItemCaption(3, "22%");
 			
+			cboxIVA_Types.setValue(3);
+			
 			cleanInputs();
 		}
 	}
@@ -245,7 +247,6 @@ public class CreateBillView extends BaseView {
 		txtCode.clear();
 		txtTypeExchange.clear();
 		cboxProject.clear();
-		cboxIVA_Types.clear();
 		txtTotalAmount.clear();
 		
 		txtDescription.setValidationVisible(false);
@@ -410,6 +411,7 @@ public class CreateBillView extends BaseView {
 		cboxIVA_Types.setHeight("-1px");
 		cboxIVA_Types.setRequired(true);
 		cboxIVA_Types.setTabIndex(5);
+		cboxIVA_Types.setNullSelectionAllowed(false);
 		mainLayout.addComponent(cboxIVA_Types, "top:314.0px;left:0.0px;");
 		
 		// txtTypeExchange

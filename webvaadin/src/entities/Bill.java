@@ -28,6 +28,7 @@ public class Bill {
    	private String amountChargedToShow;
     private String totalAmountToShow;
     private String ivaTypeToShow;
+    private String amountReceivableToShow;
     
     public Bill()
     {
@@ -59,6 +60,8 @@ public class Bill {
     		this.typeExchangeToShow = String.valueOf(this.typeExchange);
     		
     		this.totalAmountToShow = new DecimalFormat("U$S ###,###.###").format(voBill.getTotalAmountDollar());
+    		
+    		this.amountReceivableToShow = new DecimalFormat("U$S ###,###.###").format(voBill.getTotalAmountDollar() - voBill.getAmountChargedDollar());
     	}
     	else
     	{
@@ -67,10 +70,12 @@ public class Bill {
     		this.typeExchangeToShow = "N/A";
     		
     		this.totalAmountToShow = new DecimalFormat("$ ###,###.###").format(voBill.getTotalAmountPeso());
+    		
+    		this.amountReceivableToShow = new DecimalFormat("$ ###,###.###").format(voBill.getTotalAmountPeso() - voBill.getAmountChargedPeso());
     	}
     	
     	this.ivaType = voBill.getIvaType();
-    	this.ivaTypeToShow = getIvaTypeToShow(voBill.getIvaType());
+    	this.ivaTypeToShow = getIvaTypeToShow(voBill.getIvaType());    	
     }
     
 	public int getId() {
@@ -192,5 +197,9 @@ public class Bill {
 		}
 		
 		return result;
+	}
+
+	public String getAmountReceivableToShow() {
+		return amountReceivableToShow;
 	}
 }

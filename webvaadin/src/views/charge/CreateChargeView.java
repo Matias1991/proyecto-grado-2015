@@ -266,6 +266,7 @@ public class CreateChargeView extends BaseView {
 			billsGrid.removeColumn("amountToShow");
 			billsGrid.removeColumn("ivaType");
 			billsGrid.removeColumn("ivaTypeToShow");
+			billsGrid.removeColumn("amountReceivableToShow");
 			billsGrid.setColumnOrder("code", "description", "totalAmountToShow", "amountChargedToShow");
 	
 			billsGrid.getColumn("code").setHeaderCaption("Código");
