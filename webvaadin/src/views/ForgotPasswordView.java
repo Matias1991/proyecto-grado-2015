@@ -15,8 +15,9 @@ import com.vaadin.ui.Label;
 import com.vaadin.ui.TextField;
 
 import controllers.UserController;
+import entities.RequestContext;
 
-public class ForgotPasswordView extends CustomComponent implements View {
+public class ForgotPasswordView extends BaseView {
 
 	/*- VaadinEditorProperties={"grid":"RegularGrid,20","showGrid":true,"snapToGrid":true,"snapToObject":true,"movingGuides":false,"snappingDistance":10} */
 
@@ -84,7 +85,7 @@ public class ForgotPasswordView extends CustomComponent implements View {
 	@Override
 	public void enter(ViewChangeEvent event) {
 		// TODO Auto-generated method stub
-		//txtEmail.clear();
+		super.enter(event);
 		mainLayout.removeComponent(txtEmail);
 		mainLayout.addComponent(txtEmail, "top:90.0px;left:0.0px;");
 	}
