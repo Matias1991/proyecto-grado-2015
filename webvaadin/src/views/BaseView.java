@@ -3,11 +3,8 @@ package views;
 import com.example.webvaadin.WebvaadinUI;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
-import com.vaadin.server.ExternalResource;
 import com.vaadin.ui.CustomComponent;
-import com.vaadin.ui.Link;
 import com.vaadin.ui.UI;
-
 import entities.RequestContext;
 
 public class BaseView extends CustomComponent implements View {
@@ -32,14 +29,19 @@ public class BaseView extends CustomComponent implements View {
 	public void enter(ViewChangeEvent event) {
 		if(RequestContext.getRequestContext() == null)
 		{
-			//WebvaadinUI.changeToLogin();
 			((WebvaadinUI)UI.getCurrent()).changeToLogin();
 			getUI().getNavigator().navigateTo(WebvaadinUI.LOGINVIEW);
 		}
 		else
 		{
-			//WebvaadinUI.changeToMainMenu();
-			((WebvaadinUI)UI.getCurrent()).changeToMainMenu();
+			if(!WebvaadinUI.USERS_T0_VIEWS.get(RequestContext.getRequestContext().getUserType()).contains(this.getClass().getSimpleName()))
+			{
+				UI.getCurrent().getNavigator().navigateTo(WebvaadinUI.MAINMENU);
+			}
+			else
+			{
+				((WebvaadinUI)UI.getCurrent()).changeToMainMenu();
+			}
 		}
 	}
 

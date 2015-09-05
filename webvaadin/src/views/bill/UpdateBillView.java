@@ -529,12 +529,7 @@ public class UpdateBillView extends BaseView {
 	@Override
 	public void enter(ViewChangeEvent event) {
 		super.enter(event);
-		if(RequestContext.getRequestContext() != null){
-			// Compruebo si el usuario es de tipo socio
-			if(RequestContext.getRequestContext().getUserType() != 2){
-				getUI().getNavigator().navigateTo(WebvaadinUI.MAINMENU);
-			}
-			
+		if(RequestContext.getRequestContext() != null){			
 			builInputs();
 			buildGrid();
 		}
@@ -601,7 +596,7 @@ public class UpdateBillView extends BaseView {
 		txtDescription.setCaption("Descripción");
 		txtDescription.setImmediate(false);
 		txtDescription.setWidth("265px");
-		txtDescription.setHeight("-1px");
+		txtDescription.setHeight("100px");
 		txtDescription.setRequired(true);
 		txtDescription.setMaxLength(240);
 		txtDescription.setRows(4);

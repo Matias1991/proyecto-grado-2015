@@ -249,11 +249,6 @@ public class DeleteBillsView extends BaseView {
 	public void enter(ViewChangeEvent event) {
 		super.enter(event);
 		if(RequestContext.getRequestContext() != null){
-			// Compruebo si el usuario es de tipo socio
-			if(RequestContext.getRequestContext().getUserType() != 2){
-				getUI().getNavigator().navigateTo(WebvaadinUI.MAINMENU);
-			}
-			
 			builInputs();
 			buildGrid();
 		}

@@ -1,6 +1,11 @@
 package com.example.webvaadin;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+
 import utils.PopupWindow;
+import views.BaseView;
 import views.ForgotPasswordView;
 import views.LoginView;
 import views.MainMenuView;
@@ -47,7 +52,9 @@ import com.vaadin.ui.MenuBar.MenuItem;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 
+import entities.Constant;
 import entities.RequestContext;
+import entities.Constant.View;
 
 @SuppressWarnings("serial")
 @Theme("webvaadin")
@@ -64,47 +71,8 @@ public class WebvaadinUI extends UI {
 	
 	public static final String MAINMENU = "";
 	public static final String LOGINVIEW = "LoginView";
-
-	// Usuarios
-	public static final String CREATEUSER = "CreateUserView";
-	public static final String MODIFYPROFILEUSER = "ModifyProfileView";
-	public static final String DELETEUSERS = "DeleteUsersView";
-	public static final String MODIFYUSER = "ModifyUserView";
-	public static final String CATALOGUSERS = "CatalogUsersView";
-	public static final String FORGOTPASSWORD = "ForgotPaswordView";
-	public static final String CHANGEPASSWORD = "ChangePasswordView";
-	public static final String RESETPASSWORD = "ResetPaswordView";
-	public static final String UNLOCKUSER = "UnlockUserView";
-
-	// Empleados
-	public static final String CATALOGEMPLOYEES = "CatalogEmployees";
-	public static final String CREATEEMPLOYEE = "CreateEmployeeView";
-	public static final String DELETEEMPLOYEE = "DeleteEmployeeView";
-	public static final String UPDATEEMPLOYEE = "UpdateEmployeeView";
-
-	// Rubros
-	public static final String CREATECATEGORY = "CreateCategoryView";
-	public static final String CATEGORIES = "CategoriesView";
-	public static final String DELETECATEGORY = "DeleteCategoryView";
-	public static final String MODIFYCATEGORY = "UpdateCategoryView";
-
-	//Facturas
-	public static final String CREATEBILL = "CreateBillView";
-	public static final String BILLS = "CatalogBillsView";
-	public static final String UPDATEBILL = "UpdateBillView";
-	public static final String DELETEBILLS = "DeleteBillsView";
 	
-	//Cobros
-	public static final String CREATECHARGE = "CreateChargeView";
-	public static final String UPDATECHARGE = "UpdateChargeView";
-	public static final String DELETECHARGES = "DeleteChargesView";
-	public static final String CHARGES = "CatalogChargesView";
-	
-	//Proyectos
-	public static final String CATALOGPROJECTS = "CatalogProjectView";
-	public static final String CREATEPROJECT = "CreateProjectView";	
-	public static final String CLOSEPROJECT = "DeleteProjectView";	
-	
+	public static HashMap<Integer, Collection<String>> USERS_T0_VIEWS = new HashMap<Integer, Collection<String>>();
 
 	@Override
 	protected void init(VaadinRequest request) {
@@ -114,10 +82,183 @@ public class WebvaadinUI extends UI {
 				layoutViews);
 		navigator = new Navigator(UI.getCurrent(), viewDisplay);
 		
+		buildUsersToViews();
 		
 		buildLayout();
 	}
 
+	public BaseView getContructorByView(String strView)
+	{
+		BaseView view = null;
+		switch(strView)
+		{
+			case View.CREATEUSER:
+				view = new CreateUserView();
+				break;
+			case View.UPDATEPROFILEUSER:
+				view = new ModifyProfileView();
+				break;
+			case View.DELETEUSERS:
+				view = new DeleteUsersView();
+				break;
+			case View.UPDATEUSER:
+				view = new ModifyUserView();
+				break;
+			case View.CATALOGUSERS:
+				view = new CatalogUsersView();
+				break;
+			case View.FORGOTPASSWORD:
+				view = new ForgotPasswordView();
+				break;
+			case View.CHANGEPASSWORD:
+				view = new ChangePasswordView();
+				break;
+			case View.RESETPASSWORD:
+				view = new ResetPasswordView();
+				break;
+			case View.UNLOCKUSER:
+				view = new UnlockUserView();
+				break;
+				
+			case View.CATALOGEMPLOYEES:
+				view = new CatalogEmployeesView();
+				break;
+			case View.CREATEEMPLOYEE:
+				view = new CreateEmployeeView();
+				break;
+			case View.DELETEEMPLOYEE:
+				view = new DeleteEmployeeView();
+				break;
+			case View.UPDATEEMPLOYEE:
+				view = new UpdateEmployeeView();
+				break;
+				
+			case View.CREATECATEGORY:
+				view = new CreateCategoryView();
+				break;
+			case View.CATEGORIES:
+				view = new CatalogCategoriesView();
+				break;
+			case View.DELETECATEGORY:
+				view = new DeleteCategoriesView();
+				break;
+			case View.UPDATECATEGORY:
+				view = new DeleteCategoriesView();
+				break;
+				
+			case View.CREATEBILL:
+				view = new CreateBillView();
+				break;
+			case View.BILLS:
+				view = new CatalogBillsView();
+				break;
+			case View.UPDATEBILL:
+				view = new UpdateBillView();
+				break;
+			case View.DELETEBILLS:
+				view = new DeleteBillsView();
+				break;
+				
+			case View.CREATECHARGE:
+				view = new CreateChargeView();
+				break;
+			case View.CHARGES:
+				view = new CatalogChargesView();
+				break;
+			case View.UPDATECHARGE:
+				view = new UpdateChargeView();
+				break;
+			case View.DELETECHARGES:
+				view = new DeleteChargesView();
+				break;
+				
+			case View.CREATEPROJECT:
+				view = new CreateProjectView();
+				break;
+			case View.CLOSEPROJECT:
+				view = new DeleteProjectView();
+				break;
+			case View.CATALOGPROJECTS:
+				view = new CatalogProjectView();
+				break;
+		}
+		
+		return view;
+	}
+	
+	void buildUsersToViews()
+	{
+		ArrayList<String> userTypeAdminToViews = new ArrayList<String>();
+		ArrayList<String> userTypePartnerToViews = new ArrayList<String>();
+		ArrayList<String> userTypeManagerToViews = new ArrayList<String>();
+		
+		//Carga las vistas a usuario Administrador
+		userTypeAdminToViews.add(Constant.View.CREATEUSER);
+		userTypeAdminToViews.add(Constant.View.UPDATEPROFILEUSER);
+		userTypeAdminToViews.add(Constant.View.DELETEUSERS);
+		userTypeAdminToViews.add(Constant.View.UPDATEUSER);
+		userTypeAdminToViews.add(Constant.View.CATALOGUSERS);
+		userTypeAdminToViews.add(Constant.View.FORGOTPASSWORD);
+		userTypeAdminToViews.add(Constant.View.CHANGEPASSWORD);
+		userTypeAdminToViews.add(Constant.View.RESETPASSWORD);
+		userTypeAdminToViews.add(Constant.View.UNLOCKUSER);
+	
+		//Carga las vistas a usuario Socio
+		userTypePartnerToViews.add(Constant.View.CATALOGEMPLOYEES);
+		userTypePartnerToViews.add(Constant.View.CREATEEMPLOYEE);
+		userTypePartnerToViews.add(Constant.View.DELETEEMPLOYEE);
+		userTypePartnerToViews.add(Constant.View.UPDATEEMPLOYEE);
+		
+		userTypePartnerToViews.add(Constant.View.CREATECATEGORY);
+		userTypePartnerToViews.add(Constant.View.CATEGORIES);
+		userTypePartnerToViews.add(Constant.View.DELETECATEGORY);
+		userTypePartnerToViews.add(Constant.View.UPDATECATEGORY);
+		
+		userTypePartnerToViews.add(Constant.View.CREATEBILL);
+		userTypePartnerToViews.add(Constant.View.BILLS);
+		userTypePartnerToViews.add(Constant.View.UPDATEBILL);
+		userTypePartnerToViews.add(Constant.View.DELETEBILLS);
+
+		userTypePartnerToViews.add(Constant.View.CREATECHARGE);
+		userTypePartnerToViews.add(Constant.View.UPDATECHARGE);
+		userTypePartnerToViews.add(Constant.View.DELETECHARGES);
+		userTypePartnerToViews.add(Constant.View.CHARGES);
+		
+		userTypePartnerToViews.add(Constant.View.CATALOGPROJECTS);
+		userTypePartnerToViews.add(Constant.View.CREATEPROJECT);
+		userTypePartnerToViews.add(Constant.View.CLOSEPROJECT);
+		
+		//Carga las vistas a usuario Gerente
+		userTypeManagerToViews.add(Constant.View.CREATECATEGORY);
+		userTypeManagerToViews.add(Constant.View.CATEGORIES);
+		userTypeManagerToViews.add(Constant.View.DELETECATEGORY);
+		userTypeManagerToViews.add(Constant.View.UPDATECATEGORY);
+		
+		userTypeManagerToViews.add(Constant.View.CREATEBILL);
+		userTypeManagerToViews.add(Constant.View.BILLS);
+		userTypeManagerToViews.add(Constant.View.UPDATEBILL);
+		userTypeManagerToViews.add(Constant.View.DELETEBILLS);
+
+		userTypeManagerToViews.add(Constant.View.CREATECHARGE);
+		userTypeManagerToViews.add(Constant.View.UPDATECHARGE);
+		userTypeManagerToViews.add(Constant.View.DELETECHARGES);
+		userTypeManagerToViews.add(Constant.View.CHARGES);
+		
+		userTypeManagerToViews.add(Constant.View.CATALOGPROJECTS);
+		
+		USERS_T0_VIEWS.put(Constant.UserType.USER_TYPE_ADMIN, userTypeAdminToViews);
+		USERS_T0_VIEWS.put(Constant.UserType.USER_TYPE_PARTNER, userTypePartnerToViews);
+		USERS_T0_VIEWS.put(Constant.UserType.USER_TYPE_MANAGER, userTypeManagerToViews);
+	}
+	
+	public void buildInternalViews()
+	{
+		for(String view : USERS_T0_VIEWS.get(RequestContext.getRequestContext().getUserType()))
+		{
+			navigator.addView(view, getContructorByView(view));
+		}
+	}
+	
 	/**
 	 * Armado del contenedor principal
 	 */
@@ -162,52 +303,13 @@ public class WebvaadinUI extends UI {
 		/**
 		 * Contenedor del navigator
 		 */
-//		VerticalLayout layoutViews = new VerticalLayout();
-//		layoutViews.setDefaultComponentAlignment(Alignment.MIDDLE_LEFT);
-//		ComponentContainerViewDisplay viewDisplay = new ComponentContainerViewDisplay(
-//				layoutViews);
+		
 		mainLayout.addComponent(layoutViews, 2, 2, 11, 2);
 
-//		navigator = new Navigator(this, viewDisplay);
-		
 		navigator.setErrorView(new LoginView());
 
-		navigator.addView("", new MainMenuView());		
+		navigator.addView(MAINMENU, new MainMenuView());		
 		navigator.addView(LOGINVIEW, new LoginView());
-		// Usuarios
-		navigator.addView(CREATEUSER, new CreateUserView());
-		navigator.addView(DELETEUSERS, new DeleteUsersView());
-		navigator.addView(MODIFYPROFILEUSER, new ModifyProfileView());
-		navigator.addView(MODIFYUSER, new ModifyUserView());
-		navigator.addView(CATALOGUSERS, new CatalogUsersView());
-		navigator.addView(FORGOTPASSWORD, new ForgotPasswordView());
-		navigator.addView(CHANGEPASSWORD, new ChangePasswordView());
-		navigator.addView(RESETPASSWORD, new ResetPasswordView());
-		navigator.addView(UNLOCKUSER, new UnlockUserView());
-		// Empleados
-		navigator.addView(CATALOGEMPLOYEES, new CatalogEmployeesView());
-		navigator.addView(CREATEEMPLOYEE, new CreateEmployeeView());
-		navigator.addView(DELETEEMPLOYEE, new DeleteEmployeeView());
-		navigator.addView(UPDATEEMPLOYEE, new UpdateEmployeeView());
-		// Rubros
-		navigator.addView(CREATECATEGORY, new CreateCategoryView());
-		navigator.addView(CATEGORIES, new CatalogCategoriesView());
-		navigator.addView(DELETECATEGORY, new DeleteCategoriesView());
-		navigator.addView(MODIFYCATEGORY, new ModifyCategoryView());
-		// Facturas
-		navigator.addView(CREATEBILL, new CreateBillView());
-		navigator.addView(BILLS, new CatalogBillsView());
-		navigator.addView(UPDATEBILL, new UpdateBillView());
-		navigator.addView(DELETEBILLS, new DeleteBillsView());
-		// Cobros
-		navigator.addView(CREATECHARGE, new CreateChargeView());
-		navigator.addView(UPDATECHARGE, new UpdateChargeView());
-		navigator.addView(DELETECHARGES, new DeleteChargesView());
-		navigator.addView(CHARGES, new CatalogChargesView());
-		// Proyectos
-		navigator.addView(CREATEPROJECT, new CreateProjectView());
-		navigator.addView(CATALOGPROJECTS, new CatalogProjectView());
-		navigator.addView(CLOSEPROJECT, new DeleteProjectView());
 		
 		if (RequestContext.getRequestContext() == null) {
 			changeToLogin();
@@ -236,79 +338,79 @@ public class WebvaadinUI extends UI {
 				// TODO Auto-generated method stub
 				switch (selectedItem.getText()) {
 				case "Crear usuario":					
-					UI.getCurrent().getNavigator().navigateTo(CREATEUSER);
+					UI.getCurrent().getNavigator().navigateTo(Constant.View.CREATEUSER);
 					break;
 				case "Modificar usuarios":
-					UI.getCurrent().getNavigator().navigateTo(MODIFYUSER);
+					UI.getCurrent().getNavigator().navigateTo(Constant.View.UPDATEUSER);
 					break;
 				case "Eliminar usuarios":
-					UI.getCurrent().getNavigator().navigateTo(DELETEUSERS);
+					UI.getCurrent().getNavigator().navigateTo(Constant.View.DELETEUSERS);
 					break;
 				case "Catálogo usuarios":
-					UI.getCurrent().getNavigator().navigateTo(CATALOGUSERS);
+					UI.getCurrent().getNavigator().navigateTo(Constant.View.CATALOGUSERS);
 					break;
 				case "Resetear contraseña":
-					UI.getCurrent().getNavigator().navigateTo(RESETPASSWORD);
+					UI.getCurrent().getNavigator().navigateTo(Constant.View.RESETPASSWORD);
 					break;
 				case "Desbloquear usuarios":
-					UI.getCurrent().getNavigator().navigateTo(UNLOCKUSER);
+					UI.getCurrent().getNavigator().navigateTo(Constant.View.UNLOCKUSER);
 					break;
 				case "Catálogo empleados":
-					UI.getCurrent().getNavigator().navigateTo(CATALOGEMPLOYEES);
+					UI.getCurrent().getNavigator().navigateTo(Constant.View.CATALOGEMPLOYEES);
 					break;
 				case "Crear empleado":
-					UI.getCurrent().getNavigator().navigateTo(CREATEEMPLOYEE);
+					UI.getCurrent().getNavigator().navigateTo(Constant.View.CREATEEMPLOYEE);
 					break;
 				case "Eliminar empleados":
-					UI.getCurrent().getNavigator().navigateTo(DELETEEMPLOYEE);
+					UI.getCurrent().getNavigator().navigateTo(Constant.View.DELETEEMPLOYEE);
 					break;
 				case "Modificar empleados":
-					UI.getCurrent().getNavigator().navigateTo(UPDATEEMPLOYEE);
+					UI.getCurrent().getNavigator().navigateTo(Constant.View.UPDATEEMPLOYEE);
 					break;
 				case "Crear rubro":
-					UI.getCurrent().getNavigator().navigateTo(CREATECATEGORY);
+					UI.getCurrent().getNavigator().navigateTo(Constant.View.CREATECATEGORY);
 					break;
 				case "Eliminar rubros":
-					UI.getCurrent().getNavigator().navigateTo(DELETECATEGORY);
+					UI.getCurrent().getNavigator().navigateTo(Constant.View.DELETECATEGORY);
 					break;
 				case "Modificar rubros":
-					UI.getCurrent().getNavigator().navigateTo(MODIFYCATEGORY);
+					UI.getCurrent().getNavigator().navigateTo(Constant.View.UPDATECATEGORY);
 					break;
 				case "Catálogo rubros":
-					UI.getCurrent().getNavigator().navigateTo(CATEGORIES);
+					UI.getCurrent().getNavigator().navigateTo(Constant.View.CATEGORIES);
 					break;
 				case "Crear factura":
-					UI.getCurrent().getNavigator().navigateTo(CREATEBILL);
+					UI.getCurrent().getNavigator().navigateTo(Constant.View.CREATEBILL);
 					break;
 				case "Modificar facturas":
-					UI.getCurrent().getNavigator().navigateTo(UPDATEBILL);
+					UI.getCurrent().getNavigator().navigateTo(Constant.View.UPDATEBILL);
 					break;
 				case "Eliminar facturas":
-					UI.getCurrent().getNavigator().navigateTo(DELETEBILLS);
+					UI.getCurrent().getNavigator().navigateTo(Constant.View.DELETEBILLS);
 					break;
 				case "Catálogo facturas":
-					UI.getCurrent().getNavigator().navigateTo(BILLS);
+					UI.getCurrent().getNavigator().navigateTo(Constant.View.BILLS);
 					break;
 				case "Crear cobro":
-					UI.getCurrent().getNavigator().navigateTo(CREATECHARGE);
+					UI.getCurrent().getNavigator().navigateTo(Constant.View.CREATECHARGE);
 					break;
 				case "Modificar cobros":
-					UI.getCurrent().getNavigator().navigateTo(UPDATECHARGE);
+					UI.getCurrent().getNavigator().navigateTo(Constant.View.UPDATECHARGE);
 					break;
 				case "Eliminar cobros":
-					UI.getCurrent().getNavigator().navigateTo(DELETECHARGES);
+					UI.getCurrent().getNavigator().navigateTo(Constant.View.DELETECHARGES);
 					break;
 				case "Catálogo cobros":
-					UI.getCurrent().getNavigator().navigateTo(CHARGES);
+					UI.getCurrent().getNavigator().navigateTo(Constant.View.CHARGES);
 					break;
 				case "Crear proyecto":
-					UI.getCurrent().getNavigator().navigateTo(CREATEPROJECT);
+					UI.getCurrent().getNavigator().navigateTo(Constant.View.CREATEPROJECT);
 					break;
 				case "Catálogo proyectos":
-					UI.getCurrent().getNavigator().navigateTo(CATALOGPROJECTS);
+					UI.getCurrent().getNavigator().navigateTo(Constant.View.CATALOGPROJECTS);
 					break;
 				case "Cerrar proyectos":
-					UI.getCurrent().getNavigator().navigateTo(CLOSEPROJECT);
+					UI.getCurrent().getNavigator().navigateTo(Constant.View.CLOSEPROJECT);
 					break;
 				default:
 					new PopupWindow("AVISO",
@@ -324,24 +426,30 @@ public class WebvaadinUI extends UI {
 		 */
 		menuBar.removeItems();
 
-		switch (RequestContext.getRequestContext().getUserType()) {
-		case 1:
+		MenuItem project = null;
+		
+		if(RequestContext.getRequestContext().getUserType() == 1)
+		{
 			// Rol Administrador
-			MenuItem users = menuBar.addItem("Usuarios", null, null);
-			users.addItem("Crear usuario", null, mainMenuBarCommand);
-			users.addItem("Modificar usuarios", null, mainMenuBarCommand);
-			users.addItem("Eliminar usuarios", null, mainMenuBarCommand);
-			users.addItem("Catálogo usuarios", null, mainMenuBarCommand);
-			users.addItem("Resetear contraseña", null, mainMenuBarCommand);
-			users.addItem("Desbloquear usuarios", null, mainMenuBarCommand);
-			break;
-		case 2:
+			MenuItem usersAdmin = menuBar.addItem("Usuarios", null, null);
+			usersAdmin.addItem("Crear usuario", null, mainMenuBarCommand);
+			usersAdmin.addItem("Modificar usuarios", null, mainMenuBarCommand);
+			usersAdmin.addItem("Eliminar usuarios", null, mainMenuBarCommand);
+			usersAdmin.addItem("Catálogo usuarios", null, mainMenuBarCommand);
+			usersAdmin.addItem("Resetear contraseña", null, mainMenuBarCommand);
+			usersAdmin.addItem("Desbloquear usuarios", null, mainMenuBarCommand);
+		}
+		if(RequestContext.getRequestContext().getUserType() == 2)
+		{
 			// Rol Socio
 			MenuItem employeed = menuBar.addItem("Empleados", null, null);
 			employeed.addItem("Crear empleado", null, mainMenuBarCommand);
 			employeed.addItem("Modificar empleados", null, mainMenuBarCommand);
 			employeed.addItem("Eliminar empleados", null,mainMenuBarCommand);
 			employeed.addItem("Catálogo empleados", null, mainMenuBarCommand);
+		}
+		if(RequestContext.getRequestContext().getUserType() == 2 || RequestContext.getRequestContext().getUserType() == 3) // todo lo compartido entre socio y gerente
+		{
 			// Rubros
 			MenuItem category = menuBar.addItem("Rubros", null, null);
 			category.addItem("Crear rubro", null, mainMenuBarCommand);
@@ -360,17 +468,14 @@ public class WebvaadinUI extends UI {
 			charge.addItem("Modificar cobros", null, mainMenuBarCommand);
 			charge.addItem("Eliminar cobros", null, mainMenuBarCommand);
 			charge.addItem("Catálogo cobros", null, mainMenuBarCommand);
+			
 			// Proyectos
-			MenuItem project = menuBar.addItem("Proyectos", null, null);
-			project.addItem("Crear proyecto", null, mainMenuBarCommand);
-			project.addItem("Cerrar proyectos", null, mainMenuBarCommand);
+			project = menuBar.addItem("Proyectos", null, null);
+			if(RequestContext.getRequestContext().getUserType() == 2)
+				project.addItem("Crear proyecto", null, mainMenuBarCommand);
+			if(RequestContext.getRequestContext().getUserType() == 2)
+				project.addItem("Cerrar proyectos", null, mainMenuBarCommand);
 			project.addItem("Catálogo proyectos", null, mainMenuBarCommand);
-			break;
-		case 3:
-			// Rol Gerente
-			break;
-		default:
-			break;
 		}
 	}
 
@@ -394,11 +499,11 @@ public class WebvaadinUI extends UI {
 					break;
 				case "Perfil":
 					UI.getCurrent().getNavigator().navigateTo(
-							WebvaadinUI.MODIFYPROFILEUSER);
+							Constant.View.UPDATEPROFILEUSER);
 					break;
 				case "Cambiar contraseña":
 					UI.getCurrent().getNavigator().navigateTo(
-							WebvaadinUI.CHANGEPASSWORD);
+							Constant.View.CHANGEPASSWORD);
 					break;
 				default:					
 					new PopupWindow("AVISO",
