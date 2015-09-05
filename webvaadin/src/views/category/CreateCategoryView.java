@@ -280,19 +280,19 @@ public class CreateCategoryView extends BaseView {
 		txtTypeExchange = new TextField();
 		txtTypeExchange.setCaption("Tipo de cambio");
 		txtTypeExchange.setImmediate(true);
-		txtTypeExchange.setWidth("110px");
+		txtTypeExchange.setWidth("100px");
 		txtTypeExchange.setHeight("-1px");
 		txtTypeExchange.setRequired(true);
 		txtTypeExchange.setNullRepresentation("");
 		txtTypeExchange.setConverter(new StringToDoubleConverter());
 		mainLayout.addComponent(txtTypeExchange,
-				"top:263.0px;right:372.0px;left:270.0px;");
+				"top:263.0px;right:372.0px;left:160.0px;");
 		
 		// txtAmount
 		txtAmount = new TextField();
 		txtAmount.setCaption("Importe");
 		txtAmount.setImmediate(true);
-		txtAmount.setWidth("240px");
+		txtAmount.setWidth("150px");
 		txtAmount.setHeight("-1px");
 		txtAmount.setTabIndex(2);
 		txtAmount.setRequired(true);
