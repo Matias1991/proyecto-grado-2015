@@ -38,7 +38,7 @@ public class DeleteUsersView extends BaseView{
 	private BeanItemContainer<User> container;
 	
 	public DeleteUsersView() {
-		super("Usuarios", "Eliminar usuario");
+		super("Usuarios", "Eliminar usuarios");
 		
 		buildMainLayout();
 		setCompositionRoot(mainLayout);
@@ -136,7 +136,7 @@ public class DeleteUsersView extends BaseView{
 		lblTitle.setImmediate(false);
 		lblTitle.setWidth("-1px");
 		lblTitle.setHeight("-1px");
-		lblTitle.setValue("Eliminar usuarios");
+		lblTitle.setValue(getBreadCrumbToShow());
 		mainLayout.addComponent(lblTitle, "top:42.0px;left:0.0px;");
 		
 		// btn_delete

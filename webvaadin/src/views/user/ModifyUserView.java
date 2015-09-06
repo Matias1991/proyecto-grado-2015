@@ -63,7 +63,7 @@ public class ModifyUserView extends BaseView {
 
 	
 	public ModifyUserView() {
-		super("Usuarios", "Modificar usuario");
+		super("Usuarios", "Modificar usuarios");
 		
 		buildMainLayout();
 		setCompositionRoot(mainLayout);
@@ -246,7 +246,7 @@ public class ModifyUserView extends BaseView {
 		lblTitle.setImmediate(false);
 		lblTitle.setWidth("-1px");
 		lblTitle.setHeight("-1px");
-		lblTitle.setValue("Modificar usuarios");
+		lblTitle.setValue(getBreadCrumbToShow());
 		mainLayout.addComponent(lblTitle, "top:42.0px;left:0.0px;");
 		
 		// btnModify

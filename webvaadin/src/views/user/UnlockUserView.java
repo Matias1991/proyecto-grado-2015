@@ -41,7 +41,7 @@ public class UnlockUserView extends BaseView{
 	private Label lblMessage;
 	
 	public UnlockUserView() {
-		super("Usuarios", "Desbloquear usuario");
+		super("Usuarios", "Desbloquear usuarios");
 		
 		buildMainLayout();
 		setCompositionRoot(mainLayout);
@@ -151,7 +151,7 @@ public class UnlockUserView extends BaseView{
 		lblTitle.setImmediate(false);
 		lblTitle.setWidth("-1px");
 		lblTitle.setHeight("-1px");
-		lblTitle.setValue("Desbloquear usuarios");
+		lblTitle.setValue(getBreadCrumbToShow());
 		mainLayout.addComponent(lblTitle, "top:42.0px;left:0.0px;");
 		
 		// btn_delete

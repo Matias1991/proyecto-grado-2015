@@ -49,6 +49,7 @@ public class ModifyProfileView extends BaseView {
 	private static final long serialVersionUID = 1L;
 
 	public ModifyProfileView() {
+		super("Perfil","Modificar perfil");
 		buildMainLayout();
 		setCompositionRoot(mainLayout);
 
@@ -191,15 +192,15 @@ public class ModifyProfileView extends BaseView {
 		txtEmail.addValidator(new EmailValidator("Formato invalido"));
 		mainLayout.addComponent(txtEmail, "top:240.0px;left:0.0px;");
 		
-		// label_2
+		// lblTitle
 		lblTitle = new Label();
+		lblTitle.setStyleName("titleLabel");
 		lblTitle.setImmediate(false);
 		lblTitle.setWidth("-1px");
 		lblTitle.setHeight("-1px");
-		lblTitle.setValue("Modificar perfil");
-		lblTitle.setStyleName("titleLabel");
-		mainLayout.addComponent(lblTitle, "top:62.0px;left:0.0px;");
-		
+		lblTitle.setValue(getBreadCrumbToShow());
+		mainLayout.addComponent(lblTitle, "top:42.0px;left:0.0px;");
+				
 		// btn_modify
 		btnModify = new Button();
 		btnModify.setCaption("Modificar");

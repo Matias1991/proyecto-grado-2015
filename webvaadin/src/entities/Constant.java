@@ -28,7 +28,7 @@ public class Constant {
 		public static final String CATALOGUSERS = "CatalogUsersView";
 		public static final String FORGOTPASSWORD = "ForgotPaswordView";
 		public static final String CHANGEPASSWORD = "ChangePasswordView";
-		public static final String RESETPASSWORD = "ResetPaswordView";
+		public static final String RESETPASSWORD = "ResetPasswordView";
 		public static final String UNLOCKUSER = "UnlockUserView";
 
 		// Empleados
