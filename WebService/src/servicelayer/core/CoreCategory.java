@@ -213,6 +213,10 @@ public class CoreCategory implements ICoreCategory {
 		if (toUpdate.getTypeExchange() != oldCategory.getTypeExchange()) {
 			change = true;
 		}
+		
+		if(toUpdate.getIvaTypeId() != oldCategory.getIvaTypeId()){
+			change = true;
+		}
 
 		if (toUpdate.getIsRRHH() != oldCategory.getIsRRHH()) {
 			change = true;

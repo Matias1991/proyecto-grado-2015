@@ -12,6 +12,7 @@ public class VOCategory implements Serializable {
 	private double amountDollar;
 	private boolean isCurrencyDollar;
 	private double typeExchange;
+	private int ivaTypeId;
 	private Date appliedDateTimeUTC;
 	private int projectId;
 	private String projectName;
@@ -75,6 +76,14 @@ public class VOCategory implements Serializable {
 
 	public void setTypeExchange(double typeExchange) {
 		this.typeExchange = typeExchange;
+	}
+	
+	public int getIvaTypeId() {
+		return ivaTypeId;
+	}
+
+	public void setIvaTypeId(int ivaTypeId) {
+		this.ivaTypeId = ivaTypeId;
 	}
 
 	public Date getAppliedDateTimeUTC() {

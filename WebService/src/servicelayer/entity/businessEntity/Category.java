@@ -13,6 +13,7 @@ public class Category {
 	private double amountDollar;
 	private boolean isCurrencyDollar;
 	private double typeExchange;
+	private int ivaTypeId;
 	private Date appliedDateTimeUTC;
 	private Project project;
 	private CategoryType categoryType;
@@ -76,6 +77,14 @@ public class Category {
 
 	public void setTypeExchange(double typeExchange) {
 		this.typeExchange = typeExchange;
+	}
+	
+	public int getIvaTypeId() {
+		return ivaTypeId;
+	}
+
+	public void setIvaTypeId(int ivaTypeId) {
+		this.ivaTypeId = ivaTypeId;
 	}
 
 	public Date getAppliedDateTimeUTC() {

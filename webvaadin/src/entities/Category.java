@@ -22,6 +22,7 @@ public class Category {
 	private String projectName;
 	private boolean isCurrencyDollar;
 	private double typeExchange;
+	private int ivaTypeId;
 	private String typeExchangeToShow;
 	
 	public Category(){	}
@@ -54,6 +55,7 @@ public class Category {
     		this.typeExchangeToShow = "N/A";
     	}
 		
+		this.setIvaTypeId(voCategory.getIvaTypeId());
 	}
 	
 	public String getDescription() {
@@ -214,6 +216,14 @@ public class Category {
 
 	public void setTypeExchangeToShow(String typeExchangeToShow) {
 		this.typeExchangeToShow = typeExchangeToShow;
+	}
+
+	public int getIvaTypeId() {
+		return ivaTypeId;
+	}
+
+	public void setIvaTypeId(int ivaTypeId) {
+		this.ivaTypeId = ivaTypeId;
 	}
 	
 }

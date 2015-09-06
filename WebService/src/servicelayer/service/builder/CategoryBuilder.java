@@ -17,6 +17,7 @@ public class CategoryBuilder extends BaseBuilder<VOCategory, Category>{
 		voCategory.setAmountDollar(businessObject.getAmountDollar());
 		voCategory.setIsCurrencyDollar(businessObject.getIsCurrencyDollar());
 		voCategory.setTypeExchange(businessObject.getTypeExchange());
+		voCategory.setIvaTypeId(businessObject.getIvaTypeId());
 		voCategory.setAppliedDateTimeUTC(businessObject.getAppliedDateTimeUTC());
 		if(businessObject.getProject() != null)
 		{
@@ -42,6 +43,7 @@ public class CategoryBuilder extends BaseBuilder<VOCategory, Category>{
 		category.setAmountDollar(voObject.getAmountDollar());
 		category.setIsCurrencyDollar(voObject.getIsCurrencyDollar());
 		category.setTypeExchange(voObject.getTypeExchange());
+		category.setIvaTypeId(voObject.getIvaTypeId());
 		category.setAppliedDateTimeUTC(voObject.getAppliedDateTimeUTC());
 		if (voObject.getProjectId() != 0)
 			category.setProject(new Project(voObject.getProjectId()));

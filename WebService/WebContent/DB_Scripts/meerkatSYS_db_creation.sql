@@ -131,6 +131,7 @@ CREATE TABLE IF NOT EXISTS Category
 	AmountDollar 		DECIMAL(10,2) NULL,
 	IsCurrencyDollar	BIT NULL,
 	TypeExchange		DECIMAL(10,2) NULL,
+	IVA_TypeId			INTEGER NULL,
 	AppliedDateTimeUTC  TIMESTAMP NULL,
 	ProjectId			INTEGER NULL,
 	CategoryType	INTEGER NOT NULL,
@@ -138,7 +139,8 @@ CREATE TABLE IF NOT EXISTS Category
 	UpdatedDateTimeUTC  TIMESTAMP NULL,
 	PRIMARY KEY (Id, Version),
 	FOREIGN KEY FK_Category_CategoryType (CategoryType) REFERENCES CategoryType (Id),
-	FOREIGN KEY FK_Category_Project (ProjectId) REFERENCES Project (Id)
+	FOREIGN KEY FK_Category_Project (ProjectId) REFERENCES Project (Id),
+	FOREIGN KEY FK_Category_IVA_Type (IVA_TypeId) REFERENCES IVA_Type (Id)
 );
 
 CREATE TABLE IF NOT EXISTS Bill

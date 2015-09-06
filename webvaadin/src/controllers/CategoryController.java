@@ -32,6 +32,7 @@ public class CategoryController {
 			voCategory.setAmountDollar(category.getAmountDollar());
 			voCategory.setIsCurrencyDollar(category.isCurrencyDollar());
 			voCategory.setTypeExchange(category.getTypeExchange());
+			voCategory.setIvaTypeId(category.getIvaTypeId());
 			voCategory.setCategoryType(category.getCategoryTypeId());
 			voCategory.setProjectId(category.getProjectId());
 			voCategory.setIsRRHH(category.getIsRRHH());
@@ -43,8 +44,7 @@ public class CategoryController {
 
 		} catch (AxisFault e) {
 			String error = e.getMessage().replace("<faultstring>", "");
-			PopupWindow popup = new PopupWindow("ERROR", error.replace(
-					"</faultstring>", ""));
+			new PopupWindow("ERROR", error.replace("</faultstring>", ""));
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		}
@@ -71,8 +71,7 @@ public class CategoryController {
 
 		} catch (AxisFault e) {
 			String error = e.getMessage().replace("<faultstring>", "");
-			PopupWindow popup = new PopupWindow("ERROR", error.replace(
-					"</faultstring>", ""));
+			new PopupWindow("ERROR", error.replace("</faultstring>", ""));
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		}
@@ -103,8 +102,7 @@ public class CategoryController {
 
 		} catch (AxisFault e) {
 			String error = e.getMessage().replace("<faultstring>", "");
-			PopupWindow popup = new PopupWindow("ERROR", error.replace(
-					"</faultstring>", ""));
+			new PopupWindow("ERROR", error.replace("</faultstring>", ""));
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		}
@@ -154,8 +152,7 @@ public class CategoryController {
 
 		} catch (AxisFault e) {
 			String error = e.getMessage().replace("<faultstring>", "");
-			PopupWindow popup = new PopupWindow("ERROR", error.replace(
-					"</faultstring>", ""));
+			new PopupWindow("ERROR", error.replace("</faultstring>", ""));
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		}
@@ -171,7 +168,7 @@ public class CategoryController {
 		result.setAmountDollar(cat.getAmountDollar());
 		result.setAmountPeso(cat.getAmountPeso());
 		result.setTypeExchange(cat.getTypeExchange());
-
+		result.setIvaTypeId(cat.getIvaTypeId());
 		if (cat.getCategoryTypeId() == 1) {
 			result.setProjectId(0);
 		} else {
@@ -192,8 +189,7 @@ public class CategoryController {
 			category = new Category(result);
 		} catch (AxisFault e) {
 			String error = e.getMessage().replace("<faultstring>", "");
-			PopupWindow popup = new PopupWindow("ERROR", error.replace(
-					"</faultstring>", ""));
+			new PopupWindow("ERROR", error.replace("</faultstring>", ""));
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		}
@@ -221,8 +217,7 @@ public class CategoryController {
 
 		} catch (AxisFault e) {
 			String error = e.getMessage().replace("<faultstring>", "");
-			PopupWindow popup = new PopupWindow("ERROR", error.replace(
-					"</faultstring>", ""));
+			new PopupWindow("ERROR", error.replace("</faultstring>", ""));
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		}

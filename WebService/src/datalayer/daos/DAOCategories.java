@@ -38,8 +38,8 @@ public class DAOCategories implements IDAOCategroy {
 		PreparedStatement preparedStatement = null;
 
 		String insertSQL = "INSERT INTO CATEGORY (VERSION, DESCRIPTION, AMOUNTPESO, AMOUNTDOLLAR, ISCURRENCYDOLLAR, "
-				+ "TYPEEXCHANGE, APPLIEDDATETIMEUTC, PROJECTID, CATEGORYTYPE, ISRRHH, UPDATEDDATETIMEUTC) VALUES"
-				+ "(?,?,?,?,?,?,?,?,?,?,?)";
+				+ "TYPEEXCHANGE, IVA_TYPEID, APPLIEDDATETIMEUTC, PROJECTID, CATEGORYTYPE, ISRRHH, UPDATEDDATETIMEUTC) VALUES"
+				+ "(?,?,?,?,?,?,?,?,?,?,?,?)";
 
 		try {
 			preparedStatement = this.connection.prepareStatement(insertSQL);
@@ -50,15 +50,16 @@ public class DAOCategories implements IDAOCategroy {
 			preparedStatement.setDouble(4, obj.getAmountDollar());
 			preparedStatement.setBoolean(5, obj.getIsCurrencyDollar());
 			preparedStatement.setDouble(6, obj.getTypeExchange());
-			preparedStatement.setTimestamp(7, new Timestamp(setFirstDayOfMonth(obj
+			preparedStatement.setInt(7, obj.getIvaTypeId());
+			preparedStatement.setTimestamp(8, new Timestamp(setFirstDayOfMonth(obj
 					.getAppliedDateTimeUTC()).getTime()));
 			if(obj.getProject() != null)
-				preparedStatement.setInt(8, obj.getProject().getId());
+				preparedStatement.setInt(9, obj.getProject().getId());
 			else
-				preparedStatement.setNull(8, java.sql.Types.INTEGER);
-			preparedStatement.setInt(9, obj.getCategoryType().getValue());
-			preparedStatement.setBoolean(10, obj.getIsRRHH());
-			preparedStatement.setTimestamp(11, new Timestamp(new Date().getTime()));
+				preparedStatement.setNull(9, java.sql.Types.INTEGER);
+			preparedStatement.setInt(10, obj.getCategoryType().getValue());
+			preparedStatement.setBoolean(11, obj.getIsRRHH());
+			preparedStatement.setTimestamp(12, new Timestamp(new Date().getTime()));
 			
 			preparedStatement.executeUpdate();
 
@@ -112,7 +113,7 @@ public class DAOCategories implements IDAOCategroy {
 			if(change == 0){
 				updateSQL =  "UPDATE CATEGORY SET AMOUNTPESO = ?, APPLIEDDATETIMEUTC = ?, "
 						+ "PROJECTID = ?, CATEGORYTYPE = ?, ISRRHH = ?, UPDATEDDATETIMEUTC = ?,"
-						+ "AMOUNTDOLLAR = ?, ISCURRENCYDOLLAR = ?, TYPEEXCHANGE = ?"
+						+ "AMOUNTDOLLAR = ?, ISCURRENCYDOLLAR = ?, TYPEEXCHANGE = ?, IVA_TYPEID = ?"
 						+ "  WHERE ID = ? AND VERSION = ?";
 				preparedStatement = this.connection.prepareStatement(updateSQL);
 
@@ -129,13 +130,14 @@ public class DAOCategories implements IDAOCategroy {
 				preparedStatement.setDouble(7, obj.getAmountDollar());
 				preparedStatement.setBoolean(8, obj.getIsCurrencyDollar());
 				preparedStatement.setDouble(9, obj.getTypeExchange());
-				preparedStatement.setInt(10, obj.getId());
-				preparedStatement.setInt(11, obj.getVersion());
+				preparedStatement.setInt(10, obj.getIvaTypeId());
+				preparedStatement.setInt(11, obj.getId());
+				preparedStatement.setInt(12, obj.getVersion());
 
 			} else {
 				updateSQL =  "INSERT INTO CATEGORY (VERSION, DESCRIPTION, AMOUNTPESO, AMOUNTDOLLAR, ISCURRENCYDOLLAR, TYPEEXCHANGE,"
-						+ " APPLIEDDATETIMEUTC, PROJECTID, CATEGORYTYPE, ISRRHH, ID, UPDATEDDATETIMEUTC) VALUES"
-						+ "(?,?,?,?,?,?,?,?,?,?,?,?)";
+						+ " IVA_TYPEID, APPLIEDDATETIMEUTC, PROJECTID, CATEGORYTYPE, ISRRHH, ID, UPDATEDDATETIMEUTC) VALUES"
+						+ "(?,?,?,?,?,?,?,?,?,?,?,?,?)";
 				
 				preparedStatement = this.connection.prepareStatement(updateSQL);
 
@@ -145,16 +147,17 @@ public class DAOCategories implements IDAOCategroy {
 				preparedStatement.setDouble(4, obj.getAmountDollar());
 				preparedStatement.setBoolean(5, obj.getIsCurrencyDollar());
 				preparedStatement.setDouble(6, obj.getTypeExchange());
-				preparedStatement.setTimestamp(7, new Timestamp(setFirstDayOfMonth(obj
+				preparedStatement.setInt(7, obj.getIvaTypeId());
+				preparedStatement.setTimestamp(8, new Timestamp(setFirstDayOfMonth(obj
 						.getAppliedDateTimeUTC()).getTime()));
 				if(obj.getProject() != null)
-					preparedStatement.setInt(8, obj.getProject().getId());
+					preparedStatement.setInt(9, obj.getProject().getId());
 				else
-					preparedStatement.setNull(8, java.sql.Types.INTEGER);
-				preparedStatement.setInt(9, obj.getCategoryType().getValue());
-				preparedStatement.setBoolean(10, obj.getIsRRHH());
-				preparedStatement.setInt(11, obj.getId());
-				preparedStatement.setTimestamp(12, new Timestamp(new Date().getTime()));
+					preparedStatement.setNull(9, java.sql.Types.INTEGER);
+				preparedStatement.setInt(10, obj.getCategoryType().getValue());
+				preparedStatement.setBoolean(11, obj.getIsRRHH());
+				preparedStatement.setInt(12, obj.getId());
+				preparedStatement.setTimestamp(13, new Timestamp(new Date().getTime()));
 			}
 						
 			preparedStatement.executeUpdate();
@@ -505,6 +508,7 @@ public class DAOCategories implements IDAOCategroy {
 		double amountDollar = rs.getDouble("amountDollar");
 		boolean isCurrencyDollar = rs.getBoolean("isCurrencyDollar");
 		double typeExchange = rs.getDouble("typeExchange");
+		int ivaTypeID = rs.getInt("ivaTypeId");
 		Date appliedDateTimeUTC = rs.getTimestamp("appliedDateTimeUTC");
 		int projectId = rs.getInt("projectid");
 		int categoryType = rs.getInt("categoryType");
@@ -519,6 +523,7 @@ public class DAOCategories implements IDAOCategroy {
 		category.setAmountDollar(amountDollar);
 		category.setIsCurrencyDollar(isCurrencyDollar);
 		category.setTypeExchange(typeExchange);
+		category.setIvaTypeId(ivaTypeID);
 		category.setAppliedDateTimeUTC(appliedDateTimeUTC);
 		if(projectId != 0)
 			category.setProject(new Project(projectId));
