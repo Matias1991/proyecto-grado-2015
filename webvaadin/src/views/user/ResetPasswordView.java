@@ -37,6 +37,8 @@ public class ResetPasswordView extends BaseView{
 	private BeanItemContainer<User> container;
 	
 	public ResetPasswordView() {
+		super("Usuarios", "Resetear contraseña");
+		
 		buildMainLayout();
 		setCompositionRoot(mainLayout);
 		
@@ -83,8 +85,12 @@ public class ResetPasswordView extends BaseView{
 				BeanItem<User> item = container.getItem(grid.getSelectedRow());
 				
 				if(UserController.resetPassword(item.getBean().getId())){
-					PopupWindow popup = new PopupWindow("AVISO", "Contraseña reseteada correctamente");
-					getUI().getNavigator().navigateTo(WebvaadinUI.RESETPASSWORD);
+					new PopupWindow("AVISO", "Contraseña reseteada correctamente");
+					
+					if(grid != null){
+						mainLayout.removeComponent(grid);
+					}
+					buildGrid();
 				}
 				
 				
@@ -97,10 +103,6 @@ public class ResetPasswordView extends BaseView{
 	public void enter(ViewChangeEvent event) {
 		super.enter(event);
 		if(RequestContext.getRequestContext() != null){
-			// Compruebo si el usuario es de tipo administrador
-			if(RequestContext.getRequestContext().getUserType() != 1){
-				getUI().getNavigator().navigateTo(WebvaadinUI.MAINMENU);
-			}
 			if(grid != null){
 				mainLayout.removeComponent(grid);
 			}

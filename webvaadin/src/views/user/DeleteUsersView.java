@@ -38,6 +38,8 @@ public class DeleteUsersView extends BaseView{
 	private BeanItemContainer<User> container;
 	
 	public DeleteUsersView() {
+		super("Usuarios", "Eliminar usuario");
+		
 		buildMainLayout();
 		setCompositionRoot(mainLayout);
 		//buildGrid();
@@ -109,10 +111,6 @@ public class DeleteUsersView extends BaseView{
 	public void enter(ViewChangeEvent event) {
 		super.enter(event);
 		if(RequestContext.getRequestContext() != null){
-			// Compruebo si el usuario es de tipo administrador
-			if(RequestContext.getRequestContext().getUserType() != 1){
-				getUI().getNavigator().navigateTo(WebvaadinUI.MAINMENU);
-			}
 			if(grid != null){
 				mainLayout.removeComponent(grid);
 			}

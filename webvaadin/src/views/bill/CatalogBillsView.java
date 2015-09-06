@@ -133,7 +133,7 @@ public class CatalogBillsView extends BaseView {
 			billsGrid.removeColumn("isCurrencyDollar");
 			billsGrid.removeColumn("typeExchange");
 			billsGrid.removeColumn("ivaType");
-			billsGrid.setColumnOrder("code", "description", "amountToShow", "ivaTypeToShow", "totalAmountToShow", "typeExchangeToShow", "amountChargedToShow" ,"appliedDateTimeUTCToShow", "projectName");
+			billsGrid.setColumnOrder("code", "description", "amountToShow", "ivaTypeToShow", "totalAmountToShow", "typeExchangeToShow", "amountChargedToShow", "amountReceivableToShow", "appliedDateTimeUTCToShow", "projectName");
 	
 			billsGrid.getColumn("code").setHeaderCaption("Código");
 			billsGrid.getColumn("description").setHeaderCaption("Descripción");
@@ -142,6 +142,7 @@ public class CatalogBillsView extends BaseView {
 			billsGrid.getColumn("totalAmountToShow").setHeaderCaption("Importe IVA incl.");
 			billsGrid.getColumn("typeExchangeToShow").setHeaderCaption("Tipo de cambio");
 			billsGrid.getColumn("amountChargedToShow").setHeaderCaption("Importe cobrado");
+			billsGrid.getColumn("amountReceivableToShow").setHeaderCaption("Importe a cobrar");
 			billsGrid.getColumn("appliedDateTimeUTCToShow").setHeaderCaption("Mes");
 			billsGrid.getColumn("projectName").setHeaderCaption("Proyecto");
 		
@@ -205,11 +206,6 @@ public class CatalogBillsView extends BaseView {
 	public void enter(ViewChangeEvent event) {
 		super.enter(event);
 		if(RequestContext.getRequestContext() != null){
-			// Compruebo si el usuario es de tipo socio
-			if(RequestContext.getRequestContext().getUserType() != 2){
-				getUI().getNavigator().navigateTo(WebvaadinUI.MAINMENU);
-			}
-			
 			builInputs();
 			buildGrid();
 		}

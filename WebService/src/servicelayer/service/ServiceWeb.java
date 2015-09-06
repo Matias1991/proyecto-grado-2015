@@ -11,6 +11,8 @@ import servicelayer.core.CoreEmployed;
 import servicelayer.core.CoreProject;
 import servicelayer.core.CoreUser;
 import servicelayer.entity.businessEntity.Bill;
+import servicelayer.entity.businessEntity.ChanelType;
+import servicelayer.entity.businessEntity.DistributionType;
 import servicelayer.entity.businessEntity.Employed;
 import servicelayer.entity.businessEntity.Project;
 import servicelayer.entity.businessEntity.ProjectEmployed;
@@ -192,7 +194,7 @@ public class ServiceWeb extends ServiceBase {
 					TimeUnit.SECONDS);
 
 			return userBuilser.BuildVOObject(iCoreUser
-					.login(userName, password));
+					.login(userName, password, ChanelType.WEB));
 		} catch (ServerException e) {
 			ThrowServerExceptionAndLogError(e,
 					"realizar el ingreso del usuario en el sistema");

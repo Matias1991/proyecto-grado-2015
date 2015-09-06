@@ -266,6 +266,7 @@ public class CreateChargeView extends BaseView {
 			billsGrid.removeColumn("amountToShow");
 			billsGrid.removeColumn("ivaType");
 			billsGrid.removeColumn("ivaTypeToShow");
+			billsGrid.removeColumn("amountReceivableToShow");
 			billsGrid.setColumnOrder("code", "description", "totalAmountToShow", "amountChargedToShow");
 	
 			billsGrid.getColumn("code").setHeaderCaption("Código");
@@ -382,11 +383,6 @@ public class CreateChargeView extends BaseView {
 	public void enter(ViewChangeEvent event) {
 		super.enter(event);
 		if(RequestContext.getRequestContext() != null){
-			// Compruebo si el usuario es de tipo socio
-			if(RequestContext.getRequestContext().getUserType() != 2){
-				getUI().getNavigator().navigateTo(WebvaadinUI.MAINMENU);
-			}
-			
 			builInputs();
 			buildGrid();
 		}

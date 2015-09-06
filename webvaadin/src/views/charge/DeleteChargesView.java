@@ -136,9 +136,10 @@ public class DeleteChargesView extends BaseView {
 			billsGrid.removeColumn("amountDollar");
 			billsGrid.removeColumn("isCurrencyDollar");
 			billsGrid.removeColumn("typeExchange");
+			billsGrid.removeColumn("billDescription");
 			billsGrid.setColumnOrder("number", "description", "amountToShow",
 					"typeExchangeToShow",
-					"createdDateTimeUTCToShow", "billCode", "billDescription");
+					"createdDateTimeUTCToShow", "billCode");
 
 			billsGrid.getColumn("number").setHeaderCaption("N° de recibo");
 			billsGrid.getColumn("description").setHeaderCaption("Descripción cobro");
@@ -148,7 +149,7 @@ public class DeleteChargesView extends BaseView {
 			billsGrid.getColumn("createdDateTimeUTCToShow").setHeaderCaption(
 					"Fecha de creación");
 			billsGrid.getColumn("billCode").setHeaderCaption("Codigo de factura");
-			billsGrid.getColumn("billDescription").setHeaderCaption("Descripción factura");
+			billsGrid.getColumn("description").setWidth(200);
 			billsGrid.setWidth(100, Unit.PERCENTAGE);
 			billsGrid.setHeight(100, Unit.PERCENTAGE);
 			billsGrid.setSelectionMode(SelectionMode.SINGLE);
@@ -215,11 +216,6 @@ public class DeleteChargesView extends BaseView {
 	public void enter(ViewChangeEvent event) {
 		super.enter(event);
 		if (RequestContext.getRequestContext() != null) {
-			// Compruebo si el usuario es de tipo socio
-			if (RequestContext.getRequestContext().getUserType() != 2) {
-				getUI().getNavigator().navigateTo(WebvaadinUI.MAINMENU);
-			}
-
 			buildGrid();
 		}
 	}

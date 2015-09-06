@@ -3,6 +3,7 @@ package servicelayer.service;
 import java.util.concurrent.TimeUnit;
 
 import servicelayer.core.CoreUser;
+import servicelayer.entity.businessEntity.ChanelType;
 import servicelayer.entity.valueObject.VOUser;
 import servicelayer.service.builder.UserBuilder;
 import servicelayer.utilities.Constants;
@@ -29,7 +30,7 @@ public class ServiceMobile extends ServiceBase{
 		try {
 			transactionLock.tryLock(Constants.DEFAULT_TRANSACTION_TIME, TimeUnit.SECONDS);
 			
-			return userBuilser.BuildVOObject(iCoreUser.login(userName, password));
+			return userBuilser.BuildVOObject(iCoreUser.login(userName, password, ChanelType.MOBILE));
 		} catch (ServerException e) {
 			ThrowServerExceptionAndLogError(e, "realizar el ingreso del usuario en el sistema");
 		} catch (ClientException e) {
