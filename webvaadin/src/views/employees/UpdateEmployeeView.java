@@ -91,6 +91,7 @@ public class UpdateEmployeeView extends BaseView {
 	 * editor.
 	 */
 	public UpdateEmployeeView() {
+		super("Empleados","Modificar empleados");
 		buildMainLayout();
 		buildTabSeet();
 		setCompositionRoot(mainLayout);
@@ -901,7 +902,7 @@ public class UpdateEmployeeView extends BaseView {
 		lblTitle.setImmediate(false);
 		lblTitle.setWidth("-1px");
 		lblTitle.setHeight("-1px");
-		lblTitle.setValue("Modificar empleados");
+		lblTitle.setValue(getBreadCrumbToShow());
 		mainLayout.addComponent(lblTitle, "top:42.0px;left:0.0px;");
 
 		// tabEmployee

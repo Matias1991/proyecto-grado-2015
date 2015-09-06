@@ -49,6 +49,7 @@ public class DeleteEmployeeView extends BaseView {
 	 * visual editor.
 	 */
 	public DeleteEmployeeView() {
+		super("Empleados","Eliminar empleados");
 		buildMainLayout();
 		setCompositionRoot(mainLayout);
 
@@ -202,7 +203,7 @@ public class DeleteEmployeeView extends BaseView {
 		lblTitle.setImmediate(false);
 		lblTitle.setWidth("-1px");
 		lblTitle.setHeight("-1px");
-		lblTitle.setValue("Eliminar empleados");
+		lblTitle.setValue(getBreadCrumbToShow());
 		mainLayout.addComponent(lblTitle, "top:42.0px;left:0.0px;");
 
 		// btnDelete

@@ -81,18 +81,14 @@ public class CatalogEmployeesView extends BaseView {
 	private OptionGroup optEmployeeType;
 	private ComboBox cboVersion;
 
-	public CatalogEmployeesView() {
-		
-		super("Usuarios", "Crear usuario");
-		
+	public CatalogEmployeesView() {		
+		super("Empleados", "Catálogo empleados");		
 		buildMainLayout();
 		buildTabSeet();
 		setCompositionRoot(mainLayout);
 		
 		lblMessage = new Label("");
-		mainLayout.addComponent(lblMessage, "top:80.0px;left:0.0px;");
-		
-		
+		mainLayout.addComponent(lblMessage, "top:80.0px;left:0.0px;");		
 		
 		cboVersion.addValueChangeListener(new  ValueChangeListener() {
 			
@@ -117,9 +113,6 @@ public class CatalogEmployeesView extends BaseView {
 				}
 			}
 		});
-		
-		
-
 	}
 		
 	public void buildTabSeet(){
@@ -503,8 +496,7 @@ public class CatalogEmployeesView extends BaseView {
 					
 				}
 				
-			});
-			
+			});			
 			
 		} else {
 			lblMessage.setValue("No hay empleados para mostrar");
@@ -513,10 +505,7 @@ public class CatalogEmployeesView extends BaseView {
 			}
 		}
 
-	}
-	
-	
-	
+	}	
 	
 	private void setReadOnlyTxt (boolean readOnly){
 		txtEmail.setReadOnly(readOnly);
@@ -630,7 +619,7 @@ public class CatalogEmployeesView extends BaseView {
 		lblTitle.setImmediate(false);
 		lblTitle.setWidth("-1px");
 		lblTitle.setHeight("-1px");
-		lblTitle.setValue("Catálogo de empleados");
+		lblTitle.setValue(getBreadCrumbToShow());
 		mainLayout.addComponent(lblTitle, "top:42.0px;left:0.0px;");
 
 		// tabEmployee
