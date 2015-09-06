@@ -353,16 +353,16 @@ public class CreateEmployeeView extends BaseView {
 		tab2.addComponent(txtEmployerFrlContribution,1,1);
 		tab2.addComponent(txtPersonalFonasaContribution,0,2);
 		tab2.addComponent(txtEmployerFonasaContribution,1,2);
-		tab2.addComponent(txtTicketsEmployer,0,3);
-		tab2.addComponent(txtTotalDiscounts,1,3);
+		tab2.addComponent(txtTotalDiscounts,0,3);
+		tab2.addComponent(txtTicketsEmployer,1,3);		
 		tabTaxes.addTab(tab2, "Costos 2");
 		
 		
 		//TAB3
 		GridLayout tab3 = new GridLayout(2,4);
 		tab3.setSpacing(true);
-		tab3.addComponent(txtTotalEmployersContribution,0,0);
-		tab3.addComponent(txtNominalWithoutContribution,1,0);		
+		tab3.addComponent(txtNominalWithoutContribution,0,0);
+		tab3.addComponent(txtTotalEmployersContribution,1,0);			
 		tab3.addComponent(txtIncidenceSalary,0,1);
 		tab3.addComponent(txtIncidenceTickets,1,1);
 		tab3.addComponent(txtDismisalPrevension,0,2);		

@@ -391,16 +391,16 @@ public class CatalogEmployeesView extends BaseView {
 		tab3.addComponent(txtEmployerFrlContribution,1,1);
 		tab3.addComponent(txtPersonalFonasaContribution,0,2);
 		tab3.addComponent(txtEmployerFonasaContribution,1,2);
-		tab3.addComponent(txtTicketsEmployer,0,3);
-		tab3.addComponent(txtTotalDiscounts,1,3);
+		tab3.addComponent(txtTotalDiscounts,0,3);
+		tab3.addComponent(txtTicketsEmployer,1,3);		
 		tabEmployee.addTab(tab3, "Costos 2");
 		
 		
 		//tab4
 		GridLayout tab4 = new GridLayout(2,4);
 		tab4.setSpacing(true);
-		tab4.addComponent(txtTotalEmployersContribution,0,0);
-		tab4.addComponent(txtNominalWithoutContribution,1,0);		
+		tab4.addComponent(txtNominalWithoutContribution,0,0);
+		tab4.addComponent(txtTotalEmployersContribution,1,0);				
 		tab4.addComponent(txtIncidenceSalary,0,1);
 		tab4.addComponent(txtIncidenceTickets,1,1);
 		tab4.addComponent(txtDismisalPrevension,0,2);		
