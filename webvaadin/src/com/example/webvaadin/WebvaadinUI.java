@@ -16,7 +16,7 @@ import views.bill.UpdateBillView;
 import views.category.CatalogCategoriesView;
 import views.category.CreateCategoryView;
 import views.category.DeleteCategoriesView;
-import views.category.ModifyCategoryView;
+import views.category.UpdateCategoryView;
 import views.charge.CatalogChargesView;
 import views.charge.CreateChargeView;
 import views.charge.DeleteChargesView;
@@ -143,7 +143,7 @@ public class WebvaadinUI extends UI {
 				view = new DeleteCategoriesView();
 				break;
 			case View.UPDATECATEGORY:
-				view = new DeleteCategoriesView();
+				view = new UpdateCategoryView();
 				break;
 				
 			case View.CREATEBILL:

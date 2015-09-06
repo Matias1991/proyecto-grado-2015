@@ -113,14 +113,18 @@ public class CatalogCategoriesView extends BaseView {
 			categoriesGrid.removeColumn("amountPeso");			
 			categoriesGrid.removeColumn("currencyDollar");
 			categoriesGrid.removeColumn("categoryTypeToShow");
-			categoriesGrid.setColumnOrder("description", "amountToShow", "typeExchangeToShow",
+			categoriesGrid.removeColumn("ivaTypeId");
+			categoriesGrid.setColumnOrder("description", "amountToShow", "ivaTypeToShow", "totalAmountToShow", "typeExchangeToShow",
 					"projectName","createDateTimeUTCToShow","isRRHHToShow");
 			categoriesGrid.getColumn("description").setHeaderCaption("Descripción");
-			categoriesGrid.getColumn("amountToShow").setHeaderCaption("Importe");
+			categoriesGrid.getColumn("amountToShow").setHeaderCaption("Importe sin IVA");
 			categoriesGrid.getColumn("projectName").setHeaderCaption("Asociado a");
 			categoriesGrid.getColumn("typeExchangeToShow").setHeaderCaption("Tipo de cambio");
 			categoriesGrid.getColumn("createDateTimeUTCToShow").setHeaderCaption("Correspondiente al mes");
 			categoriesGrid.getColumn("isRRHHToShow").setHeaderCaption("Tipo de recurso");
+			categoriesGrid.getColumn("ivaTypeToShow").setHeaderCaption("IVA");
+			categoriesGrid.getColumn("totalAmountToShow").setHeaderCaption("Importe IVA incl.");
+			
 			
 			categoriesGrid.setWidth(100, Unit.PERCENTAGE);
 			categoriesGrid.setHeight(100, Unit.PERCENTAGE);

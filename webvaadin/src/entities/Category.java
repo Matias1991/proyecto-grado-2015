@@ -23,7 +23,9 @@ public class Category {
 	private boolean isCurrencyDollar;
 	private double typeExchange;
 	private int ivaTypeId;
+	private String ivaTypeToShow;
 	private String typeExchangeToShow;
+	private String totalAmountToShow;
 	
 	public Category(){	}
 	
@@ -49,13 +51,18 @@ public class Category {
 		if(isCurrencyDollar){
     		this.amountToShow = new DecimalFormat("U$S ###,###.###").format(this.amountDollar);
     		this.typeExchangeToShow = String.valueOf(this.typeExchange);
+    		this.totalAmountToShow = new DecimalFormat("U$S ###,###.###").format(voCategory.getTotalAmountDollar());
+    		
     	}
 		else {
     		this.amountToShow = new DecimalFormat("$ ###,###.###").format(this.amountPeso);
     		this.typeExchangeToShow = "N/A";
+    		this.totalAmountToShow = new DecimalFormat("$ ###,###.###").format(voCategory.getTotalAmountPeso());
     	}
 		
 		this.setIvaTypeId(voCategory.getIvaTypeId());
+
+    	this.ivaTypeToShow = getIvaTypeToShow(voCategory.getIvaTypeId());    
 	}
 	
 	public String getDescription() {
@@ -224,6 +231,41 @@ public class Category {
 
 	public void setIvaTypeId(int ivaTypeId) {
 		this.ivaTypeId = ivaTypeId;
+	}
+	
+	public String getIvaTypeToShow(int ivaTypeId) {
+		ivaTypeToShow = "";
+		switch (ivaTypeId) {
+			case 1:
+				ivaTypeToShow = "0%";
+				break;
+			case 2:
+				ivaTypeToShow = "10%";
+				break;
+			case 3:
+				ivaTypeToShow = "22%";
+				break;
+			default:
+				break;
+		}
+		
+		return ivaTypeToShow;
+	}
+
+	public String getIvaTypeToShow() {
+		return ivaTypeToShow;
+	}
+
+	public void setIvaTypeToShow(String ivaTypeToShow) {
+		this.ivaTypeToShow = ivaTypeToShow;
+	}
+
+	public String getTotalAmountToShow() {
+		return totalAmountToShow;
+	}
+
+	public void setTotalAmountToShow(String totalAmountToShow) {
+		this.totalAmountToShow = totalAmountToShow;
 	}
 	
 }
