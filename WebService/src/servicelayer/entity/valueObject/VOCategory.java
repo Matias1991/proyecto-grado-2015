@@ -8,8 +8,6 @@ public class VOCategory implements Serializable {
 	private int id;
 	private int version;
 	private String description;
-	private double amountPeso;
-	private double amountDollar;
 	private boolean isCurrencyDollar;
 	private double typeExchange;
 	private int ivaTypeId;
@@ -22,6 +20,11 @@ public class VOCategory implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private Date updatedDateTimeUTC;
 
+	private double amountPeso;
+	private double amountDollar;
+	private double totalAmountDollar;
+	private double totalAmountPeso;
+	
 	public int getId() {
 		return id;
 	}
@@ -141,4 +144,21 @@ public class VOCategory implements Serializable {
 	public void setProjectClosed(boolean projectClosed) {
 		this.projectClosed = projectClosed;
 	}
+
+	public double getTotalAmountDollar() {
+		return totalAmountDollar;
+	}
+
+	public void setTotalAmountDollar(double totalAmountDollar) {
+		this.totalAmountDollar = totalAmountDollar;
+	}
+
+	public double getTotalAmountPeso() {
+		return totalAmountPeso;
+	}
+
+	public void setTotalAmountPeso(double totalAmountPeso) {
+		this.totalAmountPeso = totalAmountPeso;
+	}
+	
 }

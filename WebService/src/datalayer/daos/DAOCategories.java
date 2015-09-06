@@ -12,6 +12,7 @@ import java.util.Date;
 import datalayer.utilities.ManageConnection;
 import servicelayer.entity.businessEntity.Category;
 import servicelayer.entity.businessEntity.CategoryType;
+import servicelayer.entity.businessEntity.IVA_Type;
 import servicelayer.entity.businessEntity.Project;
 import shared.LoggerMSMP;
 import shared.exceptions.ServerException;
@@ -369,8 +370,8 @@ public class DAOCategories implements IDAOCategroy {
 			sql.append("ORDER BY APPLIEDDATETIMEUTC DESC");
 			
 			preparedStatement = this.connection.prepareStatement(sql.toString());
-			preparedStatement.setTimestamp(1, new Timestamp(from.getTime()));
-			preparedStatement.setTimestamp(2, new Timestamp(to.getTime()));
+			preparedStatement.setTimestamp(1, new Timestamp(setFirstDayOfMonth(from).getTime()));
+			preparedStatement.setTimestamp(2, new Timestamp(setFirstDayOfMonth(to).getTime()));
 			rs = preparedStatement.executeQuery();
 
 			while (rs.next()) {
@@ -508,7 +509,7 @@ public class DAOCategories implements IDAOCategroy {
 		double amountDollar = rs.getDouble("amountDollar");
 		boolean isCurrencyDollar = rs.getBoolean("isCurrencyDollar");
 		double typeExchange = rs.getDouble("typeExchange");
-		int ivaTypeID = rs.getInt("ivaTypeId");
+		int ivaTypeID = rs.getInt("iva_TypeId");
 		Date appliedDateTimeUTC = rs.getTimestamp("appliedDateTimeUTC");
 		int projectId = rs.getInt("projectid");
 		int categoryType = rs.getInt("categoryType");
@@ -524,6 +525,7 @@ public class DAOCategories implements IDAOCategroy {
 		category.setIsCurrencyDollar(isCurrencyDollar);
 		category.setTypeExchange(typeExchange);
 		category.setIvaTypeId(ivaTypeID);
+		category.setIvaType(IVA_Type.getEnum(ivaTypeID));
 		category.setAppliedDateTimeUTC(appliedDateTimeUTC);
 		if(projectId != 0)
 			category.setProject(new Project(projectId));

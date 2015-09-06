@@ -27,6 +27,9 @@ public class CategoryBuilder extends BaseBuilder<VOCategory, Category>{
 		}
 		voCategory.setCategoryType(businessObject.getCategoryType().getValue());
 		voCategory.setIsRRHH(businessObject.getIsRRHH());
+
+		voCategory.setTotalAmountDollar(businessObject.getTotalAmountDollar());
+		voCategory.setTotalAmountPeso(businessObject.getTotalAmountPeso());
 		
 		return voCategory;
 

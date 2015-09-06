@@ -39,7 +39,7 @@ import entities.Category;
 import entities.Project;
 import entities.RequestContext;
 
-public class ModifyCategoryView extends BaseView {
+public class UpdateCategoryView extends BaseView {
 
 	/*- VaadinEditorProperties={"grid":"RegularGrid,20","showGrid":true,"snapToGrid":true,"snapToObject":true,"movingGuides":false,"snappingDistance":10} */
 
@@ -68,7 +68,7 @@ public class ModifyCategoryView extends BaseView {
 	private ComboBox cboProject;
 	private Label lblInfo;
 
-	public ModifyCategoryView() {
+	public UpdateCategoryView() {
 		
 		super("Rubros", "Modificar rubros");
 		buildMainLayout();

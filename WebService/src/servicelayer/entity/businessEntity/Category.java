@@ -14,12 +14,15 @@ public class Category {
 	private boolean isCurrencyDollar;
 	private double typeExchange;
 	private int ivaTypeId;
+	private IVA_Type ivaType;
 	private Date appliedDateTimeUTC;
 	private Project project;
 	private CategoryType categoryType;
 	private boolean isRRHH;
 	private Date updatedDateTimeUTC;
-
+	private double totalAmountDollar;
+	private double totalAmountPeso;
+	
 	public Category() {
 	}
 
@@ -87,6 +90,14 @@ public class Category {
 		this.ivaTypeId = ivaTypeId;
 	}
 
+	public IVA_Type getIvaType() {
+		return ivaType;
+	}
+
+	public void setIvaType(IVA_Type ivaType) {
+		this.ivaType = ivaType;
+	}
+
 	public Date getAppliedDateTimeUTC() {
 		return appliedDateTimeUTC;
 	}
@@ -126,5 +137,22 @@ public class Category {
 	public void setUpdatedDateTimeUTC(Date UpdatedDateTimeUTC) {
 		this.updatedDateTimeUTC = UpdatedDateTimeUTC;
 	}
+
+	public double getTotalAmountDollar() {
+		return totalAmountDollar;
+	}
+
+	public void setTotalAmountDollar(double totalAmountDollar) {
+		this.totalAmountDollar = totalAmountDollar;
+	}
+
+	public double getTotalAmountPeso() {
+		return totalAmountPeso;
+	}
+
+	public void setTotalAmountPeso(double totalAmountPeso) {
+		this.totalAmountPeso = totalAmountPeso;
+	}
+
 
 }

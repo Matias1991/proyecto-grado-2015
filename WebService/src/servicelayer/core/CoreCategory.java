@@ -8,6 +8,7 @@ import datalayer.daos.DAOCategories;
 import datalayer.daos.DAOManager;
 import servicelayer.entity.businessEntity.Category;
 import servicelayer.entity.businessEntity.CategoryType;
+import servicelayer.entity.businessEntity.IVA_Type;
 import servicelayer.entity.valueObject.VOCategory;
 import shared.exceptions.ClientException;
 import shared.exceptions.ServerException;
@@ -163,10 +164,18 @@ public class CoreCategory implements ICoreCategory {
 	public Category getCategory(int id) throws ServerException, ClientException {
 		Category category;
 
-		category = iDAOCategory.getObject(id);
+		DAOManager daoManager = new DAOManager();
+		category =  daoManager.getDAOCategories().getObject(id);
 		if (category == null)
 			throw new ClientException("No existe ningún rubro con ese id");
-
+		else {
+			if(category.getIsCurrencyDollar()){
+				category.setTotalAmountDollar(getTotalAmount(category.getAmountDollar(), category.getIvaType()));
+			} else {
+				category.setTotalAmountPeso(getTotalAmount(category.getAmountPeso(), category.getIvaType()));
+			}
+		}
+		
 		return category;
 	}
 
@@ -190,7 +199,13 @@ public class CoreCategory implements ICoreCategory {
 		DAOManager daoManager = new DAOManager();
 		try {
 			categories = daoManager.getDAOCategories().getCategories(from, to);
-
+			for (Category category : categories) {
+				if(category.getIsCurrencyDollar()){
+					category.setTotalAmountDollar(getTotalAmount(category.getAmountDollar(), category.getIvaType()));
+				} else {
+					category.setTotalAmountPeso(getTotalAmount(category.getAmountPeso(), category.getIvaType()));
+				}
+			}
 		} catch (ServerException e) {
 			throw e;
 		} finally {
@@ -245,6 +260,18 @@ public class CoreCategory implements ICoreCategory {
 		}
 
 		return change;
+	}
+	
+
+	double getTotalAmount(double amount, IVA_Type ivaType)
+	{
+		double totalAmount = amount;
+		if(ivaType == IVA_Type.TEN || ivaType == IVA_Type.TWENTY_TWO)
+		{
+			totalAmount = amount * ivaType.getPercentage();
+		}
+		
+		return totalAmount;
 	}
 
 }
