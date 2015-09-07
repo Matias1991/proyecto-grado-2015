@@ -93,23 +93,17 @@ public class CatalogEmployeesView extends BaseView {
 		cboVersion.addValueChangeListener(new  ValueChangeListener() {
 			
 			@Override
-			public void valueChange(ValueChangeEvent event) {
-				// TODO Auto-generated method stub
+			public void valueChange(ValueChangeEvent event) {				
 				if(cboVersion.getValue() != null){
 					BeanItem<Employee> item = beanContainer.getItem(catalogEmployeesGrid.getSelectedRow());
 					if(item != null){						
-						SalarySummary versionEmployees = EmployeeController.GetVersionEmployee(item.getBean().getId(), (Integer)cboVersion.getValue());
-																
+						SalarySummary versionEmployees = EmployeeController.GetVersionEmployee(item.getBean().getId(), (Integer)cboVersion.getValue());																
 						loadEmployee(item.getBean(),versionEmployees.toVOSalarySummary());
-												
-						tabEmployee.setVisible(false);
 					}else{
-						tabEmployee.setVisible(false);
-						cboVersion.removeAllItems();
+						cleanInputs();						
 					}
-					tabEmployee.setVisible(true);
 				}else{
-					tabEmployee.setVisible(false);
+					cleanInputs();
 				}
 			}
 		});
@@ -393,8 +387,7 @@ public class CatalogEmployeesView extends BaseView {
 		tab3.addComponent(txtEmployerFonasaContribution,1,2);
 		tab3.addComponent(txtTotalDiscounts,0,3);
 		tab3.addComponent(txtTicketsEmployer,1,3);		
-		tabEmployee.addTab(tab3, "Costos 2");
-		
+		tabEmployee.addTab(tab3, "Costos 2");		
 		
 		//tab4
 		GridLayout tab4 = new GridLayout(2,4);
@@ -408,8 +401,6 @@ public class CatalogEmployeesView extends BaseView {
 		tab4.addComponent(txtCostRealHour,0,3);
 		tab4.addComponent(txtSalaryToPay,1,3);	
 		tabEmployee.addTab(tab4, "Costos 3");
-		
-		tabEmployee.setVisible(false);
 	}
 	
 	@SuppressWarnings("serial")
@@ -437,12 +428,10 @@ public class CatalogEmployeesView extends BaseView {
 			catalogEmployeesGrid.getColumn("name").setWidth(192.05);
 			catalogEmployeesGrid.getColumn("name").setHeaderCaption("Nombre");
 			catalogEmployeesGrid.getColumn("lastName").setHeaderCaption("Apellido");			
-			catalogEmployeesGrid.setWidth(373, Unit.PIXELS);
+			catalogEmployeesGrid.setWidth(380, Unit.PIXELS);
 			catalogEmployeesGrid.setHeight(310, Unit.PIXELS);
 			catalogEmployeesGrid.setSelectionMode(SelectionMode.SINGLE);
 			catalogEmployeesGrid.getSelectedRows().clear();
-			catalogEmployeesGrid.select(employees.iterator().next());
-			buildVersion(employees.iterator().next().getId());
 			
 			// Filtros
 			HeaderRow filterRow = catalogEmployeesGrid.appendHeaderRow();
@@ -482,22 +471,23 @@ public class CatalogEmployeesView extends BaseView {
 			catalogEmployeesGrid.addSelectionListener(new SelectionListener() {
 
 				@Override
-				public void select(SelectionEvent event) {
-					
+				public void select(SelectionEvent event) {					
 					BeanItem<Employee> item = beanContainer.getItem(catalogEmployeesGrid.getSelectedRow());
 					if(item != null){
+						cboVersion.removeAllItems();
+						cboVersion.setReadOnly(true);						
 						Employee selectedEmployee = item.getBean();						
-						//loadEmployee(selectedEmployee);
 						buildVersion(selectedEmployee.getId());						
 					}else{
 						tabEmployee.setVisible(false);
-						cboVersion.removeAllItems();
+						cboVersion.setReadOnly(false);
+						cboVersion.removeAllItems();						
+						cleanInputs();						
 					}
 					
 				}
 				
-			});			
-			
+			});					
 		} else {
 			lblMessage.setValue("No hay empleados para mostrar");
 			if(catalogEmployeesGrid != null){
@@ -535,15 +525,13 @@ public class CatalogEmployeesView extends BaseView {
 		txtCostRealHour.setReadOnly(readOnly);	
 		txtCellphone.setReadOnly(readOnly);
 		txtIncidenceTickets.setReadOnly(readOnly);
-		optEmployeeType.setReadOnly(readOnly);
+		optEmployeeType.setReadOnly(readOnly);		
 	}
 	
 	public void loadEmployee (Employee selectedEmployee, VOSalarySummary voSalarySummary){
 
 		// seteo en readonly false, para poder cargar los datos
-		setReadOnlyTxt(false);
-		
-		//VOSalarySummary voSalarySummary = selectedEmployee.getVoSalarySummary();		
+		setReadOnlyTxt(false);	
 		txtAddress.setValue(selectedEmployee.getAddress());
 		txtEmail.setValue(selectedEmployee.getEmail());
 		txtCellphone.setValue(selectedEmployee.getCellPhone());
@@ -573,20 +561,52 @@ public class CatalogEmployeesView extends BaseView {
 		txtIncidenceTickets.setConvertedValue(voSalarySummary.getIncidenceTickets());
 		optEmployeeType.select(selectedEmployee.getEmployedType());
 		//seteo en readonly false los campos del empleado a mostrar
-		setReadOnlyTxt(true);
-		
+		setReadOnlyTxt(true);		
 	}
 	
 	private void buildVersion(int employeeId){		
 		Collection<SalarySummary> aux = EmployeeController.GetVersions(employeeId);
 		
+		cboVersion.setReadOnly(false);
 		cboVersion.removeAllItems();	
 		for (SalarySummary salarySummaryVersion : aux) {
 			cboVersion.addItem(salarySummaryVersion.getVersion());			
 			cboVersion.setItemCaption(salarySummaryVersion.getVersion(), new SimpleDateFormat("dd-MM-yyyy").format(salarySummaryVersion.getCreatedDateTimeUTC()));
-		}
-		cboVersion.setValue(aux.iterator().next().getVersion());
-		cboVersion.setNullSelectionItemId(new SalarySummary());
+		}		
+		cboVersion.setValue(cboVersion.getItemIds().iterator().next());
+	}
+	
+	public void cleanInputs(){
+		setReadOnlyTxt(false);		
+		txtAddress.clear();
+		txtEmail.clear();
+		txtCellphone.clear();
+		optEmployeeType.clear();
+		txtNominalSalary.clear();
+		txtTickets.clear();
+		txtPercentagePersonalFonasaContribution.clear();		
+		txtHours.clear();
+		txtIrpf.clear();
+		txtBse.clear();
+		txtRet.clear();
+		txtCostSaleHour.clear();
+		txtPersonalRetirementContribution.clear();
+		txtEmployerRetirementContribution.clear();
+		txtPersonalFrlContribution.clear();
+		txtEmployerFrlContribution.clear();
+		txtPersonalFonasaContribution.clear();
+		txtEmployerFonasaContribution.clear();
+		txtTotalDiscounts.clear();
+		txtTicketsEmployer.clear();	
+		txtNominalWithoutContribution.clear();
+		txtTotalEmployersContribution.clear();	
+		txtIncidenceSalary.clear();
+		txtIncidenceTickets.clear();
+		txtDismisalPrevension.clear();
+		txtCostMonth.clear();
+		txtCostRealHour.clear();
+		txtSalaryToPay.clear();			
+		setReadOnlyTxt(true);		
 	}
 	
 	@Override
@@ -597,8 +617,10 @@ public class CatalogEmployeesView extends BaseView {
 				mainLayout.removeComponent(catalogEmployeesGrid);
 			}
 			buildGrid();
+			cleanInputs();
+			cboVersion.removeAllItems();		
+			cboVersion.setReadOnly(true);
 		}
-
 	}
 
 	@AutoGenerated
@@ -623,8 +645,7 @@ public class CatalogEmployeesView extends BaseView {
 		mainLayout.addComponent(lblTitle, "top:42.0px;left:0.0px;");
 
 		// tabEmployee
-		tabEmployee = new TabSheet();
-		//tabEmployee.setCaption("Datos del empleado");
+		tabEmployee = new TabSheet();		
 		tabEmployee.setImmediate(false);
 		tabEmployee.setWidth("-1px");
 		tabEmployee.setHeight("-1px");
@@ -637,6 +658,7 @@ public class CatalogEmployeesView extends BaseView {
 		cboVersion.setHeight("30px");
 		cboVersion.setCaption("Versión");
 		cboVersion.setInputPrompt("Seleccione la fecha");
+		cboVersion.setNullSelectionAllowed(false);
 		mainLayout.addComponent(cboVersion, "top:110.0;left:0px");
 
 		return mainLayout;

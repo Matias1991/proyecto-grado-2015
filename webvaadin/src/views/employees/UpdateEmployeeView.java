@@ -96,7 +96,6 @@ public class UpdateEmployeeView extends BaseView {
 		buildTabSeet();
 		setCompositionRoot(mainLayout);
 
-		// TODO add user code here
 		lblMessage = new Label("");
 		mainLayout.addComponent(lblMessage, "top:80.0px;left:0.0px;");
 
@@ -104,7 +103,6 @@ public class UpdateEmployeeView extends BaseView {
 
 			@Override
 			public void buttonClick(ClickEvent event) {
-				// TODO Auto-generated method stub
 				if (validateEstimateEmployee()) {
 					SalarySummary estimateSalarySummary = new SalarySummary();
 					estimateSalarySummary
@@ -134,8 +132,7 @@ public class UpdateEmployeeView extends BaseView {
 					}
 					estimateSalarySummary.setCostSaleHour(Double
 							.parseDouble(txtCostSaleHour.getConvertedValue()
-									.toString()));
-					// estimateSalarySummary.setPercentageTypeFONASA((Double.parseDouble(cboPercentagePersonalFonasaContribution.getValue().toString()))/100);
+									.toString()));					
 					estimateSalarySummary
 							.setPercentageTypeFONASA((Double) cboPercentagePersonalFonasaContribution
 									.getValue() / 100);
@@ -144,6 +141,7 @@ public class UpdateEmployeeView extends BaseView {
 							.estimateEmployee(estimateSalarySummary);
 					if (aux != null) {
 						changeReadOnlyState(false);
+						editInputReadOnly(false);
 
 						txtNominalSalary.setConvertedValue(aux
 								.getNominalSalary());
@@ -201,7 +199,6 @@ public class UpdateEmployeeView extends BaseView {
 
 			@Override
 			public void buttonClick(ClickEvent event) {
-				// TODO Auto-generated method stub
 				btnModiffy.setEnabled(false);
 				if (validateUpdateEmployee()) {
 					Employee updateEmployee = new Employee();
@@ -257,7 +254,7 @@ public class UpdateEmployeeView extends BaseView {
 						mainLayout.removeComponent(updateEmployeesGrid);
 						buildGrid();
 						tabEmployee.setSelectedTab(0);
-						tabEmployee.setVisible(false);
+						cleanInputs();
 						btnModiffy.setEnabled(false);
 					}
 				}
@@ -269,7 +266,6 @@ public class UpdateEmployeeView extends BaseView {
 
 			@Override
 			public void buttonClick(ClickEvent event) {
-				// TODO Auto-generated method stub
 				getUI().getNavigator().navigateTo(WebvaadinUI.MAINMENU);
 			}
 		});
@@ -692,8 +688,6 @@ public class UpdateEmployeeView extends BaseView {
 		tab4.addComponent(txtCostRealHour, 0, 3);
 		tab4.addComponent(txtSalaryToPay, 1, 3);
 		tabEmployee.addTab(tab4, "Costos 3");
-
-		tabEmployee.setVisible(false);
 	}
 
 	@SuppressWarnings("serial")
@@ -774,11 +768,10 @@ public class UpdateEmployeeView extends BaseView {
 							.getItem(updateEmployeesGrid.getSelectedRow());
 					if (item != null) {
 						Employee selectedEmployee = item.getBean();
-						loadEmployee(selectedEmployee);
-						tabEmployee.setVisible(true);
+						loadEmployee(selectedEmployee);					
 						btnModiffy.setEnabled(true);
 					} else {
-						tabEmployee.setVisible(false);
+						cleanInputs();
 						btnModiffy.setEnabled(false);
 					}
 
@@ -813,13 +806,68 @@ public class UpdateEmployeeView extends BaseView {
 		txtCostMonth.setReadOnly(state);
 		txtCostRealHour.setReadOnly(state);
 		txtIncidenceTickets.setReadOnly(state);
-
+	}
+	
+	public void cleanInputs(){	
+		changeReadOnlyState(false);
+		editInputReadOnly(false);
+		txtName.clear();
+		txtSurname.clear();
+		txtAddress.clear();
+		txtEmail.clear();
+		txtCellphone.clear();
+		optEmployeeType.clear();
+		txtNominalSalary.clear();
+		txtTickets.clear();
+		cboPercentagePersonalFonasaContribution.clear();
+		txtHours.clear();
+		txtIrpf.clear();
+		txtBse.clear();
+		txtRet.clear();
+		txtCostSaleHour.clear();
+		txtPersonalRetirementContribution.clear();
+		txtEmployerRetirementContribution.clear();
+		txtPersonalFrlContribution.clear();
+		txtEmployerFrlContribution.clear();
+		txtPersonalFonasaContribution.clear();
+		txtEmployerFonasaContribution.clear();
+		txtTotalDiscounts.clear();
+		txtTicketsEmployer.clear();	
+		txtNominalWithoutContribution.clear();
+		txtTotalEmployersContribution.clear();	
+		txtIncidenceSalary.clear();
+		txtIncidenceTickets.clear();
+		txtDismisalPrevension.clear();
+		txtCostMonth.clear();
+		txtCostRealHour.clear();
+		txtSalaryToPay.clear();		
+		changeReadOnlyState(true);
+		editInputReadOnly(true);
+	}
+	
+	public void editInputReadOnly(boolean state){
+		txtName.setReadOnly(state);
+		txtSurname.setReadOnly(state);
+		txtAddress.setReadOnly(state);
+		txtEmail.setReadOnly(state);
+		txtCellphone.setReadOnly(state);
+		optEmployeeType.setReadOnly(state);
+		txtNominalSalary.setReadOnly(state);
+		txtTickets.setReadOnly(state);
+		cboPercentagePersonalFonasaContribution.setReadOnly(state);
+		txtHours.setReadOnly(state);
+		txtIrpf.setReadOnly(state);
+		txtBse.setReadOnly(state);
+		txtRet.setReadOnly(state);
+		txtCostSaleHour.setReadOnly(state);	
+		btnEstimate.setEnabled(!state);
 	}
 
 	public void loadEmployee(Employee selectedEmployee) {
 
 		// seteo en readonly false, para poder cargar los datos
 		changeReadOnlyState(false);
+		editInputReadOnly(false);
 
 		SalarySummary salarySummary = selectedEmployee.getSalarySummary();
 		txtName.setValue(selectedEmployee.getName());
@@ -877,8 +925,8 @@ public class UpdateEmployeeView extends BaseView {
 			if (updateEmployeesGrid != null) {
 				mainLayout.removeComponent(updateEmployeesGrid);
 			}
-			buildGrid();
-			tabEmployee.setVisible(false);
+			buildGrid();			
+			cleanInputs();
 			btnModiffy.setEnabled(false);
 		}
 
