@@ -5,6 +5,8 @@ import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.UI;
+
+import entities.Constant;
 import entities.RequestContext;
 
 public class BaseView extends CustomComponent implements View {
@@ -30,18 +32,21 @@ public class BaseView extends CustomComponent implements View {
 		if(RequestContext.getRequestContext() == null)
 		{
 			((WebvaadinUI)UI.getCurrent()).changeToLogin();
-			getUI().getNavigator().navigateTo(WebvaadinUI.LOGINVIEW);
+			getUI().getNavigator().navigateTo(Constant.View.LOGIN);
 		}
 		else
 		{
 			if(!WebvaadinUI.USERS_T0_VIEWS.get(RequestContext.getRequestContext().getUserType()).contains(this.getClass().getSimpleName()))
 			{
-				UI.getCurrent().getNavigator().navigateTo(WebvaadinUI.MAINMENU);
+				if(RequestContext.getRequestContext().getUserType() == 1)
+					UI.getCurrent().getNavigator().navigateTo(Constant.View.CATALOGUSERS);
+				else if(RequestContext.getRequestContext().getUserType() == 2)
+					UI.getCurrent().getNavigator().navigateTo(Constant.View.CATALOGEMPLOYEES);
+				else if(RequestContext.getRequestContext().getUserType() == 3)
+					UI.getCurrent().getNavigator().navigateTo(Constant.View.CATALOGPROJECTS);
 			}
 			else
-			{
 				((WebvaadinUI)UI.getCurrent()).changeToMainMenu();
-			}
 		}
 	}
 

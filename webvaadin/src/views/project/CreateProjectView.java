@@ -33,11 +33,13 @@ import com.vaadin.ui.Table;
 import com.vaadin.ui.TableFieldFactory;
 import com.vaadin.ui.TextArea;
 import com.vaadin.ui.TextField;
+import com.vaadin.ui.UI;
 import com.vaadin.ui.Table.TableDragMode;
 
 import controllers.EmployeeController;
 import controllers.ProjectController;
 import controllers.UserController;
+import entities.Constant;
 import entities.DistributionType;
 import entities.ProjectEmployed;
 import entities.Employee;
@@ -99,7 +101,7 @@ public class CreateProjectView extends BaseView {
 
 			@Override
 			public void buttonClick(ClickEvent event) {
-				getUI().getNavigator().navigateTo(WebvaadinUI.MAINMENU);
+				UI.getCurrent().getNavigator().navigateTo(Constant.View.CATALOGPROJECTS);
 			}
 		});
 

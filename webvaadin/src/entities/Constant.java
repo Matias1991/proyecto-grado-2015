@@ -20,6 +20,8 @@ public class Constant {
 	
 	public class View
 	{
+		public static final String LOGIN = "LoginView";
+		
 		// Usuarios
 		public static final String CREATEUSER = "CreateUserView";
 		public static final String UPDATEPROFILEUSER = "ModifyProfileView";

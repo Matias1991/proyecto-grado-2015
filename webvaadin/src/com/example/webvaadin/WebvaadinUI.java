@@ -69,9 +69,6 @@ public class WebvaadinUI extends UI {
 	public Label lblTitle;
 	public Label lblTitle2;
 	
-	public static final String MAINMENU = "";
-	public static final String LOGINVIEW = "LoginView";
-	
 	public static HashMap<Integer, Collection<String>> USERS_T0_VIEWS = new HashMap<Integer, Collection<String>>();
 
 	@Override
@@ -306,18 +303,26 @@ public class WebvaadinUI extends UI {
 		
 		mainLayout.addComponent(layoutViews, 2, 2, 11, 2);
 
-		navigator.setErrorView(new LoginView());
+		//navigator.setErrorView(new LoginView());
 
-		navigator.addView(MAINMENU, new MainMenuView());		
-		navigator.addView(LOGINVIEW, new LoginView());
+		//snavigator.addView(MAINMENU, new MainMenuView());		
+		navigator.addView(Constant.View.LOGIN, new LoginView());
 		
 		if (RequestContext.getRequestContext() == null) {
 			changeToLogin();
-			getUI().getNavigator().navigateTo(LOGINVIEW);
+			getUI().getNavigator().navigateTo(Constant.View.LOGIN);
 		} else {
 			loadMenuItems(mainMenuBar);
 			changeToMainMenu();
-			getUI().getNavigator().navigateTo("");
+
+			buildInternalViews();
+			
+			if(RequestContext.getRequestContext().getUserType() == 1)
+				UI.getCurrent().getNavigator().navigateTo(Constant.View.CATALOGUSERS);
+			else if(RequestContext.getRequestContext().getUserType() == 2)
+				UI.getCurrent().getNavigator().navigateTo(Constant.View.CATALOGEMPLOYEES);
+			else if(RequestContext.getRequestContext().getUserType() == 3)
+				UI.getCurrent().getNavigator().navigateTo(Constant.View.CATALOGPROJECTS);
 		}
 
 		return mainLayout;
@@ -495,7 +500,7 @@ public class WebvaadinUI extends UI {
 				switch (selectedItem.getText()) {
 				case "Salir":
 					RequestContext.setRequestContext(null);
-					UI.getCurrent().getNavigator().navigateTo("LoginView");
+					UI.getCurrent().getNavigator().navigateTo(Constant.View.LOGIN);
 					break;
 				case "Perfil":
 					UI.getCurrent().getNavigator().navigateTo(

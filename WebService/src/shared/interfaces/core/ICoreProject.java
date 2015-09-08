@@ -30,4 +30,7 @@ public interface ICoreProject {
 			throws ServerException;
 
 	ArrayList<ProjectPartner> getProjectPartners(int id) throws ServerException;
+	
+	ArrayList<Project> getProjectsByManager(int managerId)
+			throws ServerException;
 }
