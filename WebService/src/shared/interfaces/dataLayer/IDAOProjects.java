@@ -14,7 +14,9 @@ public interface IDAOProjects extends IDAOBase<Project> {
 
 	ArrayList<Project> getProjectsByStatus(boolean projectStatus)
 			throws ServerException;
-	
+
 	ArrayList<DistributionType> getDistributionTypes() throws ServerException;
-	
+
+	ArrayList<Project> getProjectsByManager(int managerId)
+			throws ServerException;
 }

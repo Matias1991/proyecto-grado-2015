@@ -187,7 +187,20 @@ public class CoreProject implements ICoreProject {
 			throw e;
 		} finally {
 			daoManager.close();
-		}		
+		}	
 	}	
-	
+
+	@Override
+	public ArrayList<Project> getProjectsByManager(int managerId)
+			throws ServerException {
+		
+		DAOManager daoManager = new DAOManager();
+		try {
+			return daoManager.getDAOProjects().getProjectsByManager(managerId);
+		} catch (ServerException e) {
+			throw e;
+		} finally {
+			daoManager.close();
+		}
+	}
 }

@@ -749,6 +749,22 @@
             }
                 
            /**
+            * auto generated Axis2 call back method for getCategories method
+            * override this method for handling normal response from getCategories operation
+            */
+           public void receiveResultgetCategories(
+                    servicelayer.service.ServiceWebStub.GetCategoriesResponse result
+                        ) {
+           }
+
+          /**
+           * auto generated Axis2 Error handler
+           * override this method for handling error response from getCategories operation
+           */
+            public void receiveErrorgetCategories(java.lang.Exception e) {
+            }
+                
+           /**
             * auto generated Axis2 call back method for insertCategory method
             * override this method for handling normal response from insertCategory operation
             */
@@ -781,19 +797,19 @@
             }
                 
            /**
-            * auto generated Axis2 call back method for getCategories method
-            * override this method for handling normal response from getCategories operation
+            * auto generated Axis2 call back method for getProjectsByUserContext method
+            * override this method for handling normal response from getProjectsByUserContext operation
             */
-           public void receiveResultgetCategories(
-                    servicelayer.service.ServiceWebStub.GetCategoriesResponse result
+           public void receiveResultgetProjectsByUserContext(
+                    servicelayer.service.ServiceWebStub.GetProjectsByUserContextResponse result
                         ) {
            }
 
           /**
            * auto generated Axis2 Error handler
-           * override this method for handling error response from getCategories operation
+           * override this method for handling error response from getProjectsByUserContext operation
            */
-            public void receiveErrorgetCategories(java.lang.Exception e) {
+            public void receiveErrorgetProjectsByUserContext(java.lang.Exception e) {
             }
                 
            /**

@@ -13,8 +13,10 @@ import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.TextField;
+import com.vaadin.ui.UI;
 
 import controllers.UserController;
+import entities.Constant;
 import entities.RequestContext;
 
 public class ForgotPasswordView extends BaseView {
@@ -57,7 +59,7 @@ public class ForgotPasswordView extends BaseView {
 						PopupWindow popup = new PopupWindow("AVISO", "Clave enviada al correo informado");
 						txtEmail.clear();
 						
-						getUI().getNavigator().navigateTo(WebvaadinUI.LOGINVIEW);
+						UI.getCurrent().getNavigator().navigateTo(Constant.View.LOGIN);
 					}
 				}else{
 					txtEmail.setRequiredError("Es requerido");
@@ -74,7 +76,7 @@ public class ForgotPasswordView extends BaseView {
 				// TODO Auto-generated method stub
 				txtEmail.setValidationVisible(false);
 				txtEmail.clear();
-				getUI().getNavigator().navigateTo(WebvaadinUI.LOGINVIEW);
+				UI.getCurrent().getNavigator().navigateTo(Constant.View.LOGIN);
 			}
 		});
 		

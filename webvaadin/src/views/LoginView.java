@@ -22,7 +22,7 @@ import entities.RequestContext;
 import entities.UserData;
 
 
-public class LoginView extends CustomComponent implements View {
+public class LoginView extends BaseView {
 
 	/*- VaadinEditorProperties={"grid":"RegularGrid,20","showGrid":true,"snapToGrid":true,"snapToObject":true,"movingGuides":false,"snappingDistance":10} */
 
@@ -72,7 +72,14 @@ public class LoginView extends CustomComponent implements View {
 						
 						RequestContext.setRequestContext(new UserData(voUser.getId(), voUser.getName(), voUser.getUserType()));
 						((WebvaadinUI)UI.getCurrent()).buildInternalViews();
-						UI.getCurrent().getNavigator().navigateTo("");
+						
+						((WebvaadinUI)UI.getCurrent()).changeToMainMenu();
+						if(RequestContext.getRequestContext().getUserType() == 1)
+							UI.getCurrent().getNavigator().navigateTo(Constant.View.CATALOGUSERS);
+						else if(RequestContext.getRequestContext().getUserType() == 2)
+							UI.getCurrent().getNavigator().navigateTo(Constant.View.CATALOGEMPLOYEES);
+						else if(RequestContext.getRequestContext().getUserType() == 3)
+							UI.getCurrent().getNavigator().navigateTo(Constant.View.CATALOGPROJECTS);
 						
 					}else{
 						txtPassword.setValue("");
@@ -97,7 +104,13 @@ public class LoginView extends CustomComponent implements View {
 		else
 		{
 			((WebvaadinUI)UI.getCurrent()).changeToMainMenu();
-			getUI().getNavigator().navigateTo(WebvaadinUI.MAINMENU);
+			
+			if(RequestContext.getRequestContext().getUserType() == 1)
+				UI.getCurrent().getNavigator().navigateTo(Constant.View.CATALOGUSERS);
+			else if(RequestContext.getRequestContext().getUserType() == 2)
+				UI.getCurrent().getNavigator().navigateTo(Constant.View.CATALOGEMPLOYEES);
+			else if(RequestContext.getRequestContext().getUserType() == 3)
+				UI.getCurrent().getNavigator().navigateTo(Constant.View.CATALOGPROJECTS);
 		}
 		
 		this.txtUsername.focus();

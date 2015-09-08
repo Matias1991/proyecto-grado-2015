@@ -35,12 +35,14 @@ import com.vaadin.ui.Label;
 import com.vaadin.ui.PopupDateField;
 import com.vaadin.ui.TextArea;
 import com.vaadin.ui.TextField;
+import com.vaadin.ui.UI;
 
 import controllers.BillController;
 import controllers.ChargeController;
 import controllers.ProjectController;
 import entities.Bill;
 import entities.Charge;
+import entities.Constant;
 import entities.Project;
 import entities.RequestContext;
 
@@ -182,7 +184,7 @@ public class CreateChargeView extends BaseView {
 
 			@Override
 			public void buttonClick(ClickEvent event) {
-				getUI().getNavigator().navigateTo(WebvaadinUI.MAINMENU);
+				UI.getCurrent().getNavigator().navigateTo(Constant.View.CHARGES);
 			}
 		});
 
