@@ -107,26 +107,26 @@ public class DeleteCategoriesView extends BaseView {
 			grid.removeColumn("id");
 			grid.removeColumn("projectId");
 			grid.removeColumn("categoryTypeId");
-			grid.removeColumn("categoryType");
+			grid.removeColumn("categoryType");			
 			grid.removeColumn("createdDateTimeUTC");
-			grid.removeColumn("isRRHH");
+			grid.removeColumn("isRRHH");			
 			grid.removeColumn("typeExchange");
-			grid.removeColumn("isDollarToShow");
-			grid.removeColumn("amountDollar");
-			grid.removeColumn("amountPeso");
+			grid.removeColumn("isDollarToShow");		
+			grid.removeColumn("amountDollar");		
+			grid.removeColumn("amountPeso");			
 			grid.removeColumn("currencyDollar");
 			grid.removeColumn("categoryTypeToShow");
-			grid.setColumnOrder("description", "amountToShow",
-					"typeExchangeToShow", "projectName",
-					"createDateTimeUTCToShow", "isRRHHToShow");
+			grid.removeColumn("ivaTypeId");
+			grid.setColumnOrder("description", "amountToShow", "ivaTypeToShow", "totalAmountToShow", "typeExchangeToShow",
+					"projectName","createDateTimeUTCToShow","isRRHHToShow");
 			grid.getColumn("description").setHeaderCaption("Descripción");
-			grid.getColumn("amountToShow").setHeaderCaption("Importe");
+			grid.getColumn("amountToShow").setHeaderCaption("Importe sin IVA");
 			grid.getColumn("projectName").setHeaderCaption("Asociado a");
-			grid.getColumn("typeExchangeToShow").setHeaderCaption(
-					"Tipo de cambio");
-			grid.getColumn("createDateTimeUTCToShow").setHeaderCaption(
-					"Correspondiente al mes");
+			grid.getColumn("typeExchangeToShow").setHeaderCaption("Tipo de cambio");
+			grid.getColumn("createDateTimeUTCToShow").setHeaderCaption("Correspondiente al mes");
 			grid.getColumn("isRRHHToShow").setHeaderCaption("Tipo de recurso");
+			grid.getColumn("ivaTypeToShow").setHeaderCaption("IVA");
+			grid.getColumn("totalAmountToShow").setHeaderCaption("Importe IVA incl.");
 			grid.setWidth(100, Unit.PERCENTAGE);
 			grid.setHeight(100, Unit.PERCENTAGE);
 			grid.setSelectionMode(SelectionMode.SINGLE);
