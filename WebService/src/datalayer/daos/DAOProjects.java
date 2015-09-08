@@ -296,15 +296,14 @@ public class DAOProjects implements IDAOProjects {
 		ResultSet rs = null;		
 		try {
 
-			String getSQL = "SELECT * FROM PROJECT WHERE ID = ?";
+			String getSQL = "SELECT * FROM PROJECT WHERE MANAGERID = ?";
 			preparedStatement = this.connection.prepareStatement(getSQL);
 			preparedStatement.setInt(1, managerId);
-			
-			rs = preparedStatement.executeQuery(getSQL);
 
-			while (rs.next()) {		
-				Project project = BuildProject(rs);
-				projects.add(project);
+			rs = preparedStatement.executeQuery();
+
+			while (rs.next()) {
+				projects.add(BuildProject(rs));
 			}
 
 		} catch (SQLException e) {
