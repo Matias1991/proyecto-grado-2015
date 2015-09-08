@@ -61,6 +61,7 @@ public class CatalogProjectView extends BaseView {
 	private ComboBox comboProject;	
 	private Table tblBills;
 	private Table tblEmployees;
+	private Grid billGrid;
 	private Grid categoriesGrid;
 	private VerticalLayout vlCategories;
 	private VerticalLayout vlbBills;
