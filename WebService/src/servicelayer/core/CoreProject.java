@@ -36,7 +36,7 @@ public class CoreProject implements ICoreProject {
 		try {
 			if (daoManager.getDAOProjects().getProjectByName(
 					project.getName()) == null) {
-				project.setiDAOEmployedProject(daoManager
+				project.setiDAOProjectEmployees(daoManager
 						.getDAOEmployedProjects());
 				project.setiDAOPartnerProject(daoManager
 						.getDAOPartnerProjects());
@@ -150,8 +150,7 @@ public class CoreProject implements ICoreProject {
 			throws ServerException {
 		DAOManager daoManager = new DAOManager();
 		try {
-			return daoManager.getDAODistributionTypes().getOjects();
-
+			return daoManager.getDAOProjects().getDistributionTypes();
 		} catch (ServerException e) {
 			throw e;
 		} finally {
@@ -160,11 +159,15 @@ public class CoreProject implements ICoreProject {
 	}
 	
 	@Override
-	public ArrayList<ProjectEmployed> getProjectEmployees (int id) throws ServerException{
+	public ArrayList<ProjectEmployed> getProjectEmployees (int id) throws ServerException, ClientException{
 		DAOManager daoManager = new DAOManager();
 		try {
-			return daoManager.getDAOEmployedProjects().getEmployeesProject(id);
+			Project project = getProject(id);
+			project.setiDAOProjectEmployees(daoManager.getDAOEmployedProjects());
+			return project.getProjectEmployees();
 		} catch (ServerException e) {
+			throw e;
+		} catch (ClientException e) {
 			throw e;
 		} finally {
 			daoManager.close();
@@ -172,14 +175,19 @@ public class CoreProject implements ICoreProject {
 	}
 	
 	@Override
-	public ArrayList<ProjectPartner> getProjectPartners (int id) throws ServerException {
+	public ArrayList<ProjectPartner> getProjectPartners (int id) throws ServerException, ClientException {
 		DAOManager daoManager = new DAOManager();
 		try {
-			return daoManager.getDAOPartnerProjects().getPartnersProject(id);
+			Project project = getProject(id);
+			project.setiDAOPartnerProject(daoManager.getDAOPartnerProjects());
+			return project.getProjectPartner();			
 		} catch (ServerException e) {
+			throw e;
+		} catch (ClientException e) {
 			throw e;
 		} finally {
 			daoManager.close();
 		}		
-	}
+	}	
+	
 }

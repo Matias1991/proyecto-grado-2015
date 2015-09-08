@@ -27,7 +27,7 @@ public interface ICoreProject {
 	ArrayList<DistributionType> getDistributionTypes() throws ServerException;
 
 	ArrayList<ProjectEmployed> getProjectEmployees(int id)
-			throws ServerException;
+			throws ServerException, ClientException;
 
-	ArrayList<ProjectPartner> getProjectPartners(int id) throws ServerException;
+	ArrayList<ProjectPartner> getProjectPartners (int id) throws ServerException, ClientException;
 }
