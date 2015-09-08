@@ -18,8 +18,10 @@ import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.OptionGroup;
 import com.vaadin.ui.TextField;
+import com.vaadin.ui.UI;
 
 import controllers.UserController;
+import entities.Constant;
 import entities.RequestContext;
 import entities.User;
 
@@ -93,7 +95,7 @@ public class CreateUserView extends BaseView {
 			@Override
 			public void buttonClick(ClickEvent event) {
 				cleanInputs();
-				getUI().getNavigator().navigateTo(WebvaadinUI.MAINMENU);				
+				UI.getCurrent().getNavigator().navigateTo(Constant.View.CATALOGUSERS);				
 			}
 		});
 

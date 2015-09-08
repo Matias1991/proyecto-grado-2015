@@ -17,11 +17,13 @@ import com.vaadin.data.validator.EmailValidator;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.ui.AbsoluteLayout;
 import com.vaadin.ui.Button;
+import com.vaadin.ui.UI;
 import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.TextField;
 
 import controllers.UserController;
+import entities.Constant;
 import entities.RequestContext;
 import entities.User;
 
@@ -82,7 +84,7 @@ public class ModifyProfileView extends BaseView {
 
 			@Override
 			public void buttonClick(ClickEvent event) {
-				getUI().getNavigator().navigateTo(WebvaadinUI.MAINMENU);
+				UI.getCurrent().getNavigator().navigateTo(Constant.View.CATALOGUSERS);
 
 			}
 		});

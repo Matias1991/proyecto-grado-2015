@@ -36,7 +36,7 @@ public class CoreProject implements ICoreProject {
 		try {
 			if (daoManager.getDAOProjects().getProjectByName(
 					project.getName()) == null) {
-				project.setiDAOEmployedProject(daoManager
+				project.setiDAOProjectEmployees(daoManager
 						.getDAOEmployedProjects());
 				project.setiDAOPartnerProject(daoManager
 						.getDAOPartnerProjects());
@@ -150,36 +150,57 @@ public class CoreProject implements ICoreProject {
 			throws ServerException {
 		DAOManager daoManager = new DAOManager();
 		try {
-			return daoManager.getDAODistributionTypes().getOjects();
+			return daoManager.getDAOProjects().getDistributionTypes();
+		} catch (ServerException e) {
+			throw e;
+		} finally {
+			daoManager.close();
+		}
+	}
+	
+	@Override
+	public ArrayList<ProjectEmployed> getProjectEmployees (int id) throws ServerException, ClientException{
+		DAOManager daoManager = new DAOManager();
+		try {
+			Project project = getProject(id);
+			project.setiDAOProjectEmployees(daoManager.getDAOEmployedProjects());
+			return project.getProjectEmployees();
+		} catch (ServerException e) {
+			throw e;
+		} catch (ClientException e) {
+			throw e;
+		} finally {
+			daoManager.close();
+		}
+	}
+	
+	@Override
+	public ArrayList<ProjectPartner> getProjectPartners (int id) throws ServerException, ClientException {
+		DAOManager daoManager = new DAOManager();
+		try {
+			Project project = getProject(id);
+			project.setiDAOPartnerProject(daoManager.getDAOPartnerProjects());
+			return project.getProjectPartner();			
+		} catch (ServerException e) {
+			throw e;
+		} catch (ClientException e) {
+			throw e;
+		} finally {
+			daoManager.close();
+		}	
+	}	
 
+	@Override
+	public ArrayList<Project> getProjectsByManager(int managerId)
+			throws ServerException {
+		
+		DAOManager daoManager = new DAOManager();
+		try {
+			return daoManager.getDAOProjects().getProjectsByManager(managerId);
 		} catch (ServerException e) {
 			throw e;
 		} finally {
 			daoManager.close();
 		}
-	}
-	
-	@Override
-	public ArrayList<ProjectEmployed> getProjectEmployees (int id) throws ServerException{
-		DAOManager daoManager = new DAOManager();
-		try {
-			return daoManager.getDAOEmployedProjects().getEmployeesProject(id);
-		} catch (ServerException e) {
-			throw e;
-		} finally {
-			daoManager.close();
-		}
-	}
-	
-	@Override
-	public ArrayList<ProjectPartner> getProjectPartners (int id) throws ServerException {
-		DAOManager daoManager = new DAOManager();
-		try {
-			return daoManager.getDAOPartnerProjects().getPartnersProject(id);
-		} catch (ServerException e) {
-			throw e;
-		} finally {
-			daoManager.close();
-		}		
 	}
 }

@@ -11,6 +11,7 @@ import java.util.Date;
 import com.mysql.jdbc.Statement;
 
 import datalayer.utilities.ManageConnection;
+import servicelayer.entity.businessEntity.DistributionType;
 import servicelayer.entity.businessEntity.Project;
 import servicelayer.entity.businessEntity.Employed;
 import servicelayer.entity.businessEntity.User;
@@ -254,7 +255,74 @@ public class DAOProjects implements IDAOProjects {
 
 		return project;
 	}
+	
+	@Override
+	public ArrayList<DistributionType> getDistributionTypes() throws ServerException {
+		ArrayList<DistributionType> distributions = new ArrayList<DistributionType>();
+		PreparedStatement preparedStatement = null;
+		ResultSet rs = null;		
+		try {
 
+			String sql;
+			sql = "SELECT * FROM distributionType";
+			preparedStatement = this.connection.prepareStatement(sql);
+			rs = preparedStatement.executeQuery(sql);
+
+			while (rs.next()) {		
+				DistributionType distribution = BuildDistributions(rs);
+				distributions.add(distribution);
+			}
+
+		} catch (SQLException e) {
+			throw new ServerException(e);
+		} finally {
+			try {
+				if (preparedStatement != null)
+					preparedStatement.close();
+				if (rs != null)
+					rs.close();
+			} catch (SQLException e) {
+				LoggerMSMP.setLog(e.getMessage());
+			}
+		}
+
+		return distributions;
+	}
+
+	@Override
+	public ArrayList<Project> getProjectsByManager(int managerId) throws ServerException {
+		ArrayList<Project> projects = new ArrayList<Project>();
+		PreparedStatement preparedStatement = null;
+		ResultSet rs = null;		
+		try {
+
+			String getSQL = "SELECT * FROM PROJECT WHERE ID = ?";
+			preparedStatement = this.connection.prepareStatement(getSQL);
+			preparedStatement.setInt(1, managerId);
+			
+			rs = preparedStatement.executeQuery(getSQL);
+
+			while (rs.next()) {		
+				Project project = BuildProject(rs);
+				projects.add(project);
+			}
+
+		} catch (SQLException e) {
+			throw new ServerException(e);
+		} finally {
+			try {
+				if (preparedStatement != null)
+					preparedStatement.close();
+				if (rs != null)
+					rs.close();
+			} catch (SQLException e) {
+				LoggerMSMP.setLog(e.getMessage());
+			}
+		}
+
+		return projects;
+	}
+	
 	Project BuildProject(ResultSet rs) throws SQLException, ServerException {
 		int _id = rs.getInt("id");
 		String name = rs.getString("name");
@@ -289,6 +357,19 @@ public class DAOProjects implements IDAOProjects {
 		}
 
 		return project;
+	}
+	
+	DistributionType BuildDistributions(ResultSet rs) throws SQLException, ServerException{
+		int _id = rs.getInt("id");
+		String value = rs.getString("value");
+		String description = rs.getString("description");
+		
+		DistributionType distribution = new DistributionType();
+		distribution.setId(_id);
+		distribution.setValue(value);
+		distribution.setDescription(description);
+		
+		return distribution;		
 	}
 
 }

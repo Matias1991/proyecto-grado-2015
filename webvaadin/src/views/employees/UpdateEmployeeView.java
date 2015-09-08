@@ -31,9 +31,11 @@ import com.vaadin.ui.Label;
 import com.vaadin.ui.OptionGroup;
 import com.vaadin.ui.TabSheet;
 import com.vaadin.ui.TextField;
+import com.vaadin.ui.UI;
 
 import controllers.EmployeeController;
 import entities.Category;
+import entities.Constant;
 import entities.Employee;
 import entities.RequestContext;
 import entities.SalarySummary;
@@ -266,7 +268,7 @@ public class UpdateEmployeeView extends BaseView {
 
 			@Override
 			public void buttonClick(ClickEvent event) {
-				getUI().getNavigator().navigateTo(WebvaadinUI.MAINMENU);
+				UI.getCurrent().getNavigator().navigateTo(Constant.View.CATALOGEMPLOYEES);
 			}
 		});
 	}

@@ -8,7 +8,6 @@ import shared.exceptions.ServerException;
 import shared.interfaces.dataLayer.IDAOBills;
 import shared.interfaces.dataLayer.IDAOCategroy;
 import shared.interfaces.dataLayer.IDAOCharges;
-import shared.interfaces.dataLayer.IDAODistributionType;
 import shared.interfaces.dataLayer.IDAOProjectEmployees;
 import shared.interfaces.dataLayer.IDAOEmployees;
 import shared.interfaces.dataLayer.IDAOManager;
@@ -30,8 +29,7 @@ public class DAOManager implements IDAOManager{
 	private IDAOCategroy iDAOCategories;
 	private IDAOCharges iDAOCharges;
 	private IDAOProjectPartners iDAOPartnerProjects;
-	private IDAODistributionType iDAODistributionTypes;
-	
+		
 	public DAOManager() throws ServerException
 	{
 		try {
@@ -158,12 +156,5 @@ public class DAOManager implements IDAOManager{
 		}
 		
 		return iDAOPartnerProjects;
-	}
-	
-	public IDAODistributionType getDAODistributionTypes(){
-		if(iDAODistributionTypes == null){
-			return new DAODistributionTypes(connection);
-		}
-		return iDAODistributionTypes;
-	}
+	}	
 }

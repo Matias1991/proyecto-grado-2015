@@ -20,8 +20,8 @@ public class Project {
 	private String description;
 	private double amount;
 	private boolean isCurrencyDollar;
-	private IDAOProjectEmployees iDAOEmployedProject;
-	private IDAOProjectPartners iDAOPartnerProject;
+	private IDAOProjectEmployees iDAOProjectEmployees;
+	private IDAOProjectPartners iDAOProjectPartners;	
 
 	public Project() {
 	}
@@ -55,8 +55,8 @@ public class Project {
 		this.updatedDateTimeUTC = voProject.getUpdatedDateTimeUTC();
 		this.createdDateTimeUTC = voProject.getCreatedDateTimeUTC();
 		this.closed = voProject.isClosed();
-		this.iDAOEmployedProject = idaoEmployedProject;
-		this.iDAOPartnerProject = idaoPartnerProject;
+		this.iDAOProjectEmployees = idaoEmployedProject;
+		this.iDAOProjectPartners = idaoPartnerProject;
 	}
 
 	public int getId() {
@@ -139,34 +139,39 @@ public class Project {
 		this.isCurrencyDollar = isCurrencyDollar;
 	}
 
-	public IDAOProjectEmployees getiDAOEmployedProject() {
-		return iDAOEmployedProject;
+	public IDAOProjectEmployees getiDAOProjectEmployees() {
+		return iDAOProjectEmployees;
 	}
 
-	public void setiDAOEmployedProject(IDAOProjectEmployees iDAOEmployedProject) {
-		this.iDAOEmployedProject = iDAOEmployedProject;
+	public void setiDAOProjectEmployees(IDAOProjectEmployees iDAOEmployedProject) {
+		this.iDAOProjectEmployees = iDAOEmployedProject;
 	}
 	
 	public IDAOProjectPartners getiDAOPartnerProject() {
-		return iDAOPartnerProject;
+		return iDAOProjectPartners;
 	}
 
 	public void setiDAOPartnerProject(IDAOProjectPartners iDAOPartnerProject) {
-		this.iDAOPartnerProject = iDAOPartnerProject;
+		this.iDAOProjectPartners = iDAOPartnerProject;
 	}
 
 	public void associateEmployed(ProjectEmployed employedProject)
 			throws ServerException {		
-		this.iDAOEmployedProject
+		this.iDAOProjectEmployees
 				.insertEmployedProject(this.id, employedProject);
 	}
 	
 	public void associateDistribution(ProjectPartner partnerProject) throws ServerException{
-		this.iDAOPartnerProject.insertPartnerProject(this.id, partnerProject);
+		this.iDAOProjectPartners.insertPartnerProject(this.id, partnerProject);
 	}
 	
-	public ArrayList<ProjectEmployed> getProjectEmployed() throws ServerException
+	public ArrayList<ProjectEmployed> getProjectEmployees() throws ServerException
 	{
-		return iDAOEmployedProject.getEmployeesProject(this.id);
+		return iDAOProjectEmployees.getEmployeesProject(this.id);
+	}
+	
+	public ArrayList<ProjectPartner> getProjectPartner() throws ServerException
+	{
+		return iDAOProjectPartners.getPartnersProject(this.id);
 	}
 }

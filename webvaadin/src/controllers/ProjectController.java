@@ -3,6 +3,7 @@ package controllers;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.Collection;
+
 import org.apache.axis2.AxisFault;
 
 import servicelayer.service.ServiceWebStub;
@@ -20,6 +21,7 @@ import entities.DistributionType;
 import entities.ProjectEmployed;
 import entities.Project;
 import entities.ProjectPartner;
+import entities.RequestContext;
 
 public class ProjectController {
 
