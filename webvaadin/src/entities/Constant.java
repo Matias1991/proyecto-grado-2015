@@ -42,7 +42,7 @@ public class Constant {
 		// Rubros
 		public static final String CREATECATEGORY = "CreateCategoryView";
 		public static final String CATEGORIES = "CatalogCategoriesView";
-		public static final String DELETECATEGORY = "DeleteCategoryView";
+		public static final String DELETECATEGORY = "DeleteCategoriesView";
 		public static final String UPDATECATEGORY = "UpdateCategoryView";
 
 		//Facturas
