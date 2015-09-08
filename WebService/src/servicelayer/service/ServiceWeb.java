@@ -970,26 +970,6 @@ public class ServiceWeb extends ServiceBase {
 		return null;
 	}
 
-	public VOProject[] getProjects() {
-		try {
-			transactionLock.tryLock(Constants.DEFAULT_TRANSACTION_TIME,
-					TimeUnit.SECONDS);
-
-			return projectBuilder.BuildArrayVOObject(VOProject.class,
-					iCoreProject.getProjects());
-
-		} catch (ServerException e) {
-			ThrowServerExceptionAndLogError(e, "obtener todos los proyectos");
-		} catch (InterruptedException e) {
-			throw new RuntimeException(Constants.TRANSACTION_ERROR);
-		} catch (Exception e) {
-			ThrowGenericExceptionAndLogError(e);
-		} finally {
-			transactionLock.unlock();
-		}
-		return null;
-	}
-
 	public VOProject[] getProjectsByUserContext(int userContextId) {
 		try {
 			transactionLock.tryLock(Constants.DEFAULT_TRANSACTION_TIME,
@@ -1007,6 +987,8 @@ public class ServiceWeb extends ServiceBase {
 
 		} catch (ServerException e) {
 			ThrowServerExceptionAndLogError(e, "obtener todos los proyectos");
+		} catch (ClientException e) {
+			throw new RuntimeException(e.getMessage());
 		} catch (InterruptedException e) {
 			throw new RuntimeException(Constants.TRANSACTION_ERROR);
 		} catch (Exception e) {

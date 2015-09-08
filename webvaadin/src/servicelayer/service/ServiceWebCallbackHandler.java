@@ -812,22 +812,6 @@
             public void receiveErrorgetProjectsByUserContext(java.lang.Exception e) {
             }
                 
-           /**
-            * auto generated Axis2 call back method for getProjects method
-            * override this method for handling normal response from getProjects operation
-            */
-           public void receiveResultgetProjects(
-                    servicelayer.service.ServiceWebStub.GetProjectsResponse result
-                        ) {
-           }
-
-          /**
-           * auto generated Axis2 Error handler
-           * override this method for handling error response from getProjects operation
-           */
-            public void receiveErrorgetProjects(java.lang.Exception e) {
-            }
-                
 
 
     }

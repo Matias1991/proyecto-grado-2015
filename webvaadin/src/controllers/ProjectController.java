@@ -30,9 +30,10 @@ public class ProjectController {
 
 		try {
 			ServiceWebStub service = new ServiceWebStub();
-			servicelayer.service.ServiceWebStub.GetProjects getProjects = new servicelayer.service.ServiceWebStub.GetProjects();
+			servicelayer.service.ServiceWebStub.GetProjectsByUserContext getProjects = new servicelayer.service.ServiceWebStub.GetProjectsByUserContext();
 
-			VOProject[] voProjects = service.getProjects(getProjects)
+			getProjects.setUserContextId(RequestContext.getRequestContext().getId());
+			VOProject[] voProjects = service.getProjectsByUserContext(getProjects)
 					.get_return();
 
 			if (voProjects != null) {
@@ -58,9 +59,10 @@ public class ProjectController {
 
 		try {
 			ServiceWebStub service = new ServiceWebStub();
-			servicelayer.service.ServiceWebStub.GetProjects getActiveProjects = new servicelayer.service.ServiceWebStub.GetProjects();
+			servicelayer.service.ServiceWebStub.GetProjectsByUserContext getActiveProjects = new servicelayer.service.ServiceWebStub.GetProjectsByUserContext();
 
-			VOProject[] voProjects = service.getProjects(getActiveProjects)
+			getActiveProjects.setUserContextId(RequestContext.getRequestContext().getId());
+			VOProject[] voProjects = service.getProjectsByUserContext(getActiveProjects)
 					.get_return();
 
 			if (voProjects != null) {
