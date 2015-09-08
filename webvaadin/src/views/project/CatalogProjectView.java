@@ -59,9 +59,8 @@ public class CatalogProjectView extends BaseView {
 	private Label lblBillsEmpty;
 	private Label lblEmployeesEmpty;
 	private ComboBox comboProject;	
-	private Table tblBills;
-	private Table tblEmployees;
 	private Grid billGrid;
+	private Grid employeesGrid;
 	private Grid categoriesGrid;
 	private VerticalLayout vlCategories;
 	private VerticalLayout vlbBills;
@@ -103,6 +102,12 @@ public class CatalogProjectView extends BaseView {
 			setReadOnlyTxt(true);
 			if(categoriesGrid != null){
 				vlCategories.removeComponent(categoriesGrid);
+			}
+			if(billGrid != null){
+				vlbBills.removeComponent(billGrid);
+			}
+			if(employeesGrid != null){
+				vlbEmployees.removeComponent(employeesGrid);
 			}
 		}
 
