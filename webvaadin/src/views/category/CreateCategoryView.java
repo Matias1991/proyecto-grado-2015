@@ -346,7 +346,7 @@ public class CreateCategoryView extends BaseView {
 		createdDateTimeField = new PopupDateField();
 		createdDateTimeField.setCaption("Correspondiente al mes");
 		createdDateTimeField.setImmediate(true);
-		createdDateTimeField.setWidth("140px");
+		createdDateTimeField.setWidth("165px");
 		createdDateTimeField.setHeight("-1px");
 		createdDateTimeField.setRequired(true);
 		createdDateTimeField.setDateFormat("MM-yyyy");
@@ -361,7 +361,7 @@ public class CreateCategoryView extends BaseView {
 		categoryType.setImmediate(true);
 		categoryType.setWidth("-1px");
 		categoryType.setHeight("-1px");
-		mainLayout.addComponent(categoryType, "top:275.0px;left:3.0px;");
+		mainLayout.addComponent(categoryType, "top:280.0px;left:3.0px;");
 
 		// isRRHH
 		isRRHH = new OptionGroup();
@@ -370,7 +370,7 @@ public class CreateCategoryView extends BaseView {
 		isRRHH.setVisible(true);
 		isRRHH.setWidth("-1px");
 		isRRHH.setHeight("-1px");
-		mainLayout.addComponent(isRRHH, "top:275.0px;left:130.0px;");
+		mainLayout.addComponent(isRRHH, "top:280.0px;left:130.0px;");
 
 		// optCurrency
 		optCurrency = new OptionGroup();
@@ -379,7 +379,7 @@ public class CreateCategoryView extends BaseView {
 		optCurrency.setWidth("-1px");
 		optCurrency.setHeight("-1px");
 		mainLayout.addComponent(optCurrency,
-				"top:360.0px;right:372.0px;left:3.0px;");
+				"top:370.0px;right:372.0px;left:3.0px;");
 
 		// txtTypeExchange
 		txtTypeExchange = new TextField();
@@ -391,13 +391,13 @@ public class CreateCategoryView extends BaseView {
 		txtTypeExchange.setNullRepresentation("");
 		txtTypeExchange.setConverter(new StringToDoubleConverter());
 		mainLayout.addComponent(txtTypeExchange,
-				"top:460.0px;right:372.0px;left:160.0px;");
+				"top:460.0px;right:372.0px;left:175.0px;");
 
 		// txtAmount
 		txtAmount = new TextField();
 		txtAmount.setCaption("Importe sin IVA");
 		txtAmount.setImmediate(true);
-		txtAmount.setWidth("150px");
+		txtAmount.setWidth("165px");
 		txtAmount.setHeight("-1px");
 		txtAmount.setTabIndex(2);
 		txtAmount.setRequired(true);
@@ -414,19 +414,20 @@ public class CreateCategoryView extends BaseView {
 		cboxIvaTypes.setHeight("-1px");
 		cboxIvaTypes.setRequired(true);
 		cboxIvaTypes.setTabIndex(5);
-		mainLayout.addComponent(cboxIvaTypes, "top:525.0px;left:0.0px;");
+		cboxIvaTypes.setNullSelectionAllowed(false);
+		mainLayout.addComponent(cboxIvaTypes, "top:528.0px;left:0.0px;");
 
 		// txtTotalAmount
 		txtTotalAmount = new TextField();
 		txtTotalAmount.setCaption("Importe IVA incl.");
 		txtTotalAmount.setImmediate(true);
-		txtTotalAmount.setWidth("155px");
+		txtTotalAmount.setWidth("165px");
 		txtTotalAmount.setHeight("-1px");
 		txtTotalAmount.setEnabled(false);
 		txtTotalAmount.setNullRepresentation("");
 		txtTotalAmount.setConverter(new StringToDoubleConverter());
 		txtTotalAmount.setTabIndex(6);
-		mainLayout.addComponent(txtTotalAmount, "top:590.0px;left:0.0px;");
+		mainLayout.addComponent(txtTotalAmount, "top:598.0px;left:0.0px;");
 
 		// btnCreate
 		btnCreate = new Button();
