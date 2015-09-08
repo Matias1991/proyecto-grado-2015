@@ -190,14 +190,15 @@ public class WebvaadinUI extends UI {
 		
 		//Carga las vistas a usuario Administrador
 		userTypeAdminToViews.add(Constant.View.CREATEUSER);
-		userTypeAdminToViews.add(Constant.View.UPDATEPROFILEUSER);
 		userTypeAdminToViews.add(Constant.View.DELETEUSERS);
 		userTypeAdminToViews.add(Constant.View.UPDATEUSER);
 		userTypeAdminToViews.add(Constant.View.CATALOGUSERS);
 		userTypeAdminToViews.add(Constant.View.FORGOTPASSWORD);
-		userTypeAdminToViews.add(Constant.View.CHANGEPASSWORD);
 		userTypeAdminToViews.add(Constant.View.RESETPASSWORD);
 		userTypeAdminToViews.add(Constant.View.UNLOCKUSER);
+		
+		userTypeAdminToViews.add(Constant.View.CHANGEPASSWORD);
+		userTypeAdminToViews.add(Constant.View.UPDATEPROFILEUSER);
 	
 		//Carga las vistas a usuario Socio
 		userTypePartnerToViews.add(Constant.View.CATALOGEMPLOYEES);
@@ -224,6 +225,9 @@ public class WebvaadinUI extends UI {
 		userTypePartnerToViews.add(Constant.View.CREATEPROJECT);
 		userTypePartnerToViews.add(Constant.View.CLOSEPROJECT);
 		
+		userTypePartnerToViews.add(Constant.View.CHANGEPASSWORD);
+		userTypePartnerToViews.add(Constant.View.UPDATEPROFILEUSER);
+		
 		//Carga las vistas a usuario Gerente
 		userTypeManagerToViews.add(Constant.View.CREATECATEGORY);
 		userTypeManagerToViews.add(Constant.View.CATEGORIES);
@@ -242,6 +246,9 @@ public class WebvaadinUI extends UI {
 		
 		userTypeManagerToViews.add(Constant.View.CATALOGPROJECTS);
 		
+		userTypeManagerToViews.add(Constant.View.CHANGEPASSWORD);
+		userTypeManagerToViews.add(Constant.View.UPDATEPROFILEUSER);
+		
 		USERS_T0_VIEWS.put(Constant.UserType.USER_TYPE_ADMIN, userTypeAdminToViews);
 		USERS_T0_VIEWS.put(Constant.UserType.USER_TYPE_PARTNER, userTypePartnerToViews);
 		USERS_T0_VIEWS.put(Constant.UserType.USER_TYPE_MANAGER, userTypeManagerToViews);
@@ -253,6 +260,8 @@ public class WebvaadinUI extends UI {
 		{
 			navigator.addView(view, getContructorByView(view));
 		}
+		
+		//navigator.addView(Constant.View.CHANGEPASSWORD, getContructorByView(Constant.View.CHANGEPASSWORD));
 	}
 	
 	/**
