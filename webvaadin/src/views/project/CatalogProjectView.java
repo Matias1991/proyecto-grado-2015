@@ -58,8 +58,7 @@ public class CatalogProjectView extends BaseView {
 	private Label lblCategoriesEmpty;
 	private Label lblBillsEmpty;
 	private Label lblEmployeesEmpty;
-	private ComboBox comboProject;
-	private Table tblCategories;
+	private ComboBox comboProject;	
 	private Table tblBills;
 	private Table tblEmployees;
 	private Grid categoriesGrid;
@@ -101,6 +100,9 @@ public class CatalogProjectView extends BaseView {
 			}
 			comboProject.setValue(projects.iterator().next().getId());
 			setReadOnlyTxt(true);
+			if(categoriesGrid != null){
+				vlCategories.removeComponent(categoriesGrid);
+			}
 		}
 
 	}
@@ -278,8 +280,8 @@ public class CatalogProjectView extends BaseView {
 		BeanItemContainer<Category> projectCategories = new BeanItemContainer<Category>(
 				Category.class, CategoryController.getCategoriesByProject(selectedProjectId));
 
-		if(tblCategories != null)
-			vlCategories.removeComponent(tblCategories);
+		if(categoriesGrid != null)
+			vlCategories.removeComponent(categoriesGrid);
 		if (projectCategories.size() > 0) {
 			//createCategoryTable(projectCategories);
 			createCategoryGrid(projectCategories);
@@ -313,21 +315,6 @@ public class CatalogProjectView extends BaseView {
 
 	}
 
-	private void createCategoryTable(
-			BeanItemContainer<Category> projectCategories) {
-		// Creo la tabla de rubros asociados al proyecto
-		tblCategories = new Table("", projectCategories);
-		tblCategories.setWidth("100%");
-		tblCategories.setHeight("300px");
-		tblCategories.setVisibleColumns("description", "amountToShow",
-				"typeExchangeToShow", "isRRHHToShow");
-		tblCategories.setColumnHeaders("Descripcion", "Importe",
-				"Tipo de cambio", "Tipo");
-		tblCategories.setDragMode(TableDragMode.ROW);
-		vlCategories.removeComponent(lblCategoriesEmpty);
-		vlCategories.addComponent(tblCategories);
-	}
-	
 	private void createCategoryGrid(BeanItemContainer<Category> projectCategories){
 		if (projectCategories != null && projectCategories.size() > 0) {
 			categoriesGrid = new Grid(projectCategories);		
@@ -336,8 +323,7 @@ public class CatalogProjectView extends BaseView {
 			categoriesGrid.removeColumn("amountDollar");
 			categoriesGrid.removeColumn("categoryTypeId");
 			categoriesGrid.removeColumn("categoryType");
-			categoriesGrid.removeColumn("projectId");
-			//categoriesGrid.removeColumn("address");
+			categoriesGrid.removeColumn("projectId");		;
 			categoriesGrid.removeColumn("isRRHH");			
 			categoriesGrid.removeColumn("createdDateTimeUTC");
 			categoriesGrid.removeColumn("createDateTimeUTCToShow");
@@ -394,6 +380,7 @@ public class CatalogProjectView extends BaseView {
 					cell.setComponent(txtFilter);
 				}
 			}
+			vlCategories.removeComponent(lblCategoriesEmpty);
 			vlCategories.addComponent(categoriesGrid);
 		}
 	}
@@ -469,7 +456,7 @@ public class CatalogProjectView extends BaseView {
 
 		tabProject = new TabSheet();
 		tabProject.setImmediate(false);
-		tabProject.setWidth("-1px");
+		tabProject.setWidth("600px");
 		tabProject.setHeight("-1px");
 		mainLayout.addComponent(tabProject, "top:90.0px;left:270.0px;");
 
