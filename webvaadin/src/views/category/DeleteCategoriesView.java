@@ -55,7 +55,7 @@ public class DeleteCategoriesView extends BaseView {
 		setCompositionRoot(mainLayout);
 
 		lblMessage = new Label("");
-		mainLayout.addComponent(lblMessage, "top:80.0px;left:0.0px;");
+		mainLayout.addComponent(lblMessage, "top:20.0%;left:0.0px;");
 
 		btnDelete.addClickListener(new Button.ClickListener() {
 
@@ -102,6 +102,9 @@ public class DeleteCategoriesView extends BaseView {
 		if (container != null && container.size() > 0) {
 
 			btnDelete.setVisible(true);
+			
+			lblMessage.setValue("");
+			lblInfo.setVisible(true);
 
 			grid = new Grid(container);
 			grid.removeColumn("id");
@@ -175,6 +178,7 @@ public class DeleteCategoriesView extends BaseView {
 			});
 		} else {
 			lblMessage.setValue("No hay rubros para mostrar");
+			lblInfo.setVisible(false);
 			if (grid != null) {
 				grid.setVisible(false);
 			}

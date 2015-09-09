@@ -58,12 +58,16 @@ public class CatalogProjectView extends BaseView {
 	private VerticalLayout vlCategories;
 	private VerticalLayout vlbBills;
 	private VerticalLayout vlbEmployees;
+	private Label lblMessage;
 
 	public CatalogProjectView() {
 
 		buildMainLayout();
 		setCompositionRoot(mainLayout);
 		buildTabSeet();
+		
+		lblMessage = new Label("");
+		mainLayout.addComponent(lblMessage, "top:20%;left:0.0px;");	
 
 		comboProject.addValueChangeListener(new ValueChangeListener() {
 
@@ -86,20 +90,34 @@ public class CatalogProjectView extends BaseView {
 		if (RequestContext.getRequestContext() != null) {
 
 			Collection<Project> projects = ProjectController.getProjects();
-			for (Project project : projects) {
-				comboProject.addItem(project.getId());
-				comboProject.setItemCaption(project.getId(), project.getName());
+			comboProject.removeAllItems();
+			comboProject.clear();
+			if(projects.size() != 0){
+				comboProject.setVisible(true);
+				tabProject.setVisible(true);
+				lblMessage.setValue("");
+				
+				for (Project project : projects) {
+					comboProject.addItem(project.getId());
+					comboProject.setItemCaption(project.getId(), project.getName());
+				}
+				setReadOnlyTxt(true);
+				if (categoriesGrid != null) {
+					vlCategories.removeComponent(categoriesGrid);
+				}
+				if (billGrid != null) {
+					vlbBills.removeComponent(billGrid);
+				}
+				if (employeesGrid != null) {
+					vlbEmployees.removeComponent(employeesGrid);
+				}
+				cleanTabProject();
+			} else {
+				comboProject.setVisible(false);
+				tabProject.setVisible(false);	
+				lblMessage.setValue("No hay proyectos para mostrar");		
 			}
-			setReadOnlyTxt(true);
-			if (categoriesGrid != null) {
-				vlCategories.removeComponent(categoriesGrid);
-			}
-			if (billGrid != null) {
-				vlbBills.removeComponent(billGrid);
-			}
-			if (employeesGrid != null) {
-				vlbEmployees.removeComponent(employeesGrid);
-			}
+				
 		}
 
 	}
@@ -576,6 +594,7 @@ public class CatalogProjectView extends BaseView {
 		comboProject.setImmediate(true);
 		comboProject.setWidth("240px");
 		comboProject.setHeight("-1px");
+		comboProject.setInputPrompt("Seleccione un proyecto");
 		mainLayout.addComponent(comboProject, "top:120.0px;left:0.0px;");
 
 		tabProject = new TabSheet();
