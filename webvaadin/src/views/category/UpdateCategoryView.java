@@ -505,7 +505,7 @@ public class UpdateCategoryView extends BaseView {
 		creationDate = new PopupDateField();
 		creationDate.setCaption("Correspondiente al mes");
 		creationDate.setImmediate(true);
-		creationDate.setWidth("140px");
+		creationDate.setWidth("165px");
 		creationDate.setHeight("-1px");
 		creationDate.setRequired(true);
 		creationDate.setDateFormat("MM-yyyy");
@@ -520,7 +520,7 @@ public class UpdateCategoryView extends BaseView {
 		categoryType.setImmediate(true);
 		categoryType.setWidth("-1px");
 		categoryType.setHeight("-1px");
-		mainLayout.addComponent(categoryType, "top:304.0px;left:345.0px;");
+		mainLayout.addComponent(categoryType, "top:309.0px;left:345.0px;");
 
 		// isRRHH
 		isRRHH = new OptionGroup();
@@ -536,7 +536,7 @@ public class UpdateCategoryView extends BaseView {
 		optCurrency.setImmediate(true);
 		optCurrency.setWidth("-1px");
 		optCurrency.setHeight("-1px");
-		mainLayout.addComponent(optCurrency, "top:389.0px;left:345.0px;");
+		mainLayout.addComponent(optCurrency, "top:399.0px;left:345.0px;");
 
 		// txtTypeExchange
 		txtTypeExchange = new TextField();
@@ -554,7 +554,7 @@ public class UpdateCategoryView extends BaseView {
 		txtAmount = new TextField();
 		txtAmount.setCaption("Importe sin IVA ($)");
 		txtAmount.setImmediate(true);
-		txtAmount.setWidth("150px");
+		txtAmount.setWidth("165px");
 		txtAmount.setHeight("-1px");
 		txtAmount.setConverter(new StringToDoubleConverter());
 		txtAmount.setRequired(true);
@@ -570,19 +570,20 @@ public class UpdateCategoryView extends BaseView {
 		cboxIvaTypes.setHeight("-1px");
 		cboxIvaTypes.setRequired(true);
 		cboxIvaTypes.setTabIndex(5);
-		mainLayout.addComponent(cboxIvaTypes, "top:554.0px;left:345.0px;");
+		cboxIvaTypes.setNullSelectionAllowed(false);
+		mainLayout.addComponent(cboxIvaTypes, "top:557.0px;left:345.0px;");
 
 		// txtTotalAmount
 		txtTotalAmount = new TextField();
 		txtTotalAmount.setCaption("Importe IVA incl. ($)");
 		txtTotalAmount.setImmediate(true);
-		txtTotalAmount.setWidth("155px");
+		txtTotalAmount.setWidth("165px");
 		txtTotalAmount.setHeight("-1px");
 		txtTotalAmount.setEnabled(false);
 		txtTotalAmount.setNullRepresentation("");
 		txtTotalAmount.setConverter(new StringToDoubleConverter());
 		txtTotalAmount.setTabIndex(6);
-		mainLayout.addComponent(txtTotalAmount, "top:619.0px;left:345.0px;");
+		mainLayout.addComponent(txtTotalAmount, "top:628.0px;left:345.0px;");
 
 		// btnCancel
 		btnCancel = new Button();
