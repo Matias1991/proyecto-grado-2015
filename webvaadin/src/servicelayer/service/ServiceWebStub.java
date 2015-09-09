@@ -37501,6 +37501,51 @@
                                }
                             
 
+                        /**
+                        * field for UserContextId
+                        */
+
+                        
+                                    protected int localUserContextId ;
+                                
+                           /*  This tracker boolean wil be used to detect whether the user called the set method
+                          *   for this attribute. It will be used to determine whether to include this field
+                           *   in the serialized XML
+                           */
+                           protected boolean localUserContextIdTracker = false ;
+
+                           public boolean isUserContextIdSpecified(){
+                               return localUserContextIdTracker;
+                           }
+
+                           
+
+                           /**
+                           * Auto generated getter method
+                           * @return int
+                           */
+                           public  int getUserContextId(){
+                               return localUserContextId;
+                           }
+
+                           
+                        
+                            /**
+                               * Auto generated setter method
+                               * @param param UserContextId
+                               */
+                               public void setUserContextId(int param){
+                            
+                                       // setting primitive attribute tracker to true
+                                       localUserContextIdTracker =
+                                       param != java.lang.Integer.MIN_VALUE;
+                                   
+                                            this.localUserContextId=param;
+                                    
+
+                               }
+                            
+
      
      
         /**
@@ -37593,6 +37638,19 @@
                                                    xmlWriter.writeCharacters(org.apache.axis2.databinding.utils.ConverterUtil.convertToString(localTo));
                                             
                                           }
+                                    
+                                   xmlWriter.writeEndElement();
+                             } if (localUserContextIdTracker){
+                                    namespace = "http://service.servicelayer";
+                                    writeStartElement(null, namespace, "userContextId", xmlWriter);
+                             
+                                               if (localUserContextId==java.lang.Integer.MIN_VALUE) {
+                                           
+                                                         throw new org.apache.axis2.databinding.ADBException("userContextId cannot be null!!");
+                                                      
+                                               } else {
+                                                    xmlWriter.writeCharacters(org.apache.axis2.databinding.utils.ConverterUtil.convertToString(localUserContextId));
+                                               }
                                     
                                    xmlWriter.writeEndElement();
                              }
@@ -37787,7 +37845,13 @@
                                  
                                          elementList.add(localTo==null?null:
                                          org.apache.axis2.databinding.utils.ConverterUtil.convertToString(localTo));
-                                    }
+                                    } if (localUserContextIdTracker){
+                                      elementList.add(new javax.xml.namespace.QName("http://service.servicelayer",
+                                                                      "userContextId"));
+                                 
+                                elementList.add(
+                                   org.apache.axis2.databinding.utils.ConverterUtil.convertToString(localUserContextId));
+                            }
 
                 return new org.apache.axis2.databinding.utils.reader.ADBXMLStreamReaderImpl(qName, elementList.toArray(), attribList.toArray());
             
@@ -37915,6 +37979,26 @@
                                 
                                     else {
                                         
+                                    }
+                                
+                                    
+                                    while (!reader.isStartElement() && !reader.isEndElement()) reader.next();
+                                
+                                    if (reader.isStartElement() && new javax.xml.namespace.QName("http://service.servicelayer","userContextId").equals(reader.getName())){
+                                
+                                    java.lang.String content = reader.getElementText();
+                                    
+                                              object.setUserContextId(
+                                                    org.apache.axis2.databinding.utils.ConverterUtil.convertToInt(content));
+                                              
+                                        reader.next();
+                                    
+                              }  // End of if for expected property start element
+                                
+                                    else {
+                                        
+                                               object.setUserContextId(java.lang.Integer.MIN_VALUE);
+                                           
                                     }
                                   
                             while (!reader.isStartElement() && !reader.isEndElement())

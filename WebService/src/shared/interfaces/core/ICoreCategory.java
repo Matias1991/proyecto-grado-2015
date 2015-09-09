@@ -24,4 +24,6 @@ public interface ICoreCategory {
 	ArrayList<Category> getCategoriesByProject(int projectId) throws ServerException, ClientException;
 
 	ArrayList<Category> getCategories(Date from, Date to) throws ServerException;
+	
+	ArrayList<Category> getCategoriesByManager(Date from, Date to, int managerId) throws ServerException;
 }

@@ -26,4 +26,7 @@ public interface IDAOCategroy extends IDAOBase<Category> {
 
 	ArrayList<Category> getCategories(Date from, Date to)
 			throws ServerException;
+
+	public ArrayList<Category> getCategoriesByManager(Date from, Date to, int managerId)
+			throws ServerException;
 }

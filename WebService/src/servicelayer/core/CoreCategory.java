@@ -165,17 +165,19 @@ public class CoreCategory implements ICoreCategory {
 		Category category;
 
 		DAOManager daoManager = new DAOManager();
-		category =  daoManager.getDAOCategories().getObject(id);
+		category = daoManager.getDAOCategories().getObject(id);
 		if (category == null)
 			throw new ClientException("No existe ningún rubro con ese id");
 		else {
-			if(category.getIsCurrencyDollar()){
-				category.setTotalAmountDollar(getTotalAmount(category.getAmountDollar(), category.getIvaType()));
+			if (category.getIsCurrencyDollar()) {
+				category.setTotalAmountDollar(getTotalAmount(
+						category.getAmountDollar(), category.getIvaType()));
 			} else {
-				category.setTotalAmountPeso(getTotalAmount(category.getAmountPeso(), category.getIvaType()));
+				category.setTotalAmountPeso(getTotalAmount(
+						category.getAmountPeso(), category.getIvaType()));
 			}
 		}
-		
+
 		return category;
 	}
 
@@ -193,17 +195,20 @@ public class CoreCategory implements ICoreCategory {
 	}
 
 	@Override
-	public ArrayList<Category> getCategories(Date from, Date to) throws ServerException {
+	public ArrayList<Category> getCategories(Date from, Date to)
+			throws ServerException {
 		ArrayList<Category> categories;
 
 		DAOManager daoManager = new DAOManager();
 		try {
 			categories = daoManager.getDAOCategories().getCategories(from, to);
 			for (Category category : categories) {
-				if(category.getIsCurrencyDollar()){
-					category.setTotalAmountDollar(getTotalAmount(category.getAmountDollar(), category.getIvaType()));
+				if (category.getIsCurrencyDollar()) {
+					category.setTotalAmountDollar(getTotalAmount(
+							category.getAmountDollar(), category.getIvaType()));
 				} else {
-					category.setTotalAmountPeso(getTotalAmount(category.getAmountPeso(), category.getIvaType()));
+					category.setTotalAmountPeso(getTotalAmount(
+							category.getAmountPeso(), category.getIvaType()));
 				}
 			}
 		} catch (ServerException e) {
@@ -228,8 +233,8 @@ public class CoreCategory implements ICoreCategory {
 		if (toUpdate.getTypeExchange() != oldCategory.getTypeExchange()) {
 			change = true;
 		}
-		
-		if(toUpdate.getIvaTypeId() != oldCategory.getIvaTypeId()){
+
+		if (toUpdate.getIvaTypeId() != oldCategory.getIvaTypeId()) {
 			change = true;
 		}
 
@@ -261,17 +266,39 @@ public class CoreCategory implements ICoreCategory {
 
 		return change;
 	}
-	
 
-	double getTotalAmount(double amount, IVA_Type ivaType)
-	{
+	double getTotalAmount(double amount, IVA_Type ivaType) {
 		double totalAmount = amount;
-		if(ivaType == IVA_Type.TEN || ivaType == IVA_Type.TWENTY_TWO)
-		{
+		if (ivaType == IVA_Type.TEN || ivaType == IVA_Type.TWENTY_TWO) {
 			totalAmount = amount * ivaType.getPercentage();
 		}
-		
+
 		return totalAmount;
+	}
+
+	@Override
+	public ArrayList<Category> getCategoriesByManager(Date from, Date to,
+			int managerId) throws ServerException {
+		ArrayList<Category> categories;
+
+		DAOManager daoManager = new DAOManager();
+		try {
+			categories = daoManager.getDAOCategories().getCategoriesByManager(from, to, managerId);
+			for (Category category : categories) {
+				if (category.getIsCurrencyDollar()) {
+					category.setTotalAmountDollar(getTotalAmount(
+							category.getAmountDollar(), category.getIvaType()));
+				} else {
+					category.setTotalAmountPeso(getTotalAmount(
+							category.getAmountPeso(), category.getIvaType()));
+				}
+			}
+		} catch (ServerException e) {
+			throw e;
+		} finally {
+			daoManager.close();
+		}
+		return categories;
 	}
 
 }

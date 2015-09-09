@@ -702,14 +702,18 @@ public class ServiceWeb extends ServiceBase {
 		return null;
 	}
 
-	public VOCategory[] getCategoriesByDate(Date from, Date to) {
-		try {
+	public VOCategory[] getCategoriesByDate(Date from, Date to, int userContextId) {
+		try {	
 			transactionLock.tryLock(Constants.DEFAULT_TRANSACTION_TIME,
 					TimeUnit.SECONDS);
-
-			return categoryBuilder.BuildArrayVOObject(VOCategory.class,
-					iCoreCategory.getCategories(from, to));
-
+			User user = iCoreUser.getUser(userContextId);
+			if (user.getUserType() == UserType.PARTNER) {
+				return categoryBuilder.BuildArrayVOObject(VOCategory.class,
+						iCoreCategory.getCategories(from, to));
+			} else {
+				return categoryBuilder.BuildArrayVOObject(VOCategory.class,
+						iCoreCategory.getCategoriesByManager(from, to, user.getId()));
+			}			
 		} catch (ServerException e) {
 			ThrowServerExceptionAndLogError(e,
 					"obtener los rubros por intervalo de fecha");

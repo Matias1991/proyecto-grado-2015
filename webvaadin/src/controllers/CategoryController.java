@@ -17,6 +17,7 @@ import servicelayer.service.ServiceWebStub.UpdateCategory;
 import servicelayer.service.ServiceWebStub.VOCategory;
 import utils.PopupWindow;
 import entities.Category;
+import entities.RequestContext;
 
 public class CategoryController {
 
@@ -119,6 +120,7 @@ public class CategoryController {
 
 			getCategory.setFrom(from);
 			getCategory.setTo(to);
+			getCategory.setUserContextId(RequestContext.getRequestContext().getId());
 
 			VOCategory[] voCategories = service
 					.getCategoriesByDate(getCategory).get_return();
