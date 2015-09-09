@@ -81,7 +81,7 @@ public class UpdateCategoryView extends BaseView {
 		setCompositionRoot(mainLayout);
 
 		lblMessage = new Label("");
-		mainLayout.addComponent(lblMessage, "top:80.0px;left:0.0px;");
+		mainLayout.addComponent(lblMessage, "top:10%;left:0.0px;");
 
 		categoryType.addItems("Empresa", "Proyecto");
 		categoryType.select("Empresa");
@@ -273,6 +273,8 @@ public class UpdateCategoryView extends BaseView {
 		if (categories != null && categories.size() > 0) {
 			lblMessage.setValue("");
 
+			setComponentsVisible(true);
+			
 			container = new BeanItemContainer<Category>(Category.class,
 					categories);
 
@@ -394,8 +396,7 @@ public class UpdateCategoryView extends BaseView {
 			if (grid != null) {
 				grid.setVisible(false);
 			}
-			btnCancel.setVisible(false);
-			btnUpdate.setVisible(false);
+			setComponentsVisible(false);
 		}
 	}
 
@@ -425,6 +426,21 @@ public class UpdateCategoryView extends BaseView {
 		optCurrency.setReadOnly(readOnly);
 		txtTypeExchange.setReadOnly(readOnly);
 		cboxIvaTypes.setReadOnly(readOnly);
+	}
+	
+
+	private void setComponentsVisible(boolean visible) {
+		txtAmount.setVisible(visible);
+		btnCancel.setVisible(!visible);
+		btnUpdate.setVisible(!visible);
+		txtDescription.setVisible(visible);
+		categoryType.setVisible(visible);
+		creationDate.setVisible(visible);
+		isRRHH.setVisible(visible);
+		optCurrency.setVisible(visible);
+		txtTypeExchange.setVisible(visible);
+		cboxIvaTypes.setVisible(visible);
+		lblInfo.setVisible(visible);
 	}
 
 	@Override
