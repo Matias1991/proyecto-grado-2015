@@ -7,6 +7,8 @@ import datalayer.daos.DAOManager;
 import servicelayer.entity.businessEntity.Bill;
 import servicelayer.entity.businessEntity.Charge;
 import servicelayer.entity.businessEntity.IVA_Type;
+import servicelayer.entity.businessEntity.Project;
+import servicelayer.entity.businessEntity.User;
 import shared.exceptions.ClientException;
 import shared.exceptions.ServerException;
 import shared.interfaces.core.ICoreBill;
@@ -151,13 +153,13 @@ public class CoreBill implements ICoreBill {
 	}
 
 	@Override
-	public ArrayList<Bill> getBills(Date from, Date to, boolean isLiquidated)
+	public ArrayList<Bill> getBills(Date from, Date to, boolean isLiquidated, User userContext)
 			throws ServerException {
 		ArrayList<Bill> bills;
 
 		DAOManager daoManager = new DAOManager();
 		try {
-			bills = daoManager.getDAOBills().getBills(from, to, isLiquidated);
+			bills = daoManager.getDAOBills().getBills(from, to, isLiquidated, userContext);
 
 			for (Bill bill : bills) {
 				buildTotalAmountAndTotalCharged(bill);
@@ -173,13 +175,13 @@ public class CoreBill implements ICoreBill {
 
 	@Override
 	public ArrayList<Bill> getBills(Date from, Date to, boolean isLiquidated,
-			boolean withCharges) throws ServerException {
+			boolean withCharges, User userContext) throws ServerException {
 		ArrayList<Bill> bills;
 
 		DAOManager daoManager = new DAOManager();
 		try {
 			bills = daoManager.getDAOBills().getBills(from, to, isLiquidated,
-					withCharges);
+					withCharges, userContext);
 
 			if(withCharges)
 			{
@@ -209,12 +211,12 @@ public class CoreBill implements ICoreBill {
 	}
 
 	@Override
-	public ArrayList<Bill> getBills(Date from, Date to) throws ServerException {
+	public ArrayList<Bill> getBills(Date from, Date to, User userContext) throws ServerException {
 		ArrayList<Bill> bills;
 
 		DAOManager daoManager = new DAOManager();
 		try {
-			bills = daoManager.getDAOBills().getBills(from, to);
+			bills = daoManager.getDAOBills().getBills(from, to, userContext);
 
 			for (Bill bill : bills) {
 				buildTotalAmountAndTotalCharged(bill);
@@ -229,13 +231,14 @@ public class CoreBill implements ICoreBill {
 	}
 
 	@Override
-	public ArrayList<Bill> getBillsWithCharges(Date from, Date to)
+	public ArrayList<Bill> getBillsWithCharges(Date from, Date to, User userContext)
 			throws ServerException {
 		ArrayList<Bill> bills;
 
 		DAOManager daoManager = new DAOManager();
 		try {
-			bills = daoManager.getDAOBills().getBillsWithCharges(from, to);
+			
+			bills = daoManager.getDAOBills().getBillsWithCharges(from, to, userContext);
 
 			for (Bill bill : bills) {
 				buildTotalAmountAndTotalCharged(bill);
@@ -264,7 +267,7 @@ public class CoreBill implements ICoreBill {
 		}
 		return bills;
 	}
-
+	
 	double getTotalAmount(double amount, IVA_Type ivaType)
 	{
 		double totalAmount = amount;

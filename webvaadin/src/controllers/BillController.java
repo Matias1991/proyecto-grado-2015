@@ -23,6 +23,7 @@ import servicelayer.service.ServiceWebStub.VOCategory;
 import utils.PopupWindow;
 import entities.Bill;
 import entities.Category;
+import entities.RequestContext;
 
 public class BillController {
 
@@ -134,6 +135,7 @@ public class BillController {
 			getAllBillsByFilters.setFrom(from);
 			getAllBillsByFilters.setTo(to);
 			getAllBillsByFilters.setIsLiquidated(isLiquidated);
+			getAllBillsByFilters.setUserContextId(RequestContext.getRequestContext().getId());
 			
 			VOBill [] voBills = service.getAllBillsByFilters(getAllBillsByFilters).get_return();
 
@@ -168,6 +170,7 @@ public class BillController {
 			getBillsByFilters.setTo(to);
 			getBillsByFilters.setIsLiquidated(isLiquidated);
 			getBillsByFilters.setWithCharges(withCharges);
+			getBillsByFilters.setUserContextId(RequestContext.getRequestContext().getId());
 			
 			VOBill [] voBills = service.getBillsByFilters(getBillsByFilters).get_return();
 
@@ -203,6 +206,7 @@ public class BillController {
 			
 			getBills.setFrom(from);
 			getBills.setTo(to);
+			getBills.setUserContextId(RequestContext.getRequestContext().getId());
 			
 			VOBill [] voBills = service.getBills(getBills).get_return();
 
@@ -238,6 +242,7 @@ public class BillController {
 			
 			getBillsByFiltersWithCharges.setFrom(from);
 			getBillsByFiltersWithCharges.setTo(to);
+			getBillsByFiltersWithCharges.setUserContextId(RequestContext.getRequestContext().getId());
 			
 			VOBill [] voBills = service.getBillsByFiltersWithCharges(getBillsByFiltersWithCharges).get_return();
 

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import servicelayer.entity.businessEntity.DistributionType;
 import servicelayer.entity.businessEntity.Project;
+import servicelayer.entity.businessEntity.User;
 import shared.exceptions.ServerException;
 
 public interface IDAOProjects extends IDAOBase<Project> {
@@ -17,6 +18,6 @@ public interface IDAOProjects extends IDAOBase<Project> {
 
 	ArrayList<DistributionType> getDistributionTypes() throws ServerException;
 
-	ArrayList<Project> getProjectsByManager(int managerId)
+	ArrayList<Project> getProjects(User userContext)
 			throws ServerException;
 }

@@ -773,13 +773,15 @@ public class ServiceWeb extends ServiceBase {
 		return null;
 	}
 
-	public VOBill[] getBills(Date from, Date to) {
+	public VOBill[] getBills(Date from, Date to, int userContextId) {
 		try {
 			transactionLock.tryLock(Constants.DEFAULT_TRANSACTION_TIME,
 					TimeUnit.SECONDS);
 
+			User userContext = iCoreUser.getUser(userContextId);
+			
 			return billBuilder.BuildArrayVOObject(VOBill.class,
-					iCoreBill.getBills(from, to));
+					iCoreBill.getBills(from, to, userContext));
 
 		} catch (ServerException e) {
 			ThrowServerExceptionAndLogError(e, "obtener todos las facturas");
@@ -794,13 +796,15 @@ public class ServiceWeb extends ServiceBase {
 	}
 
 	public VOBill[] getAllBillsByFilters(Date from, Date to,
-			boolean isLiquidated) {
+			boolean isLiquidated, int userContextId) {
 		try {
 			transactionLock.tryLock(Constants.DEFAULT_TRANSACTION_TIME,
 					TimeUnit.SECONDS);
 
+			User userContext = iCoreUser.getUser(userContextId);
+			
 			return billBuilder.BuildArrayVOObject(VOBill.class,
-					iCoreBill.getBills(from, to, isLiquidated));
+					iCoreBill.getBills(from, to, isLiquidated, userContext));
 
 		} catch (ServerException e) {
 			ThrowServerExceptionAndLogError(e, "obtener todas las facturas");
@@ -815,13 +819,15 @@ public class ServiceWeb extends ServiceBase {
 	}
 
 	public VOBill[] getBillsByFilters(Date from, Date to, boolean isLiquidated,
-			boolean withCharges) {
+			boolean withCharges, int userContextId) {
 		try {
 			transactionLock.tryLock(Constants.DEFAULT_TRANSACTION_TIME,
 					TimeUnit.SECONDS);
 
+			User userContext = iCoreUser.getUser(userContextId);
+			
 			return billBuilder.BuildArrayVOObject(VOBill.class,
-					iCoreBill.getBills(from, to, isLiquidated, withCharges));
+					iCoreBill.getBills(from, to, isLiquidated, withCharges, userContext));
 
 		} catch (ServerException e) {
 			ThrowServerExceptionAndLogError(e, "obtener todos las facturas");
@@ -835,13 +841,15 @@ public class ServiceWeb extends ServiceBase {
 		return null;
 	}
 
-	public VOBill[] getBillsByFiltersWithCharges(Date from, Date to) {
+	public VOBill[] getBillsByFiltersWithCharges(Date from, Date to, int userContextId) {
 		try {
 			transactionLock.tryLock(Constants.DEFAULT_TRANSACTION_TIME,
 					TimeUnit.SECONDS);
 
+			User userContext = iCoreUser.getUser(userContextId);
+			
 			return billBuilder.BuildArrayVOObject(VOBill.class,
-					iCoreBill.getBillsWithCharges(from, to));
+					iCoreBill.getBillsWithCharges(from, to, userContext));
 
 		} catch (ServerException e) {
 			ThrowServerExceptionAndLogError(e, "obtener todos las facturas");
@@ -979,15 +987,10 @@ public class ServiceWeb extends ServiceBase {
 			transactionLock.tryLock(Constants.DEFAULT_TRANSACTION_TIME,
 					TimeUnit.SECONDS);
 
-			User user = iCoreUser.getUser(userContextId);
-
-			if (user.getUserType() == UserType.PARTNER) {
-				return projectBuilder.BuildArrayVOObject(VOProject.class,
-						iCoreProject.getProjects());
-			} else {
-				return projectBuilder.BuildArrayVOObject(VOProject.class,
-						iCoreProject.getProjectsByManager(user.getId()));
-			}
+			User userContext = iCoreUser.getUser(userContextId);
+			
+			return projectBuilder.BuildArrayVOObject(VOProject.class,
+					iCoreProject.getProjects(userContext));
 
 		} catch (ServerException e) {
 			ThrowServerExceptionAndLogError(e, "obtener todos los proyectos");
@@ -1152,13 +1155,15 @@ public class ServiceWeb extends ServiceBase {
 		return false;
 	}
 
-	public VOCharge[] getCharges() {
+	public VOCharge[] getCharges(int userContextId) {
 		try {
 			transactionLock.tryLock(Constants.DEFAULT_TRANSACTION_TIME,
 					TimeUnit.SECONDS);
 
+			User userContext = iCoreUser.getUser(userContextId);
+			
 			return chargeBuilder.BuildArrayVOObject(VOCharge.class,
-					iCoreCharge.getCharges());
+					iCoreCharge.getCharges(userContext));
 
 		} catch (ServerException e) {
 			ThrowServerExceptionAndLogError(e, "obtener cobros por factura");

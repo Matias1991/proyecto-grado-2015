@@ -20,6 +20,7 @@ import servicelayer.service.ServiceWebStub.VOCharge;
 import utils.PopupWindow;
 import entities.Bill;
 import entities.Charge;
+import entities.RequestContext;
 
 public class ChargeController {
 	
@@ -144,6 +145,8 @@ public class ChargeController {
 		try {
 			ServiceWebStub service = new ServiceWebStub();
 			GetCharges getCharges = new GetCharges();
+			
+			getCharges.setUserContextId(RequestContext.getRequestContext().getId());
 			
 			VOCharge [] voCharges = service.getCharges(getCharges).get_return();
 

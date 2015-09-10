@@ -12,6 +12,8 @@ import java.util.Date;
 import servicelayer.entity.businessEntity.Bill;
 import servicelayer.entity.businessEntity.IVA_Type;
 import servicelayer.entity.businessEntity.Project;
+import servicelayer.entity.businessEntity.User;
+import servicelayer.entity.businessEntity.UserType;
 import shared.LoggerMSMP;
 import shared.exceptions.ServerException;
 import shared.interfaces.dataLayer.IDAOBills;
@@ -308,7 +310,7 @@ public class DAOBills implements IDAOBills {
 	}
 
 	@Override
-	public ArrayList<Bill> getBills(Date from, Date to, boolean isLiquidated)
+	public ArrayList<Bill> getBills(Date from, Date to, boolean isLiquidated, User userContext)
 			throws ServerException {
 		ArrayList<Bill> bills = new ArrayList<Bill>();
 		PreparedStatement preparedStatement = null;
@@ -320,6 +322,8 @@ public class DAOBills implements IDAOBills {
 			sql.append("INNER JOIN PROJECT P ON P.Id = B.ProjectId ");
 			sql.append("WHERE B.AppliedDateTimeUTC between ? AND ? ");
 			sql.append("AND B.IsLiquidated = ? ");
+			if(userContext.getUserType() == UserType.MANAGER)
+				sql.append("AND P.ManagerId = ? ");
 			sql.append("ORDER BY B.AppliedDateTimeUTC DESC");
 
 			preparedStatement = this.connection
@@ -330,6 +334,9 @@ public class DAOBills implements IDAOBills {
 					new Timestamp(setFirstDayOfMonth(to).getTime()));
 			preparedStatement.setBoolean(3, isLiquidated);
 
+			if(userContext.getUserType() == UserType.MANAGER)
+				preparedStatement.setInt(4, userContext.getId());
+			
 			rs = preparedStatement.executeQuery();
 
 			while (rs.next()) {
@@ -359,7 +366,7 @@ public class DAOBills implements IDAOBills {
 
 	@Override
 	public ArrayList<Bill> getBills(Date from, Date to, boolean isLiquidated,
-			boolean withCharges) throws ServerException {
+			boolean withCharges, User userContext) throws ServerException {
 		ArrayList<Bill> bills = new ArrayList<Bill>();
 		PreparedStatement preparedStatement = null;
 		ResultSet rs = null;
@@ -374,6 +381,10 @@ public class DAOBills implements IDAOBills {
 				sql.append("AND B.Id IN (SELECT BillId FROM CHARGE) ");
 			else
 				sql.append("AND B.Id NOT IN (SELECT BillId FROM CHARGE) ");
+			
+			if(userContext.getUserType() == UserType.MANAGER)
+				sql.append("AND P.ManagerId = ? ");
+			
 			sql.append("ORDER BY B.AppliedDateTimeUTC DESC");
 
 			preparedStatement = this.connection
@@ -384,6 +395,9 @@ public class DAOBills implements IDAOBills {
 					new Timestamp(setFirstDayOfMonth(to).getTime()));
 			preparedStatement.setBoolean(3, isLiquidated);
 
+			if(userContext.getUserType() == UserType.MANAGER)
+				preparedStatement.setInt(4, userContext.getId());
+			
 			rs = preparedStatement.executeQuery();
 
 			while (rs.next()) {
@@ -412,7 +426,7 @@ public class DAOBills implements IDAOBills {
 	}
 
 	@Override
-	public ArrayList<Bill> getBills(Date from, Date to) throws ServerException {
+	public ArrayList<Bill> getBills(Date from, Date to, User userContext) throws ServerException {
 		ArrayList<Bill> bills = new ArrayList<Bill>();
 		PreparedStatement preparedStatement = null;
 		ResultSet rs = null;
@@ -422,6 +436,8 @@ public class DAOBills implements IDAOBills {
 			sql.append("SELECT B.*, P.Name as ProjectName, P.Closed as ProjectClosed FROM BILL B ");
 			sql.append("INNER JOIN PROJECT P ON P.Id = B.ProjectId ");
 			sql.append("WHERE B.AppliedDateTimeUTC between ? AND ? ");
+			if(userContext.getUserType() == UserType.MANAGER)
+				sql.append("AND P.ManagerId = ? ");
 			sql.append("ORDER BY B.AppliedDateTimeUTC DESC");
 
 			preparedStatement = this.connection
@@ -431,6 +447,9 @@ public class DAOBills implements IDAOBills {
 			preparedStatement.setTimestamp(2,
 					new Timestamp(setFirstDayOfMonth(to).getTime()));
 
+			if(userContext.getUserType() == UserType.MANAGER)
+				preparedStatement.setInt(3, userContext.getId());
+			
 			rs = preparedStatement.executeQuery();
 
 			while (rs.next()) {
@@ -459,7 +478,7 @@ public class DAOBills implements IDAOBills {
 	}
 	
 	@Override
-	public ArrayList<Bill> getBillsWithCharges(Date from, Date to) throws ServerException {
+	public ArrayList<Bill> getBillsWithCharges(Date from, Date to, User userContext) throws ServerException {
 		ArrayList<Bill> bills = new ArrayList<Bill>();
 		PreparedStatement preparedStatement = null;
 		ResultSet rs = null;
@@ -470,8 +489,12 @@ public class DAOBills implements IDAOBills {
 			sql.append("INNER JOIN PROJECT P ON P.Id = B.ProjectId ");
 			sql.append("WHERE B.AppliedDateTimeUTC between ? AND ? ");
 			sql.append("AND B.Id IN (SELECT BillId FROM CHARGE) ");
-			sql.append("ORDER BY B.AppliedDateTimeUTC DESC");
 
+			if(userContext.getUserType() == UserType.MANAGER)
+				sql.append("AND P.ManagerId = ? ");
+
+			sql.append("ORDER BY B.AppliedDateTimeUTC DESC");
+			
 			preparedStatement = this.connection
 					.prepareStatement(sql.toString());
 			preparedStatement.setTimestamp(1,
@@ -479,6 +502,9 @@ public class DAOBills implements IDAOBills {
 			preparedStatement.setTimestamp(2,
 					new Timestamp(setFirstDayOfMonth(to).getTime()));
 
+			if(userContext.getUserType() == UserType.MANAGER)
+				preparedStatement.setInt(3, userContext.getId());
+			
 			rs = preparedStatement.executeQuery();
 
 			while (rs.next()) {

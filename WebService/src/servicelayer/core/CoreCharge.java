@@ -2,9 +2,11 @@ package servicelayer.core;
 
 import java.util.ArrayList;
 import java.util.Date;
+
 import datalayer.daos.DAOManager;
 import servicelayer.entity.businessEntity.Bill;
 import servicelayer.entity.businessEntity.Charge;
+import servicelayer.entity.businessEntity.User;
 import shared.exceptions.ClientException;
 import shared.exceptions.ServerException;
 import shared.interfaces.core.ICoreCharge;
@@ -105,11 +107,11 @@ public class CoreCharge implements ICoreCharge {
 	}
 
 	@Override
-	public ArrayList<Charge> getCharges() throws ServerException {
+	public ArrayList<Charge> getCharges(User userContext) throws ServerException {
 		
 		DAOManager daoManager = new DAOManager();
 		try {
-			return daoManager.getDAOCharges().getObjects();
+			return daoManager.getDAOCharges().getCharges(userContext);
 
 		} catch (ServerException e) {
 			throw e;
