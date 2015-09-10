@@ -39,13 +39,14 @@ public class DeleteProjectView extends BaseView {
 	private BeanItemContainer<Project> beanContainer;
 	private Label lblMessage;
 	private Button btnDelete;
+	
 
 	public DeleteProjectView() {
 		buildMainLayout();
 		setCompositionRoot(mainLayout);
 
 		lblMessage = new Label("");
-		mainLayout.addComponent(lblMessage, "top:80.0px;left:0.0px;");
+		mainLayout.addComponent(lblMessage, "top:100.0px;left:0.0px;");
 
 		btnDelete.addClickListener(new Button.ClickListener() {
 
@@ -86,6 +87,7 @@ public class DeleteProjectView extends BaseView {
 				.getProjectsByStatus(false);
 
 		if (projects != null && projects.size() > 0) {
+			btnDelete.setVisible(true);
 			beanContainer = new BeanItemContainer<Project>(Project.class,
 					projects);
 
@@ -157,6 +159,7 @@ public class DeleteProjectView extends BaseView {
 
 		} else {
 			lblMessage.setValue("No hay proyectos para eliminar");
+			btnDelete.setVisible(false);
 		}
 	}
 
