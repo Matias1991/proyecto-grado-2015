@@ -78,3 +78,7 @@ TABLE.LOG_IN_FORM {
 UL.loginUL LI {
 	padding: 10pt;
 }
+
+.v-select-optiongroup-horizontalgroup .v-select-option {
+    display: inline-block;
+}
