@@ -639,14 +639,18 @@ public class ServiceWeb extends ServiceBase {
 		return false;
 	}
 
-	public VOCategory[] getCategories() {
+	public VOCategory[] getCategories(int userContextId) {
 		try {
 			transactionLock.tryLock(Constants.DEFAULT_TRANSACTION_TIME,
 					TimeUnit.SECONDS);
-
-			return categoryBuilder.BuildArrayVOObject(VOCategory.class,
-					iCoreCategory.getCategories());
-
+			User user = iCoreUser.getUser(userContextId);
+			if (user.getUserType() == UserType.PARTNER) {
+				return categoryBuilder.BuildArrayVOObject(VOCategory.class,
+						iCoreCategory.getCategories());
+			} else {
+				return categoryBuilder.BuildArrayVOObject(VOCategory.class,
+						iCoreCategory.getCategoriesByManager(user.getId()));
+			}
 		} catch (ServerException e) {
 			ThrowServerExceptionAndLogError(e, "obtener todos los rubros");
 		} catch (InterruptedException e) {

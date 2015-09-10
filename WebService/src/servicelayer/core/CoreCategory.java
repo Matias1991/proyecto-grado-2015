@@ -283,7 +283,34 @@ public class CoreCategory implements ICoreCategory {
 
 		DAOManager daoManager = new DAOManager();
 		try {
-			categories = daoManager.getDAOCategories().getCategoriesByManager(from, to, managerId);
+			categories = daoManager.getDAOCategories().getCategoriesByManager(
+					from, to, managerId);
+			for (Category category : categories) {
+				if (category.getIsCurrencyDollar()) {
+					category.setTotalAmountDollar(getTotalAmount(
+							category.getAmountDollar(), category.getIvaType()));
+				} else {
+					category.setTotalAmountPeso(getTotalAmount(
+							category.getAmountPeso(), category.getIvaType()));
+				}
+			}
+		} catch (ServerException e) {
+			throw e;
+		} finally {
+			daoManager.close();
+		}
+		return categories;
+	}
+
+	@Override
+	public ArrayList<Category> getCategoriesByManager(int managerId)
+			throws ServerException {
+		ArrayList<Category> categories;
+
+		DAOManager daoManager = new DAOManager();
+		try {
+			categories = daoManager.getDAOCategories().getCategoriesByManager(
+					managerId);
 			for (Category category : categories) {
 				if (category.getIsCurrencyDollar()) {
 					category.setTotalAmountDollar(getTotalAmount(
