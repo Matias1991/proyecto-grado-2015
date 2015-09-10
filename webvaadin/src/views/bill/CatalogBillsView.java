@@ -143,7 +143,7 @@ public class CatalogBillsView extends BaseView {
 			billsGrid.getColumn("typeExchangeToShow").setHeaderCaption("Tipo de cambio");
 			billsGrid.getColumn("amountChargedToShow").setHeaderCaption("Importe cobrado");
 			billsGrid.getColumn("amountReceivableToShow").setHeaderCaption("Importe a cobrar");
-			billsGrid.getColumn("appliedDateTimeUTCToShow").setHeaderCaption("Mes");
+			billsGrid.getColumn("appliedDateTimeUTCToShow").setHeaderCaption("Correspondiente al mes");
 			billsGrid.getColumn("projectName").setHeaderCaption("Proyecto");
 		
 			billsGrid.getColumn("description").setWidth(200);

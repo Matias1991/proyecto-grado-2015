@@ -181,7 +181,7 @@ public class DeleteBillsView extends BaseView {
 			billsGrid.getColumn("ivaTypeToShow").setHeaderCaption("IVA");
 			billsGrid.getColumn("totalAmountToShow").setHeaderCaption("Importe IVA incl.");
 			billsGrid.getColumn("typeExchangeToShow").setHeaderCaption("Tipo de cambio");
-			billsGrid.getColumn("appliedDateTimeUTCToShow").setHeaderCaption("Mes");
+			billsGrid.getColumn("appliedDateTimeUTCToShow").setHeaderCaption("Correspondiente al mes");
 			billsGrid.getColumn("projectName").setHeaderCaption("Proyecto");
 			billsGrid.setWidth(100, Unit.PERCENTAGE);
 			billsGrid.setHeight(100, Unit.PERCENTAGE);

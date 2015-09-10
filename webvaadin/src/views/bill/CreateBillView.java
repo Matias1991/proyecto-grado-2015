@@ -116,21 +116,12 @@ public class CreateBillView extends BaseView {
 				txtCode.setValidationVisible(true);
 				cboxProject.setValidationVisible(true);
 				txtTypeExchange.setValidationVisible(true);
-				txtTotalAmount.setValidationVisible(true);
-				cboxIVA_Types.setValidationVisible(true);
 				
 				boolean valid = true;
 				
 				if(txtTypeExchange.isVisible() && !txtTypeExchange.isValid())
 				{
 					txtTypeExchange.setRequiredError("Es requerido");
-					valid = false;
-				}
-				
-				if(!txtTotalAmount.isValid() || !cboxIVA_Types.isValid())
-				{
-					txtTotalAmount.setRequiredError("Es requerido");
-					cboxIVA_Types.setRequiredError("Es requerido");
 					valid = false;
 				}
 				
@@ -252,14 +243,13 @@ public class CreateBillView extends BaseView {
 		txtCode.setValidationVisible(false);
 		txtTypeExchange.setValidationVisible(false);
 		cboxProject.setValidationVisible(false);
-		cboxIVA_Types.setValidationVisible(false);
-		txtTotalAmount.setValidationVisible(false);
 		
 		popupDateFieldAppliedDate.setValue(new Date());
 		
 		txtTypeExchange.setVisible(false);
-		
-		txtAmount.setCaption("Importe");
+
+		txtAmount.setCaption("Importe sin IVA");
+		txtTotalAmount.setCaption("Importe IVA incl.");
 	}
 
 	void buildBillCurrency(boolean isCurrencyDollar)
@@ -323,9 +313,9 @@ public class CreateBillView extends BaseView {
 		
 		// popupDateFieldAppliedDate
 		popupDateFieldAppliedDate = new PopupDateField();
-		popupDateFieldAppliedDate.setCaption("Mes");
+		popupDateFieldAppliedDate.setCaption("Correspondiente al mes");
 		popupDateFieldAppliedDate.setImmediate(false);
-		popupDateFieldAppliedDate.setWidth("-1px");
+		popupDateFieldAppliedDate.setWidth("165px");
 		popupDateFieldAppliedDate.setHeight("-1px");
 		popupDateFieldAppliedDate.setRequired(true);
 		popupDateFieldAppliedDate.setDateFormat("MM-yyyy");
@@ -333,7 +323,7 @@ public class CreateBillView extends BaseView {
 		popupDateFieldAppliedDate.setResolution(Resolution.MONTH);
 		popupDateFieldAppliedDate.setTabIndex(7);
 		mainLayout.addComponent(popupDateFieldAppliedDate,
-				"top:439.0px;left:0.0px;");
+				"top:445.0px;left:0.0px;");
 		
 		// btnCreate
 		btnCreate = new Button();
@@ -368,7 +358,7 @@ public class CreateBillView extends BaseView {
 		
 		// txtAmount
 		txtAmount = new TextField();
-		txtAmount.setCaption("Importe");
+		txtAmount.setCaption("Importe sin IVA");
 		txtAmount.setImmediate(true);
 		txtAmount.setWidth("155px");
 		txtAmount.setHeight("-1px");
@@ -380,11 +370,10 @@ public class CreateBillView extends BaseView {
 		
 		// txtTotalAmount
 		txtTotalAmount = new TextField();
-		txtTotalAmount.setCaption("Importe");
+		txtTotalAmount.setCaption("Importe IVA incl.");
 		txtTotalAmount.setImmediate(true);
 		txtTotalAmount.setWidth("155px");
 		txtTotalAmount.setHeight("-1px");
-		txtTotalAmount.setRequired(true);
 		txtTotalAmount.setEnabled(false);
 		txtTotalAmount.setNullRepresentation("");
 		txtTotalAmount.setConverter(new StringToDoubleConverter());
@@ -407,7 +396,6 @@ public class CreateBillView extends BaseView {
 		cboxIVA_Types.setImmediate(true);
 		cboxIVA_Types.setWidth("120px");
 		cboxIVA_Types.setHeight("-1px");
-		cboxIVA_Types.setRequired(true);
 		cboxIVA_Types.setTabIndex(5);
 		cboxIVA_Types.setNullSelectionAllowed(false);
 		mainLayout.addComponent(cboxIVA_Types, "top:314.0px;left:0.0px;");

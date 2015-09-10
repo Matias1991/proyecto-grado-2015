@@ -14,7 +14,7 @@ public interface IDAOCharges extends IDAOBase<Charge> {
 	
 	void deleteCharges(int[] ids) throws ServerException;
 	
-	ArrayList<Charge> getCharges(boolean isBillLiquidated, boolean isProjectClosed) throws ServerException;
+	ArrayList<Charge> getCharges(boolean isBillLiquidated, boolean isProjectClosed, User userContext) throws ServerException;
 	
 	ArrayList<Charge> getCharges(User userContext) throws ServerException;
 }

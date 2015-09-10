@@ -155,11 +155,11 @@ public class CoreCharge implements ICoreCharge {
 	
 	@Override
 	public ArrayList<Charge> getCharges(boolean isBillLiquidated,
-			boolean isProjectClosed) throws ServerException {
+			boolean isProjectClosed, User userContext) throws ServerException {
 		
 		DAOManager daoManager = new DAOManager();
 		try {
-			return daoManager.getDAOCharges().getCharges(isBillLiquidated, isProjectClosed);
+			return daoManager.getDAOCharges().getCharges(isBillLiquidated, isProjectClosed, userContext);
 
 		} catch (ServerException e) {
 			throw e;

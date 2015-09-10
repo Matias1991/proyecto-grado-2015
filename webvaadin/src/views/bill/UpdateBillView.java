@@ -151,10 +151,7 @@ public class UpdateBillView extends BaseView {
 				btnCancel.setEnabled(false);
 				txtDescription.setValidationVisible(true);
 				txtAmount.setValidationVisible(true);
-				comboBoxProjects.setValidationVisible(true);
 				txtTypeExchange.setValidationVisible(true);
-				txtTotalAmount.setValidationVisible(true);
-				cboxIVA_Types.setValidationVisible(true);
 				
 				boolean valid = true;
 				
@@ -164,19 +161,11 @@ public class UpdateBillView extends BaseView {
 					valid = false;
 				}
 				
-				if(!txtTotalAmount.isValid() || !cboxIVA_Types.isValid())
-				{
-					txtTotalAmount.setRequiredError("Es requerido");
-					cboxIVA_Types.setRequiredError("Es requerido");
-					valid = false;
-				}
-				
-				if(!txtAmount.isValid() || !txtDescription.isValid() || !popupDateFieldAppliedDate.isValid() || !comboBoxProjects.isValid()){
+				if(!txtAmount.isValid() || !txtDescription.isValid() || !popupDateFieldAppliedDate.isValid()){
 					txtAmount.setRequiredError("Es requerido");
 					txtDescription.setRequiredError("Es requerido");
 					txtAmount.setConversionError("Debe ser numérico");
 					popupDateFieldAppliedDate.setRequiredError("Es requerido");
-					comboBoxProjects.setRequiredError("Es requerido");
 					valid = false;
 				}
 				
@@ -278,9 +267,6 @@ public class UpdateBillView extends BaseView {
 		txtDescription.setValidationVisible(false);
 		txtAmount.setValidationVisible(false);
 		txtTypeExchange.setValidationVisible(false);
-		comboBoxProjects.setValidationVisible(false);
-		cboxIVA_Types.setValidationVisible(false);
-		txtTotalAmount.setValidationVisible(false);
 		
 		popupDateFieldAppliedDate.setValue(new Date());
 		
@@ -293,6 +279,9 @@ public class UpdateBillView extends BaseView {
 		cboxIVA_Types.setNullSelectionItemId(null);
 	
 		txtTypeExchange.setVisible(false);
+		
+		txtAmount.setCaption("Importe sin IVA");
+		txtTotalAmount.setCaption("Importe IVA incl.");
 	}
 	
 	void builInputs()
@@ -344,7 +333,10 @@ public class UpdateBillView extends BaseView {
 			comboBoxProjects.addItem(project.getId());
 			comboBoxProjects.setItemCaption(project.getId(), project.getName());
 		}
-		
+	}
+	
+	void buildIVA_Types()
+	{
 		cboxIVA_Types.removeAllItems();
 		
 		cboxIVA_Types.addItem(1);
@@ -353,6 +345,8 @@ public class UpdateBillView extends BaseView {
 		cboxIVA_Types.setItemCaption(2, "10%");
 		cboxIVA_Types.addItem(3);
 		cboxIVA_Types.setItemCaption(3, "22%");
+		
+		cboxIVA_Types.setValue(3);
 	}
 	
 	public void buildGrid(){
@@ -441,6 +435,7 @@ public class UpdateBillView extends BaseView {
 						setEnabledEditionInputs(true);
 						setRequiredEditionInputs(true);
 						buildProjects();
+						buildIVA_Types();
 						buildEntityData(selectedBill);
 					}
 					else
@@ -456,6 +451,7 @@ public class UpdateBillView extends BaseView {
 			setVisibleEditionInputs(true);
 			setEnabledEditionInputs(false);
 			setRequiredEditionInputs(false);
+			clearInputs();
 		}
 		else
 		{
@@ -468,6 +464,8 @@ public class UpdateBillView extends BaseView {
 			String strDateTo = new SimpleDateFormat("MM-yyyy").format(popupDateFieldTo.getValue());
 
 			lblMessage.setValue("No hay facturas para mostrar entre el rango fechas " + strDateFrom  + " - " + strDateTo);
+			
+			txtTypeExchange.setVisible(false);
 			
 			setVisibleEditionInputs(false);
 		}
@@ -489,10 +487,7 @@ public class UpdateBillView extends BaseView {
 		txtDescription.setRequired(required);
 		txtAmount.setRequired(required);
 		txtAmount.setRequired(required);
-		comboBoxProjects.setRequired(required);
 		popupDateFieldAppliedDate.setRequired(required);
-		cboxIVA_Types.setRequired(required);
-		txtTotalAmount.setRequired(required);
 	}
 	
 	void setVisibleEditionInputs(boolean visible)
@@ -637,8 +632,8 @@ public class UpdateBillView extends BaseView {
 		cboxIVA_Types.setImmediate(true);
 		cboxIVA_Types.setWidth("120px");
 		cboxIVA_Types.setHeight("-1px");
-		cboxIVA_Types.setRequired(true);
 		cboxIVA_Types.setTabIndex(5);
+		cboxIVA_Types.setNullSelectionAllowed(false);
 		mainLayout.addComponent(cboxIVA_Types, "top:450.0px;left:615.0px;");
 		
 		// txtTotalAmount
@@ -647,7 +642,6 @@ public class UpdateBillView extends BaseView {
 		txtTotalAmount.setImmediate(true);
 		txtTotalAmount.setWidth("155px");
 		txtTotalAmount.setHeight("-1px");
-		txtTotalAmount.setRequired(true);
 		txtTotalAmount.setEnabled(false);
 		txtTotalAmount.setNullRepresentation("");
 		txtTotalAmount.setConverter(new StringToDoubleConverter());
@@ -661,14 +655,13 @@ public class UpdateBillView extends BaseView {
 		comboBoxProjects.setWidth("245px");
 		comboBoxProjects.setHeight("-1px");
 		comboBoxProjects.setTabIndex(7);
-		comboBoxProjects.setRequired(true);
 		mainLayout.addComponent(comboBoxProjects, "top:320.0px;left:615.0px;");
 		
 		// popupDateFieldAppliedDate
 		popupDateFieldAppliedDate = new PopupDateField();
-		popupDateFieldAppliedDate.setCaption("Mes");
+		popupDateFieldAppliedDate.setCaption("Correspondiente al mes");
 		popupDateFieldAppliedDate.setImmediate(false);
-		popupDateFieldAppliedDate.setWidth("-1px");
+		popupDateFieldAppliedDate.setWidth("165px");
 		popupDateFieldAppliedDate.setHeight("-1px");
 		popupDateFieldAppliedDate.setTabIndex(8);
 		popupDateFieldAppliedDate.setRequired(true);

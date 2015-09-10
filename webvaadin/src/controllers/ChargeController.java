@@ -179,6 +179,7 @@ public class ChargeController {
 			
 			getChargesByFilters.setIsBillLiquidated(isBillLiquidated);
 			getChargesByFilters.setIsProjectClosed(isProjectClosed);
+			getChargesByFilters.setUserContextId(RequestContext.getRequestContext().getId());
 			
 			VOCharge [] voCharges = service.getChargesByFilters(getChargesByFilters).get_return();
 
