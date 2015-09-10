@@ -5,6 +5,7 @@ import java.util.Date;
 
 import servicelayer.entity.businessEntity.Category;
 import servicelayer.entity.businessEntity.CategoryType;
+import servicelayer.entity.businessEntity.User;
 import shared.exceptions.ServerException;
 
 public interface IDAOCategroy extends IDAOBase<Category> {
@@ -24,9 +25,11 @@ public interface IDAOCategroy extends IDAOBase<Category> {
 	ArrayList<Category> getCategoriesLastVersion(String description,
 			int projectId) throws ServerException;
 
-	ArrayList<Category> getCategories(Date from, Date to)
+	ArrayList<Category> getCategories(Date from, Date to, User userContext)
 			throws ServerException;
 
-	public ArrayList<Category> getCategoriesByManager(Date from, Date to, int managerId)
-			throws ServerException;
+//	ArrayList<Category> getCategoriesByManager(Date from, Date to, int managerId)
+//			throws ServerException;
+	
+	ArrayList<Category> getCategories(User userContext) throws ServerException;
 }
