@@ -15,6 +15,7 @@ import servicelayer.entity.businessEntity.DistributionType;
 import servicelayer.entity.businessEntity.Project;
 import servicelayer.entity.businessEntity.Employed;
 import servicelayer.entity.businessEntity.User;
+import servicelayer.entity.businessEntity.UserType;
 import shared.LoggerMSMP;
 import shared.exceptions.ServerException;
 import shared.interfaces.dataLayer.IDAOProjects;
@@ -290,15 +291,21 @@ public class DAOProjects implements IDAOProjects {
 	}
 
 	@Override
-	public ArrayList<Project> getProjectsByManager(int managerId) throws ServerException {
+	public ArrayList<Project> getProjects(User userContext) throws ServerException {
 		ArrayList<Project> projects = new ArrayList<Project>();
 		PreparedStatement preparedStatement = null;
 		ResultSet rs = null;		
 		try {
-
-			String getSQL = "SELECT * FROM PROJECT WHERE MANAGERID = ?";
+			String getSQL = null;
+			if(userContext.getUserType() == UserType.PARTNER)
+				getSQL = "SELECT * FROM project";
+			else if(userContext.getUserType() == UserType.MANAGER)
+				getSQL = "SELECT * FROM project WHERE ManagerId = ?";
+			
 			preparedStatement = this.connection.prepareStatement(getSQL);
-			preparedStatement.setInt(1, managerId);
+			
+			if(userContext.getUserType() == UserType.MANAGER)
+				preparedStatement.setInt(1, userContext.getId());
 
 			rs = preparedStatement.executeQuery();
 

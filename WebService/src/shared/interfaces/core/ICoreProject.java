@@ -6,6 +6,7 @@ import servicelayer.entity.businessEntity.DistributionType;
 import servicelayer.entity.businessEntity.ProjectEmployed;
 import servicelayer.entity.businessEntity.ProjectPartner;
 import servicelayer.entity.businessEntity.Project;
+import servicelayer.entity.businessEntity.User;
 import shared.exceptions.ClientException;
 import shared.exceptions.ServerException;
 
@@ -31,6 +32,6 @@ public interface ICoreProject {
 
 	ArrayList<ProjectPartner> getProjectPartners (int id) throws ServerException, ClientException;	
 	
-	ArrayList<Project> getProjectsByManager(int managerId)
+	ArrayList<Project> getProjects(User userContext)
 			throws ServerException;
 }

@@ -9,6 +9,7 @@ import servicelayer.entity.businessEntity.DistributionType;
 import servicelayer.entity.businessEntity.ProjectEmployed;
 import servicelayer.entity.businessEntity.ProjectPartner;
 import servicelayer.entity.businessEntity.Project;
+import servicelayer.entity.businessEntity.User;
 import shared.exceptions.ClientException;
 import shared.exceptions.ServerException;
 import shared.interfaces.core.ICoreProject;
@@ -191,12 +192,12 @@ public class CoreProject implements ICoreProject {
 	}	
 
 	@Override
-	public ArrayList<Project> getProjectsByManager(int managerId)
+	public ArrayList<Project> getProjects(User userContext)
 			throws ServerException {
 		
 		DAOManager daoManager = new DAOManager();
 		try {
-			return daoManager.getDAOProjects().getProjectsByManager(managerId);
+			return daoManager.getDAOProjects().getProjects(userContext);
 		} catch (ServerException e) {
 			throw e;
 		} finally {

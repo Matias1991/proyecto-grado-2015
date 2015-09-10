@@ -1,7 +1,9 @@
 package shared.interfaces.core;
 
 import java.util.ArrayList;
+
 import servicelayer.entity.businessEntity.Charge;
+import servicelayer.entity.businessEntity.User;
 import shared.exceptions.ClientException;
 import shared.exceptions.ServerException;
 
@@ -17,7 +19,7 @@ public interface ICoreCharge {
 
 	Charge getCharge(int id) throws ServerException, ClientException;
 
-	ArrayList<Charge> getCharges() throws ServerException;
+	ArrayList<Charge> getCharges(User userContext) throws ServerException;
 	
 	ArrayList<Charge> getChargesByBill(int billId) throws ServerException;
 	

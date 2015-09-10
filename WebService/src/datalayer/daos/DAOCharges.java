@@ -10,6 +10,8 @@ import java.util.Date;
 
 import servicelayer.entity.businessEntity.Bill;
 import servicelayer.entity.businessEntity.Charge;
+import servicelayer.entity.businessEntity.User;
+import servicelayer.entity.businessEntity.UserType;
 import shared.LoggerMSMP;
 import shared.exceptions.ServerException;
 import shared.interfaces.dataLayer.IDAOCharges;
@@ -331,6 +333,57 @@ public class DAOCharges implements IDAOCharges {
 				if (charge.getBill() != null)
 					charge.getBill().setDescription(
 							rs.getString("billDescription"));
+				charges.add(charge);
+			}
+
+		} catch (SQLException e) {
+			throw new ServerException(e);
+		} finally {
+			try {
+				if (preparedStatement != null)
+					preparedStatement.close();
+				if (rs != null)
+					rs.close();
+			} catch (SQLException e) {
+				LoggerMSMP.setLog(e.getMessage());
+			}
+		}
+
+		return charges;
+	}
+	
+	@Override
+	public ArrayList<Charge> getCharges(User userContext)
+			throws ServerException {
+		ArrayList<Charge> charges = new ArrayList<Charge>();
+		PreparedStatement preparedStatement = null;
+		ResultSet rs = null;
+		try {
+
+			StringBuilder sql = new StringBuilder();
+			sql.append("SELECT C.*, B.Code as BillCode, B.Description as BillDescription FROM CHARGE C ");
+			sql.append("INNER JOIN BILL B ON B.Id = C.BillId ");
+			if(userContext.getUserType() == UserType.MANAGER)
+			{
+				sql.append("INNER JOIN PROJECT P ON P.Id = B.ProjectId ");
+				sql.append("WHERE P.ManagerId = ? ");
+			}
+		
+			preparedStatement = this.connection
+					.prepareStatement(sql.toString());
+
+			if(userContext.getUserType() == UserType.MANAGER)
+				preparedStatement.setInt(1, userContext.getId());
+			
+			rs = preparedStatement.executeQuery();
+
+			while (rs.next()) {
+				Charge charge = BuildCharge(rs);
+				if (charge.getBill() != null) {
+					charge.getBill().setCode(rs.getString("billCode"));
+					charge.getBill().setDescription(
+							rs.getString("billDescription"));
+				}
 				charges.add(charge);
 			}
 
