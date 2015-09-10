@@ -39,6 +39,7 @@ import controllers.CategoryController;
 import controllers.ProjectController;
 import entities.Category;
 import entities.Constant;
+import entities.Constant.UserType;
 import entities.Project;
 import entities.RequestContext;
 
@@ -100,6 +101,7 @@ public class UpdateCategoryView extends BaseView {
 					enablePanelProject(false);
 					optCurrency.setEnabled(true);
 				} else {
+					buildProjectCombo(0);
 					enablePanelProject(true);
 					optCurrency.setEnabled(false);
 				}
@@ -118,19 +120,6 @@ public class UpdateCategoryView extends BaseView {
 					txtTypeExchange.setVisible(false);
 					txtAmount.setCaption("Importe sin IVA ($)");
 					txtTotalAmount.setCaption("Importe IVA incl. ($)");
-				}
-			}
-		});
-
-		optCurrency.addValueChangeListener(new ValueChangeListener() {
-
-			@Override
-			public void valueChange(ValueChangeEvent event) {
-				// TODO Auto-generated method stub
-				if (optCurrency.getValue() == "Dolares") {
-					txtTypeExchange.setVisible(true);
-				} else {
-					txtTypeExchange.setVisible(false);
 				}
 			}
 		});
@@ -250,6 +239,7 @@ public class UpdateCategoryView extends BaseView {
 
 					cboProject.setReadOnly(true);
 					setComponentsReadOnly(true);
+					cleanInputs();
 
 				}
 
@@ -303,11 +293,10 @@ public class UpdateCategoryView extends BaseView {
 			grid.getColumn("description").setHeaderCaption("Descripción");
 			grid.getColumn("projectName").setHeaderCaption("Proyecto");
 			grid.setColumnOrder("description", "projectName");
-			grid.setWidth("280px");
+			grid.setWidth("330px");
 			grid.setHeight("450px");
 			grid.setSelectionMode(SelectionMode.SINGLE);
-			grid.getSelectedRows().clear();
-			grid.getColumn("description").setWidth(120);
+			grid.getSelectedRows().clear();			
 
 			HeaderRow filterRow = grid.appendHeaderRow();
 			// Set up a filter for all columns
@@ -352,6 +341,7 @@ public class UpdateCategoryView extends BaseView {
 					BeanItem<Category> item = container.getItem(grid
 							.getSelectedRow());
 					if (item != null) {
+						btnUpdate.setEnabled(true);
 						setComponentsReadOnly(false);
 						Category catToModify = item.getBean();
 						if (catToModify.isCurrencyDollar()) {
@@ -371,7 +361,11 @@ public class UpdateCategoryView extends BaseView {
 						txtDescription.setEnabled(true);
 						txtDescription.setValue(catToModify.getDescription());
 						txtDescription.setEnabled(false);
+						categoryType.setReadOnly(false);
 						categoryType.select(catToModify.getCategoryTypeToShow());
+						if(RequestContext.getRequestContext().getUserType() == UserType.USER_TYPE_MANAGER){
+							categoryType.setReadOnly(true);
+						}
 						if (catToModify.getCategoryTypeToShow().equals(
 								"Proyecto")) {
 							enablePanelProject(true);
@@ -388,6 +382,8 @@ public class UpdateCategoryView extends BaseView {
 					} else {
 						setComponentsReadOnly(true);
 						enablePanelProject(false);
+						cleanInputs();
+						btnUpdate.setEnabled(false);
 					}
 				}
 			});
@@ -417,10 +413,14 @@ public class UpdateCategoryView extends BaseView {
 
 	private void setComponentsReadOnly(boolean readOnly) {
 		txtAmount.setReadOnly(readOnly);
-		btnCancel.setEnabled(!readOnly);
-		btnUpdate.setEnabled(!readOnly);
+//		btnCancel.setEnabled(readOnly);
+//		//btnUpdate.setEnabled(readOnly);
 		txtDescription.setReadOnly(readOnly);
-		categoryType.setReadOnly(readOnly);
+		if(RequestContext.getRequestContext().getUserType() == UserType.USER_TYPE_MANAGER){
+			categoryType.setReadOnly(true);
+		}else{
+			categoryType.setReadOnly(readOnly);
+		}		
 		creationDate.setReadOnly(readOnly);
 		isRRHH.setReadOnly(readOnly);
 		optCurrency.setReadOnly(readOnly);
@@ -431,8 +431,8 @@ public class UpdateCategoryView extends BaseView {
 
 	private void setComponentsVisible(boolean visible) {
 		txtAmount.setVisible(visible);
-		btnCancel.setVisible(!visible);
-		btnUpdate.setVisible(!visible);
+//		btnCancel.setVisible(visible);
+//		btnUpdate.setVisible(visible);
 		txtDescription.setVisible(visible);
 		categoryType.setVisible(visible);
 		creationDate.setVisible(visible);
@@ -451,6 +451,7 @@ public class UpdateCategoryView extends BaseView {
 				mainLayout.removeComponent(grid);
 			}
 			buildGrid();
+			setComponentsReadOnly(false);
 			txtDescription.clear();
 			txtAmount.clear();
 			setComponentsReadOnly(true);
@@ -469,6 +470,11 @@ public class UpdateCategoryView extends BaseView {
 			cboxIvaTypes.setReadOnly(true);
 
 			cleanInputs();
+			btnUpdate.setEnabled(false);
+			
+			if(RequestContext.getRequestContext().getUserType() == UserType.USER_TYPE_MANAGER){
+				categoryType.setEnabled(false);
+			}
 		}
 	}
 
@@ -482,7 +488,11 @@ public class UpdateCategoryView extends BaseView {
 		txtTypeExchange.setValidationVisible(false);
 		txtTypeExchange.setValue("");
 		enablePanelProject(false);
+		categoryType.setReadOnly(false);
 		categoryType.select("Empresa");
+		if(RequestContext.getRequestContext().getUserType() == UserType.USER_TYPE_MANAGER){
+			categoryType.setReadOnly(true);
+		}
 		optCurrency.select("Pesos");
 		cboxIvaTypes.setValidationVisible(false);
 		txtTotalAmount.setValue("");
@@ -599,7 +609,7 @@ public class UpdateCategoryView extends BaseView {
 		txtTotalAmount.setNullRepresentation("");
 		txtTotalAmount.setConverter(new StringToDoubleConverter());
 		txtTotalAmount.setTabIndex(6);
-		mainLayout.addComponent(txtTotalAmount, "top:628.0px;left:345.0px;");
+		mainLayout.addComponent(txtTotalAmount, "top:557.0px;left:475.0px;");
 
 		// btnCancel
 		btnCancel = new Button();
