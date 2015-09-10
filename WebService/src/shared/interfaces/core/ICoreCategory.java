@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import servicelayer.entity.businessEntity.Category;
+import servicelayer.entity.businessEntity.User;
 import shared.exceptions.ClientException;
 import shared.exceptions.ServerException;
 
@@ -19,17 +20,11 @@ public interface ICoreCategory {
 
 	Category getCategory(int id) throws ServerException, ClientException;
 
-	ArrayList<Category> getCategories() throws ServerException;
+	ArrayList<Category> getCategories(User userContext) throws ServerException;
 
 	ArrayList<Category> getCategoriesByProject(int projectId)
 			throws ServerException, ClientException;
 
-	ArrayList<Category> getCategories(Date from, Date to)
-			throws ServerException;
-
-	ArrayList<Category> getCategoriesByManager(Date from, Date to, int managerId)
-			throws ServerException;
-
-	ArrayList<Category> getCategoriesByManager(int managerId)
-			throws ServerException;
+	ArrayList<Category> getCategories(Date from, Date to, User userContext)
+			throws ServerException;	
 }

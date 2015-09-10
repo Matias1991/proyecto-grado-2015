@@ -9,6 +9,7 @@ import datalayer.daos.DAOManager;
 import servicelayer.entity.businessEntity.Category;
 import servicelayer.entity.businessEntity.CategoryType;
 import servicelayer.entity.businessEntity.IVA_Type;
+import servicelayer.entity.businessEntity.User;
 import servicelayer.entity.valueObject.VOCategory;
 import shared.exceptions.ClientException;
 import shared.exceptions.ServerException;
@@ -182,9 +183,28 @@ public class CoreCategory implements ICoreCategory {
 	}
 
 	@Override
-	public ArrayList<Category> getCategories() throws ServerException {
-
-		return iDAOCategory.getObjects();
+	public ArrayList<Category> getCategories(User userContext) throws ServerException {
+		ArrayList<Category> categories;
+		
+		DAOManager daoManager = new DAOManager();
+		try {
+			categories = daoManager.getDAOCategories().getCategories(
+					userContext);
+			for (Category category : categories) {
+				if (category.getIsCurrencyDollar()) {
+					category.setTotalAmountDollar(getTotalAmount(
+							category.getAmountDollar(), category.getIvaType()));
+				} else {
+					category.setTotalAmountPeso(getTotalAmount(
+							category.getAmountPeso(), category.getIvaType()));
+				}
+			}
+		} catch (ServerException e) {
+			throw e;
+		} finally {
+			daoManager.close();
+		}
+		return categories;	
 	}
 
 	@Override
@@ -195,13 +215,13 @@ public class CoreCategory implements ICoreCategory {
 	}
 
 	@Override
-	public ArrayList<Category> getCategories(Date from, Date to)
+	public ArrayList<Category> getCategories(Date from, Date to, User userContext)
 			throws ServerException {
 		ArrayList<Category> categories;
 
 		DAOManager daoManager = new DAOManager();
 		try {
-			categories = daoManager.getDAOCategories().getCategories(from, to);
+			categories = daoManager.getDAOCategories().getCategories(from, to, userContext);
 			for (Category category : categories) {
 				if (category.getIsCurrencyDollar()) {
 					category.setTotalAmountDollar(getTotalAmount(
@@ -276,56 +296,56 @@ public class CoreCategory implements ICoreCategory {
 		return totalAmount;
 	}
 
-	@Override
-	public ArrayList<Category> getCategoriesByManager(Date from, Date to,
-			int managerId) throws ServerException {
-		ArrayList<Category> categories;
+//	@Override
+//	public ArrayList<Category> getCategoriesByManager(Date from, Date to,
+//			int managerId) throws ServerException {
+//		ArrayList<Category> categories;
+//
+//		DAOManager daoManager = new DAOManager();
+//		try {
+//			categories = daoManager.getDAOCategories().getCategoriesByManager(
+//					from, to, managerId);
+//			for (Category category : categories) {
+//				if (category.getIsCurrencyDollar()) {
+//					category.setTotalAmountDollar(getTotalAmount(
+//							category.getAmountDollar(), category.getIvaType()));
+//				} else {
+//					category.setTotalAmountPeso(getTotalAmount(
+//							category.getAmountPeso(), category.getIvaType()));
+//				}
+//			}
+//		} catch (ServerException e) {
+//			throw e;
+//		} finally {
+//			daoManager.close();
+//		}
+//		return categories;
+//	}
 
-		DAOManager daoManager = new DAOManager();
-		try {
-			categories = daoManager.getDAOCategories().getCategoriesByManager(
-					from, to, managerId);
-			for (Category category : categories) {
-				if (category.getIsCurrencyDollar()) {
-					category.setTotalAmountDollar(getTotalAmount(
-							category.getAmountDollar(), category.getIvaType()));
-				} else {
-					category.setTotalAmountPeso(getTotalAmount(
-							category.getAmountPeso(), category.getIvaType()));
-				}
-			}
-		} catch (ServerException e) {
-			throw e;
-		} finally {
-			daoManager.close();
-		}
-		return categories;
-	}
-
-	@Override
-	public ArrayList<Category> getCategoriesByManager(int managerId)
-			throws ServerException {
-		ArrayList<Category> categories;
-
-		DAOManager daoManager = new DAOManager();
-		try {
-			categories = daoManager.getDAOCategories().getCategoriesByManager(
-					managerId);
-			for (Category category : categories) {
-				if (category.getIsCurrencyDollar()) {
-					category.setTotalAmountDollar(getTotalAmount(
-							category.getAmountDollar(), category.getIvaType()));
-				} else {
-					category.setTotalAmountPeso(getTotalAmount(
-							category.getAmountPeso(), category.getIvaType()));
-				}
-			}
-		} catch (ServerException e) {
-			throw e;
-		} finally {
-			daoManager.close();
-		}
-		return categories;
-	}
+//	@Override
+//	public ArrayList<Category> getCategoriesByManager(User userContext)
+//			throws ServerException {
+//		ArrayList<Category> categories;
+//
+//		DAOManager daoManager = new DAOManager();
+//		try {
+//			categories = daoManager.getDAOCategories().getCategories(
+//					userContext);
+//			for (Category category : categories) {
+//				if (category.getIsCurrencyDollar()) {
+//					category.setTotalAmountDollar(getTotalAmount(
+//							category.getAmountDollar(), category.getIvaType()));
+//				} else {
+//					category.setTotalAmountPeso(getTotalAmount(
+//							category.getAmountPeso(), category.getIvaType()));
+//				}
+//			}
+//		} catch (ServerException e) {
+//			throw e;
+//		} finally {
+//			daoManager.close();
+//		}
+//		return categories;
+//	}
 
 }

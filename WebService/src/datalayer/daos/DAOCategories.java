@@ -14,6 +14,8 @@ import servicelayer.entity.businessEntity.Category;
 import servicelayer.entity.businessEntity.CategoryType;
 import servicelayer.entity.businessEntity.IVA_Type;
 import servicelayer.entity.businessEntity.Project;
+import servicelayer.entity.businessEntity.User;
+import servicelayer.entity.businessEntity.UserType;
 import shared.LoggerMSMP;
 import shared.exceptions.ServerException;
 import shared.interfaces.dataLayer.IDAOCategroy;
@@ -289,7 +291,7 @@ public class DAOCategories implements IDAOCategroy {
 	
 	//Devuelve todos los rubros cuya fecha de aplicacion sea en el periodo ingresado (ultima versión) dado un gerente
 		@Override
-		public ArrayList<Category> getCategoriesByManager(int managerId) throws ServerException {
+		public ArrayList<Category> getCategories(User userContext) throws ServerException {
 			ArrayList<Category> categories = new ArrayList<Category>();
 			PreparedStatement preparedStatement = null;
 			ResultSet rs = null;
@@ -302,11 +304,15 @@ public class DAOCategories implements IDAOCategroy {
 				sql.append("WHERE (C_1.Id, C_1.Version) in (SELECT C_2.Id, MAX(VERSION)");
 				sql.append("FROM meerkatsys_msmp.category C_2 LEFT OUTER JOIN meerkatsys_msmp.PROJECT P ON P.Id = C_2.ProjectId "); 
 				sql.append("GROUP BY C_2.Id ) ");
-				sql.append("AND P.ManagerId = ? ");
+				if(userContext.getUserType() == UserType.MANAGER){
+					sql.append("AND P.ManagerId = ? ");
+				}
 				sql.append("ORDER BY APPLIEDDATETIMEUTC DESC ");			
 				
 				preparedStatement = this.connection.prepareStatement(sql.toString());
-				preparedStatement.setInt(1, managerId);				
+				if(userContext.getUserType() == UserType.MANAGER){
+					preparedStatement.setInt(1, userContext.getId());		
+				}
 				rs = preparedStatement.executeQuery();
 
 				while (rs.next()) {
@@ -400,7 +406,7 @@ public class DAOCategories implements IDAOCategroy {
 	
 	//Devuelve todos los rubros cuya fecha de aplicacion sea en el periodo ingresado (ultima versión)
 	@Override
-	public ArrayList<Category> getCategories(Date from, Date to) throws ServerException {
+	public ArrayList<Category> getCategories(Date from, Date to, User userContext) throws ServerException {
 		ArrayList<Category> categories = new ArrayList<Category>();;
 		PreparedStatement preparedStatement = null;
 		ResultSet rs = null;
@@ -413,12 +419,21 @@ public class DAOCategories implements IDAOCategroy {
 			sql.append("WHERE (C_1.Id, C_1.Version) in (SELECT C_2.Id, MAX(VERSION) ");
 			sql.append("FROM CATEGORY C_2 LEFT OUTER JOIN PROJECT P ON P.Id = C_2.ProjectId ");
 			sql.append("GROUP BY C_2.Id ) ");
+			if(userContext.getUserType() == UserType.MANAGER){
+				sql.append("AND P.ManagerId = ? ");
+			}
 			sql.append("AND APPLIEDDATETIMEUTC between ? AND ? ");
-			sql.append("ORDER BY APPLIEDDATETIMEUTC DESC");
+			sql.append("ORDER BY APPLIEDDATETIMEUTC DESC");			
 			
 			preparedStatement = this.connection.prepareStatement(sql.toString());
-			preparedStatement.setTimestamp(1, new Timestamp(setFirstDayOfMonth(from).getTime()));
-			preparedStatement.setTimestamp(2, new Timestamp(setFirstDayOfMonth(to).getTime()));
+			if(userContext.getUserType() == UserType.MANAGER){
+				preparedStatement.setInt(1, userContext.getId());
+				preparedStatement.setTimestamp(2, new Timestamp(setFirstDayOfMonth(from).getTime()));
+				preparedStatement.setTimestamp(3, new Timestamp(setFirstDayOfMonth(to).getTime()));
+			}else{			
+				preparedStatement.setTimestamp(1, new Timestamp(setFirstDayOfMonth(from).getTime()));
+				preparedStatement.setTimestamp(2, new Timestamp(setFirstDayOfMonth(to).getTime()));
+			}
 			rs = preparedStatement.executeQuery();
 
 			while (rs.next()) {
@@ -446,55 +461,55 @@ public class DAOCategories implements IDAOCategroy {
 		return categories;
 	}
 	
-	//Devuelve todos los rubros cuya fecha de aplicacion sea en el periodo ingresado (ultima versión) dado un gerente
-	@Override
-	public ArrayList<Category> getCategoriesByManager(Date from, Date to, int managerId) throws ServerException {
-		ArrayList<Category> categories = new ArrayList<Category>();
-		PreparedStatement preparedStatement = null;
-		ResultSet rs = null;
-		try {
-
-			StringBuilder sql = new StringBuilder();
-			sql.append("SELECT C_1.*, P.NAME as ProjectName, P.CLOSED as ProjectClosed ");
-			sql.append("FROM meerkatsys_msmp.category C_1 ");
-			sql.append("LEFT OUTER JOIN meerkatsys_msmp.project P ON P.Id = C_1.ProjectId ");
-			sql.append("WHERE (C_1.Id, C_1.Version) in (SELECT C_2.Id, MAX(VERSION)");
-			sql.append("FROM meerkatsys_msmp.category C_2 LEFT OUTER JOIN meerkatsys_msmp.PROJECT P ON P.Id = C_2.ProjectId "); 
-			sql.append("GROUP BY C_2.Id ) ");
-			sql.append("AND P.ManagerId = ? ");
-			sql.append("AND APPLIEDDATETIMEUTC between ? AND ? ");
-			sql.append("ORDER BY APPLIEDDATETIMEUTC DESC ");			
-			
-			preparedStatement = this.connection.prepareStatement(sql.toString());
-			preparedStatement.setInt(1, managerId);
-			preparedStatement.setTimestamp(2, new Timestamp(setFirstDayOfMonth(from).getTime()));
-			preparedStatement.setTimestamp(3, new Timestamp(setFirstDayOfMonth(to).getTime()));
-			rs = preparedStatement.executeQuery();
-
-			while (rs.next()) {
-				Category category = BuildCategory(rs);
-				if(category.getProject() != null) {
-					category.getProject().setName(rs.getString("projectName"));
-					category.getProject().setClosed(rs.getBoolean("projectClosed"));
-				}
-				categories.add(category);				
-			}
-			
-		} catch (SQLException e) {
-			throw new ServerException(e);
-		} finally {
-			try {
-				if (preparedStatement != null)
-					preparedStatement.close();
-				if (rs != null)
-					rs.close();
-			} catch (SQLException e) {
-				LoggerMSMP.setLog(e.getMessage());
-			}
-		}
-
-		return categories;		
-	}
+//	//Devuelve todos los rubros cuya fecha de aplicacion sea en el periodo ingresado (ultima versión) dado un gerente
+//	@Override
+//	public ArrayList<Category> getCategoriesByManager(Date from, Date to, int managerId) throws ServerException {
+//		ArrayList<Category> categories = new ArrayList<Category>();
+//		PreparedStatement preparedStatement = null;
+//		ResultSet rs = null;
+//		try {
+//
+//			StringBuilder sql = new StringBuilder();
+//			sql.append("SELECT C_1.*, P.NAME as ProjectName, P.CLOSED as ProjectClosed ");
+//			sql.append("FROM meerkatsys_msmp.category C_1 ");
+//			sql.append("LEFT OUTER JOIN meerkatsys_msmp.project P ON P.Id = C_1.ProjectId ");
+//			sql.append("WHERE (C_1.Id, C_1.Version) in (SELECT C_2.Id, MAX(VERSION)");
+//			sql.append("FROM meerkatsys_msmp.category C_2 LEFT OUTER JOIN meerkatsys_msmp.PROJECT P ON P.Id = C_2.ProjectId "); 
+//			sql.append("GROUP BY C_2.Id ) ");
+//			sql.append("AND P.ManagerId = ? ");
+//			sql.append("AND APPLIEDDATETIMEUTC between ? AND ? ");
+//			sql.append("ORDER BY APPLIEDDATETIMEUTC DESC ");			
+//			
+//			preparedStatement = this.connection.prepareStatement(sql.toString());
+//			preparedStatement.setInt(1, managerId);
+//			preparedStatement.setTimestamp(2, new Timestamp(setFirstDayOfMonth(from).getTime()));
+//			preparedStatement.setTimestamp(3, new Timestamp(setFirstDayOfMonth(to).getTime()));
+//			rs = preparedStatement.executeQuery();
+//
+//			while (rs.next()) {
+//				Category category = BuildCategory(rs);
+//				if(category.getProject() != null) {
+//					category.getProject().setName(rs.getString("projectName"));
+//					category.getProject().setClosed(rs.getBoolean("projectClosed"));
+//				}
+//				categories.add(category);				
+//			}
+//			
+//		} catch (SQLException e) {
+//			throw new ServerException(e);
+//		} finally {
+//			try {
+//				if (preparedStatement != null)
+//					preparedStatement.close();
+//				if (rs != null)
+//					rs.close();
+//			} catch (SQLException e) {
+//				LoggerMSMP.setLog(e.getMessage());
+//			}
+//		}
+//
+//		return categories;		
+//	}
 		
 	@Override
 	public ArrayList<Category> getCategoriesLastVersion(String description, CategoryType categoryType) throws ServerException {

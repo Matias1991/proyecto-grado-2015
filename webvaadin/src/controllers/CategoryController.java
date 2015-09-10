@@ -59,6 +59,8 @@ public class CategoryController {
 		try {
 			ServiceWebStub service = new ServiceWebStub();
 			GetCategories getCategory = new GetCategories();
+						
+			getCategory.setUserContextId(RequestContext.getRequestContext().getId());
 
 			VOCategory[] voCategories = service.getCategories(getCategory)
 					.get_return();
@@ -86,6 +88,7 @@ public class CategoryController {
 		try {
 			ServiceWebStub service = new ServiceWebStub();
 			GetCategories getCategory = new GetCategories();
+			getCategory.setUserContextId(RequestContext.getRequestContext().getId());
 
 			VOCategory[] voCategories = service.getCategories(getCategory)
 					.get_return();
@@ -119,7 +122,7 @@ public class CategoryController {
 			GetCategoriesByDate getCategory = new GetCategoriesByDate();
 
 			getCategory.setFrom(from);
-			getCategory.setTo(to);
+			getCategory.setTo(to);		
 			getCategory.setUserContextId(RequestContext.getRequestContext().getId());
 
 			VOCategory[] voCategories = service
