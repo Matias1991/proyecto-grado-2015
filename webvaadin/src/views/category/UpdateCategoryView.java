@@ -96,6 +96,7 @@ public class UpdateCategoryView extends BaseView {
 		categoryType.addValueChangeListener(new ValueChangeListener() {
 			@Override
 			public void valueChange(ValueChangeEvent event) {
+				cboProject.setValidationVisible(false);
 				if (categoryType.getValue() == "Empresa") {
 					isRRHH.setValue("Material");
 					enablePanelProject(false);
@@ -118,6 +119,7 @@ public class UpdateCategoryView extends BaseView {
 					txtTotalAmount.setCaption("Importe IVA incl. (U$S)");
 				} else {
 					txtTypeExchange.setVisible(false);
+					txtTypeExchange.setValidationVisible(false);
 					txtAmount.setCaption("Importe sin IVA ($)");
 					txtTotalAmount.setCaption("Importe IVA incl. ($)");
 				}
@@ -157,8 +159,9 @@ public class UpdateCategoryView extends BaseView {
 			@Override
 			public void buttonClick(ClickEvent event) {
 				btnUpdate.setEnabled(false);
-
+				cboProject.setValidationVisible(true);
 				cboxIvaTypes.setValidationVisible(true);
+				txtTypeExchange.setValidationVisible(true);
 
 				boolean valid = true;
 
@@ -170,7 +173,7 @@ public class UpdateCategoryView extends BaseView {
 					creationDate.setRequiredError("Es requerido");
 					valid = false;
 				}
-
+				
 				if ((categoryType.getValue().equals("Proyecto") && !cboProject.isValid()) //|| (categoryType.getValue() == "Proyecto" && cboProject.getValue() == null)
 						|| (optCurrency.getValue() == "Dolares" && !txtTypeExchange.isValid())) {
 					cboProject.setRequiredError("Es requerido");
@@ -241,6 +244,8 @@ public class UpdateCategoryView extends BaseView {
 					setComponentsReadOnly(true);
 					cleanInputs();
 
+				} else {
+					btnUpdate.setEnabled(true);
 				}
 
 			}
