@@ -55,6 +55,7 @@ public class CoreUser implements ICoreUser {
 					user.setPassword(hashPassword);
 
 					daoManager.getDAOUsers().insert(user);
+					daoManager.commit();
 
 					try {
 
@@ -72,7 +73,7 @@ public class CoreUser implements ICoreUser {
 				throw new ClientException(
 						"Ya existe un usuario con este nombre de usuario");
 
-			daoManager.commit();
+			
 
 		} catch (ServerException e) {
 			daoManager.rollback();
