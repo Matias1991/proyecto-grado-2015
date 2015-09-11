@@ -127,8 +127,8 @@ public class CatalogCategoriesView extends BaseView {
 			
 			
 			categoriesGrid.setWidth(100, Unit.PERCENTAGE);
-			categoriesGrid.setHeight(100, Unit.PERCENTAGE);
-			categoriesGrid.setSelectionMode(SelectionMode.SINGLE);
+			categoriesGrid.setHeight(500, Unit.PIXELS);
+			categoriesGrid.setSelectionMode(SelectionMode.NONE);
 			categoriesGrid.getSelectedRows().clear();
 			
 			// Filtros
@@ -166,7 +166,7 @@ public class CatalogCategoriesView extends BaseView {
 				}
 			}
 			
-			mainLayout.addComponent(categoriesGrid, "top:35%;left:0px;");
+			mainLayout.addComponent(categoriesGrid, "top:20%;left:0px;");
 		}
 		else {
 			if(categoriesGrid != null)
@@ -196,7 +196,7 @@ public class CatalogCategoriesView extends BaseView {
 		mainLayout = new AbsoluteLayout();
 		mainLayout.setImmediate(false);
 		mainLayout.setWidth("880px");
-		mainLayout.setHeight("501px");
+		mainLayout.setHeight("880px");
 
 		// popupDateFieldFrom
 		popupDateFieldFrom = new PopupDateField();
@@ -215,10 +215,6 @@ public class CatalogCategoriesView extends BaseView {
 		popupDateFieldTo.setHeight("-1px");
 		popupDateFieldTo.setRequired(true);
 		mainLayout.addComponent(popupDateFieldTo, "top:120.0px;left:140.0px;");
-			
-		// top-level component properties
-		setWidth("880px");
-		setHeight("501px");
 		
 		// lblTitle
 		lblTitle = new Label();
