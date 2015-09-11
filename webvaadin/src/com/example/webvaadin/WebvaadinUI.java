@@ -315,6 +315,7 @@ public class WebvaadinUI extends UI {
 
 		//snavigator.addView(MAINMENU, new MainMenuView());		
 		navigator.addView(Constant.View.LOGIN, new LoginView());
+		navigator.addView(Constant.View.FORGOTPASSWORD, new ForgotPasswordView());
 		
 		if (RequestContext.getRequestContext() == null) {
 			changeToLogin();

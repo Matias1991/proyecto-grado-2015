@@ -87,7 +87,7 @@ public class ForgotPasswordView extends BaseView {
 	@Override
 	public void enter(ViewChangeEvent event) {
 		// TODO Auto-generated method stub
-		super.enter(event);
+		//super.enter(event);
 		mainLayout.removeComponent(txtEmail);
 		mainLayout.addComponent(txtEmail, "top:90.0px;left:0.0px;");
 	}
