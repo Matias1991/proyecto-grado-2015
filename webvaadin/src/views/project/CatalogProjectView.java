@@ -73,7 +73,7 @@ public class CatalogProjectView extends BaseView {
 		buildTabSeet();
 		
 		lblMessage = new Label("");
-		mainLayout.addComponent(lblMessage, "top:100px;left:0.0px;");	
+		mainLayout.addComponent(lblMessage, "top:180px;left:0.0px;");	
 		
 		opgProjectStatus.addValueChangeListener(new ValueChangeListener() {
 
@@ -88,7 +88,7 @@ public class CatalogProjectView extends BaseView {
 				} else {
 					projects = null;
 				}
-				loadComboProject();
+				checkProjects();
 			}
 		});
 		
@@ -115,19 +115,23 @@ public class CatalogProjectView extends BaseView {
 			comboProject.removeAllItems();
 			comboProject.clear();
 			opgProjectStatus.addItems("Abiertos", "Cerrados");
-			if(projects == null || projects.size() == 0){
-				comboProject.setVisible(false);
-				tabProject.setVisible(false);	
-				lblMessage.setValue("No hay proyectos para mostrar");
-			} else {
-				opgProjectStatus.select("Abiertos");
-				opgProjectStatus.select("Cerrados");
-				projects = ProjectController.getProjects();
-				loadComboProject();
-			}
+			opgProjectStatus.select("Abiertos");
+			opgProjectStatus.select("Cerrados");
+			checkProjects();
 				
 		}
 
+	}
+	
+	private void checkProjects(){
+		if(projects == null || projects.size() == 0){
+			comboProject.setVisible(false);
+			tabProject.setVisible(false);	
+			lblMessage.setValue("No hay proyectos para mostrar");
+		} else {
+			lblMessage.setValue("");
+			loadComboProject();
+		}
 	}
 
 	private void buildTabSeet() {
@@ -577,7 +581,6 @@ public class CatalogProjectView extends BaseView {
 		
 		comboProject.setVisible(true);
 		tabProject.setVisible(true);
-		lblMessage.setValue("");
 		comboProject.removeAllItems();
 		
 		if(projects != null){
