@@ -352,14 +352,14 @@ public class UpdateCategoryView extends BaseView {
 						setComponentsReadOnly(false);
 						Category catToModify = item.getBean();
 						if (catToModify.isCurrencyDollar()) {
-							optCurrency.setValue("Dolares");
+							optCurrency.select("Dolares");
 							txtAmount.setConvertedValue(catToModify
 									.getAmountDollar());
 							txtTypeExchange.setConvertedValue(catToModify
 									.getTypeExchange());
 							txtTypeExchange.setVisible(true);
 						} else {
-							optCurrency.setValue("Pesos");
+							optCurrency.select("Pesos");
 							txtAmount.setConvertedValue(catToModify
 									.getAmountPeso());
 							txtTypeExchange.setVisible(false);
@@ -527,7 +527,7 @@ public class UpdateCategoryView extends BaseView {
 		txtDescription.setCaption("Descripción");
 		txtDescription.setImmediate(true);
 		txtDescription.setWidth("240px");
-		txtDescription.setHeight("-1px");
+		txtDescription.setHeight("58px");
 		txtDescription.setTabIndex(1);
 		txtDescription.setMaxLength(240);
 		txtDescription.setRows(2);
@@ -668,12 +668,15 @@ public class UpdateCategoryView extends BaseView {
 	void enablePanelProject(boolean value) {
 		cboProject.setVisible(value);
 		if (!value) {
+			cboProject.setReadOnly(false);
 			cboProject.removeAllItems();
+			cboProject.setReadOnly(true);
 		}
 	}
 
 	void buildCategoryCurrency(boolean isCurrencyDollar) {
 		if (isCurrencyDollar) {
+			optCurrency.select("Dolares");
 			txtTypeExchange.setVisible(true);
 			txtAmount.setCaption("Importe sin IVA (U$S)");
 			txtTotalAmount.setCaption("Importe IVA incl. (U$S)");
