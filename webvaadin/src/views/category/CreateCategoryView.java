@@ -278,6 +278,7 @@ public class CreateCategoryView extends BaseView {
 			isRRHH.select("Material");
 			txtTypeExchange.setVisible(false);
 			cboProject.setVisible(false);
+			createdDateTimeField.setValue(new Date());
 			
 
 			cboxIvaTypes.removeAllItems();
@@ -395,7 +396,7 @@ public class CreateCategoryView extends BaseView {
 
 		// txtAmount
 		txtAmount = new TextField();
-		txtAmount.setCaption("Importe sin IVA");
+		txtAmount.setCaption("Importe sin IVA ($)");
 		txtAmount.setImmediate(true);
 		txtAmount.setWidth("165px");
 		txtAmount.setHeight("-1px");
@@ -419,7 +420,7 @@ public class CreateCategoryView extends BaseView {
 
 		// txtTotalAmount
 		txtTotalAmount = new TextField();
-		txtTotalAmount.setCaption("Importe IVA incl.");
+		txtTotalAmount.setCaption("Importe IVA incl. ($)");
 		txtTotalAmount.setImmediate(true);
 		txtTotalAmount.setWidth("165px");
 		txtTotalAmount.setHeight("-1px");

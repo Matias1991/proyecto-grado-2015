@@ -171,7 +171,7 @@ public class UpdateCategoryView extends BaseView {
 					valid = false;
 				}
 
-				if ((categoryType.getValue() == "Proyecto" && !cboProject.isValid())
+				if ((categoryType.getValue().equals("Proyecto") && !cboProject.isValid()) //|| (categoryType.getValue() == "Proyecto" && cboProject.getValue() == null)
 						|| (optCurrency.getValue() == "Dolares" && !txtTypeExchange.isValid())) {
 					cboProject.setRequiredError("Es requerido");
 					txtTypeExchange.setRequiredError("Es requerido");
@@ -290,7 +290,9 @@ public class UpdateCategoryView extends BaseView {
 			grid.removeColumn("ivaTypeId");
 			grid.removeColumn("totalAmountToShow");
 
+			
 			grid.getColumn("description").setHeaderCaption("Descripción");
+			grid.getColumn("description").setWidth(200);
 			grid.getColumn("projectName").setHeaderCaption("Proyecto");
 			grid.setColumnOrder("description", "projectName");
 			grid.setWidth("330px");
@@ -429,8 +431,8 @@ public class UpdateCategoryView extends BaseView {
 
 	private void setComponentsVisible(boolean visible) {
 		txtAmount.setVisible(visible);
-//		btnCancel.setVisible(visible);
-//		btnUpdate.setVisible(visible);
+		btnCancel.setVisible(visible);
+		btnUpdate.setVisible(visible);
 		txtDescription.setVisible(visible);
 		categoryType.setVisible(visible);
 		creationDate.setVisible(visible);
@@ -439,6 +441,7 @@ public class UpdateCategoryView extends BaseView {
 		txtTypeExchange.setVisible(visible);
 		cboxIvaTypes.setVisible(visible);
 		lblInfo.setVisible(visible);
+		txtTotalAmount.setVisible(visible);
 	}
 
 	@Override
@@ -487,6 +490,7 @@ public class UpdateCategoryView extends BaseView {
 		txtTypeExchange.setValue("");
 		enablePanelProject(false);
 		categoryType.setReadOnly(false);
+		creationDate.setValue(new Date());
 		categoryType.select("Empresa");
 		if(RequestContext.getRequestContext().getUserType() == UserType.USER_TYPE_MANAGER){
 			categoryType.setReadOnly(true);

@@ -117,6 +117,7 @@ public class CatalogCategoriesView extends BaseView {
 			categoriesGrid.setColumnOrder("description", "amountToShow", "ivaTypeToShow", "totalAmountToShow", "typeExchangeToShow",
 					"projectName","createDateTimeUTCToShow","isRRHHToShow");
 			categoriesGrid.getColumn("description").setHeaderCaption("Descripción");
+			categoriesGrid.getColumn("description").setWidth(200);
 			categoriesGrid.getColumn("amountToShow").setHeaderCaption("Importe sin IVA");
 			categoriesGrid.getColumn("projectName").setHeaderCaption("Asociado a");
 			categoriesGrid.getColumn("typeExchangeToShow").setHeaderCaption("Tipo de cambio");
