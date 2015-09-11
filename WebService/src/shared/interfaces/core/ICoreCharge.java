@@ -25,5 +25,5 @@ public interface ICoreCharge {
 	
 	void deleteCharges(int[] ids) throws ServerException;
 	
-	ArrayList<Charge> getCharges(boolean isBillLiquidated, boolean isProjectClosed) throws ServerException;
+	ArrayList<Charge> getCharges(boolean isBillLiquidated, boolean isProjectClosed, User userContext) throws ServerException;
 }

@@ -237,7 +237,7 @@ public class DAOCharges implements IDAOCharges {
 
 	@Override
 	public ArrayList<Charge> getCharges(boolean isBillLiquidated,
-			boolean isProjectClosed) throws ServerException {
+			boolean isProjectClosed, User userContext) throws ServerException {
 		ArrayList<Charge> charges = new ArrayList<Charge>();
 		PreparedStatement preparedStatement = null;
 		ResultSet rs = null;
@@ -247,11 +247,18 @@ public class DAOCharges implements IDAOCharges {
 			sql.append("SELECT C.*, B.Code as BillCode, B.Description as BillDescription FROM CHARGE C ");
 			sql.append("INNER JOIN BILL B ON B.Id = C.BillId ");
 			sql.append("INNER JOIN Project P ON P.Id = B.ProjectId ");
-			sql.append("WHERE B.IsLiquidated = ? AND P.Closed = ?");
+			sql.append("WHERE B.IsLiquidated = ? AND P.Closed = ? ");
+			if(userContext.getUserType() == UserType.MANAGER)
+				sql.append("AND P.ManagerId = ?");
+			
 			preparedStatement = this.connection
 					.prepareStatement(sql.toString());
 			preparedStatement.setBoolean(1, isBillLiquidated);
 			preparedStatement.setBoolean(2, isProjectClosed);
+			
+			if(userContext.getUserType() == UserType.MANAGER)
+				preparedStatement.setInt(3, userContext.getId());
+			
 			rs = preparedStatement.executeQuery();
 
 			while (rs.next()) {

@@ -123,6 +123,7 @@ public class DeleteCategoriesView extends BaseView {
 			grid.setColumnOrder("description", "amountToShow", "ivaTypeToShow", "totalAmountToShow", "typeExchangeToShow",
 					"projectName","createDateTimeUTCToShow","isRRHHToShow");
 			grid.getColumn("description").setHeaderCaption("Descripción");
+			grid.getColumn("description").setWidth(200);
 			grid.getColumn("amountToShow").setHeaderCaption("Importe sin IVA");
 			grid.getColumn("projectName").setHeaderCaption("Asociado a");
 			grid.getColumn("typeExchangeToShow").setHeaderCaption("Tipo de cambio");

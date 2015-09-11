@@ -1171,13 +1171,15 @@ public class ServiceWeb extends ServiceBase {
 	}
 
 	public VOCharge[] getChargesByFilters(boolean isBillLiquidated,
-			boolean isProjectClosed) {
+			boolean isProjectClosed, int userContextId) {
 		try {
 			transactionLock.tryLock(Constants.DEFAULT_TRANSACTION_TIME,
 					TimeUnit.SECONDS);
 
+			User userContext = iCoreUser.getUser(userContextId);
+			
 			return chargeBuilder.BuildArrayVOObject(VOCharge.class,
-					iCoreCharge.getCharges(isBillLiquidated, isProjectClosed));
+					iCoreCharge.getCharges(isBillLiquidated, isProjectClosed, userContext));
 
 		} catch (ServerException e) {
 			ThrowServerExceptionAndLogError(e, "obtener cobros por factura");
