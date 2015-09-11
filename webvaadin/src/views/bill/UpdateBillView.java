@@ -148,7 +148,6 @@ public class UpdateBillView extends BaseView {
 			@Override
 			public void buttonClick(ClickEvent event) {
 				btnUpdate.setEnabled(false);
-				btnCancel.setEnabled(false);
 				txtDescription.setValidationVisible(true);
 				txtAmount.setValidationVisible(true);
 				txtTypeExchange.setValidationVisible(true);
@@ -202,13 +201,11 @@ public class UpdateBillView extends BaseView {
 					}
 					else
 					{
-						btnCancel.setEnabled(true);
 						btnUpdate.setEnabled(true);
 					}
 				}
 				else
 				{
-					btnUpdate.setEnabled(true);
 					btnCancel.setEnabled(true);
 				}
 			}
@@ -474,7 +471,6 @@ public class UpdateBillView extends BaseView {
 	void setEnabledEditionInputs(boolean enabled)
 	{
 		btnUpdate.setEnabled(enabled);
-		btnCancel.setEnabled(enabled);
 		txtDescription.setEnabled(enabled);
 		txtAmount.setEnabled(enabled);
 		comboBoxProjects.setEnabled(enabled);

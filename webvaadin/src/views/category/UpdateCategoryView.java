@@ -294,7 +294,7 @@ public class UpdateCategoryView extends BaseView {
 			grid.getColumn("projectName").setHeaderCaption("Proyecto");
 			grid.setColumnOrder("description", "projectName");
 			grid.setWidth("330px");
-			grid.setHeight("450px");
+			grid.setHeight("456px");
 			grid.setSelectionMode(SelectionMode.SINGLE);
 			grid.getSelectedRows().clear();			
 
@@ -331,7 +331,7 @@ public class UpdateCategoryView extends BaseView {
 				}
 			}
 
-			mainLayout.addComponent(grid, "top:140px;left:0px;");
+			mainLayout.addComponent(grid, "top:136px;left:0px;");
 
 			grid.addSelectionListener(new SelectionListener() {
 
@@ -413,8 +413,6 @@ public class UpdateCategoryView extends BaseView {
 
 	private void setComponentsReadOnly(boolean readOnly) {
 		txtAmount.setReadOnly(readOnly);
-//		btnCancel.setEnabled(readOnly);
-//		//btnUpdate.setEnabled(readOnly);
 		txtDescription.setReadOnly(readOnly);
 		if(RequestContext.getRequestContext().getUserType() == UserType.USER_TYPE_MANAGER){
 			categoryType.setReadOnly(true);
@@ -525,7 +523,7 @@ public class UpdateCategoryView extends BaseView {
 		txtDescription.setMaxLength(240);
 		txtDescription.setRows(2);
 		txtDescription.setNullRepresentation("");
-		mainLayout.addComponent(txtDescription, "top:145.0px;left:345.0px;");
+		mainLayout.addComponent(txtDescription, "top:152.0px;left:345.0px;");
 
 		// creationDate
 		creationDate = new PopupDateField();
@@ -609,7 +607,7 @@ public class UpdateCategoryView extends BaseView {
 		txtTotalAmount.setNullRepresentation("");
 		txtTotalAmount.setConverter(new StringToDoubleConverter());
 		txtTotalAmount.setTabIndex(6);
-		mainLayout.addComponent(txtTotalAmount, "top:557.0px;left:475.0px;");
+		mainLayout.addComponent(txtTotalAmount, "top:557.0px;left:520.0px;");
 
 		// btnCancel
 		btnCancel = new Button();
@@ -619,7 +617,7 @@ public class UpdateCategoryView extends BaseView {
 		btnCancel.setHeight("-1px");
 		btnCancel.setTabIndex(4);
 		btnCancel.setTabIndex(4);
-		mainLayout.addComponent(btnCancel, "top:619.0px;left:120.0px;");
+		mainLayout.addComponent(btnCancel, "top:598.0px;left:120.0px;");
 
 		// btnUpdate
 		btnUpdate = new Button();
@@ -628,7 +626,7 @@ public class UpdateCategoryView extends BaseView {
 		btnUpdate.setWidth("-1px");
 		btnUpdate.setHeight("-1px");
 		btnUpdate.setTabIndex(3);
-		mainLayout.addComponent(btnUpdate, "top:619.0px;left:0.0px;");
+		mainLayout.addComponent(btnUpdate, "top:598.0px;left:0.0px;");
 
 		// lblInfo
 		lblInfo = new Label();
