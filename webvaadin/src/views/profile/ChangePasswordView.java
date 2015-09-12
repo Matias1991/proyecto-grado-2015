@@ -57,12 +57,14 @@ public class ChangePasswordView extends BaseView {
 					if(changePasswordValidate()){
 						UserController userController = new UserController();
 						if(userController.changePassword(idUser, txtOldPassword.getValue(), txtNewPassword.getValue())){
-							PopupWindow popup = new PopupWindow("AVISO", "Constraseña modificada correctamente");
+							new PopupWindow("AVISO", "Constraseña modificada correctamente");
 							//limpio los campos
 							cleanInputs();
 							btnModify.setEnabled(true);
-							getUI().getNavigator().navigateTo(Constant.View.CATALOGUSERS);
+							UI.getCurrent().getNavigator().navigateTo(Constant.View.CATALOGUSERS);
 						}
+					}else{
+						btnModify.setEnabled(true);
 					}
 				}
 			}
