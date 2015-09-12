@@ -61,7 +61,12 @@ public class ChangePasswordView extends BaseView {
 							//limpio los campos
 							cleanInputs();
 							btnModify.setEnabled(true);
-							UI.getCurrent().getNavigator().navigateTo(Constant.View.CATALOGUSERS);
+							if(RequestContext.getRequestContext().getUserType() == 1)
+								UI.getCurrent().getNavigator().navigateTo(Constant.View.CATALOGUSERS);
+							else if(RequestContext.getRequestContext().getUserType() == 2)
+								UI.getCurrent().getNavigator().navigateTo(Constant.View.CATALOGEMPLOYEES);
+							else if(RequestContext.getRequestContext().getUserType() == 3)
+								UI.getCurrent().getNavigator().navigateTo(Constant.View.CATALOGPROJECTS);
 						}
 					}else{
 						btnModify.setEnabled(true);
@@ -75,7 +80,12 @@ public class ChangePasswordView extends BaseView {
 			@Override
 			public void buttonClick(ClickEvent event) {
 				cleanInputs();
-				UI.getCurrent().getNavigator().navigateTo(Constant.View.CATALOGUSERS);				
+				if(RequestContext.getRequestContext().getUserType() == 1)
+					UI.getCurrent().getNavigator().navigateTo(Constant.View.CATALOGUSERS);
+				else if(RequestContext.getRequestContext().getUserType() == 2)
+					UI.getCurrent().getNavigator().navigateTo(Constant.View.CATALOGEMPLOYEES);
+				else if(RequestContext.getRequestContext().getUserType() == 3)
+					UI.getCurrent().getNavigator().navigateTo(Constant.View.CATALOGPROJECTS);			
 			}
 		});
 	}
@@ -108,7 +118,7 @@ public class ChangePasswordView extends BaseView {
 		}
 		
 		if (!validate) {
-			PopupWindow popup = new PopupWindow("ERROR", errors);
+			new PopupWindow("ERROR", errors);
 		}
 		return validate;
 	}
