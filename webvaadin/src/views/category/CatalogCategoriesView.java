@@ -52,7 +52,7 @@ public class CatalogCategoriesView extends BaseView {
 		builInputs();
 		
 		lblMessage = new Label("");
-		mainLayout.addComponent(lblMessage, "top:35%;left:0.0px;");
+		mainLayout.addComponent(lblMessage, "top:180px;left:0.0px;");
 
 		popupDateFieldFrom.addListener(new ValueChangeListener() {
 		    private static final long serialVersionUID = 1L;

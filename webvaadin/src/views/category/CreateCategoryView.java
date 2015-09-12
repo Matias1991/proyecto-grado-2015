@@ -30,6 +30,7 @@ import entities.Category;
 import entities.Constant;
 import entities.Project;
 import entities.RequestContext;
+import entities.Constant.UserType;
 
 public class CreateCategoryView extends BaseView {
 
@@ -290,6 +291,10 @@ public class CreateCategoryView extends BaseView {
 			cboxIvaTypes.setItemCaption(3, "22%");
 			cboxIvaTypes.setValue(3);
 			cleanInputs();
+			if(RequestContext.getRequestContext().getUserType() == UserType.USER_TYPE_MANAGER){
+				categoryType.select("Proyecto");
+				categoryType.setEnabled(false);
+			}
 		}
 	}
 
@@ -335,7 +340,7 @@ public class CreateCategoryView extends BaseView {
 		txtDescription.setCaption("Descripción");
 		txtDescription.setImmediate(true);
 		txtDescription.setWidth("240px");
-		txtDescription.setHeight("-1px");
+		txtDescription.setHeight("58px");
 		txtDescription.setTabIndex(1);
 		txtDescription.setRequired(true);
 		txtDescription.setMaxLength(240);
