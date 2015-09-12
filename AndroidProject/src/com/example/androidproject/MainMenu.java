@@ -8,31 +8,34 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 public class MainMenu extends Activity {
 	
-	
+    UserSession session;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main_menu);
 		
+        session = new UserSession(getApplicationContext());
+
+        session.checkLogin();
+         
 		final Button btnCreateCategory = (Button) findViewById(R.id.btnCreateCategory);
 		final Button btnCreateCharge = (Button) findViewById(R.id.btnCreateCharge);
-		final Button btnReports = (Button) findViewById(R.id.btnReports);
+		final Button btnLogout = (Button) findViewById(R.id.btnLogout);
 		
 		btnCreateCategory.setOnClickListener(new View.OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
 				new AlertDialog.Builder(MainMenu.this)
 				.setTitle("Atencion")
 				.setMessage("No existe implementacion aún.")        				
 			   .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
 			        public void onClick(DialogInterface dialog, int which) { 
-			            // continue with delete
 			        }
 			     })        			    
 			    .setIcon(android.R.drawable.ic_dialog_alert)
@@ -45,13 +48,11 @@ public class MainMenu extends Activity {
 			
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
 				new AlertDialog.Builder(MainMenu.this)
 				.setTitle("Atencion")
 				.setMessage("No existe implementacion aún.")        				
 			   .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
 			        public void onClick(DialogInterface dialog, int which) { 
-			            // continue with delete
 			        }
 			     })        			    
 			    .setIcon(android.R.drawable.ic_dialog_alert)
@@ -60,22 +61,11 @@ public class MainMenu extends Activity {
 			}
 		});
 		
-		btnReports.setOnClickListener(new View.OnClickListener() {
+		btnLogout.setOnClickListener(new View.OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				new AlertDialog.Builder(MainMenu.this)
-				.setTitle("Atencion")
-				.setMessage("No existe implementacion aún.")        				
-			   .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-			        public void onClick(DialogInterface dialog, int which) { 
-			            // continue with delete
-			        }
-			     })        			    
-			    .setIcon(android.R.drawable.ic_dialog_alert)
-			     .show();
-				
+                session.logoutUser();
 			}
 		});
 	}

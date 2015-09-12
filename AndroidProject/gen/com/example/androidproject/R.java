@@ -34,7 +34,7 @@ public final class R {
         public static final int btnCreateCharge=0x7f08001a;
         public static final int btnLogin=0x7f080018;
         public static final int btnLoginApp=0x7f080002;
-        public static final int btnReports=0x7f08001b;
+        public static final int btnLogout=0x7f08001b;
         public static final int lblTitle=0x7f080003;
         public static final int tableRow1=0x7f080005;
         public static final int tableRow10=0x7f080006;
@@ -70,6 +70,7 @@ public final class R {
         public static final int app_name=0x7f050000;
         public static final int autocompletetextview=0x7f050003;
         public static final int hello_world=0x7f050001;
+        public static final int title_activity_mainMenu=0x7f050006;
         public static final int title_activity_partner_menu=0x7f050005;
         public static final int title_activity_search_user=0x7f050004;
     }

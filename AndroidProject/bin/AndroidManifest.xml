@@ -14,24 +14,23 @@
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme" >
+        android:theme="@style/AppTheme" >       
         <activity
-            android:name=".MainActivity"
-            android:label="@string/app_name" >
-        </activity>
-        <activity
-            android:name=".Login"
-            android:label="@string/app_name" >
+            android:name=".MainMenu"
+            android:label="@string/title_activity_mainMenu" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
+ 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+         
+        <!-- DashBoard / MainActivity -->
         <activity
-            android:name=".MainMenu"
-            android:label="@string/title_activity_partner_menu" >
+            android:name=".Login"
+            android:label="Ingreso de usuario" >
         </activity>
+        
     </application>
 
 </manifest>

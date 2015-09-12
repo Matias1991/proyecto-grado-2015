@@ -21,20 +21,20 @@
         android:id="@+id/btnCreateCharge"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/btnReports"
+        android:layout_alignLeft="@+id/btnCreateCategory"
         android:layout_below="@+id/btnCreateCategory"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="48dp"
         android:text="Crear cobro"
         android:width="150dp" />
 
     <Button
-        android:id="@+id/btnReports"
+        android:id="@+id/btnLogout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/btnCreateCategory"
-        android:layout_below="@+id/btnCreateCharge"
-        android:layout_marginTop="56dp"
-        android:text="Reportes"
+        android:layout_alignLeft="@+id/btnCreateCharge"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="48dp"
+        android:text="Cerrar sesion"
         android:width="150dp" />
 
 </RelativeLayout>
