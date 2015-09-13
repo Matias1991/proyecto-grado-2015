@@ -343,7 +343,7 @@ public class CreateCategoryView extends BaseView {
 		txtDescription.setHeight("58px");
 		txtDescription.setTabIndex(1);
 		txtDescription.setRequired(true);
-		txtDescription.setMaxLength(240);
+		txtDescription.setMaxLength(120);
 		txtDescription.setRows(2);
 		txtDescription.setNullRepresentation("");
 		mainLayout.addComponent(txtDescription, "top:116.0px;left:0.0px;");
