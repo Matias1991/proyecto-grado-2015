@@ -73,8 +73,6 @@ public class CoreUser implements ICoreUser {
 				throw new ClientException(
 						"Ya existe un usuario con este nombre de usuario");
 
-			
-
 		} catch (ServerException e) {
 			daoManager.rollback();
 			throw e;
@@ -182,7 +180,12 @@ public class CoreUser implements ICoreUser {
 								UserStatus.ACTIVE, 0, now);
 					} else {
 
-						if (!IsLastUserAdmin(user, daoManager.getDAOUsers())) {
+						if (user.getUserType() == UserType.ADMINISTRATOR
+								&& IsLastUserAdmin(user,
+										daoManager.getDAOUsers()))
+							throw new ClientException(
+									"Usuario y/o constraseña incorrecta");
+						else {
 							long diffInMinutes = 0;
 							if (user.getLastAttemptDateTimeUTC() != null) {
 								Date lastAttemptDate = user
@@ -217,10 +220,10 @@ public class CoreUser implements ICoreUser {
 
 							}
 							daoManager.commit();
-						}
 
-						throw new ClientException(
-								"Usuario y/o constraseña incorrecta");
+							throw new ClientException(
+									"Usuario y/o constraseña incorrecta");
+						}
 					}
 				} else
 					throw new ClientException("El usuario esta bloquedo");
