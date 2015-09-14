@@ -8,6 +8,7 @@ import servicelayer.core.CoreBill;
 import servicelayer.core.CoreCategory;
 import servicelayer.core.CoreCharge;
 import servicelayer.core.CoreEmployed;
+import servicelayer.core.CoreLiquidation;
 import servicelayer.core.CoreProject;
 import servicelayer.core.CoreUser;
 import servicelayer.entity.businessEntity.Bill;
@@ -32,6 +33,7 @@ import servicelayer.service.builder.BillBuilder;
 import servicelayer.service.builder.CategoryBuilder;
 import servicelayer.service.builder.ChargeBuilder;
 import servicelayer.service.builder.EmployedBuilder;
+import servicelayer.service.builder.LiquidationBuilder;
 import servicelayer.service.builder.ProjectBuilder;
 import servicelayer.service.builder.SalarySummaryBuilder;
 import servicelayer.service.builder.UserBuilder;
@@ -42,6 +44,7 @@ import shared.interfaces.core.ICoreBill;
 import shared.interfaces.core.ICoreCategory;
 import shared.interfaces.core.ICoreCharge;
 import shared.interfaces.core.ICoreEmployed;
+import shared.interfaces.core.ICoreLiquidation;
 import shared.interfaces.core.ICoreProject;
 import shared.interfaces.core.ICoreUser;
 
@@ -57,6 +60,7 @@ public class ServiceWeb extends ServiceBase {
 	private ICoreProject iCoreProject = null;
 	private ICoreBill iCoreBill = null;
 	private ICoreCharge iCoreCharge = null;
+	private ICoreLiquidation iCoreLiquidation = null;
 
 	// Builder's para mapear
 	// value objects a entidades de negocio
@@ -68,6 +72,7 @@ public class ServiceWeb extends ServiceBase {
 	private static UserBuilder userBuilser = new UserBuilder();
 	private static ProjectBuilder projectBuilder = new ProjectBuilder();
 	private static SalarySummaryBuilder salarySummaryBuilder = new SalarySummaryBuilder();
+	private static LiquidationBuilder liquidationBuilder = new LiquidationBuilder();
 
 	public ServiceWeb() {
 		try {
@@ -80,6 +85,8 @@ public class ServiceWeb extends ServiceBase {
 			iCoreProject = CoreProject.GetInstance();
 			iCoreBill = CoreBill.GetInstance();
 			iCoreCharge = CoreCharge.GetInstance();
+			iCoreLiquidation = CoreLiquidation.GetInstance();
+			
 		} catch (Exception e) {
 			ThrowGenericExceptionAndLogError(e);
 		} finally {
@@ -1192,5 +1199,35 @@ public class ServiceWeb extends ServiceBase {
 		}
 		return null;
 	}
-	/* COMIENZO COBROS */
+	
+	/* COMIENZO LIQUIDACIONES */
+	public boolean liquidation(ArrayList<VOProject> voProjects, Date month, int userContextId){
+		try {
+			transactionLock.tryLock(Constants.DEFAULT_TRANSACTION_TIME,
+					TimeUnit.SECONDS);
+			
+			User userContext = iCoreUser.getUser(userContextId);
+			ArrayList<Project> projects = new ArrayList<Project>();
+			
+			for (VOProject voProject : voProjects) {
+				projects.add(projectBuilder.BuildBusinessObject(voProject));
+			}
+			
+			iCoreLiquidation.liquidationByCompany(projects, month, userContext);		
+
+			return true;
+		} catch (ServerException e) {
+			ThrowServerExceptionAndLogError(e, "crear liquidacion");
+		} catch (ClientException e) {
+			throw new RuntimeException(e.getMessage());
+		} catch (InterruptedException e) {
+			throw new RuntimeException(Constants.TRANSACTION_ERROR);
+		} catch (Exception e) {
+			ThrowGenericExceptionAndLogError(e);
+		} finally {
+			transactionLock.unlock();
+		}
+		return false;
+		
+	}
 }
