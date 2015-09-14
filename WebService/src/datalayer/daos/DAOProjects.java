@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 
 import com.mysql.jdbc.Statement;
@@ -327,6 +328,52 @@ public class DAOProjects implements IDAOProjects {
 		}
 
 		return projects;
+	}
+	
+	
+	public ArrayList<Project> getProjectToLiquidate(Date month) throws ServerException{
+		ArrayList<Project> projects = new ArrayList<Project>();
+		PreparedStatement preparedStatement = null;
+		ResultSet rs = null;		
+		try {
+			String getSQL = "SELECT *  FROM PROJECT WHERE "
+					+ "(CLOSED = 0 AND createdDateTimeUTC <= ?) "   
+				    + "OR (closed = 1 and updatedDateTimeUTC between ? and ?)";
+					
+			preparedStatement = this.connection.prepareStatement(getSQL);			
+			preparedStatement.setTimestamp(1, new Timestamp(month.getTime()));
+			
+			Calendar cal = Calendar.getInstance();
+			cal.setTime(month);
+			cal.set(Calendar.DAY_OF_MONTH, 01);
+			Date from = cal.getTime();
+			preparedStatement.setTimestamp(2, new Timestamp(from.getTime()));
+			
+			cal.setTime(month);
+			cal.set(Calendar.DATE, cal.getActualMaximum(Calendar.DATE));			
+			Date to = cal.getTime();		
+			preparedStatement.setTimestamp(3, new Timestamp(to.getTime()));			
+			
+			rs = preparedStatement.executeQuery();
+
+			while (rs.next()) {
+				projects.add(BuildProject(rs));
+			}
+
+		} catch (SQLException e) {
+			throw new ServerException(e);
+		} finally {
+			try {
+				if (preparedStatement != null)
+					preparedStatement.close();
+				if (rs != null)
+					rs.close();
+			} catch (SQLException e) {
+				LoggerMSMP.setLog(e.getMessage());
+			}
+		}
+
+		return projects;		
 	}
 	
 	Project BuildProject(ResultSet rs) throws SQLException, ServerException {

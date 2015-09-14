@@ -493,6 +493,22 @@
             }
                 
            /**
+            * auto generated Axis2 call back method for liquidation method
+            * override this method for handling normal response from liquidation operation
+            */
+           public void receiveResultliquidation(
+                    servicelayer.service.ServiceWebStub.LiquidationResponse result
+                        ) {
+           }
+
+          /**
+           * auto generated Axis2 Error handler
+           * override this method for handling error response from liquidation operation
+           */
+            public void receiveErrorliquidation(java.lang.Exception e) {
+            }
+                
+           /**
             * auto generated Axis2 call back method for getDistributionTypes method
             * override this method for handling normal response from getDistributionTypes operation
             */
