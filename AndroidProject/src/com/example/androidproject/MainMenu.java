@@ -3,6 +3,7 @@ package com.example.androidproject;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -23,24 +24,18 @@ public class MainMenu extends Activity {
 
         session.checkLogin();
          
-		final Button btnCreateCategory = (Button) findViewById(R.id.btnCreateCategory);
+		final Button btnCreateBill = (Button) findViewById(R.id.btnCreateBill);
 		final Button btnCreateCharge = (Button) findViewById(R.id.btnCreateCharge);
 		final Button btnLogout = (Button) findViewById(R.id.btnLogout);
 		
-		btnCreateCategory.setOnClickListener(new View.OnClickListener() {
+		btnCreateBill.setOnClickListener(new View.OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
-				new AlertDialog.Builder(MainMenu.this)
-				.setTitle("Atencion")
-				.setMessage("No existe implementacion aún.")        				
-			   .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-			        public void onClick(DialogInterface dialog, int which) { 
-			        }
-			     })        			    
-			    .setIcon(android.R.drawable.ic_dialog_alert)
-			     .show();
 				
+				Intent i = new Intent(getApplicationContext(), CreateBill.class);
+                startActivity(i);
+                finish();
 			}
 		});
 		
