@@ -204,4 +204,19 @@ public class CoreProject implements ICoreProject {
 			daoManager.close();
 		}
 	}
+	
+	@Override
+	public ArrayList<Project> getProjectsToLiquidate(Date month)
+			throws ServerException {
+		
+		DAOManager daoManager = new DAOManager();
+		try {
+			return daoManager.getDAOProjects().getProjectToLiquidate(month);
+		} catch (ServerException e) {
+			throw e;
+		} finally {
+			daoManager.close();
+		}
+	}
+	
 }

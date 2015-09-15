@@ -1201,19 +1201,14 @@ public class ServiceWeb extends ServiceBase {
 	}
 	
 	/* COMIENZO LIQUIDACIONES */
-	public boolean liquidation(ArrayList<VOProject> voProjects, Date month, int userContextId){
+	public boolean liquidation(Date month, int userContextId, double typeExchange){
 		try {
 			transactionLock.tryLock(Constants.DEFAULT_TRANSACTION_TIME,
 					TimeUnit.SECONDS);
 			
 			User userContext = iCoreUser.getUser(userContextId);
-			ArrayList<Project> projects = new ArrayList<Project>();
 			
-			for (VOProject voProject : voProjects) {
-				projects.add(projectBuilder.BuildBusinessObject(voProject));
-			}
-			
-			iCoreLiquidation.liquidationByCompany(projects, month, userContext);		
+			iCoreLiquidation.liquidationByCompany(month, userContext, typeExchange);	
 
 			return true;
 		} catch (ServerException e) {

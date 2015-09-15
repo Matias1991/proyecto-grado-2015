@@ -1,6 +1,7 @@
 package shared.interfaces.dataLayer;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 import servicelayer.entity.businessEntity.DistributionType;
 import servicelayer.entity.businessEntity.Project;
@@ -18,6 +19,7 @@ public interface IDAOProjects extends IDAOBase<Project> {
 
 	ArrayList<DistributionType> getDistributionTypes() throws ServerException;
 
-	ArrayList<Project> getProjects(User userContext)
-			throws ServerException;
+	ArrayList<Project> getProjects(User userContext) throws ServerException;
+
+	ArrayList<Project> getProjectToLiquidate(Date month) throws ServerException;
 }

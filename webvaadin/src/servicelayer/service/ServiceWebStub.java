@@ -74601,86 +74601,6 @@
             
 
                         /**
-                        * field for VoProjects
-                        * This was an Array!
-                        */
-
-                        
-                                    protected VOProject[] localVoProjects ;
-                                
-                           /*  This tracker boolean wil be used to detect whether the user called the set method
-                          *   for this attribute. It will be used to determine whether to include this field
-                           *   in the serialized XML
-                           */
-                           protected boolean localVoProjectsTracker = false ;
-
-                           public boolean isVoProjectsSpecified(){
-                               return localVoProjectsTracker;
-                           }
-
-                           
-
-                           /**
-                           * Auto generated getter method
-                           * @return VOProject[]
-                           */
-                           public  VOProject[] getVoProjects(){
-                               return localVoProjects;
-                           }
-
-                           
-                        
-
-
-                               
-                              /**
-                               * validate the array for VoProjects
-                               */
-                              protected void validateVoProjects(VOProject[] param){
-                             
-                              }
-
-
-                             /**
-                              * Auto generated setter method
-                              * @param param VoProjects
-                              */
-                              public void setVoProjects(VOProject[] param){
-                              
-                                   validateVoProjects(param);
-
-                               localVoProjectsTracker = true;
-                                      
-                                      this.localVoProjects=param;
-                              }
-
-                               
-                             
-                             /**
-                             * Auto generated add method for the array for convenience
-                             * @param param VOProject
-                             */
-                             public void addVoProjects(VOProject param){
-                                   if (localVoProjects == null){
-                                   localVoProjects = new VOProject[]{};
-                                   }
-
-                            
-                                 //update the setting tracker
-                                localVoProjectsTracker = true;
-                            
-
-                               java.util.List list =
-                            org.apache.axis2.databinding.utils.ConverterUtil.toList(localVoProjects);
-                               list.add(param);
-                               this.localVoProjects =
-                             (VOProject[])list.toArray(
-                            new VOProject[list.size()]);
-
-                             }
-                             
-
-                        /**
                         * field for Month
                         */
 
@@ -74767,6 +74687,51 @@
                                }
                             
 
+                        /**
+                        * field for TypeExchange
+                        */
+
+                        
+                                    protected double localTypeExchange ;
+                                
+                           /*  This tracker boolean wil be used to detect whether the user called the set method
+                          *   for this attribute. It will be used to determine whether to include this field
+                           *   in the serialized XML
+                           */
+                           protected boolean localTypeExchangeTracker = false ;
+
+                           public boolean isTypeExchangeSpecified(){
+                               return localTypeExchangeTracker;
+                           }
+
+                           
+
+                           /**
+                           * Auto generated getter method
+                           * @return double
+                           */
+                           public  double getTypeExchange(){
+                               return localTypeExchange;
+                           }
+
+                           
+                        
+                            /**
+                               * Auto generated setter method
+                               * @param param TypeExchange
+                               */
+                               public void setTypeExchange(double param){
+                            
+                                       // setting primitive attribute tracker to true
+                                       localTypeExchangeTracker =
+                                       !java.lang.Double.isNaN(param);
+                                   
+                                            this.localTypeExchange=param;
+                                    
+
+                               }
+                            
+
      
      
         /**
@@ -74825,33 +74790,7 @@
 
                
                    }
-                if (localVoProjectsTracker){
-                                       if (localVoProjects!=null){
-                                            for (int i = 0;i < localVoProjects.length;i++){
-                                                if (localVoProjects[i] != null){
-                                                 localVoProjects[i].serialize(new javax.xml.namespace.QName("http://service.servicelayer","voProjects"),
-                                                           xmlWriter);
-                                                } else {
-                                                   
-                                                            writeStartElement(null, "http://service.servicelayer", "voProjects", xmlWriter);
-
-                                                           // write the nil attribute
-                                                           writeAttribute("xsi","http://www.w3.org/2001/XMLSchema-instance","nil","1",xmlWriter);
-                                                           xmlWriter.writeEndElement();
-                                                    
-                                                }
-
-                                            }
-                                     } else {
-                                        
-                                                writeStartElement(null, "http://service.servicelayer", "voProjects", xmlWriter);
-
-                                               // write the nil attribute
-                                               writeAttribute("xsi","http://www.w3.org/2001/XMLSchema-instance","nil","1",xmlWriter);
-                                               xmlWriter.writeEndElement();
-                                        
-                                    }
-                                 } if (localMonthTracker){
+                if (localMonthTracker){
                                     namespace = "http://service.servicelayer";
                                     writeStartElement(null, namespace, "month", xmlWriter);
                              
@@ -74879,6 +74818,19 @@
                                                       
                                                } else {
                                                     xmlWriter.writeCharacters(org.apache.axis2.databinding.utils.ConverterUtil.convertToString(localUserContextId));
+                                               }
+                                    
+                                   xmlWriter.writeEndElement();
+                             } if (localTypeExchangeTracker){
+                                    namespace = "http://service.servicelayer";
+                                    writeStartElement(null, namespace, "typeExchange", xmlWriter);
+                             
+                                               if (java.lang.Double.isNaN(localTypeExchange)) {
+                                           
+                                                         throw new org.apache.axis2.databinding.ADBException("typeExchange cannot be null!!");
+                                                      
+                                               } else {
+                                                    xmlWriter.writeCharacters(org.apache.axis2.databinding.utils.ConverterUtil.convertToString(localTypeExchange));
                                                }
                                     
                                    xmlWriter.writeEndElement();
@@ -75062,32 +75014,7 @@
                  java.util.ArrayList elementList = new java.util.ArrayList();
                  java.util.ArrayList attribList = new java.util.ArrayList();
 
-                 if (localVoProjectsTracker){
-                             if (localVoProjects!=null) {
-                                 for (int i = 0;i < localVoProjects.length;i++){
-
-                                    if (localVoProjects[i] != null){
-                                         elementList.add(new javax.xml.namespace.QName("http://service.servicelayer",
-                                                                          "voProjects"));
-                                         elementList.add(localVoProjects[i]);
-                                    } else {
-                                        
-                                                elementList.add(new javax.xml.namespace.QName("http://service.servicelayer",
-                                                                          "voProjects"));
-                                                elementList.add(null);
-                                            
-                                    }
-
-                                 }
-                             } else {
-                                 
-                                        elementList.add(new javax.xml.namespace.QName("http://service.servicelayer",
-                                                                          "voProjects"));
-                                        elementList.add(localVoProjects);
-                                    
-                             }
-
-                        } if (localMonthTracker){
+                 if (localMonthTracker){
                                       elementList.add(new javax.xml.namespace.QName("http://service.servicelayer",
                                                                       "month"));
                                  
@@ -75099,6 +75026,12 @@
                                  
                                 elementList.add(
                                    org.apache.axis2.databinding.utils.ConverterUtil.convertToString(localUserContextId));
+                            } if (localTypeExchangeTracker){
+                                      elementList.add(new javax.xml.namespace.QName("http://service.servicelayer",
+                                                                      "typeExchange"));
+                                 
+                                elementList.add(
+                                   org.apache.axis2.databinding.utils.ConverterUtil.convertToString(localTypeExchange));
                             }
 
                 return new org.apache.axis2.databinding.utils.reader.ADBXMLStreamReaderImpl(qName, elementList.toArray(), attribList.toArray());
@@ -75175,66 +75108,6 @@
                     
                     reader.next();
                 
-                        java.util.ArrayList list1 = new java.util.ArrayList();
-                    
-                                    
-                                    while (!reader.isStartElement() && !reader.isEndElement()) reader.next();
-                                
-                                    if (reader.isStartElement() && new javax.xml.namespace.QName("http://service.servicelayer","voProjects").equals(reader.getName())){
-                                
-                                    
-                                    
-                                    // Process the array and step past its final element's end.
-                                    
-                                                          nillableValue = reader.getAttributeValue("http://www.w3.org/2001/XMLSchema-instance","nil");
-                                                          if ("true".equals(nillableValue) || "1".equals(nillableValue)){
-                                                              list1.add(null);
-                                                              reader.next();
-                                                          } else {
-                                                        list1.add(VOProject.Factory.parse(reader));
-                                                                }
-                                                        //loop until we find a start element that is not part of this array
-                                                        boolean loopDone1 = false;
-                                                        while(!loopDone1){
-                                                            // We should be at the end element, but make sure
-                                                            while (!reader.isEndElement())
-                                                                reader.next();
-                                                            // Step out of this element
-                                                            reader.next();
-                                                            // Step to next element event.
-                                                            while (!reader.isStartElement() && !reader.isEndElement())
-                                                                reader.next();
-                                                            if (reader.isEndElement()){
-                                                                //two continuous end elements means we are exiting the xml structure
-                                                                loopDone1 = true;
-                                                            } else {
-                                                                if (new javax.xml.namespace.QName("http://service.servicelayer","voProjects").equals(reader.getName())){
-                                                                    
-                                                                      nillableValue = reader.getAttributeValue("http://www.w3.org/2001/XMLSchema-instance","nil");
-                                                                      if ("true".equals(nillableValue) || "1".equals(nillableValue)){
-                                                                          list1.add(null);
-                                                                          reader.next();
-                                                                      } else {
-                                                                    list1.add(VOProject.Factory.parse(reader));
-                                                                        }
-                                                                }else{
-                                                                    loopDone1 = true;
-                                                                }
-                                                            }
-                                                        }
-                                                        // call the converter utility  to convert and set the array
-                                                        
-                                                        object.setVoProjects((VOProject[])
-                                                            org.apache.axis2.databinding.utils.ConverterUtil.convertToArray(
-                                                                VOProject.class,
-                                                                list1));
-                                                            
-                              }  // End of if for expected property start element
-                                
-                                    else {
-                                        
-                                    }
-                                
                                     
                                     while (!reader.isStartElement() && !reader.isEndElement()) reader.next();
                                 
@@ -75279,6 +75152,26 @@
                                     else {
                                         
                                                object.setUserContextId(java.lang.Integer.MIN_VALUE);
+                                           
+                                    }
+                                
+                                    
+                                    while (!reader.isStartElement() && !reader.isEndElement()) reader.next();
+                                
+                                    if (reader.isStartElement() && new javax.xml.namespace.QName("http://service.servicelayer","typeExchange").equals(reader.getName())){
+                                
+                                    java.lang.String content = reader.getElementText();
+                                    
+                                              object.setTypeExchange(
+                                                    org.apache.axis2.databinding.utils.ConverterUtil.convertToDouble(content));
+                                              
+                                        reader.next();
+                                    
+                              }  // End of if for expected property start element
+                                
+                                    else {
+                                        
+                                               object.setTypeExchange(java.lang.Double.NaN);
                                            
                                     }
                                   
