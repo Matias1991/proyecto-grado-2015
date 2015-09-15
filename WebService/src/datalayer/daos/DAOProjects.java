@@ -9,17 +9,18 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
-import com.mysql.jdbc.Statement;
-
-import datalayer.utilities.ManageConnection;
 import servicelayer.entity.businessEntity.DistributionType;
-import servicelayer.entity.businessEntity.Project;
 import servicelayer.entity.businessEntity.Employed;
+import servicelayer.entity.businessEntity.Project;
 import servicelayer.entity.businessEntity.User;
 import servicelayer.entity.businessEntity.UserType;
 import shared.LoggerMSMP;
 import shared.exceptions.ServerException;
 import shared.interfaces.dataLayer.IDAOProjects;
+
+import com.mysql.jdbc.Statement;
+
+import datalayer.utilities.ManageConnection;
 
 public class DAOProjects implements IDAOProjects {
 
@@ -114,10 +115,33 @@ public class DAOProjects implements IDAOProjects {
 
 	@Override
 	public void update(int id, Project obj) throws ServerException {
-		// TODO Auto-generated method stub
+		PreparedStatement preparedStatement = null;
+		String updateSQL = "UPDATE PROJECT SET DESCRIPTION = ?, " +
+				"MANAGERID = ?, SELLERID = ?, AMOUNT = ?, ISCURRENCYDOLLAR = ?, " +
+				"UPDATEDDATETIMEUTC = ? " +
+				"WHERE ID = ?;";
+		
+		try {
+			preparedStatement = this.connection.prepareStatement(updateSQL);
 
+			preparedStatement.setString(1, obj.getDescription());
+			if(obj.getManager().getId() == 0){
+				preparedStatement.setNull(2, java.sql.Types.INTEGER);
+			}else{
+				preparedStatement.setInt(2, obj.getManager().getId());
+			}
+			preparedStatement.setInt(3, obj.getSeller().getId());
+			preparedStatement.setDouble(4, obj.getAmount());
+			preparedStatement.setBoolean(5, obj.getIsCurrencyDollar());
+			preparedStatement.setTimestamp(6, new Timestamp(new Date().getTime()));
+			preparedStatement.setInt(7, obj.getSeller().getId());
+			
+			preparedStatement.executeUpdate();
+		} catch (SQLException e) {
+			throw new ServerException(e);
+		}
 	}
-
+	
 	@Override
 	public boolean exist(int id) throws ServerException {
 		// TODO Auto-generated method stub

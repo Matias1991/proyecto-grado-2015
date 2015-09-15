@@ -8,6 +8,7 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
 
+import servicelayer.entity.businessEntity.Bill;
 import servicelayer.entity.businessEntity.DistributionType;
 import servicelayer.entity.businessEntity.Employed;
 import servicelayer.entity.businessEntity.Project;
@@ -41,7 +42,7 @@ public class DAOProjectPartners implements IDAOProjectPartners {
 			preparedStatement.setInt(1,projectId);
 			preparedStatement.setInt(2, partnerProject.getEmployed().getId());
 			preparedStatement.setInt(3,partnerProject.getDistributionType().getId());
-			preparedStatement.setInt(4,1);
+			preparedStatement.setInt(4,partnerProject.getVersion() + 1);
 			preparedStatement.setBoolean(5,partnerProject.isEnabled());
 			preparedStatement.setTimestamp(6, new Timestamp(partnerProject.getCreatedDateTimeUTC().getTime()));
 			preparedStatement.setTimestamp(7, new Timestamp(partnerProject.getUpdatedDateTimeUTC().getTime()));
@@ -73,7 +74,15 @@ public class DAOProjectPartners implements IDAOProjectPartners {
 		ResultSet rs = null;
 		try {
 
-			String getSQL = "SELECT * FROM PARTNER_PROJECT WHERE PROJECTID = ?";
+			String getSQL = "SELECT * " + 
+					"FROM meerkatsys_msmp.partner_project pp1 " +
+					"where (pp1.projectId, pp1.employedId, pp1.version) in " +
+					"		(select pp2.projectId, pp2.employedId, MAX(pp2.version) from meerkatsys_msmp.partner_project pp2 " +
+					"			where pp1.projectId = pp2.projectId and " +
+					"			pp1.employedId = pp2.employedId and " +
+					"			pp1.version = pp2.version) " +
+					"and pp1.projectId = ?;";
+			
 			preparedStatement = this.connection.prepareStatement(getSQL);
 			preparedStatement.setInt(1, id);
 			rs = preparedStatement.executeQuery();
@@ -98,6 +107,40 @@ public class DAOProjectPartners implements IDAOProjectPartners {
 		return projectPartners;
 	}
 
+	
+	@Override
+	public void update(ProjectPartner obj) throws ServerException {
+		PreparedStatement preparedStatement = null;
+
+		String updateSQL = "UPDATE PARTNER_PROJECT SET DISTRIBUTIONTYPE = ?, UPDATEDDATETIMEUTC = ?, VERSION = ? " +
+				"WHERE PROJECTID = ? AND EMPLOYEDID = ?;";
+		
+		try {
+			preparedStatement = this.connection.prepareStatement(updateSQL);
+
+			preparedStatement.setInt(1, obj.getDistributionType().getId());
+			preparedStatement.setTimestamp(2, new Timestamp(new Date().getTime()));
+			preparedStatement.setInt(3, obj.getVersion() + 1);
+			preparedStatement.setInt(4, obj.getProject().getId());
+			preparedStatement.setInt(5, obj.getEmployed().getId());
+
+			preparedStatement.executeUpdate();
+
+		}  catch (SQLException e) {
+			throw new ServerException(e);
+		} finally {
+
+			if (preparedStatement != null) {
+				try {
+					preparedStatement.close();
+				} catch (SQLException e) {
+					LoggerMSMP.setLog(e.getMessage());
+				}
+			}
+		}
+	}
+
+	
 	private ProjectPartner BuildProjectPartner (ResultSet rs) throws SQLException {
 		int projectId = rs.getInt("projectId");
 		int employedId = rs.getInt("employedId");

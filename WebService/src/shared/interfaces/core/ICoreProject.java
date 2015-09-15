@@ -34,4 +34,8 @@ public interface ICoreProject {
 	
 	ArrayList<Project> getProjects(User userContext)
 			throws ServerException;
+
+	Project updateProject(Project project,
+			ArrayList<ProjectEmployed> employedProjects, ArrayList<ProjectPartner> partnerProjects) throws ServerException,
+			ClientException;
 }

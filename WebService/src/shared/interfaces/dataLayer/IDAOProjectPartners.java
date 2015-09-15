@@ -10,4 +10,6 @@ public interface IDAOProjectPartners {
 	int insertPartnerProject(int projectId, ProjectPartner partnerProject) throws ServerException;
 
 	ArrayList<ProjectPartner> getPartnersProject(int projectId) throws ServerException;
+
+	void update(ProjectPartner obj) throws ServerException;
 }

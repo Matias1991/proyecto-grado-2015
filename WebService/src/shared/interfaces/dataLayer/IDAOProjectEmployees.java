@@ -12,4 +12,6 @@ public interface IDAOProjectEmployees {
 
 	ArrayList<ProjectEmployed> getEmployeesProject(int projectId)
 			throws ServerException;
+
+	void update(int id, ProjectEmployed obj) throws ServerException;
 }

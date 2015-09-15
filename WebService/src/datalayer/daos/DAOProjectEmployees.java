@@ -10,9 +10,6 @@ import java.util.Date;
 
 import servicelayer.entity.businessEntity.Employed;
 import servicelayer.entity.businessEntity.ProjectEmployed;
-import servicelayer.entity.businessEntity.User;
-import servicelayer.entity.businessEntity.UserStatus;
-import servicelayer.entity.businessEntity.UserType;
 import shared.LoggerMSMP;
 import shared.exceptions.ServerException;
 import shared.interfaces.dataLayer.IDAOProjectEmployees;
@@ -42,7 +39,7 @@ public class DAOProjectEmployees implements IDAOProjectEmployees {
 
 			preparedStatement.setInt(1, projectId);
 			preparedStatement.setInt(2, employedProyect.getEmployed().getId());
-			preparedStatement.setInt(3, 1);
+			preparedStatement.setInt(3, employedProyect.getVersion() + 1);
 			preparedStatement.setInt(4, employedProyect.getHours());
 			preparedStatement.setBoolean(5, employedProyect.isEnabled());
 			preparedStatement.setTimestamp(6, new Timestamp(employedProyect
@@ -108,6 +105,33 @@ public class DAOProjectEmployees implements IDAOProjectEmployees {
 		return projectEmployees;
 	}
 
+	@Override
+	public void update(int id, ProjectEmployed obj) throws ServerException {
+		PreparedStatement preparedStatement = null;
+
+		String updateSQL = "UPDATE EMPLOYED_PROJECT SET HOURS = ?, "+
+						"ENABLED = ?, UPDATEDDATETIMEUTC = ? " +
+						"WHERE PROJECTID = ? AND EMPLOYEDID = ? " +
+						"AND VERSION = ?;";
+
+		try {
+			preparedStatement = this.connection.prepareStatement(updateSQL);
+
+
+			preparedStatement.setInt(1, obj.getHours());
+			preparedStatement.setBoolean(2, obj.isEnabled());
+			preparedStatement.setTimestamp(3, new Timestamp(new Date().getTime()));
+			preparedStatement.setInt(4, id);
+			preparedStatement.setInt(5, obj.getEmployed().getId());
+			preparedStatement.setInt(6, obj.getVersion() + 1);
+			
+			preparedStatement.executeUpdate();
+
+		} catch (SQLException e) {
+			throw new ServerException(e);
+		}
+	}
+	
 	ProjectEmployed BuildProjectEmployees(ResultSet rs) throws SQLException {
 		int employedId = rs.getInt("employedId");
 		int version = rs.getInt("version");

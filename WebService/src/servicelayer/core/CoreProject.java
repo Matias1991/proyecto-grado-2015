@@ -3,16 +3,15 @@ package servicelayer.core;
 import java.util.ArrayList;
 import java.util.Date;
 
-import datalayer.daos.DAOManager;
-import datalayer.daos.DAOProjectEmployees;
 import servicelayer.entity.businessEntity.DistributionType;
+import servicelayer.entity.businessEntity.Project;
 import servicelayer.entity.businessEntity.ProjectEmployed;
 import servicelayer.entity.businessEntity.ProjectPartner;
-import servicelayer.entity.businessEntity.Project;
 import servicelayer.entity.businessEntity.User;
 import shared.exceptions.ClientException;
 import shared.exceptions.ServerException;
 import shared.interfaces.core.ICoreProject;
+import datalayer.daos.DAOManager;
 
 public class CoreProject implements ICoreProject {
 
@@ -204,4 +203,31 @@ public class CoreProject implements ICoreProject {
 			daoManager.close();
 		}
 	}
+
+	@Override
+	public Project updateProject(Project project,
+			ArrayList<ProjectEmployed> employedProjects,
+			ArrayList<ProjectPartner> partnerProjects) throws ServerException, ClientException {
+
+		DAOManager daoManager = new DAOManager();
+		try {
+			// si se modifica la distribucion recorro el arreglo y modifico/inserto nueva version
+			ArrayList<ProjectPartner> projectPartnersOld = daoManager.getDAOPartnerProjects().getPartnersProject(project.getId());	
+			for (ProjectPartner projectPartner : partnerProjects) {
+				for (ProjectPartner projectPartnerOld : projectPartnersOld) {
+					// si la distribucion del socio actual cambio, cambia la distribucion para los dos socios
+					if(projectPartnerOld.getEmployed().getId() == projectPartner.getEmployed().getId()
+							&& !projectPartnerOld.getDistributionType().equals(projectPartner.getDistributionType())){
+						// si la ultima fecha de modificacion no es hoy inserto una nueva version, si no modifico la ya existente
+						if(projectPartnerOld.getUpdatedDateTimeUTC().before(new Date() - 1)
+					}
+				}
+			}
+		
+		} finally {
+			daoManager.close();
+		}
+		return null;
+	}
+
 }
