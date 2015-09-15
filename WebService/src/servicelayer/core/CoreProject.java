@@ -219,7 +219,7 @@ public class CoreProject implements ICoreProject {
 					if(projectPartnerOld.getEmployed().getId() == projectPartner.getEmployed().getId()
 							&& !projectPartnerOld.getDistributionType().equals(projectPartner.getDistributionType())){
 						// si la ultima fecha de modificacion no es hoy inserto una nueva version, si no modifico la ya existente
-						if(projectPartnerOld.getUpdatedDateTimeUTC().before(new Date() - 1)
+//						if(projectPartnerOld.getUpdatedDateTimeUTC().before(new Date() - 1)
 					}
 				}
 			}
