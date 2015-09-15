@@ -364,19 +364,20 @@ public class DAOProjects implements IDAOProjects {
 					+ "(CLOSED = 0 AND createdDateTimeUTC <= ?) "   
 				    + "OR (closed = 1 and updatedDateTimeUTC between ? and ?)";
 					
-			preparedStatement = this.connection.prepareStatement(getSQL);			
-			preparedStatement.setTimestamp(1, new Timestamp(month.getTime()));
+			preparedStatement = this.connection.prepareStatement(getSQL);				
 			
 			Calendar cal = Calendar.getInstance();
 			cal.setTime(month);
 			cal.set(Calendar.DAY_OF_MONTH, 01);
-			Date from = cal.getTime();
-			preparedStatement.setTimestamp(2, new Timestamp(from.getTime()));
+			Date from = cal.getTime();			
 			
 			cal.setTime(month);
 			cal.set(Calendar.DATE, cal.getActualMaximum(Calendar.DATE));			
-			Date to = cal.getTime();		
-			preparedStatement.setTimestamp(3, new Timestamp(to.getTime()));			
+			Date to = cal.getTime();				
+			
+			preparedStatement.setTimestamp(1, new Timestamp(to.getTime()));
+			preparedStatement.setTimestamp(2, new Timestamp(from.getTime()));
+			preparedStatement.setTimestamp(3, new Timestamp(to.getTime()));	
 			
 			rs = preparedStatement.executeQuery();
 

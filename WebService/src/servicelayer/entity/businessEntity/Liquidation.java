@@ -20,7 +20,8 @@ public class Liquidation {
 	private Double partner1Earning;
 	private Employed partner2;
 	private Double partner2Earning;
-	
+	private Double typeExchange;
+		
 	public Liquidation(){
 	}
 	
@@ -180,5 +181,14 @@ public class Liquidation {
 	public void setPartner2Earning(Double partner2Earning) {
 		this.partner2Earning = partner2Earning;
 	}
+	
+	public Double getTypeExchange() {
+		return typeExchange;
+	}
+
+	public void setTypeExchange(Double typeExchange) {
+		this.typeExchange = typeExchange;
+	}
+
 	
 }

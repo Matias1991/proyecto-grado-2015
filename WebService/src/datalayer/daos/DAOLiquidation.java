@@ -70,8 +70,8 @@ public class DAOLiquidation implements IDAOLiquidation {
 
 		String insertSQL = "INSERT INTO LIQUIDATION (PROJECTID, TOTALBILLS, "
 				+ "HOURCOSTEMPLOYEES, HOURCOSTOUTSOURCED , CATEGORIESCOST, COMPANYCOST, PROFIT, RESERVE, SELLINGCOST, "
-				+ "EMPLOYED1ID, EMPLOYED1EARNING, EMPLOYED2ID, EMPLOYED2EARNING, APPLIEDDATETIMEUTC, CREATEDDATETIMEUTC) "
-				+ "VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+				+ "EMPLOYED1ID, EMPLOYED1EARNING, EMPLOYED2ID, EMPLOYED2EARNING,TYPEEXCHANGE, APPLIEDDATETIMEUTC, CREATEDDATETIMEUTC) "
+				+ "VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 
 		try {
 			preparedStatement = this.connection.prepareStatement(insertSQL,
@@ -90,8 +90,9 @@ public class DAOLiquidation implements IDAOLiquidation {
 			preparedStatement.setDouble(11, obj.getPartner1Earning());
 			preparedStatement.setDouble(12, obj.getPartner2().getId());
 			preparedStatement.setDouble(13, obj.getPartner2Earning());
-			preparedStatement.setTimestamp(14, new Timestamp(obj.getAppliedDateTimeUTC().getTime()));
-			preparedStatement.setTimestamp(15, new Timestamp(obj.getCreatedDateTimeUTC().getTime()));
+			preparedStatement.setDouble(14, obj.getTypeExchange());
+			preparedStatement.setTimestamp(15, new Timestamp(obj.getAppliedDateTimeUTC().getTime()));
+			preparedStatement.setTimestamp(16, new Timestamp(obj.getCreatedDateTimeUTC().getTime()));
 			
 			preparedStatement.executeUpdate();
 

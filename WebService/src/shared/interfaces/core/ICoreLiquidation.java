@@ -10,7 +10,7 @@ import shared.exceptions.ServerException;
 
 public interface ICoreLiquidation {
 	
-	void liquidationByCompany(ArrayList<Project> projects, Date month, User userContext)throws ServerException, ClientException;
+	void liquidationByCompany(Date month, User userContext, Double typeExchange)throws ServerException, ClientException;
 	boolean existLiquidation(Date month)throws ServerException;
 	
 

@@ -230,6 +230,7 @@ CREATE TABLE IF NOT EXISTS Liquidation
 	Employed1Earning	DECIMAL(10,2) NOT NULL,
 	Employed2Id			INTEGER NOT NULL,
 	Employed2Earning	DECIMAL(10,2) NOT NULL,
+	typeExchange		DECIMAL(10,2) NULL,
 	AppliedDateTimeUTC  TIMESTAMP NOT NULL,
 	CreatedDateTimeUTC	TIMESTAMP NULL,
 	PRIMARY KEY (Id),
