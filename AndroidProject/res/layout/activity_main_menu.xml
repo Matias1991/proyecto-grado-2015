@@ -9,7 +9,7 @@
     tools:context="com.example.androidproject.MainMenu" >
 
     <Button
-        android:id="@+id/btnCreateCategory"
+        android:id="@+id/btnCreateBill"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
@@ -21,8 +21,8 @@
         android:id="@+id/btnCreateCharge"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/btnCreateCategory"
-        android:layout_below="@+id/btnCreateCategory"
+        android:layout_alignLeft="@+id/btnCreateBill"
+        android:layout_below="@+id/btnCreateBill"
         android:layout_marginTop="48dp"
         android:text="Crear cobro"
         android:width="150dp" />

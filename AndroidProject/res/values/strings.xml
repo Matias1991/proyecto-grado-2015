@@ -8,5 +8,11 @@
     <string name="title_activity_search_user">SearchUser</string>
     <string name="title_activity_partner_menu">Menu usuario socio</string>
     <string name="title_activity_mainMenu">Menu</string>
+    <string name="title_activity_create_bill">CreateBill</string>
+    <string name="title_section1">Section 1</string>
+    <string name="title_section2">Section 2</string>
+    <string name="title_section3">Section 3</string>
+    <string name="ivaTypes">IVA</string>
+    <string name="projects">Proyecto</string>
 
 </resources>
