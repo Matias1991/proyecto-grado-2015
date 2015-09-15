@@ -107,8 +107,7 @@ public class CoreLiquidation implements ICoreLiquidation{
 			liquidation.setTotalCostCategoriesMaterial(getCostCategoriesMaterialByProject(project, from, to, userContext));
 						
 			//Total de rubros empresa que le toca pagar al proyecto (paga el porcentaje de facturacion con respecto al total de facturacion)
-			Double percentage = ((liquidation.getTotalBills()*100)/totalBills)/100;
-			liquidation.setTotalCostCategoriesCompany(getCostCategoriesCompany(from, to, userContext)*percentage);
+			liquidation.setTotalCostCategoriesCompany(getCostCategoriesCompany(from, to, userContext)*getPercentage(project, totalBills, from, to, userContext));
 			
 			//Para cada empleado asociado, el costo empresa * cantidad de horas asignadas al proyecto
 			liquidation.setTotalCostHoursEmployees(getCostHoursByProject(project, typeExchange));
@@ -178,7 +177,11 @@ public class CoreLiquidation implements ICoreLiquidation{
 		
 		for (Bill bill : bills) {
 			if(bill.getProject().getId() == project.getId()){
-				total = total + bill.getTotalAmountPeso();
+				if(project.getIsCurrencyDollar()){
+					total = total + bill.getTotalAmountDollar();
+				}else{
+					total = total + bill.getTotalAmountPeso();
+				}
 			}
 		}						
 		return total;
@@ -198,6 +201,7 @@ public class CoreLiquidation implements ICoreLiquidation{
 				total = total + (realCost * projectEmployed.getHours());				
 			}
 		}
+		//convierto a dolares
 		if(project.getIsCurrencyDollar()){
 			total = total / typeExchange;
 		}		
@@ -291,6 +295,22 @@ public class CoreLiquidation implements ICoreLiquidation{
 		}
 		
 		return total;		
+	}
+	
+	//Devuelve el porcentaje del monto facturado con respecto al monto total de facturacion del mes
+	private double getPercentage(Project project, double totalBills, Date from, Date to, User userContext) throws ServerException{
+		Double total = 0.0;
+		Double percentage = 0.0;
+		ArrayList<Bill> bills = CoreBill.GetInstance().getBills(from, to, false, userContext);
+		
+		for (Bill bill : bills) {
+			if(bill.getProject().getId() == project.getId()){				
+				total = total + bill.getTotalAmountPeso();				
+			}
+		}	
+		
+		percentage = ((total * 100)/totalBills)/100;
+		return percentage;
 	}
 	
 	//Realiza la liquidacion por projecto	
