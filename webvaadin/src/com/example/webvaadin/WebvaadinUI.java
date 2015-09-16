@@ -29,6 +29,7 @@ import views.profile.ModifyProfileView;
 import views.project.CatalogProjectView;
 import views.project.CreateProjectView;
 import views.project.DeleteProjectView;
+import views.project.UpdateProjectView;
 import views.user.CatalogUsersView;
 import views.user.CreateUserView;
 import views.user.DeleteUsersView;
@@ -171,6 +172,9 @@ public class WebvaadinUI extends UI {
 			case View.CREATEPROJECT:
 				view = new CreateProjectView();
 				break;
+			case View.UPDATEPROJECT:
+				view = new UpdateProjectView();
+				break;
 			case View.CLOSEPROJECT:
 				view = new DeleteProjectView();
 				break;
@@ -222,6 +226,7 @@ public class WebvaadinUI extends UI {
 		userTypePartnerToViews.add(Constant.View.CHARGES);
 		
 		userTypePartnerToViews.add(Constant.View.CATALOGPROJECTS);
+		userTypePartnerToViews.add(Constant.View.UPDATEPROJECT);
 		userTypePartnerToViews.add(Constant.View.CREATEPROJECT);
 		userTypePartnerToViews.add(Constant.View.CLOSEPROJECT);
 		
@@ -420,6 +425,9 @@ public class WebvaadinUI extends UI {
 				case "Crear proyecto":
 					UI.getCurrent().getNavigator().navigateTo(Constant.View.CREATEPROJECT);
 					break;
+				case "Modificar proyecto":
+					UI.getCurrent().getNavigator().navigateTo(Constant.View.UPDATEPROJECT);
+					break;
 				case "Catálogo proyectos":
 					UI.getCurrent().getNavigator().navigateTo(Constant.View.CATALOGPROJECTS);
 					break;
@@ -487,6 +495,8 @@ public class WebvaadinUI extends UI {
 			project = menuBar.addItem("Proyectos", null, null);
 			if(RequestContext.getRequestContext().getUserType() == 2)
 				project.addItem("Crear proyecto", null, mainMenuBarCommand);
+			if(RequestContext.getRequestContext().getUserType() == 2)
+				project.addItem("Modificar proyecto", null, mainMenuBarCommand);
 			if(RequestContext.getRequestContext().getUserType() == 2)
 				project.addItem("Cerrar proyectos", null, mainMenuBarCommand);
 			project.addItem("Catálogo proyectos", null, mainMenuBarCommand);

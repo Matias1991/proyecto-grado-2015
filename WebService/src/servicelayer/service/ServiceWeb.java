@@ -86,7 +86,7 @@ public class ServiceWeb extends ServiceBase {
 			iCoreBill = CoreBill.GetInstance();
 			iCoreCharge = CoreCharge.GetInstance();
 			iCoreLiquidation = CoreLiquidation.GetInstance();
-			
+
 		} catch (Exception e) {
 			ThrowGenericExceptionAndLogError(e);
 		} finally {
@@ -651,7 +651,8 @@ public class ServiceWeb extends ServiceBase {
 			transactionLock.tryLock(Constants.DEFAULT_TRANSACTION_TIME,
 					TimeUnit.SECONDS);
 			User userContext = iCoreUser.getUser(userContextId);
-			return categoryBuilder.BuildArrayVOObject(VOCategory.class, iCoreCategory.getCategories(userContext));		
+			return categoryBuilder.BuildArrayVOObject(VOCategory.class,
+					iCoreCategory.getCategories(userContext));
 		} catch (ServerException e) {
 			ThrowServerExceptionAndLogError(e, "obtener todos los rubros");
 		} catch (InterruptedException e) {
@@ -707,13 +708,14 @@ public class ServiceWeb extends ServiceBase {
 		return null;
 	}
 
-	public VOCategory[] getCategoriesByDate(Date from, Date to, int userContextId) {
-		try {	
+	public VOCategory[] getCategoriesByDate(Date from, Date to,
+			int userContextId) {
+		try {
 			transactionLock.tryLock(Constants.DEFAULT_TRANSACTION_TIME,
-					TimeUnit.SECONDS);			
+					TimeUnit.SECONDS);
 			User userContext = iCoreUser.getUser(userContextId);
 			return categoryBuilder.BuildArrayVOObject(VOCategory.class,
-						iCoreCategory.getCategories(from, to, userContext));			
+					iCoreCategory.getCategories(from, to, userContext));
 		} catch (ServerException e) {
 			ThrowServerExceptionAndLogError(e,
 					"obtener los rubros por intervalo de fecha");
@@ -779,7 +781,7 @@ public class ServiceWeb extends ServiceBase {
 					TimeUnit.SECONDS);
 
 			User userContext = iCoreUser.getUser(userContextId);
-			
+
 			return billBuilder.BuildArrayVOObject(VOBill.class,
 					iCoreBill.getBills(from, to, userContext));
 
@@ -802,7 +804,7 @@ public class ServiceWeb extends ServiceBase {
 					TimeUnit.SECONDS);
 
 			User userContext = iCoreUser.getUser(userContextId);
-			
+
 			return billBuilder.BuildArrayVOObject(VOBill.class,
 					iCoreBill.getBills(from, to, isLiquidated, userContext));
 
@@ -825,9 +827,10 @@ public class ServiceWeb extends ServiceBase {
 					TimeUnit.SECONDS);
 
 			User userContext = iCoreUser.getUser(userContextId);
-			
-			return billBuilder.BuildArrayVOObject(VOBill.class,
-					iCoreBill.getBills(from, to, isLiquidated, withCharges, userContext));
+
+			return billBuilder
+					.BuildArrayVOObject(VOBill.class, iCoreBill.getBills(from,
+							to, isLiquidated, withCharges, userContext));
 
 		} catch (ServerException e) {
 			ThrowServerExceptionAndLogError(e, "obtener todos las facturas");
@@ -841,13 +844,14 @@ public class ServiceWeb extends ServiceBase {
 		return null;
 	}
 
-	public VOBill[] getBillsByFiltersWithCharges(Date from, Date to, int userContextId) {
+	public VOBill[] getBillsByFiltersWithCharges(Date from, Date to,
+			int userContextId) {
 		try {
 			transactionLock.tryLock(Constants.DEFAULT_TRANSACTION_TIME,
 					TimeUnit.SECONDS);
 
 			User userContext = iCoreUser.getUser(userContextId);
-			
+
 			return billBuilder.BuildArrayVOObject(VOBill.class,
 					iCoreBill.getBillsWithCharges(from, to, userContext));
 
@@ -988,7 +992,7 @@ public class ServiceWeb extends ServiceBase {
 					TimeUnit.SECONDS);
 
 			User userContext = iCoreUser.getUser(userContextId);
-			
+
 			return projectBuilder.BuildArrayVOObject(VOProject.class,
 					iCoreProject.getProjects(userContext));
 
@@ -1068,7 +1072,68 @@ public class ServiceWeb extends ServiceBase {
 		return null;
 	}
 
-	// `
+	public VOProject updateProject(VOProject voProject) {
+		try {
+			transactionLock.tryLock(Constants.DEFAULT_TRANSACTION_TIME,
+					TimeUnit.SECONDS);
+
+			Project project = projectBuilder.BuildBusinessObject(voProject);
+			ArrayList<ProjectEmployed> employedProjects = projectBuilder
+					.BuildEmployedProjects(voProject.getVoEmployedProjects());
+			ArrayList<ProjectPartner> partnerProjects = projectBuilder
+					.BuildPartnerProjects(voProject.getVoPartnerProjects());
+
+			Project projectUpdated = iCoreProject.updateProject(project, employedProjects, partnerProjects);
+			
+			
+			VOProject voProjectUpdated = projectBuilder.BuildVOObject(project);
+			// Empleados
+			ArrayList<ProjectEmployed> projEmpl = iCoreProject
+					.getProjectEmployees(voProjectUpdated.getId());
+			for (ProjectEmployed projectEmployed : projEmpl) {
+				Employed employed = iCoreEmployed.getEmployed(projectEmployed
+						.getEmployed().getId());
+				projectEmployed.getEmployed().setName(employed.getName());
+				projectEmployed.getEmployed().setLastName(
+						employed.getLastName());
+			}
+			voProject.setVoEmployedProjects(projectBuilder
+					.BuildVOEmployedProjects(projEmpl));
+			// Distribucion
+			ArrayList<ProjectPartner> projectPartners = iCoreProject
+					.getProjectPartners(voProjectUpdated.getId());
+
+			for (ProjectPartner projectPartner : projectPartners) {
+				Employed employed;
+
+				employed = iCoreEmployed.getEmployed(projectPartner
+						.getEmployed().getId());
+
+				projectPartner.getEmployed().setName(employed.getName());
+				projectPartner.getEmployed()
+						.setLastName(employed.getLastName());
+			}
+
+			voProject.setVoPartnerProjects(projectBuilder.BuildVOPartnerProjects(projectPartners));
+			return voProjectUpdated;
+			
+		} catch (ServerException e) {
+			ThrowServerExceptionAndLogError(e, "modificar proyecto");
+		} catch (ClientException e) {
+			throw new RuntimeException(e.getMessage());
+		} catch (InterruptedException e) {
+			throw new RuntimeException(Constants.TRANSACTION_ERROR);
+		} catch (Exception e) {
+			ThrowGenericExceptionAndLogError(e);
+		} finally {
+			transactionLock.unlock();
+		}
+
+		return null;
+
+	}
+
+	//
 
 	/* COMIENZO COBROS */
 	public boolean insertCharge(VOCharge voCharge) {
@@ -1161,7 +1226,7 @@ public class ServiceWeb extends ServiceBase {
 					TimeUnit.SECONDS);
 
 			User userContext = iCoreUser.getUser(userContextId);
-			
+
 			return chargeBuilder.BuildArrayVOObject(VOCharge.class,
 					iCoreCharge.getCharges(userContext));
 
@@ -1184,9 +1249,10 @@ public class ServiceWeb extends ServiceBase {
 					TimeUnit.SECONDS);
 
 			User userContext = iCoreUser.getUser(userContextId);
-			
-			return chargeBuilder.BuildArrayVOObject(VOCharge.class,
-					iCoreCharge.getCharges(isBillLiquidated, isProjectClosed, userContext));
+
+			return chargeBuilder
+					.BuildArrayVOObject(VOCharge.class, iCoreCharge.getCharges(
+							isBillLiquidated, isProjectClosed, userContext));
 
 		} catch (ServerException e) {
 			ThrowServerExceptionAndLogError(e, "obtener cobros por factura");
@@ -1199,16 +1265,18 @@ public class ServiceWeb extends ServiceBase {
 		}
 		return null;
 	}
-	
+
 	/* COMIENZO LIQUIDACIONES */
-	public boolean liquidation(Date month, int userContextId, double typeExchange){
+	public boolean liquidation(Date month, int userContextId,
+			double typeExchange) {
 		try {
 			transactionLock.tryLock(Constants.DEFAULT_TRANSACTION_TIME,
 					TimeUnit.SECONDS);
-			
+
 			User userContext = iCoreUser.getUser(userContextId);
-			
-			iCoreLiquidation.liquidationByCompany(month, userContext, typeExchange);	
+
+			iCoreLiquidation.liquidationByCompany(month, userContext,
+					typeExchange);
 
 			return true;
 		} catch (ServerException e) {
@@ -1223,6 +1291,6 @@ public class ServiceWeb extends ServiceBase {
 			transactionLock.unlock();
 		}
 		return false;
-		
+
 	}
 }

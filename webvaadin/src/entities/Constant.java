@@ -59,6 +59,7 @@ public class Constant {
 		
 		//Proyectos
 		public static final String CATALOGPROJECTS = "CatalogProjectView";
+		public static final String UPDATEPROJECT = "UpdateProjectView";
 		public static final String CREATEPROJECT = "CreateProjectView";	
 		public static final String CLOSEPROJECT = "DeleteProjectView";
 	}

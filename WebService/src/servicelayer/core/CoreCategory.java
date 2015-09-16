@@ -147,11 +147,8 @@ public class CoreCategory implements ICoreCategory {
 			// si se modifica en el mismo dia, actualizo el registro
 			// si no inserto una nueva version
 			if (categoryOld.getUpdatedDateTimeUTC() != null
-					&& DateFormat
-							.getDateInstance()
-							.format(categoryOld.getUpdatedDateTimeUTC())
-							.equals(DateFormat.getDateInstance().format(
-									new Date()))) {
+					&& DateFormat.getDateInstance().format(categoryOld.getUpdatedDateTimeUTC())
+					.equals(DateFormat.getDateInstance().format(new Date()))) {
 				iDAOCategory.update(0, categoryUpdate);
 			} else {
 				iDAOCategory.update(1, categoryUpdate);

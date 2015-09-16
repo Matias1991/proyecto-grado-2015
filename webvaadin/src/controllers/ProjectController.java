@@ -10,6 +10,7 @@ import servicelayer.service.ServiceWebStub;
 import servicelayer.service.ServiceWebStub.GetDistributionTypes;
 import servicelayer.service.ServiceWebStub.GetProject;
 import servicelayer.service.ServiceWebStub.InsertProject;
+import servicelayer.service.ServiceWebStub.UpdateProject;
 import servicelayer.service.ServiceWebStub.VODistributionType;
 import servicelayer.service.ServiceWebStub.DeleteProject;
 import servicelayer.service.ServiceWebStub.GetProjectsByStatus;
@@ -245,4 +246,66 @@ public class ProjectController {
 		return distributions;
 	}
 
+	public static Project updateProject(Project project){
+		Project projectUpdated = null;
+
+		try {
+			ServiceWebStub service = new ServiceWebStub();
+			UpdateProject updateProject = new UpdateProject();
+			
+			// Project
+			VOProject voProject = new VOProject();
+			voProject.setDescription(project.getDescription());
+			voProject.setAmount(project.getAmount());
+			voProject.setIsCurrencyDollar(project.getIsCurrencyDollar());
+			voProject.setSellerId(project.getSeller().getId());
+			if(project.getManager() != null){
+				voProject.setManagerId(project.getManager().getId());
+			}
+
+			// ProjectEmployed
+			VOProjectEmployed[] voProjectEmployees = new VOProjectEmployed[project
+					.getEmployedHours().size()];
+
+			int i = 0;
+			for (ProjectEmployed aux : project.getEmployedHours()) {
+				VOProjectEmployed voEmployedProject = new VOProjectEmployed();
+				voEmployedProject.setEmployedId(aux.getEmployedId());
+				voEmployedProject.setHours(aux.getEmployedHours());
+
+				voProjectEmployees[i] = voEmployedProject;
+				i++;
+			}
+			voProject.setVoEmployedProjects(voProjectEmployees);
+
+			// ProjectPartner
+			VOProjectPartner[] voProjectPartners = new VOProjectPartner[project
+					.getProjectPartners().size()];
+
+			i = 0;
+			for (ProjectPartner aux : project.getProjectPartners()) {
+				VOProjectPartner voProjectPartner = new VOProjectPartner();
+				VODistributionType voDistributionType = new VODistributionType();
+				voDistributionType.setId(aux.getDistributionType().getId());
+				voProjectPartner.setEmployedId(aux.getEmployedId());
+				voProjectPartner.setDistributionType(voDistributionType);
+
+				voProjectPartners[i] = voProjectPartner;
+				i++;
+			}
+			voProject.setVoPartnerProjects(voProjectPartners);
+			
+			updateProject.setVoProject(voProject);
+
+			return new Project(service.updateProject(updateProject).get_return());
+			
+
+		} catch (AxisFault e) {
+			e.printStackTrace();
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
+
+		return projectUpdated;
+	}
 }

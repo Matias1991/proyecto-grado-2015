@@ -14,4 +14,7 @@ public interface IDAOProjectEmployees {
 			throws ServerException;
 
 	void update(int id, ProjectEmployed obj) throws ServerException;
+
+	ProjectEmployed getEmployeed(int projectId, int employeedId)
+			throws ServerException;
 }

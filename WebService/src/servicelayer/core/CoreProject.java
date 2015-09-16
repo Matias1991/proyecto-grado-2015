@@ -1,5 +1,6 @@
 package servicelayer.core;
 
+import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -211,23 +212,48 @@ public class CoreProject implements ICoreProject {
 
 		DAOManager daoManager = new DAOManager();
 		try {
-			// si se modifica la distribucion recorro el arreglo y modifico/inserto nueva version
+			/* DISTRIBUCION */
 			ArrayList<ProjectPartner> projectPartnersOld = daoManager.getDAOPartnerProjects().getPartnersProject(project.getId());	
-			for (ProjectPartner projectPartner : partnerProjects) {
-				for (ProjectPartner projectPartnerOld : projectPartnersOld) {
-					// si la distribucion del socio actual cambio, cambia la distribucion para los dos socios
-					if(projectPartnerOld.getEmployed().getId() == projectPartner.getEmployed().getId()
-							&& !projectPartnerOld.getDistributionType().equals(projectPartner.getDistributionType())){
-						// si la ultima fecha de modificacion no es hoy inserto una nueva version, si no modifico la ya existente
-//						if(projectPartnerOld.getUpdatedDateTimeUTC().before(new Date() - 1)
+			// si se modifica la distribucion recorro el arreglo
+			if(changedProjectPartner(projectPartnersOld, partnerProjects)){
+				// Si la ultima modificación fue hoy, modifico la última version SiNo inserto una nueva versión
+				if(changedProjectPartnerToday(projectPartnersOld)){
+					for (ProjectPartner partner : partnerProjects) {
+						partner.setEnabled(true);
+						project.updateAssociateDistribution(partner);
+					}
+				} else {
+					for (ProjectPartner partner : partnerProjects) {
+						partner.setEnabled(true);
+						project.associateDistribution(partner);
 					}
 				}
 			}
-		
+			
+			/* EMPLEADOS ASOCIADOS */
+			for (ProjectEmployed empProject : employedProjects) {
+				ProjectEmployed projectEmployedOld = daoManager.getDAOEmployedProjects().getEmployeed(project.getId(), empProject.getEmployed().getId());
+				if(changedProjectEmployee(projectEmployedOld, empProject)){
+					empProject.setUpdatedDateTimeUTC(new Date());
+					if(changedProjectEmployeeToday(projectEmployedOld)){
+						project.updateAssociateEmployed(empProject);
+					} else {
+						project.associateEmployed(empProject);						
+					}					
+				}
+			}
+
+			/* PROYECTO */
+			daoManager.getDAOProjects().update(project.getId(), project);
+			daoManager.commit();
+			
+			return getProject(project.getId());
+			
+		} catch (ServerException e) {
+			throw e;
 		} finally {
 			daoManager.close();
 		}
-		return null;
 	}
 
 	
@@ -245,4 +271,40 @@ public class CoreProject implements ICoreProject {
 		}
 	}
 	
+	// Dados dos tipos de distribuciones, verifica si son iguales
+	private boolean changedProjectPartner (ArrayList<ProjectPartner> projectPartnersOld, ArrayList<ProjectPartner> projectPartnersNew){
+		boolean changed = false;
+		for (ProjectPartner projectPartner : projectPartnersNew) {
+			for (ProjectPartner projectPartnerOld : projectPartnersOld) {
+				if(projectPartnerOld.getEmployed().getId() == projectPartner.getEmployed().getId() &&
+						!projectPartnerOld.getDistributionType().equals(projectPartner.getDistributionType())){
+					changed = true;
+				}
+			}
+		}
+		return changed;
+	}
+	
+	// Dados dos tipos de distribuciones, verifica si se modificaron hoy
+	private boolean changedProjectPartnerToday (ArrayList<ProjectPartner> projectPartnersOld){
+		boolean atSameDay = false;
+		for (ProjectPartner projectPartnerOld : projectPartnersOld) {
+			if(projectPartnerOld.getUpdatedDateTimeUTC() != null && 
+					DateFormat.getInstance().format(projectPartnerOld).equals(DateFormat.getInstance().format(new Date()))){
+				atSameDay = true;
+			}
+		}
+		return atSameDay;
+	}
+	
+	// Dados dos projectEmployees verifico si son iguales
+	private boolean changedProjectEmployee (ProjectEmployed projectEmployedOld, ProjectEmployed projectEmployedNew){
+		return (projectEmployedOld.getHours() != projectEmployedNew.getHours() || projectEmployedOld.isEnabled() != projectEmployedNew.isEnabled());
+	}
+	
+	// Dados dos projectEmployees, verifica si se modificaron hoy
+	private boolean changedProjectEmployeeToday (ProjectEmployed projectEmployedOld){
+		return (projectEmployedOld.getUpdatedDateTimeUTC() != null && 
+				DateFormat.getInstance().format(projectEmployedOld).equals(DateFormat.getInstance().format(new Date())));
+	}
 }

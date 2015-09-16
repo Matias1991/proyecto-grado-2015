@@ -477,6 +477,22 @@
             }
                 
            /**
+            * auto generated Axis2 call back method for updateProject method
+            * override this method for handling normal response from updateProject operation
+            */
+           public void receiveResultupdateProject(
+                    servicelayer.service.ServiceWebStub.UpdateProjectResponse result
+                        ) {
+           }
+
+          /**
+           * auto generated Axis2 Error handler
+           * override this method for handling error response from updateProject operation
+           */
+            public void receiveErrorupdateProject(java.lang.Exception e) {
+            }
+                
+           /**
             * auto generated Axis2 call back method for getEmployed method
             * override this method for handling normal response from getEmployed operation
             */

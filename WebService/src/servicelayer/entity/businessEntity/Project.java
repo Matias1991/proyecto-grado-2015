@@ -165,6 +165,15 @@ public class Project {
 		this.iDAOProjectPartners.insertPartnerProject(this.id, partnerProject);
 	}
 	
+	public void updateAssociateEmployed(ProjectEmployed employedProject)
+			throws ServerException {		
+		this.iDAOProjectEmployees.update(this.id, employedProject);
+	}
+
+	public void updateAssociateDistribution(ProjectPartner partnerProject) throws ServerException{
+		this.iDAOProjectPartners.update(partnerProject);
+	}	
+	
 	public ArrayList<ProjectEmployed> getProjectEmployees() throws ServerException
 	{
 		return iDAOProjectEmployees.getEmployeesProject(this.id);

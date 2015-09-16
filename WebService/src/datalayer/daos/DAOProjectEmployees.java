@@ -104,7 +104,49 @@ public class DAOProjectEmployees implements IDAOProjectEmployees {
 
 		return projectEmployees;
 	}
+	
+	@Override
+	public ProjectEmployed getEmployeed (int projectId, int employeedId)
+			throws ServerException {
+		ProjectEmployed projectEmployed = new ProjectEmployed();
+		PreparedStatement preparedStatement = null;
+		ResultSet rs = null;
+		try {
 
+			StringBuilder sql = new StringBuilder();
+			sql.append("SELECT * FROM EMPLOYED_PROJECT ");
+			sql.append("WHERE PROJECTID = ? AND EMPLOYEDID = ? ");
+			sql.append("AND VERSION = (SELECT MAX(VERSION) FROM EMPLOYED_PROJECT ");
+			sql.append("WHERE PROJECTID = ? AND EMPLOYEDID = ?)");
+
+			preparedStatement = this.connection.prepareStatement(sql.toString());
+			preparedStatement.setInt(1, projectId);
+			preparedStatement.setInt(2, employeedId);
+			preparedStatement.setInt(3, projectId);
+			preparedStatement.setInt(4, employeedId);
+
+			rs = preparedStatement.executeQuery();
+
+			while (rs.next()) {
+				projectEmployed = BuildProjectEmployees(rs);
+			}
+
+		} catch (SQLException e) {
+			throw new ServerException(e);
+		} finally {
+			try {
+				if (preparedStatement != null)
+					preparedStatement.close();
+				if (rs != null)
+					rs.close();
+			} catch (SQLException e) {
+				LoggerMSMP.setLog(e.getMessage());
+			}
+		}
+
+		return projectEmployed;
+	}
+	
 	@Override
 	public void update(int id, ProjectEmployed obj) throws ServerException {
 		PreparedStatement preparedStatement = null;
