@@ -120,7 +120,8 @@ public class UpdateProjectView extends BaseView {
 				cboManager.setValidationVisible(true);
 
 				if (validate()) {
-					Project project = new Project();
+					Project project = ProjectController.getProject(Integer.parseInt(comboProject.getValue()
+							.toString()));
 					project.setDescription(txtDescription.getValue());
 					
 					if(txtAmount.getValue() != null)
@@ -240,8 +241,8 @@ public class UpdateProjectView extends BaseView {
 		
 		if(projectToModify.getEmployedHours() != null){
 			for (ProjectEmployed employed : projectToModify.getEmployedHours()) {
-				employedContainer.removeItem(employed.getEmployedId());
-				employedHoursContainer.addItem(employed.getEmployedId());
+				tblEmployed.removeItem(employed.getEmployedId());
+				tblEmployedHours.addItem(employed.getEmployedId());
 			}
 		}
 	}
@@ -463,6 +464,7 @@ public class UpdateProjectView extends BaseView {
 		btnUpdate.setWidth("120px");
 		btnUpdate.setHeight("-1px");
 		btnUpdate.setTabIndex(7);
+		btnUpdate.setEnabled(false);
 		mainLayout.addComponent(btnUpdate,
 				"top:503.0px;right:500.0px;left:0.0px;");
 
