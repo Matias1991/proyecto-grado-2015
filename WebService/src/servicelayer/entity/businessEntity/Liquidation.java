@@ -2,7 +2,7 @@ package servicelayer.entity.businessEntity;
 
 import java.util.Date;
 
-public class Liquidation {
+public class Liquidation implements Comparable{
 	
 	private int id;
 	private Project project;
@@ -190,5 +190,9 @@ public class Liquidation {
 		this.typeExchange = typeExchange;
 	}
 
-	
+	@Override
+	public int compareTo(Object arg0) {
+		// TODO Auto-generated method stub
+		return (int) (((Liquidation)arg0).getEarnings() - this.earnings);
+	}	
 }

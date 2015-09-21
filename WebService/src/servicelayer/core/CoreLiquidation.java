@@ -2,9 +2,8 @@ package servicelayer.core;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
-import java.util.GregorianCalendar;
-
 import datalayer.daos.DAOManager;
 import servicelayer.entity.businessEntity.Bill;
 import servicelayer.entity.businessEntity.Category;
@@ -15,13 +14,11 @@ import servicelayer.entity.businessEntity.Liquidation;
 import servicelayer.entity.businessEntity.Project;
 import servicelayer.entity.businessEntity.ProjectEmployed;
 import servicelayer.entity.businessEntity.ProjectPartner;
-import servicelayer.entity.businessEntity.SalarySummary;
 import servicelayer.entity.businessEntity.User;
 import shared.ConfigurationProperties;
 import shared.exceptions.ClientException;
 import shared.exceptions.ServerException;
 import shared.interfaces.core.ICoreLiquidation;
-import shared.interfaces.core.ICoreProject;
 
 
 public class CoreLiquidation implements ICoreLiquidation{
@@ -42,11 +39,13 @@ public class CoreLiquidation implements ICoreLiquidation{
 	@Override
 	public void liquidationByCompany(Date month, User userContext, Double typeExchange)throws ServerException, ClientException{
 		DAOManager daoManager = new DAOManager();
-		Double totalBills = 0.0;
+		//Double totalBills = 0.0;
 		ArrayList<Project> projects = null;
+		ArrayList<Liquidation> liquidations = new ArrayList<Liquidation>();
 	
 		try{
 			if(!existLiquidation(month)){
+				//Obtengo los proyectos a liquidar
 				projects = CoreProject.GetInstance().getProjectsToLiquidate(month);
 				if(projects != null && projects.size() > 0){									
 						Calendar cal = Calendar.getInstance();
@@ -59,11 +58,59 @@ public class CoreLiquidation implements ICoreLiquidation{
 						Date to = cal.getTime();	
 						
 						//Total de facturacion para el período
-						totalBills = getTotalBillsToLiquidate(from, to, userContext);
+						//totalBills = getTotalBillsToLiquidate(from, to, userContext);
 						
+						//Calcular la ganancia parcial (total facturado - reserva - venta - rubros materiales del proyecto - rubros humanos del proyecto
 						for (Project project : projects) {
-							liquidationByProject(project, month, userContext, totalBills, typeExchange, daoManager);
-						}						
+							Liquidation liquidation = new Liquidation();
+							liquidation.setProject(project);
+							liquidation.setAppliedDateTimeUTC(month);
+							liquidation.setCreatedDateTimeUTC(new Date());
+							liquidation.setTypeExchange(typeExchange);
+							liquidations.add(partialLiquidationByProject(liquidation, project, from, to, userContext, typeExchange));
+							
+							//liquidationByProject(project, month, userContext, totalBills, typeExchange, daoManager);
+						}	
+						
+						
+						//Ordenar el arraylist por ganancia de mayor a menor
+						Collections.sort(liquidations);						
+						
+						//Descuento los costos compañia a las liquidaciones de mayor ganancia 
+						//hasta que se descuente todo los costos o se recorran todas las liquidaciones					
+						Double totalCategoriesCompany = getCostCategoriesCompany(from, to, userContext);
+						for (Liquidation liquidation : liquidations) {
+							if (totalCategoriesCompany > 0){
+								if(totalCategoriesCompany >= liquidation.getEarnings()){
+									totalCategoriesCompany = totalCategoriesCompany - liquidation.getEarnings();
+									liquidation.setEarnings(0.0);
+								}else{
+									liquidation.setEarnings(liquidation.getEarnings() - totalCategoriesCompany);
+									totalCategoriesCompany = 0.0;									
+								}
+							}
+						}
+						
+						//Ganancias del proyecto para los socios
+						for (Liquidation liquidation : liquidations) {
+							liquidation.getProject().setiDAOPartnerProject(daoManager.getDAOPartnerProjects());
+							ArrayList<ProjectPartner> projectPartners = liquidation.getProject().getiDAOPartnerProject().getPartnersProject(liquidation.getProject().getId());
+							
+							//Total ganancia socio 1 = Ganancia a dividir * distribucion			
+							liquidation.setPartner1(projectPartners.get(0).getEmployed());			
+							liquidation.setPartner1Earning(getPartnerEarning(liquidation.getEarnings(),getDistributionType(projectPartners.get(0).getDistributionType().getId(), CoreProject.GetInstance().getDistributionTypes())));							
+						
+							//Total ganancia socio 2 = Ganancia a diviidir * distribucion
+							liquidation.setPartner2Earning(getPartnerEarning(liquidation.getEarnings(),getDistributionType(projectPartners.get(1).getDistributionType().getId(), CoreProject.GetInstance().getDistributionTypes())));
+							liquidation.setPartner2(projectPartners.get(1).getEmployed());								
+						}
+						
+						//Guardo cada liquidacion en la tabla Liquidation
+						for (Liquidation liquidation : liquidations) {
+							int newLiquidationId = daoManager.getDAOLiquidation().insert(liquidation);
+							liquidation.setId(newLiquidationId);							
+						}
+						
 					daoManager.commit();
 				}
 			}else{
@@ -77,97 +124,126 @@ public class CoreLiquidation implements ICoreLiquidation{
 		}		
 	}
 	
-	private void liquidationByProject(Project project,Date month, User userContext, double totalBills, double typeExchange, DAOManager daoManager) throws ServerException, ClientException{
-		//DAOManager daoManager = new DAOManager();
-		Liquidation liquidation = new Liquidation();
-		
-		try{			
-			//Project project = CoreProject.GetInstance().getProject(projectId);
-			liquidation.setProject(project);
-			liquidation.setAppliedDateTimeUTC(month);
-			liquidation.setCreatedDateTimeUTC(new Date());
-			liquidation.setTypeExchange(typeExchange);
-			
-			Calendar cal = Calendar.getInstance();
-			cal.setTime(month);
-			cal.set(Calendar.DAY_OF_MONTH, 01);
-			Date from = cal.getTime();		
-			
-			cal.setTime(month);
-			cal.set(Calendar.DATE, cal.getActualMaximum(Calendar.DATE));			
-			Date to = cal.getTime();		
-			
-			//Total de facturación en el período para el projecto
-			liquidation.setTotalBills(getBillsToLiquidateByProject(project, from, to, userContext));
-			
-			//Total de rubros humanos asociados al proyecto en el periodo
-			liquidation.setTotalCostCategoriesHuman(getCostCategoriesHumanByProject(project, from, to, userContext));			
-			
-			//Total de rubros materiales asociados al proyecto en el periodo
-			liquidation.setTotalCostCategoriesMaterial(getCostCategoriesMaterialByProject(project, from, to, userContext));
-						
-			//Total de rubros empresa que le toca pagar al proyecto (paga el porcentaje de facturacion con respecto al total de facturacion)
-			liquidation.setTotalCostCategoriesCompany(getCostCategoriesCompany(from, to, userContext)*getPercentage(project, totalBills, from, to, userContext));
-			
-			//Para cada empleado asociado, el costo empresa * cantidad de horas asignadas al proyecto
-			liquidation.setTotalCostHoursEmployees(getCostHoursByProject(project, typeExchange));
-			
-			//Ganancia = total de facturacion menos el total de los rubros mas los costos de empleado
-			double earning = liquidation.getTotalBills() - liquidation.getTotalCostCategoriesCompany() - liquidation.getTotalCostCategoriesHuman() - liquidation.getTotalCostCategoriesMaterial() - liquidation.getTotalCostHoursEmployees();
-			liquidation.setEarnings(earning);	
-			
-			//Reserva segun porcentaje en las properties
-			liquidation.setReserve(earning * Double.parseDouble(ConfigurationProperties.GetConfigValue("PERCENTAGE_RESERVE")));							
-			
-			//Venta segun porcentaje en las properties
-			liquidation.setSale(earning * Double.parseDouble(ConfigurationProperties.GetConfigValue("PERCENTAGE_SALE")));
-			
-			//Ganancia a dividir = ganancia - reserva - venta
-			Double earningsToDivide = earning - liquidation.getReserve() - liquidation.getSale();
-			
-			liquidation.getProject().setiDAOPartnerProject(daoManager.getDAOPartnerProjects());
-			ArrayList<ProjectPartner> projectPartners = liquidation.getProject().getiDAOPartnerProject().getPartnersProject(project.getId());
-			//Total ganancia socio 1 = Ganancia a dividir * distribucion			
-			liquidation.setPartner1(projectPartners.get(0).getEmployed());			
-			liquidation.setPartner1Earning(getPartnerEarning(earningsToDivide,getDistributionType(projectPartners.get(0).getDistributionType().getId(), CoreProject.GetInstance().getDistributionTypes())));
-			
-		
-			//Total ganancia socio 2 = Ganancia a diviidir * distribucion
-			liquidation.setPartner2Earning(getPartnerEarning(earningsToDivide,getDistributionType(projectPartners.get(1).getDistributionType().getId(), CoreProject.GetInstance().getDistributionTypes())));
-			liquidation.setPartner2(projectPartners.get(1).getEmployed());		
-			
-		
-			int newLiquidationId = daoManager.getDAOLiquidation().insert(liquidation);
-			liquidation.setId(newLiquidationId);
-			
-			//daoManager.commit();
-			
-		}catch (ServerException e) {
-//			daoManager.rollback();
-//			throw e;
-		} finally {
-//			daoManager.close();
-		}		
-	}
+//	private void liquidationByProject(Project project,Date month, User userContext, double totalBills, double typeExchange, DAOManager daoManager) throws ServerException, ClientException{
+//		//DAOManager daoManager = new DAOManager();
+//		Liquidation liquidation = new Liquidation();
+//		
+//		try{			
+//			//Project project = CoreProject.GetInstance().getProject(projectId);
+//			liquidation.setProject(project);
+//			liquidation.setAppliedDateTimeUTC(month);
+//			liquidation.setCreatedDateTimeUTC(new Date());
+//			liquidation.setTypeExchange(typeExchange);
+//			
+//			Calendar cal = Calendar.getInstance();
+//			cal.setTime(month);
+//			cal.set(Calendar.DAY_OF_MONTH, 01);
+//			Date from = cal.getTime();		
+//			
+//			cal.setTime(month);
+//			cal.set(Calendar.DATE, cal.getActualMaximum(Calendar.DATE));			
+//			Date to = cal.getTime();				
+//			
+//			//Total de facturación en el período para el projecto
+//			liquidation.setTotalBills(getBillsToLiquidateByProject(project, from, to, userContext));
+//			
+//			//Total de rubros humanos asociados al proyecto en el periodo
+//			liquidation.setTotalCostCategoriesHuman(getCostCategoriesHumanByProject(project, from, to, userContext));			
+//			
+//			//Total de rubros materiales asociados al proyecto en el periodo
+//			liquidation.setTotalCostCategoriesMaterial(getCostCategoriesMaterialByProject(project, from, to, userContext));
+//						
+//			//Total de rubros empresa que le toca pagar al proyecto (paga el porcentaje de facturacion con respecto al total de facturacion)
+//			liquidation.setTotalCostCategoriesCompany(getCostCategoriesCompany(from, to, userContext)*getPercentage(project, totalBills, from, to, userContext));
+//			
+//			//Para cada empleado asociado, el costo empresa * cantidad de horas asignadas al proyecto
+//			liquidation.setTotalCostHoursEmployees(getCostHoursByProject(project, typeExchange));
+//			
+//			//Ganancia = total de facturacion menos el total de los rubros mas los costos de empleado
+//			double earning = liquidation.getTotalBills() - liquidation.getTotalCostCategoriesCompany() - liquidation.getTotalCostCategoriesHuman() - liquidation.getTotalCostCategoriesMaterial() - liquidation.getTotalCostHoursEmployees();
+//			liquidation.setEarnings(earning);	
+//			
+//			//Reserva segun porcentaje en las properties
+//			liquidation.setReserve(earning * Double.parseDouble(ConfigurationProperties.GetConfigValue("PERCENTAGE_RESERVE")));							
+//			
+//			//Venta segun porcentaje en las properties
+//			liquidation.setSale(earning * Double.parseDouble(ConfigurationProperties.GetConfigValue("PERCENTAGE_SALE")));
+//			
+//			//Ganancia a dividir = ganancia - reserva - venta
+//			Double earningsToDivide = earning - liquidation.getReserve() - liquidation.getSale();
+//			
+//			liquidation.getProject().setiDAOPartnerProject(daoManager.getDAOPartnerProjects());
+//			ArrayList<ProjectPartner> projectPartners = liquidation.getProject().getiDAOPartnerProject().getPartnersProject(project.getId());
+//			//Total ganancia socio 1 = Ganancia a dividir * distribucion			
+//			liquidation.setPartner1(projectPartners.get(0).getEmployed());			
+//			liquidation.setPartner1Earning(getPartnerEarning(earningsToDivide,getDistributionType(projectPartners.get(0).getDistributionType().getId(), CoreProject.GetInstance().getDistributionTypes())));
+//			
+//		
+//			//Total ganancia socio 2 = Ganancia a diviidir * distribucion
+//			liquidation.setPartner2Earning(getPartnerEarning(earningsToDivide,getDistributionType(projectPartners.get(1).getDistributionType().getId(), CoreProject.GetInstance().getDistributionTypes())));
+//			liquidation.setPartner2(projectPartners.get(1).getEmployed());		
+//			
+//		
+//			int newLiquidationId = daoManager.getDAOLiquidation().insert(liquidation);
+//			liquidation.setId(newLiquidationId);
+//			
+//			//daoManager.commit();
+//			
+//		}catch (ServerException e) {
+////			daoManager.rollback();
+////			throw e;
+//		} finally {
+////			daoManager.close();
+//		}		
+//	}
 	
 
 	
 	@Override
 	public boolean existLiquidation(Date month) throws ServerException {
-		DAOManager daoManager = new DAOManager();
+		DAOManager daoManager = new DAOManager();		
 		return daoManager.getDAOLiquidation().existLiquidation(month);
 	}
 		
-	//Devuelve el total de facutracion para el periodo
-	private double getTotalBillsToLiquidate(Date from, Date to, User userContext)throws ServerException{
-		Double total = 0.0;
-		ArrayList<Bill> bills = CoreBill.GetInstance().getBills(from, to, false, userContext);		
+//	//Devuelve el total de facutracion para el periodo
+//	private double getTotalBillsToLiquidate(Date from, Date to, User userContext)throws ServerException{
+//		Double total = 0.0;
+//		ArrayList<Bill> bills = CoreBill.GetInstance().getBills(from, to, false, userContext);		
+//		
+//		for (Bill bill : bills){
+//			total = total + bill.getAmountPeso();
+//		}
+//		
+//		return total;
+//	}
+	
+	//Devuelve el proyecto con el calculo parcial de la ganancia
+	private Liquidation partialLiquidationByProject(Liquidation liquidation, Project project, Date from, Date to, User userContext, Double typeExchange) throws ServerException, ClientException{
+		//Total de facturacion
+		Double totalBills = getBillsToLiquidateByProject(project, from, to, userContext);		
+		liquidation.setTotalBills(totalBills);
 		
-		for (Bill bill : bills){
-			total = total + bill.getAmountPeso();
-		}
+		//Reserva
+		liquidation.setReserve(totalBills * Double.parseDouble(ConfigurationProperties.GetConfigValue("PERCENTAGE_RESERVE")));
 		
-		return total;
+		//Venta
+		liquidation.setSale(totalBills * Double.parseDouble(ConfigurationProperties.GetConfigValue("PERCENTAGE_SALE"))); 
+		
+		//Total de rubros humanos asociados al proyecto
+		liquidation.setTotalCostCategoriesHuman(getCostCategoriesHumanByProject(project, from, to, userContext));
+		
+		//Total de rubros materiales asociados al proyecto
+		liquidation.setTotalCostCategoriesMaterial(getCostCategoriesMaterialByProject(project, from, to, userContext));
+		
+		//Total de horas empleados asociados al proyecto
+		liquidation.setTotalCostHoursEmployees(getCostHoursByProject(project, typeExchange));
+		
+		//Ganancia parcial del proyecto
+		Double earnings = totalBills - liquidation.getReserve() - liquidation.getSale() - liquidation.getTotalCostCategoriesHuman() - liquidation.getTotalCostCategoriesMaterial() - liquidation.getTotalCostHoursEmployees();
+		liquidation.setEarnings(earnings);
+		
+		return liquidation;		
+		
 	}
 	
 	//Devuelve la cantidad total de las facturas realizadas en un periodo para un proyecto
@@ -297,21 +373,21 @@ public class CoreLiquidation implements ICoreLiquidation{
 		return total;		
 	}
 	
-	//Devuelve el porcentaje del monto facturado con respecto al monto total de facturacion del mes
-	private double getPercentage(Project project, double totalBills, Date from, Date to, User userContext) throws ServerException{
-		Double total = 0.0;
-		Double percentage = 0.0;
-		ArrayList<Bill> bills = CoreBill.GetInstance().getBills(from, to, false, userContext);
-		
-		for (Bill bill : bills) {
-			if(bill.getProject().getId() == project.getId()){				
-				total = total + bill.getTotalAmountPeso();				
-			}
-		}	
-		
-		percentage = ((total * 100)/totalBills)/100;
-		return percentage;
-	}
+//	//Devuelve el porcentaje del monto facturado con respecto al monto total de facturacion del mes
+//	private double getPercentage(Project project, double totalBills, Date from, Date to, User userContext) throws ServerException{
+//		Double total = 0.0;
+//		Double percentage = 0.0;
+//		ArrayList<Bill> bills = CoreBill.GetInstance().getBills(from, to, false, userContext);
+//		
+//		for (Bill bill : bills) {
+//			if(bill.getProject().getId() == project.getId()){				
+//				total = total + bill.getTotalAmountPeso();				
+//			}
+//		}	
+//		
+//		percentage = ((total * 100)/totalBills)/100;
+//		return percentage;
+//	}
 	
 	//Realiza la liquidacion por projecto	
 //	private void liquidationByProject(int projectId,Date month, User userContext, int totalProjects, double companyCost) throws ServerException, ClientException{
