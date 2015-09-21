@@ -28,7 +28,6 @@ public class DAOProjectEmployees implements IDAOProjectEmployees {
 	@Override
 	public int insertEmployedProject(int projectId,
 			ProjectEmployed employedProyect) throws ServerException {
-		// TODO Auto-generated method stub
 		int newEmployedProjectId = -1;
 		PreparedStatement preparedStatement = null;
 		String insertSQL = "INSERT INTO EMPLOYED_PROJECT (PROJECTID, EMPLOYEDID, VERSION, HOURS, ENABLED, CREATEDDATETIMEUTC, UPDATEDDATETIMEUTC) VALUES"
@@ -42,10 +41,8 @@ public class DAOProjectEmployees implements IDAOProjectEmployees {
 			preparedStatement.setInt(3, employedProyect.getVersion() + 1);
 			preparedStatement.setInt(4, employedProyect.getHours());
 			preparedStatement.setBoolean(5, employedProyect.isEnabled());
-			preparedStatement.setTimestamp(6, new Timestamp(employedProyect
-					.getCreatedDateTimeUTC().getTime()));
-			preparedStatement.setTimestamp(7, new Timestamp(employedProyect
-					.getUpdatedDateTimeUTC().getTime()));
+			preparedStatement.setTimestamp(6, new Timestamp(new Date().getTime()));
+			preparedStatement.setTimestamp(7, new Timestamp(new Date().getTime()));
 
 			preparedStatement.executeUpdate();
 
@@ -75,9 +72,9 @@ public class DAOProjectEmployees implements IDAOProjectEmployees {
 		try {
 
 			StringBuilder sql = new StringBuilder();
-			sql.append("SELECT * FROM EMPLOYED_PROJECT ");
-			sql.append("WHERE PROJECTID = ?");
-
+			sql.append("SELECT * FROM EMPLOYED_PROJECT E1 ");
+			sql.append("WHERE E1.PROJECTID = ? AND E1.ENABLED = 1 ");
+			sql.append("AND E1.VERSION = (SELECT MAX(E2.VERSION) FROM EMPLOYED_PROJECT E2 WHERE E2.PROJECTID = E1.PROJECTID AND E2.EMPLOYEDID = E1.EMPLOYEDID)");
 			preparedStatement = this.connection
 					.prepareStatement(sql.toString());
 			preparedStatement.setInt(1, projectId);
@@ -165,7 +162,7 @@ public class DAOProjectEmployees implements IDAOProjectEmployees {
 			preparedStatement.setTimestamp(3, new Timestamp(new Date().getTime()));
 			preparedStatement.setInt(4, id);
 			preparedStatement.setInt(5, obj.getEmployed().getId());
-			preparedStatement.setInt(6, obj.getVersion() + 1);
+			preparedStatement.setInt(6, obj.getVersion());
 			
 			preparedStatement.executeUpdate();
 

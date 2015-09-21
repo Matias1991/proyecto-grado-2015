@@ -36,9 +36,13 @@ import com.vaadin.ui.TextField;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.Table.TableDragMode;
 
+import controllers.BillController;
+import controllers.CategoryController;
 import controllers.EmployeeController;
 import controllers.ProjectController;
 import controllers.UserController;
+import entities.Bill;
+import entities.Category;
 import entities.Constant;
 import entities.DistributionType;
 import entities.ProjectEmployed;
@@ -82,21 +86,23 @@ public class UpdateProjectView extends BaseView {
 		// proyectos abiertos
 		projects = ProjectController.getProjectsByStatus(false);
 		
-//		optionGroupCurrency.addValueChangeListener(new ValueChangeListener() {
-//
-//			@Override
-//			public void valueChange(ValueChangeEvent event) {
-//				if(optionGroupCurrency.getValue() == "Pesos")
-//					txtAmount.setCaption("Imp. estimado ($)");
-//				else
-//					txtAmount.setCaption("Imp. estimado (U$S)");
-//			}
-//		});
+		optionGroupCurrency.addValueChangeListener(new ValueChangeListener() {
+
+			@Override
+			public void valueChange(ValueChangeEvent event) {
+				if(optionGroupCurrency.getValue() == "Pesos")
+					txtAmount.setCaption("Imp. estimado ($)");
+				else
+					txtAmount.setCaption("Imp. estimado (U$S)");
+			}
+		});
+		
 		comboProject.addValueChangeListener(new ValueChangeListener() {
 
 			@Override
 			public void valueChange(ValueChangeEvent event) {
 				if (comboProject.getValue() != null) {
+					btnUpdate.setEnabled(true);
 					loadProject(Integer.parseInt(comboProject.getValue().toString()));
 				} else {
 					cleanInputs();
@@ -176,10 +182,12 @@ public class UpdateProjectView extends BaseView {
 					listPartnerProject.add(partner2);
 
 					project.setProjectPartners(listPartnerProject);
-
 					Project result = ProjectController.updateProject(project);
-
-					loadProject(result.getId());
+//					loadProject(result.getId());
+					if(result != null){
+						new PopupWindow("AVISO", "Proyecto modificado correctamente");
+						cleanInputs();
+					}
 				}
 				btnUpdate.setEnabled(true);
 			}
@@ -226,7 +234,12 @@ public class UpdateProjectView extends BaseView {
 		txtDescription.setValue(projectToModify.getDescription());
 		cboManager.setValue(projectToModify.getManager().getId());
 		cboSeller.setValue(projectToModify.getSeller().getId());
-		txtAmount.setValue(Double.toString(projectToModify.getAmount()));
+		txtAmount.setConvertedValue(projectToModify.getAmount());
+		if(projectToModify.getIsCurrencyDollar()){
+			optionGroupCurrency.setValue("Dolares");
+		} else {
+			optionGroupCurrency.setValue("Pesos");			
+		}
 		int i = 0;
 		for (ProjectPartner projectPartner : projectToModify.getProjectPartners()) {
 			if(i == 0){
@@ -238,21 +251,36 @@ public class UpdateProjectView extends BaseView {
 				cboDistribution2.setValue(projectPartner.getDistributionType().getId());				
 			}
 		}
-		
+
 		if(projectToModify.getEmployedHours() != null){
-			for (ProjectEmployed employed : projectToModify.getEmployedHours()) {
-				tblEmployed.removeItem(employed.getEmployedId());
-				tblEmployedHours.addItem(employed.getEmployedId());
+			for (Object emp : tblEmployed.getItemIds().toArray()){
+				for (ProjectEmployed employed : projectToModify.getEmployedHours()) {				
+					if(((Employee)emp).getId() == employed.getEmployedId()){
+						tblEmployed.removeItem(emp);
+						((Employee)emp).getSalarySummary().setHours(employed.getEmployedHours());
+						tblEmployedHours.addItem(emp);	
+
+					}
+
+				}
 			}
+		}
+		
+		// Si el proyecto no tiene facturas ni rubros asociados, puede modificar la moneda
+		Collection<Bill> projectBills = BillController.getBills(selectedProjectId);
+		Collection<Category> projectCategories = CategoryController.getCategoriesByProject(selectedProjectId);
+		if(projectBills.isEmpty() && projectCategories.isEmpty()){
+			optionGroupCurrency.setEnabled(true);
+		} else {
+			optionGroupCurrency.setEnabled(false);
 		}
 	}
 	
 	@Override
 	public void enter(ViewChangeEvent event) {
 		super.enter(event);
-
-		buildTables();
 		cleanInputs();
+		buildTables();
 		cboSeller.setValidationVisible(false);
 		cboManager.setValidationVisible(false);
 		projects = ProjectController.getProjectsByStatus(false);
@@ -261,9 +289,11 @@ public class UpdateProjectView extends BaseView {
 
 	private void cleanInputs() {
 		if (tblEmployed != null) {
+			tblEmployed.removeAllItems();
 			mainLayout.removeComponent(tblEmployed);
 		}
 		if (tblEmployedHours != null) {
+			tblEmployedHours.removeAllItems();
 			mainLayout.removeComponent(tblEmployedHours);
 		}
 		buildTables();
@@ -271,7 +301,9 @@ public class UpdateProjectView extends BaseView {
 		txtDescription.clear();
 		txtAmount.clear();
 		optionGroupCurrency.select("Pesos");
+		optionGroupCurrency.setEnabled(false);
 		txtAmount.setCaption("Imp. estimado ($)");
+		btnUpdate.setEnabled(false);
 	}
 
 	private void buildTables() {
@@ -577,7 +609,6 @@ public class UpdateProjectView extends BaseView {
 		optionGroupCurrency.setCaption("Moneda");
 		optionGroupCurrency.setImmediate(true);
 		optionGroupCurrency.setTabIndex(3);
-		// TODO: @Yamila controlar si no tiene facturas ni rubros asociados, puede modificarlo
 		optionGroupCurrency.setEnabled(false);
 		mainLayout.addComponent(optionGroupCurrency,
 				"top:200.0px;left:0.0px;");

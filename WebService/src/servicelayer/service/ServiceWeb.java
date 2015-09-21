@@ -1085,11 +1085,9 @@ public class ServiceWeb extends ServiceBase {
 
 			Project projectUpdated = iCoreProject.updateProject(project, employedProjects, partnerProjects);
 			
-			
-			VOProject voProjectUpdated = projectBuilder.BuildVOObject(project);
+			VOProject voProjectUpdated = projectBuilder.BuildVOObject(projectUpdated);
 			// Empleados
-			ArrayList<ProjectEmployed> projEmpl = iCoreProject
-					.getProjectEmployees(voProjectUpdated.getId());
+			ArrayList<ProjectEmployed> projEmpl = iCoreProject.getProjectEmployees(voProjectUpdated.getId());
 			for (ProjectEmployed projectEmployed : projEmpl) {
 				Employed employed = iCoreEmployed.getEmployed(projectEmployed
 						.getEmployed().getId());
@@ -1099,9 +1097,9 @@ public class ServiceWeb extends ServiceBase {
 			}
 			voProject.setVoEmployedProjects(projectBuilder
 					.BuildVOEmployedProjects(projEmpl));
+			
 			// Distribucion
-			ArrayList<ProjectPartner> projectPartners = iCoreProject
-					.getProjectPartners(voProjectUpdated.getId());
+			ArrayList<ProjectPartner> projectPartners = iCoreProject.getProjectPartners(voProjectUpdated.getId());
 
 			for (ProjectPartner projectPartner : projectPartners) {
 				Employed employed;

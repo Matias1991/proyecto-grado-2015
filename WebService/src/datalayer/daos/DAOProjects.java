@@ -134,7 +134,7 @@ public class DAOProjects implements IDAOProjects {
 			preparedStatement.setDouble(4, obj.getAmount());
 			preparedStatement.setBoolean(5, obj.getIsCurrencyDollar());
 			preparedStatement.setTimestamp(6, new Timestamp(new Date().getTime()));
-			preparedStatement.setInt(7, obj.getSeller().getId());
+			preparedStatement.setInt(7, id);
 			
 			preparedStatement.executeUpdate();
 		} catch (SQLException e) {
