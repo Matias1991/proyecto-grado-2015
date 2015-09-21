@@ -17,16 +17,21 @@ public class Login extends Activity {
 	
     AlertDialogManager alert = new AlertDialogManager();
     
-    UserSession session;  
+    UserSession session;
     
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-	    StrictMode.setThreadPolicy(policy);
+		//StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+	    //StrictMode.setThreadPolicy(policy);
 	     
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_login);
 
+		if (android.os.Build.VERSION.SDK_INT > 9) {
+		    StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+		    StrictMode.setThreadPolicy(policy);
+		}
+		
         session = new UserSession(getApplicationContext());  
         
 		final Button button = (Button) findViewById(R.id.btnLoginApp);
@@ -39,7 +44,7 @@ public class Login extends Activity {
                
                 if(username.trim().length() > 0 && password.trim().length() > 0){
 	            	try {
-	            		UserController userController = new UserController();
+	            		UserController userController = new UserController(getResources().getString(R.string.ip_server));
 						VOUser voUser = userController.login(username, password);
 						
 						session.createUserLoginSession(voUser, password);

@@ -1,5 +1,7 @@
 package com.example.androidproject.controllers;
 
+import java.util.ArrayList;
+
 import org.ksoap2.SoapEnvelope;
 import org.ksoap2.serialization.PropertyInfo;
 import org.ksoap2.serialization.SoapObject;
@@ -7,41 +9,37 @@ import org.ksoap2.serialization.SoapSerializationEnvelope;
 import org.ksoap2.transport.HttpTransportSE;
 
 import com.example.androidproject.HandleError;
-import com.example.androidproject.VOUser;
 
-public class UserController {
+import entities.VOProject;
+
+public class ProjectController {
 
 	private final String NAMESPACE = "http://service.servicelayer";
 	private final String URL;
-	private final String SOAP_ACTION = "urn:login";
-	private final String METHOD_NAME = "login";
+	private final String SOAP_ACTION = "urn:getProjectsByUserContext";
+	private final String METHOD_NAME = "getProjectsByUserContext";
 	
-	public UserController(String server)
+	public ProjectController(String server)
 	{
 		this.URL = String.format("http://%s:8080/WebService/services/ServiceMobile?wsdl", server);
 	}
 	
-	public VOUser login(String username, String password) throws Exception
+	public ArrayList<VOProject> getActiveProjects(int userContextId) throws Exception
 	{
-		VOUser voUser = null;
+		ArrayList<VOProject> result = new ArrayList<VOProject>();
 		
 		//Create request
 		SoapObject request = new SoapObject(NAMESPACE, METHOD_NAME);
 		//Property which holds input parameters
-		PropertyInfo loginUsernamePI = new PropertyInfo();
-		PropertyInfo loginPasswordPI = new PropertyInfo();
+		PropertyInfo propUserContextId = new PropertyInfo();
 		//Set Name
-		loginUsernamePI.setName("userName");
-		loginPasswordPI.setName("password");
+		propUserContextId.setName("userContextId");
 		//Set Value
-		loginUsernamePI.setValue(username);
-		loginPasswordPI.setValue(password);
+		propUserContextId.setValue(userContextId);
 		//Set dataType
-		loginUsernamePI.setType(String.class);
-		loginPasswordPI.setType(String.class);
+		propUserContextId.setType(Integer.class);
 		//Add the property to request object
-		request.addProperty(loginUsernamePI);
-		request.addProperty(loginPasswordPI);
+		request.addProperty(propUserContextId);
 		
 		//Create envelope
 		SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(
@@ -54,14 +52,17 @@ public class UserController {
 		
 		try {
 			androidHttpTransport.call(SOAP_ACTION, envelope);
-			SoapObject response = (SoapObject)envelope.getResponse();
-			        			
-			if(response != null)
-				voUser = new VOUser(response);				
-			
+
+			 SoapObject response = (SoapObject) envelope.bodyIn;
+			 for (int i = 0; i< response.getPropertyCount(); i++) 
+			 {
+				 SoapObject object = (SoapObject) response.getProperty(i);
+				 result.add(new VOProject(object));
+			 }
+
 		} catch (Exception e) {
 			throw new Exception(HandleError.getMessageError(envelope));
 		}        
-		return voUser;
+		return result;
 	}
 }
