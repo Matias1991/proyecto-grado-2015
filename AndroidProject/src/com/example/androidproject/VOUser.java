@@ -4,12 +4,12 @@ import org.ksoap2.serialization.SoapObject;
 
 public class VOUser {
 
-	int id;
-	String userName;
-	String password;
-	String name;
-	String lastName;
-	String email;
+	private int id;
+	private String userName;
+	private String password;
+	private String name;
+	private String lastName;
+	private String email;
 	
 	public VOUser(SoapObject object){
 		new Deserialization().SoapDeserialize(this,object);
@@ -22,5 +22,53 @@ public class VOUser {
 		this.lastName = object.getProperty(2).toString();
 		this.name = object.getProperty(3).toString();
 		this.userName = object.getProperty(5).toString();
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+	
+	public String getUserName() {
+		return userName;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getLastName() {
+		return lastName;
+	}
+
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
 	}
 }
