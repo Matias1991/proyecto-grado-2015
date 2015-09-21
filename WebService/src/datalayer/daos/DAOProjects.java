@@ -134,7 +134,7 @@ public class DAOProjects implements IDAOProjects {
 			preparedStatement.setDouble(4, obj.getAmount());
 			preparedStatement.setBoolean(5, obj.getIsCurrencyDollar());
 			preparedStatement.setTimestamp(6, new Timestamp(new Date().getTime()));
-			preparedStatement.setInt(7, obj.getSeller().getId());
+			preparedStatement.setInt(7, id);
 			
 			preparedStatement.executeUpdate();
 		} catch (SQLException e) {
@@ -249,16 +249,22 @@ public class DAOProjects implements IDAOProjects {
 	}
 
 	@Override
-	public ArrayList<Project> getProjectsByStatus(boolean projectStatus)
+	public ArrayList<Project> getProjectsByStatus(User userContext, boolean projectStatus)
 			throws ServerException {
 		ArrayList<Project> project = new ArrayList<Project>();
 		PreparedStatement preparedStatement = null;
 		ResultSet rs = null;
 		try {
-
-			String getSQL = "SELECT * FROM PROJECT WHERE CLOSED = ?";
-			preparedStatement = this.connection.prepareStatement(getSQL);
+			StringBuilder getSQL = new StringBuilder();
+			getSQL.append("SELECT * FROM PROJECT WHERE CLOSED = ?");
+			if(userContext.getUserType() == UserType.MANAGER)
+				getSQL.append(" AND ManagerId = ?");
+			
+			preparedStatement = this.connection.prepareStatement(getSQL.toString());
 			preparedStatement.setBoolean(1, projectStatus);
+
+			if(userContext.getUserType() == UserType.MANAGER)
+				preparedStatement.setInt(2, userContext.getId());
 
 			rs = preparedStatement.executeQuery();
 

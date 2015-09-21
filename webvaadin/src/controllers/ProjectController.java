@@ -198,6 +198,7 @@ public class ProjectController {
 			ServiceWebStub service = new ServiceWebStub();
 			GetProjectsByStatus getProjects = new GetProjectsByStatus();
 			getProjects.setProjectStatus(status);
+			getProjects.setUserContextId(RequestContext.getRequestContext().getId());
 
 			VOProject[] voProjects = service.getProjectsByStatus(getProjects)
 					.get_return();
@@ -255,6 +256,7 @@ public class ProjectController {
 			
 			// Project
 			VOProject voProject = new VOProject();
+			voProject.setId(project.getId());
 			voProject.setDescription(project.getDescription());
 			voProject.setAmount(project.getAmount());
 			voProject.setIsCurrencyDollar(project.getIsCurrencyDollar());
@@ -272,7 +274,7 @@ public class ProjectController {
 				VOProjectEmployed voEmployedProject = new VOProjectEmployed();
 				voEmployedProject.setEmployedId(aux.getEmployedId());
 				voEmployedProject.setHours(aux.getEmployedHours());
-
+				
 				voProjectEmployees[i] = voEmployedProject;
 				i++;
 			}
@@ -297,8 +299,7 @@ public class ProjectController {
 			
 			updateProject.setVoProject(voProject);
 
-			return new Project(service.updateProject(updateProject).get_return());
-			
+			return new Project(service.updateProject(updateProject).get_return());			
 
 		} catch (AxisFault e) {
 			e.printStackTrace();

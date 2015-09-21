@@ -248,7 +248,8 @@ public class WebvaadinUI extends UI {
 		userTypeManagerToViews.add(Constant.View.UPDATECHARGE);
 		userTypeManagerToViews.add(Constant.View.DELETECHARGES);
 		userTypeManagerToViews.add(Constant.View.CHARGES);
-		
+
+		userTypeManagerToViews.add(Constant.View.UPDATEPROJECT);
 		userTypeManagerToViews.add(Constant.View.CATALOGPROJECTS);
 		
 		userTypeManagerToViews.add(Constant.View.CHANGEPASSWORD);
@@ -495,8 +496,7 @@ public class WebvaadinUI extends UI {
 			project = menuBar.addItem("Proyectos", null, null);
 			if(RequestContext.getRequestContext().getUserType() == 2)
 				project.addItem("Crear proyecto", null, mainMenuBarCommand);
-			if(RequestContext.getRequestContext().getUserType() == 2)
-				project.addItem("Modificar proyecto", null, mainMenuBarCommand);
+			project.addItem("Modificar proyecto", null, mainMenuBarCommand);
 			if(RequestContext.getRequestContext().getUserType() == 2)
 				project.addItem("Cerrar proyectos", null, mainMenuBarCommand);
 			project.addItem("Catálogo proyectos", null, mainMenuBarCommand);

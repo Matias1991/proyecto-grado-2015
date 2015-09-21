@@ -51,7 +51,7 @@ public class ProjectBuilder extends BaseBuilder<VOProject, Project> {
 		project.setDescription(voObject.getDescription());
 		project.setAmount(voObject.getAmount());
 		project.setIsCurrencyDollar(voObject.getIsCurrencyDollar());
-		// project.setiDAOEmployedProject(voObject.get);
+//		project.setiDAOEmployedProject(voObject.getVoEmployedProjects());
 		// project.setiDAOPartnerProject(iDAOPartnerProject);
 		User manager = new User();
 		if (voObject.getManagerId() != 0) {

@@ -481,9 +481,11 @@ public class CreateCategoryView extends BaseView {
 	void buildCategoryCurrency(boolean isCurrencyDollar) {
 		if (isCurrencyDollar) {
 			txtTypeExchange.setVisible(true);
+			optCurrency.setValue("Dolares");
 			txtAmount.setCaption("Importe sin IVA (U$S)");
 			txtTotalAmount.setCaption("Importe IVA incl. (U$S)");
 		} else {
+			optCurrency.setValue("Pesos");
 			txtTypeExchange.setVisible(false);
 			txtAmount.setCaption("Importe sin IVA ($)");
 			txtTotalAmount.setCaption("Importe IVA incl. ($)");

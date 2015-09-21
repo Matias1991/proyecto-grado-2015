@@ -1052,13 +1052,15 @@ public class ServiceWeb extends ServiceBase {
 		return false;
 	}
 
-	public VOProject[] getProjectsByStatus(boolean projectStatus) {
+	public VOProject[] getProjectsByStatus(int userContextId, boolean projectStatus) {
 		try {
 			transactionLock.tryLock(Constants.DEFAULT_TRANSACTION_TIME,
 					TimeUnit.SECONDS);
 
+			User userContext = iCoreUser.getUser(userContextId);
+			
 			return projectBuilder.BuildArrayVOObject(VOProject.class,
-					iCoreProject.getProjectByStatus(projectStatus));
+					iCoreProject.getProjectByStatus(userContext, projectStatus));
 
 		} catch (ServerException e) {
 			ThrowServerExceptionAndLogError(e, "obtener todos los usuarios");
@@ -1085,11 +1087,9 @@ public class ServiceWeb extends ServiceBase {
 
 			Project projectUpdated = iCoreProject.updateProject(project, employedProjects, partnerProjects);
 			
-			
-			VOProject voProjectUpdated = projectBuilder.BuildVOObject(project);
+			VOProject voProjectUpdated = projectBuilder.BuildVOObject(projectUpdated);
 			// Empleados
-			ArrayList<ProjectEmployed> projEmpl = iCoreProject
-					.getProjectEmployees(voProjectUpdated.getId());
+			ArrayList<ProjectEmployed> projEmpl = iCoreProject.getProjectEmployees(voProjectUpdated.getId());
 			for (ProjectEmployed projectEmployed : projEmpl) {
 				Employed employed = iCoreEmployed.getEmployed(projectEmployed
 						.getEmployed().getId());
@@ -1099,9 +1099,9 @@ public class ServiceWeb extends ServiceBase {
 			}
 			voProject.setVoEmployedProjects(projectBuilder
 					.BuildVOEmployedProjects(projEmpl));
+			
 			// Distribucion
-			ArrayList<ProjectPartner> projectPartners = iCoreProject
-					.getProjectPartners(voProjectUpdated.getId());
+			ArrayList<ProjectPartner> projectPartners = iCoreProject.getProjectPartners(voProjectUpdated.getId());
 
 			for (ProjectPartner projectPartner : projectPartners) {
 				Employed employed;

@@ -14,12 +14,11 @@ public interface IDAOProjects extends IDAOBase<Project> {
 
 	int insert(Project project) throws ServerException;
 
-	ArrayList<Project> getProjectsByStatus(boolean projectStatus)
-			throws ServerException;
-
 	ArrayList<DistributionType> getDistributionTypes() throws ServerException;
 
 	ArrayList<Project> getProjects(User userContext) throws ServerException;
 
 	ArrayList<Project> getProjectToLiquidate(Date from, Date to) throws ServerException;
+
+	ArrayList<Project> getProjectsByStatus(User userContext, boolean projectStatus) throws ServerException;
 }

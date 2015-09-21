@@ -29,6 +29,9 @@ public class UserSession {
 	// All Shared Preferences Keys
 	public static final String IS_USER_LOGIN = "IsUserLoggedIn";
 
+	// User id (make variable public to access from outside)
+	public static final String KEY_USER_ID = "UserId";
+		
 	// User name (make variable public to access from outside)
 	public static final String KEY_USER_NAME = "UserName";
 
@@ -50,14 +53,17 @@ public class UserSession {
 	    // Storing login value as TRUE
 	    editor.putBoolean(IS_USER_LOGIN, true);
 
+	    // Storing id in preferences
+	    editor.putString(KEY_USER_ID, String.valueOf(voUser.getId()));
+	    
 	    // Storing name in preferences
-	    editor.putString(KEY_USER_NAME, voUser.userName);
+	    editor.putString(KEY_USER_NAME, voUser.getUserName());
 
 	    // Storing password in preferences
 	    editor.putString(KEY_PASSWORD,  password);
 
 	    // Storing email in preferences
-	    editor.putString(KEY_EMAIL, voUser.email);
+	    editor.putString(KEY_EMAIL, voUser.getEmail());
 	    
 	    // commit changes
 	    editor.commit();
@@ -99,6 +105,9 @@ public class UserSession {
 	    //Use hashmap to store user credentials
 	    HashMap<String, String> user = new HashMap<String, String>();
 
+	    // user id
+	    user.put(KEY_USER_ID, pref.getString(KEY_USER_ID, null));
+	    
 	    // user name
 	    user.put(KEY_USER_NAME, pref.getString(KEY_USER_NAME, null));
 
@@ -140,7 +149,7 @@ public class UserSession {
 		
 		if(pref.getBoolean(IS_USER_LOGIN, false))
 		{
-			UserController userController = new UserController();
+			UserController userController = new UserController(_context.getResources().getString(R.string.ip_server));
 			try {
 				if(userController.login(getUserDetails().get(KEY_USER_NAME), getUserDetails().get(KEY_PASSWORD)) != null)
 					return true;

@@ -157,8 +157,7 @@ public class Project {
 
 	public void associateEmployed(ProjectEmployed employedProject)
 			throws ServerException {		
-		this.iDAOProjectEmployees
-				.insertEmployedProject(this.id, employedProject);
+		this.iDAOProjectEmployees.insertEmployedProject(this.id, employedProject);
 	}
 	
 	public void associateDistribution(ProjectPartner partnerProject) throws ServerException{
