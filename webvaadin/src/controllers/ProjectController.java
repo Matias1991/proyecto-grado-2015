@@ -198,6 +198,7 @@ public class ProjectController {
 			ServiceWebStub service = new ServiceWebStub();
 			GetProjectsByStatus getProjects = new GetProjectsByStatus();
 			getProjects.setProjectStatus(status);
+			getProjects.setUserContextId(RequestContext.getRequestContext().getId());
 
 			VOProject[] voProjects = service.getProjectsByStatus(getProjects)
 					.get_return();

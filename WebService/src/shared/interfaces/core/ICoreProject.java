@@ -22,9 +22,6 @@ public interface ICoreProject {
 
 	void deleteProject(int id) throws ServerException, ClientException;
 
-	ArrayList<Project> getProjectByStatus(boolean projectStatus)
-			throws ServerException;
-
 	Project getProject(int id) throws ServerException, ClientException;
 
 	ArrayList<DistributionType> getDistributionTypes() throws ServerException;
@@ -43,4 +40,7 @@ public interface ICoreProject {
 	Project updateProject(Project project,
 			ArrayList<ProjectEmployed> employedProjects, ArrayList<ProjectPartner> partnerProjects) throws ServerException,
 			ClientException;
+
+	ArrayList<Project> getProjectByStatus(User userContext,
+			boolean projectStatus) throws ServerException;
 }

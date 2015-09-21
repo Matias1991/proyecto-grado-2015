@@ -128,11 +128,11 @@ public class CoreProject implements ICoreProject {
 	}
 	
 	@Override
-	public ArrayList<Project> getProjectByStatus(boolean projectStatus)
+	public ArrayList<Project> getProjectByStatus(User userContext, boolean projectStatus)
 			throws ServerException {
 		DAOManager daoManager = new DAOManager();
 		try {
-			return daoManager.getDAOProjects().getProjectsByStatus(
+			return daoManager.getDAOProjects().getProjectsByStatus(userContext,
 					projectStatus);
 
 		} catch (ServerException e) {

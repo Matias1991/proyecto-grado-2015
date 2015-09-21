@@ -1052,13 +1052,15 @@ public class ServiceWeb extends ServiceBase {
 		return false;
 	}
 
-	public VOProject[] getProjectsByStatus(boolean projectStatus) {
+	public VOProject[] getProjectsByStatus(int userContextId, boolean projectStatus) {
 		try {
 			transactionLock.tryLock(Constants.DEFAULT_TRANSACTION_TIME,
 					TimeUnit.SECONDS);
 
+			User userContext = iCoreUser.getUser(userContextId);
+			
 			return projectBuilder.BuildArrayVOObject(VOProject.class,
-					iCoreProject.getProjectByStatus(projectStatus));
+					iCoreProject.getProjectByStatus(userContext, projectStatus));
 
 		} catch (ServerException e) {
 			ThrowServerExceptionAndLogError(e, "obtener todos los usuarios");
