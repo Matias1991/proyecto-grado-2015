@@ -33,7 +33,7 @@ import servicelayer.service.builder.BillBuilder;
 import servicelayer.service.builder.CategoryBuilder;
 import servicelayer.service.builder.ChargeBuilder;
 import servicelayer.service.builder.EmployedBuilder;
-import servicelayer.service.builder.LiquidationBuilder;
+import servicelayer.service.builder.ProjectLiquidationBuilder;
 import servicelayer.service.builder.ProjectBuilder;
 import servicelayer.service.builder.SalarySummaryBuilder;
 import servicelayer.service.builder.UserBuilder;
@@ -72,7 +72,7 @@ public class ServiceWeb extends ServiceBase {
 	private static UserBuilder userBuilser = new UserBuilder();
 	private static ProjectBuilder projectBuilder = new ProjectBuilder();
 	private static SalarySummaryBuilder salarySummaryBuilder = new SalarySummaryBuilder();
-	private static LiquidationBuilder liquidationBuilder = new LiquidationBuilder();
+	private static ProjectLiquidationBuilder liquidationBuilder = new ProjectLiquidationBuilder();
 
 	public ServiceWeb() {
 		try {

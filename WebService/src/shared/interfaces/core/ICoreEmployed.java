@@ -1,6 +1,7 @@
 package shared.interfaces.core;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 import servicelayer.entity.businessEntity.Employed;
 import servicelayer.entity.businessEntity.SalarySummary;
@@ -32,7 +33,9 @@ public interface ICoreEmployed {
 
 	SalarySummary getSalarySummaryByVersion(int employedId, int version)
 			throws ServerException, ClientException;
+	
+	ArrayList<Employed> getEmployedByType(int employedTypeId) throws ServerException, ClientException;
 
-	// ArrayList<VOEmployedProject> getEmployedHours() throws ServerException,
-	// ClientException;
+	ArrayList<SalarySummary> getSalarySummariesLatestVersionUpToDate(Date to)
+			throws ServerException, ClientException;
 }

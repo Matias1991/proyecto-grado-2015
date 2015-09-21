@@ -472,7 +472,46 @@ public class DAOSalarySummaries implements IDAOSalarySummaries {
 		}
 
 		return list;
-
 	}
 
+	@Override
+	public SalarySummary getLastestSalarySummaryVersionsToDate(int employedId, Date to) throws ServerException {
+		SalarySummary result = null;
+		PreparedStatement preparedStatement = null;
+		ResultSet rs = null;
+		String getSQL = "SELECT * FROM SALARYSUMMARY s1 "
+				+ "WHERE s1.CREATEDDATETIMEUTC < ? "
+				+ "AND s1.EMPLOYEDID = ? "
+				+ "AND s1.VERSION = (SELECT MAX(s2.VERSION) FROM SALARYSUMMARY s2 "
+				+ "WHERE s2.CREATEDDATETIMEUTC < ? AND s1.EMPLOYEDID = s2.EMPLOYEDID)";		
+
+		try {
+			preparedStatement = this.connection.prepareStatement(getSQL);
+
+			preparedStatement.setTimestamp(1, new Timestamp(to.getTime()));
+			preparedStatement.setInt(2, employedId);
+			preparedStatement.setTimestamp(3, new Timestamp(to.getTime()));
+			
+			rs = preparedStatement.executeQuery();
+			if(rs.next()) {
+				result = BuildSalarySummary(rs);
+			}
+
+		} catch (SQLException e) {
+			throw new ServerException(e);
+		} finally {
+			try {
+				if (preparedStatement != null)
+					preparedStatement.close();
+				if (rs != null)
+					rs.close();
+			} catch (SQLException e) {
+				LoggerMSMP.setLog(e.getMessage());
+			}
+		}
+
+		return result;
+	}	
+	
+	
 }

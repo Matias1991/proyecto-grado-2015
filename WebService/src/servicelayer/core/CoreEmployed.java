@@ -37,7 +37,7 @@ public class CoreEmployed implements ICoreEmployed {
 		// si falla un de ellas se revierten los cambios
 		DAOManager daoManager = new DAOManager();
 		try {
-			int countPartners = daoManager.getDAOEmployees().getCountPartners();
+			int countPartners = daoManager.getDAOEmployees().getEmployedByType(2).size();
 			if (countPartners >= 2
 					&& employed.getEmployedType() == EmployedType.PARTNER) {
 				throw new ClientException(
@@ -152,7 +152,7 @@ public class CoreEmployed implements ICoreEmployed {
 						.getDAOSalarySummaries());
 
 				int countPartners = daoManager.getDAOEmployees()
-						.getCountPartners();
+						.getEmployedByType(2).size();
 
 				if (countPartners >= 2
 						&& employed.getEmployedType() == EmployedType.PARTNER
@@ -287,23 +287,6 @@ public class CoreEmployed implements ICoreEmployed {
 		}
 		return list;
 	}
-
-	// @Override
-	// public ArrayList<VOEmployedProject> getEmployedHours()throws
-	// ServerException, ClientException {
-	// // TODO Auto-generated method stub
-	// ArrayList<VOEmployedProject> voEmployedProject = new
-	// ArrayList<VOEmployedProject>();
-	//
-	// ArrayList<EmployedProject> employedProject =
-	// iDAOEmployees.getEmployedHours();
-	//
-	// for (EmployedProject aux : employedProject) {
-	// voEmployedProject.add(BuildVOEmployedProject(aux));
-	// }
-	//
-	// return voEmployedProject;
-	// }
 
 	SalarySummary calculateSalarySummary(SalarySummary salarySummary)
 			throws ServerException {
@@ -496,30 +479,39 @@ public class CoreEmployed implements ICoreEmployed {
 		return updated;
 	}
 
-	// VOEmployedProject BuildVOEmployedProject(EmployedProject
-	// employedProject){
-	// VOEmployedProject voEmployedProject = new VOEmployedProject();
-	// VOProject voProject = new VOProject();
-	// VOEmployed voEmployed = new VOEmployed();
-	//
-	// if(employedProject.getProject() != null){
-	// voProject.setId(employedProject.getProject().getId());
-	// }
-	//
-	// voEmployedProject.setProject(voProject);
-	//
-	// voEmployed.setId(employedProject.getEmployed().getId());
-	// voEmployed.setName(employedProject.getEmployed().getName());
-	// voEmployed.setLastName(employedProject.getEmployed().getLastName());
-	// voEmployedProject.setEmployed(voEmployed);
-	//
-	// voEmployedProject.setEnabled(employedProject.isEnabled());
-	// voEmployedProject.setHours(employedProject.getHours());
-	// voEmployedProject.setVersion(employedProject.getVersion());
-	// voEmployedProject.setDistributionType(employedProject.getDistributionType());
-	// voEmployedProject.setCreatedDateTimeUTC(employedProject.getCreatedDateTimeUTC());
-	// voEmployedProject.setUpdatedDateTimeUTC(employedProject.getUpdatedDateTimeUTC());
-	//
-	// return voEmployedProject;
-	// }
+	@Override
+	public ArrayList<Employed> getEmployedByType(int employedTypeId) throws ServerException,
+			ClientException {
+		DAOManager daoManager = new DAOManager();
+		try {
+			return daoManager.getDAOEmployees().getEmployedByType(employedTypeId);
+
+		} catch (ServerException e) {
+			throw e;
+		} finally {
+			daoManager.close();
+		}
+		
+	}
+	
+	@Override
+	public ArrayList<SalarySummary> getSalarySummariesLatestVersionUpToDate(Date to) throws ServerException, ClientException {
+		ArrayList<SalarySummary> salaries = new ArrayList<SalarySummary>();
+		DAOManager daoManager = new DAOManager();
+		
+		try{
+			ArrayList<Employed> employees = daoManager.getDAOEmployees().getEmployeesToDate(to);
+			for (Employed employed : employees) {
+				employed.setIDAOSalarySummaries(daoManager.getDAOSalarySummaries());
+				salaries.add(employed.getSalarySummaryToDate(to));
+			}			
+			
+			return salaries;
+		}catch (ServerException e){
+			throw e;
+		}finally{
+			daoManager.close();
+		}		
+	}
+
 }

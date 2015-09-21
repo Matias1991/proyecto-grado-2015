@@ -1,15 +1,15 @@
 package servicelayer.service.builder;
 
 import servicelayer.entity.businessEntity.Employed;
-import servicelayer.entity.businessEntity.Liquidation;
+import servicelayer.entity.businessEntity.ProjectLiquidation;
 import servicelayer.entity.businessEntity.Project;
-import servicelayer.entity.valueObject.VOLiquidation;
+import servicelayer.entity.valueObject.VOProjectLiquidation;
 
-public class LiquidationBuilder extends BaseBuilder<VOLiquidation, Liquidation>{
+public class ProjectLiquidationBuilder extends BaseBuilder<VOProjectLiquidation, ProjectLiquidation>{
 
 	@Override
-	public VOLiquidation BuildVOObject(Liquidation businessObject) {
-		VOLiquidation voLiquidation = new VOLiquidation();
+	public VOProjectLiquidation BuildVOObject(ProjectLiquidation businessObject) {
+		VOProjectLiquidation voLiquidation = new VOProjectLiquidation();
 		
 		voLiquidation.setAppliedDateTimeUTC(businessObject.getAppliedDateTimeUTC());
 		voLiquidation.setCreatedDateTimeUTC(businessObject.getCreatedDateTimeUTC());
@@ -23,17 +23,15 @@ public class LiquidationBuilder extends BaseBuilder<VOLiquidation, Liquidation>{
 		voLiquidation.setReserve(businessObject.getReserve());
 		voLiquidation.setSale(businessObject.getSale());
 		voLiquidation.setTotalBills(businessObject.getTotalBills());
-		voLiquidation.setTotalCostCategoriesCompany(businessObject.getTotalCostCategoriesCompany());
 		voLiquidation.setTotalCostCategoriesHuman(businessObject.getTotalCostCategoriesHuman());
 		voLiquidation.setTotalCostCategoriesMaterial(businessObject.getTotalCostCategoriesMaterial());
-		voLiquidation.setTotalCostHoursEmpoyees(businessObject.getTotalCostHoursEmployees());
 		
 		return voLiquidation;
 	}
 
 	@Override
-	public Liquidation BuildBusinessObject(VOLiquidation voObject) {
-		Liquidation liquidation = new Liquidation();
+	public ProjectLiquidation BuildBusinessObject(VOProjectLiquidation voObject) {
+		ProjectLiquidation liquidation = new ProjectLiquidation();
 		
 		liquidation.setAppliedDateTimeUTC(voObject.getAppliedDateTimeUTC());
 		liquidation.setCreatedDateTimeUTC(voObject.getCreatedDateTimeUTC());
@@ -47,10 +45,8 @@ public class LiquidationBuilder extends BaseBuilder<VOLiquidation, Liquidation>{
 		liquidation.setReserve(voObject.getReserve());
 		liquidation.setSale(voObject.getSale());
 		liquidation.setTotalBills(voObject.getTotalBills());
-		liquidation.setTotalCostCategoriesCompany(voObject.getTotalCostCategoriesCompany());
 		liquidation.setTotalCostCategoriesHuman(voObject.getTotalCostCategoriesHuman());
 		liquidation.setTotalCostCategoriesMaterial(voObject.getTotalCostCategoriesMaterial());
-		liquidation.setTotalCostHoursEmployees(voObject.getTotalCostHoursEmpoyees());
 
 		return liquidation;
 	}

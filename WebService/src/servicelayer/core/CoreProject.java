@@ -258,12 +258,12 @@ public class CoreProject implements ICoreProject {
 
 	
 	@Override
-	public ArrayList<Project> getProjectsToLiquidate(Date month)
+	public ArrayList<Project> getProjectsToLiquidate(Date from, Date to)
 			throws ServerException {
 		
 		DAOManager daoManager = new DAOManager();
 		try {
-			return daoManager.getDAOProjects().getProjectToLiquidate(month);
+			return daoManager.getDAOProjects().getProjectToLiquidate(from, to);
 		} catch (ServerException e) {
 			throw e;
 		} finally {

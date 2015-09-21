@@ -168,4 +168,8 @@ public class Employed {
 			throws ServerException {
 		return iDAOSalarySummaries.getSalarySummaryByVersion(this.id, version);
 	}
+	
+	public SalarySummary getSalarySummaryToDate(Date to) throws ServerException{
+		return iDAOSalarySummaries.getLastestSalarySummaryVersionsToDate(this.id, to);
+	}
 }

@@ -74,24 +74,36 @@ public class DAOEmployees implements IDAOEmployees {
 		return newEmployedId;
 	}
 
-	public int getCountPartners() throws ServerException {
+	public ArrayList<Employed> getEmployedByType(int employedTypeId) throws ServerException {
 
 		// devuelve cuantos empleados de tipo Socio hay insertados en base
-		String controlSQL = "SELECT COUNT(*) FROM EMPLOYED WHERE EmployedTypeId = 2;";
+		String getSQL = "SELECT * FROM EMPLOYED WHERE EmployedTypeId = ?;";
 		ResultSet rs = null;
-		PreparedStatement statementToControl = null;
-		int count = 0;
+		PreparedStatement preparedStatement = null;
+		
+		ArrayList<Employed> partners = new ArrayList<Employed>();
 
 		try {
-			statementToControl = this.connection.prepareStatement(controlSQL);
-
-			rs = statementToControl.executeQuery();
-			rs.next();
-			count = rs.getInt(1);
+			preparedStatement = this.connection.prepareStatement(getSQL);
+			preparedStatement.setInt(1, employedTypeId);
+			rs = preparedStatement.executeQuery();
+			while (rs.next()) {
+				partners.add(BuildEmployed(rs));
+			}			
+			
 		} catch (SQLException e) {
 			throw new ServerException(e);
+		} finally {
+			try {
+				if (preparedStatement != null)
+					preparedStatement.close();
+				if (rs != null)
+					rs.close();
+			} catch (SQLException e) {
+				LoggerMSMP.setLog(e.getMessage());
+			}
 		}
-		return count;
+		return partners;
 	}
 
 	@Override
@@ -280,5 +292,39 @@ public class DAOEmployees implements IDAOEmployees {
 		}
 
 		return result;
+	}
+
+	@Override
+	public ArrayList<Employed> getEmployeesToDate(Date to)
+			throws ServerException {
+		ArrayList<Employed> employees = new ArrayList<Employed>();
+		PreparedStatement preparedStatement = null;
+		ResultSet rs = null;
+		try {
+
+			String sql;
+			sql = "SELECT * FROM EMPLOYED WHERE CREATEDDATETIMEUTC < ?";
+			preparedStatement = this.connection.prepareStatement(sql);
+			preparedStatement.setTimestamp(1, new Timestamp(to.getTime()));
+			rs = preparedStatement.executeQuery();
+
+			while (rs.next()) {
+				employees.add(BuildEmployed(rs));
+			}
+
+		} catch (SQLException e) {
+			throw new ServerException(e);
+		} finally {
+			try {
+				if (preparedStatement != null)
+					preparedStatement.close();
+				if (rs != null)
+					rs.close();
+			} catch (SQLException e) {
+				LoggerMSMP.setLog(e.getMessage());
+			}
+		}
+
+		return employees;
 	}
 }

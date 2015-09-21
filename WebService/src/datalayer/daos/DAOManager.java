@@ -8,7 +8,8 @@ import shared.exceptions.ServerException;
 import shared.interfaces.dataLayer.IDAOBills;
 import shared.interfaces.dataLayer.IDAOCategroy;
 import shared.interfaces.dataLayer.IDAOCharges;
-import shared.interfaces.dataLayer.IDAOLiquidation;
+import shared.interfaces.dataLayer.IDAOCompanyLiquidations;
+import shared.interfaces.dataLayer.IDAOProjectsLiquidations;
 import shared.interfaces.dataLayer.IDAOProjectEmployees;
 import shared.interfaces.dataLayer.IDAOEmployees;
 import shared.interfaces.dataLayer.IDAOManager;
@@ -30,7 +31,8 @@ public class DAOManager implements IDAOManager{
 	private IDAOCategroy iDAOCategories;
 	private IDAOCharges iDAOCharges;
 	private IDAOProjectPartners iDAOPartnerProjects;
-	private IDAOLiquidation iDAOLiquidation;
+	private IDAOProjectsLiquidations iDAOProjectLiquidation;
+	private IDAOCompanyLiquidations iDAOCompanyLiquidation;
 		
 	public DAOManager() throws ServerException
 	{
@@ -160,11 +162,18 @@ public class DAOManager implements IDAOManager{
 		return iDAOPartnerProjects;
 	}	
 	
-	public IDAOLiquidation getDAOLiquidation(){
-		if(iDAOLiquidation == null){
-			return new DAOLiquidation(connection);
+	public IDAOProjectsLiquidations getDAOProjectLiquidation(){
+		if(iDAOProjectLiquidation == null){
+			return new DAOProjectsLiquidations(connection);
 		}
 		
-		return iDAOLiquidation;
+		return iDAOProjectLiquidation;
+	}
+	
+	public IDAOCompanyLiquidations getDAOCompanyLiquidation(){
+		if(iDAOCompanyLiquidation == null){
+			return new DAOCompanyLiquidations(connection);
+		}
+		return iDAOCompanyLiquidation;		
 	}
 }

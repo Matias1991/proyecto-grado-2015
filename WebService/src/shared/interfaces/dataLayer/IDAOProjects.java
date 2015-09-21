@@ -21,5 +21,5 @@ public interface IDAOProjects extends IDAOBase<Project> {
 
 	ArrayList<Project> getProjects(User userContext) throws ServerException;
 
-	ArrayList<Project> getProjectToLiquidate(Date month) throws ServerException;
+	ArrayList<Project> getProjectToLiquidate(Date from, Date to) throws ServerException;
 }

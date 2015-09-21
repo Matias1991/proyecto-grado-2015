@@ -37,7 +37,7 @@ public interface ICoreProject {
 
 	ArrayList<Project> getProjects(User userContext) throws ServerException;
 
-	ArrayList<Project> getProjectsToLiquidate(Date month)
+	ArrayList<Project> getProjectsToLiquidate(Date from, Date to)
 			throws ServerException;
 
 	Project updateProject(Project project,
