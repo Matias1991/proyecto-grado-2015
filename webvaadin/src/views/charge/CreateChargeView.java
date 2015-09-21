@@ -160,7 +160,7 @@ public class CreateChargeView extends BaseView {
 
 					if(result)
 					{
-						new PopupWindow("AVISO", "Cobro modificado correctamente");
+						new PopupWindow("AVISO", "Cobro creado correctamente");
 						clearInputs();
 						buildGrid();
 					}
