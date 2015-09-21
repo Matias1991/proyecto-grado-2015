@@ -118,9 +118,17 @@ public class CatalogProjectView extends BaseView {
 			opgProjectStatus.select("Abiertos");
 			opgProjectStatus.select("Cerrados");
 			checkProjects();
-				
+			// Si es gerente oculto campos
+			if(RequestContext.getRequestContext().getUserType() == 3){
+				loadManagerView();
+			}
 		}
 
+	}
+	
+	private void loadManagerView(){
+		txtAmount.setVisible(false);
+		txtSeller.setVisible(false);
 	}
 	
 	private void checkProjects(){
@@ -234,8 +242,8 @@ public class CatalogProjectView extends BaseView {
 		GridLayout tab1 = new GridLayout(1, 5);
 		tab1.setSpacing(true);
 		tab1.addComponent(txtDescription, 0, 0);
-		tab1.addComponent(txtSeller, 0, 1);
-		tab1.addComponent(txtManager, 0, 2);
+		tab1.addComponent(txtSeller, 0, 2);
+		tab1.addComponent(txtManager, 0, 1);
 		tab1.addComponent(txtStatus, 0, 3);
 		tab1.addComponent(txtAmount, 0, 4);
 		tabProject.addTab(tab1, "Datos básicos");
@@ -247,7 +255,10 @@ public class CatalogProjectView extends BaseView {
 		distribution.addComponent(txtPart1, 0, 0);
 		distribution.addComponent(txtDist2, 1, 1);
 		distribution.addComponent(txtPart2, 1, 0);
-		tabProject.addTab(distribution, "Distribución");
+		// Si es gerente no muestro la distribucion
+		if(RequestContext.getRequestContext().getUserType() != 3){
+			tabProject.addTab(distribution, "Distribución");
+		}
 
 		// Rubros
 		vlCategories = new VerticalLayout();
