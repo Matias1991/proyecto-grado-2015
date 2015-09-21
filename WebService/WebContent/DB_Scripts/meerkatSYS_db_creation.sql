@@ -214,30 +214,52 @@ CREATE TABLE IF NOT EXISTS Employed_Project
 	FOREIGN KEY FK_EmployedProject_Employed (employedId) REFERENCES Employed (Id)	
 );
 
-CREATE TABLE IF NOT EXISTS Liquidation
+CREATE TABLE IF NOT EXISTS ProjectLiquidation
 (
 	Id					INTEGER NOT NULL AUTO_INCREMENT,
 	ProjectId			INTEGER NOT NULL,
-	TotalBills			DECIMAL(10,2) NOT NULL,
-	HourCostEmployees	DECIMAL(10,2) NOT NULL,
-	HourCostOutsourced	DECIMAL(10,2) NOT NULL,
-	CategoriesCost		DECIMAL(10,2) NOT NULL,
-	CompanyCost			DECIMAL(10,2) NOT NULL,
+	TotalBills			DECIMAL(10,2) NOT NULL,	
+	OutsourcedCost		DECIMAL(10,2) NOT NULL,
+	CategoriesCost		DECIMAL(10,2) NOT NULL,	
 	Profit				DECIMAL(10,2) NOT NULL,
 	Reserve				DECIMAL(10,2) NOT NULL,
 	SellingCost			DECIMAL(10,2) NOT NULL,	
-	Employed1Id			INTEGER NOT NULL,
-	Employed1Earning	DECIMAL(10,2) NOT NULL,
-	Employed2Id			INTEGER NOT NULL,
-	Employed2Earning	DECIMAL(10,2) NOT NULL,
-	typeExchange		DECIMAL(10,2) NULL,
+	Partner1Id			INTEGER NOT NULL,
+	Partner1Earning	DECIMAL(10,2) NOT NULL,
+	Partner2Id			INTEGER NOT NULL,
+	Partner2Earning	DECIMAL(10,2) NOT NULL,
+	IsCurrencyDollar	BIT NULL,	
 	AppliedDateTimeUTC  TIMESTAMP NOT NULL,
 	CreatedDateTimeUTC	TIMESTAMP NULL,
 	PRIMARY KEY (Id),
     UNIQUE KEY `projectApplied` (`ProjectId`,`AppliedDateTimeUTC`),	
-	FOREIGN KEY FK_Liquidation_Project (ProjectId) REFERENCES Project (Id),
-	FOREIGN KEY FK_Liquidation_Employed_1(Employed1Id) REFERENCES Employed (Id),
-	FOREIGN KEY FK_Liquidation_Employed_2 (Employed2Id) REFERENCES Employed (Id)	
+	FOREIGN KEY FK_ProjectLiquidation_Project (ProjectId) REFERENCES Project (Id),
+	FOREIGN KEY FK_ProjectLiquidation_Employed_1(Partner1Id) REFERENCES Employed (Id),
+	FOREIGN KEY FK_ProjectLiquidation_Employed_2 (Partner2Id) REFERENCES Employed (Id)	
+);
+
+CREATE TABLE IF NOT EXISTS CompanyLiquidation
+(
+	Id						INTEGER NOT NULL AUTO_INCREMENT,
+	CompanyCategory			DECIMAL(10,2) NOT NULL,	
+	Contribution			DECIMAL(10,2) NOT NULL,
+	SalaryNotPartners		DECIMAL(10,2) NOT NULL,	
+	Irae					DECIMAL(10,2) NOT NULL,	
+	IVASale					DECIMAL(10,2) NOT NULL,	
+	IVAPurchase				DECIMAL(10,2) NOT NULL,	
+	Partner1Id				INTEGER NOT NULL,
+	Partner1EarningsDollar	DECIMAL(10,2) NOT NULL,	
+	Partner1EarningsPeso	DECIMAL(10,2) NOT NULL,	
+	Partner2Id				INTEGER NOT NULL,
+	Partner2EarningsDollar	DECIMAL(10,2) NOT NULL,	
+	Partner2EarningsPeso	DECIMAL(10,2) NOT NULL,	
+	TypeExchange			DECIMAL(10,2) NOT NULL,
+	AppliedDateTimeUTC		TIMESTAMP NOT NULL,
+	CreatedDateTimeUTC 		TIMESTAMP NULL,
+	PRIMARY KEY(Id),
+	UNIQUE KEY `Applied` (`AppliedDateTimeUTC`),
+	FOREIGN KEY FK_CompanyLiquidation_Employed_1(Partner1Id) REFERENCES Employed (Id),
+	FOREIGN KEY FK_CompanyLiquidation_Employed_2 (Partner2Id) REFERENCES Employed (Id)		
 );
 
 
