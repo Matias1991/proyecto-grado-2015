@@ -514,4 +514,20 @@ public class CoreEmployed implements ICoreEmployed {
 		}		
 	}
 
+	@Override
+	public ArrayList<Employed> getEmployeesToDate(Date to)
+			throws ServerException, ClientException {
+		DAOManager daoManager = new DAOManager();
+		try {
+			return daoManager.getDAOEmployees().getEmployeesToDate(to);
+
+		} catch (ServerException e) {
+			throw e;
+		} finally {
+			daoManager.close();
+		}
+
+
+	}
+
 }

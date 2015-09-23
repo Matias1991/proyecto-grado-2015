@@ -27,4 +27,6 @@ public interface IDAOBills extends IDAOBase<Bill> {
 	void deleteBills(int[] ids) throws ServerException;
 
 	ArrayList<Bill> getBills(int projectId) throws ServerException;
+	
+	boolean liquidateBill(int billId) throws ServerException;
 }

@@ -323,4 +323,24 @@ public class CoreBill implements ICoreBill {
 			bill.setTotalAmountPeso(getTotalAmount(bill.getAmountPeso(), bill.getIvaType()));
 		}
 	}
+
+	@Override
+	public boolean liquidateBill(int billId) throws ServerException {
+		boolean result = false;
+		DAOManager daoManager = new DAOManager();
+		try {
+			
+			daoManager.getDAOBills().liquidateBill(billId);
+			daoManager.commit();
+
+			result = true;
+
+		} catch (ServerException e) {
+			daoManager.rollback();
+			throw e;
+		} finally {
+			daoManager.close();
+		}
+		return result;
+	}
 }

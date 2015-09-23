@@ -69,10 +69,10 @@ public class DAOProjectsLiquidations implements IDAOProjectsLiquidations {
 		PreparedStatement preparedStatement = null;
 
 		String insertSQL = "INSERT INTO PROJECTLIQUIDATION (PROJECTID, TOTALBILLS, "
-				+ "OUTSOURCEDCOST , CATEGORIESCOST, PROFIT, RESERVE, SELLINGCOST, "
+				+ "OUTSOURCEDCOST , CATEGORIESCOST, EMPLOYEESCOST, PROFIT, RESERVE, SELLINGCOST, "
 				+ "PARTNER1ID, PARTNER1EARNING, PARTNER2ID, PARTNER2EARNING, ISCURRENCYDOLLAR, "
 				+ "APPLIEDDATETIMEUTC, CREATEDDATETIMEUTC) "
-				+ "VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+				+ "VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 
 		try {
 			preparedStatement = this.connection.prepareStatement(insertSQL,
@@ -82,16 +82,17 @@ public class DAOProjectsLiquidations implements IDAOProjectsLiquidations {
 			preparedStatement.setDouble(2, obj.getTotalBills());
 			preparedStatement.setDouble(3, obj.getTotalCostCategoriesHuman());			
 			preparedStatement.setDouble(4, obj.getTotalCostCategoriesMaterial());
-			preparedStatement.setDouble(5, obj.getEarnings());
-			preparedStatement.setDouble(6, obj.getReserve());
-			preparedStatement.setDouble(7, obj.getSale());
-			preparedStatement.setDouble(8, obj.getPartner1().getId());
-			preparedStatement.setDouble(9, obj.getPartner1Earning());
-			preparedStatement.setDouble(10, obj.getPartner2().getId());
-			preparedStatement.setDouble(11, obj.getPartner2Earning());
-			preparedStatement.setBoolean(12, obj.isCurrencyDollar());			
-			preparedStatement.setTimestamp(13, new Timestamp(obj.getAppliedDateTimeUTC().getTime()));
-			preparedStatement.setTimestamp(14, new Timestamp(obj.getCreatedDateTimeUTC().getTime()));
+			preparedStatement.setDouble(5, obj.getTotalCostEmployees());
+			preparedStatement.setDouble(6, obj.getEarnings());
+			preparedStatement.setDouble(7, obj.getReserve());
+			preparedStatement.setDouble(8, obj.getSale());
+			preparedStatement.setDouble(9, obj.getPartner1().getId());
+			preparedStatement.setDouble(10, obj.getPartner1Earning());
+			preparedStatement.setDouble(11, obj.getPartner2().getId());
+			preparedStatement.setDouble(12, obj.getPartner2Earning());
+			preparedStatement.setBoolean(13, obj.isCurrencyDollar());			
+			preparedStatement.setTimestamp(14, new Timestamp(obj.getAppliedDateTimeUTC().getTime()));
+			preparedStatement.setTimestamp(15, new Timestamp(obj.getCreatedDateTimeUTC().getTime()));
 			
 			preparedStatement.executeUpdate();
 

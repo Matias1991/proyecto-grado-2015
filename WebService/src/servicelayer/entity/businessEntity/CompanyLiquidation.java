@@ -8,6 +8,9 @@ public class CompanyLiquidation {
 	private double contribution;
 	private double salaryNotPartners;
 	private double irae;
+	private double dismissalPrevention;
+	private double incidenceSalary;
+	private double incidenceTickets;
 	private double IVASale;
 	private double IVAPurchase;
 	private Employed partner1;
@@ -29,6 +32,7 @@ public class CompanyLiquidation {
 
 	public CompanyLiquidation(int id, double companyCategory,
 			double contribution, double salaryNotPartners, double irae,
+			double dismissalPrevention, double incidenceSalary, double incidenceTickets,
 			double iVASale, double iVAPurchase, Employed partner1,
 			double partner1EarningsDollar, double partner1EarningsPeso,
 			Employed partner2, double partner2EarningsDollar,
@@ -39,8 +43,11 @@ public class CompanyLiquidation {
 		this.contribution = contribution;
 		this.salaryNotPartners = salaryNotPartners;
 		this.irae = irae;
-		IVASale = iVASale;
-		IVAPurchase = iVAPurchase;
+		this.dismissalPrevention = dismissalPrevention;
+		this.incidenceSalary = incidenceSalary;
+		this.incidenceTickets = incidenceTickets;
+		this.IVASale = iVASale;
+		this.IVAPurchase = iVAPurchase;
 		this.partner1 = partner1;
 		this.partner1EarningsDollar = partner1EarningsDollar;
 		this.partner1EarningsPeso = partner1EarningsPeso;
@@ -49,7 +56,7 @@ public class CompanyLiquidation {
 		this.partner2EarningsPeso = partner2EarningsPeso;
 		this.typeExchange = typeExchange;
 		this.appliedDateTimeUTC = appliedDateTimeUTC;
-		CreatedDateTimeUTC = createdDateTimeUTC;
+		this.CreatedDateTimeUTC = createdDateTimeUTC;
 	}
 
 	public int getId() {
@@ -178,5 +185,29 @@ public class CompanyLiquidation {
 
 	public void setTypeExchange(double typeExchange) {
 		this.typeExchange = typeExchange;
+	}
+
+	public double getDismissalPrevention() {
+		return dismissalPrevention;
+	}
+
+	public void setDismissalPrevention(double dismissalPrevention) {
+		this.dismissalPrevention = dismissalPrevention;
+	}
+
+	public double getIncidenceSalary() {
+		return incidenceSalary;
+	}
+
+	public void setIncidenceSalary(double incidenceSalary) {
+		this.incidenceSalary = incidenceSalary;
+	}
+
+	public double getIncidenceTickets() {
+		return incidenceTickets;
+	}
+
+	public void setIncidenceTickets(double incidenceTickets) {
+		this.incidenceTickets = incidenceTickets;
 	}	
 }

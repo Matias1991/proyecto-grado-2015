@@ -618,4 +618,25 @@ public class DAOBills implements IDAOBills {
 
 		return bill;
 	}
+
+	@Override
+	public boolean liquidateBill(int billId) throws ServerException {
+		boolean result = false;
+		PreparedStatement preparedStatement = null;
+
+		String updateSQL = "UPDATE BILL SET ISLIQUIDATED = 1 WHERE ID = ?";
+
+		try {
+			preparedStatement = this.connection.prepareStatement(updateSQL);
+
+			preparedStatement.setInt(1, billId);			
+			preparedStatement.executeUpdate();
+			
+			result = true;
+
+		} catch (SQLException e) {
+			throw new ServerException(e);
+		}
+		return result;
+	}
 }

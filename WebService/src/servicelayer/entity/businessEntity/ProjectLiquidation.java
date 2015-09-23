@@ -8,16 +8,17 @@ public class ProjectLiquidation implements Comparable{
 	private Project project;
 	private Date createdDateTimeUTC;
 	private Date appliedDateTimeUTC;
-	private Double totalBills;
-	private Double totalCostCategoriesHuman;
-	private Double totalCostCategoriesMaterial;
-	private Double earnings;
-	private Double reserve;
-	private Double sale;
+	private double totalBills;
+	private double totalCostCategoriesHuman;
+	private double totalCostCategoriesMaterial;
+	private double totalCostEmployees;
+	private double earnings;
+	private double reserve;
+	private double sale;
 	private Employed partner1;
-	private Double partner1Earning;
+	private double partner1Earning;
 	private Employed partner2;
-	private Double partner2Earning;
+	private double partner2Earning;
 	private boolean isCurrencyDollar;
 		
 	public ProjectLiquidation(){
@@ -28,10 +29,10 @@ public class ProjectLiquidation implements Comparable{
 	}
 
 	public ProjectLiquidation(int id, Project project, Date createdDateTimeUTC,
-			Date appliedDateTimeUTC, Double totalBills,
-			Double totalCostCategoriesHuman, Double totalCostCategoriesMaterial,
-			Double earnings, Double reserve, Double sale, Employed partner1,
-			Double partner1Earning, Employed partner2, Double partner2Earning, boolean isCurrencyDollar) {		
+			Date appliedDateTimeUTC, double totalBills,
+			double totalCostCategoriesHuman, double totalCostCategoriesMaterial, double totalCostEmployees,
+			double earnings, double reserve, double sale, Employed partner1,
+			double partner1Earning, Employed partner2, double partner2Earning, boolean isCurrencyDollar) {		
 		this.id = id;
 		this.project = project;
 		this.createdDateTimeUTC = createdDateTimeUTC;
@@ -39,6 +40,7 @@ public class ProjectLiquidation implements Comparable{
 		this.totalBills = totalBills;
 		this.totalCostCategoriesHuman = totalCostCategoriesHuman;
 		this.totalCostCategoriesMaterial = totalCostCategoriesMaterial;
+		this.totalCostEmployees = totalCostEmployees;
 		this.earnings = earnings;
 		this.reserve = reserve;
 		this.sale = sale;
@@ -81,51 +83,51 @@ public class ProjectLiquidation implements Comparable{
 		this.appliedDateTimeUTC = appliedDateTimeUTC;
 	}
 
-	public Double getTotalBills() {
+	public double getTotalBills() {
 		return totalBills;
 	}
 
-	public void setTotalBills(Double totalBills) {
+	public void setTotalBills(double totalBills) {
 		this.totalBills = totalBills;
 	}
 
-	public Double getTotalCostCategoriesHuman() {
+	public double getTotalCostCategoriesHuman() {
 		return totalCostCategoriesHuman;
 	}
 
-	public void setTotalCostCategoriesHuman(Double totalCostCategoriesHuman) {
+	public void setTotalCostCategoriesHuman(double totalCostCategoriesHuman) {
 		this.totalCostCategoriesHuman = totalCostCategoriesHuman;
 	}
 
-	public Double getTotalCostCategoriesMaterial() {
+	public double getTotalCostCategoriesMaterial() {
 		return totalCostCategoriesMaterial;
 	}
 
-	public void setTotalCostCategoriesMaterial(Double totalCostCategoriesMaterial) {
+	public void setTotalCostCategoriesMaterial(double totalCostCategoriesMaterial) {
 		this.totalCostCategoriesMaterial = totalCostCategoriesMaterial;
 	}
 
-	public Double getEarnings() {
+	public double getEarnings() {
 		return earnings;
 	}
 
-	public void setEarnings(Double earnings) {
+	public void setEarnings(double earnings) {
 		this.earnings = earnings;
 	}
 
-	public Double getReserve() {
+	public double getReserve() {
 		return reserve;
 	}
 
-	public void setReserve(Double reserve) {
+	public void setReserve(double reserve) {
 		this.reserve = reserve;
 	}
 
-	public Double getSale() {
+	public double getSale() {
 		return sale;
 	}
 
-	public void setSale(Double sale) {
+	public void setSale(double sale) {
 		this.sale = sale;
 	}
 
@@ -137,11 +139,11 @@ public class ProjectLiquidation implements Comparable{
 		this.partner1 = partner1;
 	}
 
-	public Double getPartner1Earning() {
+	public double getPartner1Earning() {
 		return partner1Earning;
 	}
 
-	public void setPartner1Earning(Double partner1Earning) {
+	public void setPartner1Earning(double partner1Earning) {
 		this.partner1Earning = partner1Earning;
 	}
 
@@ -153,11 +155,11 @@ public class ProjectLiquidation implements Comparable{
 		this.partner2 = partner2;
 	}
 
-	public Double getPartner2Earning() {
+	public double getPartner2Earning() {
 		return partner2Earning;
 	}
 
-	public void setPartner2Earning(Double partner2Earning) {
+	public void setPartner2Earning(double partner2Earning) {
 		this.partner2Earning = partner2Earning;
 	}	
 
@@ -167,6 +169,14 @@ public class ProjectLiquidation implements Comparable{
 
 	public void setCurrencyDollar(boolean isCurrencyDollar) {
 		this.isCurrencyDollar = isCurrencyDollar;
+	}
+	
+	public double getTotalCostEmployees() {
+		return totalCostEmployees;
+	}
+
+	public void setTotalCostEmployees(double totalCostEmployees) {
+		this.totalCostEmployees = totalCostEmployees;
 	}
 
 	@Override

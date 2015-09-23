@@ -34,4 +34,6 @@ public interface ICoreBill {
 	ArrayList<Bill> getBillsWithCharges(Date from, Date to, User userContext) throws ServerException;
 	
 	ArrayList<Bill> getBills(int projectId) throws ServerException;
+	
+	boolean liquidateBill(int billId) throws ServerException;
 }
