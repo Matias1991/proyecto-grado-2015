@@ -189,7 +189,7 @@ public class ModifyProfileView extends BaseView {
 		
 		// txt_email
 		txtEmail = new TextField();
-		txtEmail.setCaption("Email");
+		txtEmail.setCaption("Correo electrónico");
 		txtEmail.setImmediate(true);
 		txtEmail.setWidth("240px");
 		txtEmail.setHeight("-1px");
