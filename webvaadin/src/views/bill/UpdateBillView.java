@@ -129,7 +129,12 @@ public class UpdateBillView extends BaseView {
 
 			@Override
 			public void valueChange(ValueChangeEvent event) {
-				buildGrid();
+				if(popupDateFieldFrom.getValue() != null){
+					buildGrid();
+				} else {
+					popupDateFieldFrom.setRequiredError("Es requerido");
+				}
+					
 			}
 		});
 		
@@ -138,7 +143,11 @@ public class UpdateBillView extends BaseView {
 
 			@Override
 			public void valueChange(ValueChangeEvent event) {
-				buildGrid(); 
+				if(popupDateFieldTo.getValue() != null){
+					buildGrid();
+				} else {
+					popupDateFieldTo.setRequiredError("Es requerido");
+				}
 			}
 		});
 		
