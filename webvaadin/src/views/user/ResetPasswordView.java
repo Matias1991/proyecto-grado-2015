@@ -2,6 +2,7 @@ package views.user;
 
 import java.util.Collection;
 
+import servicelayer.service.ServiceWebStub;
 import utils.PopupWindow;
 import views.BaseView;
 
@@ -47,6 +48,23 @@ public class ResetPasswordView extends BaseView{
 		buildMainLayout();
 		setCompositionRoot(mainLayout);
 		
+		btnReset.addClickListener(new Button.ClickListener() {
+
+			@Override
+			public void buttonClick(ClickEvent event) {
+				btnReset.setEnabled(false);
+				BeanItem<User> item = container.getItem(grid.getSelectedRow());
+				
+				if(UserController.resetPassword(item.getBean().getId())){
+					new PopupWindow("AVISO", "Contraseña reseteada correctamente");
+					
+					if(grid != null){
+						mainLayout.removeComponent(grid);
+					}
+					buildGrid();
+				}
+			}
+		});
 	}
 	
 	public void buildGrid()
@@ -114,27 +132,6 @@ public class ResetPasswordView extends BaseView{
 				         grid.getSelectedRows().size() > 0);
 			   }
 		});
-		
-		btnReset.addClickListener(new Button.ClickListener() {
-
-			@Override
-			public void buttonClick(ClickEvent event) {
-				btnReset.setEnabled(false);
-				BeanItem<User> item = container.getItem(grid.getSelectedRow());
-				
-				if(UserController.resetPassword(item.getBean().getId())){
-					new PopupWindow("AVISO", "Contraseña reseteada correctamente");
-					
-					if(grid != null){
-						mainLayout.removeComponent(grid);
-					}
-					buildGrid();
-				}
-				
-				
-			}
-		});
-
 	}
 	
 	@Override
