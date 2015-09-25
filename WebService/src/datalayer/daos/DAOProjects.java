@@ -361,20 +361,26 @@ public class DAOProjects implements IDAOProjects {
 	}
 	
 	
-	public ArrayList<Project> getProjectToLiquidate(Date from, Date to) throws ServerException{
+	public ArrayList<Project> getProjectsReadyToLiquidate(Date from, Date to, int projectId) throws ServerException{
 		ArrayList<Project> projects = new ArrayList<Project>();
 		PreparedStatement preparedStatement = null;
 		ResultSet rs = null;		
 		try {
-			String getSQL = "SELECT *  FROM PROJECT WHERE "
-					+ "(CLOSED = 0 AND createdDateTimeUTC <= ?) "   
-				    + "OR (closed = 1 and updatedDateTimeUTC between ? and ?)";
-					
-			preparedStatement = this.connection.prepareStatement(getSQL);				
+			
+			StringBuilder sql = new StringBuilder();
+			sql.append("SELECT *  FROM PROJECT P ");
+			sql.append("WHERE ((P.closed = 0 AND P.createdDateTimeUTC <= ?) ");
+			sql.append("OR (P.closed = 1 and P.updatedDateTimeUTC between ? and ?)) ");
+			if(projectId != -1)
+				sql.append("AND P.Id = ? ");
+				
+			preparedStatement = this.connection.prepareStatement(sql.toString());				
 						
 			preparedStatement.setTimestamp(1, new Timestamp(to.getTime()));
 			preparedStatement.setTimestamp(2, new Timestamp(from.getTime()));
 			preparedStatement.setTimestamp(3, new Timestamp(to.getTime()));	
+			if(projectId != -1)
+				preparedStatement.setInt(4, projectId);
 			
 			rs = preparedStatement.executeQuery();
 

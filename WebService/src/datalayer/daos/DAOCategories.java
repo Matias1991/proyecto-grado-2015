@@ -461,6 +461,51 @@ public class DAOCategories implements IDAOCategroy {
 		return categories;
 	}
 	
+		//Devuelve todos los rubros cuya fecha de aplicacion sea en el periodo ingresado (ultima versión) asociados a un proyecto
+		@Override
+		public ArrayList<Category> getCategories(int projectId, Date from, Date to) throws ServerException {
+			ArrayList<Category> categories = new ArrayList<Category>();;
+			PreparedStatement preparedStatement = null;
+			ResultSet rs = null;
+			try {
+
+				StringBuilder sql = new StringBuilder();
+				sql.append("SELECT C_1.* ");
+				sql.append("FROM CATEGORY C_1 ");
+				sql.append("WHERE C_1.projectId = ? AND (C_1.Id, C_1.Version) in (SELECT C_2.Id, MAX(VERSION) ");
+				sql.append("FROM CATEGORY C_2 ");
+				sql.append("GROUP BY C_2.Id ) ");
+				sql.append("AND APPLIEDDATETIMEUTC between ? AND ? ");
+				sql.append("ORDER BY APPLIEDDATETIMEUTC DESC");			
+				
+				preparedStatement = this.connection.prepareStatement(sql.toString());
+				preparedStatement.setInt(1, projectId);
+				preparedStatement.setTimestamp(2, new Timestamp(setFirstDayOfMonth(from).getTime()));
+				preparedStatement.setTimestamp(3, new Timestamp(setFirstDayOfMonth(to).getTime()));
+				
+				rs = preparedStatement.executeQuery();
+
+				while (rs.next()) {
+					Category category = BuildCategory(rs);
+					categories.add(category);				
+				}
+				
+			} catch (SQLException e) {
+				throw new ServerException(e);
+			} finally {
+				try {
+					if (preparedStatement != null)
+						preparedStatement.close();
+					if (rs != null)
+						rs.close();
+				} catch (SQLException e) {
+					LoggerMSMP.setLog(e.getMessage());
+				}
+			}
+
+			return categories;
+		}
+	
 //	//Devuelve todos los rubros cuya fecha de aplicacion sea en el periodo ingresado (ultima versión) dado un gerente
 //	@Override
 //	public ArrayList<Category> getCategoriesByManager(Date from, Date to, int managerId) throws ServerException {

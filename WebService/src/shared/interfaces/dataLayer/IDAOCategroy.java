@@ -32,4 +32,7 @@ public interface IDAOCategroy extends IDAOBase<Category> {
 //			throws ServerException;
 	
 	ArrayList<Category> getCategories(User userContext) throws ServerException;
+
+	ArrayList<Category> getCategories(int projectId, Date from, Date to)
+			throws ServerException;
 }

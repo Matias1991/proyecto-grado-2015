@@ -278,14 +278,14 @@ public class CoreProject implements ICoreProject {
 		}
 	}
 
-	
+	//Si el id del proyecto es -1 trae todos los proyectos disponibles para liquidar
 	@Override
-	public ArrayList<Project> getProjectsToLiquidate(Date from, Date to)
+	public ArrayList<Project> getProjectsReadyToLiquidate(Date from, Date to, int projectId)
 			throws ServerException {
 		
 		DAOManager daoManager = new DAOManager();
 		try {
-			return daoManager.getDAOProjects().getProjectToLiquidate(from, to);
+			return daoManager.getDAOProjects().getProjectsReadyToLiquidate(from, to, projectId);
 		} catch (ServerException e) {
 			throw e;
 		} finally {

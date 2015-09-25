@@ -1,7 +1,5 @@
 package servicelayer.entity.businessEntity;
 
-import java.util.Date;
-
 public class DistributionType {
 	
 	private int id;
@@ -17,17 +15,10 @@ public class DistributionType {
 		this.description = description;		
 	}
 	
-
 	public DistributionType(int id){
 		this.id = id;		
 	}
 	
-//	public DistributionType(VODistributionType){
-	//	if(voDistributionType.getEmployed().getId() != 0){
-	//		
-	//	}
-//	}
-
 	public int getId() {
 		return id;
 	}

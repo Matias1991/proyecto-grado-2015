@@ -1,5 +1,6 @@
 package servicelayer.entity.businessEntity;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 public class ProjectLiquidation implements Comparable{
@@ -15,24 +16,38 @@ public class ProjectLiquidation implements Comparable{
 	private double earnings;
 	private double reserve;
 	private double sale;
-	private Employed partner1;
+	private Employed employedPartner1;
+	private ProjectPartner partner1;
 	private double partner1Earning;
-	private Employed partner2;
+	private Employed employedPartner2;
+	private ProjectPartner partner2;
 	private double partner2Earning;
 	private boolean isCurrencyDollar;
+	
+	private ArrayList<Bill> bills;
+	private ArrayList<Category> categoriesHuman;
+	private ArrayList<Category> categoriesMaterial;
+	private ArrayList<ProjectEmployed> employees;
+	//private ArrayList<ProjectPartner> partners;
 		
 	public ProjectLiquidation(){
 	}
 	
-	public ProjectLiquidation(int id){
-		this.id = id;
+	public ProjectLiquidation(int projectId){
+		this.project = new Project(projectId);
 	}
-
+	
 	public ProjectLiquidation(int id, Project project, Date createdDateTimeUTC,
 			Date appliedDateTimeUTC, double totalBills,
-			double totalCostCategoriesHuman, double totalCostCategoriesMaterial, double totalCostEmployees,
-			double earnings, double reserve, double sale, Employed partner1,
-			double partner1Earning, Employed partner2, double partner2Earning, boolean isCurrencyDollar) {		
+			double totalCostCategoriesHuman,
+			double totalCostCategoriesMaterial, double totalCostEmployees,
+			double earnings, double reserve, double sale, ProjectPartner partner1,
+			double partner1Earning, ProjectPartner partner2, double partner2Earning,
+			boolean isCurrencyDollar, ArrayList<Bill> bills,
+			ArrayList<Category> categoriesHuman,
+			ArrayList<Category> categoriesMaterial,
+			ArrayList<ProjectEmployed> employees,
+			ArrayList<ProjectPartner> partners) {
 		this.id = id;
 		this.project = project;
 		this.createdDateTimeUTC = createdDateTimeUTC;
@@ -49,6 +64,11 @@ public class ProjectLiquidation implements Comparable{
 		this.partner2 = partner2;
 		this.partner2Earning = partner2Earning;
 		this.isCurrencyDollar = isCurrencyDollar;
+		this.bills = bills;
+		this.categoriesHuman = categoriesHuman;
+		this.categoriesMaterial = categoriesMaterial;
+		this.employees = employees;
+		//this.partners = partners;
 	}
 
 	public int getId() {
@@ -131,11 +151,11 @@ public class ProjectLiquidation implements Comparable{
 		this.sale = sale;
 	}
 
-	public Employed getPartner1() {
+	public ProjectPartner getPartner1() {
 		return partner1;
 	}
 
-	public void setPartner1(Employed partner1) {
+	public void setPartner1(ProjectPartner partner1) {
 		this.partner1 = partner1;
 	}
 
@@ -147,11 +167,11 @@ public class ProjectLiquidation implements Comparable{
 		this.partner1Earning = partner1Earning;
 	}
 
-	public Employed getPartner2() {
+	public ProjectPartner getPartner2() {
 		return partner2;
 	}
 
-	public void setPartner2(Employed partner2) {
+	public void setPartner2(ProjectPartner partner2) {
 		this.partner2 = partner2;
 	}
 
@@ -177,6 +197,54 @@ public class ProjectLiquidation implements Comparable{
 
 	public void setTotalCostEmployees(double totalCostEmployees) {
 		this.totalCostEmployees = totalCostEmployees;
+	}
+	
+	public ArrayList<Bill> getBills() {
+		return bills;
+	}
+
+	public void setBills(ArrayList<Bill> bills) {
+		this.bills = bills;
+	}
+
+	public ArrayList<Category> getCategoriesHuman() {
+		return categoriesHuman;
+	}
+
+	public void setCategoriesHuman(ArrayList<Category> categoriesHuman) {
+		this.categoriesHuman = categoriesHuman;
+	}
+
+	public ArrayList<Category> getCategoriesMaterial() {
+		return categoriesMaterial;
+	}
+
+	public void setCategoriesMaterial(ArrayList<Category> categoriesMaterial) {
+		this.categoriesMaterial = categoriesMaterial;
+	}
+
+	public ArrayList<ProjectEmployed> getEmployees() {
+		return employees;
+	}
+
+	public void setEmployees(ArrayList<ProjectEmployed> employees) {
+		this.employees = employees;
+	}
+	
+	public Employed getEmployedPartner1() {
+		return employedPartner1;
+	}
+
+	public void setEmployedPartner1(Employed employedPartner1) {
+		this.employedPartner1 = employedPartner1;
+	}
+
+	public Employed getEmployedPartner2() {
+		return employedPartner2;
+	}
+
+	public void setEmployedPartner2(Employed employedPartner2) {
+		this.employedPartner2 = employedPartner2;
 	}
 
 	@Override

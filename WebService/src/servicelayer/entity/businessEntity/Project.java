@@ -5,6 +5,8 @@ import java.util.Date;
 
 import servicelayer.entity.valueObject.VOProject;
 import shared.exceptions.ServerException;
+import shared.interfaces.dataLayer.IDAOBills;
+import shared.interfaces.dataLayer.IDAOCategroy;
 import shared.interfaces.dataLayer.IDAOProjectEmployees;
 import shared.interfaces.dataLayer.IDAOProjectPartners;
 
@@ -21,7 +23,9 @@ public class Project {
 	private double amount;
 	private boolean isCurrencyDollar;
 	private IDAOProjectEmployees iDAOProjectEmployees;
-	private IDAOProjectPartners iDAOProjectPartners;	
+	private IDAOProjectPartners iDAOProjectPartners;
+	private IDAOBills iDAOBills;
+	private IDAOCategroy iDAOCategories;
 
 	public Project() {
 	}
@@ -43,21 +47,21 @@ public class Project {
 		this.updatedDateTimeUTC = updatedDateTimeUTC;
 	}
 
-	public Project(VOProject voProject, IDAOProjectEmployees idaoEmployedProject, IDAOProjectPartners idaoPartnerProject) {
-		this.name = voProject.getName();
-		this.description = voProject.getDescription();
-		if (voProject.getSellerId() != 0) {
-			this.seller = new Employed(voProject.getSellerId());
-		}
-		if (voProject.getManagerId() != 0) {
-			this.manager = new User(voProject.getManagerId());
-		}
-		this.updatedDateTimeUTC = voProject.getUpdatedDateTimeUTC();
-		this.createdDateTimeUTC = voProject.getCreatedDateTimeUTC();
-		this.closed = voProject.isClosed();
-		this.iDAOProjectEmployees = idaoEmployedProject;
-		this.iDAOProjectPartners = idaoPartnerProject;
-	}
+//	public Project(VOProject voProject, IDAOProjectEmployees idaoEmployedProject, IDAOProjectPartners idaoPartnerProject) {
+//		this.name = voProject.getName();
+//		this.description = voProject.getDescription();
+//		if (voProject.getSellerId() != 0) {
+//			this.seller = new Employed(voProject.getSellerId());
+//		}
+//		if (voProject.getManagerId() != 0) {
+//			this.manager = new User(voProject.getManagerId());
+//		}
+//		this.updatedDateTimeUTC = voProject.getUpdatedDateTimeUTC();
+//		this.createdDateTimeUTC = voProject.getCreatedDateTimeUTC();
+//		this.closed = voProject.isClosed();
+//		this.iDAOProjectEmployees = idaoEmployedProject;
+//		this.iDAOProjectPartners = idaoPartnerProject;
+//	}
 
 	public int getId() {
 		return id;
@@ -139,20 +143,20 @@ public class Project {
 		this.isCurrencyDollar = isCurrencyDollar;
 	}
 
-	public IDAOProjectEmployees getiDAOProjectEmployees() {
-		return iDAOProjectEmployees;
-	}
-
 	public void setiDAOProjectEmployees(IDAOProjectEmployees iDAOEmployedProject) {
 		this.iDAOProjectEmployees = iDAOEmployedProject;
 	}
 	
-	public IDAOProjectPartners getiDAOPartnerProject() {
-		return iDAOProjectPartners;
-	}
-
 	public void setiDAOPartnerProject(IDAOProjectPartners iDAOPartnerProject) {
 		this.iDAOProjectPartners = iDAOPartnerProject;
+	}
+	
+	public void setiDAOBills(IDAOBills iDAOBills) {
+		this.iDAOBills = iDAOBills;
+	}
+
+	public void setiDAOCategories(IDAOCategroy iDAOCategories) {
+		this.iDAOCategories = iDAOCategories;
 	}
 
 	public void associateEmployed(ProjectEmployed employedProject)
@@ -181,5 +185,13 @@ public class Project {
 	public ArrayList<ProjectPartner> getProjectPartner() throws ServerException
 	{
 		return iDAOProjectPartners.getPartnersProject(this.id);
+	}	
+	
+	public ArrayList<Bill> getBills(Date from, Date to) throws ServerException{
+		return iDAOBills.getBills(this.id, from, to);
+	}
+	
+	public ArrayList<Category> getCategories(Date from, Date to) throws ServerException{
+		return iDAOCategories.getCategories(this.id, from, to);
 	}
 }

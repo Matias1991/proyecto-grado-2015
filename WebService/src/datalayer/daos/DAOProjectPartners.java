@@ -74,10 +74,12 @@ public class DAOProjectPartners implements IDAOProjectPartners {
 		ResultSet rs = null;
 		try {
 
-			String getSQL = "SELECT * " + 
-					"FROM meerkatsys_msmp.partner_project pp1 " +
-					"where (pp1.projectId, pp1.employedId, pp1.version) in " +
-					"		(select pp2.projectId, pp2.employedId, MAX(pp2.version) from meerkatsys_msmp.partner_project pp2 " +
+			String getSQL = "SELECT pp1.*,e.*,d.* " + 
+					"FROM partner_project pp1  " +
+					"INNER JOIN employed e on e.Id = pp1.EmployedId " +
+					"INNER JOIN distributionType d on d.id = pp1.distributionTypeId "+
+					"WHERE (pp1.projectId, pp1.employedId, pp1.version) in " +
+					"		(select pp2.projectId, pp2.employedId, MAX(pp2.version) from partner_project pp2 " +
 					"			where pp1.projectId = pp2.projectId and " +
 					"			pp1.employedId = pp2.employedId) " +
 					"and pp1.projectId = ?;";
@@ -143,7 +145,10 @@ public class DAOProjectPartners implements IDAOProjectPartners {
 	private ProjectPartner BuildProjectPartner (ResultSet rs) throws SQLException {
 		int projectId = rs.getInt("projectId");
 		int employedId = rs.getInt("employedId");
-		int distribution = rs.getInt("distributionTypeId");
+		String employedName = rs.getString("Name");
+		String employedLastname = rs.getString("LastName");
+		int distributionId = rs.getInt("distributionTypeId");
+		String distributionValue = rs.getString("value");
 		int version = rs.getInt("version");
 		boolean enabled = rs.getBoolean("enabled");
 		Date createdDateTimeUTC = rs.getTimestamp("createdDateTimeUTC");
@@ -151,8 +156,12 @@ public class DAOProjectPartners implements IDAOProjectPartners {
 		
 		ProjectPartner projectPartner = new ProjectPartner();
 		projectPartner.setProject(new Project(projectId));
-		projectPartner.setEmployed(new Employed(employedId));
-		projectPartner.setDistributionType(new DistributionType(distribution));
+		Employed employed = new Employed();
+		employed.setId(employedId);
+		employed.setName(employedName);
+		employed.setLastName(employedLastname);
+		projectPartner.setEmployed(employed);
+		projectPartner.setDistributionType(new DistributionType(distributionId,distributionValue,null));
 		projectPartner.setVersion(version);
 		projectPartner.setEnabled(enabled);
 		projectPartner.setCreatedDateTimeUTC(createdDateTimeUTC);

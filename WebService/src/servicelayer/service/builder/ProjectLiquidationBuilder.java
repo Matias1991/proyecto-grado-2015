@@ -1,8 +1,6 @@
 package servicelayer.service.builder;
 
-import servicelayer.entity.businessEntity.Employed;
 import servicelayer.entity.businessEntity.ProjectLiquidation;
-import servicelayer.entity.businessEntity.Project;
 import servicelayer.entity.valueObject.VOProjectLiquidation;
 
 public class ProjectLiquidationBuilder extends BaseBuilder<VOProjectLiquidation, ProjectLiquidation>{
@@ -11,44 +9,46 @@ public class ProjectLiquidationBuilder extends BaseBuilder<VOProjectLiquidation,
 	public VOProjectLiquidation BuildVOObject(ProjectLiquidation businessObject) {
 		VOProjectLiquidation voLiquidation = new VOProjectLiquidation();
 		
-		voLiquidation.setAppliedDateTimeUTC(businessObject.getAppliedDateTimeUTC());
+		voLiquidation.setAppliedDateTimeUTC(businessObject.getAppliedDateTimeUTC());		
 		voLiquidation.setCreatedDateTimeUTC(businessObject.getCreatedDateTimeUTC());
-		voLiquidation.setEarnings(businessObject.getEarnings());
+		voLiquidation.setCurrencyDollar(businessObject.isCurrencyDollar());		
 		voLiquidation.setId(businessObject.getId());
-		voLiquidation.setPartner1Id(businessObject.getPartner1().getId());
+		if(businessObject.getPartner1() != null){
+			voLiquidation.setPartner1Distribution(businessObject.getPartner1().getDistributionType().getValue());		
+			voLiquidation.setPartner1Lastname(businessObject.getPartner1().getEmployed().getLastName());
+			voLiquidation.setPartner1Name(businessObject.getPartner1().getEmployed().getName());
+			voLiquidation.setPartner2Distribution(businessObject.getPartner2().getDistributionType().getValue());
+			voLiquidation.setPartner2Lastname(businessObject.getPartner2().getEmployed().getLastName());
+			voLiquidation.setPartner2Name(businessObject.getPartner2().getEmployed().getName());
+		}
+		if(businessObject.getEmployedPartner1() != null){
+			voLiquidation.setPartner1Lastname(businessObject.getEmployedPartner1().getLastName());
+			voLiquidation.setPartner1Name(businessObject.getEmployedPartner1().getName());
+			voLiquidation.setPartner2Lastname(businessObject.getEmployedPartner2().getLastName());
+			voLiquidation.setPartner2Name(businessObject.getEmployedPartner2().getName());
+		}
+		
+		voLiquidation.setEarnings(businessObject.getEarnings());
 		voLiquidation.setPartner1Earning(businessObject.getPartner1Earning());
-		voLiquidation.setPartner2Id(businessObject.getPartner2().getId());
 		voLiquidation.setPartner2Earning(businessObject.getPartner2Earning());
-		voLiquidation.setProjectId(businessObject.getProject().getId());
 		voLiquidation.setReserve(businessObject.getReserve());
 		voLiquidation.setSale(businessObject.getSale());
 		voLiquidation.setTotalBills(businessObject.getTotalBills());
 		voLiquidation.setTotalCostCategoriesHuman(businessObject.getTotalCostCategoriesHuman());
 		voLiquidation.setTotalCostCategoriesMaterial(businessObject.getTotalCostCategoriesMaterial());
+		voLiquidation.setTotalCostEmployees(businessObject.getTotalCostEmployees());
+			
 		
+		voLiquidation.setProjectId(businessObject.getProject().getId());
+				
 		return voLiquidation;
 	}
 
 	@Override
 	public ProjectLiquidation BuildBusinessObject(VOProjectLiquidation voObject) {
-		ProjectLiquidation liquidation = new ProjectLiquidation();
-		
-		liquidation.setAppliedDateTimeUTC(voObject.getAppliedDateTimeUTC());
-		liquidation.setCreatedDateTimeUTC(voObject.getCreatedDateTimeUTC());
-		liquidation.setEarnings(voObject.getEarnings());
-		liquidation.setId(voObject.getId());
-		liquidation.setPartner1(new Employed(voObject.getId()));
-		liquidation.setPartner1Earning(voObject.getPartner1Earning());
-		liquidation.setPartner2(new Employed(voObject.getId()));
-		liquidation.setPartner2Earning(voObject.getPartner2Earning());
-		liquidation.setProject(new Project(voObject.getProjectId()));
-		liquidation.setReserve(voObject.getReserve());
-		liquidation.setSale(voObject.getSale());
-		liquidation.setTotalBills(voObject.getTotalBills());
-		liquidation.setTotalCostCategoriesHuman(voObject.getTotalCostCategoriesHuman());
-		liquidation.setTotalCostCategoriesMaterial(voObject.getTotalCostCategoriesMaterial());
-
-		return liquidation;
+	
+		return null;
 	}
-
+	
+	
 }

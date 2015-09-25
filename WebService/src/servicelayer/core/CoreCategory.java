@@ -236,6 +236,16 @@ public class CoreCategory implements ICoreCategory {
 		return categories;
 	}
 
+	@Override
+	public double getTotalAmount(double amount, IVA_Type ivaType) {
+		double totalAmount = amount;
+		if (ivaType == IVA_Type.TEN || ivaType == IVA_Type.TWENTY_TWO) {
+			totalAmount = amount * ivaType.getPercentage();
+		}
+
+		return totalAmount;
+	}
+	
 	private boolean changeCategory(Category toUpdate, Category oldCategory) {
 		boolean change = false;
 
@@ -283,66 +293,5 @@ public class CoreCategory implements ICoreCategory {
 
 		return change;
 	}
-
-	double getTotalAmount(double amount, IVA_Type ivaType) {
-		double totalAmount = amount;
-		if (ivaType == IVA_Type.TEN || ivaType == IVA_Type.TWENTY_TWO) {
-			totalAmount = amount * ivaType.getPercentage();
-		}
-
-		return totalAmount;
-	}
-
-//	@Override
-//	public ArrayList<Category> getCategoriesByManager(Date from, Date to,
-//			int managerId) throws ServerException {
-//		ArrayList<Category> categories;
-//
-//		DAOManager daoManager = new DAOManager();
-//		try {
-//			categories = daoManager.getDAOCategories().getCategoriesByManager(
-//					from, to, managerId);
-//			for (Category category : categories) {
-//				if (category.getIsCurrencyDollar()) {
-//					category.setTotalAmountDollar(getTotalAmount(
-//							category.getAmountDollar(), category.getIvaType()));
-//				} else {
-//					category.setTotalAmountPeso(getTotalAmount(
-//							category.getAmountPeso(), category.getIvaType()));
-//				}
-//			}
-//		} catch (ServerException e) {
-//			throw e;
-//		} finally {
-//			daoManager.close();
-//		}
-//		return categories;
-//	}
-
-//	@Override
-//	public ArrayList<Category> getCategoriesByManager(User userContext)
-//			throws ServerException {
-//		ArrayList<Category> categories;
-//
-//		DAOManager daoManager = new DAOManager();
-//		try {
-//			categories = daoManager.getDAOCategories().getCategories(
-//					userContext);
-//			for (Category category : categories) {
-//				if (category.getIsCurrencyDollar()) {
-//					category.setTotalAmountDollar(getTotalAmount(
-//							category.getAmountDollar(), category.getIvaType()));
-//				} else {
-//					category.setTotalAmountPeso(getTotalAmount(
-//							category.getAmountPeso(), category.getIvaType()));
-//				}
-//			}
-//		} catch (ServerException e) {
-//			throw e;
-//		} finally {
-//			daoManager.close();
-//		}
-//		return categories;
-//	}
-
+	
 }

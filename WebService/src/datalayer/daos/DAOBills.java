@@ -478,6 +478,50 @@ public class DAOBills implements IDAOBills {
 	}
 	
 	@Override
+	public ArrayList<Bill> getBills(int projectId, Date from, Date to) throws ServerException {
+		ArrayList<Bill> bills = new ArrayList<Bill>();
+		PreparedStatement preparedStatement = null;
+		ResultSet rs = null;
+		try {
+
+			StringBuilder sql = new StringBuilder();
+			sql.append("SELECT B.* FROM BILL B ");
+			sql.append("WHERE B.AppliedDateTimeUTC between ? AND ? AND B.isLiquidated = 0 ");
+			sql.append("AND B.projectId = ? ");
+			sql.append("ORDER BY B.AppliedDateTimeUTC DESC");
+
+			preparedStatement = this.connection
+					.prepareStatement(sql.toString());
+			preparedStatement.setTimestamp(1,
+					new Timestamp(setFirstDayOfMonth(from).getTime()));
+			preparedStatement.setTimestamp(2,
+					new Timestamp(setFirstDayOfMonth(to).getTime()));
+			preparedStatement.setInt(3, projectId);
+
+			rs = preparedStatement.executeQuery();
+
+			while (rs.next()) {
+				Bill bill = BuildBill(rs);				
+				bills.add(bill);
+			}
+
+		} catch (SQLException e) {
+			throw new ServerException(e);
+		} finally {
+			try {
+				if (preparedStatement != null)
+					preparedStatement.close();
+				if (rs != null)
+					rs.close();
+			} catch (SQLException e) {
+				LoggerMSMP.setLog(e.getMessage());
+			}
+		}
+
+		return bills;
+	}
+	
+	@Override
 	public ArrayList<Bill> getBillsWithCharges(Date from, Date to, User userContext) throws ServerException {
 		ArrayList<Bill> bills = new ArrayList<Bill>();
 		PreparedStatement preparedStatement = null;

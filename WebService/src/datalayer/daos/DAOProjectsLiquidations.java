@@ -11,6 +11,9 @@ import java.util.Date;
 import com.mysql.jdbc.Statement;
 
 import servicelayer.entity.businessEntity.Bill;
+import servicelayer.entity.businessEntity.CompanyLiquidation;
+import servicelayer.entity.businessEntity.Employed;
+import servicelayer.entity.businessEntity.Project;
 import servicelayer.entity.businessEntity.ProjectLiquidation;
 import shared.LoggerMSMP;
 import shared.exceptions.ServerException;
@@ -86,9 +89,9 @@ public class DAOProjectsLiquidations implements IDAOProjectsLiquidations {
 			preparedStatement.setDouble(6, obj.getEarnings());
 			preparedStatement.setDouble(7, obj.getReserve());
 			preparedStatement.setDouble(8, obj.getSale());
-			preparedStatement.setDouble(9, obj.getPartner1().getId());
+			preparedStatement.setDouble(9, obj.getPartner1().getEmployed().getId());
 			preparedStatement.setDouble(10, obj.getPartner1Earning());
-			preparedStatement.setDouble(11, obj.getPartner2().getId());
+			preparedStatement.setDouble(11, obj.getPartner2().getEmployed().getId());
 			preparedStatement.setDouble(12, obj.getPartner2Earning());
 			preparedStatement.setBoolean(13, obj.isCurrencyDollar());			
 			preparedStatement.setTimestamp(14, new Timestamp(obj.getAppliedDateTimeUTC().getTime()));
@@ -148,5 +151,79 @@ public class DAOProjectsLiquidations implements IDAOProjectsLiquidations {
 
 		return exist;
 	}
+	
+	@Override
+	public ArrayList<ProjectLiquidation> getProjectsLiquidationsByDate(Date appliedDate) throws ServerException{
+		ArrayList<ProjectLiquidation> projectsLiquidations = new ArrayList<ProjectLiquidation>();
+		PreparedStatement preparedStatement = null;
+		ResultSet rs = null;
+		try {
+			String getSQL = "SELECT * FROM PROJECTLIQUIDATION WHERE AppliedDateTimeUTC = ?";
+			preparedStatement = this.connection.prepareStatement(getSQL);
+			preparedStatement.setTimestamp(1, new Timestamp(appliedDate.getTime()));
+			rs = preparedStatement.executeQuery();
+			
+			while (rs.next()) {
+				ProjectLiquidation projectLiquidation = BuildProjectLiquidation(rs);
+				projectsLiquidations.add(projectLiquidation);
+			}
+			
+		} catch (SQLException e) {
+			throw new ServerException(e);
+		} finally {
+			try {
+				if (preparedStatement != null)
+					preparedStatement.close();
+				if (rs != null)
+					rs.close();
+			} catch (SQLException e) {
+				LoggerMSMP.setLog(e.getMessage());
+			}
+		}
+
+		return projectsLiquidations;	
+		
+	}
+
+	private ProjectLiquidation BuildProjectLiquidation(ResultSet rs) throws SQLException {
+		int _id = rs.getInt("id");
+		Project project = new Project(rs.getInt("projectId"));
+		double totalBills = rs.getDouble("totalBills");
+		double outsourcedCost = rs.getDouble("outsourcedCost");
+		double categoriesCost = rs.getDouble("categoriesCost");
+		double employeesCost = rs.getDouble("employeesCost");
+		double profit = rs.getDouble("profit");
+		double reserve = rs.getDouble("reserve");
+		double sellingCost = rs.getDouble("sellingCost");
+		Employed partner1 = new Employed(rs.getInt("partner1Id"));
+		double partner1Earnings = rs.getDouble("partner1Earning");
+		Employed partner2 = new Employed(rs.getInt("partner2Id"));
+		double partner2Earnings = rs.getDouble("partner2Earning");
+		boolean isCurrencyDollar = rs.getBoolean("isCurrencyDollar");
+		Date appliedDateTimeUTC = rs.getTimestamp("appliedDateTimeUTC");
+		Date createdDateTimeUTC = rs.getTimestamp("createdDateTimeUTC");
+		
+		ProjectLiquidation projectLiquidation = new ProjectLiquidation();
+		
+		projectLiquidation.setAppliedDateTimeUTC(appliedDateTimeUTC);
+		projectLiquidation.setTotalBills(totalBills);
+		projectLiquidation.setCreatedDateTimeUTC(createdDateTimeUTC);
+		projectLiquidation.setCurrencyDollar(isCurrencyDollar);
+		projectLiquidation.setId(_id);
+		projectLiquidation.setEmployedPartner1(partner1);
+		projectLiquidation.setPartner1Earning(partner1Earnings);
+		projectLiquidation.setEmployedPartner2(partner2);
+		projectLiquidation.setPartner2Earning(partner2Earnings);
+		projectLiquidation.setProject(project);
+		projectLiquidation.setReserve(reserve);
+		projectLiquidation.setSale(sellingCost);
+		projectLiquidation.setTotalCostCategoriesHuman(outsourcedCost);
+		projectLiquidation.setTotalCostCategoriesMaterial(categoriesCost);
+		projectLiquidation.setTotalCostEmployees(employeesCost);
+		projectLiquidation.setEarnings(profit);		
+				
+		return projectLiquidation;
+	}
+	
 
 }

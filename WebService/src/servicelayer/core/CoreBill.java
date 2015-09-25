@@ -267,8 +267,9 @@ public class CoreBill implements ICoreBill {
 		}
 		return bills;
 	}
-	
-	double getTotalAmount(double amount, IVA_Type ivaType)
+			
+	@Override
+	public double getTotalAmount(double amount, IVA_Type ivaType)
 	{
 		double totalAmount = amount;
 		if(ivaType == IVA_Type.TEN || ivaType == IVA_Type.TWENTY_TWO)

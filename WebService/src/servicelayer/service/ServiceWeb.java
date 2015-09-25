@@ -7,31 +7,35 @@ import java.util.concurrent.TimeUnit;
 import servicelayer.core.CoreBill;
 import servicelayer.core.CoreCategory;
 import servicelayer.core.CoreCharge;
+import servicelayer.core.CoreCompanyLiquidation;
 import servicelayer.core.CoreEmployed;
-import servicelayer.core.CoreLiquidation;
+import servicelayer.core.CoreProjectLiquidation;
 import servicelayer.core.CoreProject;
 import servicelayer.core.CoreUser;
 import servicelayer.entity.businessEntity.Bill;
 import servicelayer.entity.businessEntity.ChanelType;
-import servicelayer.entity.businessEntity.DistributionType;
+import servicelayer.entity.businessEntity.CompanyLiquidation;
 import servicelayer.entity.businessEntity.Employed;
 import servicelayer.entity.businessEntity.Project;
 import servicelayer.entity.businessEntity.ProjectEmployed;
+import servicelayer.entity.businessEntity.ProjectLiquidation;
 import servicelayer.entity.businessEntity.ProjectPartner;
 import servicelayer.entity.businessEntity.SalarySummary;
 import servicelayer.entity.businessEntity.User;
-import servicelayer.entity.businessEntity.UserType;
 import servicelayer.entity.valueObject.VOBill;
 import servicelayer.entity.valueObject.VOCategory;
 import servicelayer.entity.valueObject.VOCharge;
+import servicelayer.entity.valueObject.VOCompanyLiquidation;
 import servicelayer.entity.valueObject.VODistributionType;
 import servicelayer.entity.valueObject.VOEmployed;
 import servicelayer.entity.valueObject.VOProject;
+import servicelayer.entity.valueObject.VOProjectLiquidation;
 import servicelayer.entity.valueObject.VOSalarySummary;
 import servicelayer.entity.valueObject.VOUser;
 import servicelayer.service.builder.BillBuilder;
 import servicelayer.service.builder.CategoryBuilder;
 import servicelayer.service.builder.ChargeBuilder;
+import servicelayer.service.builder.CompanyLiquidationBuilder;
 import servicelayer.service.builder.EmployedBuilder;
 import servicelayer.service.builder.ProjectLiquidationBuilder;
 import servicelayer.service.builder.ProjectBuilder;
@@ -43,8 +47,9 @@ import shared.exceptions.ServerException;
 import shared.interfaces.core.ICoreBill;
 import shared.interfaces.core.ICoreCategory;
 import shared.interfaces.core.ICoreCharge;
+import shared.interfaces.core.ICoreCompanyLiquidation;
 import shared.interfaces.core.ICoreEmployed;
-import shared.interfaces.core.ICoreLiquidation;
+import shared.interfaces.core.ICoreProjectLiquidation;
 import shared.interfaces.core.ICoreProject;
 import shared.interfaces.core.ICoreUser;
 
@@ -60,7 +65,8 @@ public class ServiceWeb extends ServiceBase {
 	private ICoreProject iCoreProject = null;
 	private ICoreBill iCoreBill = null;
 	private ICoreCharge iCoreCharge = null;
-	private ICoreLiquidation iCoreLiquidation = null;
+	private ICoreProjectLiquidation iCoreProjectLiquidation = null;
+	private ICoreCompanyLiquidation iCoreCompanyLiquidation = null;
 
 	// Builder's para mapear
 	// value objects a entidades de negocio
@@ -72,7 +78,8 @@ public class ServiceWeb extends ServiceBase {
 	private static UserBuilder userBuilser = new UserBuilder();
 	private static ProjectBuilder projectBuilder = new ProjectBuilder();
 	private static SalarySummaryBuilder salarySummaryBuilder = new SalarySummaryBuilder();
-	private static ProjectLiquidationBuilder liquidationBuilder = new ProjectLiquidationBuilder();
+	private static ProjectLiquidationBuilder projectLiquidationBuilder = new ProjectLiquidationBuilder();
+	private static CompanyLiquidationBuilder companyLiquidationBuilder = new CompanyLiquidationBuilder();
 
 	public ServiceWeb() {
 		try {
@@ -85,7 +92,8 @@ public class ServiceWeb extends ServiceBase {
 			iCoreProject = CoreProject.GetInstance();
 			iCoreBill = CoreBill.GetInstance();
 			iCoreCharge = CoreCharge.GetInstance();
-			iCoreLiquidation = CoreLiquidation.GetInstance();
+			iCoreProjectLiquidation = CoreProjectLiquidation.GetInstance();
+			iCoreCompanyLiquidation = CoreCompanyLiquidation.GetInstance();
 
 		} catch (Exception e) {
 			ThrowGenericExceptionAndLogError(e);
@@ -1267,7 +1275,7 @@ public class ServiceWeb extends ServiceBase {
 	}
 
 	/* COMIENZO LIQUIDACIONES */
-	public boolean liquidation(Date month, int userContextId,
+	public boolean createLiquidation(Date month, int userContextId,
 			double typeExchange) {
 		try {
 			transactionLock.tryLock(Constants.DEFAULT_TRANSACTION_TIME,
@@ -1275,7 +1283,7 @@ public class ServiceWeb extends ServiceBase {
 
 			User userContext = iCoreUser.getUser(userContextId);
 
-			iCoreLiquidation.liquidationByCompany(month, userContext,
+			iCoreCompanyLiquidation.liquidationByCompany(month, userContext,
 					typeExchange);
 
 			return true;
@@ -1291,6 +1299,88 @@ public class ServiceWeb extends ServiceBase {
 			transactionLock.unlock();
 		}
 		return false;
-
+	}
+	
+	public VOProjectLiquidation getProjectLiquidationsPreview(Date month, int projectId){
+		try{
+			transactionLock.tryLock(Constants.DEFAULT_TRANSACTION_TIME, TimeUnit.SECONDS);			
+			
+			ProjectLiquidation liquidation =  iCoreProjectLiquidation.getProjectLiquidationPreview(month, projectId);
+			
+			VOProjectLiquidation voLiquidation = projectLiquidationBuilder.BuildVOObject(liquidation);			
+						
+			voLiquidation.setBills(billBuilder.BuildArrayVOObject(VOBill.class, liquidation.getBills()));
+			voLiquidation.setCategoriesHuman(categoryBuilder.BuildArrayVOObject(VOCategory.class, liquidation.getCategoriesHuman()));
+			voLiquidation.setCategoryMaterial(categoryBuilder.BuildArrayVOObject(VOCategory.class, liquidation.getCategoriesMaterial()));
+			voLiquidation.setEmployees(projectBuilder.BuildVOEmployedProjects(liquidation.getEmployees()));
+			
+			return voLiquidation;
+			
+		} catch (ServerException e) {
+			ThrowServerExceptionAndLogError(e, "obtener liquidaciones de proyectos para mostrar");
+		} catch (InterruptedException e) {
+			throw new RuntimeException(Constants.TRANSACTION_ERROR);
+		} catch (Exception e) {
+			ThrowGenericExceptionAndLogError(e);
+		} finally {
+			transactionLock.unlock();
+		}
+		return null;
+	}
+	
+	public VOCompanyLiquidation getCompanyLiquidation(Date month){
+		try{
+			transactionLock.tryLock(Constants.DEFAULT_TRANSACTION_TIME, TimeUnit.SECONDS);			
+			
+			CompanyLiquidation companyLiquidation = iCoreCompanyLiquidation.getCompanyLiqudationsByDate(month);
+			
+			VOCompanyLiquidation voCompanyLiquidation = companyLiquidationBuilder.BuildVOObject(companyLiquidation);
+			
+			voCompanyLiquidation.setPartner1(employedBuilder.BuildVOObject(companyLiquidation.getPartner1()));
+			voCompanyLiquidation.setPartner2(employedBuilder.BuildVOObject(companyLiquidation.getPartner2()));
+			
+			return voCompanyLiquidation;
+			
+		} catch (ServerException e) {
+			ThrowServerExceptionAndLogError(e, "obtener liquidaciones de proyectos para mostrar");
+		} catch (InterruptedException e) {
+			throw new RuntimeException(Constants.TRANSACTION_ERROR);
+		} catch (Exception e) {
+			ThrowGenericExceptionAndLogError(e);
+		} finally {
+			transactionLock.unlock();
+		}
+		return null;
+	}
+	
+	public VOProjectLiquidation[] getProjectsLiquidations(Date month){
+		VOProjectLiquidation[] voProjectsLiquidations= null;
+		try{
+			transactionLock.tryLock(Constants.DEFAULT_TRANSACTION_TIME, TimeUnit.SECONDS);			
+			
+			ArrayList<ProjectLiquidation> projectsLiquidations = iCoreProjectLiquidation.getProjectsLiquidationsByDate(month);
+			voProjectsLiquidations = new VOProjectLiquidation[projectsLiquidations.size()];
+			
+			int i = 0;
+			for(ProjectLiquidation projectLiquidation : projectsLiquidations){
+				VOProjectLiquidation voProjectLiquidation = projectLiquidationBuilder.BuildVOObject(projectLiquidation);
+				voProjectLiquidation.setProject(projectBuilder.BuildVOObject(projectLiquidation.getProject()));
+				voProjectsLiquidations[i] = voProjectLiquidation;
+				i++;
+			}			
+			
+			return voProjectsLiquidations;
+			
+		} catch (ServerException e) {
+			ThrowServerExceptionAndLogError(e, "obtener liquidaciones de proyectos para mostrar");
+		} catch (InterruptedException e) {
+			throw new RuntimeException(Constants.TRANSACTION_ERROR);
+		} catch (Exception e) {
+			ThrowGenericExceptionAndLogError(e);
+		} finally {
+			transactionLock.unlock();
+		}
+		return null;
 	}
 }
+

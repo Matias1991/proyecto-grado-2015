@@ -10,7 +10,11 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import datalayer.utilities.ManageConnection;
+import servicelayer.entity.businessEntity.Bill;
 import servicelayer.entity.businessEntity.CompanyLiquidation;
+import servicelayer.entity.businessEntity.Employed;
+import servicelayer.entity.businessEntity.IVA_Type;
+import servicelayer.entity.businessEntity.Project;
 import shared.LoggerMSMP;
 import shared.exceptions.ServerException;
 import shared.interfaces.dataLayer.IDAOCompanyLiquidations;
@@ -143,5 +147,75 @@ public class DAOCompanyLiquidations implements IDAOCompanyLiquidations {
 
 		return exist;
 	}
+	
+	@Override
+	public CompanyLiquidation getCompanyLiquidationByDate(Date appliedDate) throws ServerException{
+		CompanyLiquidation companyLiquidation = null;
+		PreparedStatement preparedStatement = null;
+		ResultSet rs = null;
+		try {
+			String getSQL = "SELECT * FROM COMPANYLIQUIDATION WHERE AppliedDateTimeUTC = ?";
+			preparedStatement = this.connection.prepareStatement(getSQL);
+			preparedStatement.setTimestamp(1, new Timestamp(appliedDate.getTime()));
+			rs = preparedStatement.executeQuery();
+			
+			if (rs.next()) {
+				companyLiquidation = BuildCompanyLiquidation(rs);
+			}
+			
+		} catch (SQLException e) {
+			throw new ServerException(e);
+		} finally {
+			try {
+				if (preparedStatement != null)
+					preparedStatement.close();
+				if (rs != null)
+					rs.close();
+			} catch (SQLException e) {
+				LoggerMSMP.setLog(e.getMessage());
+			}
+		}
+
+		return companyLiquidation;	
+	}
+
+	private CompanyLiquidation BuildCompanyLiquidation(ResultSet rs) throws SQLException {
+		int _id = rs.getInt("id");
+		double companyCategory = rs.getDouble("companyCategory");
+		double contribution = rs.getDouble("contribution");
+		double salaryNotPartners = rs.getDouble("salaryNotPartners");
+		double irae = rs.getDouble("irae");
+		double ivaSale = rs.getDouble("ivaSale");
+		double ivaPurchase = rs.getDouble("ivaPurchase");
+		Employed partner1 = new Employed(rs.getInt("partner1Id"));
+		double partner1EarningsDollar = rs.getDouble("partner1EarningsDollar");
+		double partner1EarningsPeso = rs.getDouble("partner1EarningsPeso");
+		Employed partner2 = new Employed(rs.getInt("partner2Id"));
+		double partner2EarningsDollar = rs.getDouble("partner2EarningsDollar");
+		double partner2EarningsPeso = rs.getDouble("partner2EarningsPeso");
+		double typeExchange = rs.getDouble("typeExchange");
+		Date appliedDateTimeUTC = rs.getTimestamp("appliedDateTimeUTC");
+		Date createdDateTimeUTC = rs.getTimestamp("createdDateTimeUTC");
+		
+		CompanyLiquidation companyLiquidation = new CompanyLiquidation();
+		companyLiquidation.setId(_id);
+		companyLiquidation.setCompanyCategory(companyCategory);
+		companyLiquidation.setContribution(contribution);
+		companyLiquidation.setSalaryNotPartners(salaryNotPartners);
+		companyLiquidation.setIrae(irae);
+		companyLiquidation.setIVASale(ivaSale);
+		companyLiquidation.setIVAPurchase(ivaPurchase);
+		companyLiquidation.setPartner1(partner1);
+		companyLiquidation.setPartner1EarningsDollar(partner1EarningsDollar);
+		companyLiquidation.setPartner1EarningsPeso(partner1EarningsPeso);
+		companyLiquidation.setPartner2(partner2);
+		companyLiquidation.setPartner2EarningsDollar(partner2EarningsDollar);
+		companyLiquidation.setPartner2EarningsPeso(partner2EarningsPeso);
+		companyLiquidation.setTypeExchange(typeExchange);
+		companyLiquidation.setAppliedDateTimeUTC(appliedDateTimeUTC);
+		companyLiquidation.setCreatedDateTimeUTC(createdDateTimeUTC);
+		
+		return companyLiquidation;
+		}
 
 }

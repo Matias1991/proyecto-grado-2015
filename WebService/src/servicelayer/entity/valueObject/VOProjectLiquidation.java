@@ -11,19 +11,35 @@ public class VOProjectLiquidation implements Serializable {
 	private int projectId;
 	private Date createdDateTimeUTC;
 	private Date appliedDateTimeUTC;
-	private Double totalBills;
-	private Double totalCostCategoriesHuman;
-	private Double totalCostCategoriesMaterial;
-	private Double earnings;
+	private VOBill[] bills;
+	private VOCategory[] categoriesHuman;
+	private VOCategory[] categoryMaterial;
+	private VOProjectEmployed[] employees;
 	private Double reserve;
 	private Double sale;
-	private int partner1Id;
-	private Double partner1Earning;
-	private int partner2Id;
-	private Double partner2Earning;
+	private String partner1Name;
+	private String partner1Lastname;
+	private String partner1Distribution;
+	private String partner2Name;
+	private String partner2Lastname;
+	private String partner2Distribution;
 	private boolean isCurrencyDollar;
-	private double typeExchange;
 	
+	private double earnings;
+	private double partner1Earning;
+	private double partner2Earning;
+	private double totalBills;
+	private double totalCostCategoriesHuman;
+	private double totalCostCategoriesMaterial;
+	private double totalCostEmployees;
+	private VOProject project;
+	
+	public VOProject getProject() {
+		return project;
+	}
+	public void setProject(VOProject project) {
+		this.project = project;
+	}
 	public int getId() {
 		return id;
 	}
@@ -48,29 +64,29 @@ public class VOProjectLiquidation implements Serializable {
 	public void setAppliedDateTimeUTC(Date appliedDateTimeUTC) {
 		this.appliedDateTimeUTC = appliedDateTimeUTC;
 	}
-	public Double getTotalBills() {
-		return totalBills;
+	public VOBill[] getBills() {
+		return bills;
 	}
-	public void setTotalBills(Double totalBills) {
-		this.totalBills = totalBills;
-	}	
-	public Double getTotalCostCategoriesHuman() {
-		return totalCostCategoriesHuman;
+	public void setBills(VOBill[] bills) {
+		this.bills = bills;
 	}
-	public void setTotalCostCategoriesHuman(Double totalCostCategoriesHuman) {
-		this.totalCostCategoriesHuman = totalCostCategoriesHuman;
+	public VOCategory[] getCategoriesHuman() {
+		return categoriesHuman;
 	}
-	public Double getTotalCostCategoriesMaterial() {
-		return totalCostCategoriesMaterial;
+	public void setCategoriesHuman(VOCategory[] categoriesHuman) {
+		this.categoriesHuman = categoriesHuman;
 	}
-	public void setTotalCostCategoriesMaterial(Double totalCostCategoriesMaterial) {
-		this.totalCostCategoriesMaterial = totalCostCategoriesMaterial;
+	public VOCategory[] getCategoryMaterial() {
+		return categoryMaterial;
 	}
-	public Double getEarnings() {
-		return earnings;
+	public void setCategoryMaterial(VOCategory[] categoryMaterial) {
+		this.categoryMaterial = categoryMaterial;
 	}
-	public void setEarnings(Double earnings) {
-		this.earnings = earnings;
+	public VOProjectEmployed[] getEmployees() {
+		return employees;
+	}
+	public void setEmployees(VOProjectEmployed[] employees) {
+		this.employees = employees;
 	}
 	public Double getReserve() {
 		return reserve;
@@ -84,29 +100,41 @@ public class VOProjectLiquidation implements Serializable {
 	public void setSale(Double sale) {
 		this.sale = sale;
 	}
-	public int getPartner1Id() {
-		return partner1Id;
+	public String getPartner1Name() {
+		return partner1Name;
 	}
-	public void setPartner1Id(int partner1Id) {
-		this.partner1Id = partner1Id;
+	public void setPartner1Name(String partner1Name) {
+		this.partner1Name = partner1Name;
 	}
-	public Double getPartner1Earning() {
-		return partner1Earning;
+	public String getPartner1Lastname() {
+		return partner1Lastname;
 	}
-	public void setPartner1Earning(Double partner1Earning) {
-		this.partner1Earning = partner1Earning;
+	public void setPartner1Lastname(String partner1Lastname) {
+		this.partner1Lastname = partner1Lastname;
 	}
-	public int getPartner2Id() {
-		return partner2Id;
+	public String getPartner1Distribution() {
+		return partner1Distribution;
 	}
-	public void setPartner2Id(int partner2Id) {
-		this.partner2Id = partner2Id;
+	public void setPartner1Distribution(String partner1Distribution) {
+		this.partner1Distribution = partner1Distribution;
 	}
-	public Double getPartner2Earning() {
-		return partner2Earning;
+	public String getPartner2Name() {
+		return partner2Name;
 	}
-	public void setPartner2Earning(Double partner2Earning) {
-		this.partner2Earning = partner2Earning;
+	public void setPartner2Name(String partner2Name) {
+		this.partner2Name = partner2Name;
+	}
+	public String getPartner2Lastname() {
+		return partner2Lastname;
+	}
+	public void setPartner2Lastname(String partner2Lastname) {
+		this.partner2Lastname = partner2Lastname;
+	}
+	public String getPartner2Distribution() {
+		return partner2Distribution;
+	}
+	public void setPartner2Distribution(String partner2Distribution) {
+		this.partner2Distribution = partner2Distribution;
 	}
 	public boolean isCurrencyDollar() {
 		return isCurrencyDollar;
@@ -114,10 +142,48 @@ public class VOProjectLiquidation implements Serializable {
 	public void setCurrencyDollar(boolean isCurrencyDollar) {
 		this.isCurrencyDollar = isCurrencyDollar;
 	}
-	public double getTypeExchange() {
-		return typeExchange;
+	public double getEarnings() {
+		return earnings;
 	}
-	public void setTypeExchange(double typeExchange) {
-		this.typeExchange = typeExchange;
+	public void setEarnings(double earnings) {
+		this.earnings = earnings;
 	}
+	public double getPartner1Earning() {
+		return partner1Earning;
+	}
+	public void setPartner1Earning(double partner1Earning) {
+		this.partner1Earning = partner1Earning;
+	}
+	public double getPartner2Earning() {
+		return partner2Earning;
+	}
+	public void setPartner2Earning(double partner2Earning) {
+		this.partner2Earning = partner2Earning;
+	}
+	public double getTotalBills() {
+		return totalBills;
+	}
+	public void setTotalBills(double totalBills) {
+		this.totalBills = totalBills;
+	}
+	public double getTotalCostCategoriesHuman() {
+		return totalCostCategoriesHuman;
+	}
+	public void setTotalCostCategoriesHuman(double totalCostCategoriesHuman) {
+		this.totalCostCategoriesHuman = totalCostCategoriesHuman;
+	}
+	public double getTotalCostCategoriesMaterial() {
+		return totalCostCategoriesMaterial;
+	}
+	public void setTotalCostCategoriesMaterial(double totalCostCategoriesMaterial) {
+		this.totalCostCategoriesMaterial = totalCostCategoriesMaterial;
+	}
+	public double getTotalCostEmployees() {
+		return totalCostEmployees;
+	}
+	public void setTotalCostEmployees(double totalCostEmployees) {
+		this.totalCostEmployees = totalCostEmployees;
+	}	
+	
+	
 }

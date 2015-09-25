@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import servicelayer.entity.businessEntity.Bill;
+import servicelayer.entity.businessEntity.IVA_Type;
 import servicelayer.entity.businessEntity.User;
 import shared.exceptions.ClientException;
 import shared.exceptions.ServerException;
@@ -36,4 +37,6 @@ public interface ICoreBill {
 	ArrayList<Bill> getBills(int projectId) throws ServerException;
 	
 	boolean liquidateBill(int billId) throws ServerException;
+
+	double getTotalAmount(double amount, IVA_Type ivaType);
 }
