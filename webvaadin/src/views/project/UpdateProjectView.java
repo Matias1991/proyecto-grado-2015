@@ -278,6 +278,14 @@ public class UpdateProjectView extends BaseView {
 	@Override
 	public void enter(ViewChangeEvent event) {
 		super.enter(event);
+		
+		if (tblEmployed != null) {
+			mainLayout.removeComponent(tblEmployed);
+		}
+		if (tblEmployedHours != null) {
+			mainLayout.removeComponent(tblEmployedHours);
+		}
+		
 		cleanInputs();
 		buildTables();
 		cboSeller.setValidationVisible(false);
@@ -291,14 +299,6 @@ public class UpdateProjectView extends BaseView {
 	}
 
 	private void cleanInputs() {
-		if (tblEmployed != null) {
-			tblEmployed.removeAllItems();
-			mainLayout.removeComponent(tblEmployed);
-		}
-		if (tblEmployedHours != null) {
-			tblEmployedHours.removeAllItems();
-			mainLayout.removeComponent(tblEmployedHours);
-		}
 		buildTables();
 		loadComboBoxes();
 		txtDescription.clear();
@@ -310,6 +310,16 @@ public class UpdateProjectView extends BaseView {
 	}
 
 	private void buildTables() {
+
+		if (tblEmployed != null) {
+			tblEmployed.removeAllItems();
+			mainLayout.removeComponent(tblEmployed);
+		}
+		if (tblEmployedHours != null) {
+			tblEmployedHours.removeAllItems();
+			mainLayout.removeComponent(tblEmployedHours);
+		}
+		
 		// tblEmployed
 		employedContainer = new BeanItemContainer<Employee>(Employee.class,
 				EmployeeController.GetEmployees());
