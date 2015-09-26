@@ -21,7 +21,8 @@ public class EmployedBuilder extends BaseBuilder<VOEmployed, Employed>{
 		voEmployed.setCreatedDateTimeUTC(businessObject.getCreatedDateTimeUTC());
 		voEmployed.setUpdatedDateTimeUTC(businessObject.getUpdatedDateTimeUTC());
 		voEmployed.setEmployedType(businessObject.getEmployedType().getValue());
-
+		voEmployed.setDeleted(businessObject.getDeleted());
+		
 		return voEmployed;
 	}
 
@@ -38,7 +39,7 @@ public class EmployedBuilder extends BaseBuilder<VOEmployed, Employed>{
 		if (voObject.getEmployedType() != 0)
 			employed.setEmployedType(EmployedType.getEnum(voObject
 					.getEmployedType()));
-		
+		employed.setDeleted(voObject.getDeleted());
 		return employed;
 	}
 

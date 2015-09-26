@@ -17,6 +17,7 @@ public class Employee {
 	private Date createdDateTimeUTC;
 	private Date updatedDateTimeUTC;
 	private String employedType;	
+	private boolean deleted;
 	private User user;
 	private SalarySummary salarySummary;
 	private List<SalarySummary> salarySummaries;
@@ -36,7 +37,8 @@ public class Employee {
 		this.createdDateTimeUTC = voEmployee.getCreatedDateTimeUTC();
 		this.createdDateTimeUTC = voEmployee.getCreatedDateTimeUTC();
 		this.updatedDateTimeUTC = voEmployee.getUpdatedDateTimeUTC();
-		this.employedType = getEmployeeTypeToShow(voEmployee.getEmployedType());		
+		this.employedType = getEmployeeTypeToShow(voEmployee.getEmployedType());
+		this.deleted = voEmployee.getDeleted();
 		this.salarySummary = new SalarySummary(voEmployee.getVOSalarySummary());
 	}
 
@@ -126,6 +128,14 @@ public class Employee {
 
 	public void setEmployedType(String employedType) {
 		this.employedType = employedType;
+	}
+
+	public boolean getDeleted() {
+		return deleted;
+	}
+
+	public void setDeleted(boolean deleted) {
+		this.deleted = deleted;
 	}
 
 	public User getUser() {

@@ -52,10 +52,9 @@ CREATE TABLE IF NOT EXISTS Employed
 	CreatedDateTimeUTC   TIMESTAMP NULL,
 	UpdatedDateTimeUTC   TIMESTAMP NULL,
 	EmployedTypeId       INTEGER NOT NULL,
-	UserId               INTEGER NULL,
+	Deleted				 BIT NULL,
 	PRIMARY KEY (Id),
-	FOREIGN KEY R_Employed_EmployedType (EmployedTypeId) REFERENCES EmployedType (Id),
-	FOREIGN KEY R_Employed_User (UserId) REFERENCES User (Id)
+	FOREIGN KEY R_Employed_EmployedType (EmployedTypeId) REFERENCES EmployedType (Id)
 );
 
 CREATE TABLE IF NOT EXISTS SalarySummary

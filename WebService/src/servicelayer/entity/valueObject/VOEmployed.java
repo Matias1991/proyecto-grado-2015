@@ -17,6 +17,7 @@ public class VOEmployed implements Serializable {
 	private Date createdDateTimeUTC;
 	private Date updatedDateTimeUTC;
 	private int employedType;
+	private boolean deleted;
 	private VOSalarySummary vOSalarySummary;
 	private List<VOSalarySummary> vOSalarySummaries;
 
@@ -90,6 +91,14 @@ public class VOEmployed implements Serializable {
 
 	public void setEmployedType(int employedType) {
 		this.employedType = employedType;
+	}
+
+	public boolean getDeleted() {
+		return deleted;
+	}
+
+	public void setDeleted(boolean deleted) {
+		this.deleted = deleted;
 	}
 
 	public VOSalarySummary getvOSalarySummary() {
