@@ -9,20 +9,16 @@ import org.apache.axis2.AxisFault;
 
 import servicelayer.service.ServiceWebStub;
 import servicelayer.service.ServiceWebStub.DeleteBills;
-import servicelayer.service.ServiceWebStub.DeleteCategory;
 import servicelayer.service.ServiceWebStub.GetAllBillsByFilters;
 import servicelayer.service.ServiceWebStub.GetBills;
 import servicelayer.service.ServiceWebStub.GetBillsByFilters;
 import servicelayer.service.ServiceWebStub.GetBillsByFiltersWithCharges;
 import servicelayer.service.ServiceWebStub.GetBillsByProject;
-import servicelayer.service.ServiceWebStub.GetCategories;
 import servicelayer.service.ServiceWebStub.InsertBill;
 import servicelayer.service.ServiceWebStub.UpdateBill;
 import servicelayer.service.ServiceWebStub.VOBill;
-import servicelayer.service.ServiceWebStub.VOCategory;
 import utils.PopupWindow;
 import entities.Bill;
-import entities.Category;
 import entities.RequestContext;
 
 public class BillController {
@@ -51,7 +47,7 @@ public class BillController {
 			
 		} catch (AxisFault e) {
 			String error = e.getMessage().replace("<faultstring>", "");
-			PopupWindow popup = new PopupWindow("ERROR", error.replace("</faultstring>", ""));
+			new PopupWindow("ERROR", error.replace("</faultstring>", ""));
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		}
@@ -150,7 +146,7 @@ public class BillController {
 			
 		} catch (AxisFault e) {
 			String error = e.getMessage().replace("<faultstring>", "");
-			PopupWindow popup = new PopupWindow("ERROR", error.replace("</faultstring>", ""));
+			new PopupWindow("ERROR", error.replace("</faultstring>", ""));
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		}

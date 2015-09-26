@@ -3,22 +3,18 @@ package controllers;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Date;
 
 import org.apache.axis2.AxisFault;
 
 import servicelayer.service.ServiceWebStub;
 import servicelayer.service.ServiceWebStub.DeleteCharges;
-import servicelayer.service.ServiceWebStub.GetBillsByFiltersWithCharges;
 import servicelayer.service.ServiceWebStub.GetCharges;
 import servicelayer.service.ServiceWebStub.GetChargesByBill;
 import servicelayer.service.ServiceWebStub.GetChargesByFilters;
 import servicelayer.service.ServiceWebStub.InsertCharge;
 import servicelayer.service.ServiceWebStub.UpdateCharge;
-import servicelayer.service.ServiceWebStub.VOBill;
 import servicelayer.service.ServiceWebStub.VOCharge;
 import utils.PopupWindow;
-import entities.Bill;
 import entities.Charge;
 import entities.RequestContext;
 

@@ -29,7 +29,6 @@ import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.Grid;
 import com.vaadin.ui.Grid.HeaderCell;
 import com.vaadin.ui.Grid.HeaderRow;
-import com.vaadin.ui.Grid.MultiSelectionModel;
 import com.vaadin.ui.Grid.SelectionMode;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.PopupDateField;
@@ -60,7 +59,6 @@ public class DeleteBillsView extends BaseView {
 	private Label lblMessage;
 	private static final long serialVersionUID = -6425680180232429909L;
 
-	@SuppressWarnings("deprecation")
 	public DeleteBillsView() {
 		
 		super("Facturas", "Eliminar facturas");
@@ -73,7 +71,7 @@ public class DeleteBillsView extends BaseView {
 		lblMessage = new Label("");
 		mainLayout.addComponent(lblMessage, "top:183.0px;left:0.0px;");
 		
-		popupDateFieldFrom.addListener(new ValueChangeListener() {
+		popupDateFieldFrom.addValueChangeListener(new ValueChangeListener() {
 		    private static final long serialVersionUID = 1L;
 
 			@Override
@@ -82,7 +80,7 @@ public class DeleteBillsView extends BaseView {
 			}
 		});
 		
-		popupDateFieldTo.addListener(new ValueChangeListener() {
+		popupDateFieldTo.addValueChangeListener(new ValueChangeListener() {
 		    private static final long serialVersionUID = 1L;
 
 			@Override
@@ -99,7 +97,7 @@ public class DeleteBillsView extends BaseView {
 				btnDelete.setEnabled(false);
 
 				ConfirmDialog.show(WebvaadinUI.getCurrent(), "Confirmación",
-						"¿Desea eliminar las facturas seleccionadas?", "Si", "No",
+						"¿Desea eliminar la factura seleccionada?", "Si", "No",
 						new ConfirmDialog.Listener() {
 
 							private static final long serialVersionUID = 1L;

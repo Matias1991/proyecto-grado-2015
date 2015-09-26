@@ -68,7 +68,7 @@ public class UnlockUserView extends BaseView{
 							BeanItem<User> item = container.getItem(grid.getSelectedRow());
 							
 							if(UserController.unlockUser(item.getBean().getId())){
-								//PopupWindow popup = new PopupWindow("AVISO", "Usuario desbloqueado correctamente");
+								//new PopupWindow("AVISO", "Usuario desbloqueado correctamente");
 								//getUI().getNavigator().navigateTo(WebvaadinUI.UNLOCKUSER);
 								mainLayout.removeComponent(grid);
 								buildGrid();
