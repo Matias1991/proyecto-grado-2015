@@ -71,6 +71,8 @@ public class CreateProjectView extends BaseView {
 	private TextField txtAmount;
 
 	public CreateProjectView() {
+		super("Proyectos", "Crear proyecto");
+		
 		buildMainLayout();
 		setCompositionRoot(mainLayout);
 
@@ -418,7 +420,7 @@ public class CreateProjectView extends BaseView {
 		lblTitle.setImmediate(false);
 		lblTitle.setWidth("-1px");
 		lblTitle.setHeight("-1px");
-		lblTitle.setValue("Crear proyecto");
+		lblTitle.setValue(getBreadCrumbToShow());
 		mainLayout.addComponent(lblTitle, "top:42.0px;left:0.0px;");
 
 		// btnCreate

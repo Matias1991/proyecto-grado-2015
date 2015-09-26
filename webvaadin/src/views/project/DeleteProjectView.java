@@ -42,6 +42,8 @@ public class DeleteProjectView extends BaseView {
 	
 
 	public DeleteProjectView() {
+		super("Proyectos", "Cerrar proyectos");
+		
 		buildMainLayout();
 		setCompositionRoot(mainLayout);
 
@@ -193,7 +195,7 @@ public class DeleteProjectView extends BaseView {
 		lblTitle.setImmediate(false);
 		lblTitle.setWidth("-1px");
 		lblTitle.setHeight("-1px");
-		lblTitle.setValue("Cerrar proyectos");
+		lblTitle.setValue(getBreadCrumbToShow());
 		mainLayout.addComponent(lblTitle, "top:42.0px;left:0.0px;");
 
 		// btnDelete

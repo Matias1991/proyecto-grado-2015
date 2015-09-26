@@ -77,8 +77,12 @@ public class UpdateProjectView extends BaseView {
 	private Collection<Project> projects;
 
 	public UpdateProjectView() {
+		
+		super("Proyectos", "Modificar proyecto");
+		
 		buildMainLayout();
 		setCompositionRoot(mainLayout);
+
 
 		optionGroupCurrency.addItems("Pesos", "Dolares");
 		optionGroupCurrency.select("Pesos");
@@ -514,7 +518,7 @@ public class UpdateProjectView extends BaseView {
 		lblTitle.setImmediate(false);
 		lblTitle.setWidth("-1px");
 		lblTitle.setHeight("-1px");
-		lblTitle.setValue("Modificar proyecto");
+		lblTitle.setValue(getBreadCrumbToShow());
 		mainLayout.addComponent(lblTitle, "top:42.0px;left:0.0px;");
 
 		// btnUpdate
