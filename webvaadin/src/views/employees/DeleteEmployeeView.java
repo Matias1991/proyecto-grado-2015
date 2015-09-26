@@ -107,6 +107,7 @@ public class DeleteEmployeeView extends BaseView {
 			grdGrid.removeColumn("salarySummaries");
 			grdGrid.removeColumn("email");
 			grdGrid.removeColumn("address");
+			grdGrid.removeColumn("deleted");
 
 			grdGrid.setColumnOrder("name", "lastName", "employedType");
 

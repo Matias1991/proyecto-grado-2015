@@ -422,6 +422,8 @@ public class CatalogEmployeesView extends BaseView {
 			catalogEmployeesGrid.removeColumn("email");
 			catalogEmployeesGrid.removeColumn("address");
 			catalogEmployeesGrid.removeColumn("cellPhone");
+			catalogEmployeesGrid.removeColumn("deleted");
+
 
 			catalogEmployeesGrid.setColumnOrder("name", "lastName");
 

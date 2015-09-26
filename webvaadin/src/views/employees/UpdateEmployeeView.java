@@ -714,6 +714,7 @@ public class UpdateEmployeeView extends BaseView {
 			updateEmployeesGrid.removeColumn("email");
 			updateEmployeesGrid.removeColumn("address");
 			updateEmployeesGrid.removeColumn("cellPhone");
+			updateEmployeesGrid.removeColumn("deleted");
 
 			updateEmployeesGrid.setColumnOrder("name", "lastName");
 
