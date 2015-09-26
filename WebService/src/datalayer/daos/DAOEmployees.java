@@ -6,8 +6,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
+
 import com.mysql.jdbc.Statement;
+
 import servicelayer.entity.businessEntity.Employed;
 import servicelayer.entity.businessEntity.ProjectEmployed;
 import servicelayer.entity.businessEntity.EmployedType;
@@ -112,9 +115,10 @@ public class DAOEmployees implements IDAOEmployees {
 
 		try {
 
-			String deleteSQL = "UPDATE EMPLOYED SET DELETED = 1 WHERE ID = ?";
+			String deleteSQL = "UPDATE EMPLOYED SET DELETED = 1, UpdatedDateTimeUTC = ? WHERE ID = ?";
 			preparedStatement = this.connection.prepareStatement(deleteSQL);
-			preparedStatement.setInt(1, id);
+			preparedStatement.setTimestamp(1, new Timestamp(new Date().getTime()));
+			preparedStatement.setInt(2, id);
 			preparedStatement.execute();
 
 		} catch (SQLException e) {
@@ -295,6 +299,8 @@ public class DAOEmployees implements IDAOEmployees {
 		return result;
 	}
 
+	// Devuelve los empleados creados antes de X fecha y que no se hayan eliminado
+	// junto con los empleados eliminados en el mes de la X fecha
 	@Override
 	public ArrayList<Employed> getEmployeesToDate(Date to)
 			throws ServerException {
@@ -304,9 +310,12 @@ public class DAOEmployees implements IDAOEmployees {
 		try {
 
 			String sql;
-			sql = "SELECT * FROM EMPLOYED WHERE CREATEDDATETIMEUTC < ? AND DELETED = 0";
+			sql = "SELECT * FROM EMPLOYED WHERE (CREATEDDATETIMEUTC < ? AND DELETED = 0) AND"
+					+ " (UpdatedDateTimeUTC >= ? and UpdatedDateTimeUTC < ? and deleted = 1)";
 			preparedStatement = this.connection.prepareStatement(sql);
 			preparedStatement.setTimestamp(1, new Timestamp(to.getTime()));
+			preparedStatement.setTimestamp(2, new Timestamp(setFirstDayOfMonth(to).getTime()));
+			preparedStatement.setTimestamp(3, new Timestamp(setFirstDayOfNextMonth(to).getTime()));
 			rs = preparedStatement.executeQuery();
 
 			while (rs.next()) {
@@ -327,5 +336,22 @@ public class DAOEmployees implements IDAOEmployees {
 		}
 
 		return employees;
+	}
+	
+	Date setFirstDayOfMonth(Date date) {
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(date);
+		cal.set(Calendar.DAY_OF_MONTH, 01);
+
+		return cal.getTime();
+	}
+
+	Date setFirstDayOfNextMonth(Date date) {
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(date);
+		cal.set(Calendar.MONTH, date.getMonth() + 1);
+		cal.set(Calendar.DAY_OF_MONTH, 01);
+
+		return cal.getTime();
 	}
 }
