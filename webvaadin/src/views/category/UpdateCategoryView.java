@@ -383,6 +383,7 @@ public class UpdateCategoryView extends BaseView {
 						} else {
 							isRRHH.select("Material");
 						}
+						cboxIvaTypes.setValue(catToModify.getIvaTypeId());
 						creationDate.setValue(catToModify
 								.getCreatedDateTimeUTC());
 					} else {
@@ -501,6 +502,7 @@ public class UpdateCategoryView extends BaseView {
 		}
 		optCurrency.select("Pesos");
 		cboxIvaTypes.setValidationVisible(false);
+		cboxIvaTypes.setValue(3);
 		txtTotalAmount.setValue("");
 		setComponentsReadOnly(true);
 	}
