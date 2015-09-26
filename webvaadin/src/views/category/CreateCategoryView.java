@@ -309,6 +309,7 @@ public class CreateCategoryView extends BaseView {
 		categoryType.select("Empresa");
 		optCurrency.select("Pesos");
 		cboxIvaTypes.setValidationVisible(false);
+		cboxIvaTypes.setValue(3);
 		txtTotalAmount.setValidationVisible(false);
 		txtTotalAmount.setValue("");
 	}
