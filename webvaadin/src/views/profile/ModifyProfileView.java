@@ -60,17 +60,14 @@ public class ModifyProfileView extends BaseView {
 			public void buttonClick(ClickEvent event) {
 				btnModify.setEnabled(false);
 				if (validateModifyProfileUser()) {
-					ServiceWebStub modifyProfileService;
-
-					UserController modifyUser = new UserController();
-
+					
 					User user = new User();
 					user.setEmail(txtEmail.getValue());
 					user.setLastName(txtLastName.getValue());
 					user.setName(txtName.getValue());
 					user.setUserTypeId(userToShow.getUserType());
 
-					modifyUser.modifyUser(user, idUser);
+					UserController.modifyUser(user, idUser);
 
 					new PopupWindow("AVISO", "Perfil modificado correctamente");
 					
