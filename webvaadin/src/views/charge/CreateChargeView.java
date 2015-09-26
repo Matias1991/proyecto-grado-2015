@@ -263,13 +263,13 @@ public class CreateChargeView extends BaseView {
 			billsGrid.removeColumn("amountToShow");
 			billsGrid.removeColumn("ivaType");
 			billsGrid.removeColumn("ivaTypeToShow");
-			billsGrid.removeColumn("amountReceivableToShow");
-			billsGrid.setColumnOrder("code", "description", "totalAmountToShow", "amountChargedToShow");
+			billsGrid.removeColumn("amountChargedToShow");
+			billsGrid.setColumnOrder("code", "description", "totalAmountToShow", "amountReceivableToShow");
 	
 			billsGrid.getColumn("code").setHeaderCaption("Código");
 			billsGrid.getColumn("description").setHeaderCaption("Descripción");
 			billsGrid.getColumn("totalAmountToShow").setHeaderCaption("Importe IVA incl.");
-			billsGrid.getColumn("amountChargedToShow").setHeaderCaption("Importe cobrado");
+			billsGrid.getColumn("amountReceivableToShow").setHeaderCaption("Importe a cobrar");
 			billsGrid.getColumn("description").setWidth(200);
 			billsGrid.setWidth(620, Unit.PIXELS);
 			billsGrid.setHeight(285, Unit.PIXELS);
