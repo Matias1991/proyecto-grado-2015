@@ -39,6 +39,7 @@ import views.user.UnlockUserView;
 
 import com.vaadin.annotations.PreserveOnRefresh;
 import com.vaadin.annotations.Theme;
+import com.vaadin.annotations.Widgetset;
 import com.vaadin.navigator.Navigator;
 import com.vaadin.navigator.Navigator.ComponentContainerViewDisplay;
 import com.vaadin.server.ThemeResource;
@@ -59,6 +60,7 @@ import entities.Constant.View;
 @SuppressWarnings("serial")
 @Theme("webvaadin")
 @PreserveOnRefresh
+@Widgetset("com.example.webvaadin.widgetset.WebvaadinWidgetset")
 public class WebvaadinUI extends UI {
 
 	public Navigator navigator;

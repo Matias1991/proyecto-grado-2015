@@ -58,7 +58,7 @@ public class CoreProjectLiquidation implements ICoreProjectLiquidation {
 			project.setiDAOCategories(daoManager.getDAOCategories());
 			project.setiDAOPartnerProject(daoManager.getDAOPartnerProjects());
 			project.setiDAOProjectEmployees(daoManager.getDAOEmployedProjects());
-			
+								
 			projectLiquidation = new ProjectLiquidation(projectId);
 			projectLiquidation.setProject(project);
 			
@@ -222,6 +222,8 @@ public class CoreProjectLiquidation implements ICoreProjectLiquidation {
 		//suma las horas de trabajo a los socios en caso de haber estado asignado al proyecto
 		if(projectLiquidation.getProject().getProjectEmployees() != null){
 			for(ProjectEmployed projectEmployed : projectLiquidation.getProject().getProjectEmployees()){
+				DAOManager daoManager = new DAOManager();
+				projectEmployed.getEmployed().setIDAOSalarySummaries(daoManager.getDAOSalarySummaries());
 				if(projectEmployed.getEmployed().getId() == projectLiquidation.getPartner1().getEmployed().getId()){
 					double totalHoursCost = projectEmployed.getHours() * projectEmployed.getEmployed().getSalarySummaryToDate(to).getCostRealHour();				
 					if(projectLiquidation.isCurrencyDollar())

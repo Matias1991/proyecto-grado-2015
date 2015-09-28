@@ -5,6 +5,17 @@ import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
 
+import org.dussan.vaadin.dcharts.DCharts;
+import org.dussan.vaadin.dcharts.base.elements.XYaxis;
+import org.dussan.vaadin.dcharts.data.DataSeries;
+import org.dussan.vaadin.dcharts.data.Ticks;
+import org.dussan.vaadin.dcharts.metadata.renderers.AxisRenderers;
+import org.dussan.vaadin.dcharts.metadata.renderers.SeriesRenderers;
+import org.dussan.vaadin.dcharts.options.Axes;
+import org.dussan.vaadin.dcharts.options.Highlighter;
+import org.dussan.vaadin.dcharts.options.Options;
+import org.dussan.vaadin.dcharts.options.SeriesDefaults;
+
 import utils.PopupWindow;
 import views.BaseView;
 
@@ -688,6 +699,36 @@ public class UpdateBillView extends BaseView {
 		btnCancel.setHeight("-1px");
 		btnCancel.setTabIndex(10);
 		mainLayout.addComponent(btnCancel, "top:610.0px;left:130.0px;");
+		
+		
+		DataSeries dataSeries = new DataSeries()
+	    .add(2, 6, 7, 10);
+
+	SeriesDefaults seriesDefaults = new SeriesDefaults()
+	    .setRenderer(SeriesRenderers.BAR);
+
+	Axes axes = new Axes()
+	    .addAxis(
+	        new XYaxis()
+	            .setRenderer(AxisRenderers.CATEGORY)
+	            .setTicks(
+	                new Ticks()
+	                    .add("a", "b", "c", "d")));
+
+	Highlighter highlighter = new Highlighter()
+	    .setShow(false);
+
+	Options options = new Options()
+	    .setSeriesDefaults(seriesDefaults)
+	    .setAxes(axes)
+	    .setHighlighter(highlighter);
+
+	DCharts chart = new DCharts()
+	    .setDataSeries(dataSeries)
+	    .setOptions(options)
+	    .show();
+	
+	mainLayout.addComponent(chart);
 		
 		return mainLayout;
 	}

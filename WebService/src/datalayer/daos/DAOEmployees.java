@@ -148,7 +148,7 @@ public class DAOEmployees implements IDAOEmployees {
 		ResultSet rs = null;
 		try {
 
-			String getSQL = "SELECT * FROM EMPLOYED WHERE id = ? AND DELETED = 0";
+			String getSQL = "SELECT * FROM EMPLOYED WHERE id = ? ";
 			preparedStatement = this.connection.prepareStatement(getSQL);
 			preparedStatement.setInt(1, id);
 			rs = preparedStatement.executeQuery();
