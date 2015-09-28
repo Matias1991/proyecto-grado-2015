@@ -6,8 +6,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
+
 import com.mysql.jdbc.Statement;
+
 import servicelayer.entity.businessEntity.Employed;
 import servicelayer.entity.businessEntity.ProjectEmployed;
 import servicelayer.entity.businessEntity.EmployedType;
@@ -31,7 +34,7 @@ public class DAOEmployees implements IDAOEmployees {
 		int newEmployedId = -1;
 		PreparedStatement preparedStatement = null;
 
-		String insertSQL = "INSERT INTO EMPLOYED (NAME, LASTNAME, EMAIL, ADDRESS, CELLPHONE, CREATEDDATETIMEUTC, UPDATEDDATETIMEUTC, EMPLOYEDTYPEID, USERID) VALUES"
+		String insertSQL = "INSERT INTO EMPLOYED (NAME, LASTNAME, EMAIL, ADDRESS, CELLPHONE, CREATEDDATETIMEUTC, UPDATEDDATETIMEUTC, EMPLOYEDTYPEID, DELETED) VALUES"
 				+ "(?,?,?,?,?,?,?,?,?)";
 
 		try {
@@ -48,7 +51,7 @@ public class DAOEmployees implements IDAOEmployees {
 			preparedStatement.setTimestamp(7, new Timestamp(obj
 					.getUpdatedDateTimeUTC().getTime()));
 			preparedStatement.setInt(8, obj.getEmployedType().getValue());
-			preparedStatement.setNull(9, java.sql.Types.INTEGER);
+			preparedStatement.setBoolean(9, obj.getDeleted());
 
 			preparedStatement.executeUpdate();
 
@@ -76,8 +79,8 @@ public class DAOEmployees implements IDAOEmployees {
 
 	public ArrayList<Employed> getEmployedByType(int employedTypeId) throws ServerException {
 
-		// devuelve cuantos empleados de tipo Socio hay insertados en base
-		String getSQL = "SELECT * FROM EMPLOYED WHERE EmployedTypeId = ?;";
+		// devuelve cuantos empleados de tipo Socio hay insertados en base y no eliminados
+		String getSQL = "SELECT * FROM EMPLOYED WHERE EmployedTypeId = ? and DELETED = 0;";
 		ResultSet rs = null;
 		PreparedStatement preparedStatement = null;
 		
@@ -112,9 +115,10 @@ public class DAOEmployees implements IDAOEmployees {
 
 		try {
 
-			String deleteSQL = "DELETE FROM EMPLOYED WHERE ID = ?";
+			String deleteSQL = "UPDATE EMPLOYED SET DELETED = 1, UpdatedDateTimeUTC = ? WHERE ID = ?";
 			preparedStatement = this.connection.prepareStatement(deleteSQL);
-			preparedStatement.setInt(1, id);
+			preparedStatement.setTimestamp(1, new Timestamp(new Date().getTime()));
+			preparedStatement.setInt(2, id);
 			preparedStatement.execute();
 
 		} catch (SQLException e) {
@@ -144,7 +148,7 @@ public class DAOEmployees implements IDAOEmployees {
 		ResultSet rs = null;
 		try {
 
-			String getSQL = "SELECT * FROM EMPLOYED WHERE id = ?";
+			String getSQL = "SELECT * FROM EMPLOYED WHERE id = ? AND DELETED = 0";
 			preparedStatement = this.connection.prepareStatement(getSQL);
 			preparedStatement.setInt(1, id);
 			rs = preparedStatement.executeQuery();
@@ -176,7 +180,7 @@ public class DAOEmployees implements IDAOEmployees {
 		try {
 
 			String sql;
-			sql = "SELECT * FROM employed";
+			sql = "SELECT * FROM employed WHERE deleted = 0";
 			preparedStatement = this.connection.prepareStatement(sql);
 			rs = preparedStatement.executeQuery(sql);
 
@@ -207,7 +211,7 @@ public class DAOEmployees implements IDAOEmployees {
 		String updateSQL = "UPDATE EMPLOYED " + "SET name = ?, "
 				+ "lastName = ?, " + "email = ?, " + "address = ?, "
 				+ "cellphone = ?, " + "updatedDateTimeUTC = ?, "
-				+ "employedTypeId = ?, " + "userId = ? " + "WHERE id = ?";
+				+ "employedTypeId = ? " + "WHERE id = ?";
 
 		try {
 			preparedStatement = this.connection.prepareStatement(updateSQL);
@@ -220,9 +224,8 @@ public class DAOEmployees implements IDAOEmployees {
 			preparedStatement.setTimestamp(6, new Timestamp(obj
 					.getUpdatedDateTimeUTC().getTime()));
 			preparedStatement.setInt(7, obj.getEmployedType().getValue());
-			preparedStatement.setNull(8, java.sql.Types.INTEGER);
 
-			preparedStatement.setInt(9, id);
+			preparedStatement.setInt(8, id);
 
 			preparedStatement.executeUpdate();
 
@@ -240,6 +243,7 @@ public class DAOEmployees implements IDAOEmployees {
 		String cellphone = rs.getString("cellphone");
 		Date createdDateTimeUTC = rs.getTimestamp("createdDateTimeUTC");
 		Date updatedDateTimeUTC = rs.getTimestamp("updatedDateTimeUTC");
+		boolean deleted = rs.getBoolean("deleted");
 		int employedTypeId = rs.getInt("employedTypeId");
 
 		Employed employed = new Employed();
@@ -251,6 +255,7 @@ public class DAOEmployees implements IDAOEmployees {
 		employed.setCellPhone(cellphone);
 		employed.setCreatedDateTimeUTC(createdDateTimeUTC);
 		employed.setUpdatedDateTimeUTC(updatedDateTimeUTC);
+		employed.setDeleted(deleted);
 		employed.setEmployedType(EmployedType.getEnum(employedTypeId));
 
 		return employed;
@@ -266,7 +271,7 @@ public class DAOEmployees implements IDAOEmployees {
 				+ "FROM employed "
 				+ "INNER JOIN salarysummary "
 				+ "ON employed.id=salarysummary.EmployedId "
-				+ "WHERE (salarysummary.EmployedId, salarysummary.Version) in (select salarysummary.EmployedId, Max(version) from salarysummary s2 where salarysummary.EmployedId = s2.EmployedId)";
+				+ "WHERE deleted = 0 and (salarysummary.EmployedId, salarysummary.Version) in (select salarysummary.EmployedId, Max(version) from salarysummary s2 where salarysummary.EmployedId = s2.EmployedId)";
 		try {
 			preparedStatement = this.connection.prepareStatement(getSQL);
 			rs = preparedStatement.executeQuery();
@@ -294,6 +299,8 @@ public class DAOEmployees implements IDAOEmployees {
 		return result;
 	}
 
+	// Devuelve los empleados creados antes de X fecha y que no se hayan eliminado
+	// junto con los empleados eliminados en el mes de la X fecha
 	@Override
 	public ArrayList<Employed> getEmployeesToDate(Date to)
 			throws ServerException {
@@ -303,9 +310,12 @@ public class DAOEmployees implements IDAOEmployees {
 		try {
 
 			String sql;
-			sql = "SELECT * FROM EMPLOYED WHERE CREATEDDATETIMEUTC < ?";
+			sql = "SELECT * FROM EMPLOYED WHERE (CREATEDDATETIMEUTC < ? AND DELETED = 0) OR"
+					+ " (UpdatedDateTimeUTC >= ? and UpdatedDateTimeUTC < ? and deleted = 1)";
 			preparedStatement = this.connection.prepareStatement(sql);
 			preparedStatement.setTimestamp(1, new Timestamp(to.getTime()));
+			preparedStatement.setTimestamp(2, new Timestamp(setFirstDayOfMonth(to).getTime()));
+			preparedStatement.setTimestamp(3, new Timestamp(to.getTime()));
 			rs = preparedStatement.executeQuery();
 
 			while (rs.next()) {
@@ -326,5 +336,22 @@ public class DAOEmployees implements IDAOEmployees {
 		}
 
 		return employees;
+	}
+	
+	Date setFirstDayOfMonth(Date date) {
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(date);
+		cal.set(Calendar.DAY_OF_MONTH, 01);
+
+		return cal.getTime();
+	}
+
+	Date setFirstDayOfNextMonth(Date date) {
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(date);
+		cal.set(Calendar.MONTH, date.getMonth() + 1);
+		cal.set(Calendar.DAY_OF_MONTH, 01);
+
+		return cal.getTime();
 	}
 }

@@ -196,7 +196,10 @@ public class CoreProjectLiquidation implements ICoreProjectLiquidation {
 	@Override
 	public void calculatePartnersEarnings(ProjectLiquidation projectLiquidation, double companyCostToSubstract, double typeExchange, Date to) throws ServerException{
 		//obtener la ganancia
-		projectLiquidation.setEarnings(projectLiquidation.getEarnings() - companyCostToSubstract);
+		if(projectLiquidation.isCurrencyDollar())
+			projectLiquidation.setEarnings(projectLiquidation.getEarnings() - (companyCostToSubstract/typeExchange));
+		else
+			projectLiquidation.setEarnings(projectLiquidation.getEarnings() - companyCostToSubstract);
 		
 		//Calcula la distribucion de la ganancias para cada unoa de los socios
 		if(projectLiquidation.getEarnings() > 0){			

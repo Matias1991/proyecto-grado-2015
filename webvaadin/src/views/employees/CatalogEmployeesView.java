@@ -14,9 +14,9 @@ import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.data.util.converter.StringToDoubleConverter;
 import com.vaadin.data.util.converter.StringToIntegerConverter;
 import com.vaadin.data.util.filter.SimpleStringFilter;
-import com.vaadin.event.SelectionEvent;
 import com.vaadin.event.FieldEvents.TextChangeEvent;
 import com.vaadin.event.FieldEvents.TextChangeListener;
+import com.vaadin.event.SelectionEvent;
 import com.vaadin.event.SelectionEvent.SelectionListener;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.ui.AbsoluteLayout;
@@ -422,6 +422,8 @@ public class CatalogEmployeesView extends BaseView {
 			catalogEmployeesGrid.removeColumn("email");
 			catalogEmployeesGrid.removeColumn("address");
 			catalogEmployeesGrid.removeColumn("cellPhone");
+			catalogEmployeesGrid.removeColumn("deleted");
+
 
 			catalogEmployeesGrid.setColumnOrder("name", "lastName");
 

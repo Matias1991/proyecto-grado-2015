@@ -57,7 +57,7 @@ public class DeleteUsersView extends BaseView {
 				btnDelete.setEnabled(false);
 
 				ConfirmDialog.show(WebvaadinUI.getCurrent(), "Confirmación",
-						"Desea eliminar el usuario?", "Si", "No",
+						"¿Desea eliminar el usuario seleccionado?", "Si", "No",
 						new ConfirmDialog.Listener() {
 
 							@Override

@@ -7,17 +7,16 @@ import java.util.Collection;
 import org.apache.axis2.AxisFault;
 
 import servicelayer.service.ServiceWebStub;
+import servicelayer.service.ServiceWebStub.DeleteEmployed;
 import servicelayer.service.ServiceWebStub.EstimateSalarySummary;
 import servicelayer.service.ServiceWebStub.GetAllSalarySummaryVersion;
 import servicelayer.service.ServiceWebStub.GetEmployees;
 import servicelayer.service.ServiceWebStub.GetSalarySummaryByVersion;
 import servicelayer.service.ServiceWebStub.InsertEmployed;
-import servicelayer.service.ServiceWebStub.VOEmployed;
-import servicelayer.service.ServiceWebStub.DeleteEmployed;
 import servicelayer.service.ServiceWebStub.UpdatedEmployed;
+import servicelayer.service.ServiceWebStub.VOEmployed;
 import servicelayer.service.ServiceWebStub.VOSalarySummary;
 import utils.PopupWindow;
-import entities.EmployedHours;
 import entities.Employee;
 import entities.SalarySummary;
 
@@ -42,10 +41,9 @@ public class EmployeeController {
 
 		} catch (AxisFault e) {
 			String error = e.getMessage().replace("<faultstring>", "");
-			PopupWindow popup = new PopupWindow("ERROR", error.replace(
+			new PopupWindow("ERROR", error.replace(
 					"</faultstring>", ""));
 		} catch (RemoteException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
@@ -65,10 +63,9 @@ public class EmployeeController {
 
 		} catch (AxisFault e) {
 			String error = e.getMessage().replace("<faultstring>", "");
-			PopupWindow popup = new PopupWindow("ERROR", error.replace(
+			new PopupWindow("ERROR", error.replace(
 					"</faultstring>", ""));
 		} catch (RemoteException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
@@ -90,10 +87,9 @@ public class EmployeeController {
 
 		} catch (AxisFault e) {
 			String error = e.getMessage().replace("<faultstring>", "");
-			PopupWindow popup = new PopupWindow("ERROR", error.replace(
+			new PopupWindow("ERROR", error.replace(
 					"</faultstring>", ""));
 		} catch (RemoteException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
@@ -111,9 +107,8 @@ public class EmployeeController {
 			result = service.deleteEmployed(deleteEmployee).get_return();
 
 		} catch (AxisFault e) {
-			// TODO Auto-generated catch block
 			String error = e.getMessage().replace("<faultstring>", "");
-			PopupWindow popup = new PopupWindow("ERROR", error.replace(
+			new PopupWindow("ERROR", error.replace(
 					"</faultstring>", ""));
 		} catch (RemoteException e) {
 			e.printStackTrace();
@@ -134,9 +129,8 @@ public class EmployeeController {
 			result = service.updatedEmployed(updateEmployee).get_return();
 
 		} catch (AxisFault e) {
-			// TODO Auto-generated catch block
 			String error = e.getMessage().replace("<faultstring>", "");
-			PopupWindow popup = new PopupWindow("ERROR", error.replace(
+			new PopupWindow("ERROR", error.replace(
 					"</faultstring>", ""));
 		} catch (RemoteException e) {
 			e.printStackTrace();
@@ -160,9 +154,8 @@ public class EmployeeController {
 				result.add(ssv);
 			}
 		} catch (AxisFault e) {
-			// TODO Auto-generated catch block
 			String error = e.getMessage().replace("<faultstring>", "");
-			PopupWindow popup = new PopupWindow("ERROR", error.replace(
+			new PopupWindow("ERROR", error.replace(
 					"</faultstring>", ""));
 		} catch (RemoteException e) {
 			e.printStackTrace();
@@ -183,9 +176,8 @@ public class EmployeeController {
 			aux = new SalarySummary(service.getSalarySummaryByVersion(
 					salarySummary).get_return());
 		} catch (AxisFault e) {
-			// TODO Auto-generated catch block
 			String error = e.getMessage().replace("<faultstring>", "");
-			PopupWindow popup = new PopupWindow("ERROR", error.replace(
+			new PopupWindow("ERROR", error.replace(
 					"</faultstring>", ""));
 		} catch (RemoteException e) {
 			e.printStackTrace();
@@ -214,43 +206,13 @@ public class EmployeeController {
 
 		} catch (AxisFault e) {
 			String error = e.getMessage().replace("<faultstring>", "");
-			PopupWindow popup = new PopupWindow("ERROR", error.replace(
+			new PopupWindow("ERROR", error.replace(
 					"</faultstring>", ""));
 		} catch (RemoteException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
 		return employees;
 	}
 
-	public static Collection<EmployedHours> GetEmployedHours() {
-		Collection<EmployedHours> employedHours = new ArrayList<EmployedHours>();
-
-		try {
-			ServiceWebStub service = new ServiceWebStub();
-			// //GetEmployedHours getEmployedHours = new GetEmployedHours();
-			//
-			// VOEmployedProject [] voEmployedProject =
-			// service.getEmployedHours(null).get_return();
-			//
-			// if(voEmployedProject != null){
-			// for(VOEmployedProject voAux : voEmployedProject)
-			// {
-			// EmployedHours auxEmployedHours = new EmployedHours(voAux);
-			// employedHours.add(auxEmployedHours);
-			// }
-			// }
-
-		} catch (AxisFault e) {
-			String error = e.getMessage().replace("<faultstring>", "");
-			PopupWindow popup = new PopupWindow("ERROR", error.replace(
-					"</faultstring>", ""));
-		} catch (RemoteException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-		return employedHours;
-	}
 }

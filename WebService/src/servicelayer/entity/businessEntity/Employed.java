@@ -17,6 +17,7 @@ public class Employed {
 	private Date createdDateTimeUTC;
 	private Date updatedDateTimeUTC;
 	private EmployedType employedType;
+	private boolean deleted;
 	private IDAOSalarySummaries iDAOSalarySummaries;
 
 	public Employed() {
@@ -25,36 +26,6 @@ public class Employed {
 	public Employed(int id) {
 		this.id = id;
 	}
-
-	/*
-	public Employed(VOEmployed voEmployed) {
-		this.id = voEmployed.getId();
-		this.name = voEmployed.getName();
-		this.lastName = voEmployed.getLastName();
-		this.email = voEmployed.getEmail();
-		this.address = voEmployed.getAddress();
-		this.cellPhone = voEmployed.getCellPhone();
-		if (voEmployed.getEmployedType() != 0)
-			this.employedType = EmployedType.getEnum(voEmployed
-					.getEmployedType());
-	}
-
-	public Employed(VOEmployed voEmployed,
-			IDAOSalarySummaries idaoSalarySummaries) {
-		this.id = voEmployed.getId();
-		this.name = voEmployed.getName();
-		this.lastName = voEmployed.getLastName();
-		this.email = voEmployed.getEmail();
-		this.address = voEmployed.getAddress();
-		this.cellPhone = voEmployed.getCellPhone();
-		this.createdDateTimeUTC = voEmployed.getCreatedDateTimeUTC();
-		this.updatedDateTimeUTC = voEmployed.getUpdatedDateTimeUTC();
-		if (voEmployed.getEmployedType() != 0)
-			this.employedType = EmployedType.getEnum(voEmployed
-					.getEmployedType());
-		this.iDAOSalarySummaries = idaoSalarySummaries;
-	}
-	*/
 
 	public int getId() {
 		return id;
@@ -126,6 +97,14 @@ public class Employed {
 
 	public void setEmployedType(EmployedType employedType) {
 		this.employedType = employedType;
+	}
+
+	public boolean getDeleted() {
+		return deleted;
+	}
+
+	public void setDeleted(boolean deleted) {
+		this.deleted = deleted;
 	}
 
 	public void setIDAOSalarySummaries(IDAOSalarySummaries iDAOSalarySummaries) {

@@ -41,27 +41,14 @@ public class UserController {
 			
 		} catch (AxisFault e) {
 			String error = e.getMessage().replace("<faultstring>", "");
-			PopupWindow popup = new PopupWindow("ERROR", error.replace("</faultstring>", ""));
+			new PopupWindow("ERROR", error.replace("</faultstring>", ""));
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		}
 		
 		return users;
 	}
-	
-	public static Collection<User> GetUserByStatus(){
-		Collection <User> users = new ArrayList<User>();
-		
-		try {
-			ServiceWebStub service = new ServiceWebStub();
-		} catch (AxisFault e) {
-			e.printStackTrace();
-		}
-		GetUsers getUsers = new GetUsers();
-		
-		return users;
-	}
-	
+
 	public static boolean DeleteUser(int id)
 	{
 		boolean result = false;
@@ -75,7 +62,7 @@ public class UserController {
 			
 		} catch (AxisFault e) {
 			String error = e.getMessage().replace("<faultstring>", "");
-			PopupWindow popup = new PopupWindow("ERROR", error.replace("</faultstring>", ""));
+			new PopupWindow("ERROR", error.replace("</faultstring>", ""));
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		}
@@ -103,7 +90,7 @@ public class UserController {
 			
 		} catch (AxisFault e) {
 			String error = e.getMessage().replace("<faultstring>", "");
-			PopupWindow popup = new PopupWindow("ERROR", error.replace("</faultstring>", ""));
+			new PopupWindow("ERROR", error.replace("</faultstring>", ""));
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		}
@@ -130,7 +117,7 @@ public class UserController {
 			
 		} catch (AxisFault e) {
 			String error = e.getMessage().replace("<faultstring>", "");
-			PopupWindow popup = new PopupWindow("ERROR", error.replace("</faultstring>", ""));
+			new PopupWindow("ERROR", error.replace("</faultstring>", ""));
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		}
@@ -151,7 +138,7 @@ public class UserController {
 			
 		} catch (AxisFault e) {
 			String error = e.getMessage().replace("<faultstring>", "");
-			PopupWindow popup = new PopupWindow("ERROR", error.replace("</faultstring>", ""));
+			new PopupWindow("ERROR", error.replace("</faultstring>", ""));
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		}
@@ -170,7 +157,7 @@ public class UserController {
 			result = service.forgotPassword(forgotPassword).get_return();
 		} catch (AxisFault e) {
 			String error = e.getMessage().replace("<faultstring>", "");
-			PopupWindow popup = new PopupWindow("ERROR", error.replace("</faultstring>", ""));
+			new PopupWindow("ERROR", error.replace("</faultstring>", ""));
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		}
@@ -192,7 +179,7 @@ public class UserController {
 			
 		} catch (AxisFault e) {
 			String error = e.getMessage().replace("<faultstring>", "");
-			PopupWindow popup = new PopupWindow("ERROR", error.replace("</faultstring>", ""));
+			new PopupWindow("ERROR", error.replace("</faultstring>", ""));
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		}
@@ -211,7 +198,7 @@ public class UserController {
 			result = service.unlockUser(unlockUser).get_return();
 		} catch (AxisFault e) {
 			String error = e.getMessage().replace("<faultstring>", "");
-			PopupWindow popup = new PopupWindow("ERROR", error.replace("</faultstring>", ""));
+			new PopupWindow("ERROR", error.replace("</faultstring>", ""));
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		}
@@ -230,7 +217,7 @@ public class UserController {
 			result = service.resetPassword(resetPassword).get_return();
 		} catch (AxisFault e) {
 			String error = e.getMessage().replace("<faultstring>", "");
-			PopupWindow popup = new PopupWindow("ERROR", error.replace("</faultstring>", ""));
+			new PopupWindow("ERROR", error.replace("</faultstring>", ""));
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		}
@@ -257,7 +244,7 @@ public class UserController {
 			
 		} catch (AxisFault e) {
 			String error = e.getMessage().replace("<faultstring>", "");
-			PopupWindow popup = new PopupWindow("ERROR", error.replace("</faultstring>", ""));
+			new PopupWindow("ERROR", error.replace("</faultstring>", ""));
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		}
@@ -285,7 +272,7 @@ public class UserController {
 //			
 //		} catch (AxisFault e) {
 //			String error = e.getMessage().replace("<faultstring>", "");
-//			PopupWindow popup = new PopupWindow("ERROR", error.replace("</faultstring>", ""));
+//			new PopupWindow("ERROR", error.replace("</faultstring>", ""));
 //		} catch (RemoteException e) {
 //			e.printStackTrace();
 //		}
@@ -314,7 +301,7 @@ public class UserController {
 			
 		} catch (AxisFault e) {
 			String error = e.getMessage().replace("<faultstring>", "");
-			PopupWindow popup = new PopupWindow("ERROR", error.replace("</faultstring>", ""));
+			new PopupWindow("ERROR", error.replace("</faultstring>", ""));
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		}

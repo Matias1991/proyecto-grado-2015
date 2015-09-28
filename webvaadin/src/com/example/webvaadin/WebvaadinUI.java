@@ -473,6 +473,15 @@ public class WebvaadinUI extends UI {
 		}
 		if(RequestContext.getRequestContext().getUserType() == 2 || RequestContext.getRequestContext().getUserType() == 3) // todo lo compartido entre socio y gerente
 		{
+
+			// Proyectos
+			project = menuBar.addItem("Proyectos", null, null);
+			if(RequestContext.getRequestContext().getUserType() == 2)
+				project.addItem("Crear proyecto", null, mainMenuBarCommand);
+			project.addItem("Modificar proyecto", null, mainMenuBarCommand);
+			if(RequestContext.getRequestContext().getUserType() == 2)
+				project.addItem("Cerrar proyectos", null, mainMenuBarCommand);
+			project.addItem("Catálogo proyectos", null, mainMenuBarCommand);
 			// Rubros
 			MenuItem category = menuBar.addItem("Rubros", null, null);
 			category.addItem("Crear rubro", null, mainMenuBarCommand);
@@ -490,16 +499,7 @@ public class WebvaadinUI extends UI {
 			charge.addItem("Crear cobro", null, mainMenuBarCommand);
 			charge.addItem("Modificar cobros", null, mainMenuBarCommand);
 			charge.addItem("Eliminar cobros", null, mainMenuBarCommand);
-			charge.addItem("Catálogo cobros", null, mainMenuBarCommand);
-			
-			// Proyectos
-			project = menuBar.addItem("Proyectos", null, null);
-			if(RequestContext.getRequestContext().getUserType() == 2)
-				project.addItem("Crear proyecto", null, mainMenuBarCommand);
-			project.addItem("Modificar proyecto", null, mainMenuBarCommand);
-			if(RequestContext.getRequestContext().getUserType() == 2)
-				project.addItem("Cerrar proyectos", null, mainMenuBarCommand);
-			project.addItem("Catálogo proyectos", null, mainMenuBarCommand);
+			charge.addItem("Catálogo cobros", null, mainMenuBarCommand);			
 		}
 	}
 

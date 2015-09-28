@@ -2,7 +2,6 @@ package views.user;
 
 import java.util.Collection;
 
-import servicelayer.service.ServiceWebStub;
 import utils.PopupWindow;
 import views.BaseView;
 

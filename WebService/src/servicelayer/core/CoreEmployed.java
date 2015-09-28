@@ -53,7 +53,7 @@ public class CoreEmployed implements ICoreEmployed {
 						employed);
 
 				employed.setId(newEmployedId);
-
+				employed.setDeleted(false);
 				SalarySummary calculateSalarySummary = calculateSalarySummary(salarySummary);
 				calculateSalarySummary.setCreatedDateTimeUTC(new Date());
 				// add new salary summary for employed
@@ -119,9 +119,9 @@ public class CoreEmployed implements ICoreEmployed {
 			Employed employed = daoManager.getDAOEmployees().getObject(id);
 			if (employed != null) {
 				// DELETE ALL SALARY SUMMARIES
-				employed.setIDAOSalarySummaries(daoManager
-						.getDAOSalarySummaries());
-				employed.deleteSalarySummaries();
+//				employed.setIDAOSalarySummaries(daoManager
+//						.getDAOSalarySummaries());
+//				employed.deleteSalarySummaries();
 
 				// DELETE EMPLOYED
 				daoManager.getDAOEmployees().delete(id);
