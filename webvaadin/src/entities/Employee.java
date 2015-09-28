@@ -1,12 +1,10 @@
 package entities;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import servicelayer.service.ServiceWebStub.VOEmployed;
 import servicelayer.service.ServiceWebStub.VOSalarySummary;
-import servicelayer.service.ServiceWebStub.VOUser;
 
 public class Employee {
 

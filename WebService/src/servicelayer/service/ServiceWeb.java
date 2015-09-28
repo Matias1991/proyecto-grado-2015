@@ -1301,11 +1301,11 @@ public class ServiceWeb extends ServiceBase {
 		return false;
 	}
 	
-	public VOProjectLiquidation getProjectLiquidationsPreview(Date month, int projectId){
+	public VOProjectLiquidation getProjectLiquidationsPreview(Date month, int projectId, double typeExchange){
 		try{
 			transactionLock.tryLock(Constants.DEFAULT_TRANSACTION_TIME, TimeUnit.SECONDS);			
 			
-			ProjectLiquidation liquidation =  iCoreProjectLiquidation.getProjectLiquidationPreview(month, projectId);
+			ProjectLiquidation liquidation =  iCoreProjectLiquidation.getProjectLiquidationPreview(month, projectId, typeExchange);
 			
 			VOProjectLiquidation voLiquidation = projectLiquidationBuilder.BuildVOObject(liquidation);			
 						
@@ -1313,6 +1313,7 @@ public class ServiceWeb extends ServiceBase {
 			voLiquidation.setCategoriesHuman(categoryBuilder.BuildArrayVOObject(VOCategory.class, liquidation.getCategoriesHuman()));
 			voLiquidation.setCategoryMaterial(categoryBuilder.BuildArrayVOObject(VOCategory.class, liquidation.getCategoriesMaterial()));
 			voLiquidation.setEmployees(projectBuilder.BuildVOEmployedProjects(liquidation.getEmployees()));
+			voLiquidation.setProject(projectBuilder.BuildVOObject(liquidation.getProject()));
 			
 			return voLiquidation;
 			

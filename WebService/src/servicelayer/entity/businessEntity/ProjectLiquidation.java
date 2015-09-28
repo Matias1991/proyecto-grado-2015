@@ -10,6 +10,8 @@ public class ProjectLiquidation implements Comparable{
 	private Date createdDateTimeUTC;
 	private Date appliedDateTimeUTC;
 	private double totalBills;
+	private double totalBillsAmountPeso;
+	private double totalIVAAmountPeso;
 	private double totalCostCategoriesHuman;
 	private double totalCostCategoriesMaterial;
 	private double totalCostEmployees;
@@ -23,6 +25,7 @@ public class ProjectLiquidation implements Comparable{
 	private ProjectPartner partner2;
 	private double partner2Earning;
 	private boolean isCurrencyDollar;
+	private double companyCostPercentage;
 	
 	private ArrayList<Bill> bills;
 	private ArrayList<Category> categoriesHuman;
@@ -246,10 +249,34 @@ public class ProjectLiquidation implements Comparable{
 	public void setEmployedPartner2(Employed employedPartner2) {
 		this.employedPartner2 = employedPartner2;
 	}
+	
+	public double getTotalBillsAmountPeso() {
+		return totalBillsAmountPeso;
+	}
+
+	public void setTotalBillsAmountPeso(double totalBillsAmountPeso) {
+		this.totalBillsAmountPeso = totalBillsAmountPeso;
+	}
+	
+	public double getTotalIVAAmountPeso() {
+		return totalIVAAmountPeso;
+	}
+
+	public void setTotalIVAAmountPeso(double totalIVAAmountPeso) {
+		this.totalIVAAmountPeso = totalIVAAmountPeso;
+	}
+	
+	public double getCompanyCostPercentage() {
+		return companyCostPercentage;
+	}
+
+	public void setCompanyCostPercentage(double companyCostPercentage) {
+		this.companyCostPercentage = companyCostPercentage;
+	}	
 
 	@Override
 	public int compareTo(Object arg0) {
 		// TODO Auto-generated method stub
-		return (int) (((ProjectLiquidation)arg0).getEarnings() - this.earnings);
+		return (int) (((ProjectLiquidation)arg0).getCompanyCostPercentage() - this.companyCostPercentage);
 	}	
 }

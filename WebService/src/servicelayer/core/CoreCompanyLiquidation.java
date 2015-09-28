@@ -49,137 +49,141 @@ public class CoreCompanyLiquidation implements ICoreCompanyLiquidation {
 		DAOManager daoManager = new DAOManager();
 		ArrayList<Project> projects = null;
 		ArrayList<Category> categories = null;
-		ArrayList<Bill> bills = null;
-		ArrayList<ProjectLiquidation> liquidations = new ArrayList<ProjectLiquidation>();
+		//ArrayList<Bill> bills = null;
+		ArrayList<ProjectLiquidation> projectsLiquidations = new ArrayList<ProjectLiquidation>();
 		ArrayList<Employed> employees = null;
 		CompanyLiquidation companyLiquidation = new CompanyLiquidation();
 		
-		Calendar applied = Calendar.getInstance();
-		applied.setTime(month);
-		applied.set(Calendar.DAY_OF_MONTH, 01);
-		Date appliedDate = applied.getTime();
+		
+		// Defino el periodo desde el primer dia del mes hasta el ultimo del mes
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(month);
+		cal.set(Calendar.DAY_OF_MONTH, 01);
+		Date from = cal.getTime();
 
+		cal.setTime(month);
+		cal.set(Calendar.DATE, cal.getActualMaximum(Calendar.DATE));
+		Date to = cal.getTime();
+		
 		try {
-			if (!existLiquidation(appliedDate)) {				
-				companyLiquidation.setAppliedDateTimeUTC(appliedDate);
+			//Controlo si existe una liquidacion para el mes seleccionado
+			if (!existLiquidation(from)) {				
+				companyLiquidation.setAppliedDateTimeUTC(from);
 				companyLiquidation.setCreatedDateTimeUTC(new Date());
 				companyLiquidation.setTypeExchange(typeExchange);
 
 				// Obtengo los socios
 				ArrayList<Employed> partners = CoreEmployed.GetInstance()
 						.getEmployedByType(2);
+				//Seteo de los socios
 				companyLiquidation.setPartner1(partners.get(0));
-				companyLiquidation.setPartner2(partners.get(1));
-
-				// Defino el periodo
-				Calendar cal = Calendar.getInstance();
-				cal.setTime(month);
-				cal.set(Calendar.DAY_OF_MONTH, 01);
-				Date from = cal.getTime();
-
-				cal.setTime(month);
-				cal.set(Calendar.DATE, cal.getActualMaximum(Calendar.DATE));
-				Date to = cal.getTime();
-
+				companyLiquidation.setPartner2(partners.get(1));				
+								
+				// Obtengo los proyectos a liquidar, se le pasa -1 para obtener todos los proyectos
+				projects = CoreProject.GetInstance()
+						.getProjectsReadyToLiquidate(from, to, -1);
+				
 				// Obtengo los rubros en el periodo
 				categories = CoreCategory.GetInstance().getCategories(from, to,
 						userContext);
 
 				// Obtengo las facturas en el periodo
-				bills = CoreBill.GetInstance().getBills(from, to, false,
-						userContext);
+//				bills = CoreBill.GetInstance().getBills(from, to, false,
+//						userContext);			
 
-				// Obtengo los proyectos a liquidar, se le pasa -1 para obtener
-				// todos los proyectos
-				projects = CoreProject.GetInstance()
-						.getProjectsReadyToLiquidate(from, to, -1);
-
-				// Obtengo todos los empleados a la fecha
-				employees = CoreEmployed.GetInstance().getEmployeesToDate(to);
-
+				// Obtengo todos los empleados hasta el ultimo dia del mes
+				employees = daoManager.getDAOEmployees().getEmployeesToDate(to);
+				
 				if (projects != null && projects.size() > 0) {
 					// Calcular la ganancia parcial
 					// (total facturado - reserva - venta - rubros materiales
 					// del proyecto - rubros humanos del proyecto
 					for (Project project : projects) {
-						ProjectLiquidation liquidation = new ProjectLiquidation();
-						liquidation.setProject(project);
-						liquidation.setAppliedDateTimeUTC(appliedDate);
-						liquidation.setCreatedDateTimeUTC(new Date());
-						liquidation.setCurrencyDollar(project
-								.getIsCurrencyDollar());
-						liquidations.add(partialLiquidationByProject(
-								liquidation, project, categories, bills,
-								typeExchange, to, daoManager));
+						ProjectLiquidation projectLiquidation = CoreProjectLiquidation.GetInstance().getProjectLiquidationPreview(month, project.getId(), typeExchange);
+						projectsLiquidations.add(projectLiquidation);
+						
+//						ProjectLiquidation projectLiquidation = new ProjectLiquidation();
+//						projectLiquidation.setProject(project);
+//						projectLiquidation.setAppliedDateTimeUTC(from);
+//						projectLiquidation.setCreatedDateTimeUTC(new Date());
+//						projectLiquidation.setCurrencyDollar(project.getIsCurrencyDollar());
+//						
+//						projectsLiquidations.add(partialLiquidationByProject(projectLiquidation, project, categories, bills, typeExchange, to, daoManager));
 					}
 
 					// Obtengo el total de costos compañia
-					companyLiquidation
-							.setCompanyCategory(getCostCategoriesCompany(categories));
+					companyLiquidation.setCompanyCategory(getCostCategoriesCompany(categories));
 
-					// Obtengo el total de aportes
-					for (SalarySummary salarySummary : CoreEmployed
-							.GetInstance()
-							.getSalarySummariesLatestVersionUpToDate(to)) {
-						companyLiquidation
-								.setContribution(companyLiquidation
-										.getContribution()
-										+ salarySummary.getTotalDiscounts()
-										+ salarySummary
-												.getTotalEmployerContributions());
+					// Obtengo el total de aportes, el sueldo no socios, prevision despido e incidencia ticket
+					// Obtengo la diferencia de sueldo a pagar
+					for(Employed employed : employees){
+						employed.setIDAOSalarySummaries(daoManager.getDAOSalarySummaries());
+						SalarySummary salarySummary = employed.getSalarySummaryToDate(to);
+						
+						//total de aportes
+						companyLiquidation.setContribution(companyLiquidation.getContribution() + salarySummary.getTotalDiscounts() + salarySummary.getTotalEmployerContributions());
+						if(employed.getEmployedType() != EmployedType.PARTNER){
+							// Sueldos no socios
+							companyLiquidation.setSalaryNotPartners(companyLiquidation.getSalaryNotPartners() + salarySummary.getSalaryToPay());
+							// Prevision despido
+							companyLiquidation.setDismissalPrevention(companyLiquidation.getDismissalPrevention() + salarySummary.getDismissalPrevention());
+							// Incidencia sueldo
+							companyLiquidation.setIncidenceSalary(companyLiquidation.getIncidenceSalary() + salarySummary.getIncidenceSalary());
+							// Incidencia Ticket
+							companyLiquidation.setIncidenceTickets(companyLiquidation.getIncidenceTickets()	+ salarySummary.getIncidenceTickets());
+							//Diferencia de sueldo a pagar
+							double differenceSalaryToPay = getDifferenceEmployedHours(salarySummary.getHours(), employed.getId(), projectsLiquidations);
+							companyLiquidation.setEmployeesCost(companyLiquidation.getEmployeesCost() + (differenceSalaryToPay * salarySummary.getCostRealHour()));
+						}else{
+							//sueldos de los socios
+							companyLiquidation.setSalaryPartners(companyLiquidation.getSalaryPartners() + salarySummary.getNominalSalary());
+						}
 					}
+					
+					
+//					for (SalarySummary salarySummary : CoreEmployed.GetInstance().getSalarySummariesLatestVersionUpToDate(to)) {
+//						companyLiquidation.setContribution(companyLiquidation.getContribution()
+//										+ salarySummary.getTotalDiscounts()
+//										+ salarySummary.getTotalEmployerContributions());
+//					}
 
 					// Obtengo el total de sueldos no socios, prevision despido,
 					// incidencia sueldo e incidencia ticket
-					for (Employed employed : CoreEmployed.GetInstance()
-							.getEmployess()) {
-						if (employed.getEmployedType() != EmployedType.PARTNER) {
-							employed.setIDAOSalarySummaries(daoManager
-									.getDAOSalarySummaries());
-							SalarySummary salary = employed
-									.getSalarySummaryToDate(to);
-							// Sueldos no socios
-							companyLiquidation
-									.setSalaryNotPartners(companyLiquidation
-											.getSalaryNotPartners()
-											+ salary.getSalaryToPay());
-							// Prevision despido
-							companyLiquidation
-									.setDismissalPrevention(companyLiquidation
-											.getDismissalPrevention()
-											+ salary.getDismissalPrevention());
-							// Incidencia sueldo
-							companyLiquidation
-									.setIncidenceSalary(companyLiquidation
-											.getIncidenceSalary()
-											+ salary.getIncidenceSalary());
-							// Incidencia Ticket
-							companyLiquidation
-									.setIncidenceTickets(companyLiquidation
-											.getIncidenceTickets()
-											+ salary.getIncidenceTickets());
-						}
-					}
+//					for (Employed employed : CoreEmployed.GetInstance().getEmployess()) {
+//						if (employed.getEmployedType() != EmployedType.PARTNER) {
+//							employed.setIDAOSalarySummaries(daoManager.getDAOSalarySummaries());
+//							SalarySummary salary = employed.getSalarySummaryToDate(to);
+//							// Sueldos no socios
+//							companyLiquidation.setSalaryNotPartners(companyLiquidation.getSalaryNotPartners() + salary.getSalaryToPay());
+//							// Prevision despido
+//							companyLiquidation.setDismissalPrevention(companyLiquidation.getDismissalPrevention() + salary.getDismissalPrevention());
+//							// Incidencia sueldo
+//							companyLiquidation.setIncidenceSalary(companyLiquidation.getIncidenceSalary() + salary.getIncidenceSalary());
+//							// Incidencia Ticket
+//							companyLiquidation.setIncidenceTickets(companyLiquidation.getIncidenceTickets()	+ salary.getIncidenceTickets());
+//						}
+//					}
 
-					// Obtengo el total del IRAE
-					double totalBills = 0.0;
-					for (Bill bill : bills) {
-						totalBills = totalBills + bill.getAmountPeso();
+					// Obtengo el total de la facturacion de la empresa, el total de iva venta				
+					double totalBills = 0.0;					
+					for(ProjectLiquidation projectLiquidation : projectsLiquidations){
+						totalBills = totalBills + projectLiquidation.getTotalBillsAmountPeso();	
+						companyLiquidation.setIVASale(companyLiquidation.getIVASale() + projectLiquidation.getTotalIVAAmountPeso());
+						
 					}
-					companyLiquidation.setIrae(getIRAE(totalBills, to,
-							daoManager));
+					companyLiquidation.setIrae(getIRAE(totalBills, companyLiquidation.getSalaryPartners()));
 
-					// Obtengo el IVA venta (pesos)
-					for (Bill bill : bills) {
-						if (bill.getIvaType() != IVA_Type.ZERO) {
-							companyLiquidation
-									.setIVASale(companyLiquidation.getIVASale()
-											+ ((bill.getAmountPeso() * bill
-													.getIvaType()
-													.getPercentage()) - bill
-													.getAmountPeso()));
-						}
-					}
+//					// Obtengo el IVA venta (pesos)
+//					for (Bill bill : bills) {
+//						if (bill.getIvaType() != IVA_Type.ZERO) {
+//							companyLiquidation
+//									.setIVASale(companyLiquidation.getIVASale()
+//											+ ((bill.getAmountPeso() * bill
+//													.getIvaType()
+//													.getPercentage()) - bill
+//													.getAmountPeso()));
+//						}
+//					}
 
 					// Obtengo el IVA compra(pesos)
 					for (Category category : categories) {
@@ -196,33 +200,35 @@ public class CoreCompanyLiquidation implements ICoreCompanyLiquidation {
 
 					// Diferencia de horas que debe pagar la empresa de los
 					// empleados
-					double difEmployeesCost = 0.0;
-					for (Employed employed : employees) {
-						if (employed.getEmployedType() != EmployedType.PARTNER) {
-							difEmployeesCost = difEmployeesCost
-									+ getDiferenceEmployedCost(projects,
-											employed, to, daoManager);
-						}
-					}
+					
+//					for (Employed employed : employees) {
+//						if (employed.getEmployedType() != EmployedType.PARTNER) {
+//							difEmployeesCost = difEmployeesCost	+ getDiferenceEmployedCost(projects,employed, to, daoManager);
+//						}
+//					}
 
 					// Total de costos compañia
-					double companyCosts = companyLiquidation
-							.getCompanyCategory()
+					double companyCosts = companyLiquidation.getCompanyCategory()
 							+ companyLiquidation.getContribution()
-							+ difEmployeesCost
+							+ companyLiquidation.getEmployeesCost()
 							+ companyLiquidation.getIrae()
 							+ companyLiquidation.getDismissalPrevention()
 							+ companyLiquidation.getIncidenceSalary()
 							+ companyLiquidation.getIncidenceTickets();
-
+					
+					//Calculo del porcentaje a pagar para cada proyecto
+					calculateProjectPercentageCompanyCost(totalBills, projectsLiquidations);
+					
+					//ACACACACACACACACACA
+					
 					// Ordenar el arraylist por ganancia de mayor a menor
-					Collections.sort(liquidations);
+					Collections.sort(projectsLiquidations);
 
 					// Descuento los costos compañia a las liquidaciones de
 					// mayor ganancia
 					// hasta que se descuente todo los costos o se recorran
 					// todas las liquidaciones
-					for (ProjectLiquidation liquidation : liquidations) {
+					for (ProjectLiquidation liquidation : projectsLiquidations) {
 						if (companyCosts > 0) {
 							if (liquidation.isCurrencyDollar()) {
 								// Dolares
@@ -253,7 +259,7 @@ public class CoreCompanyLiquidation implements ICoreCompanyLiquidation {
 					}
 
 					// Ganancias del proyecto para los socios
-					for (ProjectLiquidation liquidation : liquidations) {
+					for (ProjectLiquidation liquidation : projectsLiquidations) {
 						liquidation.getProject().setiDAOPartnerProject(
 								daoManager.getDAOPartnerProjects());
 						ArrayList<ProjectPartner> projectPartners = liquidation.getProject().getProjectPartner();
@@ -371,19 +377,17 @@ public class CoreCompanyLiquidation implements ICoreCompanyLiquidation {
 									companyLiquidation);
 					companyLiquidation.setId(newCompanyLiquidationId);
 
-					// Guardo cada liquidacion en la tabla Liquidation
-					for (ProjectLiquidation liquidation : liquidations) {
-						int newProjectLiquidationId = daoManager
-								.getDAOProjectLiquidation().insert(liquidation);
-						liquidation.setId(newProjectLiquidationId);
+					// Guardo la liquidacion de cada proyecto y las facturas se actualizan a liquidadas
+					for (ProjectLiquidation projectLiquidation : projectsLiquidations) {
+						int newProjectLiquidationId = daoManager.getDAOProjectLiquidation().insert(projectLiquidation);
+						projectLiquidation.setId(newProjectLiquidationId);
+						
+						for(Bill bill : projectLiquidation.getBills()){
+							bill.setIsLiquidated(true);
+							daoManager.getDAOBills().update(bill.getId(), bill);
+						}
 					}
-
-					// Actualizo las facturas a liquidated = true
-					for (Bill bill : bills) {
-						bill.setIsLiquidated(true);
-						CoreBill.GetInstance().liquidateBill(bill.getId());
-					}
-
+					
 					daoManager.commit();
 				}
 			} else {
@@ -399,6 +403,13 @@ public class CoreCompanyLiquidation implements ICoreCompanyLiquidation {
 	}
 	
 		
+	//Calcula el porcentaje que le corresponde pagar del total de los rubros para cada proyecto
+	private void calculateProjectPercentageCompanyCost(double totalBills, ArrayList<ProjectLiquidation> projectsLiquidations) {
+		for(ProjectLiquidation projectLiquidation : projectsLiquidations){
+			projectLiquidation.setCompanyCostPercentage(((projectLiquidation.getTotalBillsAmountPeso()*100)/totalBills)/100);
+		}		
+	}
+
 	@Override
 	public boolean existLiquidation(Date month)
 			throws ServerException {
@@ -585,24 +596,24 @@ public class CoreCompanyLiquidation implements ICoreCompanyLiquidation {
 	}
 
 	// Devuelve el monto del IRAE
-	private double getIRAE(double totalBills, Date to, DAOManager daoManager)
+	private double getIRAE(double totalBills, double partnersSalary)
 			throws NumberFormatException, ServerException, ClientException {
 		double total = 0.0;
 		double net = 0.0;
-		double partnersSalary = 0.0;
-	
-		ArrayList<Employed> partners = CoreEmployed.GetInstance()
-				.getEmployedByType(2);
-	
-		for (Employed employed : partners) {
-			employed.setIDAOSalarySummaries(daoManager.getDAOSalarySummaries());
-			SalarySummary salary = employed.getLatestVersionSalarySummary();
-			while (salary.getCreatedDateTimeUTC().compareTo(to) > 0) {
-				salary = employed
-						.getSalarySummaryByVersion(salary.getVersion() - 1);
-			}
-			partnersSalary = partnersSalary + salary.getNominalSalary();
-		}
+//		double partnersSalary = 0.0;
+//	
+//		ArrayList<Employed> partners = CoreEmployed.GetInstance()
+//				.getEmployedByType(2);
+//	
+//		for (Employed employed : partners) {
+//			employed.setIDAOSalarySummaries(daoManager.getDAOSalarySummaries());
+//			SalarySummary salary = employed.getLatestVersionSalarySummary();
+//			while (salary.getCreatedDateTimeUTC().compareTo(to) > 0) {
+//				salary = employed
+//						.getSalarySummaryByVersion(salary.getVersion() - 1);
+//			}
+//			partnersSalary = partnersSalary + salary.getNominalSalary();
+//		}
 	
 		net = (totalBills * Double.parseDouble(ConfigurationProperties
 				.GetConfigValue("FICTA_UTILITY"))) - partnersSalary;
@@ -655,40 +666,52 @@ public class CoreCompanyLiquidation implements ICoreCompanyLiquidation {
 
 	// Devuelve la diferencia entre el sueldo de los empleados y los que ya
 	// pagaron los proyectos
-	private double getDiferenceEmployedCost(ArrayList<Project> projects,
-			Employed employed, Date to, DAOManager daoManager)
-			throws ServerException {
-		int totalHoursAssigned = 0;
-		double differenceToPay = 0.0;
-	
-		// Obtengo el resumen del salario que corresponde al periodo
-		employed.setIDAOSalarySummaries(daoManager.getDAOSalarySummaries());
-		SalarySummary salary = employed.getLatestVersionSalarySummary();
-		while (salary.getCreatedDateTimeUTC().compareTo(to) > 0) {
-			salary = employed
-					.getSalarySummaryByVersion(salary.getVersion() - 1);
-		}
-	
-		if (projects != null && projects.size() > 0) {
-			for (Project project : projects) {
-				project.setiDAOProjectEmployees(daoManager
-						.getDAOEmployedProjects());
-	
-				for (ProjectEmployed projectEmployed : project
-						.getProjectEmployees()) {
-					if (projectEmployed.getEmployed().getId() == employed
-							.getId()) {
-						totalHoursAssigned = totalHoursAssigned
-								+ projectEmployed.getHours();
-					}
+	private double getDifferenceEmployedHours(int employedHours, int employedId, ArrayList<ProjectLiquidation> projectsLiquidations){
+		int totalAssignedHours = 0;
+		double differenceHours = 0.0;
+		
+		//obtengo las horas asignadas para un empleado
+		for(ProjectLiquidation projectLiquidation : projectsLiquidations){
+			for(ProjectEmployed projectEmployed : projectLiquidation.getEmployees()){
+				if(projectEmployed.getEmployed().getId() == employedId){
+					totalAssignedHours = totalAssignedHours + projectEmployed.getHours();
 				}
-			}
+			}			
 		}
-		if (totalHoursAssigned < salary.getHours()) {
-			differenceToPay = (salary.getHours() - totalHoursAssigned)
-					* salary.getCostRealHour();
-		}
-		return differenceToPay;
+		
+		if(employedHours > totalAssignedHours)
+			differenceHours = employedHours - totalAssignedHours;		
+		
+		return differenceHours;
+	
+//		// Obtengo el resumen del salario que corresponde al periodo
+//		employed.setIDAOSalarySummaries(daoManager.getDAOSalarySummaries());
+//		SalarySummary salary = employed.getLatestVersionSalarySummary();
+//		while (salary.getCreatedDateTimeUTC().compareTo(to) > 0) {
+//			salary = employed
+//					.getSalarySummaryByVersion(salary.getVersion() - 1);
+//		}
+//	
+//		if (projects != null && projects.size() > 0) {
+//			for (Project project : projects) {
+//				project.setiDAOProjectEmployees(daoManager
+//						.getDAOEmployedProjects());
+//	
+//				for (ProjectEmployed projectEmployed : project
+//						.getProjectEmployees()) {
+//					if (projectEmployed.getEmployed().getId() == employed
+//							.getId()) {
+//						totalHoursAssigned = totalHoursAssigned
+//								+ projectEmployed.getHours();
+//					}
+//				}
+//			}
+//		}
+//		if (totalHoursAssigned < salary.getHours()) {
+//			differenceToPay = (salary.getHours() - totalHoursAssigned)
+//					* salary.getCostRealHour();
+//		}
+//		return differenceToPay;
 	}
 		
 	// Devuelve la cantidad total de las facturas realizadas en un periodo para

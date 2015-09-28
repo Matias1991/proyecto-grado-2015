@@ -16,6 +16,7 @@ public class Constant {
 		public static final String CATEGORIES = "Rubros";
 		public static final String CHARGES = "Cobros";
 		public static final String PROJECTS = "Proyectos";
+		public static final String LIQUIDATIONS = "Liquidaciones";
 	}
 	
 	public class View
@@ -62,5 +63,9 @@ public class Constant {
 		public static final String UPDATEPROJECT = "UpdateProjectView";
 		public static final String CREATEPROJECT = "CreateProjectView";	
 		public static final String CLOSEPROJECT = "DeleteProjectView";
+		
+		//Liquidaciones
+		public static final String CREATELIQUIDATION = "CreateLiquidationView";
+		public static final String CATALOGLIQUIDATIONS = "CatalogLiquidationsView"; 
 	}
 }

@@ -7,6 +7,7 @@ public class CompanyLiquidation {
 	private double companyCategory;
 	private double contribution;
 	private double salaryNotPartners;
+	private double salaryPartners;
 	private double irae;
 	private double dismissalPrevention;
 	private double incidenceSalary;
@@ -20,6 +21,7 @@ public class CompanyLiquidation {
 	private double partner2EarningsDollar;
 	private double partner2EarningsPeso;
 	private double typeExchange;
+	private double employeesCost;
 	private Date appliedDateTimeUTC;
 	private Date CreatedDateTimeUTC;
 	
@@ -209,5 +211,21 @@ public class CompanyLiquidation {
 
 	public void setIncidenceTickets(double incidenceTickets) {
 		this.incidenceTickets = incidenceTickets;
+	}
+
+	public double getSalaryPartners() {
+		return salaryPartners;
+	}
+
+	public void setSalaryPartners(double salaryPartners) {
+		this.salaryPartners = salaryPartners;
+	}
+
+	public double getEmployeesCost() {
+		return employeesCost;
+	}
+
+	public void setEmployeesCost(double employeesCost) {
+		this.employeesCost = employeesCost;
 	}	
 }

@@ -11,10 +11,16 @@ import shared.exceptions.ServerException;
 
 public interface ICoreProjectLiquidation {
 	
-	ProjectLiquidation getProjectLiquidationPreview(Date month,	int projectId) throws ServerException, ClientException;
+	
+	ProjectLiquidation getProjectLiquidationPreview(Date month, int projectId,
+			double typeExchange) throws ServerException, ClientException;
 
 	ArrayList<ProjectLiquidation> getProjectsLiquidationsByDate(Date month)
 			throws ServerException, ClientException;
+
+	void calculatePartnersEarnings(ProjectLiquidation projectLiquidation,
+			double companyCostToSubstract, double typeExchange, Date to)
+			throws ServerException;
 	
 
 }
