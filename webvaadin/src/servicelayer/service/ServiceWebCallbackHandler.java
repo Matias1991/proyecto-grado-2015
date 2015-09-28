@@ -157,6 +157,22 @@
             }
                 
            /**
+            * auto generated Axis2 call back method for getProjectsLiquidations method
+            * override this method for handling normal response from getProjectsLiquidations operation
+            */
+           public void receiveResultgetProjectsLiquidations(
+                    servicelayer.service.ServiceWebStub.GetProjectsLiquidationsResponse result
+                        ) {
+           }
+
+          /**
+           * auto generated Axis2 Error handler
+           * override this method for handling error response from getProjectsLiquidations operation
+           */
+            public void receiveErrorgetProjectsLiquidations(java.lang.Exception e) {
+            }
+                
+           /**
             * auto generated Axis2 call back method for existUser method
             * override this method for handling normal response from existUser operation
             */
@@ -365,6 +381,22 @@
             }
                 
            /**
+            * auto generated Axis2 call back method for createLiquidation method
+            * override this method for handling normal response from createLiquidation operation
+            */
+           public void receiveResultcreateLiquidation(
+                    servicelayer.service.ServiceWebStub.CreateLiquidationResponse result
+                        ) {
+           }
+
+          /**
+           * auto generated Axis2 Error handler
+           * override this method for handling error response from createLiquidation operation
+           */
+            public void receiveErrorcreateLiquidation(java.lang.Exception e) {
+            }
+                
+           /**
             * auto generated Axis2 call back method for getAllBillsByFilters method
             * override this method for handling normal response from getAllBillsByFilters operation
             */
@@ -410,6 +442,22 @@
            * override this method for handling error response from changePassword operation
            */
             public void receiveErrorchangePassword(java.lang.Exception e) {
+            }
+                
+           /**
+            * auto generated Axis2 call back method for getCompanyLiquidation method
+            * override this method for handling normal response from getCompanyLiquidation operation
+            */
+           public void receiveResultgetCompanyLiquidation(
+                    servicelayer.service.ServiceWebStub.GetCompanyLiquidationResponse result
+                        ) {
+           }
+
+          /**
+           * auto generated Axis2 Error handler
+           * override this method for handling error response from getCompanyLiquidation operation
+           */
+            public void receiveErrorgetCompanyLiquidation(java.lang.Exception e) {
             }
                 
            /**
@@ -506,22 +554,6 @@
            * override this method for handling error response from getEmployed operation
            */
             public void receiveErrorgetEmployed(java.lang.Exception e) {
-            }
-                
-           /**
-            * auto generated Axis2 call back method for liquidation method
-            * override this method for handling normal response from liquidation operation
-            */
-           public void receiveResultliquidation(
-                    servicelayer.service.ServiceWebStub.LiquidationResponse result
-                        ) {
-           }
-
-          /**
-           * auto generated Axis2 Error handler
-           * override this method for handling error response from liquidation operation
-           */
-            public void receiveErrorliquidation(java.lang.Exception e) {
             }
                 
            /**
@@ -762,6 +794,22 @@
            * override this method for handling error response from updateCharge operation
            */
             public void receiveErrorupdateCharge(java.lang.Exception e) {
+            }
+                
+           /**
+            * auto generated Axis2 call back method for getProjectLiquidationsPreview method
+            * override this method for handling normal response from getProjectLiquidationsPreview operation
+            */
+           public void receiveResultgetProjectLiquidationsPreview(
+                    servicelayer.service.ServiceWebStub.GetProjectLiquidationsPreviewResponse result
+                        ) {
+           }
+
+          /**
+           * auto generated Axis2 Error handler
+           * override this method for handling error response from getProjectLiquidationsPreview operation
+           */
+            public void receiveErrorgetProjectLiquidationsPreview(java.lang.Exception e) {
             }
                 
            /**
