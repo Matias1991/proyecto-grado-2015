@@ -238,6 +238,48 @@ public class DAOProjectsLiquidations implements IDAOProjectsLiquidations {
 		
 	}
 
+	@Override
+	public ArrayList<ProjectLiquidation> getProjectLiquidations(int projectId, Date date, boolean isCurrencyDollar) throws ServerException{
+		ArrayList<ProjectLiquidation> projectsLiquidations = new ArrayList<ProjectLiquidation>();
+		PreparedStatement preparedStatement = null;
+		ResultSet rs = null;
+		try {
+			
+			StringBuilder strBuilder = new StringBuilder();
+			strBuilder.append("Select PL.* from ProjectLiquidation PL ");
+			strBuilder.append("WHERE PL.projectId = ? ");
+			strBuilder.append("AND PL.isCurrencyDollar = ? ");
+			strBuilder.append("AND year(pl.AppliedDateTimeUTC) = year(?) ");
+
+			preparedStatement = this.connection.prepareStatement(strBuilder.toString());
+		
+			preparedStatement.setInt(1, projectId);
+			preparedStatement.setBoolean(2, isCurrencyDollar);
+			preparedStatement.setTimestamp(3, new Timestamp(date.getTime()));
+			rs = preparedStatement.executeQuery();
+			
+			while (rs.next()) {
+				ProjectLiquidation projectLiquidation = BuildProjectLiquidation(rs);
+				projectsLiquidations.add(projectLiquidation);
+			}
+			
+		} catch (SQLException e) {
+			throw new ServerException(e);
+		} finally {
+			try {
+				if (preparedStatement != null)
+					preparedStatement.close();
+				if (rs != null)
+					rs.close();
+			} catch (SQLException e) {
+				LoggerMSMP.setLog(e.getMessage());
+			}
+		}
+
+		return projectsLiquidations;	
+		
+	}
+	
 	private ProjectLiquidation BuildProjectLiquidation(ResultSet rs) throws SQLException {
 		int _id = rs.getInt("id");
 		Project project = new Project(rs.getInt("projectId"));
@@ -245,7 +287,7 @@ public class DAOProjectsLiquidations implements IDAOProjectsLiquidations {
 		double outsourcedCost = rs.getDouble("outsourcedCost");
 		double categoriesCost = rs.getDouble("categoriesCost");
 		double employeesCost = rs.getDouble("employeesCost");
-		double profit = rs.getDouble("profit");
+		double earnings = rs.getDouble("earning");
 		double reserve = rs.getDouble("reserve");
 		double sellingCost = rs.getDouble("sellingCost");
 		Employed partner1 = new Employed(rs.getInt("partner1Id"));
@@ -273,7 +315,7 @@ public class DAOProjectsLiquidations implements IDAOProjectsLiquidations {
 		projectLiquidation.setTotalCostCategoriesHuman(outsourcedCost);
 		projectLiquidation.setTotalCostCategoriesMaterial(categoriesCost);
 		projectLiquidation.setTotalCostEmployees(employeesCost);
-		projectLiquidation.setEarnings(profit);		
+		projectLiquidation.setEarnings(earnings);		
 				
 		return projectLiquidation;
 	}

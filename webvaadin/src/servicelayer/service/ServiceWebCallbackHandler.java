@@ -621,6 +621,22 @@
             }
                 
            /**
+            * auto generated Axis2 call back method for getProjectLiquidations method
+            * override this method for handling normal response from getProjectLiquidations operation
+            */
+           public void receiveResultgetProjectLiquidations(
+                    servicelayer.service.ServiceWebStub.GetProjectLiquidationsResponse result
+                        ) {
+           }
+
+          /**
+           * auto generated Axis2 Error handler
+           * override this method for handling error response from getProjectLiquidations operation
+           */
+            public void receiveErrorgetProjectLiquidations(java.lang.Exception e) {
+            }
+                
+           /**
             * auto generated Axis2 call back method for getAllVersionsSalarySummary method
             * override this method for handling normal response from getAllVersionsSalarySummary operation
             */
