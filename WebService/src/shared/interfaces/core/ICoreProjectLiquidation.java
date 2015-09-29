@@ -10,8 +10,7 @@ import shared.exceptions.ClientException;
 import shared.exceptions.ServerException;
 
 public interface ICoreProjectLiquidation {
-	
-	
+
 	ProjectLiquidation getProjectLiquidationPreview(Date month, int projectId,
 			double typeExchange) throws ServerException, ClientException;
 
@@ -21,6 +20,8 @@ public interface ICoreProjectLiquidation {
 	void calculatePartnersEarnings(ProjectLiquidation projectLiquidation,
 			double companyCostToSubstract, double typeExchange, Date to)
 			throws ServerException;
-	
+
+	ArrayList<ProjectLiquidation> getProjectsWithMoreEarnings(Date from,
+			Date to, boolean isCurrencyDollar, int count) throws ServerException;
 
 }

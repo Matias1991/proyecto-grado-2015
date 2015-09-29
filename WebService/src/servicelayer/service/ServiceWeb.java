@@ -1400,6 +1400,36 @@ public class ServiceWeb extends ServiceBase {
 			transactionLock.unlock();
 		}
 		return false;
+}
+	//Reports
+	public VOProjectLiquidation[] getProjectsLiquidationsWithMoreEarnings(Date from, Date to, boolean isCurrencyDollar, int count){
+		VOProjectLiquidation[] voProjectsLiquidations= null;
+		try{
+			transactionLock.tryLock(Constants.DEFAULT_TRANSACTION_TIME, TimeUnit.SECONDS);			
+			
+			ArrayList<ProjectLiquidation> projectsLiquidations = iCoreProjectLiquidation.getProjectsWithMoreEarnings(from, to, isCurrencyDollar, count);
+			voProjectsLiquidations = new VOProjectLiquidation[projectsLiquidations.size()];
+			
+			int i = 0;
+			for(ProjectLiquidation projectLiquidation : projectsLiquidations){
+				VOProjectLiquidation voProjectLiquidation = projectLiquidationBuilder.BuildVOObject(projectLiquidation);
+				voProjectLiquidation.setProject(projectBuilder.BuildVOObject(projectLiquidation.getProject()));
+				voProjectsLiquidations[i] = voProjectLiquidation;
+				i++;
+			}			
+			
+			return voProjectsLiquidations;
+			
+		} catch (ServerException e) {
+			ThrowServerExceptionAndLogError(e, "obtener liquidaciones de proyectos para mostrar");
+		} catch (InterruptedException e) {
+			throw new RuntimeException(Constants.TRANSACTION_ERROR);
+		} catch (Exception e) {
+			ThrowGenericExceptionAndLogError(e);
+		} finally {
+			transactionLock.unlock();
+		}
+		return null;
 	}
 }
 

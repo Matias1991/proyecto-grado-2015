@@ -107,6 +107,14 @@ public class ProjectLiquidation {
 		
 	}
 
+	public ProjectLiquidation(int projectId, String projectName, double enarnings)
+	{
+		this.earnings = enarnings;
+		this.project = new Project();
+		this.project.setId(projectId);
+		this.project.setName(projectName);
+	}
+	
 	public int getId() {
 		return id;
 	}

@@ -31,6 +31,7 @@ import views.project.CatalogProjectView;
 import views.project.CreateProjectView;
 import views.project.DeleteProjectView;
 import views.project.UpdateProjectView;
+import views.reports.ReportsProfitsView;
 import views.user.CatalogUsersView;
 import views.user.CreateUserView;
 import views.user.DeleteUsersView;
@@ -185,7 +186,9 @@ public class WebvaadinUI extends UI {
 				view = new CatalogProjectView();
 				break;
 			case View.CREATELIQUIDATION:
-				view = new CreateLiquidationView();
+				view = new CreateLiquidationView();			
+			case View.REPORTSPROFITSVIEW:
+				view = new ReportsProfitsView();
 				break;
 		}
 		
@@ -237,6 +240,8 @@ public class WebvaadinUI extends UI {
 		userTypePartnerToViews.add(Constant.View.CLOSEPROJECT);
 		
 		userTypePartnerToViews.add(Constant.View.CREATELIQUIDATION);
+		
+		userTypePartnerToViews.add(Constant.View.REPORTSPROFITSVIEW);
 		
 		userTypePartnerToViews.add(Constant.View.CHANGEPASSWORD);
 		userTypePartnerToViews.add(Constant.View.UPDATEPROFILEUSER);
@@ -445,6 +450,8 @@ public class WebvaadinUI extends UI {
 					break;
 				case "Crear liquidación":
 					UI.getCurrent().getNavigator().navigateTo(Constant.View.CREATELIQUIDATION);
+				case "Proyectos con mas ganancias":
+					UI.getCurrent().getNavigator().navigateTo(Constant.View.REPORTSPROFITSVIEW);
 					break;
 				default:
 					new PopupWindow("AVISO",
@@ -515,6 +522,12 @@ public class WebvaadinUI extends UI {
 			MenuItem liquidation = menuBar.addItem("Liquidaciones", null,null);
 			liquidation.addItem("Crear liquidación", null, mainMenuBarCommand);
 			
+		}
+		
+		if(RequestContext.getRequestContext().getUserType() == 2)
+		{
+			MenuItem reports = menuBar.addItem("Reportes", null, null);
+			reports.addItem("Proyectos con mas ganancias", null, mainMenuBarCommand);
 		}
 	}
 

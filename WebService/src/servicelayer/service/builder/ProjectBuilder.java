@@ -28,9 +28,12 @@ public class ProjectBuilder extends BaseBuilder<VOProject, Project> {
 			voProject.setManagerLastName(businessObject.getManager()
 					.getLastName());
 		}
-		voProject.setSellerId(businessObject.getSeller().getId());
-		voProject.setSellerName(businessObject.getSeller().getName());
-		voProject.setSellerLastname(businessObject.getSeller().getLastName());
+		if(businessObject.getSeller() != null)
+		{
+			voProject.setSellerId(businessObject.getSeller().getId());
+			voProject.setSellerName(businessObject.getSeller().getName());
+			voProject.setSellerLastname(businessObject.getSeller().getLastName());
+		}
 		voProject.setAmount(businessObject.getAmount());
 		voProject.setIsCurrencyDollar(businessObject.getIsCurrencyDollar());
 		voProject.setClosed(businessObject.getClosed());

@@ -12,6 +12,7 @@ import servicelayer.service.ServiceWebStub.CreateLiquidation;
 import servicelayer.service.ServiceWebStub.ExistLiquidation;
 import servicelayer.service.ServiceWebStub.GetProjectLiquidationsPreview;
 import servicelayer.service.ServiceWebStub.GetProjectsLiquidations;
+import servicelayer.service.ServiceWebStub.GetProjectsLiquidationsWithMoreEarnings;
 import servicelayer.service.ServiceWebStub.VOProjectLiquidation;
 import utils.PopupWindow;
 import entities.ProjectLiquidation;
@@ -110,4 +111,35 @@ public class LiquidationController {
 		return result;		
 	}
 
+	public static Collection<ProjectLiquidation> getProjectsLiquidationsWithMoreEarnings(Date from, Date to, boolean isCurrencyDollar, int count){
+		Collection<ProjectLiquidation> projectsLiquidations = new ArrayList<ProjectLiquidation>();
+		
+		try{
+			ServiceWebStub service = new ServiceWebStub();
+			GetProjectsLiquidationsWithMoreEarnings getProjectsLiquidationsWithMoreEarnings = new GetProjectsLiquidationsWithMoreEarnings();
+			
+			getProjectsLiquidationsWithMoreEarnings.setFrom(from);
+			getProjectsLiquidationsWithMoreEarnings.setTo(to);
+			getProjectsLiquidationsWithMoreEarnings.setIsCurrencyDollar(isCurrencyDollar);
+			getProjectsLiquidationsWithMoreEarnings.setCount(count);
+			
+			VOProjectLiquidation[] voProjectsLiquidations = service.getProjectsLiquidationsWithMoreEarnings(getProjectsLiquidationsWithMoreEarnings).get_return();
+			
+			if(voProjectsLiquidations != null && voProjectsLiquidations.length > 0)
+			{
+				for(VOProjectLiquidation voProjectLiquidation : voProjectsLiquidations){
+					ProjectLiquidation projectLiquidation = new ProjectLiquidation(voProjectLiquidation.getProject().getId(), voProjectLiquidation.getProject().getName(), voProjectLiquidation.getEarnings());
+					projectsLiquidations.add(projectLiquidation);
+				}
+			}
+			
+		}catch (AxisFault e) {
+			String error = e.getMessage().replace("<faultstring>", "");
+			new PopupWindow("ERROR", error.replace("</faultstring>", ""));
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
+		
+		return projectsLiquidations;		
+	}
 }
