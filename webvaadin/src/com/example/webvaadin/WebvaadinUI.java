@@ -186,7 +186,8 @@ public class WebvaadinUI extends UI {
 				view = new CatalogProjectView();
 				break;
 			case View.CREATELIQUIDATION:
-				view = new CreateLiquidationView();			
+				view = new CreateLiquidationView();	
+				break;
 			case View.REPORTSPROFITSVIEW:
 				view = new ReportsProfitsView();
 				break;
@@ -450,6 +451,7 @@ public class WebvaadinUI extends UI {
 					break;
 				case "Crear liquidación":
 					UI.getCurrent().getNavigator().navigateTo(Constant.View.CREATELIQUIDATION);
+					break;
 				case "Proyectos con mas ganancias":
 					UI.getCurrent().getNavigator().navigateTo(Constant.View.REPORTSPROFITSVIEW);
 					break;
