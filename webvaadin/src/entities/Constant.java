@@ -66,6 +66,9 @@ public class Constant {
 		
 		//Liquidaciones
 		public static final String CREATELIQUIDATION = "CreateLiquidationView";
-		public static final String CATALOGLIQUIDATIONS = "CatalogLiquidationsView"; 
+		public static final String CATALOGLIQUIDATIONS = "CatalogLiquidationsView";
+		
+		//Reportes
+		public static final String REPORTSPROFITSVIEW = "ReportsProfitsView";
 	}
 }

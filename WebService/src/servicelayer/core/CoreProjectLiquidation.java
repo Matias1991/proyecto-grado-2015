@@ -241,7 +241,26 @@ public class CoreProjectLiquidation implements ICoreProjectLiquidation {
 			}
 		}			
 	}
+	
+	//Reports 
+	@Override
+	public ArrayList<ProjectLiquidation> getProjectsWithMoreEarnings(Date from,
+			Date to, boolean isCurrencyDollar, int count) throws ServerException {
+		
+		DAOManager daoManager = new DAOManager();
+		
+		try
+		{
+			return daoManager.getDAOProjectLiquidation().getProjectsWithMoreEarnings(from, to, isCurrencyDollar, count);
 			
+		} catch (ServerException e) {
+			daoManager.rollback();
+			throw e;
+		} finally {
+			daoManager.close();
+		}
+	}
+	
 	// Devuelve la ganancia para el socio segun el tipo de distribucion
 	private double getPartnerEarning(double projectEarning,
 			DistributionType distribution) {
