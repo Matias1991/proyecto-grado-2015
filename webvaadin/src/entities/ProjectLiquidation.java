@@ -107,9 +107,10 @@ public class ProjectLiquidation {
 		
 	}
 
-	public ProjectLiquidation(int projectId, String projectName, double enarnings)
+	public ProjectLiquidation(int projectId, String projectName, double enarnings, double reserve)
 	{
 		this.earnings = enarnings;
+		this.reserve = reserve;
 		this.project = new Project();
 		this.project.setId(projectId);
 		this.project.setName(projectName);

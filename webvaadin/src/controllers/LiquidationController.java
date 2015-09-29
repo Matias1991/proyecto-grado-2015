@@ -128,7 +128,7 @@ public class LiquidationController {
 			if(voProjectsLiquidations != null && voProjectsLiquidations.length > 0)
 			{
 				for(VOProjectLiquidation voProjectLiquidation : voProjectsLiquidations){
-					ProjectLiquidation projectLiquidation = new ProjectLiquidation(voProjectLiquidation.getProject().getId(), voProjectLiquidation.getProject().getName(), voProjectLiquidation.getEarnings());
+					ProjectLiquidation projectLiquidation = new ProjectLiquidation(voProjectLiquidation.getProject().getId(), voProjectLiquidation.getProject().getName(), voProjectLiquidation.getEarnings(), voProjectLiquidation.getReserve());
 					projectsLiquidations.add(projectLiquidation);
 				}
 			}

@@ -197,7 +197,7 @@ public class DAOProjectsLiquidations implements IDAOProjectsLiquidations {
 			strBuilder.append("INNER JOIN PROJECT P ON P.ID = PL.ProjectId ");
 			strBuilder.append("WHERE appliedDateTimeUTC between ? and ? ");
 			strBuilder.append("AND PL.isCurrencyDollar = ? ");
-			strBuilder.append("ORDER BY Profit DESC ");
+			strBuilder.append("ORDER BY Earning DESC ");
 			strBuilder.append("LIMIT ?");
 
 			preparedStatement = this.connection.prepareStatement(strBuilder.toString());
@@ -213,8 +213,10 @@ public class DAOProjectsLiquidations implements IDAOProjectsLiquidations {
 				Project project = new Project(rs.getInt("projectId"));
 				project.setName(rs.getString("name"));
 				projectLiquidation.setProject(project);
-				double profit = rs.getDouble("profit");
-				projectLiquidation.setEarnings(profit);	
+				double earning = rs.getDouble("earning");
+				projectLiquidation.setEarnings(earning);	
+				double reserve = rs.getDouble("reserve");
+				projectLiquidation.setReserve(reserve);
 				
 				projectsLiquidations.add(projectLiquidation);
 			}
