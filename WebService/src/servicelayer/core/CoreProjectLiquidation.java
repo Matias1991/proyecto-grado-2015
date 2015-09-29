@@ -77,10 +77,12 @@ public class CoreProjectLiquidation implements ICoreProjectLiquidation {
 				for(Bill bill : associatedBills){					
 					if(bill.getIsCurrencyDollar()){						
 						projectLiquidation.setTotalBills(projectLiquidation.getTotalBills() + bill.getAmountDollar());
-						projectLiquidation.setTotalBillsAmountPeso(projectLiquidation.getTotalBillsAmountPeso() + (bill.getAmountDollar() * bill.getTypeExchange()));						
+						projectLiquidation.setTotalBillsAmountPeso(projectLiquidation.getTotalBillsAmountPeso() + (bill.getAmountDollar() * bill.getTypeExchange()));
+						bill.setTotalAmountDollar(CoreBill.GetInstance().getTotalAmount(bill.getAmountDollar(), bill.getIvaType()));
 					}else{						
 						projectLiquidation.setTotalBills(projectLiquidation.getTotalBills() + bill.getAmountPeso());
 						projectLiquidation.setTotalBillsAmountPeso(projectLiquidation.getTotalBillsAmountPeso() + bill.getAmountPeso());
+						bill.setTotalAmountPeso(CoreBill.GetInstance().getTotalAmount(bill.getAmountPeso(), bill.getIvaType()));
 					}
 					projectLiquidation.setTotalIVAAmountPeso(projectLiquidation.getTotalIVAAmountPeso() + (bill.getAmountPeso() * bill.getIvaType().getPercentage()) - bill.getAmountPeso());
 				}

@@ -199,7 +199,7 @@ public class CreateLiquidationView extends BaseView {
 		super.enter(event);
 		if (RequestContext.getRequestContext() != null) {
 			cleanTab();
-
+			cleanInputs();
 			btnCreate.setEnabled(true);
 			dateMonth.setValidationVisible(false);
 			txtTypeExchange.setValidationVisible(false);
@@ -418,7 +418,7 @@ public class CreateLiquidationView extends BaseView {
 		dateMonth.clear();
 		cboProject.removeAllItems();
 		cleanTab();
-		buildComboProjects();
+		dateMonth.setValue(new Date());
 	}
 	
 	private void readOnlyInputs(boolean readOnly){
