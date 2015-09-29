@@ -8,15 +8,18 @@ import servicelayer.core.CoreUser;
 import servicelayer.entity.businessEntity.ChanelType;
 import servicelayer.entity.businessEntity.User;
 import servicelayer.entity.valueObject.VOBill;
+import servicelayer.entity.valueObject.VOCharge;
 import servicelayer.entity.valueObject.VOProject;
 import servicelayer.entity.valueObject.VOUser;
 import servicelayer.service.builder.BillBuilder;
+import servicelayer.service.builder.ChargeBuilder;
 import servicelayer.service.builder.ProjectBuilder;
 import servicelayer.service.builder.UserBuilder;
 import servicelayer.utilities.Constants;
 import shared.exceptions.ClientException;
 import shared.exceptions.ServerException;
 import shared.interfaces.core.ICoreBill;
+import shared.interfaces.core.ICoreCharge;
 import shared.interfaces.core.ICoreProject;
 import shared.interfaces.core.ICoreUser;
 
@@ -25,10 +28,12 @@ public class ServiceMobile extends ServiceBase{
 	private ICoreUser iCoreUser = null;
 	private ICoreProject iCoreProject = null;
 	private ICoreBill iCoreBill = null;
+	private ICoreCharge iCoreCharge = null;
 	
 	private static UserBuilder userBuilser = new UserBuilder();
 	private static ProjectBuilder projectBuilder = new ProjectBuilder();
 	private static BillBuilder billBuilder = new BillBuilder();
+	private static ChargeBuilder chargeBuilder = new ChargeBuilder();
 	
 	public ServiceMobile()
 	{
@@ -99,6 +104,28 @@ public class ServiceMobile extends ServiceBase{
 					TimeUnit.SECONDS);
 
 			iCoreBill.insertBill(billBuilder.BuildBusinessObject(voBill));
+
+			return true;
+		} catch (ServerException e) {
+			ThrowServerExceptionAndLogError(e, "insertar factura");
+		} catch (ClientException e) {
+			throw new RuntimeException(e.getMessage());
+		} catch (InterruptedException e) {
+			throw new RuntimeException(Constants.TRANSACTION_ERROR);
+		} catch (Exception e) {
+			ThrowGenericExceptionAndLogError(e);
+		} finally {
+			transactionLock.unlock();
+		}
+		return false;
+	}
+		
+	public boolean insertCharge(VOCharge voCharge) {
+		try {
+			transactionLock.tryLock(Constants.DEFAULT_TRANSACTION_TIME,
+					TimeUnit.SECONDS);
+
+			iCoreCharge.insertCharge(chargeBuilder.BuildBusinessObject(voCharge));
 
 			return true;
 		} catch (ServerException e) {
