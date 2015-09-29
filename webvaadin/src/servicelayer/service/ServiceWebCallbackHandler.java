@@ -365,6 +365,22 @@
             }
                 
            /**
+            * auto generated Axis2 call back method for getProjectsLiquidationsWithMoreEarnings method
+            * override this method for handling normal response from getProjectsLiquidationsWithMoreEarnings operation
+            */
+           public void receiveResultgetProjectsLiquidationsWithMoreEarnings(
+                    servicelayer.service.ServiceWebStub.GetProjectsLiquidationsWithMoreEarningsResponse result
+                        ) {
+           }
+
+          /**
+           * auto generated Axis2 Error handler
+           * override this method for handling error response from getProjectsLiquidationsWithMoreEarnings operation
+           */
+            public void receiveErrorgetProjectsLiquidationsWithMoreEarnings(java.lang.Exception e) {
+            }
+                
+           /**
             * auto generated Axis2 call back method for getCategoriesByProject method
             * override this method for handling normal response from getCategoriesByProject operation
             */
@@ -890,6 +906,22 @@
            * override this method for handling error response from getProjectsByUserContext operation
            */
             public void receiveErrorgetProjectsByUserContext(java.lang.Exception e) {
+            }
+                
+           /**
+            * auto generated Axis2 call back method for existLiquidation method
+            * override this method for handling normal response from existLiquidation operation
+            */
+           public void receiveResultexistLiquidation(
+                    servicelayer.service.ServiceWebStub.ExistLiquidationResponse result
+                        ) {
+           }
+
+          /**
+           * auto generated Axis2 Error handler
+           * override this method for handling error response from existLiquidation operation
+           */
+            public void receiveErrorexistLiquidation(java.lang.Exception e) {
             }
                 
 

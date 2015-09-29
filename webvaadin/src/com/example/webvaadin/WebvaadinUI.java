@@ -24,12 +24,14 @@ import views.employees.CatalogEmployeesView;
 import views.employees.CreateEmployeeView;
 import views.employees.DeleteEmployeeView;
 import views.employees.UpdateEmployeeView;
+import views.liquidation.CreateLiquidationView;
 import views.profile.ChangePasswordView;
 import views.profile.ModifyProfileView;
 import views.project.CatalogProjectView;
 import views.project.CreateProjectView;
 import views.project.DeleteProjectView;
 import views.project.UpdateProjectView;
+import views.reports.ReportsProfitsView;
 import views.user.CatalogUsersView;
 import views.user.CreateUserView;
 import views.user.DeleteUsersView;
@@ -183,6 +185,12 @@ public class WebvaadinUI extends UI {
 			case View.CATALOGPROJECTS:
 				view = new CatalogProjectView();
 				break;
+			case View.CREATELIQUIDATION:
+				view = new CreateLiquidationView();	
+				break;
+			case View.REPORTSPROFITSVIEW:
+				view = new ReportsProfitsView();
+				break;
 		}
 		
 		return view;
@@ -231,6 +239,10 @@ public class WebvaadinUI extends UI {
 		userTypePartnerToViews.add(Constant.View.UPDATEPROJECT);
 		userTypePartnerToViews.add(Constant.View.CREATEPROJECT);
 		userTypePartnerToViews.add(Constant.View.CLOSEPROJECT);
+		
+		userTypePartnerToViews.add(Constant.View.CREATELIQUIDATION);
+		
+		userTypePartnerToViews.add(Constant.View.REPORTSPROFITSVIEW);
 		
 		userTypePartnerToViews.add(Constant.View.CHANGEPASSWORD);
 		userTypePartnerToViews.add(Constant.View.UPDATEPROFILEUSER);
@@ -437,6 +449,12 @@ public class WebvaadinUI extends UI {
 				case "Cerrar proyectos":
 					UI.getCurrent().getNavigator().navigateTo(Constant.View.CLOSEPROJECT);
 					break;
+				case "Crear liquidación":
+					UI.getCurrent().getNavigator().navigateTo(Constant.View.CREATELIQUIDATION);
+					break;
+				case "Proyectos con mas ganancias":
+					UI.getCurrent().getNavigator().navigateTo(Constant.View.REPORTSPROFITSVIEW);
+					break;
 				default:
 					new PopupWindow("AVISO",
 							"No hay configuracion para el item: "
@@ -501,7 +519,17 @@ public class WebvaadinUI extends UI {
 			charge.addItem("Crear cobro", null, mainMenuBarCommand);
 			charge.addItem("Modificar cobros", null, mainMenuBarCommand);
 			charge.addItem("Eliminar cobros", null, mainMenuBarCommand);
-			charge.addItem("Catálogo cobros", null, mainMenuBarCommand);			
+			charge.addItem("Catálogo cobros", null, mainMenuBarCommand);	
+			//Liquidaciones
+			MenuItem liquidation = menuBar.addItem("Liquidaciones", null,null);
+			liquidation.addItem("Crear liquidación", null, mainMenuBarCommand);
+			
+		}
+		
+		if(RequestContext.getRequestContext().getUserType() == 2)
+		{
+			MenuItem reports = menuBar.addItem("Reportes", null, null);
+			reports.addItem("Proyectos con mas ganancias", null, mainMenuBarCommand);
 		}
 	}
 

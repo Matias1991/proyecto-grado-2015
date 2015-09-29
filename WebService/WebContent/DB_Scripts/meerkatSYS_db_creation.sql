@@ -221,7 +221,7 @@ CREATE TABLE IF NOT EXISTS ProjectLiquidation
 	OutsourcedCost		DECIMAL(10,2) NOT NULL,
 	CategoriesCost		DECIMAL(10,2) NOT NULL,	
 	EmployeesCost		DECIMAL(10,2) NOT NULL,
-	Profit				DECIMAL(10,2) NOT NULL,
+	Earning				DECIMAL(10,2) NOT NULL,
 	Reserve				DECIMAL(10,2) NOT NULL,
 	SellingCost			DECIMAL(10,2) NOT NULL,	
 	Partner1Id			INTEGER NOT NULL,

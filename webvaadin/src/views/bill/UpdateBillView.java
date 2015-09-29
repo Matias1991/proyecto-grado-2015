@@ -700,36 +700,6 @@ public class UpdateBillView extends BaseView {
 		btnCancel.setTabIndex(10);
 		mainLayout.addComponent(btnCancel, "top:610.0px;left:130.0px;");
 		
-		
-		DataSeries dataSeries = new DataSeries()
-	    .add(2, 6, 7, 10);
-
-	SeriesDefaults seriesDefaults = new SeriesDefaults()
-	    .setRenderer(SeriesRenderers.BAR);
-
-	Axes axes = new Axes()
-	    .addAxis(
-	        new XYaxis()
-	            .setRenderer(AxisRenderers.CATEGORY)
-	            .setTicks(
-	                new Ticks()
-	                    .add("a", "b", "c", "d")));
-
-	Highlighter highlighter = new Highlighter()
-	    .setShow(false);
-
-	Options options = new Options()
-	    .setSeriesDefaults(seriesDefaults)
-	    .setAxes(axes)
-	    .setHighlighter(highlighter);
-
-	DCharts chart = new DCharts()
-	    .setDataSeries(dataSeries)
-	    .setOptions(options)
-	    .show();
-	
-	mainLayout.addComponent(chart);
-		
 		return mainLayout;
 	}
 

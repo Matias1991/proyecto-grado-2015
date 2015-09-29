@@ -72,7 +72,7 @@ public class DAOProjectsLiquidations implements IDAOProjectsLiquidations {
 		PreparedStatement preparedStatement = null;
 
 		String insertSQL = "INSERT INTO PROJECTLIQUIDATION (PROJECTID, TOTALBILLS, "
-				+ "OUTSOURCEDCOST , CATEGORIESCOST, EMPLOYEESCOST, PROFIT, RESERVE, SELLINGCOST, "
+				+ "OUTSOURCEDCOST , CATEGORIESCOST, EMPLOYEESCOST, EARNING, RESERVE, SELLINGCOST, "
 				+ "PARTNER1ID, PARTNER1EARNING, PARTNER2ID, PARTNER2EARNING, ISCURRENCYDOLLAR, "
 				+ "APPLIEDDATETIMEUTC, CREATEDDATETIMEUTC) "
 				+ "VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
@@ -165,6 +165,59 @@ public class DAOProjectsLiquidations implements IDAOProjectsLiquidations {
 			
 			while (rs.next()) {
 				ProjectLiquidation projectLiquidation = BuildProjectLiquidation(rs);
+				projectsLiquidations.add(projectLiquidation);
+			}
+			
+		} catch (SQLException e) {
+			throw new ServerException(e);
+		} finally {
+			try {
+				if (preparedStatement != null)
+					preparedStatement.close();
+				if (rs != null)
+					rs.close();
+			} catch (SQLException e) {
+				LoggerMSMP.setLog(e.getMessage());
+			}
+		}
+
+		return projectsLiquidations;	
+		
+	}
+	
+	@Override
+	public ArrayList<ProjectLiquidation> getProjectsWithMoreEarnings(Date from, Date to, boolean isCurrencyDollar, int count) throws ServerException{
+		ArrayList<ProjectLiquidation> projectsLiquidations = new ArrayList<ProjectLiquidation>();
+		PreparedStatement preparedStatement = null;
+		ResultSet rs = null;
+		try {
+			
+			StringBuilder strBuilder = new StringBuilder();
+			strBuilder.append("Select PL.*, P.Name from ProjectLiquidation PL ");
+			strBuilder.append("INNER JOIN PROJECT P ON P.ID = PL.ProjectId ");
+			strBuilder.append("WHERE appliedDateTimeUTC between ? and ? ");
+			strBuilder.append("AND PL.isCurrencyDollar = ? ");
+			strBuilder.append("ORDER BY Earning DESC ");
+			strBuilder.append("LIMIT ?");
+
+			preparedStatement = this.connection.prepareStatement(strBuilder.toString());
+		
+			preparedStatement.setTimestamp(1, new Timestamp(from.getTime()));
+			preparedStatement.setTimestamp(2, new Timestamp(to.getTime()));
+			preparedStatement.setBoolean(3, isCurrencyDollar);
+			preparedStatement.setInt(4, count);
+			rs = preparedStatement.executeQuery();
+			
+			while (rs.next()) {
+				ProjectLiquidation projectLiquidation = new ProjectLiquidation();
+				Project project = new Project(rs.getInt("projectId"));
+				project.setName(rs.getString("name"));
+				projectLiquidation.setProject(project);
+				double earning = rs.getDouble("earning");
+				projectLiquidation.setEarnings(earning);	
+				double reserve = rs.getDouble("reserve");
+				projectLiquidation.setReserve(reserve);
+				
 				projectsLiquidations.add(projectLiquidation);
 			}
 			

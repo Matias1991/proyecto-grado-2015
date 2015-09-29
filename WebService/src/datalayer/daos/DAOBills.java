@@ -657,8 +657,8 @@ public class DAOBills implements IDAOBills {
 		if (bill.getIsCurrencyDollar()) {
 			bill.setAmountDollar(amountDollar);
 			bill.setTypeExchange(typeExchange);
-		} else
-			bill.setAmountPeso(amountPeso);
+		}
+		bill.setAmountPeso(amountPeso);
 
 		return bill;
 	}
