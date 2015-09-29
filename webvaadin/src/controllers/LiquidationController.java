@@ -9,6 +9,7 @@ import org.apache.axis2.AxisFault;
 
 import servicelayer.service.ServiceWebStub;
 import servicelayer.service.ServiceWebStub.CreateLiquidation;
+import servicelayer.service.ServiceWebStub.ExistLiquidation;
 import servicelayer.service.ServiceWebStub.GetProjectLiquidationsPreview;
 import servicelayer.service.ServiceWebStub.GetProjectsLiquidations;
 import servicelayer.service.ServiceWebStub.VOProjectLiquidation;
@@ -17,7 +18,7 @@ import entities.ProjectLiquidation;
 
 public class LiquidationController {
 	
-	public static ProjectLiquidation getProjectsLiquidations(Date month, int projectId){
+	public static ProjectLiquidation getProjectsLiquidations(Date month, int projectId, double typeExchange){
 		ProjectLiquidation projectLiquidation = null;
 		
 		try{
@@ -26,6 +27,7 @@ public class LiquidationController {
 			
 			getProjectLiquidation.setMonth(month);
 			getProjectLiquidation.setProjectId(projectId);
+			getProjectLiquidation.setTypeExchange(typeExchange);
 			
 			projectLiquidation = new ProjectLiquidation(service.getProjectLiquidationsPreview(getProjectLiquidation).get_return());
 			
@@ -86,6 +88,26 @@ public class LiquidationController {
 		}
 		
 		return projectsLiquidations;		
+	}
+	
+	public static boolean existLiquidation(Date month){
+		boolean result = false;
+		try{
+			ServiceWebStub service = new ServiceWebStub();
+			ExistLiquidation existLiquidation = new ExistLiquidation();
+			
+			existLiquidation.setMonth(month);
+			
+			result = service.existLiquidation(existLiquidation).get_return();
+			
+		}catch (AxisFault e) {
+			String error = e.getMessage().replace("<faultstring>", "");
+			new PopupWindow("ERROR", error.replace("</faultstring>", ""));
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
+		
+		return result;		
 	}
 
 }

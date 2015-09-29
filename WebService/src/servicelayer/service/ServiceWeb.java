@@ -1383,5 +1383,23 @@ public class ServiceWeb extends ServiceBase {
 		}
 		return null;
 	}
+	
+	public boolean existLiquidation(Date month) {
+		try {
+			transactionLock.tryLock(Constants.DEFAULT_TRANSACTION_TIME,
+					TimeUnit.SECONDS);
+
+			return iCoreCompanyLiquidation.existLiquidation(month);
+		} catch (ServerException e) {
+			ThrowServerExceptionAndLogError(e, "validar si existe el usuario");
+		} catch (InterruptedException e) {
+			throw new RuntimeException(Constants.TRANSACTION_ERROR);
+		} catch (Exception e) {
+			ThrowGenericExceptionAndLogError(e);
+		} finally {
+			transactionLock.unlock();
+		}
+		return false;
+	}
 }
 

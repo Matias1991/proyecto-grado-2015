@@ -61,6 +61,8 @@ public class CoreProjectLiquidation implements ICoreProjectLiquidation {
 								
 			projectLiquidation = new ProjectLiquidation(projectId);
 			projectLiquidation.setProject(project);
+			projectLiquidation.setAppliedDateTimeUTC(month);
+			projectLiquidation.setCreatedDateTimeUTC(new Date());
 			
 			// Cargo los socios
 			projectLiquidation.setPartner1(project.getProjectPartner().get(0));
@@ -72,16 +74,13 @@ public class CoreProjectLiquidation implements ICoreProjectLiquidation {
 			// Cargo facturas asociadas al proyecto
 			ArrayList<Bill> associatedBills = project.getBills(from, to);
 			if(associatedBills != null){
-				for(Bill bill : associatedBills){
-					//bill = daoManager.getDAOBills().getObject(bill.getId());
-					if(bill.getIsCurrencyDollar()){
-						//bill.setTotalAmountDollar(CoreBill.GetInstance().getTotalAmount(bill.getAmountDollar(), bill.getIvaType()));
+				for(Bill bill : associatedBills){					
+					if(bill.getIsCurrencyDollar()){						
 						projectLiquidation.setTotalBills(projectLiquidation.getTotalBills() + bill.getAmountDollar());
 						projectLiquidation.setTotalBillsAmountPeso(projectLiquidation.getTotalBillsAmountPeso() + (bill.getAmountDollar() * bill.getTypeExchange()));						
-					}else{
-						//bill.setTotalAmountPeso(CoreBill.GetInstance().getTotalAmount(bill.getAmountDollar(), bill.getIvaType()));
+					}else{						
 						projectLiquidation.setTotalBills(projectLiquidation.getTotalBills() + bill.getAmountPeso());
-						projectLiquidation.setTotalBillsAmountPeso(projectLiquidation.getTotalBillsAmountPeso() + bill.getAmountDollar());
+						projectLiquidation.setTotalBillsAmountPeso(projectLiquidation.getTotalBillsAmountPeso() + bill.getAmountPeso());
 					}
 					projectLiquidation.setTotalIVAAmountPeso(projectLiquidation.getTotalIVAAmountPeso() + (bill.getAmountPeso() * bill.getIvaType().getPercentage()) - bill.getAmountPeso());
 				}
@@ -135,22 +134,22 @@ public class CoreProjectLiquidation implements ICoreProjectLiquidation {
 			
 			//Calcula la ganancia intermedia del proyecto
 			if(projectLiquidation.getTotalBills() == 0){
-				projectLiquidation.setEarnings(projectLiquidation.getTotalBills() - projectLiquidation.getTotalCostCategoriesHuman() - projectLiquidation.getTotalCostCategoriesMaterial());
+				projectLiquidation.setEarnings(projectLiquidation.getTotalBills() - Math.abs(projectLiquidation.getTotalCostCategoriesHuman()) - Math.abs(projectLiquidation.getTotalCostCategoriesMaterial()));
 			}else{
 				if(projectLiquidation.isCurrencyDollar()){
-					projectLiquidation.setEarnings(projectLiquidation.getTotalBills() - projectLiquidation.getTotalCostCategoriesHuman() - projectLiquidation.getTotalCostCategoriesMaterial() - (projectLiquidation.getTotalCostEmployees() / typeExchange));
+					projectLiquidation.setEarnings(projectLiquidation.getTotalBills() - Math.abs(projectLiquidation.getTotalCostCategoriesHuman()) - Math.abs(projectLiquidation.getTotalCostCategoriesMaterial()) - Math.abs((projectLiquidation.getTotalCostEmployees() / typeExchange)));
 				}else{
-					projectLiquidation.setEarnings(projectLiquidation.getTotalBills() - projectLiquidation.getTotalCostCategoriesHuman() - projectLiquidation.getTotalCostCategoriesMaterial() - projectLiquidation.getTotalCostEmployees());
+					projectLiquidation.setEarnings(projectLiquidation.getTotalBills() - Math.abs(projectLiquidation.getTotalCostCategoriesHuman()) - Math.abs(projectLiquidation.getTotalCostCategoriesMaterial()) - Math.abs(projectLiquidation.getTotalCostEmployees()));
 				}
 			}			
 			
 			//Calcula el importe de la reserva
 			projectLiquidation.setReserve(projectLiquidation.getEarnings() * Double.parseDouble(ConfigurationProperties.GetConfigValue("PERCENTAGE_RESERVE")));
-			projectLiquidation.setEarnings(projectLiquidation.getEarnings() - projectLiquidation.getReserve());
+			projectLiquidation.setEarnings(projectLiquidation.getEarnings() - Math.abs(projectLiquidation.getReserve()));
 			
 			//Calcula el importe de la venta
 			projectLiquidation.setSale(projectLiquidation.getEarnings() * Double.parseDouble(ConfigurationProperties.GetConfigValue("PERCENTAGE_SALE")));
-			projectLiquidation.setEarnings(projectLiquidation.getEarnings() - projectLiquidation.getSale());
+			projectLiquidation.setEarnings(projectLiquidation.getEarnings() - Math.abs(projectLiquidation.getSale()));
 			
 			calculatePartnersEarnings(projectLiquidation, 0, typeExchange, to);
 			
@@ -162,7 +161,7 @@ public class CoreProjectLiquidation implements ICoreProjectLiquidation {
 		}
 		return projectLiquidation;
 	}	
-	
+		
 	@Override
 	public ArrayList<ProjectLiquidation> getProjectsLiquidationsByDate(Date month) throws ServerException, ClientException{
 		DAOManager daoManager = new DAOManager();
@@ -195,51 +194,61 @@ public class CoreProjectLiquidation implements ICoreProjectLiquidation {
 	
 	@Override
 	public void calculatePartnersEarnings(ProjectLiquidation projectLiquidation, double companyCostToSubstract, double typeExchange, Date to) throws ServerException{
-		//obtener la ganancia
-		if(projectLiquidation.isCurrencyDollar())
-			projectLiquidation.setEarnings(projectLiquidation.getEarnings() - (companyCostToSubstract/typeExchange));
-		else
-			projectLiquidation.setEarnings(projectLiquidation.getEarnings() - companyCostToSubstract);
-		
-		//Calcula la distribucion de la ganancias para cada unoa de los socios
-		if(projectLiquidation.getEarnings() > 0){			
-			projectLiquidation.setPartner1Earning(getPartnerEarning(projectLiquidation.getEarnings(), projectLiquidation.getPartner1().getDistributionType()));
-			projectLiquidation.setPartner2Earning(getPartnerEarning(projectLiquidation.getEarnings(), projectLiquidation.getPartner2().getDistributionType()));
-		}else{
-			DistributionType distribution = new DistributionType(0,"50",null);
-			projectLiquidation.setPartner1Earning(getPartnerEarning(projectLiquidation.getEarnings(), distribution ));
-			projectLiquidation.setPartner2Earning(getPartnerEarning(projectLiquidation.getEarnings(), distribution));
-		}
-		
-		//suma la venta a la ganancia en caso de ser socio
-		if(projectLiquidation.getProject().getSeller() != null){
-			if(projectLiquidation.getProject().getSeller().getId() == projectLiquidation.getPartner1().getEmployed().getId())
-				projectLiquidation.setPartner1Earning(projectLiquidation.getPartner1Earning() + projectLiquidation.getSale());
-			if(projectLiquidation.getProject().getSeller().getId() == projectLiquidation.getPartner2().getEmployed().getId())
-				projectLiquidation.setPartner2Earning(projectLiquidation.getPartner2Earning() + projectLiquidation.getSale());			
-		}
-		
-		//suma las horas de trabajo a los socios en caso de haber estado asignado al proyecto
-		if(projectLiquidation.getProject().getProjectEmployees() != null){
-			for(ProjectEmployed projectEmployed : projectLiquidation.getProject().getProjectEmployees()){
-				DAOManager daoManager = new DAOManager();
-				projectEmployed.getEmployed().setIDAOSalarySummaries(daoManager.getDAOSalarySummaries());
-				if(projectEmployed.getEmployed().getId() == projectLiquidation.getPartner1().getEmployed().getId()){
-					double totalHoursCost = projectEmployed.getHours() * projectEmployed.getEmployed().getSalarySummaryToDate(to).getCostRealHour();				
-					if(projectLiquidation.isCurrencyDollar())
-						projectLiquidation.setPartner1Earning(projectLiquidation.getPartner1Earning() + (totalHoursCost / typeExchange));
-					else
-						projectLiquidation.setPartner1Earning(projectLiquidation.getPartner1Earning() + totalHoursCost);					
-				}
-				if(projectEmployed.getEmployed().getId() == projectLiquidation.getPartner2().getEmployed().getId()){
-					double totalHoursCost = projectEmployed.getHours() * projectEmployed.getEmployed().getSalarySummaryToDate(to).getCostRealHour();				
-					if(projectLiquidation.isCurrencyDollar())
-						projectLiquidation.setPartner2Earning(projectLiquidation.getPartner2Earning() + (totalHoursCost / typeExchange));
-					else
-						projectLiquidation.setPartner2Earning(projectLiquidation.getPartner2Earning() + totalHoursCost);					
-				}
+		DAOManager daoManager = new DAOManager();
+		try{
+						
+			projectLiquidation.getProject().setiDAOProjectEmployees(daoManager.getDAOEmployedProjects());
+			
+			//obtener la ganancia
+			if(projectLiquidation.isCurrencyDollar())
+				projectLiquidation.setEarnings(projectLiquidation.getEarnings() - (companyCostToSubstract/typeExchange));
+			else
+				projectLiquidation.setEarnings(projectLiquidation.getEarnings() - companyCostToSubstract);
+			
+			//Calcula la distribucion de la ganancias para cada unoa de los socios
+			if(projectLiquidation.getEarnings() > 0){			
+				projectLiquidation.setPartner1Earning(getPartnerEarning(projectLiquidation.getEarnings(), projectLiquidation.getPartner1().getDistributionType()));
+				projectLiquidation.setPartner2Earning(getPartnerEarning(projectLiquidation.getEarnings(), projectLiquidation.getPartner2().getDistributionType()));
+			}else{
+				DistributionType distribution = new DistributionType(0,"50",null);
+				projectLiquidation.setPartner1Earning(getPartnerEarning(projectLiquidation.getEarnings(), distribution ));
+				projectLiquidation.setPartner2Earning(getPartnerEarning(projectLiquidation.getEarnings(), distribution));
 			}
-		}			
+			
+			//suma la venta a la ganancia en caso de ser socio
+			if(projectLiquidation.getProject().getSeller() != null){
+				if(projectLiquidation.getProject().getSeller().getId() == projectLiquidation.getPartner1().getEmployed().getId())
+					projectLiquidation.setPartner1Earning(projectLiquidation.getPartner1Earning() + projectLiquidation.getSale());
+				if(projectLiquidation.getProject().getSeller().getId() == projectLiquidation.getPartner2().getEmployed().getId())
+					projectLiquidation.setPartner2Earning(projectLiquidation.getPartner2Earning() + projectLiquidation.getSale());			
+			}
+			
+			//suma las horas de trabajo a los socios en caso de haber estado asignado al proyecto
+			if(projectLiquidation.getProject().getProjectEmployees() != null){			
+				for(ProjectEmployed projectEmployed : projectLiquidation.getProject().getProjectEmployees()){				
+					projectEmployed.getEmployed().setIDAOSalarySummaries(daoManager.getDAOSalarySummaries());
+					if(projectEmployed.getEmployed().getId() == projectLiquidation.getPartner1().getEmployed().getId()){
+						double totalHoursCost = projectEmployed.getHours() * projectEmployed.getEmployed().getSalarySummaryToDate(to).getCostRealHour();				
+						if(projectLiquidation.isCurrencyDollar())
+							projectLiquidation.setPartner1Earning(projectLiquidation.getPartner1Earning() + (totalHoursCost / typeExchange));
+						else
+							projectLiquidation.setPartner1Earning(projectLiquidation.getPartner1Earning() + totalHoursCost);					
+					}
+					if(projectEmployed.getEmployed().getId() == projectLiquidation.getPartner2().getEmployed().getId()){
+						double totalHoursCost = projectEmployed.getHours() * projectEmployed.getEmployed().getSalarySummaryToDate(to).getCostRealHour();				
+						if(projectLiquidation.isCurrencyDollar())
+							projectLiquidation.setPartner2Earning(projectLiquidation.getPartner2Earning() + (totalHoursCost / typeExchange));
+						else
+							projectLiquidation.setPartner2Earning(projectLiquidation.getPartner2Earning() + totalHoursCost);					
+					}
+				}
+			}	
+		}catch (ServerException e) {
+			daoManager.rollback();
+			throw e;
+		} finally {
+			daoManager.close();
+		}		
 	}
 			
 	// Devuelve la ganancia para el socio segun el tipo de distribucion
