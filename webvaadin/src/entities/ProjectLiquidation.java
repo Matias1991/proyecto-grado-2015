@@ -19,8 +19,8 @@ public class ProjectLiquidation {
 	private Collection<Category> categoriesHuman;
 	private Collection<Category> categoriesMaterial;
 	private Collection<ProjectEmployed> employees;
-	private Double reserve;
-	private Double sale;
+	private double reserve;
+	private double sale;
 	private String partner1Name;
 	private String partner1Lastname;
 	private String partner1Distribution;
@@ -107,9 +107,23 @@ public class ProjectLiquidation {
 		
 	}
 
-	public ProjectLiquidation(int projectId, String projectName, double enarnings)
+	public ProjectLiquidation(int projectId, String projectName, double enarnings, double reserve)
 	{
 		this.earnings = enarnings;
+		this.reserve = reserve;
+		this.project = new Project();
+		this.project.setId(projectId);
+		this.project.setName(projectName);
+	}
+	
+	public ProjectLiquidation(int projectId, String projectName, double enarnings, double reserve, double totalCostEmployees, double totalCostCategoriesHuman, double totalCostCategoriesMaterial, Date appliedDateTimeUTC)
+	{
+		this.earnings = enarnings;
+		this.reserve = reserve;
+		this.totalCostEmployees = totalCostEmployees;
+		this.totalCostCategoriesHuman = totalCostCategoriesHuman;
+		this.totalCostCategoriesMaterial = totalCostCategoriesMaterial;
+		this.appliedDateTimeUTC = appliedDateTimeUTC;
 		this.project = new Project();
 		this.project.setId(projectId);
 		this.project.setName(projectName);
