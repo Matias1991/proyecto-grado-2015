@@ -24,6 +24,7 @@ import views.employees.CatalogEmployeesView;
 import views.employees.CreateEmployeeView;
 import views.employees.DeleteEmployeeView;
 import views.employees.UpdateEmployeeView;
+import views.liquidation.CatalogLiquidationsView;
 import views.liquidation.CreateLiquidationView;
 import views.profile.ChangePasswordView;
 import views.profile.ModifyProfileView;
@@ -189,6 +190,9 @@ public class WebvaadinUI extends UI {
 			case View.CREATELIQUIDATION:
 				view = new CreateLiquidationView();	
 				break;
+			case View.CATALOGLIQUIDATIONS:
+				view = new CatalogLiquidationsView();
+				break;
 			case View.REPORTS_COMPANY_EARNINGS_VIEW:
 				view = new ReportCompanyEarningsView();
 				break;
@@ -245,6 +249,7 @@ public class WebvaadinUI extends UI {
 		userTypePartnerToViews.add(Constant.View.CLOSEPROJECT);
 		
 		userTypePartnerToViews.add(Constant.View.CREATELIQUIDATION);
+		userTypePartnerToViews.add(Constant.View.CATALOGLIQUIDATIONS);
 		
 		userTypePartnerToViews.add(Constant.View.REPORTS_COMPANY_EARNINGS_VIEW);
 		userTypePartnerToViews.add(Constant.View.REPORTS_PROJECT_DETAILS_VIEW);
@@ -457,6 +462,9 @@ public class WebvaadinUI extends UI {
 				case "Crear liquidación":
 					UI.getCurrent().getNavigator().navigateTo(Constant.View.CREATELIQUIDATION);
 					break;
+				case "Catálogo liquidaciones":
+					UI.getCurrent().getNavigator().navigateTo(Constant.View.CATALOGLIQUIDATIONS);
+					break;
 				case "Proyectos con mas ganancias":
 					UI.getCurrent().getNavigator().navigateTo(Constant.View.REPORTS_COMPANY_EARNINGS_VIEW);
 					break;
@@ -531,6 +539,7 @@ public class WebvaadinUI extends UI {
 			//Liquidaciones
 			MenuItem liquidation = menuBar.addItem("Liquidaciones", null,null);
 			liquidation.addItem("Crear liquidación", null, mainMenuBarCommand);
+			liquidation.addItem("Catálogo liquidaciones",null,mainMenuBarCommand);
 			
 		}
 		
