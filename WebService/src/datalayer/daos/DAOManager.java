@@ -31,8 +31,8 @@ public class DAOManager implements IDAOManager{
 	private IDAOCategroy iDAOCategories;
 	private IDAOCharges iDAOCharges;
 	private IDAOProjectPartners iDAOPartnerProjects;
-	private IDAOProjectsLiquidations iDAOProjectLiquidation;
-	private IDAOCompanyLiquidations iDAOCompanyLiquidation;
+	private IDAOProjectsLiquidations iDAOProjectsLiquidations;
+	private IDAOCompanyLiquidations iDAOCompanyLiquidations;
 		
 	public DAOManager() throws ServerException
 	{
@@ -162,18 +162,18 @@ public class DAOManager implements IDAOManager{
 		return iDAOPartnerProjects;
 	}	
 	
-	public IDAOProjectsLiquidations getDAOProjectLiquidation(){
-		if(iDAOProjectLiquidation == null){
+	public IDAOProjectsLiquidations getDAOProjectsLiquidations(){
+		if(iDAOProjectsLiquidations == null){
 			return new DAOProjectsLiquidations(connection);
 		}
 		
-		return iDAOProjectLiquidation;
+		return iDAOProjectsLiquidations;
 	}
 	
-	public IDAOCompanyLiquidations getDAOCompanyLiquidation(){
-		if(iDAOCompanyLiquidation == null){
+	public IDAOCompanyLiquidations getDAOCompanyLiquidations(){
+		if(iDAOCompanyLiquidations == null){
 			return new DAOCompanyLiquidations(connection);
 		}
-		return iDAOCompanyLiquidation;		
+		return iDAOCompanyLiquidations;		
 	}
 }

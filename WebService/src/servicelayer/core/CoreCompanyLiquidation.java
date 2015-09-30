@@ -210,12 +210,12 @@ public class CoreCompanyLiquidation implements ICoreCompanyLiquidation {
 
 					if(insert){
 						// Guardo la liquidacion de la empresa
-						int newCompanyLiquidationId = daoManager.getDAOCompanyLiquidation().insert(companyLiquidation);
+						int newCompanyLiquidationId = daoManager.getDAOCompanyLiquidations().insert(companyLiquidation);
 						companyLiquidation.setId(newCompanyLiquidationId);
 	
 						// Guardo la liquidacion de cada proyecto y las facturas se actualizan a liquidadas
 						for (ProjectLiquidation projectLiquidation : projectsLiquidations) {
-							int newProjectLiquidationId = daoManager.getDAOProjectLiquidation().insert(projectLiquidation);
+							int newProjectLiquidationId = daoManager.getDAOProjectsLiquidations().insert(projectLiquidation);
 							projectLiquidation.setId(newProjectLiquidationId);
 							
 							for(Bill bill : projectLiquidation.getBills()){
@@ -247,7 +247,7 @@ public class CoreCompanyLiquidation implements ICoreCompanyLiquidation {
 			throws ServerException {
 		DAOManager daoManager = new DAOManager();
 		try{		
-			return daoManager.getDAOCompanyLiquidation().existLiquidation(month);
+			return daoManager.getDAOCompanyLiquidations().existLiquidation(month);
 		}catch (ServerException e) {
 			daoManager.rollback();
 			throw e;
@@ -267,7 +267,7 @@ public class CoreCompanyLiquidation implements ICoreCompanyLiquidation {
 			cal.setTime(month);
 			cal.set(Calendar.DAY_OF_MONTH, 01);
 			Date appliedDate = cal.getTime();
-			companyLiquidation = daoManager.getDAOCompanyLiquidation().getCompanyLiquidationByDate(appliedDate);
+			companyLiquidation = daoManager.getDAOCompanyLiquidations().getCompanyLiquidationByDate(appliedDate);
 			
 			companyLiquidation.setPartner1(CoreEmployed.GetInstance().getEmployed(companyLiquidation.getPartner1().getId()));
 			companyLiquidation.setPartner2(CoreEmployed.GetInstance().getEmployed(companyLiquidation.getPartner2().getId()));

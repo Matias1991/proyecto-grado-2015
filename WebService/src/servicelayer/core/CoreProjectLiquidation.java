@@ -180,7 +180,7 @@ public class CoreProjectLiquidation implements ICoreProjectLiquidation {
 			cal.setTime(month);
 			cal.set(Calendar.DAY_OF_MONTH, 01);
 			Date appliedDate = cal.getTime();
-			projectsLiquidations = daoManager.getDAOProjectLiquidation().getProjectsLiquidationsByDate(appliedDate);
+			projectsLiquidations = daoManager.getDAOProjectsLiquidations().getProjectsLiquidationsByDate(appliedDate);
 			
 			for(ProjectLiquidation projectLiquidation : projectsLiquidations){
 				projectLiquidation.setEmployedPartner1(CoreEmployed.GetInstance().getEmployed(projectLiquidation.getEmployedPartner1().getId()));
@@ -268,7 +268,7 @@ public class CoreProjectLiquidation implements ICoreProjectLiquidation {
 		
 		try
 		{
-			return daoManager.getDAOProjectLiquidation().getProjectsWithMoreEarnings(from, to, isCurrencyDollar, count);
+			return daoManager.getDAOProjectsLiquidations().getProjectsWithMoreEarnings(from, to, isCurrencyDollar, count);
 			
 		} catch (ServerException e) {
 			daoManager.rollback();
@@ -286,7 +286,7 @@ public class CoreProjectLiquidation implements ICoreProjectLiquidation {
 		
 		try
 		{
-			return daoManager.getDAOProjectLiquidation().getProjectLiquidations(projectId, date, isCurrencyDollar);
+			return daoManager.getDAOProjectsLiquidations().getProjectLiquidations(projectId, date, isCurrencyDollar);
 			
 		} catch (ServerException e) {
 			daoManager.rollback();
