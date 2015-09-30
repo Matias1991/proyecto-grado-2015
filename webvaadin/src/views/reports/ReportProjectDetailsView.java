@@ -157,6 +157,45 @@ public class ReportProjectDetailsView extends BaseView {
 					   projectLiquidationsByMonth.get(11).getReserve(),
 					   projectLiquidationsByMonth.get(12).getReserve());
 		
+		dataSeries.add(projectLiquidationsByMonth.get(1).getTotalCostEmployees(), 
+					   projectLiquidationsByMonth.get(2).getTotalCostEmployees(), 
+					   projectLiquidationsByMonth.get(3).getTotalCostEmployees(),
+					   projectLiquidationsByMonth.get(4).getTotalCostEmployees(),
+					   projectLiquidationsByMonth.get(5).getTotalCostEmployees(),
+					   projectLiquidationsByMonth.get(6).getTotalCostEmployees(),
+					   projectLiquidationsByMonth.get(7).getTotalCostEmployees(),
+					   projectLiquidationsByMonth.get(8).getTotalCostEmployees(),
+					   projectLiquidationsByMonth.get(9).getTotalCostEmployees(),
+					   projectLiquidationsByMonth.get(10).getTotalCostEmployees(),
+					   projectLiquidationsByMonth.get(11).getTotalCostEmployees(),
+					   projectLiquidationsByMonth.get(12).getTotalCostEmployees());
+		
+		dataSeries.add(projectLiquidationsByMonth.get(1).getTotalCostCategoriesHuman(), 
+					   projectLiquidationsByMonth.get(2).getTotalCostCategoriesHuman(), 
+					   projectLiquidationsByMonth.get(3).getTotalCostCategoriesHuman(),
+					   projectLiquidationsByMonth.get(4).getTotalCostCategoriesHuman(),
+					   projectLiquidationsByMonth.get(5).getTotalCostCategoriesHuman(),
+					   projectLiquidationsByMonth.get(6).getTotalCostCategoriesHuman(),
+					   projectLiquidationsByMonth.get(7).getTotalCostCategoriesHuman(),
+					   projectLiquidationsByMonth.get(8).getTotalCostCategoriesHuman(),
+					   projectLiquidationsByMonth.get(9).getTotalCostCategoriesHuman(),
+					   projectLiquidationsByMonth.get(10).getTotalCostCategoriesHuman(),
+					   projectLiquidationsByMonth.get(11).getTotalCostCategoriesHuman(),
+					   projectLiquidationsByMonth.get(12).getTotalCostCategoriesHuman());
+		
+		dataSeries.add(projectLiquidationsByMonth.get(1).getTotalCostCategoriesMaterial(), 
+					   projectLiquidationsByMonth.get(2).getTotalCostCategoriesMaterial(), 
+					   projectLiquidationsByMonth.get(3).getTotalCostCategoriesMaterial(),
+					   projectLiquidationsByMonth.get(4).getTotalCostCategoriesMaterial(),
+					   projectLiquidationsByMonth.get(5).getTotalCostCategoriesMaterial(),
+					   projectLiquidationsByMonth.get(6).getTotalCostCategoriesMaterial(),
+					   projectLiquidationsByMonth.get(7).getTotalCostCategoriesMaterial(),
+					   projectLiquidationsByMonth.get(8).getTotalCostCategoriesMaterial(),
+					   projectLiquidationsByMonth.get(9).getTotalCostCategoriesMaterial(),
+					   projectLiquidationsByMonth.get(10).getTotalCostCategoriesMaterial(),
+					   projectLiquidationsByMonth.get(11).getTotalCostCategoriesMaterial(),
+					   projectLiquidationsByMonth.get(12).getTotalCostCategoriesMaterial());
+		
 		SeriesDefaults seriesDefaults = new SeriesDefaults()
 			.setFillToZero(true)
 			.setRenderer(SeriesRenderers.BAR);
@@ -167,7 +206,16 @@ public class ReportProjectDetailsView extends BaseView {
 					.setLabel("Ganacia en " + currency))
 		.addSeries(
 				new XYseries()
-					.setLabel("Reserva en " + currency));
+					.setLabel("Reserva en " + currency))
+		.addSeries(
+				new XYseries()
+					.setLabel("Costo empleados en " + currency))
+		.addSeries(
+				new XYseries()
+					.setLabel("Costo rubros RRHH en " + currency))
+		.addSeries(
+				new XYseries()
+					.setLabel("Costo rubros materiales en " + currency));
 		
 		Legend legend = new Legend()
 			.setShow(true)
