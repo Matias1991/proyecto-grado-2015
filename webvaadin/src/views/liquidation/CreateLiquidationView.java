@@ -330,7 +330,8 @@ public class CreateLiquidationView extends BaseView {
 		dateMonth.setResolution(Resolution.MONTH);
 		dateMonth.setValue(new Date());
 		dateMonth.setInputPrompt("Seleccione mes a liquidar");
-		dateMonth.setDateOutOfRangeMessage("Fecha no válida");
+		dateMonth.setDateOutOfRangeMessage("Fecha no válida");		
+		dateMonth.setParseErrorMessage("Formato de fecha no válida");
 		mainLayout.addComponent(dateMonth, "top:116.0px;left:0.0px;");
 		
 		// tabDetails
