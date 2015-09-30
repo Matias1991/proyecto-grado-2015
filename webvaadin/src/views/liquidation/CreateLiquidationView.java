@@ -2,6 +2,7 @@ package views.liquidation;
 
 import java.util.Collection;
 import java.util.Date;
+import java.util.Locale;
 
 import org.vaadin.dialogs.ConfirmDialog;
 
@@ -303,6 +304,7 @@ public class CreateLiquidationView extends BaseView {
 		txtTypeExchange.setWidth("100px");
 		txtTypeExchange.setHeight("-1px");
 		txtTypeExchange.setRequired(true);
+		txtTypeExchange.setLocale(Locale.US);
 		txtTypeExchange.setNullRepresentation("");
 		txtTypeExchange.setConverter(new StringToDoubleConverter());
 		mainLayout.addComponent(txtTypeExchange, "top:180;left:0.0px;");
