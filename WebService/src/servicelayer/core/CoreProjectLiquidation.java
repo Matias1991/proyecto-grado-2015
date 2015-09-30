@@ -130,7 +130,11 @@ public class CoreProjectLiquidation implements ICoreProjectLiquidation {
 					Employed employed = CoreEmployed.GetInstance().getEmployed(projectEmployed.getEmployed().getId());
 					projectEmployed.setEmployed(employed);
 					employed.setIDAOSalarySummaries(daoManager.getDAOSalarySummaries());
-					double costEmployee = employed.getSalarySummaryToDate(to).getCostRealHour() * projectEmployed.getHours();
+					double costEmployee = 0.0;
+					if(projectLiquidation.isCurrencyDollar())
+						costEmployee = (employed.getSalarySummaryToDate(to).getCostRealHour() * projectEmployed.getHours())/typeExchange;
+					else
+						costEmployee = employed.getSalarySummaryToDate(to).getCostRealHour() * projectEmployed.getHours();
 					projectLiquidation.setTotalCostEmployees(projectLiquidation.getTotalCostEmployees() + costEmployee);					
 				}
 			}
