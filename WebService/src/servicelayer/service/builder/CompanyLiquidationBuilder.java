@@ -16,6 +16,7 @@ public class CompanyLiquidationBuilder extends BaseBuilder<VOCompanyLiquidation,
 		voCompanyLiquidation.setDismissalPrevention(businessObject.getDismissalPrevention());
 		voCompanyLiquidation.setId(businessObject.getId());
 		voCompanyLiquidation.setIncidenceSalary(businessObject.getIncidenceSalary());
+		voCompanyLiquidation.setIncidenceTickets(businessObject.getIncidenceTickets());
 		voCompanyLiquidation.setIrae(businessObject.getIrae());
 		voCompanyLiquidation.setIVAPurchase(businessObject.getIVAPurchase());
 		voCompanyLiquidation.setIVASale(businessObject.getIVASale());
@@ -25,6 +26,8 @@ public class CompanyLiquidationBuilder extends BaseBuilder<VOCompanyLiquidation,
 		voCompanyLiquidation.setPartner2EarningsPeso(businessObject.getPartner2EarningsPeso());
 		voCompanyLiquidation.setSalaryNotPartners(businessObject.getSalaryNotPartners());
 		voCompanyLiquidation.setTypeExchange(businessObject.getTypeExchange());
+		voCompanyLiquidation.setEmployeesCost(businessObject.getEmployeesCost());
+		voCompanyLiquidation.setSalaryPartners(businessObject.getSalaryPartners());
 		
 		return voCompanyLiquidation;
 	}

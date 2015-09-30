@@ -10,11 +10,14 @@ import org.apache.axis2.AxisFault;
 import servicelayer.service.ServiceWebStub;
 import servicelayer.service.ServiceWebStub.CreateLiquidation;
 import servicelayer.service.ServiceWebStub.ExistLiquidation;
+import servicelayer.service.ServiceWebStub.GetCompanyLiquidationPreview;
+import servicelayer.service.ServiceWebStub.GetProjectLiquidations;
 import servicelayer.service.ServiceWebStub.GetProjectLiquidationsPreview;
 import servicelayer.service.ServiceWebStub.GetProjectsLiquidations;
 import servicelayer.service.ServiceWebStub.GetProjectsLiquidationsWithMoreEarnings;
 import servicelayer.service.ServiceWebStub.VOProjectLiquidation;
 import utils.PopupWindow;
+import entities.CompanyLiquidation;
 import entities.ProjectLiquidation;
 
 public class LiquidationController {
@@ -91,6 +94,30 @@ public class LiquidationController {
 		return projectsLiquidations;		
 	}
 	
+	public static CompanyLiquidation getCompanyLiquidationPreview (Date month, double typeExchange, int userContextId){
+		CompanyLiquidation companyLiquidation = null;
+			
+		try{
+			ServiceWebStub service = new ServiceWebStub();
+			GetCompanyLiquidationPreview companyLiquidationPreview = new GetCompanyLiquidationPreview();
+			
+			companyLiquidationPreview.setMonth(month);
+			companyLiquidationPreview.setTypeExchange(typeExchange);
+			companyLiquidationPreview.setUserContextId(userContextId);
+			
+			companyLiquidation = new CompanyLiquidation(service.getCompanyLiquidationPreview(companyLiquidationPreview).get_return());			
+			
+		}catch (AxisFault e) {
+			String error = e.getMessage().replace("<faultstring>", "");
+			new PopupWindow("ERROR", error.replace("</faultstring>", ""));
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
+		
+		return companyLiquidation;		
+		
+	}
+	
 	public static boolean existLiquidation(Date month){
 		boolean result = false;
 		try{
@@ -141,5 +168,36 @@ public class LiquidationController {
 		}
 		
 		return projectsLiquidations;		
+	}
+	
+	public static Collection<ProjectLiquidation> getProjectLiquidations(int projectId, Date date, boolean isCurrencyDollar){
+		Collection<ProjectLiquidation> projectLiquidations = new ArrayList<ProjectLiquidation>();
+		
+		try{
+			ServiceWebStub service = new ServiceWebStub();
+			GetProjectLiquidations getProjectLiquidations = new GetProjectLiquidations();
+			
+			getProjectLiquidations.setProjectId(projectId);
+			getProjectLiquidations.setDate(date);
+			getProjectLiquidations.setIsCurrencyDollar(isCurrencyDollar);
+			
+			VOProjectLiquidation[] voProjectsLiquidations = service.getProjectLiquidations(getProjectLiquidations).get_return();
+			
+			if(voProjectsLiquidations != null && voProjectsLiquidations.length > 0)
+			{
+				for(VOProjectLiquidation voProjectLiquidation : voProjectsLiquidations){
+					ProjectLiquidation projectLiquidation = new ProjectLiquidation(voProjectLiquidation.getProject().getId(), voProjectLiquidation.getProject().getName(), voProjectLiquidation.getEarnings(), voProjectLiquidation.getReserve(), voProjectLiquidation.getTotalCostEmployees(), voProjectLiquidation.getTotalCostCategoriesHuman(), voProjectLiquidation.getTotalCostCategoriesMaterial(), voProjectLiquidation.getAppliedDateTimeUTC());
+					projectLiquidations.add(projectLiquidation);
+				}
+			}
+			
+		}catch (AxisFault e) {
+			String error = e.getMessage().replace("<faultstring>", "");
+			new PopupWindow("ERROR", error.replace("</faultstring>", ""));
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
+		
+		return projectLiquidations;		
 	}
 }

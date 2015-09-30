@@ -14,5 +14,9 @@ public interface IDAOProjectsLiquidations extends IDAOBase<ProjectLiquidation> {
 			throws ServerException;
 
 	ArrayList<ProjectLiquidation> getProjectsWithMoreEarnings(Date from,
-			Date to, boolean isCurrencyDollar, int count) throws ServerException;
+			Date to, boolean isCurrencyDollar, int count)
+			throws ServerException;
+
+	ArrayList<ProjectLiquidation> getProjectLiquidations(int projectId,
+			Date date, boolean isCurrencyDollar) throws ServerException;
 }

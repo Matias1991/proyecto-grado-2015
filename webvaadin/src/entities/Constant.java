@@ -69,6 +69,7 @@ public class Constant {
 		public static final String CATALOGLIQUIDATIONS = "CatalogLiquidationsView";
 		
 		//Reportes
-		public static final String REPORTSPROFITSVIEW = "ReportsProfitsView";
+		public static final String REPORTS_COMPANY_EARNINGS_VIEW = "ReportCompanyEarningsView";
+		public static final String REPORTS_PROJECT_DETAILS_VIEW = "ReportProjectDetailsView";
 	}
 }

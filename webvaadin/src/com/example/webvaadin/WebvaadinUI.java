@@ -31,7 +31,8 @@ import views.project.CatalogProjectView;
 import views.project.CreateProjectView;
 import views.project.DeleteProjectView;
 import views.project.UpdateProjectView;
-import views.reports.ReportsProfitsView;
+import views.reports.ReportProjectDetailsView;
+import views.reports.ReportCompanyEarningsView;
 import views.user.CatalogUsersView;
 import views.user.CreateUserView;
 import views.user.DeleteUsersView;
@@ -188,8 +189,11 @@ public class WebvaadinUI extends UI {
 			case View.CREATELIQUIDATION:
 				view = new CreateLiquidationView();	
 				break;
-			case View.REPORTSPROFITSVIEW:
-				view = new ReportsProfitsView();
+			case View.REPORTS_COMPANY_EARNINGS_VIEW:
+				view = new ReportCompanyEarningsView();
+				break;
+			case View.REPORTS_PROJECT_DETAILS_VIEW:
+				view = new ReportProjectDetailsView();
 				break;
 		}
 		
@@ -242,7 +246,8 @@ public class WebvaadinUI extends UI {
 		
 		userTypePartnerToViews.add(Constant.View.CREATELIQUIDATION);
 		
-		userTypePartnerToViews.add(Constant.View.REPORTSPROFITSVIEW);
+		userTypePartnerToViews.add(Constant.View.REPORTS_COMPANY_EARNINGS_VIEW);
+		userTypePartnerToViews.add(Constant.View.REPORTS_PROJECT_DETAILS_VIEW);
 		
 		userTypePartnerToViews.add(Constant.View.CHANGEPASSWORD);
 		userTypePartnerToViews.add(Constant.View.UPDATEPROFILEUSER);
@@ -453,7 +458,10 @@ public class WebvaadinUI extends UI {
 					UI.getCurrent().getNavigator().navigateTo(Constant.View.CREATELIQUIDATION);
 					break;
 				case "Proyectos con mas ganancias":
-					UI.getCurrent().getNavigator().navigateTo(Constant.View.REPORTSPROFITSVIEW);
+					UI.getCurrent().getNavigator().navigateTo(Constant.View.REPORTS_COMPANY_EARNINGS_VIEW);
+					break;
+				case "Detalle por Proyecto":
+					UI.getCurrent().getNavigator().navigateTo(Constant.View.REPORTS_PROJECT_DETAILS_VIEW);
 					break;
 				default:
 					new PopupWindow("AVISO",
@@ -529,7 +537,12 @@ public class WebvaadinUI extends UI {
 		if(RequestContext.getRequestContext().getUserType() == 2)
 		{
 			MenuItem reports = menuBar.addItem("Reportes", null, null);
-			reports.addItem("Proyectos con mas ganancias", null, mainMenuBarCommand);
+
+			MenuItem companyReport = reports.addItem("Empresa", null, null);
+			companyReport.addItem("Proyectos con mas ganancias", null, mainMenuBarCommand);
+			
+			MenuItem projectReport = reports.addItem("Proyectos", null, null);
+			projectReport.addItem("Detalle por Proyecto", null, mainMenuBarCommand);
 		}
 	}
 

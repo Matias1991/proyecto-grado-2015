@@ -60,6 +60,8 @@ public class CoreProjectLiquidation implements ICoreProjectLiquidation {
 			project.setiDAOProjectEmployees(daoManager.getDAOEmployedProjects());
 								
 			projectLiquidation = new ProjectLiquidation(projectId);
+			Employed seller = CoreEmployed.GetInstance().getEmployed(project.getId());
+			project.setSeller(seller);
 			projectLiquidation.setProject(project);
 			projectLiquidation.setAppliedDateTimeUTC(month);
 			projectLiquidation.setCreatedDateTimeUTC(new Date());
@@ -263,6 +265,24 @@ public class CoreProjectLiquidation implements ICoreProjectLiquidation {
 		try
 		{
 			return daoManager.getDAOProjectLiquidation().getProjectsWithMoreEarnings(from, to, isCurrencyDollar, count);
+			
+		} catch (ServerException e) {
+			daoManager.rollback();
+			throw e;
+		} finally {
+			daoManager.close();
+		}
+	}
+	
+	@Override
+	public ArrayList<ProjectLiquidation> getProjectLiquidations(int projectId,
+			Date date, boolean isCurrencyDollar) throws ServerException {
+		
+		DAOManager daoManager = new DAOManager();
+		
+		try
+		{
+			return daoManager.getDAOProjectLiquidation().getProjectLiquidations(projectId, date, isCurrencyDollar);
 			
 		} catch (ServerException e) {
 			daoManager.rollback();

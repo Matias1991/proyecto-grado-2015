@@ -11,10 +11,12 @@ public class VOCompanyLiquidation implements Serializable {
 	private double companyCategory;
 	private double contribution;
 	private double salaryNotPartners;
+	private double salaryPartners;
 	private double irae;
 	private double dismissalPrevention;
 	private double incidenceSalary;
 	private double incidenceTickets;
+	private double employeesCost;
 	private double IVASale;
 	private double IVAPurchase;
 	private VOEmployed partner1;
@@ -26,6 +28,9 @@ public class VOCompanyLiquidation implements Serializable {
 	private double typeExchange;
 	private Date appliedDateTimeUTC;
 	private Date CreatedDateTimeUTC;
+	private VOCategory[] categoriesHuman;
+	private VOCategory[] categoryMaterial;
+	private VOProjectEmployed[] employees;
 	
 	public int getId() {
 		return id;
@@ -140,5 +145,35 @@ public class VOCompanyLiquidation implements Serializable {
 	}
 	public void setCreatedDateTimeUTC(Date createdDateTimeUTC) {
 		CreatedDateTimeUTC = createdDateTimeUTC;
+	}
+	public double getSalaryPartners() {
+		return salaryPartners;
+	}
+	public void setSalaryPartners(double salaryPartners) {
+		this.salaryPartners = salaryPartners;
+	}
+	public double getEmployeesCost() {
+		return employeesCost;
+	}
+	public void setEmployeesCost(double employeesCost) {
+		this.employeesCost = employeesCost;
+	}	
+	public VOCategory[] getCategoriesHuman() {
+		return categoriesHuman;
+	}
+	public void setCategoriesHuman(VOCategory[] categoriesHuman) {
+		this.categoriesHuman = categoriesHuman;
+	}
+	public VOCategory[] getCategoryMaterial() {
+		return categoryMaterial;
+	}
+	public void setCategoryMaterial(VOCategory[] categoryMaterial) {
+		this.categoryMaterial = categoryMaterial;
+	}
+	public VOProjectEmployed[] getEmployees() {
+		return employees;
+	}
+	public void setEmployees(VOProjectEmployed[] employees) {
+		this.employees = employees;
 	}
 }
