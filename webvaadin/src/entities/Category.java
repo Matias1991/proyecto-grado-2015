@@ -17,7 +17,6 @@ public class Category {
 	private String categoryType;
 	private int projectId;
 	private boolean isRRHH;
-	private Date createdDateTimeUTC;
 	private String createDateTimeUTCToShow;
 	private String projectName;
 	private boolean isCurrencyDollar;
@@ -26,6 +25,7 @@ public class Category {
 	private String ivaTypeToShow;
 	private String typeExchangeToShow;
 	private String totalAmountToShow;
+	private Date appliedDateTimeUTC;
 	
 	public Category(){	}
 	
@@ -37,7 +37,7 @@ public class Category {
 		this.setAmountDollar(voCategory.getAmountDollar());
 		this.setCategoryTypeId(voCategory.getCategoryType());
 		this.setCategoryType(getCategoryTypeToShow());
-		this.createdDateTimeUTC = voCategory.getAppliedDateTimeUTC();
+		this.appliedDateTimeUTC = voCategory.getAppliedDateTimeUTC();
 		if(voCategory.getProjectId() != 0)
 			this.projectName = voCategory.getProjectName();			
 		else
@@ -45,7 +45,7 @@ public class Category {
 		this.projectId = voCategory.getProjectId();
 		this.isRRHH = voCategory.getIsRRHH();
 		this.isCurrencyDollar = voCategory.getIsCurrencyDollar();
-		this.setCreateDateTimeUTCToShow(new SimpleDateFormat("MM-yyyy").format(createdDateTimeUTC));	
+		this.setCreateDateTimeUTCToShow(new SimpleDateFormat("MM-yyyy").format(appliedDateTimeUTC));	
 		this.setTypeExchange(voCategory.getTypeExchange());
 		
 		if(isCurrencyDollar){
@@ -160,12 +160,12 @@ public class Category {
 		this.isRRHH = isRRHH;
 	}
 
-	public Date getCreatedDateTimeUTC() {
-		return createdDateTimeUTC;
+	public Date getAppliedDateTimeUTC() {
+		return appliedDateTimeUTC;
 	}
 
-	public void setCreatedDateTimeUTC(Date createdDateTimeUTC) {
-		this.createdDateTimeUTC = createdDateTimeUTC;
+	public void setAppliedDateTimeUTC(Date appliedDateTimeUTC) {
+		this.appliedDateTimeUTC = appliedDateTimeUTC;
 	}
 
 	public String getCreateDateTimeUTCToShow() {

@@ -34,6 +34,8 @@ import views.project.DeleteProjectView;
 import views.project.UpdateProjectView;
 import views.reports.ReportProjectDetailsView;
 import views.reports.ReportCompanyEarningsView;
+import views.reports.ReportSummaryCompanyCategoriesHumanView;
+import views.reports.ReportSummaryCompanyCategoriesView;
 import views.reports.ReportSummaryCompanyIVAView;
 import views.user.CatalogUsersView;
 import views.user.CreateUserView;
@@ -200,8 +202,14 @@ public class WebvaadinUI extends UI {
 			case View.REPORT_PROJECT_DETAILS_VIEW:
 				view = new ReportProjectDetailsView();
 				break;
-			case View.REPORT_SUMARY_COMPANY_IVA_VIEW:
+			case View.REPORT_SUMMARY_COMPANY_IVA_VIEW:
 				view = new ReportSummaryCompanyIVAView();
+				break;
+			case View.REPORT_SUMMARY_COMPANY_CATEGORIES_VIEW:
+				view = new ReportSummaryCompanyCategoriesView();
+				break;
+			case View.REPORT_SUMMARY_COMPANY_CATEGORIES_HUMAN_VIEW:
+				view = new ReportSummaryCompanyCategoriesHumanView();
 				break;
 		}
 		
@@ -257,7 +265,9 @@ public class WebvaadinUI extends UI {
 		
 		userTypePartnerToViews.add(Constant.View.REPORT_COMPANY_EARNINGS_VIEW);
 		userTypePartnerToViews.add(Constant.View.REPORT_PROJECT_DETAILS_VIEW);
-		userTypePartnerToViews.add(Constant.View.REPORT_SUMARY_COMPANY_IVA_VIEW);
+		userTypePartnerToViews.add(Constant.View.REPORT_SUMMARY_COMPANY_IVA_VIEW);
+		userTypePartnerToViews.add(Constant.View.REPORT_SUMMARY_COMPANY_CATEGORIES_VIEW);
+		userTypePartnerToViews.add(Constant.View.REPORT_SUMMARY_COMPANY_CATEGORIES_HUMAN_VIEW);
 		
 		userTypePartnerToViews.add(Constant.View.CHANGEPASSWORD);
 		userTypePartnerToViews.add(Constant.View.UPDATEPROFILEUSER);
@@ -476,8 +486,14 @@ public class WebvaadinUI extends UI {
 				case "Detalle por Proyecto":
 					UI.getCurrent().getNavigator().navigateTo(Constant.View.REPORT_PROJECT_DETAILS_VIEW);
 					break;
-				case "Resumen IVA Compra y Venta":
-					UI.getCurrent().getNavigator().navigateTo(Constant.View.REPORT_SUMARY_COMPANY_IVA_VIEW);
+				case "Resumen IVA":
+					UI.getCurrent().getNavigator().navigateTo(Constant.View.REPORT_SUMMARY_COMPANY_IVA_VIEW);
+					break;
+				case "Rubros empresa":
+					UI.getCurrent().getNavigator().navigateTo(Constant.View.REPORT_SUMMARY_COMPANY_CATEGORIES_VIEW);
+					break;
+				case "Rubros RRHH":
+					UI.getCurrent().getNavigator().navigateTo(Constant.View.REPORT_SUMMARY_COMPANY_CATEGORIES_HUMAN_VIEW);
 					break;
 				default:
 					new PopupWindow("AVISO",
@@ -557,7 +573,9 @@ public class WebvaadinUI extends UI {
 
 			MenuItem companyReport = reports.addItem("Empresa", null, null);
 			companyReport.addItem("Proyectos con mas ganancias", null, mainMenuBarCommand);
-			companyReport.addItem("Resumen IVA Compra y Venta", null, mainMenuBarCommand);
+			companyReport.addItem("Resumen IVA", null, mainMenuBarCommand);
+			companyReport.addItem("Rubros empresa", null, mainMenuBarCommand);
+			companyReport.addItem("Rubros RRHH", null, mainMenuBarCommand);
 			
 			MenuItem projectReport = reports.addItem("Proyectos", null, null);
 			projectReport.addItem("Detalle por Proyecto", null, mainMenuBarCommand);

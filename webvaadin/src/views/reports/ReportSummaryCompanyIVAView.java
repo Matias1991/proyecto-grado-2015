@@ -82,7 +82,7 @@ public class ReportSummaryCompanyIVAView extends BaseView {
 		// TODO add user code here
 	}
 
-	void builInputs()
+	void buildInputs()
 	{
 		Calendar cal = Calendar.getInstance();
 		cal.set(Calendar.DAY_OF_YEAR, 1);
@@ -228,7 +228,7 @@ public class ReportSummaryCompanyIVAView extends BaseView {
 	public void enter(ViewChangeEvent event) {
 		super.enter(event);
 		if (RequestContext.getRequestContext() != null) {
-			builInputs();
+			buildInputs();
 		}
 	}
 	

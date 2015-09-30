@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import servicelayer.entity.businessEntity.Category;
+import servicelayer.entity.businessEntity.CategoryType;
 import servicelayer.entity.businessEntity.IVA_Type;
 import servicelayer.entity.businessEntity.User;
 import shared.exceptions.ClientException;
@@ -29,5 +30,11 @@ public interface ICoreCategory {
 	ArrayList<Category> getCategories(Date from, Date to, User userContext)
 			throws ServerException;
 
-	double getTotalAmount(double amount, IVA_Type ivaType);	
+	double getTotalAmount(double amount, IVA_Type ivaType);
+	
+	ArrayList<Category> getCategoriesAllVersions(int id, Date date)
+			throws ServerException;
+	
+	ArrayList<Category> getCategories(String description)
+			throws ServerException;
 }

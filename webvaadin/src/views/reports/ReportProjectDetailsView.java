@@ -22,6 +22,7 @@ import org.dussan.vaadin.dcharts.options.Series;
 import org.dussan.vaadin.dcharts.options.SeriesDefaults;
 import org.dussan.vaadin.dcharts.renderers.legend.EnhancedLegendRenderer;
 import org.dussan.vaadin.dcharts.renderers.tick.AxisTickRenderer;
+import org.openqa.selenium.internal.BuildInfo;
 
 import views.BaseView;
 
@@ -53,8 +54,7 @@ public class ReportProjectDetailsView extends BaseView {
 	private PopupDateField popupDateFieldYear;
 	private Label lblTitle;
 	private ComboBox cboxProject;
-	private DCharts chartDollar;
-	private DCharts chartPeso;
+	private DCharts chart;
 	private Collection<Project> projects;
 	private Label lblMessage;
 	/**
@@ -70,8 +70,6 @@ public class ReportProjectDetailsView extends BaseView {
 		
 		buildMainLayout();
 		setCompositionRoot(mainLayout);
-
-		builInputs();
 		
 		lblMessage = new Label("");
 		mainLayout.addComponent(lblMessage, "top:155.0px;left:0.0px;");
@@ -113,13 +111,17 @@ public class ReportProjectDetailsView extends BaseView {
 		// TODO add user code here
 	}
 	
-	void builInputs()
+	void buildInputs()
 	{
 		Calendar cal = Calendar.getInstance();
 		cal.set(Calendar.DAY_OF_YEAR, 1);
 		popupDateFieldYear.setValue(cal.getTime());
 		popupDateFieldYear.setDateFormat("yyyy");
 		popupDateFieldYear.setResolution(Resolution.YEAR);
+		
+		if (chart != null) {
+			mainLayout.removeComponent(chart);
+		}
 	}
 	
 	DCharts buildChart(Collection<ProjectLiquidation> projectLiquidations, String currency)
@@ -253,12 +255,8 @@ public class ReportProjectDetailsView extends BaseView {
 	
 	public void buildChartPeso(int projectId){
 
-		if (chartPeso != null) {
-			mainLayout.removeComponent(chartPeso);
-		}
-		
-		if (chartDollar != null) {
-			mainLayout.removeComponent(chartDollar);
+		if (chart != null) {
+			mainLayout.removeComponent(chart);
 		}
 		
 		//Chart pesos
@@ -268,12 +266,12 @@ public class ReportProjectDetailsView extends BaseView {
 		{	
 			lblMessage.setValue("");
 			
-			chartPeso = buildChart(projectLiquidations, "$");
+			chart = buildChart(projectLiquidations, "$");
 			
-			chartPeso.setWidth(100, Unit.PERCENTAGE);
-			chartPeso.setHeight(350, Unit.PIXELS);
+			chart.setWidth(100, Unit.PERCENTAGE);
+			chart.setHeight(350, Unit.PIXELS);
 			
-			mainLayout.addComponent(chartPeso, "top:19%;left:0px;");
+			mainLayout.addComponent(chart, "top:19%;left:0px;");
 		}
 		else
 		{
@@ -283,12 +281,8 @@ public class ReportProjectDetailsView extends BaseView {
 	
 	void buildChartDollar(int projectId){
 		
-		if (chartDollar != null) {
-			mainLayout.removeComponent(chartDollar);
-		}
-		
-		if (chartPeso != null) {
-			mainLayout.removeComponent(chartPeso);
+		if (chart != null) {
+			mainLayout.removeComponent(chart);
 		}
 		
 		//Chart dolares
@@ -298,12 +292,12 @@ public class ReportProjectDetailsView extends BaseView {
 		{	
 			lblMessage.setValue("");
 			
-			chartDollar = buildChart(projectLiquidations, "U$S");
+			chart = buildChart(projectLiquidations, "U$S");
 			
-			chartDollar.setWidth(100, Unit.PERCENTAGE);
-			chartDollar.setHeight(350, Unit.PIXELS);
+			chart.setWidth(100, Unit.PERCENTAGE);
+			chart.setHeight(350, Unit.PIXELS);
 			
-			mainLayout.addComponent(chartDollar, "top:19%;left:0px;");
+			mainLayout.addComponent(chart, "top:19%;left:0px;");
 		}
 		else 
 		{
@@ -359,6 +353,8 @@ public class ReportProjectDetailsView extends BaseView {
 				cboxProject.addItem(project.getId());
 				cboxProject.setItemCaption(project.getId(), project.getName());
 			}
+			
+			buildInputs();
 		}
 	}
 	

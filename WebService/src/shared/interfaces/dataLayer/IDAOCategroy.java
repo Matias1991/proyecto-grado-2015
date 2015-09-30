@@ -22,17 +22,20 @@ public interface IDAOCategroy extends IDAOBase<Category> {
 	ArrayList<Category> getCategoriesLastVersion(String description,
 			CategoryType categoryType) throws ServerException;
 
+	ArrayList<Category> getCategories(String description)
+			throws ServerException;
+
 	ArrayList<Category> getCategoriesLastVersion(String description,
 			int projectId) throws ServerException;
 
 	ArrayList<Category> getCategories(Date from, Date to, User userContext)
 			throws ServerException;
 
-//	ArrayList<Category> getCategoriesByManager(Date from, Date to, int managerId)
-//			throws ServerException;
-	
 	ArrayList<Category> getCategories(User userContext) throws ServerException;
 
 	ArrayList<Category> getCategories(int projectId, Date from, Date to)
+			throws ServerException;
+
+	ArrayList<Category> getCategoriesAllVersions(int id, Date date)
 			throws ServerException;
 }

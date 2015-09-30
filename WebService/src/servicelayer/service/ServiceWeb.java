@@ -13,6 +13,7 @@ import servicelayer.core.CoreProjectLiquidation;
 import servicelayer.core.CoreProject;
 import servicelayer.core.CoreUser;
 import servicelayer.entity.businessEntity.Bill;
+import servicelayer.entity.businessEntity.CategoryType;
 import servicelayer.entity.businessEntity.ChanelType;
 import servicelayer.entity.businessEntity.CompanyLiquidation;
 import servicelayer.entity.businessEntity.Employed;
@@ -672,6 +673,26 @@ public class ServiceWeb extends ServiceBase {
 		}
 		return null;
 	}
+	
+	public VOCategory[] getCategoriesByDescription(String description) {
+		try {
+			transactionLock.tryLock(Constants.DEFAULT_TRANSACTION_TIME,
+					TimeUnit.SECONDS);
+			
+			return categoryBuilder.BuildArrayVOObject(VOCategory.class,
+					iCoreCategory.getCategories(description));
+			
+		} catch (ServerException e) {
+			ThrowServerExceptionAndLogError(e, "obtener todos los rubros");
+		} catch (InterruptedException e) {
+			throw new RuntimeException(Constants.TRANSACTION_ERROR);
+		} catch (Exception e) {
+			ThrowGenericExceptionAndLogError(e);
+		} finally {
+			transactionLock.unlock();
+		}
+		return null;
+	}
 
 	public VOCategory updateCategory(int id, VOCategory voCategory) {
 		try {
@@ -724,6 +745,27 @@ public class ServiceWeb extends ServiceBase {
 			User userContext = iCoreUser.getUser(userContextId);
 			return categoryBuilder.BuildArrayVOObject(VOCategory.class,
 					iCoreCategory.getCategories(from, to, userContext));
+		} catch (ServerException e) {
+			ThrowServerExceptionAndLogError(e,
+					"obtener los rubros por intervalo de fecha");
+		} catch (InterruptedException e) {
+			throw new RuntimeException(Constants.TRANSACTION_ERROR);
+		} catch (Exception e) {
+			ThrowGenericExceptionAndLogError(e);
+		} finally {
+			transactionLock.unlock();
+		}
+		return null;
+	}
+	
+	public VOCategory[] getCategoriesAllVersions(int id, Date date) {
+		try {
+			transactionLock.tryLock(Constants.DEFAULT_TRANSACTION_TIME,
+					TimeUnit.SECONDS);
+			
+			return categoryBuilder.BuildArrayVOObject(VOCategory.class,
+					iCoreCategory.getCategoriesAllVersions(id, date));
+			
 		} catch (ServerException e) {
 			ThrowServerExceptionAndLogError(e,
 					"obtener los rubros por intervalo de fecha");

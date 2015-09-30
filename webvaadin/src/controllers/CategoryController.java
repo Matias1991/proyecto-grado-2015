@@ -10,7 +10,9 @@ import org.apache.axis2.AxisFault;
 import servicelayer.service.ServiceWebStub;
 import servicelayer.service.ServiceWebStub.DeleteCategory;
 import servicelayer.service.ServiceWebStub.GetCategories;
+import servicelayer.service.ServiceWebStub.GetCategoriesAllVersions;
 import servicelayer.service.ServiceWebStub.GetCategoriesByDate;
+import servicelayer.service.ServiceWebStub.GetCategoriesByDescription;
 import servicelayer.service.ServiceWebStub.GetCategoriesByProject;
 import servicelayer.service.ServiceWebStub.InsertCategory;
 import servicelayer.service.ServiceWebStub.UpdateCategory;
@@ -37,7 +39,7 @@ public class CategoryController {
 			voCategory.setCategoryType(category.getCategoryTypeId());
 			voCategory.setProjectId(category.getProjectId());
 			voCategory.setIsRRHH(category.getIsRRHH());
-			voCategory.setAppliedDateTimeUTC(category.getCreatedDateTimeUTC());
+			voCategory.setAppliedDateTimeUTC(category.getAppliedDateTimeUTC());
 
 			createCategory.setVoCategory(voCategory);
 
@@ -144,6 +146,36 @@ public class CategoryController {
 
 		return categories;
 	}
+	
+	public static Collection<Category> getCategoriesAllVersions(int id, Date date) {
+		Collection<Category> categories = new ArrayList<Category>();
+
+		try {
+			ServiceWebStub service = new ServiceWebStub();
+			GetCategoriesAllVersions getCategoriesAllVersions = new GetCategoriesAllVersions();
+
+			getCategoriesAllVersions.setId(id);		
+			getCategoriesAllVersions.setDate(date);
+			
+			VOCategory[] voCategories = service
+					.getCategoriesAllVersions(getCategoriesAllVersions).get_return();
+
+			if (voCategories != null) {
+				for (VOCategory voCategory : voCategories) {
+					Category category = new Category(voCategory);
+					categories.add(category);
+				}
+			}
+
+		} catch (AxisFault e) {
+			String error = e.getMessage().replace("<faultstring>", "");
+			new PopupWindow("ERROR", error.replace("</faultstring>", ""));
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
+
+		return categories;
+	}
 
 	public static boolean deleteCategory(int id) {
 		boolean result = false;
@@ -182,7 +214,7 @@ public class CategoryController {
 		result.setCategoryType(cat.getCategoryTypeId());
 		result.setProjectId(cat.getProjectId());
 		result.setIsRRHH(cat.getIsRRHH());
-		result.setAppliedDateTimeUTC(cat.getCreatedDateTimeUTC());
+		result.setAppliedDateTimeUTC(cat.getAppliedDateTimeUTC());
 
 		try {
 			ServiceWebStub service = new ServiceWebStub();
@@ -212,6 +244,35 @@ public class CategoryController {
 
 			VOCategory[] voCategories = service.getCategoriesByProject(
 					getCategory).get_return();
+
+			if (voCategories != null) {
+				for (VOCategory voCategory : voCategories) {
+					Category category = new Category(voCategory);
+					categories.add(category);
+				}
+			}
+
+		} catch (AxisFault e) {
+			String error = e.getMessage().replace("<faultstring>", "");
+			new PopupWindow("ERROR", error.replace("</faultstring>", ""));
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
+
+		return categories;
+	}
+	
+	public static Collection<Category> getCategoriesByDescription(String description) {
+		Collection<Category> categories = new ArrayList<Category>();
+
+		try {
+			ServiceWebStub service = new ServiceWebStub();
+			GetCategoriesByDescription getCategoriesByDescriptionAndType = new GetCategoriesByDescription();
+			
+			getCategoriesByDescriptionAndType.setDescription(description);
+
+			VOCategory[] voCategories = service.getCategoriesByDescription(
+					getCategoriesByDescriptionAndType).get_return();
 
 			if (voCategories != null) {
 				for (VOCategory voCategory : voCategories) {

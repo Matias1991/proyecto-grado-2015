@@ -246,6 +246,36 @@ public class CoreCategory implements ICoreCategory {
 		return totalAmount;
 	}
 	
+	@Override
+	public ArrayList<Category> getCategoriesAllVersions(int id, Date date)
+			throws ServerException {
+		DAOManager daoManager = new DAOManager();
+		try {
+			
+			return daoManager.getDAOCategories().getCategoriesAllVersions(id, date);
+			
+		} catch (ServerException e) {
+			throw e;
+		} finally {
+			daoManager.close();
+		}
+	}
+	
+	@Override
+	public ArrayList<Category> getCategories(String description)
+			throws ServerException {
+		DAOManager daoManager = new DAOManager();
+		try {
+			
+			return daoManager.getDAOCategories().getCategories(description);
+			
+		} catch (ServerException e) {
+			throw e;
+		} finally {
+			daoManager.close();
+		}
+	}
+	
 	private boolean changeCategory(Category toUpdate, Category oldCategory) {
 		boolean change = false;
 
@@ -293,5 +323,4 @@ public class CoreCategory implements ICoreCategory {
 
 		return change;
 	}
-	
 }

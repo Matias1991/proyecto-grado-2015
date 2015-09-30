@@ -190,7 +190,7 @@ public class CreateCategoryView extends BaseView {
 					else
 						category.setIsRRHH(true);
 
-					category.setCreatedDateTimeUTC(createdDateTimeField
+					category.setAppliedDateTimeUTC(createdDateTimeField
 							.getValue());
 
 					category.setIvaTypeId((int) cboxIvaTypes.getValue());

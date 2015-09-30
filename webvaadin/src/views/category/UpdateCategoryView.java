@@ -215,7 +215,7 @@ public class UpdateCategoryView extends BaseView {
 					} else {
 						category.setIsRRHH(true);
 					}
-					category.setCreatedDateTimeUTC(creationDate.getValue());
+					category.setAppliedDateTimeUTC(creationDate.getValue());
 
 					if (optCurrency.getValue() == "Pesos") {
 						category.setAmountPeso((Double) (txtAmount
@@ -385,7 +385,7 @@ public class UpdateCategoryView extends BaseView {
 						}
 						cboxIvaTypes.setValue(catToModify.getIvaTypeId());
 						creationDate.setValue(catToModify
-								.getCreatedDateTimeUTC());
+								.getAppliedDateTimeUTC());
 					} else {
 						setComponentsReadOnly(true);
 						enablePanelProject(false);
