@@ -98,7 +98,7 @@ public class UpdateEmployeeView extends BaseView {
 		setCompositionRoot(mainLayout);
 
 		lblMessage = new Label("");
-		mainLayout.addComponent(lblMessage, "top:80.0px;left:0.0px;");
+		mainLayout.addComponent(lblMessage, "top:120.0px;left:0.0px;");
 
 		btnEstimate.addClickListener(new Button.ClickListener() {
 
@@ -698,7 +698,7 @@ public class UpdateEmployeeView extends BaseView {
 		if (employees != null && employees.size() > 0) {
 			btnCancel.setVisible(true);
 			btnModiffy.setVisible(true);
-
+			tabEmployee.setVisible(true);
 			lblMessage.setValue("");
 			beanContainer = new BeanItemContainer<Employee>(Employee.class,
 					employees);
@@ -782,6 +782,7 @@ public class UpdateEmployeeView extends BaseView {
 			});
 		} else {
 			lblMessage.setValue("No hay empleados para mostrar");
+			tabEmployee.setVisible(false);
 			if (updateEmployeesGrid != null) {
 				updateEmployeesGrid.setVisible(false);
 			}
