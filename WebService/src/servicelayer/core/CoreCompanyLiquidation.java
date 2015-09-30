@@ -285,6 +285,22 @@ public class CoreCompanyLiquidation implements ICoreCompanyLiquidation {
 		return companyLiquidation;		
 	}
 	
+	@Override
+	public ArrayList<CompanyLiquidation> getCompanyLiquidations(Date date)
+			throws ServerException {
+		DAOManager daoManager = new DAOManager();
+		try{	
+			
+			return daoManager.getDAOCompanyLiquidation().getCompanyLiquidations(date);
+			
+		} catch (ServerException e) {
+			daoManager.rollback();
+			throw e;
+		} finally {
+			daoManager.close();
+		}		
+	}
+	
 	//Calcula el porcentaje que le corresponde pagar a cada proyecto de los costos de la compañia.
 	//Calcula la ganancia para cada socio
 	private void calculateProjectPartnersEarnings(double totalBills, ArrayList<ProjectLiquidation> projectsLiquidations, double totalCompanyCost, double typeExchange, Date to) throws ServerException {

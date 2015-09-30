@@ -178,6 +178,42 @@ public class DAOCompanyLiquidations implements IDAOCompanyLiquidations {
 
 		return companyLiquidation;	
 	}
+	
+	@Override
+	public ArrayList<CompanyLiquidation> getCompanyLiquidations(Date date) throws ServerException{
+		ArrayList<CompanyLiquidation> companyLiquidations = new ArrayList<CompanyLiquidation>();
+		PreparedStatement preparedStatement = null;
+		ResultSet rs = null;
+		try {
+			
+			StringBuilder strBuilder = new StringBuilder();
+			strBuilder.append("Select * from CompanyLiquidation ");
+			strBuilder.append("WHERE year(AppliedDateTimeUTC) = year(?) ");
+
+			preparedStatement = this.connection.prepareStatement(strBuilder.toString());
+			
+			preparedStatement.setTimestamp(1, new Timestamp(date.getTime()));
+			rs = preparedStatement.executeQuery();
+			
+			if (rs.next()) {
+				companyLiquidations.add(BuildCompanyLiquidation(rs));
+			}
+			
+		} catch (SQLException e) {
+			throw new ServerException(e);
+		} finally {
+			try {
+				if (preparedStatement != null)
+					preparedStatement.close();
+				if (rs != null)
+					rs.close();
+			} catch (SQLException e) {
+				LoggerMSMP.setLog(e.getMessage());
+			}
+		}
+
+		return companyLiquidations;	
+	}
 
 	private CompanyLiquidation BuildCompanyLiquidation(ResultSet rs) throws SQLException {
 		int _id = rs.getInt("id");
