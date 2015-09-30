@@ -11,10 +11,12 @@ import servicelayer.service.ServiceWebStub;
 import servicelayer.service.ServiceWebStub.CreateLiquidation;
 import servicelayer.service.ServiceWebStub.ExistLiquidation;
 import servicelayer.service.ServiceWebStub.GetCompanyLiquidationPreview;
+import servicelayer.service.ServiceWebStub.GetCompanyLiquidations;
 import servicelayer.service.ServiceWebStub.GetProjectLiquidations;
 import servicelayer.service.ServiceWebStub.GetProjectLiquidationsPreview;
 import servicelayer.service.ServiceWebStub.GetProjectsLiquidations;
 import servicelayer.service.ServiceWebStub.GetProjectsLiquidationsWithMoreEarnings;
+import servicelayer.service.ServiceWebStub.VOCompanyLiquidation;
 import servicelayer.service.ServiceWebStub.VOProjectLiquidation;
 import utils.PopupWindow;
 import entities.CompanyLiquidation;
@@ -199,5 +201,34 @@ public class LiquidationController {
 		}
 		
 		return projectLiquidations;		
+	}
+	
+	public static Collection<CompanyLiquidation> getCompanyLiquidations(Date date){
+		Collection<CompanyLiquidation> companyLiquidations = new ArrayList<CompanyLiquidation>();
+		
+		try{
+			ServiceWebStub service = new ServiceWebStub();
+			GetCompanyLiquidations getCompanyLiquidations = new GetCompanyLiquidations();
+
+			getCompanyLiquidations.setDate(date);
+			
+			VOCompanyLiquidation[] voCompanyLiquidations = service.getCompanyLiquidations(getCompanyLiquidations).get_return();
+			
+			if(voCompanyLiquidations != null && voCompanyLiquidations.length > 0)
+			{
+				for(VOCompanyLiquidation voCompanyLiquidation : voCompanyLiquidations){
+					CompanyLiquidation companyLiquidation = new CompanyLiquidation(voCompanyLiquidation.getIVAPurchase(), voCompanyLiquidation.getIVASale(), voCompanyLiquidation.getAppliedDateTimeUTC());
+					companyLiquidations.add(companyLiquidation);
+				}
+			}
+			
+		}catch (AxisFault e) {
+			String error = e.getMessage().replace("<faultstring>", "");
+			new PopupWindow("ERROR", error.replace("</faultstring>", ""));
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
+		
+		return companyLiquidations;		
 	}
 }

@@ -285,6 +285,22 @@
             }
                 
            /**
+            * auto generated Axis2 call back method for getCompanyLiquidations method
+            * override this method for handling normal response from getCompanyLiquidations operation
+            */
+           public void receiveResultgetCompanyLiquidations(
+                    servicelayer.service.ServiceWebStub.GetCompanyLiquidationsResponse result
+                        ) {
+           }
+
+          /**
+           * auto generated Axis2 Error handler
+           * override this method for handling error response from getCompanyLiquidations operation
+           */
+            public void receiveErrorgetCompanyLiquidations(java.lang.Exception e) {
+            }
+                
+           /**
             * auto generated Axis2 call back method for forgotPassword method
             * override this method for handling normal response from forgotPassword operation
             */

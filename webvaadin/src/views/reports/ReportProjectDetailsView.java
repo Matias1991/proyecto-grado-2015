@@ -298,7 +298,7 @@ public class ReportProjectDetailsView extends BaseView {
 		{	
 			lblMessage.setValue("");
 			
-			chartDollar = buildChart(projectLiquidations, "U$");
+			chartDollar = buildChart(projectLiquidations, "U$S");
 			
 			chartDollar.setWidth(100, Unit.PERCENTAGE);
 			chartDollar.setHeight(350, Unit.PIXELS);
@@ -385,7 +385,7 @@ public class ReportProjectDetailsView extends BaseView {
 				
 		// popupDateFieldFrom
 		popupDateFieldYear = new PopupDateField();
-		popupDateFieldYear.setCaption("Anio");
+		popupDateFieldYear.setCaption("Año");
 		popupDateFieldYear.setImmediate(true);
 		popupDateFieldYear.setWidth("105px");
 		popupDateFieldYear.setHeight("-1px");
