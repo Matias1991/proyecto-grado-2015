@@ -253,6 +253,22 @@
             }
                 
            /**
+            * auto generated Axis2 call back method for getCompanyLiquidationPreview method
+            * override this method for handling normal response from getCompanyLiquidationPreview operation
+            */
+           public void receiveResultgetCompanyLiquidationPreview(
+                    servicelayer.service.ServiceWebStub.GetCompanyLiquidationPreviewResponse result
+                        ) {
+           }
+
+          /**
+           * auto generated Axis2 Error handler
+           * override this method for handling error response from getCompanyLiquidationPreview operation
+           */
+            public void receiveErrorgetCompanyLiquidationPreview(java.lang.Exception e) {
+            }
+                
+           /**
             * auto generated Axis2 call back method for login method
             * override this method for handling normal response from login operation
             */

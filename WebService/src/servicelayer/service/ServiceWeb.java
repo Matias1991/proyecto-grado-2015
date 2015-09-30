@@ -1284,7 +1284,7 @@ public class ServiceWeb extends ServiceBase {
 			User userContext = iCoreUser.getUser(userContextId);
 
 			iCoreCompanyLiquidation.liquidationByCompany(month, userContext,
-					typeExchange);
+					typeExchange,true);
 
 			return true;
 		} catch (ServerException e) {
@@ -1299,6 +1299,38 @@ public class ServiceWeb extends ServiceBase {
 			transactionLock.unlock();
 		}
 		return false;
+	}
+	
+	public VOCompanyLiquidation getCompanyLiquidationPreview(Date month, int userContextId, double typeExchange){
+		try {
+			transactionLock.tryLock(Constants.DEFAULT_TRANSACTION_TIME,
+					TimeUnit.SECONDS);
+
+			User userContext = iCoreUser.getUser(userContextId);
+			CompanyLiquidation companyLiquidation = iCoreCompanyLiquidation.liquidationByCompany(month, userContext,typeExchange,false);
+			VOCompanyLiquidation voCompanyLiquidation = companyLiquidationBuilder.BuildVOObject(companyLiquidation);
+			voCompanyLiquidation.setPartner1(employedBuilder.BuildVOObject(companyLiquidation.getPartner1()));
+			voCompanyLiquidation.setPartner2(employedBuilder.BuildVOObject(companyLiquidation.getPartner2()));
+			if(companyLiquidation.getCategoriesHuman() != null)
+				voCompanyLiquidation.setCategoriesHuman(categoryBuilder.BuildArrayVOObject(VOCategory.class, companyLiquidation.getCategoriesHuman()));
+			if(companyLiquidation.getCategoriesMaterial() != null)
+				voCompanyLiquidation.setCategoryMaterial(categoryBuilder.BuildArrayVOObject(VOCategory.class, companyLiquidation.getCategoriesMaterial()));
+			if(companyLiquidation.getEmployees() != null)
+				voCompanyLiquidation.setEmployees(projectBuilder.BuildVOEmployedProjects(companyLiquidation.getEmployees()));
+			
+			return voCompanyLiquidation;
+		} catch (ServerException e) {
+			ThrowServerExceptionAndLogError(e, "crear liquidacion");
+		} catch (ClientException e) {
+			throw new RuntimeException(e.getMessage());
+		} catch (InterruptedException e) {
+			throw new RuntimeException(Constants.TRANSACTION_ERROR);
+		} catch (Exception e) {
+			ThrowGenericExceptionAndLogError(e);
+		} finally {
+			transactionLock.unlock();
+		}
+		return null;
 	}
 	
 	public VOProjectLiquidation getProjectLiquidationsPreview(Date month, int projectId, double typeExchange){

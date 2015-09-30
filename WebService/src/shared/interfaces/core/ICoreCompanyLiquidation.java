@@ -11,7 +11,7 @@ import shared.exceptions.ServerException;
 
 public interface ICoreCompanyLiquidation {
 	
-	void liquidationByCompany(Date month, User userContext, double typeExchange)throws ServerException, ClientException;
+	CompanyLiquidation liquidationByCompany(Date month, User userContext, double typeExchange, boolean insert)throws ServerException, ClientException;
 	CompanyLiquidation getCompanyLiqudationsByDate(Date month) throws ServerException, ClientException;
 	boolean existLiquidation(Date month) throws ServerException, ClientException;
 }

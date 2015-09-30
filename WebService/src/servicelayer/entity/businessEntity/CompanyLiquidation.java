@@ -1,5 +1,6 @@
 package servicelayer.entity.businessEntity;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 public class CompanyLiquidation {
@@ -23,7 +24,12 @@ public class CompanyLiquidation {
 	private double typeExchange;
 	private double employeesCost;
 	private Date appliedDateTimeUTC;
-	private Date CreatedDateTimeUTC;
+	private Date createdDateTimeUTC;
+	
+	private ArrayList<Category> categoriesHuman;
+	private ArrayList<Category> categoriesMaterial;
+	private ArrayList<ProjectEmployed> employees;
+	
 	
 	public CompanyLiquidation(){		
 	}
@@ -58,7 +64,7 @@ public class CompanyLiquidation {
 		this.partner2EarningsPeso = partner2EarningsPeso;
 		this.typeExchange = typeExchange;
 		this.appliedDateTimeUTC = appliedDateTimeUTC;
-		this.CreatedDateTimeUTC = createdDateTimeUTC;
+		this.createdDateTimeUTC = createdDateTimeUTC;
 	}
 
 	public int getId() {
@@ -174,11 +180,11 @@ public class CompanyLiquidation {
 	}
 
 	public Date getCreatedDateTimeUTC() {
-		return CreatedDateTimeUTC;
+		return createdDateTimeUTC;
 	}
 
 	public void setCreatedDateTimeUTC(Date createdDateTimeUTC) {
-		CreatedDateTimeUTC = createdDateTimeUTC;
+		this.createdDateTimeUTC = createdDateTimeUTC;
 	}
 
 	public double getTypeExchange() {
@@ -227,5 +233,29 @@ public class CompanyLiquidation {
 
 	public void setEmployeesCost(double employeesCost) {
 		this.employeesCost = employeesCost;
-	}	
+	}
+
+	public ArrayList<Category> getCategoriesHuman() {
+		return categoriesHuman;
+	}
+
+	public void setCategoriesHuman(ArrayList<Category> categoriesHuman) {
+		this.categoriesHuman = categoriesHuman;
+	}
+
+	public ArrayList<Category> getCategoriesMaterial() {
+		return categoriesMaterial;
+	}
+
+	public void setCategoriesMaterial(ArrayList<Category> categoriesMaterial) {
+		this.categoriesMaterial = categoriesMaterial;
+	}
+
+	public ArrayList<ProjectEmployed> getEmployees() {
+		return employees;
+	}
+
+	public void setEmployees(ArrayList<ProjectEmployed> employees) {
+		this.employees = employees;
+	}		
 }

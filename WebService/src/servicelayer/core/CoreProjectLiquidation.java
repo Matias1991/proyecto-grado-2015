@@ -60,6 +60,8 @@ public class CoreProjectLiquidation implements ICoreProjectLiquidation {
 			project.setiDAOProjectEmployees(daoManager.getDAOEmployedProjects());
 								
 			projectLiquidation = new ProjectLiquidation(projectId);
+			Employed seller = CoreEmployed.GetInstance().getEmployed(project.getId());
+			project.setSeller(seller);
 			projectLiquidation.setProject(project);
 			projectLiquidation.setAppliedDateTimeUTC(month);
 			projectLiquidation.setCreatedDateTimeUTC(new Date());
