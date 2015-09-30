@@ -56,6 +56,7 @@ public class ReportProjectDetailsView extends BaseView {
 	private DCharts chartDollar;
 	private DCharts chartPeso;
 	private Collection<Project> projects;
+	private Label lblMessage;
 	/**
 	 * The constructor should first build the main layout, set the
 	 * composition root and then do any custom initialization.
@@ -71,6 +72,9 @@ public class ReportProjectDetailsView extends BaseView {
 		setCompositionRoot(mainLayout);
 
 		builInputs();
+		
+		lblMessage = new Label("");
+		mainLayout.addComponent(lblMessage, "top:155.0px;left:0.0px;");
 		
 		cboxProject.addValueChangeListener(new ValueChangeListener() {
 
@@ -117,116 +121,9 @@ public class ReportProjectDetailsView extends BaseView {
 		popupDateFieldYear.setDateFormat("yyyy");
 		popupDateFieldYear.setResolution(Resolution.YEAR);
 	}
-
-	public void buildChartPeso(int projectId){
-		
-		if (chartPeso != null) {
-			mainLayout.removeComponent(chartPeso);
-		}
-		
-		//Chart pesos
-		Collection<ProjectLiquidation> projectLiquidations = LiquidationController.getProjectLiquidations(projectId, popupDateFieldYear.getValue(), false);
-		
-		DataSeries dataSeries = new DataSeries();
-		
-		ProjectLiquidation[] array = (ProjectLiquidation[]) Array.newInstance(ProjectLiquidation.class, projectLiquidations.size());
-		projectLiquidations.toArray(array);
-		
-		HashMap<Integer, ProjectLiquidation> projectLiquidationsByMonth = buildProjectLiquidacions(array);
-		
-		dataSeries.add(projectLiquidationsByMonth.get(1).getEarnings(), 
-					   100,
-					   projectLiquidationsByMonth.get(8).getEarnings());
-		
-		dataSeries.add(projectLiquidationsByMonth.get(1).getReserve(), 
-				   200, 
-				   projectLiquidationsByMonth.get(3).getReserve());
-		
-		SeriesDefaults seriesDefaults = new SeriesDefaults()
-			.setFillToZero(true)
-			.setRenderer(SeriesRenderers.BAR);
-
-		Series series = new Series()
-			.addSeries(
-				new XYseries()
-					.setLabel("Ganacia en $"))
-		.addSeries(
-				new XYseries()
-					.setLabel("Reserva en $"));
-		
-		Legend legend = new Legend()
-			.setShow(true)
-			.setRendererOptions(
-				new EnhancedLegendRenderer()
-					.setSeriesToggle(SeriesToggles.SLOW)
-					.setSeriesToggleReplot(true))
-			.setPlacement(LegendPlacements.OUTSIDE_GRID);
-
-		Axes axes = new Axes()
-			.addAxis(
-				new XYaxis()
-					.setRenderer(AxisRenderers.CATEGORY)
-					.setTicks(
-						new Ticks()
-		                    .add("1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12")))
-			.addAxis(
-				new XYaxis(XYaxes.Y)
-					.setPad(1.05f)
-					.setTickOptions(
-						new AxisTickRenderer()
-							.setFormatString("$%d")));
-
-		Options options = new Options()
-			.setSeriesDefaults(seriesDefaults)
-			.setSeries(series)
-			.setLegend(legend)
-			.setAxes(axes);
-
-		chartPeso = new DCharts()
-			.setDataSeries(dataSeries)
-			.setOptions(options)
-			.show();
-		
-		chartPeso.setWidth(100, Unit.PERCENTAGE);
-		chartPeso.setHeight(350, Unit.PIXELS);
-		
-		mainLayout.addComponent(chartPeso, "top:19%;left:0px;");
-	}
-
-	private HashMap<Integer, ProjectLiquidation> buildProjectLiquidacions(ProjectLiquidation[] projectLiquidations)
-	{
-		HashMap<Integer, ProjectLiquidation> projectLiquidacionByMonth = new HashMap<Integer, ProjectLiquidation>();
-		projectLiquidacionByMonth.put(1, new ProjectLiquidation());
-		projectLiquidacionByMonth.put(2, new ProjectLiquidation());
-		projectLiquidacionByMonth.put(3, new ProjectLiquidation());
-		projectLiquidacionByMonth.put(4, new ProjectLiquidation());
-		projectLiquidacionByMonth.put(5, new ProjectLiquidation());
-		projectLiquidacionByMonth.put(6, new ProjectLiquidation());
-		projectLiquidacionByMonth.put(7, new ProjectLiquidation());
-		projectLiquidacionByMonth.put(8, new ProjectLiquidation());
-		projectLiquidacionByMonth.put(9, new ProjectLiquidation());
-		projectLiquidacionByMonth.put(10, new ProjectLiquidation());
-		projectLiquidacionByMonth.put(11, new ProjectLiquidation());
-		projectLiquidacionByMonth.put(12, new ProjectLiquidation());
-		
-		for(int i = 0; i< projectLiquidations.length; i++)
-		{
-			int month = projectLiquidations[i].getAppliedDateTimeUTC().getMonth();
-			projectLiquidacionByMonth.put(month, projectLiquidations[i]);
-		}
-
-		return projectLiquidacionByMonth;
-	}
 	
-	public void buildChartDollar(int projectId){
-		
-		if (chartDollar != null) {
-			mainLayout.removeComponent(chartDollar);
-		}
-		
-		//Chart dolares
-		Collection<ProjectLiquidation> projectLiquidations = LiquidationController.getProjectLiquidations(projectId, popupDateFieldYear.getValue(), true);
-						
+	DCharts buildChart(Collection<ProjectLiquidation> projectLiquidations, String currency)
+	{
 		DataSeries dataSeries = new DataSeries();
 		
 		ProjectLiquidation[] array = (ProjectLiquidation[]) Array.newInstance(ProjectLiquidation.class, projectLiquidations.size());
@@ -260,6 +157,45 @@ public class ReportProjectDetailsView extends BaseView {
 					   projectLiquidationsByMonth.get(11).getReserve(),
 					   projectLiquidationsByMonth.get(12).getReserve());
 		
+		dataSeries.add(projectLiquidationsByMonth.get(1).getTotalCostEmployees(), 
+					   projectLiquidationsByMonth.get(2).getTotalCostEmployees(), 
+					   projectLiquidationsByMonth.get(3).getTotalCostEmployees(),
+					   projectLiquidationsByMonth.get(4).getTotalCostEmployees(),
+					   projectLiquidationsByMonth.get(5).getTotalCostEmployees(),
+					   projectLiquidationsByMonth.get(6).getTotalCostEmployees(),
+					   projectLiquidationsByMonth.get(7).getTotalCostEmployees(),
+					   projectLiquidationsByMonth.get(8).getTotalCostEmployees(),
+					   projectLiquidationsByMonth.get(9).getTotalCostEmployees(),
+					   projectLiquidationsByMonth.get(10).getTotalCostEmployees(),
+					   projectLiquidationsByMonth.get(11).getTotalCostEmployees(),
+					   projectLiquidationsByMonth.get(12).getTotalCostEmployees());
+		
+		dataSeries.add(projectLiquidationsByMonth.get(1).getTotalCostCategoriesHuman(), 
+					   projectLiquidationsByMonth.get(2).getTotalCostCategoriesHuman(), 
+					   projectLiquidationsByMonth.get(3).getTotalCostCategoriesHuman(),
+					   projectLiquidationsByMonth.get(4).getTotalCostCategoriesHuman(),
+					   projectLiquidationsByMonth.get(5).getTotalCostCategoriesHuman(),
+					   projectLiquidationsByMonth.get(6).getTotalCostCategoriesHuman(),
+					   projectLiquidationsByMonth.get(7).getTotalCostCategoriesHuman(),
+					   projectLiquidationsByMonth.get(8).getTotalCostCategoriesHuman(),
+					   projectLiquidationsByMonth.get(9).getTotalCostCategoriesHuman(),
+					   projectLiquidationsByMonth.get(10).getTotalCostCategoriesHuman(),
+					   projectLiquidationsByMonth.get(11).getTotalCostCategoriesHuman(),
+					   projectLiquidationsByMonth.get(12).getTotalCostCategoriesHuman());
+		
+		dataSeries.add(projectLiquidationsByMonth.get(1).getTotalCostCategoriesMaterial(), 
+					   projectLiquidationsByMonth.get(2).getTotalCostCategoriesMaterial(), 
+					   projectLiquidationsByMonth.get(3).getTotalCostCategoriesMaterial(),
+					   projectLiquidationsByMonth.get(4).getTotalCostCategoriesMaterial(),
+					   projectLiquidationsByMonth.get(5).getTotalCostCategoriesMaterial(),
+					   projectLiquidationsByMonth.get(6).getTotalCostCategoriesMaterial(),
+					   projectLiquidationsByMonth.get(7).getTotalCostCategoriesMaterial(),
+					   projectLiquidationsByMonth.get(8).getTotalCostCategoriesMaterial(),
+					   projectLiquidationsByMonth.get(9).getTotalCostCategoriesMaterial(),
+					   projectLiquidationsByMonth.get(10).getTotalCostCategoriesMaterial(),
+					   projectLiquidationsByMonth.get(11).getTotalCostCategoriesMaterial(),
+					   projectLiquidationsByMonth.get(12).getTotalCostCategoriesMaterial());
+		
 		SeriesDefaults seriesDefaults = new SeriesDefaults()
 			.setFillToZero(true)
 			.setRenderer(SeriesRenderers.BAR);
@@ -267,10 +203,19 @@ public class ReportProjectDetailsView extends BaseView {
 		Series series = new Series()
 			.addSeries(
 				new XYseries()
-					.setLabel("Ganacia en U$"))
+					.setLabel("Ganacia en " + currency))
 		.addSeries(
 				new XYseries()
-					.setLabel("Reserva en U$"));
+					.setLabel("Reserva en " + currency))
+		.addSeries(
+				new XYseries()
+					.setLabel("Costo empleados en " + currency))
+		.addSeries(
+				new XYseries()
+					.setLabel("Costo rubros RRHH en " + currency))
+		.addSeries(
+				new XYseries()
+					.setLabel("Costo rubros materiales en " + currency));
 		
 		Legend legend = new Legend()
 			.setShow(true)
@@ -286,13 +231,13 @@ public class ReportProjectDetailsView extends BaseView {
 					.setRenderer(AxisRenderers.CATEGORY)
 					.setTicks(
 		                new Ticks()
-		                    .add("1", "2", "3","4","5","6","7","8","9","10","11","12")))
+		                    .add("Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Set", "Oct", "Nov", "Dic")))
 			.addAxis(
 				new XYaxis(XYaxes.Y)
 					.setPad(1.05f)
 					.setTickOptions(
 						new AxisTickRenderer()
-							.setFormatString("U$%d")));
+							.setFormatString(currency + "%d")));
 
 		Options options = new Options()
 			.setSeriesDefaults(seriesDefaults)
@@ -300,15 +245,95 @@ public class ReportProjectDetailsView extends BaseView {
 			.setLegend(legend)
 			.setAxes(axes);
 
-		chartDollar = new DCharts()
+		return new DCharts()
 			.setDataSeries(dataSeries)
 			.setOptions(options)
 			.show();
+	}
+	
+	public void buildChartPeso(int projectId){
+
+		if (chartPeso != null) {
+			mainLayout.removeComponent(chartPeso);
+		}
 		
-		chartDollar.setWidth(100, Unit.PERCENTAGE);
-		chartDollar.setHeight(350, Unit.PIXELS);
+		if (chartDollar != null) {
+			mainLayout.removeComponent(chartDollar);
+		}
 		
-		mainLayout.addComponent(chartDollar, "top:19%;left:0px;");
+		//Chart pesos
+		Collection<ProjectLiquidation> projectLiquidations = LiquidationController.getProjectLiquidations(projectId, popupDateFieldYear.getValue(), false);
+		
+		if(projectLiquidations.size() > 0)
+		{	
+			lblMessage.setValue("");
+			
+			chartPeso = buildChart(projectLiquidations, "$");
+			
+			chartPeso.setWidth(100, Unit.PERCENTAGE);
+			chartPeso.setHeight(350, Unit.PIXELS);
+			
+			mainLayout.addComponent(chartPeso, "top:19%;left:0px;");
+		}
+		else
+		{
+			lblMessage.setValue("No hay datos en el año seleccionado para ese proyecto");
+		}
+	}
+	
+	void buildChartDollar(int projectId){
+		
+		if (chartDollar != null) {
+			mainLayout.removeComponent(chartDollar);
+		}
+		
+		if (chartPeso != null) {
+			mainLayout.removeComponent(chartPeso);
+		}
+		
+		//Chart dolares
+		Collection<ProjectLiquidation> projectLiquidations = LiquidationController.getProjectLiquidations(projectId, popupDateFieldYear.getValue(), true);
+						
+		if(projectLiquidations.size() > 0)
+		{	
+			lblMessage.setValue("");
+			
+			chartDollar = buildChart(projectLiquidations, "U$");
+			
+			chartDollar.setWidth(100, Unit.PERCENTAGE);
+			chartDollar.setHeight(350, Unit.PIXELS);
+			
+			mainLayout.addComponent(chartDollar, "top:19%;left:0px;");
+		}
+		else 
+		{
+			lblMessage.setValue("No hay datos en el año seleccionado para ese proyecto");
+		}
+	}
+
+	HashMap<Integer, ProjectLiquidation> buildProjectLiquidacions(ProjectLiquidation[] projectLiquidations)
+	{
+		HashMap<Integer, ProjectLiquidation> projectLiquidacionByMonth = new HashMap<Integer, ProjectLiquidation>();
+		projectLiquidacionByMonth.put(1, new ProjectLiquidation());
+		projectLiquidacionByMonth.put(2, new ProjectLiquidation());
+		projectLiquidacionByMonth.put(3, new ProjectLiquidation());
+		projectLiquidacionByMonth.put(4, new ProjectLiquidation());
+		projectLiquidacionByMonth.put(5, new ProjectLiquidation());
+		projectLiquidacionByMonth.put(6, new ProjectLiquidation());
+		projectLiquidacionByMonth.put(7, new ProjectLiquidation());
+		projectLiquidacionByMonth.put(8, new ProjectLiquidation());
+		projectLiquidacionByMonth.put(9, new ProjectLiquidation());
+		projectLiquidacionByMonth.put(10, new ProjectLiquidation());
+		projectLiquidacionByMonth.put(11, new ProjectLiquidation());
+		projectLiquidacionByMonth.put(12, new ProjectLiquidation());
+		
+		for(int i = 0; i< projectLiquidations.length; i++)
+		{
+			int month = projectLiquidations[i].getAppliedDateTimeUTC().getMonth();
+			projectLiquidacionByMonth.put(month, projectLiquidations[i]);
+		}
+
+		return projectLiquidacionByMonth;
 	}
 
 	Project getProjectById(int id)

@@ -56,7 +56,7 @@ public class DeleteEmployeeView extends BaseView {
 		// TODO add user code here
 		//Mensaje sin empleados
 		lblMessage = new Label("");
-		mainLayout.addComponent(lblMessage, "top:80.0px;left:0.0px;");
+		mainLayout.addComponent(lblMessage, "top:120.0px;left:0.0px;");
 		
 		btnDelete.addClickListener(new Button.ClickListener() {
 

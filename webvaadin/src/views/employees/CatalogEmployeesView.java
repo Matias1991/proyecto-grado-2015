@@ -88,7 +88,7 @@ public class CatalogEmployeesView extends BaseView {
 		setCompositionRoot(mainLayout);
 		
 		lblMessage = new Label("");
-		mainLayout.addComponent(lblMessage, "top:80.0px;left:0.0px;");		
+		mainLayout.addComponent(lblMessage, "top:120px;left:0.0px;");		
 		
 		cboVersion.addValueChangeListener(new  ValueChangeListener() {
 			
@@ -409,6 +409,8 @@ public class CatalogEmployeesView extends BaseView {
 
 		if (employees != null && employees.size() > 0) {
 			lblMessage.setValue("");			
+			cboVersion.setVisible(true);
+			tabEmployee.setVisible(true);
 			beanContainer = new BeanItemContainer<Employee>(Employee.class,employees);
 
 			catalogEmployeesGrid = new Grid(beanContainer);
@@ -492,6 +494,8 @@ public class CatalogEmployeesView extends BaseView {
 			});					
 		} else {
 			lblMessage.setValue("No hay empleados para mostrar");
+			cboVersion.setVisible(false);
+			tabEmployee.setVisible(false);
 			if(catalogEmployeesGrid != null){
 				catalogEmployeesGrid.setVisible(false);
 			}
