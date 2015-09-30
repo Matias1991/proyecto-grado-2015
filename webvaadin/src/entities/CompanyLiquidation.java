@@ -34,6 +34,8 @@ public class CompanyLiquidation {
 		private Collection<Category> categoriesHuman;
 		private Collection<Category> categoriesMaterial;
 		private Collection<ProjectEmployed> employees;
+		private double totalEarningsPeso;
+		private double totalEarningsDollar;
 		
 		public CompanyLiquidation(){		
 		}
@@ -58,10 +60,14 @@ public class CompanyLiquidation {
 			this.partner2 = new Employee();
 			this.partner2.setLastName(voCompanyLiquidation.getPartner2().getLastName());
 			this.partner2.setName(voCompanyLiquidation.getPartner2().getName());
+			this.partner2EarningsDollar = voCompanyLiquidation.getPartner2EarningsDollar();
+			this.partner2EarningsPeso = voCompanyLiquidation.getPartner2EarningsPeso();
 			this.typeExchange = voCompanyLiquidation.getTypeExchange();
 			this.employeesCost = voCompanyLiquidation.getEmployeesCost();
 			this.appliedDateTimeUTC = voCompanyLiquidation.getAppliedDateTimeUTC();
 			this.CreatedDateTimeUTC = voCompanyLiquidation.getCreatedDateTimeUTC();
+			this.totalEarningsPeso = voCompanyLiquidation.getTotalEarningsPeso();
+			this.totalEarningsDollar = voCompanyLiquidation.getTotalEarningsDollar();
 			
 			this.categoriesHuman = new ArrayList<Category>();
 			if(voCompanyLiquidation.getCategoriesHuman() != null){
@@ -283,4 +289,20 @@ public class CompanyLiquidation {
 		public void setEmployees(Collection<ProjectEmployed> employees) {
 			this.employees = employees;
 		}
+
+		public double getTotalEarningsPeso() {
+			return totalEarningsPeso;
+		}
+
+		public void setTotalEarningsPeso(double totalEarningsPeso) {
+			this.totalEarningsPeso = totalEarningsPeso;
+		}
+
+		public double getTotalEarningsDollar() {
+			return totalEarningsDollar;
+		}
+
+		public void setTotalEarningsDollar(double totalEarningsDollar) {
+			this.totalEarningsDollar = totalEarningsDollar;
+		}		
 }

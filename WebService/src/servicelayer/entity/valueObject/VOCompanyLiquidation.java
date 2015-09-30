@@ -31,6 +31,8 @@ public class VOCompanyLiquidation implements Serializable {
 	private VOCategory[] categoriesHuman;
 	private VOCategory[] categoryMaterial;
 	private VOProjectEmployed[] employees;
+	private double totalEarningsPeso;
+	private double totalEarningsDollar;
 	
 	public int getId() {
 		return id;
@@ -176,4 +178,16 @@ public class VOCompanyLiquidation implements Serializable {
 	public void setEmployees(VOProjectEmployed[] employees) {
 		this.employees = employees;
 	}
+	public double getTotalEarningsPeso() {
+		return totalEarningsPeso;
+	}
+	public void setTotalEarningsPeso(double totalEarningsPeso) {
+		this.totalEarningsPeso = totalEarningsPeso;
+	}
+	public double getTotalEarningsDollar() {
+		return totalEarningsDollar;
+	}
+	public void setTotalEarningsDollar(double totalEarningsDollar) {
+		this.totalEarningsDollar = totalEarningsDollar;
+	}	
 }

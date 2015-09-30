@@ -154,6 +154,14 @@ public class CoreCompanyLiquidation implements ICoreCompanyLiquidation {
 													.getAmountPeso()));
 						}
 					}
+					
+					//Obtiene la ganancia en dolares y pesos del mes
+					for(ProjectLiquidation projectLiquidation : projectsLiquidations){
+						if(projectLiquidation.isCurrencyDollar())
+							companyLiquidation.setTotalEarningsDollar(companyLiquidation.getTotalEarningsDollar() + projectLiquidation.getEarnings());
+						else
+							companyLiquidation.setTotalEarningsPeso(companyLiquidation.getTotalEarningsPeso() + projectLiquidation.getEarnings());
+					}
 
 					// Total de costos compañia
 					double companyCosts = companyLiquidation.getCompanyCategory()
@@ -167,7 +175,7 @@ public class CoreCompanyLiquidation implements ICoreCompanyLiquidation {
 										
 					//Calculo del porcentaje a pagar para cada proyecto, lo descuenta al proyecto y calcula la ganancia para cada socio
 					calculateProjectPartnersEarnings(totalBills, projectsLiquidations, companyCosts, typeExchange, to);
-					
+										
 					//Suma la ganancia total para cada socio
 					for(ProjectLiquidation projectLiquidation : projectsLiquidations){
 						if(projectLiquidation.getPartner1().getEmployed().getId() == companyLiquidation.getPartner1().getId()){

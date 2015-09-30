@@ -25,6 +25,8 @@ public class CompanyLiquidation {
 	private double employeesCost;
 	private Date appliedDateTimeUTC;
 	private Date createdDateTimeUTC;
+	private double totalEarningsPeso;
+	private double totalEarningsDollar;
 	
 	private ArrayList<Category> categoriesHuman;
 	private ArrayList<Category> categoriesMaterial;
@@ -257,5 +259,22 @@ public class CompanyLiquidation {
 
 	public void setEmployees(ArrayList<ProjectEmployed> employees) {
 		this.employees = employees;
-	}		
+	}
+
+	public double getTotalEarningsPeso() {
+		return totalEarningsPeso;
+	}
+
+	public void setTotalEarningsPeso(double totalEarningsPeso) {
+		this.totalEarningsPeso = totalEarningsPeso;
+	}
+
+	public double getTotalEarningsDollar() {
+		return totalEarningsDollar;
+	}
+
+	public void setTotalEarningsDollar(double totalEarningsDollar) {
+		this.totalEarningsDollar = totalEarningsDollar;
+	}	
+	
 }

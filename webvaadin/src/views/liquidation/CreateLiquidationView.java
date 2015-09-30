@@ -92,6 +92,8 @@ public class CreateLiquidationView extends BaseView {
 	private TextField txtSalaryPartners;
 	private TextField txtCompanyPartner1;
 	private TextField txtCompanyPartner2;
+	private TextField txtTotalEarningsPeso;
+	private TextField txtTotalEarningsDollar;
 	//project
 	private TextField txtEarnings;
 	private TextField txtPartner1;
@@ -108,7 +110,6 @@ public class CreateLiquidationView extends BaseView {
 	private TextField txtPartner1Earnings;
 	private TextField txtPartner2Earnings;	
 	
-
 	private static final long serialVersionUID = 1L;
 
 	/**
@@ -463,7 +464,7 @@ public class CreateLiquidationView extends BaseView {
 		//Compania		
 		//txtCompanyCategory
 		txtCompanyCategory = new TextField();
-		txtCompanyCategory.setCaption("Costos compañia");
+		txtCompanyCategory.setCaption("Costos compañía");
 		txtCompanyCategory.setImmediate(true);
 		txtCompanyCategory.setWidth("155px");
 		txtCompanyCategory.setHeight("-1px");
@@ -517,7 +518,7 @@ public class CreateLiquidationView extends BaseView {
 		
 		//txtIrae
 		txtIrae = new TextField();
-		txtIrae.setCaption("Incidencia tickets");
+		txtIrae.setCaption("IRAE");
 		txtIrae.setImmediate(true);
 		txtIrae.setWidth("155px");
 		txtIrae.setHeight("-1px");
@@ -611,7 +612,24 @@ public class CreateLiquidationView extends BaseView {
 		txtCompanyPartner2.setWidth("200px");
 		txtCompanyPartner2.setHeight("-1px");
 		txtCompanyPartner2.setNullRepresentation("");		
-				
+		
+		//txtTotalEarningsPeso
+		txtTotalEarningsPeso = new TextField();
+		txtTotalEarningsPeso.setCaption("Total ganancia ($)");
+		txtTotalEarningsPeso.setImmediate(true);
+		txtTotalEarningsPeso.setWidth("155px");
+		txtTotalEarningsPeso.setHeight("-1px");
+		txtTotalEarningsPeso.setNullRepresentation("");		
+		txtTotalEarningsPeso.setConverter(new StringToDoubleConverter());
+		
+		//txtTotalEarningsDollar
+		txtTotalEarningsDollar = new TextField();
+		txtTotalEarningsDollar.setCaption("Total ganancia (U$S)");
+		txtTotalEarningsDollar.setImmediate(true);
+		txtTotalEarningsDollar.setWidth("155px");
+		txtTotalEarningsDollar.setHeight("-1px");
+		txtTotalEarningsDollar.setNullRepresentation("");		
+		txtTotalEarningsDollar.setConverter(new StringToDoubleConverter());
 				
 		//lblMessageBills
 		lblMessageBills = new Label("No existen facturas asociadas al proyecto en el período seleccionado");
@@ -712,6 +730,8 @@ public class CreateLiquidationView extends BaseView {
 		txtTotalCostEmployees.clear();
 		txtPartner1Earnings.clear();
 		txtPartner2Earnings.clear();	
+		txtTotalEarningsDollar.clear();
+		txtTotalEarningsPeso.clear();
 		readOnlyInputs(true);		
 	}
 	
@@ -722,25 +742,27 @@ public class CreateLiquidationView extends BaseView {
 			tabDetails.removeTab(tabDetails.getTab(tab6));
 		if(isCompany){		
 			//TAB6
-			tab6 = new GridLayout(3,6);
+			tab6 = new GridLayout(3,12);
 			tab6.setSpacing(true);
-			tab6.addComponent(txtCompanyCategory,0,0);
-			tab6.addComponent(txtContribution,1,0);
-			tab6.addComponent(txtDismissalPrevention,2,0);
-			tab6.addComponent(txtEmployeesCost,0,1);
-			tab6.addComponent(txtIncidenceSalary,1,1);
-			tab6.addComponent(txtIncidenceTickets,2,1);
-			tab6.addComponent(txtIrae,0,2);
-			tab6.addComponent(txtIvaPurchase,1,2);
-			tab6.addComponent(txtIvaSale,2,2);
-			tab6.addComponent(txtPartner1EarningsDollar,0,3);
-			tab6.addComponent(txtPartner1EarningsPeso,1,3);
-			tab6.addComponent(txtPartner2EarningsDollar,2,3);
-			tab6.addComponent(txtPartner2EarningsPeso,0,4);
-			tab6.addComponent(txtSalaryNotPartners,1,4);
-			tab6.addComponent(txtSalaryPartners,2,4);
-			tab6.addComponent(txtCompanyPartner1,0,5);
-			tab6.addComponent(txtCompanyPartner2,1,5);	
+			tab6.addComponent(txtTotalEarningsPeso,0,0);
+			tab6.addComponent(txtTotalEarningsDollar,1,0);			
+			tab6.addComponent(txtCompanyCategory,0,1);
+			tab6.addComponent(txtContribution,0,2);
+			tab6.addComponent(txtDismissalPrevention,0,3);
+			tab6.addComponent(txtEmployeesCost,0,4);
+			tab6.addComponent(txtIncidenceSalary,0,5);
+			tab6.addComponent(txtIncidenceTickets,0,6);
+			tab6.addComponent(txtIrae,0,7);	
+			tab6.addComponent(txtSalaryPartners,1,8);			
+			tab6.addComponent(txtSalaryNotPartners,0,8);					
+			tab6.addComponent(txtPartner1EarningsPeso,0,9);
+			tab6.addComponent(txtPartner1EarningsDollar,1,9);
+			tab6.addComponent(txtCompanyPartner1,2,9);			
+			tab6.addComponent(txtPartner2EarningsPeso,0,10);
+			tab6.addComponent(txtPartner2EarningsDollar,1,10);
+			tab6.addComponent(txtCompanyPartner2,2,10);				
+			tab6.addComponent(txtIvaSale,0,11);
+			tab6.addComponent(txtIvaPurchase,1,11);
 			tabDetails.addTab(tab6,"Resumen");			
 		}else{			
 			// TAB5
@@ -803,6 +825,8 @@ public class CreateLiquidationView extends BaseView {
 		txtTotalCostEmployees.setReadOnly(readOnly);
 		txtPartner1Earnings.setReadOnly(readOnly);
 		txtPartner2Earnings.setReadOnly(readOnly);	
+		txtTotalEarningsDollar.setReadOnly(readOnly);
+		txtTotalEarningsPeso.setReadOnly(readOnly);
 	}
 
 	private void buildTab() {		
@@ -839,10 +863,12 @@ public class CreateLiquidationView extends BaseView {
 					txtPartner2EarningsPeso.setConvertedValue(companyLiquidation.getPartner2EarningsPeso());
 					txtSalaryNotPartners.setConvertedValue(companyLiquidation.getSalaryNotPartners());
 					txtSalaryPartners.setConvertedValue(companyLiquidation.getSalaryPartners());					
-					txtPartner1.setValue(companyLiquidation.getPartner1().getName() + " "
+					txtCompanyPartner1.setValue(companyLiquidation.getPartner1().getName() + " "
 							+ companyLiquidation.getPartner1().getLastName());
-					txtPartner2.setValue(companyLiquidation.getPartner2().getName() + " "
-							+ companyLiquidation.getPartner2().getLastName());					
+					txtCompanyPartner2.setValue(companyLiquidation.getPartner2().getName() + " "
+							+ companyLiquidation.getPartner2().getLastName());		
+					txtTotalEarningsDollar.setConvertedValue(companyLiquidation.getTotalEarningsDollar());
+					txtTotalEarningsPeso.setConvertedValue(companyLiquidation.getTotalEarningsPeso());
 					readOnlyInputs(true);
 				}else{
 					cleanInputs();

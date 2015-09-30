@@ -28,6 +28,8 @@ public class CompanyLiquidationBuilder extends BaseBuilder<VOCompanyLiquidation,
 		voCompanyLiquidation.setTypeExchange(businessObject.getTypeExchange());
 		voCompanyLiquidation.setEmployeesCost(businessObject.getEmployeesCost());
 		voCompanyLiquidation.setSalaryPartners(businessObject.getSalaryPartners());
+		voCompanyLiquidation.setTotalEarningsPeso(businessObject.getTotalEarningsPeso());
+		voCompanyLiquidation.setTotalEarningsDollar(businessObject.getTotalEarningsDollar());
 		
 		return voCompanyLiquidation;
 	}
