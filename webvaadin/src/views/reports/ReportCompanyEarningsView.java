@@ -39,6 +39,7 @@ import com.vaadin.data.Property.ReadOnlyException;
 import com.vaadin.data.Property.ValueChangeEvent;
 import com.vaadin.data.Property.ValueChangeListener;
 import com.vaadin.data.util.converter.Converter.ConversionException;
+import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.shared.ui.datefield.Resolution;
 import com.vaadin.ui.AbsoluteLayout;
 import com.vaadin.ui.Label;
@@ -46,6 +47,7 @@ import com.vaadin.ui.PopupDateField;
 
 import controllers.LiquidationController;
 import entities.ProjectLiquidation;
+import entities.RequestContext;
 
 public class ReportCompanyEarningsView extends BaseView {
 
@@ -59,6 +61,7 @@ public class ReportCompanyEarningsView extends BaseView {
 	private Label lblTitle;
 	private DCharts chartDollar;
 	private DCharts chartPeso;
+	private Label lblMessage;
 	/**
 	 * The constructor should first build the main layout, set the
 	 * composition root and then do any custom initialization.
@@ -73,7 +76,8 @@ public class ReportCompanyEarningsView extends BaseView {
 		buildMainLayout();
 		setCompositionRoot(mainLayout);
 		
-		builInputs();
+		lblMessage = new Label("");
+		mainLayout.addComponent(lblMessage, "top:155.0px;left:0.0px;");		
 		
 		popupDateFieldFrom.addValueChangeListener(new ValueChangeListener() {
 		    private static final long serialVersionUID = 1L;
@@ -123,7 +127,90 @@ public class ReportCompanyEarningsView extends BaseView {
 		buildChartDollar();
 	}
 	
-	public void buildChartPeso(){
+	DCharts buildChart(Collection<ProjectLiquidation> projectLiquidations, String currency)
+	{
+		DataSeries dataSeries = new DataSeries();
+		Ticks ticks = new Ticks();
+
+		for(ProjectLiquidation projectLiquidacion : projectLiquidations)
+		{
+			ticks.add(projectLiquidacion.getProject().getName());
+		}
+		
+		ProjectLiquidation[] array = (ProjectLiquidation[]) Array.newInstance(ProjectLiquidation.class, projectLiquidations.size());
+		projectLiquidations.toArray(array);
+		
+		if(array.length == 5)
+		{
+			dataSeries.add(array[0].getEarnings(), array[1].getEarnings(), array[2].getEarnings(), array[3].getEarnings(), array[4].getEarnings());
+			dataSeries.add(array[0].getEarnings(), array[1].getEarnings(), array[2].getEarnings(), array[3].getEarnings(), array[4].getEarnings());
+		}
+		else if(array.length == 4)
+		{
+			dataSeries.add(array[0].getEarnings(), array[1].getEarnings(), array[2].getEarnings(), array[3].getEarnings());
+			dataSeries.add(array[0].getEarnings(), array[1].getEarnings(), array[2].getEarnings(), array[3].getEarnings());
+		}
+		else if(array.length == 3)
+		{
+			dataSeries.add(array[0].getEarnings(), array[1].getEarnings(), array[2].getEarnings());
+			dataSeries.add(array[0].getEarnings(), array[1].getEarnings(), array[2].getEarnings());
+		}
+		else if(array.length == 2)
+		{
+			dataSeries.add(array[0].getEarnings(), array[1].getEarnings());
+			dataSeries.add(array[0].getEarnings(), array[1].getEarnings());
+		}
+		else
+		{
+			dataSeries.add(array[0].getEarnings());
+			dataSeries.add(array[0].getEarnings());
+		}
+			
+		SeriesDefaults seriesDefaults = new SeriesDefaults()
+			.setFillToZero(true)
+			.setRenderer(SeriesRenderers.BAR);
+
+		Series series = new Series()
+			.addSeries(
+				new XYseries()
+					.setLabel("Ganacia en " + currency))
+		.addSeries(
+				new XYseries()
+					.setLabel("Reserva en " + currency));
+		
+		Legend legend = new Legend()
+			.setShow(true)
+			.setRendererOptions(
+				new EnhancedLegendRenderer()
+					.setSeriesToggle(SeriesToggles.SLOW)
+					.setSeriesToggleReplot(true))
+			.setPlacement(LegendPlacements.OUTSIDE_GRID);
+
+		Axes axes = new Axes()
+			.addAxis(
+				new XYaxis()
+					.setRenderer(AxisRenderers.CATEGORY)
+					.setTicks(ticks))
+			.addAxis(
+				new XYaxis(XYaxes.Y)
+					.setPad(1.05f)
+					.setTickOptions(
+						new AxisTickRenderer()
+							.setFormatString(currency + "%d")));
+
+		Options options = new Options()
+			.setSeriesDefaults(seriesDefaults)
+			.setSeries(series)
+			.setLegend(legend)
+			.setAxes(axes);
+
+		return new DCharts()
+			.setDataSeries(dataSeries)
+			.setOptions(options)
+			.show();
+	}
+	
+	void buildChartPeso(){
 		
 		if (chartPeso != null) {
 			mainLayout.removeComponent(chartPeso);
@@ -132,70 +219,24 @@ public class ReportCompanyEarningsView extends BaseView {
 		//Charts pesos
 		Collection<ProjectLiquidation> projectLiquidations = LiquidationController.getProjectsLiquidationsWithMoreEarnings(popupDateFieldFrom.getValue(), popupDateFieldTo.getValue(), false, 5);
 		
-		DataSeries dataSeries = new DataSeries();
-		Ticks ticks = new Ticks();
-
-		for(ProjectLiquidation projectLiquidacion : projectLiquidations)
+		if(projectLiquidations.size() > 0)
 		{
-			ticks.add(projectLiquidacion.getProject().getName());
+			lblMessage.setValue("");
+			
+			chartPeso = buildChart(projectLiquidations, "$");
+			
+			chartPeso.setWidth(100, Unit.PERCENTAGE);
+			chartPeso.setHeight(350, Unit.PIXELS);
+			
+			mainLayout.addComponent(chartPeso, "top:19%;left:0px;");
 		}
-		
-		ProjectLiquidation[] array = (ProjectLiquidation[]) Array.newInstance(ProjectLiquidation.class, projectLiquidations.size());
-		projectLiquidations.toArray(array);
-		
-//		dataSeries.add(array[0].getEarnings(), array[1].getEarnings(), array[2].getEarnings(), array[3].getEarnings(), array[4].getEarnings());
-//		dataSeries.add(array[0].getEarnings(), array[1].getEarnings(), array[2].getEarnings(), array[3].getEarnings(), array[4].getEarnings());
-
-		SeriesDefaults seriesDefaults = new SeriesDefaults()
-			.setFillToZero(true)
-			.setRenderer(SeriesRenderers.BAR);
-
-		Series series = new Series()
-			.addSeries(
-				new XYseries()
-					.setLabel("Ganacia en $"))
-		.addSeries(
-				new XYseries()
-					.setLabel("Reserva en $"));
-		
-		Legend legend = new Legend()
-			.setShow(true)
-			.setRendererOptions(
-				new EnhancedLegendRenderer()
-					.setSeriesToggle(SeriesToggles.SLOW)
-					.setSeriesToggleReplot(true))
-			.setPlacement(LegendPlacements.OUTSIDE_GRID);
-
-		Axes axes = new Axes()
-			.addAxis(
-				new XYaxis()
-					.setRenderer(AxisRenderers.CATEGORY)
-					.setTicks(ticks))
-			.addAxis(
-				new XYaxis(XYaxes.Y)
-					.setPad(1.05f)
-					.setTickOptions(
-						new AxisTickRenderer()
-							.setFormatString("$%d")));
-
-		Options options = new Options()
-			.setSeriesDefaults(seriesDefaults)
-			.setSeries(series)
-			.setLegend(legend)
-			.setAxes(axes);
-
-		chartPeso = new DCharts()
-			.setDataSeries(dataSeries)
-			.setOptions(options)
-			.show();
-		
-		chartPeso.setWidth(100, Unit.PERCENTAGE);
-		chartPeso.setHeight(350, Unit.PIXELS);
-		
-		mainLayout.addComponent(chartPeso, "top:19%;left:0px;");
+		else
+		{
+			lblMessage.setValue("No hay datos para este periodo de tiempo seleccionado");
+		}
 	}
 	
-	public void buildChartDollar(){
+	void buildChartDollar(){
 		
 		if (chartDollar != null) {
 			mainLayout.removeComponent(chartDollar);
@@ -204,67 +245,23 @@ public class ReportCompanyEarningsView extends BaseView {
 		//Charts dolares
 		Collection<ProjectLiquidation> projectLiquidations = LiquidationController.getProjectsLiquidationsWithMoreEarnings(popupDateFieldFrom.getValue(), popupDateFieldTo.getValue(), true, 5);	
 				
-		DataSeries dataSeries = new DataSeries();
-		Ticks ticks = new Ticks();
-
-		for(ProjectLiquidation projectLiquidacion : projectLiquidations)
+		if(projectLiquidations.size() > 0)
 		{
-			ticks.add(projectLiquidacion.getProject().getName());
+			chartDollar = buildChart(projectLiquidations, "U$");
+			
+			chartDollar.setWidth(100, Unit.PERCENTAGE);
+			chartDollar.setHeight(350, Unit.PIXELS);
+			
+			mainLayout.addComponent(chartDollar, "top:60%;left:0px;");
 		}
-		
-		ProjectLiquidation[] array = (ProjectLiquidation[]) Array.newInstance(ProjectLiquidation.class, projectLiquidations.size());
-		projectLiquidations.toArray(array);
-		
-//		dataSeries.add(array[0].getEarnings(), array[1].getEarnings(), array[2].getEarnings(), array[3].getEarnings(), array[4].getEarnings());
-//		dataSeries.add(array[0].getReserve(), array[1].getReserve(), array[2].getReserve(), array[3].getReserve(), array[4].getReserve());
-
-		SeriesDefaults seriesDefaults = new SeriesDefaults()
-			.setFillToZero(true)
-			.setRenderer(SeriesRenderers.BAR);
-
-		Series series = new Series()
-			.addSeries(
-				new XYseries()
-					.setLabel("Ganacia en U$"))
-		.addSeries(
-				new XYseries()
-					.setLabel("Reserva en U$"));
-		
-		Legend legend = new Legend()
-			.setShow(true)
-			.setRendererOptions(
-				new EnhancedLegendRenderer()
-					.setSeriesToggle(SeriesToggles.SLOW)
-					.setSeriesToggleReplot(true))
-			.setPlacement(LegendPlacements.OUTSIDE_GRID);
-
-		Axes axes = new Axes()
-			.addAxis(
-				new XYaxis()
-					.setRenderer(AxisRenderers.CATEGORY)
-					.setTicks(ticks))
-			.addAxis(
-				new XYaxis(XYaxes.Y)
-					.setPad(1.05f)
-					.setTickOptions(
-						new AxisTickRenderer()
-							.setFormatString("U$%d")));
-
-		Options options = new Options()
-			.setSeriesDefaults(seriesDefaults)
-			.setSeries(series)
-			.setLegend(legend)
-			.setAxes(axes);
-
-		chartDollar = new DCharts()
-			.setDataSeries(dataSeries)
-			.setOptions(options)
-			.show();
-		
-		chartDollar.setWidth(100, Unit.PERCENTAGE);
-		chartDollar.setHeight(350, Unit.PIXELS);
-		
-		mainLayout.addComponent(chartDollar, "top:60%;left:0px;");
+	}
+	
+	@Override
+	public void enter(ViewChangeEvent event) {
+		super.enter(event);
+		if (RequestContext.getRequestContext() != null) {
+			builInputs();
+		}
 	}
 	
 	@AutoGenerated
