@@ -60,7 +60,7 @@ public class ReportSummaryCompanyCategoriesHumanView extends BaseView {
 	private Table tableDollar;
 	private Label lblMessage;
 	private ComboBox cboxCategories;
-	private Collection<Category> categories;
+	private PopupDateField popupDateFieldMonth;
 	/**
 	 * The constructor should first build the main layout, set the
 	 * composition root and then do any custom initialization.
@@ -75,32 +75,51 @@ public class ReportSummaryCompanyCategoriesHumanView extends BaseView {
 		buildMainLayout();
 		setCompositionRoot(mainLayout);
 		
-		lblMessage = new Label("");
+		lblMessage = new Label("No hay datos en el mes seleccionado para ese rubro");
 		mainLayout.addComponent(lblMessage, "top:155.0px;left:0.0px;");
 		
 		cboxCategories.addValueChangeListener(new ValueChangeListener() {
 
 			@Override
 			public void valueChange(ValueChangeEvent event) {
-				if (cboxCategories.getValue() != null) {
-					int id = (int) cboxCategories.getValue();
-					String description = cboxCategories.getItemCaption(id);
-					
-					if(tablePeso != null)
-						mainLayout.removeComponent(tablePeso);
-					if(tableDollar != null)
-						mainLayout.removeComponent(tableDollar);
-					
-					tablePeso = null;
-					tableDollar = null;
-					
-					buildTablePeso(description);
-					buildTableDollar(description);
+				if (cboxCategories.getValue() != null && popupDateFieldMonth.getValue() != null) {
+					buildTables();
+				}
+			}
+		});
+		
+		popupDateFieldMonth.addValueChangeListener(new ValueChangeListener() {
+
+			@Override
+			public void valueChange(ValueChangeEvent event) {
+				if (cboxCategories.getValue() != null && popupDateFieldMonth.getValue() != null) {
+					buildTables();
 				}
 			}
 		});
 		
 		// TODO add user code here
+	}
+	
+	void buildTables()
+	{
+		int id = (int) cboxCategories.getValue();
+		String description = cboxCategories.getItemCaption(id);
+		
+		if(tablePeso != null)
+			mainLayout.removeComponent(tablePeso);
+		if(tableDollar != null)
+			mainLayout.removeComponent(tableDollar);
+		
+		tablePeso = null;
+		tableDollar = null;
+		
+		boolean buildTablePeso = buildTablePeso(description);
+		boolean buildTableDollar = buildTableDollar(description);
+		if(!buildTablePeso && !buildTableDollar)
+			lblMessage.setVisible(true);
+		else
+			lblMessage.setVisible(false);
 	}
 	
 	DCharts buildChart(Collection<CompanyLiquidation> companyLiquidations)
@@ -286,10 +305,10 @@ public class ReportSummaryCompanyCategoriesHumanView extends BaseView {
 	}
 	
 	
-	void buildTablePeso(String description)
+	boolean buildTablePeso(String description)
 	{
 		//todos los rubros humanos con esa descripcion que estan en pesos
-		Collection<Category> categories = CategoryController.getCategories(description, false);
+		Collection<Category> categories = CategoryController.getCategories(description, false, popupDateFieldMonth.getValue());
 		
 		if(categories.size() > 0)
 		{
@@ -298,13 +317,17 @@ public class ReportSummaryCompanyCategoriesHumanView extends BaseView {
 			tablePeso.setWidth(49, Unit.PERCENTAGE);
 		
 			mainLayout.addComponent(tablePeso, "top:20%;left:0px;");
+			
+			return true;
 		}
+		else
+			return false;
 	}
 	
-	void buildTableDollar(String description)
+	boolean buildTableDollar(String description)
 	{
 		//todos los rubros humanos con esa descripcion que estan en dolares
-		Collection<Category> categories = CategoryController.getCategories(description, true);
+		Collection<Category> categories = CategoryController.getCategories(description, true, popupDateFieldMonth.getValue());
 		
 		if(categories.size() > 0)
 		{
@@ -316,7 +339,25 @@ public class ReportSummaryCompanyCategoriesHumanView extends BaseView {
 				mainLayout.addComponent(tableDollar, "top:20%;left:50%;");
 			else
 				mainLayout.addComponent(tableDollar, "top:20%;left:0px;");
+			
+			return true;
 		}
+		else
+			return false;
+	}
+	
+	void buildInputs()
+	{
+		Calendar cal = Calendar.getInstance();
+		cal.set(Calendar.DAY_OF_MONTH, 1);
+		popupDateFieldMonth.setValue(cal.getTime());
+		popupDateFieldMonth.setDateFormat("MM-yyyy");
+		popupDateFieldMonth.setResolution(Resolution.MONTH);
+	
+		if (tablePeso != null) 
+			mainLayout.removeComponent(tablePeso);
+		if (tableDollar != null) 
+			mainLayout.removeComponent(tableDollar);
 	}
 	
 	@Override
@@ -340,10 +381,7 @@ public class ReportSummaryCompanyCategoriesHumanView extends BaseView {
 				}
 			}
 			
-			if (tablePeso != null) 
-				mainLayout.removeComponent(tablePeso);
-			if (tableDollar != null) 
-				mainLayout.removeComponent(tableDollar);
+			buildInputs();
 		}
 	}
 	
@@ -367,6 +405,16 @@ public class ReportSummaryCompanyCategoriesHumanView extends BaseView {
 		lblTitle.setHeight("-1px");
 		lblTitle.setValue(getBreadCrumbToShow());
 		mainLayout.addComponent(lblTitle, "top:40.0px;left:0.0px;");
+				
+		// popupDateFieldMonth
+		popupDateFieldMonth = new PopupDateField();
+		popupDateFieldMonth.setCaption("Mes");
+		popupDateFieldMonth.setImmediate(true);
+		popupDateFieldMonth.setWidth("120px");
+		popupDateFieldMonth.setHeight("-1px");
+		popupDateFieldMonth.setTabIndex(1);
+		popupDateFieldMonth.setRequired(true);
+		mainLayout.addComponent(popupDateFieldMonth, "top:105.0px;left:255.0px;");
 				
 		// cboxCategories
 		cboxCategories = new ComboBox();

@@ -390,20 +390,25 @@ public class DAOCategories implements IDAOCategroy {
 	}
 	
 	@Override
-	public ArrayList<Category> getCategories(String description, boolean isCurrencyDollar) throws ServerException {
+	public ArrayList<Category> getCategories(String description, boolean isCurrencyDollar, Date date) throws ServerException {
 		ArrayList<Category> categories = new ArrayList<Category>();
 		;
 		PreparedStatement preparedStatement = null;
 		ResultSet rs = null;
 		try {
 
-			String getSQL = "SELECT C.*, P.Name as ProjectName FROM CATEGORY C "
-							+ "LEFT OUTER JOIN PROJECT P ON P.ID = C.ProjectId "
-							+ "WHERE C.description = ? AND C.isCurrencyDollar = ?";
+			StringBuilder sql = new StringBuilder();
+			sql.append("SELECT C_1.*, P.NAME as ProjectName ");
+			sql.append("FROM CATEGORY C_1 ");
+			sql.append("LEFT OUTER JOIN PROJECT P ON P.Id = C_1.ProjectId ");
+			sql.append("WHERE C_1.AppliedDateTimeUTC = ? AND C_1.description = ? AND C_1.isCurrencyDollar = ? AND (C_1.Id, C_1.Version) in (SELECT C_2.Id, MAX(VERSION)");
+			sql.append("FROM CATEGORY C_2 LEFT OUTER JOIN PROJECT P ON P.Id = C_2.ProjectId ");
+			sql.append("GROUP BY C_2.Id ) ");
 			
-			preparedStatement = this.connection.prepareStatement(getSQL);
-			preparedStatement.setString(1, description);
-			preparedStatement.setBoolean(2, isCurrencyDollar);
+			preparedStatement = this.connection.prepareStatement(sql.toString());
+			preparedStatement.setTimestamp(1, new Timestamp(date.getTime()));
+			preparedStatement.setString(2, description);
+			preparedStatement.setBoolean(3, isCurrencyDollar);
 			rs = preparedStatement.executeQuery();
 
 			while (rs.next()) {
