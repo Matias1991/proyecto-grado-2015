@@ -70,7 +70,7 @@ public class ReportSummaryCompanyCategoriesHumanView extends BaseView {
 	 */
 	public ReportSummaryCompanyCategoriesHumanView() {
 		
-		super("Reportes / Empresa", "Rubros RRHH");
+		super("Reportes", "Rubros humanos");
 		
 		buildMainLayout();
 		setCompositionRoot(mainLayout);

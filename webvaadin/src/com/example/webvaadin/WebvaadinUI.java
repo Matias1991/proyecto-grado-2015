@@ -483,16 +483,16 @@ public class WebvaadinUI extends UI {
 				case "Proyectos con mas ganancias":
 					UI.getCurrent().getNavigator().navigateTo(Constant.View.REPORT_COMPANY_EARNINGS_VIEW);
 					break;
-				case "Detalle por Proyecto":
+				case "Detalles por proyecto":
 					UI.getCurrent().getNavigator().navigateTo(Constant.View.REPORT_PROJECT_DETAILS_VIEW);
 					break;
-				case "Resumen IVA":
+				case "Resumen de IVA":
 					UI.getCurrent().getNavigator().navigateTo(Constant.View.REPORT_SUMMARY_COMPANY_IVA_VIEW);
 					break;
-				case "Rubros empresa":
+				case "Rubros de la empresa":
 					UI.getCurrent().getNavigator().navigateTo(Constant.View.REPORT_SUMMARY_COMPANY_CATEGORIES_VIEW);
 					break;
-				case "Rubros RRHH":
+				case "Rubros humanos":
 					UI.getCurrent().getNavigator().navigateTo(Constant.View.REPORT_SUMMARY_COMPANY_CATEGORIES_HUMAN_VIEW);
 					break;
 				default:
@@ -570,15 +570,11 @@ public class WebvaadinUI extends UI {
 		if(RequestContext.getRequestContext().getUserType() == 2)
 		{
 			MenuItem reports = menuBar.addItem("Reportes", null, null);
-
-			MenuItem companyReport = reports.addItem("Empresa", null, null);
-			companyReport.addItem("Proyectos con mas ganancias", null, mainMenuBarCommand);
-			companyReport.addItem("Resumen IVA", null, mainMenuBarCommand);
-			companyReport.addItem("Rubros empresa", null, mainMenuBarCommand);
-			companyReport.addItem("Rubros RRHH", null, mainMenuBarCommand);
-			
-			MenuItem projectReport = reports.addItem("Proyectos", null, null);
-			projectReport.addItem("Detalle por Proyecto", null, mainMenuBarCommand);
+			reports.addItem("Proyectos con mas ganancias", null, mainMenuBarCommand);
+			reports.addItem("Resumen de IVA", null, mainMenuBarCommand);
+			reports.addItem("Rubros de la empresa", null, mainMenuBarCommand);
+			reports.addItem("Rubros humanos", null, mainMenuBarCommand);
+			reports.addItem("Detalles por proyecto", null, mainMenuBarCommand);
 		}
 	}
 

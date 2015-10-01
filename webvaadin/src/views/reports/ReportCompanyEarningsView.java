@@ -71,7 +71,7 @@ public class ReportCompanyEarningsView extends BaseView {
 	 */
 	public ReportCompanyEarningsView() {
 		
-		super("Reportes / Empresa", "Proyectos con mas ganancias");
+		super("Reportes", "Proyectos con mas ganancias");
 		
 		buildMainLayout();
 		setCompositionRoot(mainLayout);
