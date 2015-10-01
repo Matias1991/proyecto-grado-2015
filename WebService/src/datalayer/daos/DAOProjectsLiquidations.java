@@ -161,6 +161,7 @@ public class DAOProjectsLiquidations implements IDAOProjectsLiquidations {
 			String getSQL = "SELECT * FROM PROJECTLIQUIDATION WHERE AppliedDateTimeUTC = ?";
 			preparedStatement = this.connection.prepareStatement(getSQL);
 			preparedStatement.setTimestamp(1, new Timestamp(appliedDate.getTime()));
+			
 			rs = preparedStatement.executeQuery();
 			
 			while (rs.next()) {
@@ -182,6 +183,40 @@ public class DAOProjectsLiquidations implements IDAOProjectsLiquidations {
 		}
 
 		return projectsLiquidations;	
+		
+	}
+	
+	@Override
+	public ProjectLiquidation getProjectLiquidationByDate(Date appliedDate, int projectId) throws ServerException{
+		ProjectLiquidation projectLiquidation = null;
+		PreparedStatement preparedStatement = null;
+		ResultSet rs = null;
+		try {
+			String getSQL = "SELECT * FROM PROJECTLIQUIDATION WHERE APPLIEDDATETIMEUTC = ? AND PROJECTID = ?";
+			preparedStatement = this.connection.prepareStatement(getSQL);
+			preparedStatement.setTimestamp(1, new Timestamp(appliedDate.getTime()));
+			preparedStatement.setInt(2, projectId);
+			
+			rs = preparedStatement.executeQuery();
+			
+			while (rs.next()) {
+				projectLiquidation = BuildProjectLiquidation(rs);				
+			}
+			
+		} catch (SQLException e) {
+			throw new ServerException(e);
+		} finally {
+			try {
+				if (preparedStatement != null)
+					preparedStatement.close();
+				if (rs != null)
+					rs.close();
+			} catch (SQLException e) {
+				LoggerMSMP.setLog(e.getMessage());
+			}
+		}
+
+		return projectLiquidation;	
 		
 	}
 	

@@ -174,7 +174,7 @@ public class CoreCompanyLiquidation implements ICoreCompanyLiquidation {
 					
 										
 					//Calculo del porcentaje a pagar para cada proyecto, lo descuenta al proyecto y calcula la ganancia para cada socio
-					calculateProjectPartnersEarnings(totalBills, projectsLiquidations, companyCosts, typeExchange, to);
+					double companyCostToDivide = calculateProjectPartnersEarnings(totalBills, projectsLiquidations, companyCosts, typeExchange, to);
 										
 					//Suma la ganancia total para cada socio
 					for(ProjectLiquidation projectLiquidation : projectsLiquidations){
@@ -202,7 +202,12 @@ public class CoreCompanyLiquidation implements ICoreCompanyLiquidation {
 							else
 								companyLiquidation.setPartner2EarningsPeso(companyLiquidation.getPartner2EarningsPeso() + projectLiquidation.getPartner2Earning());							
 						}						
-					}			
+					}	
+					
+					if(companyCostToDivide > 0){
+						companyLiquidation.setPartner1EarningsPeso(companyLiquidation.getPartner1EarningsPeso() - (companyCostToDivide/2));
+						companyLiquidation.setPartner2EarningsPeso(companyLiquidation.getPartner2EarningsPeso() - (companyCostToDivide/2));
+					}
 					
 					companyLiquidation.setCategoriesHuman(categoriesHumanAssociateCompany);
 					companyLiquidation.setCategoriesMaterial(categoriesMaterialAssociateCompany);
@@ -258,20 +263,64 @@ public class CoreCompanyLiquidation implements ICoreCompanyLiquidation {
 	
 	//Devuelve una liquidacion de empresa dada una fecha
 	@Override
-	public CompanyLiquidation getCompanyLiqudationsByDate(Date month) throws ServerException, ClientException{
+	public CompanyLiquidation getCompanyLiqudationsByDate(Date month, User userContext) throws ServerException, ClientException{
 		DAOManager daoManager = new DAOManager();
 		CompanyLiquidation companyLiquidation = null;
+		ArrayList<ProjectEmployed> employees = new ArrayList<ProjectEmployed>();
+		ArrayList<ProjectLiquidation> projectsLiquidations = new ArrayList<ProjectLiquidation>();
+		ArrayList<Category> categoriesHuman = new ArrayList<Category>();
+		ArrayList<Category> categoriesMaterial = new ArrayList<Category>();
 		
 		try{	
+			
+			// Defino el periodo desde el primer dia del mes hasta el ultimo del mes		
 			Calendar cal = Calendar.getInstance();
 			cal.setTime(month);
 			cal.set(Calendar.DAY_OF_MONTH, 01);
 			Date appliedDate = cal.getTime();
+			
+			cal.setTime(month);
+			cal.set(Calendar.DATE, cal.getActualMaximum(Calendar.DATE));
+			Date to = cal.getTime();
+			
+			cal.setTime(month);
+			cal.set(Calendar.DAY_OF_MONTH +1, 01);
+			Date toPlusOne = cal.getTime();
+			
 			companyLiquidation = daoManager.getDAOCompanyLiquidations().getCompanyLiquidationByDate(appliedDate);
 			
 			companyLiquidation.setPartner1(CoreEmployed.GetInstance().getEmployed(companyLiquidation.getPartner1().getId()));
 			companyLiquidation.setPartner2(CoreEmployed.GetInstance().getEmployed(companyLiquidation.getPartner2().getId()));
+					
+			//Obtener los projectos del periodo
+			for (Project project : CoreProject.GetInstance().getProjectsReadyToLiquidate(appliedDate, to, -1)) {
+				ProjectLiquidation projectLiquidation = CoreProjectLiquidation.GetInstance().getProjectLiquidationPreview(month, project.getId(), companyLiquidation.getTypeExchange());
+				projectsLiquidations.add(projectLiquidation);
+			}
 			
+			// Obtengo la diferencia de sueldo a pagar
+			for(Employed employed : daoManager.getDAOEmployees().getEmployeesToDate(toPlusOne)){
+				employed.setIDAOSalarySummaries(daoManager.getDAOSalarySummaries());
+				SalarySummary salarySummary = employed.getSalarySummaryToDate(toPlusOne);
+								
+				if(employed.getEmployedType() != EmployedType.PARTNER){				
+					//Diferencia de sueldo a pagar
+					int differenceSalaryToPay = getDifferenceEmployedHours(salarySummary.getHours(), employed.getId(), projectsLiquidations);
+					if(differenceSalaryToPay > 0){
+						ProjectEmployed employedCompany = new ProjectEmployed();
+						employedCompany.setEmployed(employed);
+						employedCompany.setHours(differenceSalaryToPay);
+						employees.add(employedCompany);
+					}	
+				}
+			}
+			companyLiquidation.setEmployees(employees);
+			
+			//Rubros
+			// Obtengo los rubros en el periodo
+			getCostCategoriesCompany(CoreCategory.GetInstance().getCategories(appliedDate, to,	userContext),categoriesHuman,categoriesMaterial);
+			companyLiquidation.setCategoriesHuman(categoriesHuman);
+			companyLiquidation.setCategoriesMaterial(categoriesMaterial);
 			
 		} catch (ServerException e) {
 			daoManager.rollback();
@@ -303,11 +352,17 @@ public class CoreCompanyLiquidation implements ICoreCompanyLiquidation {
 	
 	//Calcula el porcentaje que le corresponde pagar a cada proyecto de los costos de la compañia.
 	//Calcula la ganancia para cada socio
-	private void calculateProjectPartnersEarnings(double totalBills, ArrayList<ProjectLiquidation> projectsLiquidations, double totalCompanyCost, double typeExchange, Date to) throws ServerException {
+	private double calculateProjectPartnersEarnings(double totalBills, ArrayList<ProjectLiquidation> projectsLiquidations, double totalCompanyCost, double typeExchange, Date to) throws ServerException {
+		double totalCompanyCostNotPaid = totalCompanyCost;
 		for(ProjectLiquidation projectLiquidation : projectsLiquidations){
-			projectLiquidation.setCompanyCostPercentage(((projectLiquidation.getTotalBillsAmountPeso()*100)/totalBills)/100);
+			if(totalBills == 0)
+				projectLiquidation.setCompanyCostPercentage(0.0);
+			else
+				projectLiquidation.setCompanyCostPercentage(((projectLiquidation.getTotalBillsAmountPeso()*100)/totalBills)/100);
 			CoreProjectLiquidation.GetInstance().calculatePartnersEarnings(projectLiquidation, (totalCompanyCost * projectLiquidation.getCompanyCostPercentage()), typeExchange, to);
-		}		
+			totalCompanyCostNotPaid = totalCompanyCostNotPaid - (totalCompanyCost * projectLiquidation.getCompanyCostPercentage());
+		}	
+		return totalCompanyCostNotPaid;
 	}
 	
 	// Devuelve el aporte de los costos de rubros empresa

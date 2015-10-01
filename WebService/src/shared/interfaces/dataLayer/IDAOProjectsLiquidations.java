@@ -19,4 +19,7 @@ public interface IDAOProjectsLiquidations extends IDAOBase<ProjectLiquidation> {
 
 	ArrayList<ProjectLiquidation> getProjectLiquidations(int projectId,
 			Date date, boolean isCurrencyDollar) throws ServerException;
+
+	ProjectLiquidation getProjectLiquidationByDate(Date appliedDate, int projectId)
+			throws ServerException;
 }

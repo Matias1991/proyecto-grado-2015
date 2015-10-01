@@ -1375,6 +1375,7 @@ public class ServiceWeb extends ServiceBase {
 		return null;
 	}
 	
+	
 	public VOProjectLiquidation getProjectLiquidationsPreview(Date month, int projectId, double typeExchange){
 		try{
 			transactionLock.tryLock(Constants.DEFAULT_TRANSACTION_TIME, TimeUnit.SECONDS);			
@@ -1403,16 +1404,49 @@ public class ServiceWeb extends ServiceBase {
 		return null;
 	}
 	
-	public VOCompanyLiquidation getCompanyLiquidation(Date month){
+	public VOProjectLiquidation getProjectLiquidation(Date month, int projectId, int userContextId){
+		try{
+			transactionLock.tryLock(Constants.DEFAULT_TRANSACTION_TIME, TimeUnit.SECONDS);	
+			
+			User userContext = iCoreUser.getUser(userContextId);			
+			ProjectLiquidation liquidation =  iCoreProjectLiquidation.getProjectLiquidationByDate(month, projectId, userContext);
+			
+			VOProjectLiquidation voLiquidation = projectLiquidationBuilder.BuildVOObject(liquidation);			
+						
+			voLiquidation.setBills(billBuilder.BuildArrayVOObject(VOBill.class, liquidation.getBills()));
+			voLiquidation.setCategoriesHuman(categoryBuilder.BuildArrayVOObject(VOCategory.class, liquidation.getCategoriesHuman()));
+			voLiquidation.setCategoryMaterial(categoryBuilder.BuildArrayVOObject(VOCategory.class, liquidation.getCategoriesMaterial()));
+			voLiquidation.setEmployees(projectBuilder.BuildVOEmployedProjects(liquidation.getEmployees()));
+			voLiquidation.setProject(projectBuilder.BuildVOObject(liquidation.getProject()));
+			
+			return voLiquidation;
+			
+		} catch (ServerException e) {
+			ThrowServerExceptionAndLogError(e, "obtener liquidaciones de proyectos para mostrar");
+		} catch (InterruptedException e) {
+			throw new RuntimeException(Constants.TRANSACTION_ERROR);
+		} catch (Exception e) {
+			ThrowGenericExceptionAndLogError(e);
+		} finally {
+			transactionLock.unlock();
+		}
+		return null;
+	}
+	
+	public VOCompanyLiquidation getCompanyLiquidation(Date month, int userContextId){
 		try{
 			transactionLock.tryLock(Constants.DEFAULT_TRANSACTION_TIME, TimeUnit.SECONDS);			
 			
-			CompanyLiquidation companyLiquidation = iCoreCompanyLiquidation.getCompanyLiqudationsByDate(month);
+			User userContext = iCoreUser.getUser(userContextId);
+			CompanyLiquidation companyLiquidation = iCoreCompanyLiquidation.getCompanyLiqudationsByDate(month, userContext);
 			
 			VOCompanyLiquidation voCompanyLiquidation = companyLiquidationBuilder.BuildVOObject(companyLiquidation);
 			
 			voCompanyLiquidation.setPartner1(employedBuilder.BuildVOObject(companyLiquidation.getPartner1()));
 			voCompanyLiquidation.setPartner2(employedBuilder.BuildVOObject(companyLiquidation.getPartner2()));
+			voCompanyLiquidation.setEmployees(projectBuilder.BuildVOEmployedProjects(companyLiquidation.getEmployees()));
+			voCompanyLiquidation.setCategoriesHuman(categoryBuilder.BuildArrayVOObject(VOCategory.class, companyLiquidation.getCategoriesHuman()));
+			voCompanyLiquidation.setCategoriesHuman(categoryBuilder.BuildArrayVOObject(VOCategory.class, companyLiquidation.getCategoriesMaterial()));
 			
 			return voCompanyLiquidation;
 			

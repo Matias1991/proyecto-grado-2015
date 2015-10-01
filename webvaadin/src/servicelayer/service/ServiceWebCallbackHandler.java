@@ -541,6 +541,22 @@
             }
                 
            /**
+            * auto generated Axis2 call back method for getProjectLiquidation method
+            * override this method for handling normal response from getProjectLiquidation operation
+            */
+           public void receiveResultgetProjectLiquidation(
+                    servicelayer.service.ServiceWebStub.GetProjectLiquidationResponse result
+                        ) {
+           }
+
+          /**
+           * auto generated Axis2 Error handler
+           * override this method for handling error response from getProjectLiquidation operation
+           */
+            public void receiveErrorgetProjectLiquidation(java.lang.Exception e) {
+            }
+                
+           /**
             * auto generated Axis2 call back method for getCharges method
             * override this method for handling normal response from getCharges operation
             */

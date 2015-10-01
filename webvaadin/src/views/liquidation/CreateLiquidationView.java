@@ -147,15 +147,20 @@ public class CreateLiquidationView extends BaseView {
 					int selection = Integer.parseInt(cboProject.getValue().toString());
 					projectLiquidation = null;
 					companyLiquidation = null;
-					if(selection != -1)
+					if(selection != -1){
 						projectLiquidation = LiquidationController.getProjectsLiquidations(dateMonth.getValue(), Integer.parseInt(cboProject.getValue().toString()), (Double)txtTypeExchange.getConvertedValue());
-					else
+						tabDetails.getTab(tab1).setEnabled(true);
+					}else{
 						companyLiquidation = LiquidationController.getCompanyLiquidationPreview(dateMonth.getValue(), (Double)txtTypeExchange.getConvertedValue(), RequestContext.getRequestContext().getId());
+						tabDetails.getTab(tab1).setEnabled(false);
+					}
 					buildTab();
 				}else{
-					if(!txtTypeExchange.isValid() || !dateMonth.isValid())
-					btnPreview.setEnabled(true);
-					cboProject.setEnabled(false);
+					if(!txtTypeExchange.isValid() || !dateMonth.isValid()){
+						btnPreview.setEnabled(true);
+						cboProject.setEnabled(false);
+						cboProject.removeAllItems();
+					}
 					cleanTab();
 				}
 			}
