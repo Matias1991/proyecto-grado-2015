@@ -104,7 +104,7 @@ public class CatalogCategoriesView extends BaseView {
 			categoriesGrid.removeColumn("projectId");
 			categoriesGrid.removeColumn("categoryTypeId");
 			categoriesGrid.removeColumn("categoryType");			
-			categoriesGrid.removeColumn("createdDateTimeUTC");
+			categoriesGrid.removeColumn("appliedDateTimeUTC");
 			categoriesGrid.removeColumn("isRRHH");			
 			categoriesGrid.removeColumn("typeExchange");
 			categoriesGrid.removeColumn("isDollarToShow");		
