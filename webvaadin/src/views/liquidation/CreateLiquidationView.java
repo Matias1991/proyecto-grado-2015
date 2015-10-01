@@ -973,7 +973,7 @@ public class CreateLiquidationView extends BaseView {
 				grdCategoriesHuman.removeColumn("categoryType");
 				grdCategoriesHuman.removeColumn("projectId");
 				grdCategoriesHuman.removeColumn("isRRHH");
-				grdCategoriesHuman.removeColumn("createdDateTimeUTC");			
+				grdCategoriesHuman.removeColumn("appliedDateTimeUTC");			
 				grdCategoriesHuman.removeColumn("projectName");
 				grdCategoriesHuman.removeColumn("currencyDollar");
 				grdCategoriesHuman.removeColumn("typeExchange");
@@ -1018,7 +1018,7 @@ public class CreateLiquidationView extends BaseView {
 				grdCategoriesMaterial.removeColumn("categoryType");
 				grdCategoriesMaterial.removeColumn("projectId");
 				grdCategoriesMaterial.removeColumn("isRRHH");
-				grdCategoriesMaterial.removeColumn("createdDateTimeUTC");			
+				grdCategoriesMaterial.removeColumn("appliedDateTimeUTC");			
 				grdCategoriesMaterial.removeColumn("projectName");
 				grdCategoriesMaterial.removeColumn("currencyDollar");
 				grdCategoriesMaterial.removeColumn("typeExchange");

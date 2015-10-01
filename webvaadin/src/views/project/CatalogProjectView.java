@@ -383,7 +383,7 @@ public class CatalogProjectView extends BaseView {
 			categoriesGrid.removeColumn("projectId");
 			;
 			categoriesGrid.removeColumn("isRRHH");
-			categoriesGrid.removeColumn("createdDateTimeUTC");
+			categoriesGrid.removeColumn("appliedDateTimeUTC");
 			categoriesGrid.removeColumn("createDateTimeUTCToShow");
 			categoriesGrid.removeColumn("projectName");
 			categoriesGrid.removeColumn("currencyDollar");
