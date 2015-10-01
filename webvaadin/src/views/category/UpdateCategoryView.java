@@ -279,7 +279,7 @@ public class UpdateCategoryView extends BaseView {
 			grid.removeColumn("categoryTypeId");
 			grid.removeColumn("categoryType");
 			grid.removeColumn("createDateTimeUTCToShow");
-			grid.removeColumn("createdDateTimeUTC");
+			grid.removeColumn("appliedDateTimeUTC");
 			grid.removeColumn("isRRHH");
 			grid.removeColumn("isRRHHToShow");
 			grid.removeColumn("amountPeso");

@@ -13,7 +13,6 @@ import servicelayer.core.CoreProjectLiquidation;
 import servicelayer.core.CoreProject;
 import servicelayer.core.CoreUser;
 import servicelayer.entity.businessEntity.Bill;
-import servicelayer.entity.businessEntity.CategoryType;
 import servicelayer.entity.businessEntity.ChanelType;
 import servicelayer.entity.businessEntity.CompanyLiquidation;
 import servicelayer.entity.businessEntity.Employed;
@@ -674,13 +673,13 @@ public class ServiceWeb extends ServiceBase {
 		return null;
 	}
 	
-	public VOCategory[] getCategoriesByDescription(String description) {
+	public VOCategory[] getCategoriesByDescriptionAndCurrency(String description, boolean isCurrencyDollar) {
 		try {
 			transactionLock.tryLock(Constants.DEFAULT_TRANSACTION_TIME,
 					TimeUnit.SECONDS);
 			
 			return categoryBuilder.BuildArrayVOObject(VOCategory.class,
-					iCoreCategory.getCategories(description));
+					iCoreCategory.getCategories(description, isCurrencyDollar));
 			
 		} catch (ServerException e) {
 			ThrowServerExceptionAndLogError(e, "obtener todos los rubros");

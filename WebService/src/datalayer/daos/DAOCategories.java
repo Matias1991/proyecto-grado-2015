@@ -390,7 +390,7 @@ public class DAOCategories implements IDAOCategroy {
 	}
 	
 	@Override
-	public ArrayList<Category> getCategories(String description) throws ServerException {
+	public ArrayList<Category> getCategories(String description, boolean isCurrencyDollar) throws ServerException {
 		ArrayList<Category> categories = new ArrayList<Category>();
 		;
 		PreparedStatement preparedStatement = null;
@@ -399,10 +399,11 @@ public class DAOCategories implements IDAOCategroy {
 
 			String getSQL = "SELECT C.*, P.Name as ProjectName FROM CATEGORY C "
 							+ "LEFT OUTER JOIN PROJECT P ON P.ID = C.ProjectId "
-							+ "WHERE C.description = ? ";
+							+ "WHERE C.description = ? AND C.isCurrencyDollar = ?";
 			
 			preparedStatement = this.connection.prepareStatement(getSQL);
 			preparedStatement.setString(1, description);
+			preparedStatement.setBoolean(2, isCurrencyDollar);
 			rs = preparedStatement.executeQuery();
 
 			while (rs.next()) {

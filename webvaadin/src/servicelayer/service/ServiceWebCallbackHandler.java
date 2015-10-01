@@ -93,22 +93,6 @@
             }
                 
            /**
-            * auto generated Axis2 call back method for getCategoriesByDescription method
-            * override this method for handling normal response from getCategoriesByDescription operation
-            */
-           public void receiveResultgetCategoriesByDescription(
-                    servicelayer.service.ServiceWebStub.GetCategoriesByDescriptionResponse result
-                        ) {
-           }
-
-          /**
-           * auto generated Axis2 Error handler
-           * override this method for handling error response from getCategoriesByDescription operation
-           */
-            public void receiveErrorgetCategoriesByDescription(java.lang.Exception e) {
-            }
-                
-           /**
             * auto generated Axis2 call back method for updateBill method
             * override this method for handling normal response from updateBill operation
             */
@@ -125,22 +109,6 @@
             }
                 
            /**
-            * auto generated Axis2 call back method for getBills method
-            * override this method for handling normal response from getBills operation
-            */
-           public void receiveResultgetBills(
-                    servicelayer.service.ServiceWebStub.GetBillsResponse result
-                        ) {
-           }
-
-          /**
-           * auto generated Axis2 Error handler
-           * override this method for handling error response from getBills operation
-           */
-            public void receiveErrorgetBills(java.lang.Exception e) {
-            }
-                
-           /**
             * auto generated Axis2 call back method for unlockUser method
             * override this method for handling normal response from unlockUser operation
             */
@@ -154,6 +122,22 @@
            * override this method for handling error response from unlockUser operation
            */
             public void receiveErrorunlockUser(java.lang.Exception e) {
+            }
+                
+           /**
+            * auto generated Axis2 call back method for getBills method
+            * override this method for handling normal response from getBills operation
+            */
+           public void receiveResultgetBills(
+                    servicelayer.service.ServiceWebStub.GetBillsResponse result
+                        ) {
+           }
+
+          /**
+           * auto generated Axis2 Error handler
+           * override this method for handling error response from getBills operation
+           */
+            public void receiveErrorgetBills(java.lang.Exception e) {
             }
                 
            /**
@@ -346,6 +330,22 @@
            * override this method for handling error response from insertProject operation
            */
             public void receiveErrorinsertProject(java.lang.Exception e) {
+            }
+                
+           /**
+            * auto generated Axis2 call back method for getCategoriesByDescriptionAndCurrency method
+            * override this method for handling normal response from getCategoriesByDescriptionAndCurrency operation
+            */
+           public void receiveResultgetCategoriesByDescriptionAndCurrency(
+                    servicelayer.service.ServiceWebStub.GetCategoriesByDescriptionAndCurrencyResponse result
+                        ) {
+           }
+
+          /**
+           * auto generated Axis2 Error handler
+           * override this method for handling error response from getCategoriesByDescriptionAndCurrency operation
+           */
+            public void receiveErrorgetCategoriesByDescriptionAndCurrency(java.lang.Exception e) {
             }
                 
            /**
