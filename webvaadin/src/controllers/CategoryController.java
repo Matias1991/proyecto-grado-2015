@@ -262,7 +262,7 @@ public class CategoryController {
 		return categories;
 	}
 	
-	public static Collection<Category> getCategories(String description, boolean isCurrencyDollar) {
+	public static Collection<Category> getCategories(String description, boolean isCurrencyDollar, Date date) {
 		Collection<Category> categories = new ArrayList<Category>();
 
 		try {
@@ -271,6 +271,7 @@ public class CategoryController {
 			
 			getCategoriesByDescriptionAndCurrency.setDescription(description);
 			getCategoriesByDescriptionAndCurrency.setIsCurrencyDollar(isCurrencyDollar);
+			getCategoriesByDescriptionAndCurrency.setDate(date);
 			
 			VOCategory[] voCategories = service.getCategoriesByDescriptionAndCurrency(
 					getCategoriesByDescriptionAndCurrency).get_return();
