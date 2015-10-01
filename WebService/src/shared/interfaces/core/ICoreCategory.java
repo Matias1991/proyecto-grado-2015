@@ -35,6 +35,6 @@ public interface ICoreCategory {
 	ArrayList<Category> getCategoriesAllVersions(int id, Date date)
 			throws ServerException;
 	
-	ArrayList<Category> getCategories(String description)
+	ArrayList<Category> getCategories(String description, boolean isCurrencyDollar)
 			throws ServerException;
 }

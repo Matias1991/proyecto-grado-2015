@@ -262,12 +262,12 @@ public class CoreCategory implements ICoreCategory {
 	}
 	
 	@Override
-	public ArrayList<Category> getCategories(String description)
+	public ArrayList<Category> getCategories(String description, boolean isCurrencyDollar)
 			throws ServerException {
 		DAOManager daoManager = new DAOManager();
 		try {
 			
-			return daoManager.getDAOCategories().getCategories(description);
+			return daoManager.getDAOCategories().getCategories(description, isCurrencyDollar);
 			
 		} catch (ServerException e) {
 			throw e;

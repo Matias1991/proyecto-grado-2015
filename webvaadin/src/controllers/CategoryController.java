@@ -12,7 +12,7 @@ import servicelayer.service.ServiceWebStub.DeleteCategory;
 import servicelayer.service.ServiceWebStub.GetCategories;
 import servicelayer.service.ServiceWebStub.GetCategoriesAllVersions;
 import servicelayer.service.ServiceWebStub.GetCategoriesByDate;
-import servicelayer.service.ServiceWebStub.GetCategoriesByDescription;
+import servicelayer.service.ServiceWebStub.GetCategoriesByDescriptionAndCurrency;
 import servicelayer.service.ServiceWebStub.GetCategoriesByProject;
 import servicelayer.service.ServiceWebStub.InsertCategory;
 import servicelayer.service.ServiceWebStub.UpdateCategory;
@@ -262,17 +262,18 @@ public class CategoryController {
 		return categories;
 	}
 	
-	public static Collection<Category> getCategoriesByDescription(String description) {
+	public static Collection<Category> getCategories(String description, boolean isCurrencyDollar) {
 		Collection<Category> categories = new ArrayList<Category>();
 
 		try {
 			ServiceWebStub service = new ServiceWebStub();
-			GetCategoriesByDescription getCategoriesByDescriptionAndType = new GetCategoriesByDescription();
+			GetCategoriesByDescriptionAndCurrency getCategoriesByDescriptionAndCurrency = new GetCategoriesByDescriptionAndCurrency();
 			
-			getCategoriesByDescriptionAndType.setDescription(description);
-
-			VOCategory[] voCategories = service.getCategoriesByDescription(
-					getCategoriesByDescriptionAndType).get_return();
+			getCategoriesByDescriptionAndCurrency.setDescription(description);
+			getCategoriesByDescriptionAndCurrency.setIsCurrencyDollar(isCurrencyDollar);
+			
+			VOCategory[] voCategories = service.getCategoriesByDescriptionAndCurrency(
+					getCategoriesByDescriptionAndCurrency).get_return();
 
 			if (voCategories != null) {
 				for (VOCategory voCategory : voCategories) {

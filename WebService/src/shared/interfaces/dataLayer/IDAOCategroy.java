@@ -22,7 +22,7 @@ public interface IDAOCategroy extends IDAOBase<Category> {
 	ArrayList<Category> getCategoriesLastVersion(String description,
 			CategoryType categoryType) throws ServerException;
 
-	ArrayList<Category> getCategories(String description)
+	ArrayList<Category> getCategories(String description, boolean isCurrencyDollar)
 			throws ServerException;
 
 	ArrayList<Category> getCategoriesLastVersion(String description,
