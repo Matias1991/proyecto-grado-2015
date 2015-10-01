@@ -66,7 +66,7 @@ public class ReportProjectDetailsView extends BaseView {
 	 */
 	public ReportProjectDetailsView() {
 		
-		super("Reportes / Proyectos", "Detalle por Proyecto");
+		super("Reportes", "Detalles por proyecto");
 		
 		buildMainLayout();
 		setCompositionRoot(mainLayout);

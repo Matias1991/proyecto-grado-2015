@@ -61,7 +61,7 @@ public class ReportSummaryCompanyIVAView extends BaseView {
 	 */
 	public ReportSummaryCompanyIVAView() {
 		
-		super("Reportes / Empresa", "Resumen IVA Compra y Venta");
+		super("Reportes", "Resumen de IVA");
 		
 		buildMainLayout();
 		setCompositionRoot(mainLayout);

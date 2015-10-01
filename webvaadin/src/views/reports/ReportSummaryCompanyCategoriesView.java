@@ -72,7 +72,7 @@ public class ReportSummaryCompanyCategoriesView extends BaseView {
 	 */
 	public ReportSummaryCompanyCategoriesView() {
 		
-		super("Reportes / Empresa", "Rubros");
+		super("Reportes", "Rubros de la empresa");
 		
 		buildMainLayout();
 		setCompositionRoot(mainLayout);
