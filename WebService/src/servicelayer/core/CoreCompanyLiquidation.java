@@ -283,8 +283,8 @@ public class CoreCompanyLiquidation implements ICoreCompanyLiquidation {
 			cal.set(Calendar.DATE, cal.getActualMaximum(Calendar.DATE));
 			Date to = cal.getTime();
 			
-			cal.setTime(month);
-			cal.set(Calendar.DAY_OF_MONTH +1, 01);
+			cal.setTime(appliedDate);
+			cal.add(Calendar.MONTH, 01);
 			Date toPlusOne = cal.getTime();
 			
 			companyLiquidation = daoManager.getDAOCompanyLiquidations().getCompanyLiquidationByDate(appliedDate);
