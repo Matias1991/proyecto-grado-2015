@@ -1588,5 +1588,22 @@ public class ServiceWeb extends ServiceBase {
 		}
 		return null;
 	}
+	
+	public double getTypeExchange(Date month){
+		try{
+			transactionLock.tryLock(Constants.DEFAULT_TRANSACTION_TIME, TimeUnit.SECONDS);
+			
+			return iCoreCompanyLiquidation.getTypeExchange(month);
+		} catch (ServerException e) {
+			ThrowServerExceptionAndLogError(e, "obtener liquidaciones de proyectos para mostrar");
+		} catch (InterruptedException e) {
+			throw new RuntimeException(Constants.TRANSACTION_ERROR);
+		} catch (Exception e) {
+			ThrowGenericExceptionAndLogError(e);
+		} finally {
+			transactionLock.unlock();
+		}
+		return 0;
+	}
 }
 

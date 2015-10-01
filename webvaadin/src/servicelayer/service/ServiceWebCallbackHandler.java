@@ -381,19 +381,19 @@
             }
                 
            /**
-            * auto generated Axis2 call back method for getBillsByFiltersWithCharges method
-            * override this method for handling normal response from getBillsByFiltersWithCharges operation
+            * auto generated Axis2 call back method for getTypeExchange method
+            * override this method for handling normal response from getTypeExchange operation
             */
-           public void receiveResultgetBillsByFiltersWithCharges(
-                    servicelayer.service.ServiceWebStub.GetBillsByFiltersWithChargesResponse result
+           public void receiveResultgetTypeExchange(
+                    servicelayer.service.ServiceWebStub.GetTypeExchangeResponse result
                         ) {
            }
 
           /**
            * auto generated Axis2 Error handler
-           * override this method for handling error response from getBillsByFiltersWithCharges operation
+           * override this method for handling error response from getTypeExchange operation
            */
-            public void receiveErrorgetBillsByFiltersWithCharges(java.lang.Exception e) {
+            public void receiveErrorgetTypeExchange(java.lang.Exception e) {
             }
                 
            /**
@@ -426,6 +426,22 @@
            * override this method for handling error response from getProjectsLiquidationsWithMoreEarnings operation
            */
             public void receiveErrorgetProjectsLiquidationsWithMoreEarnings(java.lang.Exception e) {
+            }
+                
+           /**
+            * auto generated Axis2 call back method for getBillsByFiltersWithCharges method
+            * override this method for handling normal response from getBillsByFiltersWithCharges operation
+            */
+           public void receiveResultgetBillsByFiltersWithCharges(
+                    servicelayer.service.ServiceWebStub.GetBillsByFiltersWithChargesResponse result
+                        ) {
+           }
+
+          /**
+           * auto generated Axis2 Error handler
+           * override this method for handling error response from getBillsByFiltersWithCharges operation
+           */
+            public void receiveErrorgetBillsByFiltersWithCharges(java.lang.Exception e) {
             }
                 
            /**

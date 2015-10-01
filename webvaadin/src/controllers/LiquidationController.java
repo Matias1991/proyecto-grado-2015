@@ -10,12 +10,15 @@ import org.apache.axis2.AxisFault;
 import servicelayer.service.ServiceWebStub;
 import servicelayer.service.ServiceWebStub.CreateLiquidation;
 import servicelayer.service.ServiceWebStub.ExistLiquidation;
+import servicelayer.service.ServiceWebStub.GetCompanyLiquidation;
 import servicelayer.service.ServiceWebStub.GetCompanyLiquidationPreview;
 import servicelayer.service.ServiceWebStub.GetCompanyLiquidations;
+import servicelayer.service.ServiceWebStub.GetProjectLiquidation;
 import servicelayer.service.ServiceWebStub.GetProjectLiquidations;
 import servicelayer.service.ServiceWebStub.GetProjectLiquidationsPreview;
 import servicelayer.service.ServiceWebStub.GetProjectsLiquidations;
 import servicelayer.service.ServiceWebStub.GetProjectsLiquidationsWithMoreEarnings;
+import servicelayer.service.ServiceWebStub.GetTypeExchange;
 import servicelayer.service.ServiceWebStub.VOCompanyLiquidation;
 import servicelayer.service.ServiceWebStub.VOProjectLiquidation;
 import utils.PopupWindow;
@@ -230,5 +233,69 @@ public class LiquidationController {
 		}
 		
 		return companyLiquidations;		
+	}
+	
+	public static CompanyLiquidation getCompanyLiquidation(Date month, int userContextId){
+		CompanyLiquidation companyLiquidation = null;
+		
+		try{
+			ServiceWebStub service = new ServiceWebStub();
+			GetCompanyLiquidation getCompanyLiquidation = new GetCompanyLiquidation();
+			
+			getCompanyLiquidation.setMonth(month);
+			getCompanyLiquidation.setUserContextId(userContextId);
+			
+			companyLiquidation = new CompanyLiquidation(service.getCompanyLiquidation(getCompanyLiquidation).get_return());			
+			
+		}catch (AxisFault e) {
+			String error = e.getMessage().replace("<faultstring>", "");
+			new PopupWindow("ERROR", error.replace("</faultstring>", ""));
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
+		
+		return companyLiquidation;			
+	}
+	
+	public static ProjectLiquidation getProjectLiquidation(Date month, int projectId, int userContextId){
+		ProjectLiquidation projectLiquidation = null;
+		
+		try{
+			ServiceWebStub service = new ServiceWebStub();
+			GetProjectLiquidation getProjectLiquidation = new GetProjectLiquidation();
+			
+			getProjectLiquidation.setMonth(month);
+			getProjectLiquidation.setProjectId(projectId);
+			getProjectLiquidation.setUserContextId(userContextId);
+			
+			projectLiquidation = new ProjectLiquidation(service.getProjectLiquidation(getProjectLiquidation).get_return());
+			
+		}catch (AxisFault e) {
+			String error = e.getMessage().replace("<faultstring>", "");
+			new PopupWindow("ERROR", error.replace("</faultstring>", ""));
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}		
+		return projectLiquidation;		
+	}
+	
+	public static double getTypeExchange(Date month){
+		double typeExchange = 0.0;
+		
+		try{
+			ServiceWebStub service = new ServiceWebStub();
+			GetTypeExchange getTypeExchange = new GetTypeExchange();
+			
+			getTypeExchange.setMonth(month);
+			
+			typeExchange = service.getTypeExchange(getTypeExchange).get_return();
+			
+		}catch (AxisFault e) {
+			String error = e.getMessage().replace("<faultstring>", "");
+			new PopupWindow("ERROR", error.replace("</faultstring>", ""));
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}		
+		return typeExchange;		
 	}
 }

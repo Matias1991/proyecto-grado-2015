@@ -15,4 +15,5 @@ public interface ICoreCompanyLiquidation {
 	CompanyLiquidation getCompanyLiqudationsByDate(Date month, User userContext) throws ServerException, ClientException;
 	boolean existLiquidation(Date month) throws ServerException, ClientException;
 	ArrayList<CompanyLiquidation> getCompanyLiquidations(Date date) throws ServerException;
+	double getTypeExchange(Date month) throws ServerException;
 }

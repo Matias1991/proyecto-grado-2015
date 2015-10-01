@@ -16,4 +16,6 @@ public interface IDAOCompanyLiquidations extends IDAOBase<CompanyLiquidation> {
 	ArrayList<CompanyLiquidation> getCompanyLiquidations(Date date)
 			throws ServerException;
 
+	double getTypeExchange(Date appliedDate) throws ServerException;
+
 }

@@ -222,6 +222,37 @@ public class DAOCompanyLiquidations implements IDAOCompanyLiquidations {
 
 		return companyLiquidations;	
 	}
+	
+	@Override
+	public double getTypeExchange(Date appliedDate) throws ServerException {
+		double typeExchange = 0.0;
+		PreparedStatement preparedStatement = null;
+		ResultSet rs = null;
+		try {
+			String getSQL = "SELECT typeExchange FROM COMPANYLIQUIDATION WHERE AppliedDateTimeUTC = ?";
+			preparedStatement = this.connection.prepareStatement(getSQL);
+			preparedStatement.setTimestamp(1, new Timestamp(appliedDate.getTime()));
+			rs = preparedStatement.executeQuery();
+			
+			if(rs.next()){
+				typeExchange = rs.getDouble("typeExchange");
+			}
+			
+		} catch (SQLException e) {
+			throw new ServerException(e);
+		} finally {
+			try {
+				if (preparedStatement != null)
+					preparedStatement.close();
+				if (rs != null)
+					rs.close();
+			} catch (SQLException e) {
+				LoggerMSMP.setLog(e.getMessage());
+			}
+		}
+
+		return typeExchange;
+	}
 
 	private CompanyLiquidation BuildCompanyLiquidation(ResultSet rs) throws SQLException {
 		int _id = rs.getInt("id");
