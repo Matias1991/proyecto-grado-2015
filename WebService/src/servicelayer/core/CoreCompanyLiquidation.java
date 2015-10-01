@@ -76,9 +76,10 @@ public class CoreCompanyLiquidation implements ICoreCompanyLiquidation {
 				ArrayList<Employed> partners = CoreEmployed.GetInstance()
 						.getEmployedByType(2);
 				//Seteo de los socios
-				companyLiquidation.setPartner1(partners.get(0));
-				companyLiquidation.setPartner2(partners.get(1));				
-								
+				if(partners.size() == 2){
+					companyLiquidation.setPartner1(partners.get(0));
+					companyLiquidation.setPartner2(partners.get(1));				
+				}				
 				// Obtengo los proyectos a liquidar, se le pasa -1 para obtener todos los proyectos
 				projects = CoreProject.GetInstance()
 						.getProjectsReadyToLiquidate(from, to, -1);
@@ -231,6 +232,9 @@ public class CoreCompanyLiquidation implements ICoreCompanyLiquidation {
 					}
 					
 					daoManager.commit();
+				}else{
+					throw new ClientException(
+							"No hay proyectos para liquidar");
 				}
 			} else {
 				throw new ClientException(

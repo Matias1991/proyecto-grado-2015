@@ -144,12 +144,8 @@ public class CoreProjectLiquidation implements ICoreProjectLiquidation {
 			//Calcula la ganancia intermedia del proyecto
 			if(projectLiquidation.getTotalBills() == 0){
 				projectLiquidation.setEarnings(projectLiquidation.getTotalBills() - Math.abs(projectLiquidation.getTotalCostCategoriesHuman()) - Math.abs(projectLiquidation.getTotalCostCategoriesMaterial()));
-			}else{
-				if(projectLiquidation.isCurrencyDollar()){
-					projectLiquidation.setEarnings(projectLiquidation.getTotalBills() - Math.abs(projectLiquidation.getTotalCostCategoriesHuman()) - Math.abs(projectLiquidation.getTotalCostCategoriesMaterial()) - Math.abs((projectLiquidation.getTotalCostEmployees() / typeExchange)));
-				}else{
-					projectLiquidation.setEarnings(projectLiquidation.getTotalBills() - Math.abs(projectLiquidation.getTotalCostCategoriesHuman()) - Math.abs(projectLiquidation.getTotalCostCategoriesMaterial()) - Math.abs(projectLiquidation.getTotalCostEmployees()));
-				}
+			}else{				
+					projectLiquidation.setEarnings(projectLiquidation.getTotalBills() - Math.abs(projectLiquidation.getTotalCostCategoriesHuman()) - Math.abs(projectLiquidation.getTotalCostCategoriesMaterial()) - Math.abs((projectLiquidation.getTotalCostEmployees())));				
 			}			
 			
 			//Calcula el importe de la reserva

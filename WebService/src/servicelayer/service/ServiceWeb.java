@@ -1323,10 +1323,10 @@ public class ServiceWeb extends ServiceBase {
 					TimeUnit.SECONDS);
 
 			User userContext = iCoreUser.getUser(userContextId);
-
+			
 			iCoreCompanyLiquidation.liquidationByCompany(month, userContext,
 					typeExchange,true);
-
+			
 			return true;
 		} catch (ServerException e) {
 			ThrowServerExceptionAndLogError(e, "crear liquidacion");

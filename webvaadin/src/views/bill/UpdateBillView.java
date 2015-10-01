@@ -4,6 +4,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
+import java.util.Locale;
 
 import org.dussan.vaadin.dcharts.DCharts;
 import org.dussan.vaadin.dcharts.base.elements.XYaxis;
@@ -89,19 +90,19 @@ public class UpdateBillView extends BaseView {
 	private Collection<Project> projects;
 	private ComboBox cboxIVA_Types;
 	private TextField txtTotalAmount;
-	
+
 	public UpdateBillView() {
-		
+
 		super("Facturas", "Modificar facturas");
-		
+
 		buildMainLayout();
 		setCompositionRoot(mainLayout);
 
 		builInputs();
-		
+
 		lblMessage = new Label("");
 		mainLayout.addComponent(lblMessage, "top:183.0px;left:0.0px;");
-		
+
 		comboBoxProjects.addValueChangeListener(new ValueChangeListener() {
 
 			@Override
@@ -113,7 +114,7 @@ public class UpdateBillView extends BaseView {
 				}
 			}
 		});
-		
+
 		txtAmount.addValueChangeListener(new ValueChangeListener() {
 
 			@Override
@@ -121,7 +122,7 @@ public class UpdateBillView extends BaseView {
 				buildTotalAmount();
 			}
 		});
-		
+
 		cboxIVA_Types.addValueChangeListener(new ValueChangeListener() {
 
 			@Override
@@ -129,34 +130,34 @@ public class UpdateBillView extends BaseView {
 				buildTotalAmount();
 			}
 		});
-		
+
 		popupDateFieldFrom.addValueChangeListener(new ValueChangeListener() {
-		    private static final long serialVersionUID = 1L;
+			private static final long serialVersionUID = 1L;
 
 			@Override
 			public void valueChange(ValueChangeEvent event) {
-				if(popupDateFieldFrom.getValue() != null){
+				if (popupDateFieldFrom.getValue() != null) {
 					buildGrid();
 				} else {
 					popupDateFieldFrom.setRequiredError("Es requerido");
 				}
-					
+
 			}
 		});
-		
+
 		popupDateFieldTo.addValueChangeListener(new ValueChangeListener() {
-		    private static final long serialVersionUID = 1L;
+			private static final long serialVersionUID = 1L;
 
 			@Override
 			public void valueChange(ValueChangeEvent event) {
-				if(popupDateFieldTo.getValue() != null){
+				if (popupDateFieldTo.getValue() != null) {
 					buildGrid();
 				} else {
 					popupDateFieldTo.setRequiredError("Es requerido");
 				}
 			}
 		});
-		
+
 		btnUpdate.addClickListener(new Button.ClickListener() {
 			private static final long serialVersionUID = 1L;
 
@@ -166,67 +167,65 @@ public class UpdateBillView extends BaseView {
 				txtDescription.setValidationVisible(true);
 				txtAmount.setValidationVisible(true);
 				txtTypeExchange.setValidationVisible(true);
-				
+
 				boolean valid = true;
-				
-				if(txtTypeExchange.isVisible() && !txtTypeExchange.isValid())
-				{
+
+				if (txtTypeExchange.isVisible() && !txtTypeExchange.isValid()) {
 					txtTypeExchange.setRequiredError("Es requerido");
 					valid = false;
 				}
-				
-				if(!txtAmount.isValid() || !txtDescription.isValid() || !popupDateFieldAppliedDate.isValid()){
+
+				if (!txtAmount.isValid() || !txtDescription.isValid()
+						|| !popupDateFieldAppliedDate.isValid()) {
 					txtAmount.setRequiredError("Es requerido");
 					txtDescription.setRequiredError("Es requerido");
 					txtAmount.setConversionError("Debe ser numérico");
 					popupDateFieldAppliedDate.setRequiredError("Es requerido");
 					valid = false;
 				}
-				
-				if(valid)
-				{
+
+				if (valid) {
 					Bill item = (Bill) billsGrid.getSelectedRow();
 					Bill bill = new Bill();
 					bill.setCode(item.getCode());
 					bill.setDescription(txtDescription.getValue());
-					bill.setProjectId(Integer.parseInt(comboBoxProjects.getValue().toString()));
-					bill.setAppliedDateTimeUTC(popupDateFieldAppliedDate.getValue());
+					bill.setProjectId(Integer.parseInt(comboBoxProjects
+							.getValue().toString()));
+					bill.setAppliedDateTimeUTC(popupDateFieldAppliedDate
+							.getValue());
 					bill.setId(item.getId());
-					bill.setIvaType((int)cboxIVA_Types.getValue());
-					
-					if(txtTypeExchange.isVisible() && txtTypeExchange.getValue() != null)
-					{
-						bill.setAmountDollar((Double)(txtAmount.getConvertedValue()));
-						bill.setTypeExchange((Double)(txtTypeExchange.getConvertedValue()));
+					bill.setIvaType((int) cboxIVA_Types.getValue());
+
+					if (txtTypeExchange.isVisible()
+							&& txtTypeExchange.getValue() != null) {
+						bill.setAmountDollar((Double) (txtAmount
+								.getConvertedValue()));
+						bill.setTypeExchange((Double) (txtTypeExchange
+								.getConvertedValue()));
 						bill.setIsCurrencyDollar(true);
-					}
-					else
-					{
-						bill.setAmountPeso((Double)(txtAmount.getConvertedValue()));
+					} else {
+						bill.setAmountPeso((Double) (txtAmount
+								.getConvertedValue()));
 						bill.setIsCurrencyDollar(false);
 					}
-					
+
 					Bill result = BillController.updateBill(item.getId(), bill);
 
-					if(result != null)
-					{
-						new PopupWindow("AVISO", "Factura modificada correctamente");
+					if (result != null) {
+						new PopupWindow("AVISO",
+								"Factura modificada correctamente");
 						clearInputs();
 						buildGrid();
-					}
-					else
-					{
+					} else {
 						btnUpdate.setEnabled(true);
 					}
-				}
-				else
-				{
+				} else {
 					btnCancel.setEnabled(true);
 				}
 			}
-		
+
 		});
-		
+
 		btnCancel.addClickListener(new Button.ClickListener() {
 			private static final long serialVersionUID = 1L;
 
@@ -236,145 +235,131 @@ public class UpdateBillView extends BaseView {
 			}
 		});
 
-		
 		// TODO add user code here
 	}
-	
-	Project getProjectById(int id)
-	{
-		for(Project p : projects)
-		{
-			if(p.getId() == id)
-			{
+
+	Project getProjectById(int id) {
+		for (Project p : projects) {
+			if (p.getId() == id) {
 				return p;
 			}
 		}
 		return null;
 	}
-	
-	void buildBillCurrency(boolean isCurrencyDollar)
-	{	
-		if(isCurrencyDollar)
-		{
+
+	void buildBillCurrency(boolean isCurrencyDollar) {
+		if (isCurrencyDollar) {
 			txtTypeExchange.setVisible(true);
 			txtAmount.setCaption("Importe sin IVA (U$S)");
 			txtTotalAmount.setCaption("Importe IVA incl. (U$S)");
-		}
-		else
-		{
+		} else {
 			txtTypeExchange.setVisible(false);
 			txtAmount.setCaption("Importe sin IVA ($)");
 			txtTotalAmount.setCaption("Importe IVA incl. ($)");
 		}
 	}
-	
-	void clearInputs()
-	{
+
+	void clearInputs() {
 		txtDescription.clear();
 		txtAmount.clear();
 		txtTypeExchange.clear();
 		cboxIVA_Types.clear();
 		txtTotalAmount.clear();
-		
+
 		txtDescription.setValidationVisible(false);
 		txtAmount.setValidationVisible(false);
 		txtTypeExchange.setValidationVisible(false);
-		
+
 		popupDateFieldAppliedDate.setValue(new Date());
-		
+
 		comboBoxProjects.removeAllItems();
 		comboBoxProjects.setValue(0);
 		comboBoxProjects.setNullSelectionItemId(null);
-		
+
 		cboxIVA_Types.removeAllItems();
 		cboxIVA_Types.setValue(0);
 		cboxIVA_Types.setNullSelectionItemId(null);
-	
+
 		txtTypeExchange.setVisible(false);
-		
+
 		txtAmount.setCaption("Importe sin IVA");
 		txtTotalAmount.setCaption("Importe IVA incl.");
 	}
-	
-	void builInputs()
-	{
+
+	void builInputs() {
 		Calendar cal = Calendar.getInstance();
 		cal.add(Calendar.MONTH, -1);
 		popupDateFieldFrom.setValue(cal.getTime());
 		popupDateFieldFrom.setDateFormat("MM-yyyy");
 		popupDateFieldFrom.setResolution(Resolution.MONTH);
-		
+
 		popupDateFieldTo.setValue(new Date());
 		popupDateFieldTo.setDateFormat("MM-yyyy");
 		popupDateFieldTo.setResolution(Resolution.MONTH);
-		
+
 		clearInputs();
 	}
-	
-	void buildEntityData(Bill bill)
-	{
+
+	void buildEntityData(Bill bill) {
 		txtDescription.setValue(bill.getDescription());
-		if(bill.getIsCurrencyDollar())
-		{
+		if (bill.getIsCurrencyDollar()) {
 			txtTypeExchange.setConvertedValue(bill.getTypeExchange());
 			txtAmount.setConvertedValue(bill.getAmountDollar());
-		}
-		else
-		{
+		} else {
 			txtAmount.setConvertedValue(bill.getAmountPeso());
 		}
 
-		cboxIVA_Types.select((int)bill.getIvaType());
-		
+		cboxIVA_Types.select((int) bill.getIvaType());
+
 		buildTotalAmount();
-		
+
 		comboBoxProjects.setValue(bill.getProjectId());
 		comboBoxProjects.setNullSelectionItemId(new Project());
-		
+
 		popupDateFieldAppliedDate.setValue(bill.getAppliedDateTimeUTC());
 	}
-	
-	void buildProjects()
-	{
+
+	void buildProjects() {
 		comboBoxProjects.clear();
 		comboBoxProjects.removeAllItems();
-		
+
 		projects = ProjectController.getActiveProjects();
-		for(Project project : projects)
-		{
+		for (Project project : projects) {
 			comboBoxProjects.addItem(project.getId());
 			comboBoxProjects.setItemCaption(project.getId(), project.getName());
 		}
 	}
-	
-	void buildIVA_Types()
-	{
+
+	void buildIVA_Types() {
 		cboxIVA_Types.removeAllItems();
-		
+
 		cboxIVA_Types.addItem(1);
 		cboxIVA_Types.setItemCaption(1, "0%");
 		cboxIVA_Types.addItem(2);
 		cboxIVA_Types.setItemCaption(2, "10%");
 		cboxIVA_Types.addItem(3);
 		cboxIVA_Types.setItemCaption(3, "22%");
-		
+
 		cboxIVA_Types.setValue(3);
 	}
-	
-	public void buildGrid(){
-		
-		Collection<Bill> bills = BillController.getBillsByFiltersAndActiveProjects(popupDateFieldFrom.getValue(), popupDateFieldTo.getValue(), false, false);
-		
+
+	public void buildGrid() {
+
+		Collection<Bill> bills = BillController
+				.getBillsByFiltersAndActiveProjects(
+						popupDateFieldFrom.getValue(),
+						popupDateFieldTo.getValue(), false, false);
+
 		if (bills != null && bills.size() > 0) {
-			
+
 			if (billsGrid != null) {
 				mainLayout.removeComponent(billsGrid);
 			}
-			
+
 			lblMessage.setValue("");
-			
-			beanContainer = new BeanItemContainer<Bill>(Bill.class,bills);
-					
+
+			beanContainer = new BeanItemContainer<Bill>(Bill.class, bills);
+
 			billsGrid = new Grid(beanContainer);
 			billsGrid.removeColumn("id");
 			billsGrid.removeColumn("projectId");
@@ -390,101 +375,106 @@ public class UpdateBillView extends BaseView {
 			billsGrid.removeColumn("amountToShow");
 			billsGrid.removeColumn("amountChargedToShow");
 			billsGrid.removeColumn("amountReceivableToShow");
-			billsGrid.setColumnOrder("code", "description", "totalAmountToShow", "ivaTypeToShow");
-	
+			billsGrid.setColumnOrder("code", "description",
+					"totalAmountToShow", "ivaTypeToShow");
+
 			billsGrid.getColumn("code").setHeaderCaption("Código");
 			billsGrid.getColumn("description").setHeaderCaption("Descripción");
-			billsGrid.getColumn("totalAmountToShow").setHeaderCaption("Importe IVA incl.");
+			billsGrid.getColumn("totalAmountToShow").setHeaderCaption(
+					"Importe IVA incl.");
 			billsGrid.getColumn("ivaTypeToShow").setHeaderCaption("IVA");
 			billsGrid.getColumn("description").setWidth(200);
 			billsGrid.setWidth(600, Unit.PIXELS);
 			billsGrid.setHeight(430, Unit.PIXELS);
 			billsGrid.setSelectionMode(SelectionMode.SINGLE);
 			billsGrid.getSelectedRows().clear();
-			
+
 			HeaderRow filterRow = billsGrid.appendHeaderRow();
-			for ( final Object pid: billsGrid.getContainerDataSource().getContainerPropertyIds()){
+			for (final Object pid : billsGrid.getContainerDataSource()
+					.getContainerPropertyIds()) {
 				HeaderCell cell = filterRow.getCell(pid);
-				if(cell != null){
+				if (cell != null) {
 					TextField txtFilter = new TextField();
 					txtFilter.setImmediate(true);
 					txtFilter.setWidth("125px");
 					txtFilter.setHeight("30px");
 					txtFilter.setInputPrompt("Filtro");
-					
-					txtFilter.addTextChangeListener(new TextChangeListener() {	 
+
+					txtFilter.addTextChangeListener(new TextChangeListener() {
 						private static final long serialVersionUID = 1L;
 
-					@Override
-					  public void textChange(TextChangeEvent event) {
-					   String newValue = (String) event.getText();
-					  
-					   @SuppressWarnings("unchecked")
-					   BeanItemContainer<Bill> container = ((BeanItemContainer<Bill>) billsGrid.getContainerDataSource());
-					  
-					   container.removeContainerFilters(pid);
-					   if (null != newValue && !newValue.isEmpty()) {
-						   container.addContainerFilter(new SimpleStringFilter(pid, newValue, true, false));
-					   }					   
-					  }	
-					 });
-					cell.setComponent(txtFilter);	
+						@Override
+						public void textChange(TextChangeEvent event) {
+							String newValue = (String) event.getText();
+
+							@SuppressWarnings("unchecked")
+							BeanItemContainer<Bill> container = ((BeanItemContainer<Bill>) billsGrid
+									.getContainerDataSource());
+
+							container.removeContainerFilters(pid);
+							if (null != newValue && !newValue.isEmpty()) {
+								container
+										.addContainerFilter(new SimpleStringFilter(
+												pid, newValue, true, false));
+							}
+						}
+					});
+					cell.setComponent(txtFilter);
 				}
 			}
-			
+
 			mainLayout.addComponent(billsGrid, "top:20%;left:0px;");
-			
+
 			billsGrid.addSelectionListener(new SelectionListener() {
 				private static final long serialVersionUID = 1L;
 
 				@Override
 				public void select(SelectionEvent event) {
-					
-					BeanItem<Bill> item = beanContainer.getItem(billsGrid.getSelectedRow());
-					if(item != null){
-						Bill selectedBill = item.getBean();						
-						
+
+					BeanItem<Bill> item = beanContainer.getItem(billsGrid
+							.getSelectedRow());
+					if (item != null) {
+						Bill selectedBill = item.getBean();
+
 						setEnabledEditionInputs(true);
 						setRequiredEditionInputs(true);
 						buildProjects();
 						buildIVA_Types();
 						buildEntityData(selectedBill);
-					}
-					else
-					{
+					} else {
 						setEnabledEditionInputs(false);
 						setRequiredEditionInputs(false);
 						clearInputs();
 					}
 				}
-				
+
 			});
-			
+
 			setVisibleEditionInputs(true);
 			setEnabledEditionInputs(false);
 			setRequiredEditionInputs(false);
 			clearInputs();
-		}
-		else
-		{
-			if(billsGrid != null)
-			{
+		} else {
+			if (billsGrid != null) {
 				billsGrid.setVisible(false);
 			}
-			
-			String strDateFrom = new SimpleDateFormat("MM-yyyy").format(popupDateFieldFrom.getValue());
-			String strDateTo = new SimpleDateFormat("MM-yyyy").format(popupDateFieldTo.getValue());
 
-			lblMessage.setValue("No hay facturas para mostrar entre el rango fechas " + strDateFrom  + " - " + strDateTo);
-			
+			String strDateFrom = new SimpleDateFormat("MM-yyyy")
+					.format(popupDateFieldFrom.getValue());
+			String strDateTo = new SimpleDateFormat("MM-yyyy")
+					.format(popupDateFieldTo.getValue());
+
+			lblMessage
+					.setValue("No hay facturas para mostrar entre el rango fechas "
+							+ strDateFrom + " - " + strDateTo);
+
 			txtTypeExchange.setVisible(false);
-			
+
 			setVisibleEditionInputs(false);
 		}
 	}
-	
-	void setEnabledEditionInputs(boolean enabled)
-	{
+
+	void setEnabledEditionInputs(boolean enabled) {
 		btnUpdate.setEnabled(enabled);
 		txtDescription.setEnabled(enabled);
 		txtAmount.setEnabled(enabled);
@@ -492,17 +482,15 @@ public class UpdateBillView extends BaseView {
 		popupDateFieldAppliedDate.setEnabled(enabled);
 		cboxIVA_Types.setEnabled(enabled);
 	}
-	
-	void setRequiredEditionInputs(boolean required)
-	{
+
+	void setRequiredEditionInputs(boolean required) {
 		txtDescription.setRequired(required);
 		txtAmount.setRequired(required);
 		txtAmount.setRequired(required);
 		popupDateFieldAppliedDate.setRequired(required);
 	}
-	
-	void setVisibleEditionInputs(boolean visible)
-	{
+
+	void setVisibleEditionInputs(boolean visible) {
 		btnUpdate.setVisible(visible);
 		btnCancel.setVisible(visible);
 		txtDescription.setVisible(visible);
@@ -512,32 +500,31 @@ public class UpdateBillView extends BaseView {
 		cboxIVA_Types.setVisible(visible);
 		txtTotalAmount.setVisible(visible);
 	}
-	
-	void buildTotalAmount()
-	{
+
+	void buildTotalAmount() {
 		if (cboxIVA_Types.getValue() != null && txtAmount.getValue() != null) {
-			
-			if((int)cboxIVA_Types.getValue() == 1)// - 0%
+
+			if ((int) cboxIVA_Types.getValue() == 1)// - 0%
 			{
-				txtTotalAmount.setConvertedValue((Double)txtAmount.getConvertedValue());
-			}
-			else if((int)cboxIVA_Types.getValue() == 2)// - 10%
+				txtTotalAmount.setConvertedValue((Double) txtAmount
+						.getConvertedValue());
+			} else if ((int) cboxIVA_Types.getValue() == 2)// - 10%
 			{
-				txtTotalAmount.setConvertedValue((Double)txtAmount.getConvertedValue() * 1.10);
-			}
-			else if((int)cboxIVA_Types.getValue() == 3)// - 22%
+				txtTotalAmount.setConvertedValue((Double) txtAmount
+						.getConvertedValue() * 1.10);
+			} else if ((int) cboxIVA_Types.getValue() == 3)// - 22%
 			{
-				txtTotalAmount.setConvertedValue((Double)txtAmount.getConvertedValue() * 1.22);
+				txtTotalAmount.setConvertedValue((Double) txtAmount
+						.getConvertedValue() * 1.22);
 			}
-		}
-		else
+		} else
 			txtTotalAmount.clear();
 	}
-	
+
 	@Override
 	public void enter(ViewChangeEvent event) {
 		super.enter(event);
-		if(RequestContext.getRequestContext() != null){			
+		if (RequestContext.getRequestContext() != null) {
 			builInputs();
 			buildGrid();
 		}
@@ -550,11 +537,11 @@ public class UpdateBillView extends BaseView {
 		mainLayout.setImmediate(false);
 		mainLayout.setWidth("880px");
 		mainLayout.setHeight("880px");
-		
+
 		// top-level component properties
 		setWidth("880px");
 		setHeight("880px");
-		
+
 		// lblTitle
 		lblTitle = new Label();
 		lblTitle.setStyleName("titleLabel");
@@ -563,7 +550,7 @@ public class UpdateBillView extends BaseView {
 		lblTitle.setHeight("-1px");
 		lblTitle.setValue(getBreadCrumbToShow());
 		mainLayout.addComponent(lblTitle, "top:40.0px;left:0.0px;");
-		
+
 		// lblInfo
 		lblInfo = new Label();
 		lblInfo.setStyleName("update-bill-lblInformation");
@@ -572,13 +559,14 @@ public class UpdateBillView extends BaseView {
 		lblInfo.setWidth("-1px");
 		lblInfo.setHeight("-1px");
 		StringBuilder strBuilder = new StringBuilder();
-		strBuilder.append("<b>Importante:</b> Las facturas que se muestran cumplen con lo siguiente</br>");
+		strBuilder
+				.append("<b>Importante:</b> Las facturas que se muestran cumplen con lo siguiente</br>");
 		strBuilder.append("- No estan liquidadas aun</br>");
 		strBuilder.append("- No tienen cobros asociados</br>");
 		strBuilder.append("- Pertenecen a proyectos activos");
 		lblInfo.setValue(strBuilder.toString());
 		mainLayout.addComponent(lblInfo, "top:100.0px;left:270.0px;");
-		
+
 		// popupDateFieldFrom
 		popupDateFieldFrom = new PopupDateField();
 		popupDateFieldFrom.setCaption("Desde");
@@ -588,7 +576,7 @@ public class UpdateBillView extends BaseView {
 		popupDateFieldFrom.setTabIndex(1);
 		popupDateFieldFrom.setRequired(true);
 		mainLayout.addComponent(popupDateFieldFrom, "top:120.0px;left:0.0px;");
-		
+
 		// popupDateFieldTo
 		popupDateFieldTo = new PopupDateField();
 		popupDateFieldTo.setCaption("Hasta");
@@ -598,7 +586,7 @@ public class UpdateBillView extends BaseView {
 		popupDateFieldTo.setTabIndex(2);
 		popupDateFieldTo.setRequired(true);
 		mainLayout.addComponent(popupDateFieldTo, "top:120.0px;left:140.0px;");
-		
+
 		// txtDescription
 		txtDescription = new TextArea();
 		txtDescription.setCaption("Descripción");
@@ -611,7 +599,7 @@ public class UpdateBillView extends BaseView {
 		txtDescription.setTabIndex(2);
 		txtDescription.setNullRepresentation("");
 		mainLayout.addComponent(txtDescription, "top:190.0px;right:0px;");
-		
+
 		// txtAmount
 		txtAmount = new TextField();
 		txtAmount.setCaption("Importe");
@@ -622,8 +610,9 @@ public class UpdateBillView extends BaseView {
 		txtAmount.setRequired(true);
 		txtAmount.setNullRepresentation("");
 		txtAmount.setConverter(new StringToDoubleConverter());
+		txtAmount.setLocale(Locale.US);
 		mainLayout.addComponent(txtAmount, "top:385.0px;left:615.0px;");
-					
+
 		// txtTypeExchange
 		txtTypeExchange = new TextField();
 		txtTypeExchange.setCaption("Tipo de cambio");
@@ -635,8 +624,9 @@ public class UpdateBillView extends BaseView {
 		txtTypeExchange.setRequired(true);
 		txtTypeExchange.setNullRepresentation("");
 		txtTypeExchange.setConverter(new StringToDoubleConverter());
+		txtTypeExchange.setLocale(Locale.US);
 		mainLayout.addComponent(txtTypeExchange, "top:385.0px;right:0px;");
-		
+
 		// cboxIVA_Types
 		cboxIVA_Types = new ComboBox();
 		cboxIVA_Types.setCaption("IVA");
@@ -646,7 +636,7 @@ public class UpdateBillView extends BaseView {
 		cboxIVA_Types.setTabIndex(5);
 		cboxIVA_Types.setNullSelectionAllowed(false);
 		mainLayout.addComponent(cboxIVA_Types, "top:450.0px;left:615.0px;");
-		
+
 		// txtTotalAmount
 		txtTotalAmount = new TextField();
 		txtTotalAmount.setCaption("Importe");
@@ -657,8 +647,9 @@ public class UpdateBillView extends BaseView {
 		txtTotalAmount.setNullRepresentation("");
 		txtTotalAmount.setConverter(new StringToDoubleConverter());
 		txtTotalAmount.setTabIndex(6);
-		mainLayout.addComponent(txtTotalAmount, "top:510.0px;left:615.0px;");	
-				
+		txtTotalAmount.setLocale(Locale.US);
+		mainLayout.addComponent(txtTotalAmount, "top:510.0px;left:615.0px;");
+
 		// comboBoxProjects
 		comboBoxProjects = new ComboBox();
 		comboBoxProjects.setCaption("Proyecto");
@@ -667,7 +658,7 @@ public class UpdateBillView extends BaseView {
 		comboBoxProjects.setHeight("-1px");
 		comboBoxProjects.setTabIndex(7);
 		mainLayout.addComponent(comboBoxProjects, "top:320.0px;left:615.0px;");
-		
+
 		// popupDateFieldAppliedDate
 		popupDateFieldAppliedDate = new PopupDateField();
 		popupDateFieldAppliedDate.setCaption("Correspondiente al mes");
@@ -681,7 +672,7 @@ public class UpdateBillView extends BaseView {
 		popupDateFieldAppliedDate.setResolution(Resolution.MONTH);
 		mainLayout.addComponent(popupDateFieldAppliedDate,
 				"top:570.0px;left:615.0px;");
-		
+
 		// btnUpdate
 		btnUpdate = new Button();
 		btnUpdate.setCaption("Modificar");
@@ -690,7 +681,7 @@ public class UpdateBillView extends BaseView {
 		btnUpdate.setHeight("-1px");
 		btnUpdate.setTabIndex(9);
 		mainLayout.addComponent(btnUpdate, "top:610.0px;left:0px;");
-		
+
 		// btnCancel
 		btnCancel = new Button();
 		btnCancel.setCaption("Cancelar");
@@ -699,7 +690,7 @@ public class UpdateBillView extends BaseView {
 		btnCancel.setHeight("-1px");
 		btnCancel.setTabIndex(10);
 		mainLayout.addComponent(btnCancel, "top:610.0px;left:130.0px;");
-		
+
 		return mainLayout;
 	}
 

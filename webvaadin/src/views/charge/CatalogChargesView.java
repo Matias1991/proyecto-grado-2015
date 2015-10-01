@@ -72,18 +72,21 @@ public class CatalogChargesView extends BaseView {
 			billsGrid.removeColumn("isCurrencyDollar");
 			billsGrid.removeColumn("typeExchange");
 			billsGrid.setColumnOrder("number", "description", "amountToShow",
-					"typeExchangeToShow",
-					"createdDateTimeUTCToShow", "billCode", "billDescription");
+					"typeExchangeToShow", "createdDateTimeUTCToShow",
+					"billCode", "billDescription");
 
 			billsGrid.getColumn("number").setHeaderCaption("N° de recibo");
-			billsGrid.getColumn("description").setHeaderCaption("Descripción cobro");
+			billsGrid.getColumn("description").setHeaderCaption(
+					"Descripción cobro");
 			billsGrid.getColumn("amountToShow").setHeaderCaption("Importe");
 			billsGrid.getColumn("typeExchangeToShow").setHeaderCaption(
 					"Tipo de cambio");
 			billsGrid.getColumn("createdDateTimeUTCToShow").setHeaderCaption(
 					"Fecha de creación");
-			billsGrid.getColumn("billCode").setHeaderCaption("Codigo de factura");
-			billsGrid.getColumn("billDescription").setHeaderCaption("Descripción factura");
+			billsGrid.getColumn("billCode").setHeaderCaption(
+					"Codigo de factura");
+			billsGrid.getColumn("billDescription").setHeaderCaption(
+					"Descripción factura");
 			billsGrid.getColumn("description").setWidth(200);
 			billsGrid.getColumn("billDescription").setWidth(200);
 			billsGrid.setWidth(100, Unit.PERCENTAGE);
@@ -130,9 +133,8 @@ public class CatalogChargesView extends BaseView {
 			if (billsGrid != null) {
 				billsGrid.setVisible(false);
 			}
-			
-			lblMessage
-					.setValue("No hay cobros para mostrar");
+
+			lblMessage.setValue("No hay cobros para mostrar");
 		}
 	}
 

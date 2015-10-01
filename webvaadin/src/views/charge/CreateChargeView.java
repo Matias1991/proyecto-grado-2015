@@ -4,6 +4,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
+import java.util.Locale;
 
 import utils.PopupWindow;
 import views.BaseView;
@@ -72,37 +73,37 @@ public class CreateChargeView extends BaseView {
 	private Grid billsGrid;
 	private BeanItemContainer<Bill> beanContainer;
 	private Label lblMessage;
-	
+
 	public CreateChargeView() {
-		
+
 		super("Cobros", "Crear cobro");
-		
+
 		buildMainLayout();
 		setCompositionRoot(mainLayout);
 
 		builInputs();
-		
+
 		lblMessage = new Label("");
 		mainLayout.addComponent(lblMessage, "top:183.0px;left:0.0px;");
 
 		popupDateFieldFrom.addValueChangeListener(new ValueChangeListener() {
-		    private static final long serialVersionUID = 1L;
+			private static final long serialVersionUID = 1L;
 
 			@Override
 			public void valueChange(ValueChangeEvent event) {
 				buildGrid();
 			}
 		});
-		
+
 		popupDateFieldTo.addValueChangeListener(new ValueChangeListener() {
-		    private static final long serialVersionUID = 1L;
+			private static final long serialVersionUID = 1L;
 
 			@Override
 			public void valueChange(ValueChangeEvent event) {
-				buildGrid(); 
+				buildGrid();
 			}
 		});
-		
+
 		btnCreate.addClickListener(new Button.ClickListener() {
 			private static final long serialVersionUID = 1L;
 
@@ -114,140 +115,126 @@ public class CreateChargeView extends BaseView {
 				txtDescription.setValidationVisible(true);
 				txtAmount.setValidationVisible(true);
 				txtTypeExchange.setValidationVisible(true);
-				
+
 				boolean valid = true;
-				
-				if(txtTypeExchange.isVisible() && !txtTypeExchange.isValid())
-				{
+
+				if (txtTypeExchange.isVisible() && !txtTypeExchange.isValid()) {
 					txtTypeExchange.setRequiredError("Es requerido");
 					valid = false;
 				}
-				
-				if(!txtAmount.isValid() || !txtDescription.isValid() || !txtNumber.isValid()){
+
+				if (!txtAmount.isValid() || !txtDescription.isValid()
+						|| !txtNumber.isValid()) {
 					txtNumber.setRequiredError("Es requerido");
 					txtAmount.setRequiredError("Es requerido");
 					txtDescription.setRequiredError("Es requerido");
 					txtAmount.setConversionError("Debe ser numérico");
 					valid = false;
 				}
-				
-				if(valid)
-				{
+
+				if (valid) {
 					Bill item = (Bill) billsGrid.getSelectedRow();
 					Charge charge = new Charge();
 					charge.setNumber(txtNumber.getValue());
 					charge.setDescription(txtDescription.getValue());
 					charge.setBillId(item.getId());
-					
-					if(txtTypeExchange.isVisible() && txtTypeExchange.getValue() != null)
-					{
-						charge.setAmountDollar((Double)(txtAmount.getConvertedValue()));
-						charge.setTypeExchange((Double)(txtTypeExchange.getConvertedValue()));
+
+					if (txtTypeExchange.isVisible()
+							&& txtTypeExchange.getValue() != null) {
+						charge.setAmountDollar((Double) (txtAmount
+								.getConvertedValue()));
+						charge.setTypeExchange((Double) (txtTypeExchange
+								.getConvertedValue()));
 						charge.setIsCurrencyDollar(true);
-					}
-					else
-					{
-						charge.setAmountPeso((Double)(txtAmount.getConvertedValue()));
+					} else {
+						charge.setAmountPeso((Double) (txtAmount
+								.getConvertedValue()));
 						charge.setIsCurrencyDollar(false);
 					}
-					
+
 					boolean result = ChargeController.createCharge(charge);
 
-					if(result)
-					{
+					if (result) {
 						new PopupWindow("AVISO", "Cobro creado correctamente");
 						clearInputs();
 						buildGrid();
-					}
-					else
-					{
+					} else {
 						btnCancel.setEnabled(true);
 						btnCreate.setEnabled(true);
 					}
-				}
-				else
-				{
+				} else {
 					btnCancel.setEnabled(true);
 					btnCreate.setEnabled(true);
 				}
 			}
-		
+
 		});
-		
+
 		btnCancel.addClickListener(new Button.ClickListener() {
 			private static final long serialVersionUID = 1L;
 
 			@Override
 			public void buttonClick(ClickEvent event) {
-				UI.getCurrent().getNavigator().navigateTo(Constant.View.CHARGES);
+				UI.getCurrent().getNavigator()
+						.navigateTo(Constant.View.CHARGES);
 			}
 		});
-
-		
-		// TODO add user code here
 	}
-	
-	void builInputs()
-	{
+
+	void builInputs() {
 		Calendar cal = Calendar.getInstance();
 		cal.add(Calendar.MONTH, -1);
 		popupDateFieldFrom.setValue(cal.getTime());
 		popupDateFieldFrom.setDateFormat("MM-yyyy");
 		popupDateFieldFrom.setResolution(Resolution.MONTH);
-		
+
 		popupDateFieldTo.setValue(new Date());
 		popupDateFieldTo.setDateFormat("MM-yyyy");
 		popupDateFieldTo.setResolution(Resolution.MONTH);
-		
+
 		clearInputs();
-		
 	}
-	
-	void clearInputs()
-	{
+
+	void clearInputs() {
 		txtNumber.clear();
 		txtDescription.clear();
 		txtAmount.clear();
 		txtTypeExchange.clear();
-		
 		txtNumber.setValidationVisible(false);
 		txtDescription.setValidationVisible(false);
 		txtAmount.setValidationVisible(false);
 		txtTypeExchange.setValidationVisible(false);
-		
 		txtTypeExchange.setVisible(false);
-		
 		txtAmount.setCaption("Importe");
 	}
-	
-	void buildChargeCurrency(boolean isCurrencyDollar)
-	{	
-		if(isCurrencyDollar)
-		{
+
+	void buildChargeCurrency(boolean isCurrencyDollar) {
+		if (isCurrencyDollar) {
 			txtTypeExchange.setVisible(true);
 			txtAmount.setCaption("Importe (U$S)");
-		}
-		else
-		{
+		} else {
 			txtTypeExchange.setVisible(false);
 			txtAmount.setCaption("Importe ($)");
 		}
 	}
-	
-	public void buildGrid(){
-		
-		Collection<Bill> bills = BillController.getBillsByFiltersAndActiveProjects(popupDateFieldFrom.getValue(), popupDateFieldTo.getValue());
-		
+
+	public void buildGrid() {
+
+		Collection<Bill> bills = BillController
+				.getBillsByFiltersAndActiveProjects(
+						popupDateFieldFrom.getValue(),
+						popupDateFieldTo.getValue());
+
 		if (bills != null && bills.size() > 0) {
-			
+
 			if (billsGrid != null) {
 				mainLayout.removeComponent(billsGrid);
 			}
-			
+
 			lblMessage.setValue("");
-			
-			beanContainer = new BeanItemContainer<Bill>(Bill.class,bills);
-					
+
+			beanContainer = new BeanItemContainer<Bill>(Bill.class, bills);
+
 			billsGrid = new Grid(beanContainer);
 			billsGrid.setCaption("Facturas");
 			billsGrid.removeColumn("id");
@@ -264,122 +251,126 @@ public class CreateChargeView extends BaseView {
 			billsGrid.removeColumn("ivaType");
 			billsGrid.removeColumn("ivaTypeToShow");
 			billsGrid.removeColumn("amountChargedToShow");
-			billsGrid.setColumnOrder("code", "description", "totalAmountToShow", "amountReceivableToShow");
-	
+			billsGrid.setColumnOrder("code", "description",
+					"totalAmountToShow", "amountReceivableToShow");
+
 			billsGrid.getColumn("code").setHeaderCaption("Código");
 			billsGrid.getColumn("description").setHeaderCaption("Descripción");
-			billsGrid.getColumn("totalAmountToShow").setHeaderCaption("Importe IVA incl.");
-			billsGrid.getColumn("amountReceivableToShow").setHeaderCaption("Importe a cobrar");
+			billsGrid.getColumn("totalAmountToShow").setHeaderCaption(
+					"Importe IVA incl.");
+			billsGrid.getColumn("amountReceivableToShow").setHeaderCaption(
+					"Importe a cobrar");
 			billsGrid.getColumn("description").setWidth(200);
 			billsGrid.setWidth(620, Unit.PIXELS);
 			billsGrid.setHeight(285, Unit.PIXELS);
 			billsGrid.setSelectionMode(SelectionMode.SINGLE);
 			billsGrid.getSelectedRows().clear();
-			
+
 			HeaderRow filterRow = billsGrid.appendHeaderRow();
-			for ( final Object pid: billsGrid.getContainerDataSource().getContainerPropertyIds()){
+			for (final Object pid : billsGrid.getContainerDataSource()
+					.getContainerPropertyIds()) {
 				HeaderCell cell = filterRow.getCell(pid);
-				if(cell != null){
+				if (cell != null) {
 					TextField txtFilter = new TextField();
 					txtFilter.setImmediate(true);
 					txtFilter.setWidth("125px");
 					txtFilter.setHeight("30px");
 					txtFilter.setInputPrompt("Filtro");
-					
-					txtFilter.addTextChangeListener(new TextChangeListener() {	 
+
+					txtFilter.addTextChangeListener(new TextChangeListener() {
 						private static final long serialVersionUID = 1L;
 
-					@Override
-					  public void textChange(TextChangeEvent event) {
-					   String newValue = (String) event.getText();
-					  
-					   @SuppressWarnings("unchecked")
-					   BeanItemContainer<Bill> container = ((BeanItemContainer<Bill>) billsGrid.getContainerDataSource());
-					  
-					   container.removeContainerFilters(pid);
-					   if (null != newValue && !newValue.isEmpty()) {
-						   container.addContainerFilter(new SimpleStringFilter(pid, newValue, true, false));
-					   }					   
-					  }	
-					 });
-					cell.setComponent(txtFilter);	
+						@Override
+						public void textChange(TextChangeEvent event) {
+							String newValue = (String) event.getText();
+
+							@SuppressWarnings("unchecked")
+							BeanItemContainer<Bill> container = ((BeanItemContainer<Bill>) billsGrid
+									.getContainerDataSource());
+
+							container.removeContainerFilters(pid);
+							if (null != newValue && !newValue.isEmpty()) {
+								container
+										.addContainerFilter(new SimpleStringFilter(
+												pid, newValue, true, false));
+							}
+						}
+					});
+					cell.setComponent(txtFilter);
 				}
 			}
-			
+
 			mainLayout.addComponent(billsGrid, "top:38%;left:0px;");
-			
+
 			billsGrid.addSelectionListener(new SelectionListener() {
 				private static final long serialVersionUID = 1L;
 
 				@Override
 				public void select(SelectionEvent event) {
-					
-					BeanItem<Bill> item = beanContainer.getItem(billsGrid.getSelectedRow());
-					if(item != null)
-					{
+
+					BeanItem<Bill> item = beanContainer.getItem(billsGrid
+							.getSelectedRow());
+					if (item != null) {
 						setEnabledEditionInputs(true);
 						setRequiredEditionInputs(true);
-						buildChargeCurrency(item.getBean().getIsCurrencyDollar());
-					}
-					else
-					{
+						buildChargeCurrency(item.getBean()
+								.getIsCurrencyDollar());
+					} else {
 						setEnabledEditionInputs(false);
 						setRequiredEditionInputs(false);
 						clearInputs();
 					}
 				}
-				
+
 			});
-			
+
 			setVisibleEditionInputs(true);
 			setEnabledEditionInputs(false);
 			setRequiredEditionInputs(false);
-		}
-		else
-		{
-			if(billsGrid != null)
-			{
+		} else {
+			if (billsGrid != null) {
 				billsGrid.setVisible(false);
 			}
-			
-			String strDateFrom = new SimpleDateFormat("MM-yyyy").format(popupDateFieldFrom.getValue());
-			String strDateTo = new SimpleDateFormat("MM-yyyy").format(popupDateFieldTo.getValue());
 
-			lblMessage.setValue("No hay facturas para mostrar entre el rango fechas " + strDateFrom  + " - " + strDateTo);
-			
+			String strDateFrom = new SimpleDateFormat("MM-yyyy")
+					.format(popupDateFieldFrom.getValue());
+			String strDateTo = new SimpleDateFormat("MM-yyyy")
+					.format(popupDateFieldTo.getValue());
+
+			lblMessage
+					.setValue("No hay facturas para mostrar entre el rango fechas "
+							+ strDateFrom + " - " + strDateTo);
+
 			setVisibleEditionInputs(false);
 		}
 	}
-	
-	void setVisibleEditionInputs(boolean visible)
-	{
+
+	void setVisibleEditionInputs(boolean visible) {
 		btnCreate.setVisible(visible);
 		btnCancel.setVisible(visible);
 		txtNumber.setVisible(visible);
 		txtDescription.setVisible(visible);
 		txtAmount.setVisible(visible);
 	}
-	
-	void setEnabledEditionInputs(boolean enabled)
-	{
+
+	void setEnabledEditionInputs(boolean enabled) {
 		btnCreate.setEnabled(enabled);
 		btnCancel.setEnabled(enabled);
 		txtNumber.setEnabled(enabled);
 		txtDescription.setEnabled(enabled);
 		txtAmount.setEnabled(enabled);
 	}
-	
-	void setRequiredEditionInputs(boolean required)
-	{
+
+	void setRequiredEditionInputs(boolean required) {
 		txtNumber.setRequired(required);
 		txtDescription.setRequired(required);
 		txtAmount.setRequired(required);
 	}
-	
+
 	@Override
 	public void enter(ViewChangeEvent event) {
 		super.enter(event);
-		if(RequestContext.getRequestContext() != null){
+		if (RequestContext.getRequestContext() != null) {
 			builInputs();
 			buildGrid();
 		}
@@ -392,11 +383,11 @@ public class CreateChargeView extends BaseView {
 		mainLayout.setImmediate(false);
 		mainLayout.setWidth("880px");
 		mainLayout.setHeight("501px");
-		
+
 		// top-level component properties
 		setWidth("880px");
 		setHeight("800px");
-		
+
 		// lblTitle
 		lblTitle = new Label();
 		lblTitle.setStyleName("titleLabel");
@@ -405,7 +396,7 @@ public class CreateChargeView extends BaseView {
 		lblTitle.setHeight("-1px");
 		lblTitle.setValue(getBreadCrumbToShow());
 		mainLayout.addComponent(lblTitle, "top:40.0px;left:0.0px;");
-		
+
 		// lblInfo
 		lblInfo = new Label();
 		lblInfo.setStyleName("update-bill-lblInformation");
@@ -414,11 +405,12 @@ public class CreateChargeView extends BaseView {
 		lblInfo.setWidth("-1px");
 		lblInfo.setHeight("-1px");
 		StringBuilder strBuilder = new StringBuilder();
-		strBuilder.append("<b>Importante:</b> Las facturas que se muestran cumplen con lo siguiente</br>");
+		strBuilder
+				.append("<b>Importante:</b> Las facturas que se muestran cumplen con lo siguiente</br>");
 		strBuilder.append("- Pertenecen a proyectos activos");
 		lblInfo.setValue(strBuilder.toString());
 		mainLayout.addComponent(lblInfo, "top:120.0px;left:270.0px;");
-		
+
 		// popupDateFieldFrom
 		popupDateFieldFrom = new PopupDateField();
 		popupDateFieldFrom.setCaption("Desde");
@@ -428,7 +420,7 @@ public class CreateChargeView extends BaseView {
 		popupDateFieldFrom.setTabIndex(1);
 		popupDateFieldFrom.setRequired(true);
 		mainLayout.addComponent(popupDateFieldFrom, "top:120.0px;left:0.0px;");
-		
+
 		// popupDateFieldTo
 		popupDateFieldTo = new PopupDateField();
 		popupDateFieldTo.setCaption("Hasta");
@@ -438,7 +430,7 @@ public class CreateChargeView extends BaseView {
 		popupDateFieldTo.setTabIndex(2);
 		popupDateFieldTo.setRequired(true);
 		mainLayout.addComponent(popupDateFieldTo, "top:120.0px;left:140.0px;");
-		
+
 		// txtDescription
 		txtNumber = new TextField();
 		txtNumber.setCaption("Número de recibo");
@@ -448,7 +440,7 @@ public class CreateChargeView extends BaseView {
 		txtNumber.setTabIndex(3);
 		txtNumber.setRequired(true);
 		mainLayout.addComponent(txtNumber, "top:210.0px;right:0px;");
-				
+
 		// txtDescription
 		txtDescription = new TextArea();
 		txtDescription.setCaption("Descripción");
@@ -462,7 +454,7 @@ public class CreateChargeView extends BaseView {
 		txtDescription.setTabIndex(3);
 		txtDescription.setRequired(true);
 		mainLayout.addComponent(txtDescription, "top:275.0px;right:0px;");
-		
+
 		// txtAmount
 		txtAmount = new TextField();
 		txtAmount.setCaption("Importe");
@@ -472,9 +464,10 @@ public class CreateChargeView extends BaseView {
 		txtAmount.setTabIndex(5);
 		txtAmount.setRequired(true);
 		txtAmount.setNullRepresentation("");
+		txtAmount.setLocale(Locale.US);
 		txtAmount.setConverter(new StringToDoubleConverter());
 		mainLayout.addComponent(txtAmount, "top:360.0px;right:128px;");
-		
+
 		// txtTypeExchange
 		txtTypeExchange = new TextField();
 		txtTypeExchange.setCaption("Tipo de cambio");
@@ -485,9 +478,10 @@ public class CreateChargeView extends BaseView {
 		txtTypeExchange.setTabIndex(6);
 		txtTypeExchange.setRequired(true);
 		txtTypeExchange.setNullRepresentation("");
+		txtTypeExchange.setLocale(Locale.US);
 		txtTypeExchange.setConverter(new StringToDoubleConverter());
 		mainLayout.addComponent(txtTypeExchange, "top:360.0px;right:0px;");
-		
+
 		// btnUpdate
 		btnCreate = new Button();
 		btnCreate.setCaption("Crear");
@@ -496,7 +490,7 @@ public class CreateChargeView extends BaseView {
 		btnCreate.setHeight("-1px");
 		btnCreate.setTabIndex(9);
 		mainLayout.addComponent(btnCreate, "top:420.0px;right:128px;");
-		
+
 		// btnCancel
 		btnCancel = new Button();
 		btnCancel.setCaption("Cancelar");
@@ -505,7 +499,7 @@ public class CreateChargeView extends BaseView {
 		btnCancel.setHeight("-1px");
 		btnCancel.setTabIndex(10);
 		mainLayout.addComponent(btnCancel, "top:420.0px;right:0px;");
-		
+
 		return mainLayout;
 	}
 

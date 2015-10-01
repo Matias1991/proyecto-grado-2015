@@ -60,35 +60,35 @@ public class DeleteBillsView extends BaseView {
 	private static final long serialVersionUID = -6425680180232429909L;
 
 	public DeleteBillsView() {
-		
+
 		super("Facturas", "Eliminar facturas");
-		
+
 		buildMainLayout();
 		setCompositionRoot(mainLayout);
 
 		builInputs();
-		
+
 		lblMessage = new Label("");
 		mainLayout.addComponent(lblMessage, "top:183.0px;left:0.0px;");
-		
+
 		popupDateFieldFrom.addValueChangeListener(new ValueChangeListener() {
-		    private static final long serialVersionUID = 1L;
+			private static final long serialVersionUID = 1L;
 
 			@Override
 			public void valueChange(ValueChangeEvent event) {
 				buildGrid();
 			}
 		});
-		
+
 		popupDateFieldTo.addValueChangeListener(new ValueChangeListener() {
-		    private static final long serialVersionUID = 1L;
+			private static final long serialVersionUID = 1L;
 
 			@Override
 			public void valueChange(ValueChangeEvent event) {
-				buildGrid(); 
+				buildGrid();
 			}
 		});
-		
+
 		btnDelete.addClickListener(new Button.ClickListener() {
 			private static final long serialVersionUID = 1L;
 
@@ -105,20 +105,22 @@ public class DeleteBillsView extends BaseView {
 							@Override
 							public void onClose(ConfirmDialog confirm) {
 								if (confirm.isConfirmed()) {
-									
-									int [] ids = new int[billsGrid.getSelectedRows().size()];
-									int i=0;
-									for (Object itemId: billsGrid.getSelectedRows())
-									{
-										BeanItem<Bill> item = beanContainer.getItem(itemId);
+
+									int[] ids = new int[billsGrid
+											.getSelectedRows().size()];
+									int i = 0;
+									for (Object itemId : billsGrid
+											.getSelectedRows()) {
+										BeanItem<Bill> item = beanContainer
+												.getItem(itemId);
 										ids[i] = item.getBean().getId();
 										i++;
 									}
-									
+
 									BillController.deleteBills(ids);
 
 									btnDelete.setEnabled(false);
-									if(billsGrid != null){
+									if (billsGrid != null) {
 										mainLayout.removeComponent(billsGrid);
 									}
 									buildGrid();
@@ -131,35 +133,37 @@ public class DeleteBillsView extends BaseView {
 		});
 	}
 
-	void builInputs()
-	{
+	void builInputs() {
 		Calendar cal = Calendar.getInstance();
 		cal.add(Calendar.MONTH, -1);
 		popupDateFieldFrom.setValue(cal.getTime());
 		popupDateFieldFrom.setDateFormat("MM-yyyy");
 		popupDateFieldFrom.setResolution(Resolution.MONTH);
-		
+
 		popupDateFieldTo.setValue(new Date());
 		popupDateFieldTo.setDateFormat("MM-yyyy");
 		popupDateFieldTo.setResolution(Resolution.MONTH);
 	}
-	
-	public void buildGrid(){
-		
-		Collection<Bill> bills = BillController.getBillsByFiltersAndActiveProjects(popupDateFieldFrom.getValue(), popupDateFieldTo.getValue(), false, false);
-		
+
+	public void buildGrid() {
+
+		Collection<Bill> bills = BillController
+				.getBillsByFiltersAndActiveProjects(
+						popupDateFieldFrom.getValue(),
+						popupDateFieldTo.getValue(), false, false);
+
 		if (bills != null && bills.size() > 0) {
-			
+
 			if (billsGrid != null) {
 				mainLayout.removeComponent(billsGrid);
 			}
-			
+
 			lblMessage.setValue("");
-			
+
 			btnDelete.setVisible(true);
-			
-			beanContainer = new BeanItemContainer<Bill>(Bill.class,bills);
-					
+
+			beanContainer = new BeanItemContainer<Bill>(Bill.class, bills);
+
 			billsGrid = new Grid(beanContainer);
 			billsGrid.removeColumn("id");
 			billsGrid.removeColumn("projectId");
@@ -173,85 +177,96 @@ public class DeleteBillsView extends BaseView {
 			billsGrid.removeColumn("amountChargedToShow");
 			billsGrid.removeColumn("amountReceivableToShow");
 			billsGrid.removeColumn("description");
-			billsGrid.setColumnOrder("code", "totalAmountToShow", "typeExchangeToShow", "ivaTypeToShow","appliedDateTimeUTCToShow", "projectName");
-			
+			billsGrid.setColumnOrder("code", "totalAmountToShow",
+					"typeExchangeToShow", "ivaTypeToShow",
+					"appliedDateTimeUTCToShow", "projectName");
+
 			billsGrid.getColumn("code").setHeaderCaption("Código");
 			billsGrid.getColumn("ivaTypeToShow").setHeaderCaption("IVA");
-			billsGrid.getColumn("totalAmountToShow").setHeaderCaption("Importe IVA incl.");
-			billsGrid.getColumn("typeExchangeToShow").setHeaderCaption("Tipo de cambio");
-			billsGrid.getColumn("appliedDateTimeUTCToShow").setHeaderCaption("Correspondiente al mes");
+			billsGrid.getColumn("totalAmountToShow").setHeaderCaption(
+					"Importe IVA incl.");
+			billsGrid.getColumn("typeExchangeToShow").setHeaderCaption(
+					"Tipo de cambio");
+			billsGrid.getColumn("appliedDateTimeUTCToShow").setHeaderCaption(
+					"Correspondiente al mes");
 			billsGrid.getColumn("projectName").setHeaderCaption("Proyecto");
 			billsGrid.setWidth(100, Unit.PERCENTAGE);
 			billsGrid.setHeight(100, Unit.PERCENTAGE);
 			billsGrid.setSelectionMode(SelectionMode.SINGLE);
 			billsGrid.getSelectedRows().clear();
-			
+
 			HeaderRow filterRow = billsGrid.appendHeaderRow();
-			for ( final Object pid: billsGrid.getContainerDataSource().getContainerPropertyIds()){
+			for (final Object pid : billsGrid.getContainerDataSource()
+					.getContainerPropertyIds()) {
 				HeaderCell cell = filterRow.getCell(pid);
-				if(cell != null){
+				if (cell != null) {
 					TextField txtFilter = new TextField();
 					txtFilter.setImmediate(true);
 					txtFilter.setWidth("125px");
 					txtFilter.setHeight("30px");
 					txtFilter.setInputPrompt("Filtro");
-					
-					txtFilter.addTextChangeListener(new TextChangeListener() {	 
+
+					txtFilter.addTextChangeListener(new TextChangeListener() {
 						private static final long serialVersionUID = 1L;
 
-					@Override
-					  public void textChange(TextChangeEvent event) {
-					   String newValue = (String) event.getText();
-					  
-					   @SuppressWarnings("unchecked")
-					   BeanItemContainer<Bill> container = ((BeanItemContainer<Bill>) billsGrid.getContainerDataSource());
-					  
-					   container.removeContainerFilters(pid);
-					   if (null != newValue && !newValue.isEmpty()) {
-						   container.addContainerFilter(new SimpleStringFilter(pid, newValue, true, false));
-					   }					   
-					  }	
-					 });
-					cell.setComponent(txtFilter);	
+						@Override
+						public void textChange(TextChangeEvent event) {
+							String newValue = (String) event.getText();
+
+							@SuppressWarnings("unchecked")
+							BeanItemContainer<Bill> container = ((BeanItemContainer<Bill>) billsGrid
+									.getContainerDataSource());
+
+							container.removeContainerFilters(pid);
+							if (null != newValue && !newValue.isEmpty()) {
+								container
+										.addContainerFilter(new SimpleStringFilter(
+												pid, newValue, true, false));
+							}
+						}
+					});
+					cell.setComponent(txtFilter);
 				}
 			}
-			
+
 			billsGrid.addSelectionListener(new SelectionListener() {
 				private static final long serialVersionUID = 1L;
 
 				@Override
 				public void select(SelectionEvent event) {
-					btnDelete.setEnabled(billsGrid.getSelectedRows().size() > 0);
+					btnDelete
+							.setEnabled(billsGrid.getSelectedRows().size() > 0);
 				}
 			});
-			
+
 			mainLayout.addComponent(billsGrid, "top:35%;left:0px;");
-		}
-		else
-		{
-			if(billsGrid != null)
-			{
+		} else {
+			if (billsGrid != null) {
 				billsGrid.setVisible(false);
 			}
-			
+
 			btnDelete.setVisible(false);
-			
-			String strDateFrom = new SimpleDateFormat("MM-yyyy").format(popupDateFieldFrom.getValue());
-			String strDateTo = new SimpleDateFormat("MM-yyyy").format(popupDateFieldTo.getValue());
-			
-			lblMessage.setValue("No hay facturas para mostrar entre el rango fechas " + strDateFrom  + " - " + strDateTo);
+
+			String strDateFrom = new SimpleDateFormat("MM-yyyy")
+					.format(popupDateFieldFrom.getValue());
+			String strDateTo = new SimpleDateFormat("MM-yyyy")
+					.format(popupDateFieldTo.getValue());
+
+			lblMessage
+					.setValue("No hay facturas para mostrar entre el rango fechas "
+							+ strDateFrom + " - " + strDateTo);
 		}
 	}
-	
+
 	@Override
 	public void enter(ViewChangeEvent event) {
 		super.enter(event);
-		if(RequestContext.getRequestContext() != null){
+		if (RequestContext.getRequestContext() != null) {
 			builInputs();
 			buildGrid();
 		}
 	}
-	
+
 	@AutoGenerated
 	private AbsoluteLayout buildMainLayout() {
 		// common part: create layout
@@ -259,11 +274,11 @@ public class DeleteBillsView extends BaseView {
 		mainLayout.setImmediate(false);
 		mainLayout.setWidth("880px");
 		mainLayout.setHeight("501px");
-		
+
 		// top-level component properties
 		setWidth("880px");
 		setHeight("501px");
-		
+
 		// lblTitle
 		lblTitle = new Label();
 		lblTitle.setStyleName("titleLabel");
@@ -272,7 +287,7 @@ public class DeleteBillsView extends BaseView {
 		lblTitle.setHeight("-1px");
 		lblTitle.setValue(getBreadCrumbToShow());
 		mainLayout.addComponent(lblTitle, "top:40.0px;left:0.0px;");
-		
+
 		// lblInfo
 		lblInfo = new Label();
 		lblInfo.setStyleName("update-bill-lblInformation");
@@ -281,13 +296,14 @@ public class DeleteBillsView extends BaseView {
 		lblInfo.setWidth("-1px");
 		lblInfo.setHeight("-1px");
 		StringBuilder strBuilder = new StringBuilder();
-		strBuilder.append("<b>Importante:</b> Las facturas que se muestran cumplen con lo siguiente</br>");
+		strBuilder
+				.append("<b>Importante:</b> Las facturas que se muestran cumplen con lo siguiente</br>");
 		strBuilder.append("- No estan liquidadas aun</br>");
 		strBuilder.append("- No tienen cobros asociados</br>");
 		strBuilder.append("- Pertenecen a proyectos activos");
 		lblInfo.setValue(strBuilder.toString());
 		mainLayout.addComponent(lblInfo, "top:100.0px;left:270.0px;");
-		
+
 		// popupDateFieldFrom
 		popupDateFieldFrom = new PopupDateField();
 		popupDateFieldFrom.setCaption("Desde");
@@ -297,7 +313,7 @@ public class DeleteBillsView extends BaseView {
 		popupDateFieldFrom.setTabIndex(1);
 		popupDateFieldFrom.setRequired(true);
 		mainLayout.addComponent(popupDateFieldFrom, "top:120.0px;left:0.0px;");
-		
+
 		// popupDateFieldTo
 		popupDateFieldTo = new PopupDateField();
 		popupDateFieldTo.setCaption("Hasta");
@@ -307,7 +323,7 @@ public class DeleteBillsView extends BaseView {
 		popupDateFieldTo.setTabIndex(2);
 		popupDateFieldTo.setRequired(true);
 		mainLayout.addComponent(popupDateFieldTo, "top:120.0px;left:140.0px;");
-		
+
 		// btnDelete
 		btnDelete = new Button();
 		btnDelete.setCaption("Eliminar");
@@ -317,7 +333,7 @@ public class DeleteBillsView extends BaseView {
 		btnDelete.setHeight("-1px");
 		btnDelete.setTabIndex(3);
 		mainLayout.addComponent(btnDelete, "top:120.0px;right:0px;");
-		
+
 		return mainLayout;
 	}
 }
