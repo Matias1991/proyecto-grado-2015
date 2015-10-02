@@ -124,15 +124,13 @@ public class ServiceMobile extends ServiceBase{
 		return false;
 	}
 	
-	public VOBill[] getNotLiquidatedBills(int userContextId) {
+	public VOBill[] getBillsByProject(int projectId) {
 		try {
 			transactionLock.tryLock(Constants.DEFAULT_TRANSACTION_TIME,
 					TimeUnit.SECONDS);
 
-			User userContext = iCoreUser.getUser(userContextId);
-			
 			return billBuilder.BuildArrayVOObject(VOBill.class,
-					iCoreBill.getNotLiquidatedBills(userContext));
+					iCoreBill.getBills(projectId));
 
 		} catch (ServerException e) {
 			ThrowServerExceptionAndLogError(e, "obtener todos las facturas");
@@ -145,7 +143,7 @@ public class ServiceMobile extends ServiceBase{
 		}
 		return null;
 	}
-		
+
 	public boolean insertCharge(VOCharge voCharge) {
 		try {
 			transactionLock.tryLock(Constants.DEFAULT_TRANSACTION_TIME,

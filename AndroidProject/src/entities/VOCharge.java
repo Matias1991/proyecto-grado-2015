@@ -44,6 +44,8 @@ public class VOCharge implements KvmSerializable {
 		this.billId = Integer.parseInt(object.getProperty(7).toString());
 		// this.billCode
 		// this.billDescription
+		// this.amountChargedDollar
+		// this.amountChargedPeso
 	}
 
 	public int getId() {

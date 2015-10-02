@@ -4,7 +4,7 @@ import org.ksoap2.serialization.SoapObject;
 
 public class Deserialization {
 
-	public  <T> void SoapDeserialize(T item,SoapObject object){
-		//TODO...
+	public <T> void SoapDeserialize(T item, SoapObject object) {
+		// TODO...
 	}
 }

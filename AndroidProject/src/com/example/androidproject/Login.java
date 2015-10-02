@@ -14,53 +14,60 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 public class Login extends Activity {
-	
-    AlertDialogManager alert = new AlertDialogManager();
-    
-    UserSession session;
-    
+
+	AlertDialogManager alert = new AlertDialogManager();
+
+	UserSession session;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		//StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-	    //StrictMode.setThreadPolicy(policy);
-	     
+		// StrictMode.ThreadPolicy policy = new
+		// StrictMode.ThreadPolicy.Builder().permitAll().build();
+		// StrictMode.setThreadPolicy(policy);
+
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_login);
 
 		if (android.os.Build.VERSION.SDK_INT > 9) {
-		    StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-		    StrictMode.setThreadPolicy(policy);
+			StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder()
+					.permitAll().build();
+			StrictMode.setThreadPolicy(policy);
 		}
-		
-        session = new UserSession(getApplicationContext());  
-        
+
+		session = new UserSession(getApplicationContext());
+
 		final Button button = (Button) findViewById(R.id.btnLoginApp);
-        button.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-            	EditText txtUsername = (EditText) findViewById(R.id.txtUsernameApp);
-                EditText txtPassword = (EditText) findViewById(R.id.txtPasswordApp);
-            	String username = txtUsername.getText().toString();
-            	String password = txtPassword.getText().toString();
-               
-                if(username.trim().length() > 0 && password.trim().length() > 0){
-	            	try {
-	            		UserController userController = new UserController(getResources().getString(R.string.ip_server));
-						VOUser voUser = userController.login(username, password);
-						
+		button.setOnClickListener(new View.OnClickListener() {
+			public void onClick(View v) {
+				EditText txtUsername = (EditText) findViewById(R.id.txtUsernameApp);
+				EditText txtPassword = (EditText) findViewById(R.id.txtPasswordApp);
+				String username = txtUsername.getText().toString();
+				String password = txtPassword.getText().toString();
+
+				if (username.trim().length() > 0
+						&& password.trim().length() > 0) {
+					try {
+						UserController userController = new UserController(
+								getResources().getString(R.string.ip_server));
+						VOUser voUser = userController
+								.login(username, password);
+
 						session.createUserLoginSession(voUser, password);
-						
-	                    Intent i = new Intent(getApplicationContext(), MainMenu.class);
-	                    startActivity(i);
-	                    finish();
-						
+
+						Intent i = new Intent(getApplicationContext(),
+								MainMenu.class);
+						startActivity(i);
+						finish();
+
 					} catch (Exception e) {
-	
-						alert.showAlertDialog(Login.this, "Fallo el ingreso..", e.getMessage());
-					}    
-            	}
-                else
-                    alert.showAlertDialog(Login.this, "Fallo el ingreso..", "Por favor ingrese los campos usuario y clave");
-            }
-        });
+
+						alert.showAlertDialog(Login.this, "Fallo el ingreso..",
+								e.getMessage());
+					}
+				} else
+					alert.showAlertDialog(Login.this, "Fallo el ingreso..",
+							"Por favor ingrese los campos usuario y clave");
+			}
+		});
 	}
 }

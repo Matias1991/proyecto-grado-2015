@@ -12,58 +12,60 @@ import android.widget.Button;
 import android.widget.Toast;
 
 public class MainMenu extends Activity {
-	
-    UserSession session;
-	
+
+	UserSession session;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main_menu);
-		
-        session = new UserSession(getApplicationContext());
 
-        session.checkLogin();
-         
+		session = new UserSession(getApplicationContext());
+
+		session.checkLogin();
+
 		final Button btnCreateBill = (Button) findViewById(R.id.btnCreateBill);
 		final Button btnCreateCharge = (Button) findViewById(R.id.btnCreateCharge);
 		final Button btnLogout = (Button) findViewById(R.id.btnLogout);
-		
+
 		btnCreateBill.setOnClickListener(new View.OnClickListener() {
-			
+
 			@Override
 			public void onClick(View v) {
-				
+
 				Intent i = new Intent(getApplicationContext(), CreateBill.class);
-                startActivity(i);
-                finish();
+				startActivity(i);
+				finish();
 			}
 		});
-		
+
 		btnCreateCharge.setOnClickListener(new View.OnClickListener() {
-			
+
 			@Override
 			public void onClick(View v) {
-//				new AlertDialog.Builder(MainMenu.this)
-//				.setTitle("Atencion")
-//				.setMessage("No existe implementacion aún.")        				
-//			   .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-//			        public void onClick(DialogInterface dialog, int which) { 
-//			        }
-//			     })        			    
-//			    .setIcon(android.R.drawable.ic_dialog_alert)
-//			     .show();
-				Intent i = new Intent(getApplicationContext(), CreateCharge.class);
-                startActivity(i);
-                finish();
-				
+				// new AlertDialog.Builder(MainMenu.this)
+				// .setTitle("Atencion")
+				// .setMessage("No existe implementacion aún.")
+				// .setPositiveButton(android.R.string.yes, new
+				// DialogInterface.OnClickListener() {
+				// public void onClick(DialogInterface dialog, int which) {
+				// }
+				// })
+				// .setIcon(android.R.drawable.ic_dialog_alert)
+				// .show();
+				Intent i = new Intent(getApplicationContext(),
+						CreateCharge.class);
+				startActivity(i);
+				finish();
+
 			}
 		});
-		
+
 		btnLogout.setOnClickListener(new View.OnClickListener() {
-			
+
 			@Override
 			public void onClick(View v) {
-                session.logoutUser();
+				session.logoutUser();
 			}
 		});
 	}
@@ -79,7 +81,7 @@ public class MainMenu extends Activity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		// Handle action bar item clicks here. The action bar will
 		// automatically handle clicks on the Home/Up button, so long
-		// as you specify a parent activity in AndroidManifest.xml.		
+		// as you specify a parent activity in AndroidManifest.xml.
 		int id = item.getItemId();
 		if (id == R.id.action_settings) {
 			return true;

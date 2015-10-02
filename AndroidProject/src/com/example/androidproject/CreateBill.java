@@ -34,17 +34,17 @@ import android.widget.TextView;
 public class CreateBill extends Activity {
 
 	private Spinner ivaTypes, projects;
-	private TextView txtCode, txtDescription, txtDateApplied, txtAmountWithoutIVA, txtAmountWithIVA, txtTypeExchange;
+	private TextView txtCode, txtDescription, txtDateApplied,
+			txtAmountWithoutIVA, txtAmountWithIVA, txtTypeExchange;
 	private Button btnCreate, btnCancel;
 	Calendar myCalendar = Calendar.getInstance();
 	UserSession session;
-	
+
 	ArrayList<VOProject> listProjects;
-	
+
 	AlertDialogManager alert = new AlertDialogManager();
 
-	void buildFields()
-	{
+	void buildFields() {
 		txtCode = (TextView) findViewById(R.id.txtCode);
 		txtDescription = (TextView) findViewById(R.id.txtDescription);
 		txtDateApplied = (TextView) findViewById(R.id.txtDateApplied);
@@ -54,9 +54,8 @@ public class CreateBill extends Activity {
 		btnCreate = (Button) findViewById(R.id.btnCreate);
 		btnCancel = (Button) findViewById(R.id.btnCancel);
 	}
-	
-	void cleanInputs()
-	{
+
+	void cleanInputs() {
 		txtCode.setText("");
 		txtDescription.setText("");
 		projects.setSelection(0);
@@ -66,7 +65,7 @@ public class CreateBill extends Activity {
 		txtAmountWithIVA.setText("");
 		updateLabel();
 	}
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -79,7 +78,7 @@ public class CreateBill extends Activity {
 		buildProjects();
 
 		txtTypeExchange.setEnabled(false);
-		
+
 		txtDateApplied.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -88,35 +87,30 @@ public class CreateBill extends Activity {
 				createDialogWithoutDateField().show();
 			}
 		});
-		
+
 		txtAmountWithoutIVA.addTextChangedListener(new TextWatcher() {
 
 			@Override
 			public void onTextChanged(CharSequence s, int start, int before,
 					int count) {
-				
+
 				double totalAmount = 0;
-				if(!s.equals("") )
-                { //do your work here }
-					if (!txtAmountWithoutIVA.getText().toString().matches(""))
-					{
-						double amount = Double.parseDouble(txtAmountWithoutIVA.getText().toString());
-						if(ivaTypes.getSelectedItem().toString() == "IVA 22%")
-						{
-							totalAmount = amount * 1.22; 
-						}
-						else if(ivaTypes.getSelectedItem().toString() == "IVA 10%")
-						{
-							
-							totalAmount = amount * 1.10; 
-						}
-						else
+				if (!s.equals("")) { // do your work here }
+					if (!txtAmountWithoutIVA.getText().toString().matches("")) {
+						double amount = Double.parseDouble(txtAmountWithoutIVA
+								.getText().toString());
+						if (ivaTypes.getSelectedItem().toString() == "IVA 22%") {
+							totalAmount = amount * 1.22;
+						} else if (ivaTypes.getSelectedItem().toString() == "IVA 10%") {
+
+							totalAmount = amount * 1.10;
+						} else
 							totalAmount = amount;
 					}
-                }
-				DecimalFormat df = new DecimalFormat("#.00"); 
+				}
+				DecimalFormat df = new DecimalFormat("#.00");
 				String strTotalAmount = df.format(totalAmount);
-				if(totalAmount == 0)
+				if (totalAmount == 0)
 					txtAmountWithIVA.setText("");
 				else
 					txtAmountWithIVA.setText(strTotalAmount);
@@ -126,7 +120,7 @@ public class CreateBill extends Activity {
 			public void beforeTextChanged(CharSequence s, int start, int count,
 					int after) {
 				// TODO Auto-generated method stub
-				
+
 			}
 
 			@Override
@@ -134,153 +128,149 @@ public class CreateBill extends Activity {
 				// TODO Auto-generated method stub
 			}
 		});
-		
+
 		ivaTypes.setOnItemSelectedListener(new OnItemSelectedListener() {
 
-	        @Override
-	        public void onItemSelected(AdapterView<?> arg0, View arg1,
-	                int arg2, long arg3) {
-	            // TODO Auto-generated method stub
+			@Override
+			public void onItemSelected(AdapterView<?> arg0, View arg1,
+					int arg2, long arg3) {
+				// TODO Auto-generated method stub
 
-	            String selCat = ivaTypes.getItemAtPosition(arg2).toString();
+				String selCat = ivaTypes.getItemAtPosition(arg2).toString();
 
-	            double totalAmount = 0;
-	            if (!txtAmountWithoutIVA.getText().toString().matches(""))
-	    		{
-	    			double amount = Double.parseDouble(txtAmountWithoutIVA.getText().toString());
-	    			if(selCat == "IVA 22%")
-	    			{
-	    				totalAmount = amount * 1.22; 
-	    			}
-	    			else if(selCat == "IVA 10%")
-	    			{
-	    				totalAmount = amount * 1.10; 
-	    			}
-	    			else
-	    				totalAmount = amount;
-	    		}
-	            DecimalFormat df = new DecimalFormat("#.00"); 
+				double totalAmount = 0;
+				if (!txtAmountWithoutIVA.getText().toString().matches("")) {
+					double amount = Double.parseDouble(txtAmountWithoutIVA
+							.getText().toString());
+					if (selCat == "IVA 22%") {
+						totalAmount = amount * 1.22;
+					} else if (selCat == "IVA 10%") {
+						totalAmount = amount * 1.10;
+					} else
+						totalAmount = amount;
+				}
+				DecimalFormat df = new DecimalFormat("#.00");
 				String strTotalAmount = df.format(totalAmount);
-				if(totalAmount == 0)
+				if (totalAmount == 0)
 					txtAmountWithIVA.setText("");
 				else
 					txtAmountWithIVA.setText(strTotalAmount);
-	        }
+			}
 
-	        @Override
-	        public void onNothingSelected(AdapterView<?> arg0) {
-	            // TODO Auto-generated method stub
+			@Override
+			public void onNothingSelected(AdapterView<?> arg0) {
+				// TODO Auto-generated method stub
 
-	        }
-	    });
-		
+			}
+		});
+
 		projects.setOnItemSelectedListener(new OnItemSelectedListener() {
 
-	        @Override
-	        public void onItemSelected(AdapterView<?> arg0, View arg1,
-	                int arg2, long arg3) {
-	            // TODO Auto-generated method stub
+			@Override
+			public void onItemSelected(AdapterView<?> arg0, View arg1,
+					int arg2, long arg3) {
+				// TODO Auto-generated method stub
 
-	            String selCat = projects.getItemAtPosition(arg2).toString();
+				String selCat = projects.getItemAtPosition(arg2).toString();
 
-	            if(selCat != "Seleccione el proyecto")
-	            {
-		            VOProject voProject = getProject(selCat);
-		            if(voProject.getIsCurrencyDollar())
-		            {
-		            	txtAmountWithoutIVA.setHint("Importe sin IVA (U$S)");
-		            	txtAmountWithIVA.setHint("Importe IVA incl. (U$S)");
-		            	txtTypeExchange.setEnabled(true);
-		            }
-		            else
-		            {
-		            	txtAmountWithoutIVA.setHint("Importe sin IVA ($)");
-		            	txtAmountWithIVA.setHint("Importe IVA incl. ($)");
-		            	txtTypeExchange.setEnabled(false);
-		            }
-	            }
-	        }
+				if (selCat != "Seleccione el proyecto") {
+					VOProject voProject = getProject(selCat);
+					if (voProject.getIsCurrencyDollar()) {
+						txtAmountWithoutIVA.setHint("Importe sin IVA (U$S)");
+						txtAmountWithIVA.setHint("Importe IVA incl. (U$S)");
+						txtTypeExchange.setEnabled(true);
+					} else {
+						txtAmountWithoutIVA.setHint("Importe sin IVA ($)");
+						txtAmountWithIVA.setHint("Importe IVA incl. ($)");
+						txtTypeExchange.setEnabled(false);
+					}
+				}
+			}
 
-	        @Override
-	        public void onNothingSelected(AdapterView<?> arg0) {
-	            // TODO Auto-generated method stub
+			@Override
+			public void onNothingSelected(AdapterView<?> arg0) {
+				// TODO Auto-generated method stub
 
-	        }
-	    });
-		
+			}
+		});
+
 		btnCreate.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-            	if(validateFields())
-            	{
-            		BillController billController = new BillController(getResources().getString(R.string.ip_server));
-            		try {
-            			VOBill voBill = new VOBill();
-            			voBill.setCode(txtCode.getText().toString());
-            			voBill.setDescription(txtDescription.getText().toString());
-            			voBill.setProjectId(getProject(projects.getSelectedItem().toString()).getId());
-            			SimpleDateFormat format = new SimpleDateFormat("MM-yyyy");
-            			voBill.setAppliedDateTimeUTC(format.parse(txtDateApplied.getText().toString()));
+			public void onClick(View v) {
+				if (validateFields()) {
+					BillController billController = new BillController(
+							getResources().getString(R.string.ip_server));
+					try {
+						VOBill voBill = new VOBill();
+						voBill.setCode(txtCode.getText().toString());
+						voBill.setDescription(txtDescription.getText()
+								.toString());
+						voBill.setProjectId(getProject(
+								projects.getSelectedItem().toString()).getId());
+						SimpleDateFormat format = new SimpleDateFormat(
+								"MM-yyyy");
+						voBill.setAppliedDateTimeUTC(format
+								.parse(txtDateApplied.getText().toString()));
 
-            			String ivaType = ivaTypes.getSelectedItem().toString();
-            			
-            			if(ivaType == "IVA 22%")
-            				voBill.setIvaType(3);
-            			else if(ivaType == "IVA 10%")
-            				voBill.setIvaType(2);
-            			else
-            				voBill.setIvaType(1);
-            			
-            			if(txtTypeExchange.isEnabled())
-            			{
-            				voBill.setAmountDollar(Double.parseDouble(txtAmountWithoutIVA.getText().toString()));
-            				voBill.setTypeExchange(Double.parseDouble(txtTypeExchange.getText().toString()));
-            				voBill.setIsCurrencyDollar(true);
-            			}
-            			else
-            			{
-            				voBill.setAmountPeso(Double.parseDouble(txtAmountWithoutIVA.getText().toString()));
-            				voBill.setIsCurrencyDollar(false);
-            			}
-						
-            			boolean result = billController.createBill(voBill);
-            			if(result)
-            			{
-            				cleanInputs();
-            				alert.showAlertDialog(CreateBill.this, "Creacion de factura", "La factura fue creada correctamente");
-            			}
-            				else
-            				alert.showAlertDialog(CreateBill.this, "Error", "Ocurrio un error al crear la factura.");
-            				
+						String ivaType = ivaTypes.getSelectedItem().toString();
+
+						if (ivaType == "IVA 22%")
+							voBill.setIvaType(3);
+						else if (ivaType == "IVA 10%")
+							voBill.setIvaType(2);
+						else
+							voBill.setIvaType(1);
+
+						if (txtTypeExchange.isEnabled()) {
+							voBill.setAmountDollar(Double
+									.parseDouble(txtAmountWithoutIVA.getText()
+											.toString()));
+							voBill.setTypeExchange(Double
+									.parseDouble(txtTypeExchange.getText()
+											.toString()));
+							voBill.setIsCurrencyDollar(true);
+						} else {
+							voBill.setAmountPeso(Double
+									.parseDouble(txtAmountWithoutIVA.getText()
+											.toString()));
+							voBill.setIsCurrencyDollar(false);
+						}
+
+						boolean result = billController.createBill(voBill);
+						if (result) {
+							cleanInputs();
+							alert.showAlertDialog(CreateBill.this,
+									"Creacion de factura",
+									"La factura fue creada correctamente");
+						} else
+							alert.showAlertDialog(CreateBill.this, "Error",
+									"Ocurrio un error al crear la factura.");
+
 					} catch (Exception e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
-            	}
-            }
-        });
-		
+				}
+			}
+		});
+
 		btnCancel.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-            	
-            	Intent i = new Intent(getApplicationContext(), MainMenu.class);
-                startActivity(i);
-                finish();
-            }
-        });
+			public void onClick(View v) {
+
+				Intent i = new Intent(getApplicationContext(), MainMenu.class);
+				startActivity(i);
+				finish();
+			}
+		});
 	}
-	
-	VOProject getProject(String name)
-	{
-		for(VOProject voProject : listProjects)
-		{
-			if(voProject.getName() == name)
-			{
+
+	VOProject getProject(String name) {
+		for (VOProject voProject : listProjects) {
+			if (voProject.getName() == name) {
 				return voProject;
 			}
 		}
 		return null;
 	}
-	
 
 	DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
 
@@ -343,7 +333,8 @@ public class CreateBill extends Activity {
 		projects = (Spinner) findViewById(R.id.spinnerProjects);
 		List<String> list = new ArrayList<String>();
 
-		ProjectController proj = new ProjectController(getResources().getString(R.string.ip_server));
+		ProjectController proj = new ProjectController(getResources()
+				.getString(R.string.ip_server));
 		int userContextId = Integer.parseInt(session.getUserDetails().get(
 				"UserId"));
 		try {
@@ -356,8 +347,7 @@ public class CreateBill extends Activity {
 			}
 
 		} catch (Exception e) {
-			alert.showAlertDialog(CreateBill.this, "Error",
-					e.getMessage());
+			alert.showAlertDialog(CreateBill.this, "Error", e.getMessage());
 		}
 
 		ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,
@@ -393,37 +383,37 @@ public class CreateBill extends Activity {
 
 		txtDateApplied.setText(sdf.format(myCalendar.getTime()));
 	}
-	
-	boolean validateFields()
-	{
+
+	boolean validateFields() {
 		StringBuilder strBuilder = new StringBuilder();
-		if(txtCode.getText().toString().trim().length() == 0)
+		if (txtCode.getText().toString().trim().length() == 0)
 			strBuilder.append("Código \n");
-		
-		if(txtDescription.getText().toString().trim().length() == 0)
+
+		if (txtDescription.getText().toString().trim().length() == 0)
 			strBuilder.append("Descripción \n");
-		
-		if(projects.getSelectedItem().toString() == "Seleccione el proyecto")
+
+		if (projects.getSelectedItem().toString() == "Seleccione el proyecto")
 			strBuilder.append("Proyecto \n");
-		
-		if(txtAmountWithoutIVA.getText().toString().trim().length() == 0)
+
+		if (txtAmountWithoutIVA.getText().toString().trim().length() == 0)
 			strBuilder.append("Importe sin IVA \n");
-		
-		if(txtTypeExchange.isEnabled() && txtTypeExchange.getText().toString().trim().length() == 0)
+
+		if (txtTypeExchange.isEnabled()
+				&& txtTypeExchange.getText().toString().trim().length() == 0)
 			strBuilder.append("Cotización \n");
-		
-		if(txtAmountWithIVA.getText().toString().trim().length() == 0)
+
+		if (txtAmountWithIVA.getText().toString().trim().length() == 0)
 			strBuilder.append("Importe IVA incl. \n");
-		
-		if(txtDateApplied.getText().toString().trim().length() == 0)
+
+		if (txtDateApplied.getText().toString().trim().length() == 0)
 			strBuilder.append("Correspondiente al mes");
-		
-		if(strBuilder.length() > 0)
-		{
-			alert.showAlertDialog(CreateBill.this, "Debe ingresar los siguientes campos..", strBuilder.toString());
+
+		if (strBuilder.length() > 0) {
+			alert.showAlertDialog(CreateBill.this,
+					"Debe ingresar los siguientes campos..",
+					strBuilder.toString());
 			return false;
-		}
-		else
+		} else
 			return true;
 	}
 }

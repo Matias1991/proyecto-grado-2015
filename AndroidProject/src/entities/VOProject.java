@@ -9,22 +9,23 @@ public class VOProject {
 	private int id;
 	private String name;
 	private boolean isCurrencyDollar;
-	
-	public VOProject(int id, String name)
-	{
+
+	public VOProject(int id, String name) {
 		this.id = id;
 		this.name = name;
 	}
-	
-	public VOProject(SoapObject object){
-		new Deserialization().SoapDeserialize(this,object);
 
-		//'this' is the instance itself ,
-		//object is the SoapObject received from response when we call new Person(soapobject)
+	public VOProject(SoapObject object) {
+		new Deserialization().SoapDeserialize(this, object);
+
+		// 'this' is the instance itself ,
+		// object is the SoapObject received from response when we call new
+		// Person(soapobject)
 
 		this.id = Integer.parseInt(object.getProperty(4).toString());
 		this.name = object.getProperty(9).toString();
-		this.isCurrencyDollar = Boolean.parseBoolean(object.getProperty(5).toString());
+		this.isCurrencyDollar = Boolean.parseBoolean(object.getProperty(5)
+				.toString());
 	}
 
 	public int getId() {

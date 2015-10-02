@@ -9,22 +9,27 @@
     tools:context="com.example.androidproject.CreateCharge" >
 
     <Spinner
+        android:id="@+id/spinnerProjects"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="26dp" />
+
+    <Spinner
         android:id="@+id/spinnerBills"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/linearAmountLayout"
-        android:layout_below="@+id/linearAmountLayout"
-        android:layout_marginTop="26dp"/>
-<!--         android:prompt="@string/bills" /> -->
+        android:layout_below="@+id/spinnerProjects"
+        android:layout_marginTop="24dp" />
 
+    
     <EditText
         android:id="@+id/txtChargeNumber"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/spinnerBills"
         android:layout_below="@+id/spinnerBills"
+        android:layout_marginTop="24dp"
         android:ems="10"
-        android:layout_marginTop="30dp"
         android:hint="Nº de recibo"
         android:inputType="text" />
 
@@ -34,11 +39,12 @@
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/txtChargeNumber"
         android:layout_below="@+id/txtChargeNumber"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="24dp"
         android:ems="20"
         android:hint="Descripción"
         android:inputType="textMultiLine"
         android:maxLength="250" />
+
 
     <LinearLayout
         android:id="@+id/linearLayout1"
@@ -46,7 +52,7 @@
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/txtDescription"
         android:layout_below="@+id/txtDescription"
-        android:layout_marginTop="30dp" >
+        android:layout_marginTop="24dp" >
 
         <EditText
             android:id="@+id/txtAmount"
@@ -59,17 +65,8 @@
 
             <requestFocus />
         </EditText>
-
-        <EditText
-            android:id="@+id/txtTypeExchange"
-            android:layout_width="110dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="21dp"
-            android:ems="20"
-            android:hint="Cotización"
-            android:inputType="numberDecimal" />
     </LinearLayout>
-    
+
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

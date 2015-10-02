@@ -19,18 +19,20 @@ import android.widget.TextView;
 import com.example.androidproject.alerts.AlertDialogManager;
 import com.example.androidproject.controllers.BillController;
 import com.example.androidproject.controllers.ChargeController;
+import com.example.androidproject.controllers.ProjectController;
 
 import entities.VOBill;
 import entities.VOCharge;
+import entities.VOProject;
 
 public class CreateCharge extends Activity {
 
-	private TextView txtChargeNumber, txtDescription, txtAmount,
-			txtTypeExchange;
+	private TextView txtChargeNumber, txtDescription, txtAmount;
 	private Button btnCreate, btnCancel;
-	private Spinner bills;
+	private Spinner bills, projects;
 	UserSession session;
 	ArrayList<VOBill> listBills;
+	ArrayList<VOProject> listProjects;
 
 	AlertDialogManager alert = new AlertDialogManager();
 
@@ -42,62 +44,22 @@ public class CreateCharge extends Activity {
 		session = new UserSession(getApplicationContext());
 
 		buildFields();
-		buildBills();
+		buildProjects();
+		buildBills(0);
 
-		txtTypeExchange.setEnabled(false);
-
-		// txtAmount.addTextChangedListener(new TextWatcher() {
-		//
-		// @Override
-		// public void onTextChanged(CharSequence s, int start, int before,
-		// int count) {
-		//
-		// double amount = 0;
-		// if(!s.equals("") ) {
-		// if (!txtAmount.getText().toString().matches("")) {
-		// amount = Double.parseDouble(txtAmount.getText().toString());
-		// }
-		// }
-		// DecimalFormat df = new DecimalFormat("#.00");
-		// String strTotalAmount = df.format(amount);
-		// if(amount == 0)
-		// txtAmount.setText("");
-		// else
-		// txtAmount.setText(strTotalAmount);
-		// }
-		//
-		// @Override
-		// public void beforeTextChanged(CharSequence s, int start, int count,
-		// int after) {
-		// // TODO Auto-generated method stub
-		//
-		// }
-		//
-		// @Override
-		// public void afterTextChanged(Editable s) {
-		// // TODO Auto-generated method stub
-		// }
-		// });
-
-		bills.setOnItemSelectedListener(new OnItemSelectedListener() {
+		projects.setOnItemSelectedListener(new OnItemSelectedListener() {
 
 			@Override
 			public void onItemSelected(AdapterView<?> arg0, View arg1,
 					int arg2, long arg3) {
 				// TODO Auto-generated method stub
 
-				String selectedBill = bills.getItemAtPosition(arg2).toString();
+				String selCat = projects.getItemAtPosition(arg2).toString();
 
-				if (selectedBill != "Seleccione la factura") {
-					VOBill voBill = getBill(selectedBill);
+				if (selCat != "Seleccione el proyecto") {
+					VOProject voProject = getProject(selCat);
 
-					if (voBill.getIsCurrencyDollar()) {
-						txtAmount.setHint("Importe (U$S)");
-						txtTypeExchange.setEnabled(true);
-					} else {
-						txtAmount.setHint("Importe ($)");
-						txtTypeExchange.setEnabled(false);
-					}
+					buildBills(voProject.getId());
 				}
 			}
 
@@ -123,12 +85,10 @@ public class CreateCharge extends Activity {
 						voCharge.setBillId(getBill(
 								bills.getSelectedItem().toString()).getId());
 
-						if (txtTypeExchange.isEnabled()) {
+						if (getBill(bills.getSelectedItem().toString())
+								.getIsCurrencyDollar()) {
 							voCharge.setAmountDollar(Double
 									.parseDouble(txtAmount.getText().toString()));
-							voCharge.setTypeExchange(Double
-									.parseDouble(txtTypeExchange.getText()
-											.toString()));
 							voCharge.setIsCurrencyDollar(true);
 						} else {
 							voCharge.setAmountPeso(Double.parseDouble(txtAmount
@@ -189,20 +149,21 @@ public class CreateCharge extends Activity {
 		txtChargeNumber.setText("");
 		txtDescription.setText("");
 		txtAmount.setText("");
-		txtTypeExchange.setText("");
 	}
 
 	void buildFields() {
 		txtChargeNumber = (TextView) findViewById(R.id.txtChargeNumber);
 		txtDescription = (TextView) findViewById(R.id.txtDescription);
 		txtAmount = (TextView) findViewById(R.id.txtAmount);
-		txtTypeExchange = (TextView) findViewById(R.id.txtTypeExchange);
 		btnCreate = (Button) findViewById(R.id.btnCreate);
 		btnCancel = (Button) findViewById(R.id.btnCancel);
 	}
 
 	boolean validateFields() {
 		StringBuilder strBuilder = new StringBuilder();
+
+		if (bills.getSelectedItem().toString() == "Seleccione el proyecto")
+			strBuilder.append("Proyecto \n");
 
 		if (bills.getSelectedItem().toString() == "Seleccione la factura")
 			strBuilder.append("Factura \n");
@@ -222,11 +183,6 @@ public class CreateCharge extends Activity {
 						.length() == 0))
 			strBuilder.append("Importe \n");
 
-		if (txtTypeExchange.isEnabled()
-				&& (txtTypeExchange == null || txtTypeExchange != null
-						&& txtTypeExchange.getText().toString().trim().length() == 0))
-			strBuilder.append("Cotización \n");
-
 		if (strBuilder.length() > 0) {
 			alert.showAlertDialog(CreateCharge.this,
 					"Debe ingresar los siguientes campos..",
@@ -237,17 +193,22 @@ public class CreateCharge extends Activity {
 		}
 	}
 
-	public void buildBills() {
+	public void buildBills(int projectId) {
+
 		bills = (Spinner) findViewById(R.id.spinnerBills);
 		List<String> list = new ArrayList<String>();
 
 		BillController billController = new BillController(getResources()
 				.getString(R.string.ip_server));
-		int userContextId = Integer.parseInt(session.getUserDetails().get(
-				"UserId"));
 		try {
 
-			listBills = billController.getBills(userContextId);
+			listBills = billController.getBills(projectId);
+
+			if (listBills.size() == 0) {
+				bills.setEnabled(false);
+			} else {
+				bills.setEnabled(true);
+			}
 
 			list.add("Seleccione la factura");
 			for (VOBill voBill : listBills) {
@@ -263,12 +224,77 @@ public class CreateCharge extends Activity {
 		dataAdapter
 				.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		bills.setAdapter(dataAdapter);
+
+		bills.setOnItemSelectedListener(new OnItemSelectedListener() {
+
+			@Override
+			public void onItemSelected(AdapterView<?> arg0, View arg1,
+					int arg2, long arg3) {
+
+				String selectedBill = bills.getItemAtPosition(arg2).toString();
+
+				if (selectedBill != "Seleccione la factura") {
+					VOBill voBill = getBill(selectedBill);
+
+					if (voBill.getIsCurrencyDollar()) {
+						txtAmount.setHint("Importe (U$S)");
+					} else {
+						txtAmount.setHint("Importe ($)");
+					}
+				}
+			}
+
+			@Override
+			public void onNothingSelected(AdapterView<?> arg0) {
+				// TODO Auto-generated method stub
+
+			}
+		});
+
 	}
 
 	VOBill getBill(String name) {
 		for (VOBill voBill : listBills) {
 			if (voBill.getCode() == name) {
 				return voBill;
+			}
+		}
+		return null;
+	}
+
+	public void buildProjects() {
+
+		projects = (Spinner) findViewById(R.id.spinnerProjects);
+		List<String> list = new ArrayList<String>();
+
+		ProjectController proj = new ProjectController(getResources()
+				.getString(R.string.ip_server));
+		int userContextId = Integer.parseInt(session.getUserDetails().get(
+				"UserId"));
+		try {
+
+			listProjects = proj.getActiveProjects(userContextId);
+
+			list.add("Seleccione el proyecto");
+			for (VOProject voProject : listProjects) {
+				list.add(voProject.getName());
+			}
+
+		} catch (Exception e) {
+			alert.showAlertDialog(CreateCharge.this, "Error", e.getMessage());
+		}
+
+		ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,
+				android.R.layout.simple_spinner_item, list);
+		dataAdapter
+				.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		projects.setAdapter(dataAdapter);
+	}
+
+	VOProject getProject(String name) {
+		for (VOProject voProject : listProjects) {
+			if (voProject.getName() == name) {
+				return voProject;
 			}
 		}
 		return null;
