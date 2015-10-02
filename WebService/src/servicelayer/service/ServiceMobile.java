@@ -1,11 +1,14 @@
 package servicelayer.service;
 
+import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
 import servicelayer.core.CoreBill;
+import servicelayer.core.CoreCharge;
 import servicelayer.core.CoreProject;
 import servicelayer.core.CoreUser;
 import servicelayer.entity.businessEntity.ChanelType;
+import servicelayer.entity.businessEntity.Charge;
 import servicelayer.entity.businessEntity.User;
 import servicelayer.entity.valueObject.VOBill;
 import servicelayer.entity.valueObject.VOCharge;
@@ -44,6 +47,7 @@ public class ServiceMobile extends ServiceBase{
 			iCoreUser = CoreUser.GetInstance();
 			iCoreProject = CoreProject.GetInstance();
 			iCoreBill = CoreBill.GetInstance();
+			iCoreCharge = CoreCharge.GetInstance();
 			
 		} catch (Exception e) {
 			ThrowGenericExceptionAndLogError(e);
@@ -119,13 +123,35 @@ public class ServiceMobile extends ServiceBase{
 		}
 		return false;
 	}
+	
+	public VOBill[] getNotLiquidatedBills(int userContextId) {
+		try {
+			transactionLock.tryLock(Constants.DEFAULT_TRANSACTION_TIME,
+					TimeUnit.SECONDS);
+
+			User userContext = iCoreUser.getUser(userContextId);
+			
+			return billBuilder.BuildArrayVOObject(VOBill.class,
+					iCoreBill.getNotLiquidatedBills(userContext));
+
+		} catch (ServerException e) {
+			ThrowServerExceptionAndLogError(e, "obtener todos las facturas");
+		} catch (InterruptedException e) {
+			throw new RuntimeException(Constants.TRANSACTION_ERROR);
+		} catch (Exception e) {
+			ThrowGenericExceptionAndLogError(e);
+		} finally {
+			transactionLock.unlock();
+		}
+		return null;
+	}
 		
 	public boolean insertCharge(VOCharge voCharge) {
 		try {
 			transactionLock.tryLock(Constants.DEFAULT_TRANSACTION_TIME,
 					TimeUnit.SECONDS);
-
-			iCoreCharge.insertCharge(chargeBuilder.BuildBusinessObject(voCharge));
+			Charge charge = chargeBuilder.BuildBusinessObject(voCharge);
+			iCoreCharge.insertCharge(charge);
 
 			return true;
 		} catch (ServerException e) {

@@ -59,7 +59,7 @@ public class Login extends Activity {
 					}    
             	}
                 else
-                    alert.showAlertDialog(Login.this, "Fallo el ingreso..", "Porfavor ingrese los campos usuario y clave");
+                    alert.showAlertDialog(Login.this, "Fallo el ingreso..", "Por favor ingrese los campos usuario y clave");
             }
         });
 	}

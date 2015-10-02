@@ -39,4 +39,8 @@ public interface ICoreBill {
 	boolean liquidateBill(int billId) throws ServerException;
 
 	double getTotalAmount(double amount, IVA_Type ivaType);
+
+	ArrayList<Bill> getNotLiquidatedBills(User userContext)
+			throws ServerException;
+
 }

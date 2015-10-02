@@ -34,6 +34,10 @@
             android:name=".CreateBill"
             android:label="@string/title_activity_create_bill" >
         </activity>
+        <activity
+            android:name=".CreateCharge"
+            android:label="@string/title_activity_create_charge" >
+        </activity>
     </application>
 
 </manifest>

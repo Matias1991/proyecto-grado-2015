@@ -43,15 +43,18 @@ public class MainMenu extends Activity {
 			
 			@Override
 			public void onClick(View v) {
-				new AlertDialog.Builder(MainMenu.this)
-				.setTitle("Atencion")
-				.setMessage("No existe implementacion aún.")        				
-			   .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-			        public void onClick(DialogInterface dialog, int which) { 
-			        }
-			     })        			    
-			    .setIcon(android.R.drawable.ic_dialog_alert)
-			     .show();
+//				new AlertDialog.Builder(MainMenu.this)
+//				.setTitle("Atencion")
+//				.setMessage("No existe implementacion aún.")        				
+//			   .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+//			        public void onClick(DialogInterface dialog, int which) { 
+//			        }
+//			     })        			    
+//			    .setIcon(android.R.drawable.ic_dialog_alert)
+//			     .show();
+				Intent i = new Intent(getApplicationContext(), CreateCharge.class);
+                startActivity(i);
+                finish();
 				
 			}
 		});

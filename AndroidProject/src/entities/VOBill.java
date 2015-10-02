@@ -7,6 +7,9 @@ import java.util.Hashtable;
 
 import org.ksoap2.serialization.KvmSerializable;
 import org.ksoap2.serialization.PropertyInfo;
+import org.ksoap2.serialization.SoapObject;
+
+import com.example.androidproject.Deserialization;
 
 import android.text.format.DateFormat;
 
@@ -23,10 +26,30 @@ public class VOBill implements KvmSerializable{
 	private int projectId;
 	private int ivaType;
 	
-	public VOBill()
-	{
+	public VOBill() { }
+	
+	public VOBill(SoapObject object){
+		new Deserialization().SoapDeserialize(this,object);
 		
+		SimpleDateFormat formatter = new SimpleDateFormat("dd-MMM-yyyy");
+		
+		this.id = Integer.parseInt(object.getProperty(7).toString());
+		this.isCurrencyDollar = Boolean.parseBoolean(object.getProperty(8).toString());
+		this.code =  object.getProperty(5).toString();
+		this.description = object.getProperty(5).toString();
+		this.amountPeso = Double.parseDouble(object.getProperty(3).toString());
+		this.amountDollar = Double.parseDouble(object.getProperty(2).toString());
+		this.typeExchange = Double.parseDouble(object.getProperty(16).toString());
+		this.projectId = Integer.parseInt(object.getProperty(12).toString());
+		this.ivaType = Integer.parseInt(object.getProperty(9).toString());
+		// Parseo de fecha
+//		try {
+//			this.appliedDateTimeUTC = formatter.parse(object.getProperty(4).toString());
+//		} catch (ParseException e) {
+//			e.printStackTrace();
+//		}
 	}
+
 	
 	public int getId() {
 		return id;
