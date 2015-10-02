@@ -285,6 +285,22 @@
             }
                 
            /**
+            * auto generated Axis2 call back method for getCompanyLiquidations method
+            * override this method for handling normal response from getCompanyLiquidations operation
+            */
+           public void receiveResultgetCompanyLiquidations(
+                    servicelayer.service.ServiceWebStub.GetCompanyLiquidationsResponse result
+                        ) {
+           }
+
+          /**
+           * auto generated Axis2 Error handler
+           * override this method for handling error response from getCompanyLiquidations operation
+           */
+            public void receiveErrorgetCompanyLiquidations(java.lang.Exception e) {
+            }
+                
+           /**
             * auto generated Axis2 call back method for forgotPassword method
             * override this method for handling normal response from forgotPassword operation
             */
@@ -314,6 +330,22 @@
            * override this method for handling error response from insertProject operation
            */
             public void receiveErrorinsertProject(java.lang.Exception e) {
+            }
+                
+           /**
+            * auto generated Axis2 call back method for getCategoriesByDescriptionAndCurrency method
+            * override this method for handling normal response from getCategoriesByDescriptionAndCurrency operation
+            */
+           public void receiveResultgetCategoriesByDescriptionAndCurrency(
+                    servicelayer.service.ServiceWebStub.GetCategoriesByDescriptionAndCurrencyResponse result
+                        ) {
+           }
+
+          /**
+           * auto generated Axis2 Error handler
+           * override this method for handling error response from getCategoriesByDescriptionAndCurrency operation
+           */
+            public void receiveErrorgetCategoriesByDescriptionAndCurrency(java.lang.Exception e) {
             }
                 
            /**
@@ -349,19 +381,19 @@
             }
                 
            /**
-            * auto generated Axis2 call back method for getBillsByFiltersWithCharges method
-            * override this method for handling normal response from getBillsByFiltersWithCharges operation
+            * auto generated Axis2 call back method for getTypeExchange method
+            * override this method for handling normal response from getTypeExchange operation
             */
-           public void receiveResultgetBillsByFiltersWithCharges(
-                    servicelayer.service.ServiceWebStub.GetBillsByFiltersWithChargesResponse result
+           public void receiveResultgetTypeExchange(
+                    servicelayer.service.ServiceWebStub.GetTypeExchangeResponse result
                         ) {
            }
 
           /**
            * auto generated Axis2 Error handler
-           * override this method for handling error response from getBillsByFiltersWithCharges operation
+           * override this method for handling error response from getTypeExchange operation
            */
-            public void receiveErrorgetBillsByFiltersWithCharges(java.lang.Exception e) {
+            public void receiveErrorgetTypeExchange(java.lang.Exception e) {
             }
                 
            /**
@@ -394,6 +426,22 @@
            * override this method for handling error response from getProjectsLiquidationsWithMoreEarnings operation
            */
             public void receiveErrorgetProjectsLiquidationsWithMoreEarnings(java.lang.Exception e) {
+            }
+                
+           /**
+            * auto generated Axis2 call back method for getBillsByFiltersWithCharges method
+            * override this method for handling normal response from getBillsByFiltersWithCharges operation
+            */
+           public void receiveResultgetBillsByFiltersWithCharges(
+                    servicelayer.service.ServiceWebStub.GetBillsByFiltersWithChargesResponse result
+                        ) {
+           }
+
+          /**
+           * auto generated Axis2 Error handler
+           * override this method for handling error response from getBillsByFiltersWithCharges operation
+           */
+            public void receiveErrorgetBillsByFiltersWithCharges(java.lang.Exception e) {
             }
                 
            /**
@@ -509,6 +557,22 @@
             }
                 
            /**
+            * auto generated Axis2 call back method for getProjectLiquidation method
+            * override this method for handling normal response from getProjectLiquidation operation
+            */
+           public void receiveResultgetProjectLiquidation(
+                    servicelayer.service.ServiceWebStub.GetProjectLiquidationResponse result
+                        ) {
+           }
+
+          /**
+           * auto generated Axis2 Error handler
+           * override this method for handling error response from getProjectLiquidation operation
+           */
+            public void receiveErrorgetProjectLiquidation(java.lang.Exception e) {
+            }
+                
+           /**
             * auto generated Axis2 call back method for getCharges method
             * override this method for handling normal response from getCharges operation
             */
@@ -586,6 +650,22 @@
            * override this method for handling error response from getEmployed operation
            */
             public void receiveErrorgetEmployed(java.lang.Exception e) {
+            }
+                
+           /**
+            * auto generated Axis2 call back method for getCategoriesAllVersions method
+            * override this method for handling normal response from getCategoriesAllVersions operation
+            */
+           public void receiveResultgetCategoriesAllVersions(
+                    servicelayer.service.ServiceWebStub.GetCategoriesAllVersionsResponse result
+                        ) {
+           }
+
+          /**
+           * auto generated Axis2 Error handler
+           * override this method for handling error response from getCategoriesAllVersions operation
+           */
+            public void receiveErrorgetCategoriesAllVersions(java.lang.Exception e) {
             }
                 
            /**

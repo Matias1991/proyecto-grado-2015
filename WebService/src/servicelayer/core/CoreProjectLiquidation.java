@@ -12,6 +12,7 @@ import servicelayer.entity.businessEntity.Employed;
 import servicelayer.entity.businessEntity.Project;
 import servicelayer.entity.businessEntity.ProjectEmployed;
 import servicelayer.entity.businessEntity.ProjectLiquidation;
+import servicelayer.entity.businessEntity.User;
 import shared.ConfigurationProperties;
 import shared.exceptions.ClientException;
 import shared.exceptions.ServerException;
@@ -60,10 +61,10 @@ public class CoreProjectLiquidation implements ICoreProjectLiquidation {
 			project.setiDAOProjectEmployees(daoManager.getDAOEmployedProjects());
 								
 			projectLiquidation = new ProjectLiquidation(projectId);
-			Employed seller = CoreEmployed.GetInstance().getEmployed(project.getId());
+			Employed seller = CoreEmployed.GetInstance().getEmployed(project.getSeller().getId());
 			project.setSeller(seller);
 			projectLiquidation.setProject(project);
-			projectLiquidation.setAppliedDateTimeUTC(month);
+			projectLiquidation.setAppliedDateTimeUTC(from);
 			projectLiquidation.setCreatedDateTimeUTC(new Date());
 			
 			// Cargo los socios
@@ -130,7 +131,11 @@ public class CoreProjectLiquidation implements ICoreProjectLiquidation {
 					Employed employed = CoreEmployed.GetInstance().getEmployed(projectEmployed.getEmployed().getId());
 					projectEmployed.setEmployed(employed);
 					employed.setIDAOSalarySummaries(daoManager.getDAOSalarySummaries());
-					double costEmployee = employed.getSalarySummaryToDate(to).getCostRealHour() * projectEmployed.getHours();
+					double costEmployee = 0.0;
+					if(projectLiquidation.isCurrencyDollar())
+						costEmployee = (employed.getSalarySummaryToDate(to).getCostRealHour() * projectEmployed.getHours())/typeExchange;
+					else
+						costEmployee = employed.getSalarySummaryToDate(to).getCostRealHour() * projectEmployed.getHours();
 					projectLiquidation.setTotalCostEmployees(projectLiquidation.getTotalCostEmployees() + costEmployee);					
 				}
 			}
@@ -139,12 +144,8 @@ public class CoreProjectLiquidation implements ICoreProjectLiquidation {
 			//Calcula la ganancia intermedia del proyecto
 			if(projectLiquidation.getTotalBills() == 0){
 				projectLiquidation.setEarnings(projectLiquidation.getTotalBills() - Math.abs(projectLiquidation.getTotalCostCategoriesHuman()) - Math.abs(projectLiquidation.getTotalCostCategoriesMaterial()));
-			}else{
-				if(projectLiquidation.isCurrencyDollar()){
-					projectLiquidation.setEarnings(projectLiquidation.getTotalBills() - Math.abs(projectLiquidation.getTotalCostCategoriesHuman()) - Math.abs(projectLiquidation.getTotalCostCategoriesMaterial()) - Math.abs((projectLiquidation.getTotalCostEmployees() / typeExchange)));
-				}else{
-					projectLiquidation.setEarnings(projectLiquidation.getTotalBills() - Math.abs(projectLiquidation.getTotalCostCategoriesHuman()) - Math.abs(projectLiquidation.getTotalCostCategoriesMaterial()) - Math.abs(projectLiquidation.getTotalCostEmployees()));
-				}
+			}else{				
+					projectLiquidation.setEarnings(projectLiquidation.getTotalBills() - Math.abs(projectLiquidation.getTotalCostCategoriesHuman()) - Math.abs(projectLiquidation.getTotalCostCategoriesMaterial()) - Math.abs((projectLiquidation.getTotalCostEmployees())));				
 			}			
 			
 			//Calcula el importe de la reserva
@@ -176,7 +177,7 @@ public class CoreProjectLiquidation implements ICoreProjectLiquidation {
 			cal.setTime(month);
 			cal.set(Calendar.DAY_OF_MONTH, 01);
 			Date appliedDate = cal.getTime();
-			projectsLiquidations = daoManager.getDAOProjectLiquidation().getProjectsLiquidationsByDate(appliedDate);
+			projectsLiquidations = daoManager.getDAOProjectsLiquidations().getProjectsLiquidationsByDate(appliedDate);
 			
 			for(ProjectLiquidation projectLiquidation : projectsLiquidations){
 				projectLiquidation.setEmployedPartner1(CoreEmployed.GetInstance().getEmployed(projectLiquidation.getEmployedPartner1().getId()));
@@ -264,7 +265,7 @@ public class CoreProjectLiquidation implements ICoreProjectLiquidation {
 		
 		try
 		{
-			return daoManager.getDAOProjectLiquidation().getProjectsWithMoreEarnings(from, to, isCurrencyDollar, count);
+			return daoManager.getDAOProjectsLiquidations().getProjectsWithMoreEarnings(from, to, isCurrencyDollar, count);
 			
 		} catch (ServerException e) {
 			daoManager.rollback();
@@ -282,7 +283,7 @@ public class CoreProjectLiquidation implements ICoreProjectLiquidation {
 		
 		try
 		{
-			return daoManager.getDAOProjectLiquidation().getProjectLiquidations(projectId, date, isCurrencyDollar);
+			return daoManager.getDAOProjectsLiquidations().getProjectLiquidations(projectId, date, isCurrencyDollar);
 			
 		} catch (ServerException e) {
 			daoManager.rollback();
@@ -290,6 +291,78 @@ public class CoreProjectLiquidation implements ICoreProjectLiquidation {
 		} finally {
 			daoManager.close();
 		}
+	}
+	
+	@Override
+	public ProjectLiquidation getProjectLiquidationByDate(Date month, int projectId, User userContext)throws ServerException, ClientException {
+		DAOManager daoManager = new DAOManager();
+		ProjectLiquidation projectLiquidation = null;
+		
+		try{	
+			Calendar cal = Calendar.getInstance();
+			cal.setTime(month);
+			cal.set(Calendar.DAY_OF_MONTH, 01);
+			Date appliedDate = cal.getTime();
+			projectLiquidation = daoManager.getDAOProjectsLiquidations().getProjectLiquidationByDate(appliedDate, projectId);
+			
+			cal.setTime(month);
+			cal.set(Calendar.DATE, cal.getActualMaximum(Calendar.DATE));
+			Date to = cal.getTime();
+			
+			projectLiquidation.setEmployedPartner1(CoreEmployed.GetInstance().getEmployed(projectLiquidation.getEmployedPartner1().getId()));
+			projectLiquidation.setEmployedPartner2(CoreEmployed.GetInstance().getEmployed(projectLiquidation.getEmployedPartner2().getId()));
+			projectLiquidation.setProject(CoreProject.GetInstance().getProject(projectLiquidation.getProject().getId()));
+			
+			//Facturas
+			ArrayList<Bill> associatedBills = new ArrayList<Bill>();
+			if(associatedBills != null){
+				for(Bill bill : daoManager.getDAOBills().getBills(appliedDate, to, true, userContext)){					
+					if(bill.getProject().getId() == projectId){
+						associatedBills.add(bill);
+					}
+				}
+			}
+			projectLiquidation.setBills(associatedBills);
+			
+			//Rubros humanos y materiales			
+			projectLiquidation.getProject().setiDAOCategories(daoManager.getDAOCategories());
+			ArrayList<Category> associatedCategoriesHuman = new ArrayList<Category>();
+			ArrayList<Category> associatedCategoriesMaterial = new ArrayList<Category>();
+			ArrayList<Category> categories = projectLiquidation.getProject().getCategories(appliedDate, to);
+			if (categories != null && categories.size() > 0) {
+				for (Category category : categories) {
+					if (category.getIsRRHH()) {
+						associatedCategoriesHuman.add(category);
+					} else {
+						associatedCategoriesMaterial.add(category);
+					}
+				}
+			}
+			projectLiquidation.setCategoriesHuman(associatedCategoriesHuman);
+			projectLiquidation.setCategoriesMaterial(associatedCategoriesMaterial);
+			
+			//Empleados
+			projectLiquidation.getProject().setiDAOProjectEmployees(daoManager.getDAOEmployedProjects());
+			ArrayList<ProjectEmployed> associatedEmployees = projectLiquidation.getProject().getProjectEmployees();
+			if(associatedEmployees != null && associatedEmployees.size() > 0){
+				for(ProjectEmployed projectEmployed : associatedEmployees){
+					Employed employed = CoreEmployed.GetInstance().getEmployed(projectEmployed.getEmployed().getId());
+					projectEmployed.setEmployed(employed);
+					employed.setIDAOSalarySummaries(daoManager.getDAOSalarySummaries());									
+				}
+			}
+			projectLiquidation.setEmployees(associatedEmployees);
+			
+		} catch (ServerException e) {
+			daoManager.rollback();
+			throw e;
+		} catch (ClientException e) {
+			daoManager.rollback();
+			throw e;
+		} finally {
+			daoManager.close();
+		}		
+		return projectLiquidation;		
 	}
 	
 	// Devuelve la ganancia para el socio segun el tipo de distribucion
@@ -311,5 +384,5 @@ public class CoreProjectLiquidation implements ICoreProjectLiquidation {
 			break;
 		}
 		return total;
-	}
+	}	
 }

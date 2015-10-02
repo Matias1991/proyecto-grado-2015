@@ -37,9 +37,6 @@ public class CompanyLiquidation {
 		private double totalEarningsPeso;
 		private double totalEarningsDollar;
 		
-		public CompanyLiquidation(){		
-		}
-		
 		public CompanyLiquidation(VOCompanyLiquidation voCompanyLiquidation){
 			this.id = voCompanyLiquidation.getId();
 			this.companyCategory = voCompanyLiquidation.getCompanyCategory();
@@ -95,6 +92,17 @@ public class CompanyLiquidation {
 					}
 				}
 			}
+			
+		}
+		
+		public CompanyLiquidation(double iVAPurchase, double iVASale, Date appliedDateTimeUTC){
+			this.IVAPurchase = iVAPurchase;
+			this.IVASale = iVASale;
+			this.appliedDateTimeUTC = appliedDateTimeUTC;
+		}
+		
+		public CompanyLiquidation()
+		{
 			
 		}
 

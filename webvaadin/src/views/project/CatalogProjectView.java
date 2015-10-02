@@ -1,6 +1,7 @@
 package views.project;
 
 import java.util.Collection;
+import java.util.Locale;
 
 import views.BaseView;
 
@@ -67,34 +68,37 @@ public class CatalogProjectView extends BaseView {
 	private Collection<Project> projects;
 
 	public CatalogProjectView() {
-		
 
 		super("Proyectos", "Catálogo de proyectos");
 
 		buildMainLayout();
 		setCompositionRoot(mainLayout);
 		buildTabSeet();
-		
+
 		lblMessage = new Label("");
-		mainLayout.addComponent(lblMessage, "top:180px;left:0.0px;");	
-		
+		mainLayout.addComponent(lblMessage, "top:180px;left:0.0px;");
+
 		opgProjectStatus.addValueChangeListener(new ValueChangeListener() {
 
 			@Override
 			public void valueChange(ValueChangeEvent event) {
-				if (opgProjectStatus.getValue().toString().contains("Abiertos") && opgProjectStatus.getValue().toString().contains("Cerrados")) {
+				if (opgProjectStatus.getValue().toString().contains("Abiertos")
+						&& opgProjectStatus.getValue().toString()
+								.contains("Cerrados")) {
 					projects = ProjectController.getProjects();
-				} else if (opgProjectStatus.getValue().toString().contains("Abiertos")) {
+				} else if (opgProjectStatus.getValue().toString()
+						.contains("Abiertos")) {
 					projects = ProjectController.getProjectsByStatus(false);
-				} else if (opgProjectStatus.getValue().toString().contains("Cerrados")) {
-					projects = ProjectController.getProjectsByStatus(true);					
+				} else if (opgProjectStatus.getValue().toString()
+						.contains("Cerrados")) {
+					projects = ProjectController.getProjectsByStatus(true);
 				} else {
 					projects = null;
 				}
 				checkProjects();
 			}
 		});
-		
+
 		comboProject.addValueChangeListener(new ValueChangeListener() {
 
 			@Override
@@ -122,22 +126,22 @@ public class CatalogProjectView extends BaseView {
 			opgProjectStatus.select("Cerrados");
 			checkProjects();
 			// Si es gerente oculto campos
-			if(RequestContext.getRequestContext().getUserType() == 3){
+			if (RequestContext.getRequestContext().getUserType() == 3) {
 				loadManagerView();
 			}
 		}
 
 	}
-	
-	private void loadManagerView(){
+
+	private void loadManagerView() {
 		txtAmount.setVisible(false);
 		txtSeller.setVisible(false);
 	}
-	
-	private void checkProjects(){
-		if(projects == null || projects.size() == 0){
+
+	private void checkProjects() {
+		if (projects == null || projects.size() == 0) {
 			comboProject.setVisible(false);
-			tabProject.setVisible(false);	
+			tabProject.setVisible(false);
 			lblMessage.setValue("No hay proyectos para mostrar");
 		} else {
 			lblMessage.setValue("");
@@ -190,7 +194,8 @@ public class CatalogProjectView extends BaseView {
 		txtAmount.setReadOnly(true);
 		txtAmount.setWidth("390px");
 		txtAmount.setHeight("-1px");
-		
+		txtAmount.setLocale(Locale.US);
+
 		// Distribucion socio 1
 		txtDist1 = new TextField();
 		txtDist1.setCaption("Distribución ganancias");
@@ -259,7 +264,7 @@ public class CatalogProjectView extends BaseView {
 		distribution.addComponent(txtDist2, 1, 1);
 		distribution.addComponent(txtPart2, 1, 0);
 		// Si es gerente no muestro la distribucion
-		if(RequestContext.getRequestContext().getUserType() != 3){
+		if (RequestContext.getRequestContext().getUserType() != 3) {
 			tabProject.addTab(distribution, "Distribución");
 		}
 
@@ -293,13 +298,13 @@ public class CatalogProjectView extends BaseView {
 		} else {
 			txtDescription.setValue("");
 		}
-		
+
 		if (projectToShow.getAmountToShow() != null) {
 			txtAmount.setValue(projectToShow.getAmountToShow());
 		} else {
 			txtAmount.setValue("");
 		}
-		
+
 		if (projectToShow.getSeller() != null) {
 			txtSeller.setValue(projectToShow.getSeller().getName() + " "
 					+ projectToShow.getSeller().getLastName());
@@ -383,7 +388,7 @@ public class CatalogProjectView extends BaseView {
 			categoriesGrid.removeColumn("projectId");
 			;
 			categoriesGrid.removeColumn("isRRHH");
-			categoriesGrid.removeColumn("createdDateTimeUTC");
+			categoriesGrid.removeColumn("appliedDateTimeUTC");
 			categoriesGrid.removeColumn("createDateTimeUTCToShow");
 			categoriesGrid.removeColumn("projectName");
 			categoriesGrid.removeColumn("currencyDollar");
@@ -591,17 +596,17 @@ public class CatalogProjectView extends BaseView {
 		txtPart2.setReadOnly(readOnly);
 	}
 
-	private void loadComboProject(){
-		
+	private void loadComboProject() {
+
 		comboProject.setVisible(true);
 		tabProject.setVisible(true);
 		comboProject.removeAllItems();
-		
-		if(projects != null){
+
+		if (projects != null) {
 			for (Project project : projects) {
 				comboProject.addItem(project.getId());
 				comboProject.setItemCaption(project.getId(), project.getName());
-			}			
+			}
 		}
 		setReadOnlyTxt(true);
 		if (categoriesGrid != null) {
@@ -613,9 +618,9 @@ public class CatalogProjectView extends BaseView {
 		if (employeesGrid != null) {
 			vlbEmployees.removeComponent(employeesGrid);
 		}
-		cleanTabProject();	
+		cleanTabProject();
 	}
-	
+
 	public void cleanTabProject() {
 		setReadOnlyTxt(false);
 		txtSeller.clear();
@@ -663,7 +668,7 @@ public class CatalogProjectView extends BaseView {
 		opgProjectStatus.addStyleName("horizontal");
 		opgProjectStatus.setMultiSelect(true);
 		mainLayout.addComponent(opgProjectStatus, "top:120.0px;left:2.0px;");
-		
+
 		comboProject = new ComboBox();
 		comboProject.setCaption("Proyecto");
 		comboProject.setImmediate(true);
@@ -671,7 +676,7 @@ public class CatalogProjectView extends BaseView {
 		comboProject.setHeight("-1px");
 		comboProject.setInputPrompt("Seleccione un proyecto");
 		mainLayout.addComponent(comboProject, "top:185.0px;left:0.0px;");
-		
+
 		tabProject = new TabSheet();
 		tabProject.setImmediate(false);
 		tabProject.setWidth("600px");

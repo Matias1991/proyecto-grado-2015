@@ -56,7 +56,7 @@ public class CreateLiquidationView extends BaseView {
 	private Grid grdBills;
 	private Grid grdCategoriesHuman;
 	private Grid grdCategoriesMaterial;
-	private Grid grdEmployees;	
+	private Grid grdEmployees;
 	private BeanItemContainer<Category> beanCategoriesHuman;
 	private BeanItemContainer<Category> beanCategoriesMaterial;
 	private BeanItemContainer<Bill> beanBills;
@@ -74,8 +74,8 @@ public class CreateLiquidationView extends BaseView {
 	private VerticalLayout tab4;
 	private GridLayout tab5;
 	private GridLayout tab6;
-	private Button btnPreview;		
-	//company
+	private Button btnPreview;
+	// company
 	private TextField txtCompanyCategory;
 	private TextField txtContribution;
 	private TextField txtDismissalPrevention;
@@ -95,10 +95,10 @@ public class CreateLiquidationView extends BaseView {
 	private TextField txtCompanyPartner2;
 	private TextField txtTotalEarningsPeso;
 	private TextField txtTotalEarningsDollar;
-	//project
+	// project
 	private TextField txtEarnings;
 	private TextField txtPartner1;
-	private TextField txtPartner2;	
+	private TextField txtPartner2;
 	private TextField txtPartner1Distribution;
 	private TextField txtPartner2Distribution;
 	private TextField txtReserve;
@@ -109,8 +109,8 @@ public class CreateLiquidationView extends BaseView {
 	private TextField txtTotalCostCategoriesMaterial;
 	private TextField txtTotalCostEmployees;
 	private TextField txtPartner1Earnings;
-	private TextField txtPartner2Earnings;	
-	
+	private TextField txtPartner2Earnings;
+
 	private static final long serialVersionUID = 1L;
 
 	/**
@@ -136,26 +136,41 @@ public class CreateLiquidationView extends BaseView {
 				}
 			}
 		});
-		
 
 		cboProject.addValueChangeListener(new ValueChangeListener() {
 
 			@Override
 			public void valueChange(ValueChangeEvent event) {
-				if (cboProject.getValue() != null && txtTypeExchange.isValid() && dateMonth.isValid()) {					
+				if (cboProject.getValue() != null && txtTypeExchange.isValid()
+						&& dateMonth.isValid()) {
 					cleanTab();
-					int selection = Integer.parseInt(cboProject.getValue().toString());
+					int selection = Integer.parseInt(cboProject.getValue()
+							.toString());
 					projectLiquidation = null;
 					companyLiquidation = null;
-					if(selection != -1)
-						projectLiquidation = LiquidationController.getProjectsLiquidations(dateMonth.getValue(), Integer.parseInt(cboProject.getValue().toString()), (Double)txtTypeExchange.getConvertedValue());
-					else
-						companyLiquidation = LiquidationController.getCompanyLiquidationPreview(dateMonth.getValue(), (Double)txtTypeExchange.getConvertedValue(), RequestContext.getRequestContext().getId());
+					if (selection != -1) {
+						projectLiquidation = LiquidationController
+								.getProjectsLiquidations(dateMonth.getValue(),
+										Integer.parseInt(cboProject.getValue()
+												.toString()),
+										(Double) txtTypeExchange
+												.getConvertedValue());
+						tabDetails.getTab(tab1).setEnabled(true);
+					} else {
+						companyLiquidation = LiquidationController
+								.getCompanyLiquidationPreview(dateMonth
+										.getValue(), (Double) txtTypeExchange
+										.getConvertedValue(), RequestContext
+										.getRequestContext().getId());
+						tabDetails.getTab(tab1).setEnabled(false);
+					}
 					buildTab();
-				}else{
-					if(!txtTypeExchange.isValid() || !dateMonth.isValid())
-					btnPreview.setEnabled(true);
-					cboProject.setEnabled(false);
+				} else {
+					if (!txtTypeExchange.isValid() || !dateMonth.isValid()) {
+						btnPreview.setEnabled(true);
+						cboProject.setEnabled(false);
+						cboProject.removeAllItems();
+					}
 					cleanTab();
 				}
 			}
@@ -169,20 +184,24 @@ public class CreateLiquidationView extends BaseView {
 						.navigateTo(Constant.View.CATALOGPROJECTS);
 			}
 		});
-		
-		btnPreview.addClickListener(new Button.ClickListener(){
+
+		btnPreview.addClickListener(new Button.ClickListener() {
 
 			@Override
 			public void buttonClick(ClickEvent event) {
-				if(dateMonth.isValid() && txtTypeExchange.isValid() && !LiquidationController.existLiquidation(dateMonth.getValue())){
+				if (dateMonth.isValid()
+						&& txtTypeExchange.isValid()
+						&& !LiquidationController.existLiquidation(dateMonth
+								.getValue())) {
 					dateMonth.setValidationVisible(false);
 					txtTypeExchange.setValidationVisible(false);
-					cboProject.setEnabled(true);	
-					btnPreview.setEnabled(false);					
-					buildComboProjects();					
-				}else{
-					if(dateMonth.isValid() && txtTypeExchange.isValid()){
-						new PopupWindow("ERROR", "Ya existe liquidacion para el mes seleccionado");
+					cboProject.setEnabled(true);
+					btnPreview.setEnabled(false);
+					buildComboProjects();
+				} else {
+					if (dateMonth.isValid() && txtTypeExchange.isValid()) {
+						new PopupWindow("ERROR",
+								"Ya existe liquidacion para el mes seleccionado");
 					}
 					dateMonth.setValidationVisible(true);
 					txtTypeExchange.setValidationVisible(true);
@@ -191,46 +210,54 @@ public class CreateLiquidationView extends BaseView {
 					txtTypeExchange.setConversionError("Debe ser numérico");
 					cboProject.setEnabled(false);
 					btnPreview.setEnabled(true);
-					cleanTab();					
-				}				
+					cleanTab();
+				}
 			}
-			
+
 		});
-		
+
 		btnCreate.addClickListener(new Button.ClickListener() {
-			
+
 			@Override
 			public void buttonClick(ClickEvent event) {
-				btnCreate.setEnabled(false);				
-				if(dateMonth.isValid() && txtTypeExchange.isValid()){
+				btnCreate.setEnabled(false);
+				if (dateMonth.isValid() && txtTypeExchange.isValid()) {
 					dateMonth.setValidationVisible(false);
 					txtTypeExchange.setValidationVisible(false);
-					
-					ConfirmDialog.show(WebvaadinUI.getCurrent(), "Confirmación",
+
+					ConfirmDialog.show(WebvaadinUI.getCurrent(),
+							"Confirmación",
 							"¿Desea liquidar el mes seleccionado?", "Si", "No",
 							new ConfirmDialog.Listener() {
 
 								@Override
 								public void onClose(ConfirmDialog confirm) {
 									if (confirm.isConfirmed()) {
-										boolean result = LiquidationController.createLiquidation(dateMonth.getValue(), Double.parseDouble(txtTypeExchange.getValue()), RequestContext.getRequestContext().getId());
-										if(result){
-											new PopupWindow("AVISO", "Liquidacion creada correctamente");						
+										boolean result = LiquidationController.createLiquidation(
+												dateMonth.getValue(),
+												Double.parseDouble(txtTypeExchange
+														.getValue()),
+												RequestContext
+														.getRequestContext()
+														.getId());
+										if (result) {
+											new PopupWindow("AVISO",
+													"Liquidacion creada correctamente");
 											cleanInputs();
-										}															
+										}
 									}
 
 								}
-							});					
-					
-				}else{
+							});
+
+				} else {
 					dateMonth.setValidationVisible(true);
 					txtTypeExchange.setValidationVisible(true);
 					dateMonth.setRequiredError("Es requerido");
 					txtTypeExchange.setRequiredError("Es requerido");
-					txtTypeExchange.setConversionError("Debe ser numérico");					
-				}				
-				btnCreate.setEnabled(true);				
+					txtTypeExchange.setConversionError("Debe ser numérico");
+				}
+				btnCreate.setEnabled(true);
 			}
 		});
 	}
@@ -246,7 +273,7 @@ public class CreateLiquidationView extends BaseView {
 			txtTypeExchange.setValidationVisible(false);
 			btnPreview.setEnabled(true);
 			cboProject.setEnabled(false);
-			
+
 		}
 	}
 
@@ -279,8 +306,8 @@ public class CreateLiquidationView extends BaseView {
 		btnCreate.setHeight("-1px");
 		btnCreate.setTabIndex(8);
 		mainLayout.addComponent(btnCreate, "top:540.0px;left:0.0px;");
-		
-		//btnPreview
+
+		// btnPreview
 		btnPreview = new Button();
 		btnPreview.setCaption("Vista previa");
 		btnPreview.setImmediate(true);
@@ -331,8 +358,9 @@ public class CreateLiquidationView extends BaseView {
 		dateMonth.setValue(new Date());
 		dateMonth.setInputPrompt("Seleccione mes a liquidar");
 		dateMonth.setDateOutOfRangeMessage("Fecha no válida");
+		dateMonth.setParseErrorMessage("Formato de fecha no válida");
 		mainLayout.addComponent(dateMonth, "top:116.0px;left:0.0px;");
-		
+
 		// tabDetails
 		tabDetails = new TabSheet();
 		tabDetails.setCaption("Vista previa de proyectos a liquidar");
@@ -341,14 +369,14 @@ public class CreateLiquidationView extends BaseView {
 		tabDetails.setHeight("340px");
 		mainLayout.addComponent(tabDetails, "top:180.0px;left:270.0px");
 
-		//Proyectos
+		// Proyectos
 		// txtPartner1
 		txtPartner1 = new TextField();
 		txtPartner1.setCaption("Socio");
 		txtPartner1.setImmediate(true);
 		txtPartner1.setWidth("200px");
 		txtPartner1.setHeight("-1px");
-		txtPartner1.setNullRepresentation("");		
+		txtPartner1.setNullRepresentation("");
 
 		// txtPartner2
 		txtPartner2 = new TextField();
@@ -356,25 +384,26 @@ public class CreateLiquidationView extends BaseView {
 		txtPartner2.setImmediate(true);
 		txtPartner2.setWidth("200px");
 		txtPartner2.setHeight("-1px");
-		txtPartner2.setNullRepresentation("");		
-				
-		//txtEarnings
+		txtPartner2.setNullRepresentation("");
+
+		// txtEarnings
 		txtEarnings = new TextField();
 		txtEarnings.setCaption("Ganancia");
 		txtEarnings.setImmediate(true);
 		txtEarnings.setWidth("155px");
 		txtEarnings.setHeight("-1px");
 		txtEarnings.setNullRepresentation("");
+		txtEarnings.setLocale(Locale.US);
 		txtEarnings.setConverter(new StringToDoubleConverter());
-		
+
 		// txtPartner1Distribution
 		txtPartner1Distribution = new TextField();
 		txtPartner1Distribution.setCaption("Distribución");
 		txtPartner1Distribution.setImmediate(true);
 		txtPartner1Distribution.setWidth("100px");
 		txtPartner1Distribution.setHeight("-1px");
-		txtPartner1Distribution.setNullRepresentation("");		
-		
+		txtPartner1Distribution.setNullRepresentation("");
+
 		// txtPartner2Distribution
 		txtPartner2Distribution = new TextField();
 		txtPartner2Distribution.setCaption("Distribución");
@@ -382,230 +411,254 @@ public class CreateLiquidationView extends BaseView {
 		txtPartner2Distribution.setWidth("100px");
 		txtPartner2Distribution.setHeight("-1px");
 		txtPartner2Distribution.setNullRepresentation("");
-		
-		//txtReserve
+
+		// txtReserve
 		txtReserve = new TextField();
 		txtReserve.setCaption("Reserva");
 		txtReserve.setImmediate(true);
 		txtReserve.setWidth("155px");
 		txtReserve.setHeight("-1px");
 		txtReserve.setNullRepresentation("");
+		txtReserve.setLocale(Locale.US);
 		txtReserve.setConverter(new StringToDoubleConverter());
-		
-		//txtSeller
+
+		// txtSeller
 		txtSeller = new TextField();
 		txtSeller.setCaption("Vendedor");
 		txtSeller.setImmediate(true);
 		txtSeller.setWidth("200px");
 		txtSeller.setHeight("-1px");
 		txtSeller.setNullRepresentation("");
-		
-		//txtSale
+
+		// txtSale
 		txtSale = new TextField();
 		txtSale.setCaption("Venta");
 		txtSale.setImmediate(true);
 		txtSale.setWidth("155px");
 		txtSale.setHeight("-1px");
 		txtSale.setNullRepresentation("");
+		txtSale.setLocale(Locale.US);
 		txtSale.setConverter(new StringToDoubleConverter());
-		
-		//txtTotalBills
+
+		// txtTotalBills
 		txtTotalBills = new TextField();
 		txtTotalBills.setCaption("Facturación total");
 		txtTotalBills.setImmediate(true);
 		txtTotalBills.setWidth("155px");
 		txtTotalBills.setHeight("-1px");
 		txtTotalBills.setNullRepresentation("");
+		txtTotalBills.setLocale(Locale.US);
 		txtTotalBills.setConverter(new StringToDoubleConverter());
-		
-		//txtTotalCostCategoriesHuman
+
+		// txtTotalCostCategoriesHuman
 		txtTotalCostCategoriesHuman = new TextField();
 		txtTotalCostCategoriesHuman.setCaption("Total rubros humanos");
 		txtTotalCostCategoriesHuman.setImmediate(true);
 		txtTotalCostCategoriesHuman.setWidth("155px");
 		txtTotalCostCategoriesHuman.setHeight("-1px");
 		txtTotalCostCategoriesHuman.setNullRepresentation("");
+		txtTotalCostCategoriesHuman.setLocale(Locale.US);
 		txtTotalCostCategoriesHuman.setConverter(new StringToDoubleConverter());
-		
-		//txtTotalCostCategoriesMaterial
+
+		// txtTotalCostCategoriesMaterial
 		txtTotalCostCategoriesMaterial = new TextField();
 		txtTotalCostCategoriesMaterial.setCaption("Total rubros materiales");
 		txtTotalCostCategoriesMaterial.setImmediate(true);
 		txtTotalCostCategoriesMaterial.setWidth("155px");
 		txtTotalCostCategoriesMaterial.setHeight("-1px");
 		txtTotalCostCategoriesMaterial.setNullRepresentation("");
-		txtTotalCostCategoriesMaterial.setConverter(new StringToDoubleConverter());
-		
-		//txtTotalCostEmployees
+		txtTotalCostCategoriesMaterial.setLocale(Locale.US);
+		txtTotalCostCategoriesMaterial
+				.setConverter(new StringToDoubleConverter());
+
+		// txtTotalCostEmployees
 		txtTotalCostEmployees = new TextField();
 		txtTotalCostEmployees.setCaption("Total costos empleados");
 		txtTotalCostEmployees.setImmediate(true);
 		txtTotalCostEmployees.setWidth("155px");
 		txtTotalCostEmployees.setHeight("-1px");
 		txtTotalCostEmployees.setNullRepresentation("");
+		txtTotalCostEmployees.setLocale(Locale.US);
 		txtTotalCostEmployees.setConverter(new StringToDoubleConverter());
-		
-		//txtPartner1Earnings
+
+		// txtPartner1Earnings
 		txtPartner1Earnings = new TextField();
 		txtPartner1Earnings.setCaption("Ganancia socio");
 		txtPartner1Earnings.setImmediate(true);
 		txtPartner1Earnings.setWidth("155px");
 		txtPartner1Earnings.setHeight("-1px");
 		txtPartner1Earnings.setNullRepresentation("");
+		txtPartner1Earnings.setLocale(Locale.US);
 		txtPartner1Earnings.setConverter(new StringToDoubleConverter());
-		
-		//txtPartner2Earnings
+
+		// txtPartner2Earnings
 		txtPartner2Earnings = new TextField();
 		txtPartner2Earnings.setCaption("Ganancia socio");
 		txtPartner2Earnings.setImmediate(true);
 		txtPartner2Earnings.setWidth("155px");
 		txtPartner2Earnings.setHeight("-1px");
 		txtPartner2Earnings.setNullRepresentation("");
+		txtPartner2Earnings.setLocale(Locale.US);
 		txtPartner2Earnings.setConverter(new StringToDoubleConverter());
-		
-		//Compania		
-		//txtCompanyCategory
+
+		// Compania
+		// txtCompanyCategory
 		txtCompanyCategory = new TextField();
 		txtCompanyCategory.setCaption("Costos compañía");
 		txtCompanyCategory.setImmediate(true);
 		txtCompanyCategory.setWidth("155px");
 		txtCompanyCategory.setHeight("-1px");
 		txtCompanyCategory.setNullRepresentation("");
+		txtCompanyCategory.setLocale(Locale.US);
 		txtCompanyCategory.setConverter(new StringToDoubleConverter());
-		
-		//txtContribution
+
+		// txtContribution
 		txtContribution = new TextField();
 		txtContribution.setCaption("Contribución");
 		txtContribution.setImmediate(true);
 		txtContribution.setWidth("155px");
 		txtContribution.setHeight("-1px");
 		txtContribution.setNullRepresentation("");
+		txtContribution.setLocale(Locale.US);
 		txtContribution.setConverter(new StringToDoubleConverter());
-	
-		//txtDismissalPrevention
+
+		// txtDismissalPrevention
 		txtDismissalPrevention = new TextField();
 		txtDismissalPrevention.setCaption("Previsión despido");
 		txtDismissalPrevention.setImmediate(true);
 		txtDismissalPrevention.setWidth("155px");
 		txtDismissalPrevention.setHeight("-1px");
-		txtDismissalPrevention.setNullRepresentation("");	
+		txtDismissalPrevention.setNullRepresentation("");
+		txtDismissalPrevention.setLocale(Locale.US);
 		txtDismissalPrevention.setConverter(new StringToDoubleConverter());
-		
-		//txtEmployeesCost
+
+		// txtEmployeesCost
 		txtEmployeesCost = new TextField();
 		txtEmployeesCost.setCaption("Costos empleados");
 		txtEmployeesCost.setImmediate(true);
 		txtEmployeesCost.setWidth("155px");
 		txtEmployeesCost.setHeight("-1px");
 		txtEmployeesCost.setNullRepresentation("");
+		txtEmployeesCost.setLocale(Locale.US);
 		txtEmployeesCost.setConverter(new StringToDoubleConverter());
-		
-		//txtIncidenceSalary
+
+		// txtIncidenceSalary
 		txtIncidenceSalary = new TextField();
 		txtIncidenceSalary.setCaption("Incidencia salario");
 		txtIncidenceSalary.setImmediate(true);
 		txtIncidenceSalary.setWidth("155px");
 		txtIncidenceSalary.setHeight("-1px");
 		txtIncidenceSalary.setNullRepresentation("");
+		txtIncidenceSalary.setLocale(Locale.US);
 		txtIncidenceSalary.setConverter(new StringToDoubleConverter());
 
-		//txtIncidenceTickets
+		// txtIncidenceTickets
 		txtIncidenceTickets = new TextField();
 		txtIncidenceTickets.setCaption("Incidencia tickets");
 		txtIncidenceTickets.setImmediate(true);
 		txtIncidenceTickets.setWidth("155px");
 		txtIncidenceTickets.setHeight("-1px");
 		txtIncidenceTickets.setNullRepresentation("");
+		txtIncidenceTickets.setLocale(Locale.US);
 		txtIncidenceTickets.setConverter(new StringToDoubleConverter());
-		
-		//txtIrae
+
+		// txtIrae
 		txtIrae = new TextField();
 		txtIrae.setCaption("IRAE");
 		txtIrae.setImmediate(true);
 		txtIrae.setWidth("155px");
 		txtIrae.setHeight("-1px");
 		txtIrae.setNullRepresentation("");
+		txtIrae.setLocale(Locale.US);
 		txtIrae.setConverter(new StringToDoubleConverter());
-		
-		//txtIvaPurchase
+
+		// txtIvaPurchase
 		txtIvaPurchase = new TextField();
 		txtIvaPurchase.setCaption("IVA compra");
 		txtIvaPurchase.setImmediate(true);
 		txtIvaPurchase.setWidth("155px");
 		txtIvaPurchase.setHeight("-1px");
 		txtIvaPurchase.setNullRepresentation("");
+		txtIvaPurchase.setLocale(Locale.US);
 		txtIvaPurchase.setConverter(new StringToDoubleConverter());
-		
-		//txtIvaSale
+
+		// txtIvaSale
 		txtIvaSale = new TextField();
 		txtIvaSale.setCaption("IVA venta");
 		txtIvaSale.setImmediate(true);
 		txtIvaSale.setWidth("155px");
 		txtIvaSale.setHeight("-1px");
 		txtIvaSale.setNullRepresentation("");
+		txtIvaSale.setLocale(Locale.US);
 		txtIvaSale.setConverter(new StringToDoubleConverter());
-		
-		//txtPartner1EarningsDollar
+
+		// txtPartner1EarningsDollar
 		txtPartner1EarningsDollar = new TextField();
 		txtPartner1EarningsDollar.setCaption("Ganancia (U$S)");
 		txtPartner1EarningsDollar.setImmediate(true);
 		txtPartner1EarningsDollar.setWidth("155px");
 		txtPartner1EarningsDollar.setHeight("-1px");
 		txtPartner1EarningsDollar.setNullRepresentation("");
+		txtPartner1EarningsDollar.setLocale(Locale.US);
 		txtPartner1EarningsDollar.setConverter(new StringToDoubleConverter());
 
-		//txtPartner1EarningsPeso
+		// txtPartner1EarningsPeso
 		txtPartner1EarningsPeso = new TextField();
 		txtPartner1EarningsPeso.setCaption("Ganancia ($)");
 		txtPartner1EarningsPeso.setImmediate(true);
 		txtPartner1EarningsPeso.setWidth("155px");
 		txtPartner1EarningsPeso.setHeight("-1px");
 		txtPartner1EarningsPeso.setNullRepresentation("");
+		txtPartner1EarningsPeso.setLocale(Locale.US);
 		txtPartner1EarningsPeso.setConverter(new StringToDoubleConverter());
-		
-		//txtPartner2EarningsDollar
+
+		// txtPartner2EarningsDollar
 		txtPartner2EarningsDollar = new TextField();
 		txtPartner2EarningsDollar.setCaption("Ganancia (U$S)");
 		txtPartner2EarningsDollar.setImmediate(true);
 		txtPartner2EarningsDollar.setWidth("155px");
 		txtPartner2EarningsDollar.setHeight("-1px");
 		txtPartner2EarningsDollar.setNullRepresentation("");
+		txtPartner2EarningsDollar.setLocale(Locale.US);
 		txtPartner2EarningsDollar.setConverter(new StringToDoubleConverter());
 
-		//txtPartner2EarningsPeso
+		// txtPartner2EarningsPeso
 		txtPartner2EarningsPeso = new TextField();
 		txtPartner2EarningsPeso.setCaption("Ganancia ($)");
 		txtPartner2EarningsPeso.setImmediate(true);
 		txtPartner2EarningsPeso.setWidth("155px");
 		txtPartner2EarningsPeso.setHeight("-1px");
 		txtPartner2EarningsPeso.setNullRepresentation("");
+		txtPartner2EarningsPeso.setLocale(Locale.US);
 		txtPartner2EarningsPeso.setConverter(new StringToDoubleConverter());
-		
-		//txtSalaryNotPartners
+
+		// txtSalaryNotPartners
 		txtSalaryNotPartners = new TextField();
 		txtSalaryNotPartners.setCaption("Salario no socios");
 		txtSalaryNotPartners.setImmediate(true);
 		txtSalaryNotPartners.setWidth("155px");
 		txtSalaryNotPartners.setHeight("-1px");
 		txtSalaryNotPartners.setNullRepresentation("");
+		txtSalaryNotPartners.setLocale(Locale.US);
 		txtSalaryNotPartners.setConverter(new StringToDoubleConverter());
-		
-		//txtSalaryPartners
+
+		// txtSalaryPartners
 		txtSalaryPartners = new TextField();
 		txtSalaryPartners.setCaption("Salario socios");
 		txtSalaryPartners.setImmediate(true);
 		txtSalaryPartners.setWidth("155px");
 		txtSalaryPartners.setHeight("-1px");
-		txtSalaryPartners.setNullRepresentation("");		
+		txtSalaryPartners.setNullRepresentation("");
+		txtSalaryPartners.setLocale(Locale.US);
 		txtSalaryPartners.setConverter(new StringToDoubleConverter());
-		
+
 		// txtCompanyPartner1
 		txtCompanyPartner1 = new TextField();
 		txtCompanyPartner1.setCaption("Socio");
 		txtCompanyPartner1.setImmediate(true);
 		txtCompanyPartner1.setWidth("200px");
 		txtCompanyPartner1.setHeight("-1px");
-		txtCompanyPartner1.setNullRepresentation("");		
+		txtCompanyPartner1.setNullRepresentation("");
 
 		// txtCompanyPartner2
 		txtCompanyPartner2 = new TextField();
@@ -613,37 +666,43 @@ public class CreateLiquidationView extends BaseView {
 		txtCompanyPartner2.setImmediate(true);
 		txtCompanyPartner2.setWidth("200px");
 		txtCompanyPartner2.setHeight("-1px");
-		txtCompanyPartner2.setNullRepresentation("");		
-		
-		//txtTotalEarningsPeso
+		txtCompanyPartner2.setNullRepresentation("");
+
+		// txtTotalEarningsPeso
 		txtTotalEarningsPeso = new TextField();
 		txtTotalEarningsPeso.setCaption("Total ganancia ($)");
 		txtTotalEarningsPeso.setImmediate(true);
 		txtTotalEarningsPeso.setWidth("155px");
 		txtTotalEarningsPeso.setHeight("-1px");
-		txtTotalEarningsPeso.setNullRepresentation("");		
+		txtTotalEarningsPeso.setNullRepresentation("");
+		txtTotalEarningsPeso.setLocale(Locale.US);
 		txtTotalEarningsPeso.setConverter(new StringToDoubleConverter());
-		
-		//txtTotalEarningsDollar
+
+		// txtTotalEarningsDollar
 		txtTotalEarningsDollar = new TextField();
 		txtTotalEarningsDollar.setCaption("Total ganancia (U$S)");
 		txtTotalEarningsDollar.setImmediate(true);
 		txtTotalEarningsDollar.setWidth("155px");
 		txtTotalEarningsDollar.setHeight("-1px");
-		txtTotalEarningsDollar.setNullRepresentation("");		
+		txtTotalEarningsDollar.setNullRepresentation("");
+		txtTotalEarningsDollar.setLocale(Locale.US);
 		txtTotalEarningsDollar.setConverter(new StringToDoubleConverter());
-				
-		//lblMessageBills
-		lblMessageBills = new Label("No existen facturas asociadas al proyecto en el período seleccionado");
-		
-		//lblMessageCategoriesHuman
-		lblMessageCategoriesHuman = new Label("No existen rubros de tipo humano asociados al proyecto en el período");
-		
-		//lblMessageCategoriesMaterial
-		lblMessageCategoriesMaterial = new Label("No existen rubros de tipo material asociados al proyecto en el período");
-		
-		//lblMessageEmployees
-		lblMessageEmployees = new Label ("No existen empleados asociados al proyecto en el período seleccionado");
+
+		// lblMessageBills
+		lblMessageBills = new Label(
+				"No existen facturas asociadas al proyecto en el período seleccionado");
+
+		// lblMessageCategoriesHuman
+		lblMessageCategoriesHuman = new Label(
+				"No existen rubros de tipo humano asociados al proyecto en el período");
+
+		// lblMessageCategoriesMaterial
+		lblMessageCategoriesMaterial = new Label(
+				"No existen rubros de tipo material asociados al proyecto en el período");
+
+		// lblMessageEmployees
+		lblMessageEmployees = new Label(
+				"No existen empleados asociados al proyecto en el período seleccionado");
 
 		// TAB 1
 		tab1 = new VerticalLayout();
@@ -682,25 +741,25 @@ public class CreateLiquidationView extends BaseView {
 		cboProject.addItem(-1);
 		cboProject.setItemCaption(-1, "MeerkatSys(Empresa)");
 	}
-	
-	private void cleanTab(){
-		if(grdBills != null)
+
+	private void cleanTab() {
+		if (grdBills != null)
 			tab1.removeComponent(grdBills);
 		lblMessageBills.setVisible(true);
-		
-		if(grdCategoriesHuman != null)
+
+		if (grdCategoriesHuman != null)
 			tab2.removeComponent(grdCategoriesHuman);
-		lblMessageCategoriesHuman.setVisible(true);			
-		
-		if(grdCategoriesMaterial != null)
+		lblMessageCategoriesHuman.setVisible(true);
+
+		if (grdCategoriesMaterial != null)
 			tab3.removeComponent(grdCategoriesMaterial);
 		lblMessageCategoriesMaterial.setVisible(true);
-		
-		if(grdEmployees != null)
+
+		if (grdEmployees != null)
 			tab4.removeComponent(grdEmployees);
 		lblMessageEmployees.setVisible(true);
-		
-		readOnlyInputs(false);	
+
+		readOnlyInputs(false);
 		txtCompanyCategory.clear();
 		txtContribution.clear();
 		txtDismissalPrevention.clear();
@@ -720,7 +779,7 @@ public class CreateLiquidationView extends BaseView {
 		txtCompanyPartner2.clear();
 		txtEarnings.clear();
 		txtPartner1.clear();
-		txtPartner2.clear();	
+		txtPartner2.clear();
 		txtPartner1Distribution.clear();
 		txtPartner2Distribution.clear();
 		txtReserve.clear();
@@ -731,71 +790,72 @@ public class CreateLiquidationView extends BaseView {
 		txtTotalCostCategoriesMaterial.clear();
 		txtTotalCostEmployees.clear();
 		txtPartner1Earnings.clear();
-		txtPartner2Earnings.clear();	
+		txtPartner2Earnings.clear();
 		txtTotalEarningsDollar.clear();
 		txtTotalEarningsPeso.clear();
-		readOnlyInputs(true);		
+		readOnlyInputs(true);
 	}
-	
-	private void switchTabSummary(boolean isCompany){	
-		if(tabDetails.getTab(tab5) != null)
+
+	private void switchTabSummary(boolean isCompany) {
+		if (tabDetails.getTab(tab5) != null)
 			tabDetails.removeTab(tabDetails.getTab(tab5));
-		if(tabDetails.getTab(tab6) != null)
+		if (tabDetails.getTab(tab6) != null)
 			tabDetails.removeTab(tabDetails.getTab(tab6));
-		if(isCompany){		
-			//TAB6
-			tab6 = new GridLayout(3,12);
+		if (isCompany) {
+			// TAB6
+			tab6 = new GridLayout(3, 12);
 			tab6.setSpacing(true);
-			tab6.addComponent(txtTotalEarningsPeso,0,0);
-			tab6.addComponent(txtTotalEarningsDollar,1,0);			
-			tab6.addComponent(txtCompanyCategory,0,1);
-			tab6.addComponent(txtContribution,0,2);
-			tab6.addComponent(txtDismissalPrevention,0,3);
-			tab6.addComponent(txtEmployeesCost,0,4);
-			tab6.addComponent(txtIncidenceSalary,0,5);
-			tab6.addComponent(txtIncidenceTickets,0,6);
-			tab6.addComponent(txtIrae,0,7);	
-			tab6.addComponent(txtSalaryPartners,1,8);			
-			tab6.addComponent(txtSalaryNotPartners,0,8);					
-			tab6.addComponent(txtPartner1EarningsPeso,0,9);
-			tab6.addComponent(txtPartner1EarningsDollar,1,9);
-			tab6.addComponent(txtCompanyPartner1,2,9);			
-			tab6.addComponent(txtPartner2EarningsPeso,0,10);
-			tab6.addComponent(txtPartner2EarningsDollar,1,10);
-			tab6.addComponent(txtCompanyPartner2,2,10);				
-			tab6.addComponent(txtIvaSale,0,11);
-			tab6.addComponent(txtIvaPurchase,1,11);
-			tabDetails.addTab(tab6,"Resumen");			
-		}else{			
+			tab6.addComponent(txtTotalEarningsPeso, 0, 0);
+			tab6.addComponent(txtTotalEarningsDollar, 1, 0);
+			tab6.addComponent(txtCompanyCategory, 0, 1);
+			tab6.addComponent(txtContribution, 0, 2);
+			tab6.addComponent(txtDismissalPrevention, 0, 3);
+			tab6.addComponent(txtEmployeesCost, 0, 4);
+			tab6.addComponent(txtIncidenceSalary, 0, 5);
+			tab6.addComponent(txtIncidenceTickets, 0, 6);
+			tab6.addComponent(txtIrae, 0, 7);
+			tab6.addComponent(txtSalaryPartners, 1, 8);
+			tab6.addComponent(txtSalaryNotPartners, 0, 8);
+			tab6.addComponent(txtPartner1EarningsPeso, 0, 9);
+			tab6.addComponent(txtPartner1EarningsDollar, 1, 9);
+			tab6.addComponent(txtCompanyPartner1, 2, 9);
+			tab6.addComponent(txtPartner2EarningsPeso, 0, 10);
+			tab6.addComponent(txtPartner2EarningsDollar, 1, 10);
+			tab6.addComponent(txtCompanyPartner2, 2, 10);
+			tab6.addComponent(txtIvaSale, 0, 11);
+			tab6.addComponent(txtIvaPurchase, 1, 11);
+			tabDetails.addTab(tab6, "Resumen");
+		} else {
 			// TAB5
 			tab5 = new GridLayout(3, 9);
 			tab5.setSpacing(true);
-			tab5.addComponent(txtTotalBills,0,0);
+			tab5.addComponent(txtTotalBills, 0, 0);
 			tab5.addComponent(txtSeller, 1, 1, 2, 1);
-			tab5.addComponent(txtSale,0,1);
-			tab5.addComponent(txtReserve,0,2);
-			tab5.addComponent(txtTotalCostCategoriesHuman,0,3);
-			tab5.addComponent(txtTotalCostCategoriesMaterial,0,4);
-			tab5.addComponent(txtTotalCostEmployees,0,5);		
-			tab5.addComponent(txtEarnings,0,6);
-			tab5.addComponent(txtPartner1,2,7);
-			tab5.addComponent(txtPartner1Distribution,1,7);
-			tab5.addComponent(txtPartner1Earnings,0,7);
-			tab5.addComponent(txtPartner2,2,8);
-			tab5.addComponent(txtPartner2Distribution,1,8);
-			tab5.addComponent(txtPartner2Earnings,0,8);		
-			tabDetails.addTab(tab5, "Resumen");			
+			tab5.addComponent(txtSale, 0, 1);
+			tab5.addComponent(txtReserve, 0, 2);
+			tab5.addComponent(txtTotalCostCategoriesHuman, 0, 3);
+			tab5.addComponent(txtTotalCostCategoriesMaterial, 0, 4);
+			tab5.addComponent(txtTotalCostEmployees, 0, 5);
+			tab5.addComponent(txtEarnings, 0, 6);
+			tab5.addComponent(txtPartner1, 2, 7);
+			tab5.addComponent(txtPartner1Distribution, 1, 7);
+			tab5.addComponent(txtPartner1Earnings, 0, 7);
+			tab5.addComponent(txtPartner2, 2, 8);
+			tab5.addComponent(txtPartner2Distribution, 1, 8);
+			tab5.addComponent(txtPartner2Earnings, 0, 8);
+			tabDetails.addTab(tab5, "Resumen");
 		}
 	}
-	private void cleanInputs(){		
+
+	private void cleanInputs() {
 		txtTypeExchange.clear();
 		dateMonth.clear();
 		cboProject.removeAllItems();
 		cleanTab();
 		dateMonth.setValue(new Date());
 	}
-	
-	private void readOnlyInputs(boolean readOnly){
+
+	private void readOnlyInputs(boolean readOnly) {
 		txtCompanyCategory.setReadOnly(readOnly);
 		txtContribution.setReadOnly(readOnly);
 		txtDismissalPrevention.setReadOnly(readOnly);
@@ -815,7 +875,7 @@ public class CreateLiquidationView extends BaseView {
 		txtCompanyPartner2.setReadOnly(readOnly);
 		txtEarnings.setReadOnly(readOnly);
 		txtPartner1.setReadOnly(readOnly);
-		txtPartner2.setReadOnly(readOnly);	
+		txtPartner2.setReadOnly(readOnly);
 		txtPartner1Distribution.setReadOnly(readOnly);
 		txtPartner2Distribution.setReadOnly(readOnly);
 		txtReserve.setReadOnly(readOnly);
@@ -826,99 +886,149 @@ public class CreateLiquidationView extends BaseView {
 		txtTotalCostCategoriesMaterial.setReadOnly(readOnly);
 		txtTotalCostEmployees.setReadOnly(readOnly);
 		txtPartner1Earnings.setReadOnly(readOnly);
-		txtPartner2Earnings.setReadOnly(readOnly);	
+		txtPartner2Earnings.setReadOnly(readOnly);
 		txtTotalEarningsDollar.setReadOnly(readOnly);
 		txtTotalEarningsPeso.setReadOnly(readOnly);
 	}
 
-	private void buildTab() {		
+	private void buildTab() {
 		Collection<Bill> bills = null;
 		Collection<Category> categoriesHuman = null;
 		Collection<Category> categoriesMaterial = null;
 		Collection<ProjectEmployed> employees = null;
-		
-		if(companyLiquidation != null || projectLiquidation != null){
-			if(companyLiquidation != null){
+
+		if (companyLiquidation != null || projectLiquidation != null) {
+			if (companyLiquidation != null) {
 				bills = null;
 				categoriesHuman = companyLiquidation.getCategoriesHuman();
 				categoriesMaterial = companyLiquidation.getCategoriesMaterial();
-				employees = companyLiquidation.getEmployees();	
-				lblMessageBills.setValue("No existen facturas asociadas a la empresa en el período seleccionado");				
-				lblMessageCategoriesHuman.setValue("No existen rubros de tipo humano asociados a la empresa en el período");
-				lblMessageCategoriesMaterial.setValue("No existen rubros de tipo material asociados a la empresa en el período");
-				lblMessageEmployees.setValue("No quedan horas de empleados a ser absorbidos por la empresa en el período seleccionado");
-				if(companyLiquidation.getPartner1().getName() != null){
+				employees = companyLiquidation.getEmployees();
+				lblMessageBills
+						.setValue("No existen facturas asociadas a la empresa en el período seleccionado");
+				lblMessageCategoriesHuman
+						.setValue("No existen rubros de tipo humano asociados a la empresa en el período");
+				lblMessageCategoriesMaterial
+						.setValue("No existen rubros de tipo material asociados a la empresa en el período");
+				lblMessageEmployees
+						.setValue("No quedan horas de empleados a ser absorbidos por la empresa en el período seleccionado");
+				if (companyLiquidation.getPartner1().getName() != null) {
 					readOnlyInputs(false);
 					switchTabSummary(true);
-					txtCompanyCategory.setConvertedValue(companyLiquidation.getCompanyCategory());
-					txtContribution.setConvertedValue(companyLiquidation.getContribution());
-					txtDismissalPrevention.setConvertedValue(companyLiquidation.getDismissalPrevention());
-					txtEmployeesCost.setConvertedValue(companyLiquidation.getEmployeesCost());
-					txtIncidenceSalary.setConvertedValue(companyLiquidation.getIncidenceSalary());
-					txtIncidenceTickets.setConvertedValue(companyLiquidation.getIncidenceTickets());
+					txtCompanyCategory.setConvertedValue(companyLiquidation
+							.getCompanyCategory());
+					txtContribution.setConvertedValue(companyLiquidation
+							.getContribution());
+					txtDismissalPrevention.setConvertedValue(companyLiquidation
+							.getDismissalPrevention());
+					txtEmployeesCost.setConvertedValue(companyLiquidation
+							.getEmployeesCost());
+					txtIncidenceSalary.setConvertedValue(companyLiquidation
+							.getIncidenceSalary());
+					txtIncidenceTickets.setConvertedValue(companyLiquidation
+							.getIncidenceTickets());
 					txtIrae.setConvertedValue(companyLiquidation.getIrae());
-					txtIvaPurchase.setConvertedValue(companyLiquidation.getIVAPurchase());
-					txtIvaSale.setConvertedValue(companyLiquidation.getIVASale());
-					txtPartner1EarningsDollar.setConvertedValue(companyLiquidation.getPartner1EarningsDollar());
-					txtPartner1EarningsPeso.setConvertedValue(companyLiquidation.getPartner1EarningsPeso());
-					txtPartner2EarningsDollar.setConvertedValue(companyLiquidation.getPartner2EarningsDollar());
-					txtPartner2EarningsPeso.setConvertedValue(companyLiquidation.getPartner2EarningsPeso());
-					txtSalaryNotPartners.setConvertedValue(companyLiquidation.getSalaryNotPartners());
-					txtSalaryPartners.setConvertedValue(companyLiquidation.getSalaryPartners());					
-					txtCompanyPartner1.setValue(companyLiquidation.getPartner1().getName() + " "
+					txtIvaPurchase.setConvertedValue(companyLiquidation
+							.getIVAPurchase());
+					txtIvaSale.setConvertedValue(companyLiquidation
+							.getIVASale());
+					txtPartner1EarningsDollar
+							.setConvertedValue(companyLiquidation
+									.getPartner1EarningsDollar());
+					txtPartner1EarningsPeso
+							.setConvertedValue(companyLiquidation
+									.getPartner1EarningsPeso());
+					txtPartner2EarningsDollar
+							.setConvertedValue(companyLiquidation
+									.getPartner2EarningsDollar());
+					txtPartner2EarningsPeso
+							.setConvertedValue(companyLiquidation
+									.getPartner2EarningsPeso());
+					txtSalaryNotPartners.setConvertedValue(companyLiquidation
+							.getSalaryNotPartners());
+					txtSalaryPartners.setConvertedValue(companyLiquidation
+							.getSalaryPartners());
+					txtCompanyPartner1.setValue(companyLiquidation
+							.getPartner1().getName()
+							+ " "
 							+ companyLiquidation.getPartner1().getLastName());
-					txtCompanyPartner2.setValue(companyLiquidation.getPartner2().getName() + " "
-							+ companyLiquidation.getPartner2().getLastName());		
-					txtTotalEarningsDollar.setConvertedValue(companyLiquidation.getTotalEarningsDollar());
-					txtTotalEarningsPeso.setConvertedValue(companyLiquidation.getTotalEarningsPeso());
+					txtCompanyPartner2.setValue(companyLiquidation
+							.getPartner2().getName()
+							+ " "
+							+ companyLiquidation.getPartner2().getLastName());
+					txtTotalEarningsDollar.setConvertedValue(companyLiquidation
+							.getTotalEarningsDollar());
+					txtTotalEarningsPeso.setConvertedValue(companyLiquidation
+							.getTotalEarningsPeso());
 					readOnlyInputs(true);
-				}else{
+				} else {
 					cleanInputs();
 				}
 			}
-			if(projectLiquidation != null){
+			if (projectLiquidation != null) {
 				bills = projectLiquidation.getBills();
 				categoriesHuman = projectLiquidation.getCategoriesHuman();
 				categoriesMaterial = projectLiquidation.getCategoriesMaterial();
 				employees = projectLiquidation.getEmployees();
-				lblMessageBills.setValue("No existen facturas asociadas al proyecto en el período seleccionado");
-				lblMessageCategoriesHuman.setValue("No existen rubros de tipo humano asociados al proyecto en el período");
-				lblMessageCategoriesMaterial.setValue("No existen rubros de tipo material asociados al proyecto en el período");
-				lblMessageEmployees.setValue("No existen empleados asociados al proyecto en el período seleccionado");
-				
-				if(projectLiquidation.getPartner1Name() != null){
+				lblMessageBills
+						.setValue("No existen facturas asociadas al proyecto en el período seleccionado");
+				lblMessageCategoriesHuman
+						.setValue("No existen rubros de tipo humano asociados al proyecto en el período");
+				lblMessageCategoriesMaterial
+						.setValue("No existen rubros de tipo material asociados al proyecto en el período");
+				lblMessageEmployees
+						.setValue("No existen empleados asociados al proyecto en el período seleccionado");
+
+				if (projectLiquidation.getPartner1Name() != null) {
 					readOnlyInputs(false);
 					switchTabSummary(false);
-					txtPartner1.setValue(projectLiquidation.getPartner1Name() + " "	+ projectLiquidation.getPartner1Lastname());
-					txtPartner1Distribution.setValue(projectLiquidation.getPartner1Distribution());
-					txtPartner1Earnings.setConvertedValue(projectLiquidation.getPartner1Earning());
-					txtPartner2.setValue(projectLiquidation.getPartner2Name() + " "	+ projectLiquidation.getPartner2Lastname());
-					txtPartner2Distribution.setValue(projectLiquidation.getPartner2Distribution());
-					txtPartner2Earnings.setConvertedValue(projectLiquidation.getPartner2Earning());
-					txtEarnings.setConvertedValue(projectLiquidation.getEarnings());				
-					txtReserve.setConvertedValue(projectLiquidation.getReserve());
+					txtPartner1.setValue(projectLiquidation.getPartner1Name()
+							+ " " + projectLiquidation.getPartner1Lastname());
+					txtPartner1Distribution.setValue(projectLiquidation
+							.getPartner1Distribution());
+					txtPartner1Earnings.setConvertedValue(projectLiquidation
+							.getPartner1Earning());
+					txtPartner2.setValue(projectLiquidation.getPartner2Name()
+							+ " " + projectLiquidation.getPartner2Lastname());
+					txtPartner2Distribution.setValue(projectLiquidation
+							.getPartner2Distribution());
+					txtPartner2Earnings.setConvertedValue(projectLiquidation
+							.getPartner2Earning());
+					txtEarnings.setConvertedValue(projectLiquidation
+							.getEarnings());
+					txtReserve.setConvertedValue(projectLiquidation
+							.getReserve());
 					txtSale.setConvertedValue(projectLiquidation.getSale());
-					txtSeller.setValue(projectLiquidation.getProject().getSeller().getName() + " "	+ projectLiquidation.getProject().getSeller().getLastName());
-					txtTotalBills.setConvertedValue(projectLiquidation.getTotalBills());
-					txtTotalCostCategoriesHuman.setConvertedValue(projectLiquidation.getTotalCostCategoriesHuman());
-					txtTotalCostCategoriesMaterial.setConvertedValue(projectLiquidation.getTotalCostCategoriesMaterial());
-					txtTotalCostEmployees.setConvertedValue(projectLiquidation.getTotalCostEmployees());
-					
-					if(tabDetails.getTab(tab6) != null)
+					txtSeller.setValue(projectLiquidation.getProject()
+							.getSeller().getName()
+							+ " "
+							+ projectLiquidation.getProject().getSeller()
+									.getLastName());
+					txtTotalBills.setConvertedValue(projectLiquidation
+							.getTotalBills());
+					txtTotalCostCategoriesHuman
+							.setConvertedValue(projectLiquidation
+									.getTotalCostCategoriesHuman());
+					txtTotalCostCategoriesMaterial
+							.setConvertedValue(projectLiquidation
+									.getTotalCostCategoriesMaterial());
+					txtTotalCostEmployees.setConvertedValue(projectLiquidation
+							.getTotalCostEmployees());
+
+					if (tabDetails.getTab(tab6) != null)
 						tabDetails.removeTab(tabDetails.getTab(tab6));
-					if(tabDetails.getTab(tab5) == null)
+					if (tabDetails.getTab(tab5) == null)
 						tabDetails.addComponent(tab5);
 					readOnlyInputs(true);
-				}else{
+				} else {
 					cleanInputs();
 				}
 			}
 			// grdBills
-			if(bills != null && bills.size() > 0){
-				if(grdBills != null)
+			if (bills != null && bills.size() > 0) {
+				if (grdBills != null)
 					tab1.removeComponent(grdBills);
-				
-				beanBills = new BeanItemContainer<Bill>(Bill.class,	bills);
+
+				beanBills = new BeanItemContainer<Bill>(Bill.class, bills);
 				grdBills = new Grid(beanBills);
 				grdBills.setHeight("300px");
 				grdBills.setWidth(100, Unit.PERCENTAGE);
@@ -933,38 +1043,45 @@ public class CreateLiquidationView extends BaseView {
 				grdBills.removeColumn("projectId");
 				grdBills.removeColumn("typeExchange");
 				grdBills.removeColumn("projectName");
-				
-				grdBills.setColumnOrder("code","description","appliedDateTimeUTCToShow","amountToShow","ivaTypeToShow","totalAmountToShow", "typeExchangeToShow");
-	
+
+				grdBills.setColumnOrder("code", "description",
+						"appliedDateTimeUTCToShow", "amountToShow",
+						"ivaTypeToShow", "totalAmountToShow",
+						"typeExchangeToShow");
+
 				grdBills.getColumn("code").setHeaderCaption("Código");
-				grdBills.getColumn("description").setHeaderCaption("Descripción");
+				grdBills.getColumn("description").setHeaderCaption(
+						"Descripción");
 				grdBills.getColumn("description").setWidth(192.05);
-				grdBills.getColumn("appliedDateTimeUTCToShow").setHeaderCaption("Fecha");
-				grdBills.getColumn("amountToShow").setHeaderCaption("Importe sin IVA");
+				grdBills.getColumn("appliedDateTimeUTCToShow")
+						.setHeaderCaption("Fecha");
+				grdBills.getColumn("amountToShow").setHeaderCaption(
+						"Importe sin IVA");
 				grdBills.getColumn("ivaTypeToShow").setHeaderCaption("IVA");
-				grdBills.getColumn("totalAmountToShow").setHeaderCaption("Importe IVA incl.");
-				grdBills.getColumn("typeExchangeToShow").setHeaderCaption("Tipo de cambio");
-				
+				grdBills.getColumn("totalAmountToShow").setHeaderCaption(
+						"Importe IVA incl.");
+				grdBills.getColumn("typeExchangeToShow").setHeaderCaption(
+						"Tipo de cambio");
+
 				lblMessageBills.setVisible(false);
 				tab1.addComponent(grdBills);
-			}else{
-				if(grdBills != null)
+			} else {
+				if (grdBills != null)
 					tab1.removeComponent(grdBills);
 				lblMessageBills.setVisible(true);
 			}
-			
-			
+
 			// grdCategoriesHuman
-			if(categoriesHuman != null && categoriesHuman.size() > 0){
-				if(grdCategoriesHuman != null)
+			if (categoriesHuman != null && categoriesHuman.size() > 0) {
+				if (grdCategoriesHuman != null)
 					tab2.removeComponent(grdCategoriesHuman);
-				
+
 				beanCategoriesHuman = new BeanItemContainer<Category>(
 						Category.class, categoriesHuman);
 				grdCategoriesHuman = new Grid(beanCategoriesHuman);
 				grdCategoriesHuman.setHeight("300px");
 				grdCategoriesHuman.setWidth(100, Unit.PERCENTAGE);
-				
+
 				grdCategoriesHuman.removeColumn("id");
 				grdCategoriesHuman.removeColumn("amountPeso");
 				grdCategoriesHuman.removeColumn("amountDollar");
@@ -972,44 +1089,54 @@ public class CreateLiquidationView extends BaseView {
 				grdCategoriesHuman.removeColumn("categoryType");
 				grdCategoriesHuman.removeColumn("projectId");
 				grdCategoriesHuman.removeColumn("isRRHH");
-				grdCategoriesHuman.removeColumn("createdDateTimeUTC");			
+				grdCategoriesHuman.removeColumn("appliedDateTimeUTC");
 				grdCategoriesHuman.removeColumn("projectName");
 				grdCategoriesHuman.removeColumn("currencyDollar");
 				grdCategoriesHuman.removeColumn("typeExchange");
-				grdCategoriesHuman.removeColumn("ivaTypeId");	
+				grdCategoriesHuman.removeColumn("ivaTypeId");
 				grdCategoriesHuman.removeColumn("categoryTypeToShow");
 				grdCategoriesHuman.removeColumn("isDollarToShow");
 				grdCategoriesHuman.removeColumn("isRRHHToShow");
-				
-				grdCategoriesHuman.setColumnOrder("description","createDateTimeUTCToShow","amountToShow","ivaTypeToShow","totalAmountToShow","typeExchangeToShow");
-	
+
+				grdCategoriesHuman.setColumnOrder("description",
+						"createDateTimeUTCToShow", "amountToShow",
+						"ivaTypeToShow", "totalAmountToShow",
+						"typeExchangeToShow");
+
 				grdCategoriesHuman.getColumn("description").setWidth(192.05);
-				grdCategoriesHuman.getColumn("description").setHeaderCaption("Descripción");
-				grdCategoriesHuman.getColumn("createDateTimeUTCToShow").setHeaderCaption("Fecha");
-				grdCategoriesHuman.getColumn("amountToShow").setHeaderCaption("Importe sin IVA");
-				grdCategoriesHuman.getColumn("ivaTypeToShow").setHeaderCaption("IVA");
-				grdCategoriesHuman.getColumn("totalAmountToShow").setHeaderCaption("Importe IVA incl.");
-				grdCategoriesHuman.getColumn("typeExchangeToShow").setHeaderCaption("Tipo de cambio");
-				
+				grdCategoriesHuman.getColumn("description").setHeaderCaption(
+						"Descripción");
+				grdCategoriesHuman.getColumn("createDateTimeUTCToShow")
+						.setHeaderCaption("Fecha");
+				grdCategoriesHuman.getColumn("amountToShow").setHeaderCaption(
+						"Importe sin IVA");
+				grdCategoriesHuman.getColumn("ivaTypeToShow").setHeaderCaption(
+						"IVA");
+				grdCategoriesHuman.getColumn("totalAmountToShow")
+						.setHeaderCaption("Importe IVA incl.");
+				grdCategoriesHuman.getColumn("typeExchangeToShow")
+						.setHeaderCaption("Tipo de cambio");
+
 				lblMessageCategoriesHuman.setVisible(false);
 				tab2.addComponent(grdCategoriesHuman);
-			}else{
-				if(grdCategoriesHuman != null)
+			} else {
+				if (grdCategoriesHuman != null)
 					tab2.removeComponent(grdCategoriesHuman);
-				lblMessageCategoriesHuman.setVisible(true);				
+				lblMessageCategoriesHuman.setVisible(true);
 			}
-				
-				// grdCategoriesMaterial
-			if(categoriesMaterial != null && categoriesMaterial.size() > 0){
-				if(grdCategoriesMaterial != null)
+
+			// grdCategoriesMaterial
+			if (categoriesMaterial != null && categoriesMaterial.size() > 0) {
+				if (grdCategoriesMaterial != null)
 					tab3.removeComponent(grdCategoriesMaterial);
-			
+
 				beanCategoriesMaterial = new BeanItemContainer<Category>(
 						Category.class, categoriesMaterial);
 				grdCategoriesMaterial = new Grid(beanCategoriesMaterial);
 				grdCategoriesMaterial.setHeight("300px");
-				grdCategoriesMaterial.setWidth(100, Unit.PERCENTAGE);;
-				
+				grdCategoriesMaterial.setWidth(100, Unit.PERCENTAGE);
+				;
+
 				grdCategoriesMaterial.removeColumn("id");
 				grdCategoriesMaterial.removeColumn("amountPeso");
 				grdCategoriesMaterial.removeColumn("amountDollar");
@@ -1017,77 +1144,91 @@ public class CreateLiquidationView extends BaseView {
 				grdCategoriesMaterial.removeColumn("categoryType");
 				grdCategoriesMaterial.removeColumn("projectId");
 				grdCategoriesMaterial.removeColumn("isRRHH");
-				grdCategoriesMaterial.removeColumn("createdDateTimeUTC");			
+				grdCategoriesMaterial.removeColumn("appliedDateTimeUTC");
 				grdCategoriesMaterial.removeColumn("projectName");
 				grdCategoriesMaterial.removeColumn("currencyDollar");
 				grdCategoriesMaterial.removeColumn("typeExchange");
-				grdCategoriesMaterial.removeColumn("ivaTypeId");	
+				grdCategoriesMaterial.removeColumn("ivaTypeId");
 				grdCategoriesMaterial.removeColumn("categoryTypeToShow");
 				grdCategoriesMaterial.removeColumn("isDollarToShow");
 				grdCategoriesMaterial.removeColumn("isRRHHToShow");
-				
-				grdCategoriesMaterial.setColumnOrder("description","createDateTimeUTCToShow","amountToShow","ivaTypeToShow","totalAmountToShow","typeExchangeToShow");
-	
+
+				grdCategoriesMaterial.setColumnOrder("description",
+						"createDateTimeUTCToShow", "amountToShow",
+						"ivaTypeToShow", "totalAmountToShow",
+						"typeExchangeToShow");
+
 				grdCategoriesMaterial.getColumn("description").setWidth(192.05);
-				grdCategoriesMaterial.getColumn("description").setHeaderCaption("Descripción");
-				grdCategoriesMaterial.getColumn("createDateTimeUTCToShow").setHeaderCaption("Fecha");
-				grdCategoriesMaterial.getColumn("amountToShow").setHeaderCaption("Importe sin IVA");
-				grdCategoriesMaterial.getColumn("ivaTypeToShow").setHeaderCaption("IVA");
-				grdCategoriesMaterial.getColumn("totalAmountToShow").setHeaderCaption("Importe IVA incl.");
-				grdCategoriesMaterial.getColumn("typeExchangeToShow").setHeaderCaption("Tipo de cambio");
-				
+				grdCategoriesMaterial.getColumn("description")
+						.setHeaderCaption("Descripción");
+				grdCategoriesMaterial.getColumn("createDateTimeUTCToShow")
+						.setHeaderCaption("Fecha");
+				grdCategoriesMaterial.getColumn("amountToShow")
+						.setHeaderCaption("Importe sin IVA");
+				grdCategoriesMaterial.getColumn("ivaTypeToShow")
+						.setHeaderCaption("IVA");
+				grdCategoriesMaterial.getColumn("totalAmountToShow")
+						.setHeaderCaption("Importe IVA incl.");
+				grdCategoriesMaterial.getColumn("typeExchangeToShow")
+						.setHeaderCaption("Tipo de cambio");
+
 				lblMessageCategoriesMaterial.setVisible(false);
 				tab3.addComponent(grdCategoriesMaterial);
-			}else{
-				if(grdCategoriesMaterial != null)
+			} else {
+				if (grdCategoriesMaterial != null)
 					tab3.removeComponent(grdCategoriesMaterial);
 				lblMessageCategoriesMaterial.setVisible(true);
 			}
-			
-						
+
 			// grdEmployees
-			if(employees != null && employees.size() > 0){				
-				if(grdEmployees != null)
+			if (employees != null && employees.size() > 0) {
+				if (grdEmployees != null)
 					tab4.removeComponent(grdEmployees);
-				
+
 				beanEmployees = new BeanItemContainer<ProjectEmployed>(
 						ProjectEmployed.class, employees);
 				grdEmployees = new Grid(beanEmployees);
 				grdEmployees.setHeight("300px");
 				grdEmployees.setWidth(100, Unit.PERCENTAGE);
-				
+
 				grdEmployees.removeColumn("employedId");
 				grdEmployees.removeColumn("enable");
 				grdEmployees.removeColumn("updatedDateTimeUTC");
 				grdEmployees.removeColumn("version");
-				
-				grdEmployees.setColumnOrder("employedName","employedLastName","employedHours");
-				
-				grdEmployees.getColumn("employedHours").setHeaderCaption("Horas asignadas");
-				grdEmployees.getColumn("employedName").setHeaderCaption("Nombre");
-				grdEmployees.getColumn("employedLastName").setHeaderCaption("Apellido");
-				
+
+				grdEmployees.setColumnOrder("employedName", "employedLastName",
+						"employedHours");
+
+				grdEmployees.getColumn("employedHours").setHeaderCaption(
+						"Horas asignadas");
+				grdEmployees.getColumn("employedName").setHeaderCaption(
+						"Nombre");
+				grdEmployees.getColumn("employedLastName").setHeaderCaption(
+						"Apellido");
+
 				lblMessageEmployees.setVisible(false);
 				tab4.addComponent(grdEmployees);
-			}else{
-				if(grdEmployees != null)
+			} else {
+				if (grdEmployees != null)
 					tab4.removeComponent(grdEmployees);
-				lblMessageEmployees.setVisible(true);			
-			}	
-			
-		}else{
-			if(companyLiquidation != null){
+				lblMessageEmployees.setVisible(true);
+			}
+
+		} else {
+			if (companyLiquidation != null) {
 				// grdCategoriesHuman
-				if(companyLiquidation.getCategoriesHuman() != null && companyLiquidation.getCategoriesHuman().size() > 0){
-					if(grdCategoriesHuman != null)
+				if (companyLiquidation.getCategoriesHuman() != null
+						&& companyLiquidation.getCategoriesHuman().size() > 0) {
+					if (grdCategoriesHuman != null)
 						tab2.removeComponent(grdCategoriesHuman);
-					
+
 					beanCategoriesHuman = new BeanItemContainer<Category>(
-							Category.class, projectLiquidation.getCategoriesHuman());
+							Category.class,
+							projectLiquidation.getCategoriesHuman());
 					grdCategoriesHuman = new Grid(beanCategoriesHuman);
 					grdCategoriesHuman.setHeight("300px");
 					grdCategoriesHuman.setWidth(100, Unit.PERCENTAGE);
-					
+
 					grdCategoriesHuman.removeColumn("id");
 					grdCategoriesHuman.removeColumn("amountPeso");
 					grdCategoriesHuman.removeColumn("amountDollar");
@@ -1095,44 +1236,57 @@ public class CreateLiquidationView extends BaseView {
 					grdCategoriesHuman.removeColumn("categoryType");
 					grdCategoriesHuman.removeColumn("projectId");
 					grdCategoriesHuman.removeColumn("isRRHH");
-					grdCategoriesHuman.removeColumn("createdDateTimeUTC");			
+					grdCategoriesHuman.removeColumn("createdDateTimeUTC");
 					grdCategoriesHuman.removeColumn("projectName");
 					grdCategoriesHuman.removeColumn("currencyDollar");
 					grdCategoriesHuman.removeColumn("typeExchange");
-					grdCategoriesHuman.removeColumn("ivaTypeId");	
+					grdCategoriesHuman.removeColumn("ivaTypeId");
 					grdCategoriesHuman.removeColumn("categoryTypeToShow");
 					grdCategoriesHuman.removeColumn("isDollarToShow");
 					grdCategoriesHuman.removeColumn("isRRHHToShow");
-					
-					grdCategoriesHuman.setColumnOrder("description","createDateTimeUTCToShow","amountToShow","ivaTypeToShow","totalAmountToShow","typeExchangeToShow");
-		
-					grdCategoriesHuman.getColumn("description").setWidth(192.05);
-					grdCategoriesHuman.getColumn("description").setHeaderCaption("Descripción");
-					grdCategoriesHuman.getColumn("createDateTimeUTCToShow").setHeaderCaption("Fecha");
-					grdCategoriesHuman.getColumn("amountToShow").setHeaderCaption("Importe sin IVA");
-					grdCategoriesHuman.getColumn("ivaTypeToShow").setHeaderCaption("IVA");
-					grdCategoriesHuman.getColumn("totalAmountToShow").setHeaderCaption("Importe IVA incl.");
-					grdCategoriesHuman.getColumn("typeExchangeToShow").setHeaderCaption("Tipo de cambio");
-					
+
+					grdCategoriesHuman.setColumnOrder("description",
+							"createDateTimeUTCToShow", "amountToShow",
+							"ivaTypeToShow", "totalAmountToShow",
+							"typeExchangeToShow");
+
+					grdCategoriesHuman.getColumn("description")
+							.setWidth(192.05);
+					grdCategoriesHuman.getColumn("description")
+							.setHeaderCaption("Descripción");
+					grdCategoriesHuman.getColumn("createDateTimeUTCToShow")
+							.setHeaderCaption("Fecha");
+					grdCategoriesHuman.getColumn("amountToShow")
+							.setHeaderCaption("Importe sin IVA");
+					grdCategoriesHuman.getColumn("ivaTypeToShow")
+							.setHeaderCaption("IVA");
+					grdCategoriesHuman.getColumn("totalAmountToShow")
+							.setHeaderCaption("Importe IVA incl.");
+					grdCategoriesHuman.getColumn("typeExchangeToShow")
+							.setHeaderCaption("Tipo de cambio");
+
 					lblMessageCategoriesHuman.setVisible(false);
 					tab2.addComponent(grdCategoriesHuman);
-				}else{
-					if(grdCategoriesHuman != null)
+				} else {
+					if (grdCategoriesHuman != null)
 						tab2.removeComponent(grdCategoriesHuman);
-					lblMessageCategoriesHuman.setVisible(true);				
+					lblMessageCategoriesHuman.setVisible(true);
 				}
-					
-					// grdCategoriesMaterial
-				if(projectLiquidation.getCategoriesMaterial() != null && projectLiquidation.getCategoriesMaterial().size() > 0){
-					if(grdCategoriesMaterial != null)
+
+				// grdCategoriesMaterial
+				if (projectLiquidation.getCategoriesMaterial() != null
+						&& projectLiquidation.getCategoriesMaterial().size() > 0) {
+					if (grdCategoriesMaterial != null)
 						tab3.removeComponent(grdCategoriesMaterial);
-				
+
 					beanCategoriesMaterial = new BeanItemContainer<Category>(
-							Category.class, projectLiquidation.getCategoriesMaterial());
+							Category.class,
+							projectLiquidation.getCategoriesMaterial());
 					grdCategoriesMaterial = new Grid(beanCategoriesMaterial);
 					grdCategoriesMaterial.setHeight("300px");
-					grdCategoriesMaterial.setWidth(100, Unit.PERCENTAGE);;
-					
+					grdCategoriesMaterial.setWidth(100, Unit.PERCENTAGE);
+					;
+
 					grdCategoriesMaterial.removeColumn("id");
 					grdCategoriesMaterial.removeColumn("amountPeso");
 					grdCategoriesMaterial.removeColumn("amountDollar");
@@ -1140,80 +1294,95 @@ public class CreateLiquidationView extends BaseView {
 					grdCategoriesMaterial.removeColumn("categoryType");
 					grdCategoriesMaterial.removeColumn("projectId");
 					grdCategoriesMaterial.removeColumn("isRRHH");
-					grdCategoriesMaterial.removeColumn("createdDateTimeUTC");			
+					grdCategoriesMaterial.removeColumn("createdDateTimeUTC");
 					grdCategoriesMaterial.removeColumn("projectName");
 					grdCategoriesMaterial.removeColumn("currencyDollar");
 					grdCategoriesMaterial.removeColumn("typeExchange");
-					grdCategoriesMaterial.removeColumn("ivaTypeId");	
+					grdCategoriesMaterial.removeColumn("ivaTypeId");
 					grdCategoriesMaterial.removeColumn("categoryTypeToShow");
 					grdCategoriesMaterial.removeColumn("isDollarToShow");
 					grdCategoriesMaterial.removeColumn("isRRHHToShow");
-					
-					grdCategoriesMaterial.setColumnOrder("description","createDateTimeUTCToShow","amountToShow","ivaTypeToShow","totalAmountToShow","typeExchangeToShow");
-		
-					grdCategoriesMaterial.getColumn("description").setWidth(192.05);
-					grdCategoriesMaterial.getColumn("description").setHeaderCaption("Descripción");
-					grdCategoriesMaterial.getColumn("createDateTimeUTCToShow").setHeaderCaption("Fecha");
-					grdCategoriesMaterial.getColumn("amountToShow").setHeaderCaption("Importe sin IVA");
-					grdCategoriesMaterial.getColumn("ivaTypeToShow").setHeaderCaption("IVA");
-					grdCategoriesMaterial.getColumn("totalAmountToShow").setHeaderCaption("Importe IVA incl.");
-					grdCategoriesMaterial.getColumn("typeExchangeToShow").setHeaderCaption("Tipo de cambio");
-					
+
+					grdCategoriesMaterial.setColumnOrder("description",
+							"createDateTimeUTCToShow", "amountToShow",
+							"ivaTypeToShow", "totalAmountToShow",
+							"typeExchangeToShow");
+
+					grdCategoriesMaterial.getColumn("description").setWidth(
+							192.05);
+					grdCategoriesMaterial.getColumn("description")
+							.setHeaderCaption("Descripción");
+					grdCategoriesMaterial.getColumn("createDateTimeUTCToShow")
+							.setHeaderCaption("Fecha");
+					grdCategoriesMaterial.getColumn("amountToShow")
+							.setHeaderCaption("Importe sin IVA");
+					grdCategoriesMaterial.getColumn("ivaTypeToShow")
+							.setHeaderCaption("IVA");
+					grdCategoriesMaterial.getColumn("totalAmountToShow")
+							.setHeaderCaption("Importe IVA incl.");
+					grdCategoriesMaterial.getColumn("typeExchangeToShow")
+							.setHeaderCaption("Tipo de cambio");
+
 					lblMessageCategoriesMaterial.setVisible(false);
 					tab3.addComponent(grdCategoriesMaterial);
-				}else{
-					if(grdCategoriesMaterial != null)
+				} else {
+					if (grdCategoriesMaterial != null)
 						tab3.removeComponent(grdCategoriesMaterial);
 					lblMessageCategoriesMaterial.setVisible(true);
 				}
-				
-							
+
 				// grdEmployees
-				if(projectLiquidation.getEmployees() != null && projectLiquidation.getEmployees().size() > 0){				
-					if(grdEmployees != null)
+				if (projectLiquidation.getEmployees() != null
+						&& projectLiquidation.getEmployees().size() > 0) {
+					if (grdEmployees != null)
 						tab4.removeComponent(grdEmployees);
-					
+
 					beanEmployees = new BeanItemContainer<ProjectEmployed>(
-							ProjectEmployed.class, projectLiquidation.getEmployees());
+							ProjectEmployed.class,
+							projectLiquidation.getEmployees());
 					grdEmployees = new Grid(beanEmployees);
 					grdEmployees.setHeight("300px");
 					grdEmployees.setWidth(100, Unit.PERCENTAGE);
-					
+
 					grdEmployees.removeColumn("employedId");
 					grdEmployees.removeColumn("enable");
 					grdEmployees.removeColumn("updatedDateTimeUTC");
 					grdEmployees.removeColumn("version");
-					
-					grdEmployees.setColumnOrder("employedName","employedLastName","employedHours");
-					
-					grdEmployees.getColumn("employedHours").setHeaderCaption("Horas asignadas");
-					grdEmployees.getColumn("employedName").setHeaderCaption("Nombre");
-					grdEmployees.getColumn("employedLastName").setHeaderCaption("Apellido");
-					
+
+					grdEmployees.setColumnOrder("employedName",
+							"employedLastName", "employedHours");
+
+					grdEmployees.getColumn("employedHours").setHeaderCaption(
+							"Horas asignadas");
+					grdEmployees.getColumn("employedName").setHeaderCaption(
+							"Nombre");
+					grdEmployees.getColumn("employedLastName")
+							.setHeaderCaption("Apellido");
+
 					lblMessageEmployees.setVisible(false);
 					tab4.addComponent(grdEmployees);
-				}else{
-					if(grdEmployees != null)
+				} else {
+					if (grdEmployees != null)
 						tab4.removeComponent(grdEmployees);
-					lblMessageEmployees.setVisible(true);			
+					lblMessageEmployees.setVisible(true);
 				}
-				
-				if(projectLiquidation.getPartner1Name() != null){
+
+				if (projectLiquidation.getPartner1Name() != null) {
 					readOnlyInputs(false);
-					txtPartner1.setValue(projectLiquidation.getPartner1Name() + " "
-							+ projectLiquidation.getPartner1Lastname());
+					txtPartner1.setValue(projectLiquidation.getPartner1Name()
+							+ " " + projectLiquidation.getPartner1Lastname());
 					txtPartner1Distribution.setValue(projectLiquidation
 							.getPartner1Distribution());
-					txtPartner2.setValue(projectLiquidation.getPartner2Name() + " "
-							+ projectLiquidation.getPartner2Lastname());
+					txtPartner2.setValue(projectLiquidation.getPartner2Name()
+							+ " " + projectLiquidation.getPartner2Lastname());
 					txtPartner2Distribution.setValue(projectLiquidation
 							.getPartner2Distribution());
 					readOnlyInputs(true);
-				}else{
+				} else {
 					cleanInputs();
-				}		
-				
-			}else{
+				}
+
+			} else {
 				cleanInputs();
 			}
 		}

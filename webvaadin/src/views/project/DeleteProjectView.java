@@ -33,17 +33,17 @@ import entities.RequestContext;
 
 public class DeleteProjectView extends BaseView {
 
+	private static final long serialVersionUID = 1L;
 	private AbsoluteLayout mainLayout;
 	private Label lblTitle;
 	private Grid catalogProjectsGrid;
 	private BeanItemContainer<Project> beanContainer;
 	private Label lblMessage;
 	private Button btnDelete;
-	
 
 	public DeleteProjectView() {
 		super("Proyectos", "Cerrar proyectos");
-		
+
 		buildMainLayout();
 		setCompositionRoot(mainLayout);
 

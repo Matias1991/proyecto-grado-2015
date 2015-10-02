@@ -672,6 +672,26 @@ public class ServiceWeb extends ServiceBase {
 		}
 		return null;
 	}
+	
+	public VOCategory[] getCategoriesByDescriptionAndCurrency(String description, boolean isCurrencyDollar, Date date) {
+		try {
+			transactionLock.tryLock(Constants.DEFAULT_TRANSACTION_TIME,
+					TimeUnit.SECONDS);
+			
+			return categoryBuilder.BuildArrayVOObject(VOCategory.class,
+					iCoreCategory.getCategories(description, isCurrencyDollar, date));
+			
+		} catch (ServerException e) {
+			ThrowServerExceptionAndLogError(e, "obtener todos los rubros");
+		} catch (InterruptedException e) {
+			throw new RuntimeException(Constants.TRANSACTION_ERROR);
+		} catch (Exception e) {
+			ThrowGenericExceptionAndLogError(e);
+		} finally {
+			transactionLock.unlock();
+		}
+		return null;
+	}
 
 	public VOCategory updateCategory(int id, VOCategory voCategory) {
 		try {
@@ -724,6 +744,27 @@ public class ServiceWeb extends ServiceBase {
 			User userContext = iCoreUser.getUser(userContextId);
 			return categoryBuilder.BuildArrayVOObject(VOCategory.class,
 					iCoreCategory.getCategories(from, to, userContext));
+		} catch (ServerException e) {
+			ThrowServerExceptionAndLogError(e,
+					"obtener los rubros por intervalo de fecha");
+		} catch (InterruptedException e) {
+			throw new RuntimeException(Constants.TRANSACTION_ERROR);
+		} catch (Exception e) {
+			ThrowGenericExceptionAndLogError(e);
+		} finally {
+			transactionLock.unlock();
+		}
+		return null;
+	}
+	
+	public VOCategory[] getCategoriesAllVersions(int id, Date date) {
+		try {
+			transactionLock.tryLock(Constants.DEFAULT_TRANSACTION_TIME,
+					TimeUnit.SECONDS);
+			
+			return categoryBuilder.BuildArrayVOObject(VOCategory.class,
+					iCoreCategory.getCategoriesAllVersions(id, date));
+			
 		} catch (ServerException e) {
 			ThrowServerExceptionAndLogError(e,
 					"obtener los rubros por intervalo de fecha");
@@ -1282,10 +1323,10 @@ public class ServiceWeb extends ServiceBase {
 					TimeUnit.SECONDS);
 
 			User userContext = iCoreUser.getUser(userContextId);
-
+			
 			iCoreCompanyLiquidation.liquidationByCompany(month, userContext,
 					typeExchange,true);
-
+			
 			return true;
 		} catch (ServerException e) {
 			ThrowServerExceptionAndLogError(e, "crear liquidacion");
@@ -1333,6 +1374,7 @@ public class ServiceWeb extends ServiceBase {
 		return null;
 	}
 	
+	
 	public VOProjectLiquidation getProjectLiquidationsPreview(Date month, int projectId, double typeExchange){
 		try{
 			transactionLock.tryLock(Constants.DEFAULT_TRANSACTION_TIME, TimeUnit.SECONDS);			
@@ -1361,16 +1403,49 @@ public class ServiceWeb extends ServiceBase {
 		return null;
 	}
 	
-	public VOCompanyLiquidation getCompanyLiquidation(Date month){
+	public VOProjectLiquidation getProjectLiquidation(Date month, int projectId, int userContextId){
+		try{
+			transactionLock.tryLock(Constants.DEFAULT_TRANSACTION_TIME, TimeUnit.SECONDS);	
+			
+			User userContext = iCoreUser.getUser(userContextId);			
+			ProjectLiquidation liquidation =  iCoreProjectLiquidation.getProjectLiquidationByDate(month, projectId, userContext);
+			
+			VOProjectLiquidation voLiquidation = projectLiquidationBuilder.BuildVOObject(liquidation);			
+						
+			voLiquidation.setBills(billBuilder.BuildArrayVOObject(VOBill.class, liquidation.getBills()));
+			voLiquidation.setCategoriesHuman(categoryBuilder.BuildArrayVOObject(VOCategory.class, liquidation.getCategoriesHuman()));
+			voLiquidation.setCategoryMaterial(categoryBuilder.BuildArrayVOObject(VOCategory.class, liquidation.getCategoriesMaterial()));
+			voLiquidation.setEmployees(projectBuilder.BuildVOEmployedProjects(liquidation.getEmployees()));
+			voLiquidation.setProject(projectBuilder.BuildVOObject(liquidation.getProject()));
+			
+			return voLiquidation;
+			
+		} catch (ServerException e) {
+			ThrowServerExceptionAndLogError(e, "obtener liquidaciones de proyectos para mostrar");
+		} catch (InterruptedException e) {
+			throw new RuntimeException(Constants.TRANSACTION_ERROR);
+		} catch (Exception e) {
+			ThrowGenericExceptionAndLogError(e);
+		} finally {
+			transactionLock.unlock();
+		}
+		return null;
+	}
+	
+	public VOCompanyLiquidation getCompanyLiquidation(Date month, int userContextId){
 		try{
 			transactionLock.tryLock(Constants.DEFAULT_TRANSACTION_TIME, TimeUnit.SECONDS);			
 			
-			CompanyLiquidation companyLiquidation = iCoreCompanyLiquidation.getCompanyLiqudationsByDate(month);
+			User userContext = iCoreUser.getUser(userContextId);
+			CompanyLiquidation companyLiquidation = iCoreCompanyLiquidation.getCompanyLiqudationsByDate(month, userContext);
 			
 			VOCompanyLiquidation voCompanyLiquidation = companyLiquidationBuilder.BuildVOObject(companyLiquidation);
 			
 			voCompanyLiquidation.setPartner1(employedBuilder.BuildVOObject(companyLiquidation.getPartner1()));
 			voCompanyLiquidation.setPartner2(employedBuilder.BuildVOObject(companyLiquidation.getPartner2()));
+			voCompanyLiquidation.setEmployees(projectBuilder.BuildVOEmployedProjects(companyLiquidation.getEmployees()));
+			voCompanyLiquidation.setCategoriesHuman(categoryBuilder.BuildArrayVOObject(VOCategory.class, companyLiquidation.getCategoriesHuman()));
+			voCompanyLiquidation.setCategoriesHuman(categoryBuilder.BuildArrayVOObject(VOCategory.class, companyLiquidation.getCategoriesMaterial()));
 			
 			return voCompanyLiquidation;
 			
@@ -1493,6 +1568,41 @@ public class ServiceWeb extends ServiceBase {
 			transactionLock.unlock();
 		}
 		return null;
+	}
+	
+	public VOCompanyLiquidation[] getCompanyLiquidations(Date date){
+		try{
+			transactionLock.tryLock(Constants.DEFAULT_TRANSACTION_TIME, TimeUnit.SECONDS);			
+		
+			return companyLiquidationBuilder.BuildArrayVOObject(VOCompanyLiquidation.class, iCoreCompanyLiquidation.getCompanyLiquidations(date));
+			
+		} catch (ServerException e) {
+			ThrowServerExceptionAndLogError(e, "obtener liquidaciones de proyectos para mostrar");
+		} catch (InterruptedException e) {
+			throw new RuntimeException(Constants.TRANSACTION_ERROR);
+		} catch (Exception e) {
+			ThrowGenericExceptionAndLogError(e);
+		} finally {
+			transactionLock.unlock();
+		}
+		return null;
+	}
+	
+	public double getTypeExchange(Date month){
+		try{
+			transactionLock.tryLock(Constants.DEFAULT_TRANSACTION_TIME, TimeUnit.SECONDS);
+			
+			return iCoreCompanyLiquidation.getTypeExchange(month);
+		} catch (ServerException e) {
+			ThrowServerExceptionAndLogError(e, "obtener liquidaciones de proyectos para mostrar");
+		} catch (InterruptedException e) {
+			throw new RuntimeException(Constants.TRANSACTION_ERROR);
+		} catch (Exception e) {
+			ThrowGenericExceptionAndLogError(e);
+		} finally {
+			transactionLock.unlock();
+		}
+		return 0;
 	}
 }
 

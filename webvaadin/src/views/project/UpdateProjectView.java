@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 
 import utils.PopupWindow;
 import views.BaseView;
@@ -77,47 +78,48 @@ public class UpdateProjectView extends BaseView {
 	private Collection<Project> projects;
 
 	public UpdateProjectView() {
-		
+
 		super("Proyectos", "Modificar proyecto");
-		
+
 		buildMainLayout();
 		setCompositionRoot(mainLayout);
-
 
 		optionGroupCurrency.addItems("Pesos", "Dolares");
 		optionGroupCurrency.select("Pesos");
 		// proyectos abiertos
 		projects = ProjectController.getProjectsByStatus(false);
-		
+
 		optionGroupCurrency.addValueChangeListener(new ValueChangeListener() {
 
 			@Override
 			public void valueChange(ValueChangeEvent event) {
-				if(optionGroupCurrency.getValue() == "Pesos")
+				if (optionGroupCurrency.getValue() == "Pesos")
 					txtAmount.setCaption("Imp. estimado ($)");
 				else
 					txtAmount.setCaption("Imp. estimado (U$S)");
 			}
 		});
-		
+
 		comboProject.addValueChangeListener(new ValueChangeListener() {
 
 			@Override
 			public void valueChange(ValueChangeEvent event) {
 				if (comboProject.getValue() != null) {
 					btnUpdate.setEnabled(true);
-					loadProject(Integer.parseInt(comboProject.getValue().toString()));
+					loadProject(Integer.parseInt(comboProject.getValue()
+							.toString()));
 				} else {
 					cleanInputs();
 				}
 			}
 		});
-		
+
 		btnCancel.addClickListener(new Button.ClickListener() {
 
 			@Override
 			public void buttonClick(ClickEvent event) {
-				UI.getCurrent().getNavigator().navigateTo(Constant.View.CATALOGPROJECTS);
+				UI.getCurrent().getNavigator()
+						.navigateTo(Constant.View.CATALOGPROJECTS);
 			}
 		});
 
@@ -129,20 +131,21 @@ public class UpdateProjectView extends BaseView {
 				cboManager.setValidationVisible(true);
 
 				if (validate()) {
-					Project project = ProjectController.getProject(Integer.parseInt(comboProject.getValue()
-							.toString()));
+					Project project = ProjectController.getProject(Integer
+							.parseInt(comboProject.getValue().toString()));
 					project.setDescription(txtDescription.getValue());
-					
-					if(txtAmount.getValue() != null)
-						project.setAmount((Double)(txtAmount.getConvertedValue()));
+
+					if (txtAmount.getValue() != null)
+						project.setAmount((Double) (txtAmount
+								.getConvertedValue()));
 					else
 						project.setAmount(0);
-					
-					if(optionGroupCurrency.getValue() == "Pesos")
+
+					if (optionGroupCurrency.getValue() == "Pesos")
 						project.setIsCurrencyDollar(false);
 					else
 						project.setIsCurrencyDollar(true);
-					
+
 					User manager = new User();
 					if (cboManager.getValue() != null) {
 						manager.setId((Integer) cboManager.getValue());
@@ -186,9 +189,10 @@ public class UpdateProjectView extends BaseView {
 
 					project.setProjectPartners(listPartnerProject);
 					Project result = ProjectController.updateProject(project);
-//					loadProject(result.getId());
-					if(result != null){
-						new PopupWindow("AVISO", "Proyecto modificado correctamente");
+					// loadProject(result.getId());
+					if (result != null) {
+						new PopupWindow("AVISO",
+								"Proyecto modificado correctamente");
 						cleanInputs();
 					}
 				}
@@ -233,71 +237,81 @@ public class UpdateProjectView extends BaseView {
 
 	private void loadProject(int selectedProjectId) {
 		// traigo los datos del proyecto
-		Project projectToModify = ProjectController.getProject(selectedProjectId);
+		Project projectToModify = ProjectController
+				.getProject(selectedProjectId);
 		txtDescription.setValue(projectToModify.getDescription());
 		cboManager.setValue(projectToModify.getManager().getId());
 		cboSeller.setValue(projectToModify.getSeller().getId());
 		txtAmount.setConvertedValue(projectToModify.getAmount());
-		if(projectToModify.getIsCurrencyDollar()){
+		if (projectToModify.getIsCurrencyDollar()) {
 			optionGroupCurrency.setValue("Dolares");
 		} else {
-			optionGroupCurrency.setValue("Pesos");			
+			optionGroupCurrency.setValue("Pesos");
 		}
 		int i = 0;
-		for (ProjectPartner projectPartner : projectToModify.getProjectPartners()) {
-			if(i == 0){
+		for (ProjectPartner projectPartner : projectToModify
+				.getProjectPartners()) {
+			if (i == 0) {
 				cboPartner1.select(projectPartner.getEmployedId());
-				cboDistribution1.setValue(projectPartner.getDistributionType().getId());
-				i ++;
+				cboDistribution1.setValue(projectPartner.getDistributionType()
+						.getId());
+				i++;
 			} else {
 				cboPartner2.select(projectPartner.getEmployedId());
-				cboDistribution2.setValue(projectPartner.getDistributionType().getId());				
+				cboDistribution2.setValue(projectPartner.getDistributionType()
+						.getId());
 			}
 		}
 
-		if(projectToModify.getEmployedHours() != null){
-			for (Object emp : tblEmployed.getItemIds().toArray()){
-				for (ProjectEmployed employed : projectToModify.getEmployedHours()) {				
-					if(((Employee)emp).getId() == employed.getEmployedId()){
+		if (projectToModify.getEmployedHours() != null) {
+			for (Object emp : tblEmployed.getItemIds().toArray()) {
+				for (ProjectEmployed employed : projectToModify
+						.getEmployedHours()) {
+					if (((Employee) emp).getId() == employed.getEmployedId()) {
 						tblEmployed.removeItem(emp);
-						((Employee)emp).getSalarySummary().setHours(employed.getEmployedHours());
-						tblEmployedHours.addItem(emp);	
+						((Employee) emp).getSalarySummary().setHours(
+								employed.getEmployedHours());
+						tblEmployedHours.addItem(emp);
 
 					}
 
 				}
 			}
 		}
-		
-		// Si el proyecto no tiene facturas ni rubros asociados, puede modificar la moneda
-		Collection<Bill> projectBills = BillController.getBills(selectedProjectId);
-		Collection<Category> projectCategories = CategoryController.getCategoriesByProject(selectedProjectId);
-		if(projectBills.isEmpty() && projectCategories.isEmpty()){
+
+		// Si el proyecto no tiene facturas ni rubros asociados, puede modificar
+		// la moneda
+		Collection<Bill> projectBills = BillController
+				.getBills(selectedProjectId);
+		Collection<Category> projectCategories = CategoryController
+				.getCategoriesByProject(selectedProjectId);
+		if (projectBills.isEmpty() && projectCategories.isEmpty()) {
 			optionGroupCurrency.setEnabled(true);
 		} else {
 			optionGroupCurrency.setEnabled(false);
 		}
 	}
-	
+
 	@Override
 	public void enter(ViewChangeEvent event) {
 		super.enter(event);
-		
+
 		if (tblEmployed != null) {
 			mainLayout.removeComponent(tblEmployed);
 		}
 		if (tblEmployedHours != null) {
 			mainLayout.removeComponent(tblEmployedHours);
 		}
-		
+
 		cleanInputs();
 		buildTables();
 		cboSeller.setValidationVisible(false);
 		cboManager.setValidationVisible(false);
 		projects = ProjectController.getProjectsByStatus(false);
 		loadComboProject();
-		// Si es gerente solo le permito modificar la descripción y los empleados asociados
-		if(RequestContext.getRequestContext().getUserType() == 3){
+		// Si es gerente solo le permito modificar la descripción y los
+		// empleados asociados
+		if (RequestContext.getRequestContext().getUserType() == 3) {
 			loadManagerView();
 		}
 	}
@@ -323,7 +337,7 @@ public class UpdateProjectView extends BaseView {
 			tblEmployedHours.removeAllItems();
 			mainLayout.removeComponent(tblEmployedHours);
 		}
-		
+
 		// tblEmployed
 		employedContainer = new BeanItemContainer<Employee>(Employee.class,
 				EmployeeController.GetEmployees());
@@ -471,21 +485,21 @@ public class UpdateProjectView extends BaseView {
 		}
 
 	}
-	
-	private void loadComboProject(){
-		
+
+	private void loadComboProject() {
+
 		comboProject.removeAllItems();
-		
-		if(projects != null){
+
+		if (projects != null) {
 			for (Project project : projects) {
 				comboProject.addItem(project.getId());
 				comboProject.setItemCaption(project.getId(), project.getName());
-			}			
+			}
 		}
-		
+
 	}
 
-	private void loadManagerView(){
+	private void loadManagerView() {
 		cboSeller.setVisible(false);
 		cboDistribution1.setVisible(false);
 		cboDistribution2.setVisible(false);
@@ -499,7 +513,7 @@ public class UpdateProjectView extends BaseView {
 		txtDescription.setHeight("80px");
 		mainLayout.addComponent(txtDescription, "top:195.0px;left:0.0px;");
 	}
-	
+
 	@AutoGenerated
 	private AbsoluteLayout buildMainLayout() {
 		// common part: create layout
@@ -573,8 +587,7 @@ public class UpdateProjectView extends BaseView {
 		cboSeller.setTabIndex(2);
 		cboSeller.setNullSelectionAllowed(false);
 		cboSeller.setRequired(true);
-		mainLayout.addComponent(cboSeller,
-				"top:116px;right:0px;");
+		mainLayout.addComponent(cboSeller, "top:116px;right:0px;");
 
 		// cboManager
 		cboManager = new ComboBox();
@@ -585,8 +598,7 @@ public class UpdateProjectView extends BaseView {
 		cboManager.setInputPrompt("Seleccione el gerente");
 		cboManager.setTabIndex(3);
 		cboManager.setNullSelectionAllowed(true);
-		mainLayout.addComponent(cboManager,
-				"top:116px;right:222px;");
+		mainLayout.addComponent(cboManager, "top:116px;right:222px;");
 
 		// cboPartner
 		cboPartner1 = new ComboBox();
@@ -598,8 +610,7 @@ public class UpdateProjectView extends BaseView {
 		cboPartner1.setTabIndex(5);
 		cboPartner1.setNullSelectionAllowed(false);
 		cboPartner1.setRequired(true);
-		mainLayout.addComponent(cboPartner1,
-				"top:180.0px;right:222px;");
+		mainLayout.addComponent(cboPartner1, "top:180.0px;right:222px;");
 
 		// cboDistribution
 		cboDistribution1 = new ComboBox();
@@ -611,8 +622,7 @@ public class UpdateProjectView extends BaseView {
 		cboDistribution1.setTabIndex(6);
 		cboDistribution1.setNullSelectionAllowed(false);
 		cboDistribution1.setRequired(true);
-		mainLayout.addComponent(cboDistribution1,
-				"top:245.0px;right:222px;");
+		mainLayout.addComponent(cboDistribution1, "top:245.0px;right:222px;");
 
 		// txtPartner
 		cboPartner2 = new ComboBox();
@@ -622,8 +632,7 @@ public class UpdateProjectView extends BaseView {
 		cboPartner2.setHeight("-1px");
 		cboPartner2.setEnabled(false);
 		cboPartner2.setRequired(true);
-		mainLayout.addComponent(cboPartner2,
-				"top:180.0px;right:0px;");
+		mainLayout.addComponent(cboPartner2, "top:180.0px;right:0px;");
 
 		// txtDistribution
 		cboDistribution2 = new ComboBox();
@@ -633,17 +642,15 @@ public class UpdateProjectView extends BaseView {
 		cboDistribution2.setHeight("-1px");
 		cboDistribution2.setEnabled(false);
 		cboDistribution2.setRequired(true);
-		mainLayout.addComponent(cboDistribution2,
-				"top:245.0px;right:0px;");
-		
+		mainLayout.addComponent(cboDistribution2, "top:245.0px;right:0px;");
+
 		// optionGroupCurrency
 		optionGroupCurrency = new OptionGroup();
 		optionGroupCurrency.setCaption("Moneda");
 		optionGroupCurrency.setImmediate(true);
 		optionGroupCurrency.setTabIndex(3);
 		optionGroupCurrency.setEnabled(false);
-		mainLayout.addComponent(optionGroupCurrency,
-				"top:200.0px;left:0.0px;");
+		mainLayout.addComponent(optionGroupCurrency, "top:200.0px;left:0.0px;");
 
 		// txtAmount
 		txtAmount = new TextField();
@@ -652,10 +659,11 @@ public class UpdateProjectView extends BaseView {
 		txtAmount.setWidth("140px");
 		txtAmount.setHeight("-1px");
 		txtAmount.setNullRepresentation("");
+		txtAmount.setLocale(Locale.US);
 		txtAmount.setConverter(new StringToDoubleConverter());
 		txtAmount.setTabIndex(4);
 		mainLayout.addComponent(txtAmount, "top:200.0px;left:100.0px;");
-				
+
 		return mainLayout;
 	}
 
@@ -663,10 +671,10 @@ public class UpdateProjectView extends BaseView {
 		boolean valid = true;
 		String requiredMessage = "Es requerido";
 
-		if (!cboSeller.isValid()
-				|| !cboPartner1.isValid() || !cboDistribution2.isValid()
-				|| !cboPartner2.isValid() || !cboDistribution2.isValid()) {
-			
+		if (!cboSeller.isValid() || !cboPartner1.isValid()
+				|| !cboDistribution2.isValid() || !cboPartner2.isValid()
+				|| !cboDistribution2.isValid()) {
+
 			cboSeller.setRequiredError(requiredMessage);
 			cboPartner1.setRequiredError(requiredMessage);
 			cboDistribution1.setRequiredError(requiredMessage);

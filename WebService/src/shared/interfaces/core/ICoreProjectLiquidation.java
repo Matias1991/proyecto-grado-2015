@@ -28,4 +28,7 @@ public interface ICoreProjectLiquidation {
 	ArrayList<ProjectLiquidation> getProjectLiquidations(int projectId,
 			Date date, boolean isCurrencyDollar) throws ServerException;
 
+	ProjectLiquidation getProjectLiquidationByDate(Date month, int projectId,
+			User userContext) throws ServerException, ClientException;
+
 }

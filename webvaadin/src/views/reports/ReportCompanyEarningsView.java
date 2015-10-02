@@ -71,7 +71,7 @@ public class ReportCompanyEarningsView extends BaseView {
 	 */
 	public ReportCompanyEarningsView() {
 		
-		super("Reportes / Empresa", "Proyectos con mas ganancias");
+		super("Reportes", "Proyectos con mas ganancias");
 		
 		buildMainLayout();
 		setCompositionRoot(mainLayout);
@@ -111,7 +111,7 @@ public class ReportCompanyEarningsView extends BaseView {
 		// TODO add user code here
 	}
 	
-	void builInputs()
+	void buildInputs()
 	{
 		Calendar cal = Calendar.getInstance();
 		cal.set(Calendar.DAY_OF_YEAR, 1);
@@ -143,27 +143,27 @@ public class ReportCompanyEarningsView extends BaseView {
 		if(array.length == 5)
 		{
 			dataSeries.add(array[0].getEarnings(), array[1].getEarnings(), array[2].getEarnings(), array[3].getEarnings(), array[4].getEarnings());
-			dataSeries.add(array[0].getEarnings(), array[1].getEarnings(), array[2].getEarnings(), array[3].getEarnings(), array[4].getEarnings());
+			dataSeries.add(array[0].getReserve(), array[1].getReserve(), array[2].getReserve(), array[3].getReserve(), array[4].getReserve());
 		}
 		else if(array.length == 4)
 		{
 			dataSeries.add(array[0].getEarnings(), array[1].getEarnings(), array[2].getEarnings(), array[3].getEarnings());
-			dataSeries.add(array[0].getEarnings(), array[1].getEarnings(), array[2].getEarnings(), array[3].getEarnings());
+			dataSeries.add(array[0].getReserve(), array[1].getReserve(), array[2].getReserve(), array[3].getReserve());
 		}
 		else if(array.length == 3)
 		{
 			dataSeries.add(array[0].getEarnings(), array[1].getEarnings(), array[2].getEarnings());
-			dataSeries.add(array[0].getEarnings(), array[1].getEarnings(), array[2].getEarnings());
+			dataSeries.add(array[0].getReserve(), array[1].getReserve(), array[2].getReserve());
 		}
 		else if(array.length == 2)
 		{
 			dataSeries.add(array[0].getEarnings(), array[1].getEarnings());
-			dataSeries.add(array[0].getEarnings(), array[1].getEarnings());
+			dataSeries.add(array[0].getReserve(), array[1].getReserve());
 		}
 		else
 		{
 			dataSeries.add(array[0].getEarnings());
-			dataSeries.add(array[0].getEarnings());
+			dataSeries.add(array[0].getReserve());
 		}
 			
 		SeriesDefaults seriesDefaults = new SeriesDefaults()
@@ -260,7 +260,7 @@ public class ReportCompanyEarningsView extends BaseView {
 	public void enter(ViewChangeEvent event) {
 		super.enter(event);
 		if (RequestContext.getRequestContext() != null) {
-			builInputs();
+			buildInputs();
 		}
 	}
 	

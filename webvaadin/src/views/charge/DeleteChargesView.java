@@ -67,8 +67,8 @@ public class DeleteChargesView extends BaseView {
 				btnDelete.setEnabled(false);
 
 				ConfirmDialog.show(WebvaadinUI.getCurrent(), "Confirmación",
-						"¿Desea eliminar el cobro seleccionado?", "Si",
-						"No", new ConfirmDialog.Listener() {
+						"¿Desea eliminar el cobro seleccionado?", "Si", "No",
+						new ConfirmDialog.Listener() {
 
 							private static final long serialVersionUID = 1L;
 
@@ -129,17 +129,19 @@ public class DeleteChargesView extends BaseView {
 			billsGrid.removeColumn("typeExchange");
 			billsGrid.removeColumn("billDescription");
 			billsGrid.setColumnOrder("number", "description", "amountToShow",
-					"typeExchangeToShow",
-					"createdDateTimeUTCToShow", "billCode");
+					"typeExchangeToShow", "createdDateTimeUTCToShow",
+					"billCode");
 
 			billsGrid.getColumn("number").setHeaderCaption("N° de recibo");
-			billsGrid.getColumn("description").setHeaderCaption("Descripción cobro");
+			billsGrid.getColumn("description").setHeaderCaption(
+					"Descripción cobro");
 			billsGrid.getColumn("amountToShow").setHeaderCaption("Importe");
 			billsGrid.getColumn("typeExchangeToShow").setHeaderCaption(
 					"Tipo de cambio");
 			billsGrid.getColumn("createdDateTimeUTCToShow").setHeaderCaption(
 					"Fecha de creación");
-			billsGrid.getColumn("billCode").setHeaderCaption("Codigo de factura");
+			billsGrid.getColumn("billCode").setHeaderCaption(
+					"Codigo de factura");
 			billsGrid.getColumn("description").setWidth(200);
 			billsGrid.setWidth(100, Unit.PERCENTAGE);
 			billsGrid.setHeight(100, Unit.PERCENTAGE);
@@ -197,9 +199,8 @@ public class DeleteChargesView extends BaseView {
 			}
 
 			btnDelete.setVisible(false);
-			
-			lblMessage
-					.setValue("No hay cobros para mostrar");
+
+			lblMessage.setValue("No hay cobros para mostrar");
 		}
 	}
 
@@ -243,7 +244,8 @@ public class DeleteChargesView extends BaseView {
 		strBuilder
 				.append("<b>Importante:</b> Los cobros que se muestran cumplen con lo siguiente</br>");
 		strBuilder.append("- No estan asociados a facturas liquidadas</br>");
-		strBuilder.append("- Pertencen a facturas asociadas a proyectos activos");
+		strBuilder
+				.append("- Pertencen a facturas asociadas a proyectos activos");
 		lblInfo.setValue(strBuilder.toString());
 		mainLayout.addComponent(lblInfo, "top:100.0px;left:0px;");
 

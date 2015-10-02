@@ -69,7 +69,10 @@ public class Constant {
 		public static final String CATALOGLIQUIDATIONS = "CatalogLiquidationsView";
 		
 		//Reportes
-		public static final String REPORTS_COMPANY_EARNINGS_VIEW = "ReportCompanyEarningsView";
-		public static final String REPORTS_PROJECT_DETAILS_VIEW = "ReportProjectDetailsView";
+		public static final String REPORT_COMPANY_EARNINGS_VIEW = "ReportCompanyEarningsView";
+		public static final String REPORT_PROJECT_DETAILS_VIEW = "ReportProjectDetailsView";
+		public static final String REPORT_SUMMARY_COMPANY_IVA_VIEW = "ReportSummaryCompanyIVAView";
+		public static final String REPORT_SUMMARY_COMPANY_CATEGORIES_VIEW = "ReportSummaryCompanyCategoriesView";
+		public static final String REPORT_SUMMARY_COMPANY_CATEGORIES_HUMAN_VIEW = "ReportSummaryCompanyCategoriesHumanView";
 	}
 }

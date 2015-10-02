@@ -24,6 +24,7 @@ import views.employees.CatalogEmployeesView;
 import views.employees.CreateEmployeeView;
 import views.employees.DeleteEmployeeView;
 import views.employees.UpdateEmployeeView;
+import views.liquidation.CatalogLiquidationsView;
 import views.liquidation.CreateLiquidationView;
 import views.profile.ChangePasswordView;
 import views.profile.ModifyProfileView;
@@ -33,6 +34,9 @@ import views.project.DeleteProjectView;
 import views.project.UpdateProjectView;
 import views.reports.ReportProjectDetailsView;
 import views.reports.ReportCompanyEarningsView;
+import views.reports.ReportSummaryCompanyCategoriesHumanView;
+import views.reports.ReportSummaryCompanyCategoriesView;
+import views.reports.ReportSummaryCompanyIVAView;
 import views.user.CatalogUsersView;
 import views.user.CreateUserView;
 import views.user.DeleteUsersView;
@@ -189,11 +193,23 @@ public class WebvaadinUI extends UI {
 			case View.CREATELIQUIDATION:
 				view = new CreateLiquidationView();	
 				break;
-			case View.REPORTS_COMPANY_EARNINGS_VIEW:
+			case View.CATALOGLIQUIDATIONS:
+				view = new CatalogLiquidationsView();
+				break;
+			case View.REPORT_COMPANY_EARNINGS_VIEW:
 				view = new ReportCompanyEarningsView();
 				break;
-			case View.REPORTS_PROJECT_DETAILS_VIEW:
+			case View.REPORT_PROJECT_DETAILS_VIEW:
 				view = new ReportProjectDetailsView();
+				break;
+			case View.REPORT_SUMMARY_COMPANY_IVA_VIEW:
+				view = new ReportSummaryCompanyIVAView();
+				break;
+			case View.REPORT_SUMMARY_COMPANY_CATEGORIES_VIEW:
+				view = new ReportSummaryCompanyCategoriesView();
+				break;
+			case View.REPORT_SUMMARY_COMPANY_CATEGORIES_HUMAN_VIEW:
+				view = new ReportSummaryCompanyCategoriesHumanView();
 				break;
 		}
 		
@@ -245,9 +261,13 @@ public class WebvaadinUI extends UI {
 		userTypePartnerToViews.add(Constant.View.CLOSEPROJECT);
 		
 		userTypePartnerToViews.add(Constant.View.CREATELIQUIDATION);
+		userTypePartnerToViews.add(Constant.View.CATALOGLIQUIDATIONS);
 		
-		userTypePartnerToViews.add(Constant.View.REPORTS_COMPANY_EARNINGS_VIEW);
-		userTypePartnerToViews.add(Constant.View.REPORTS_PROJECT_DETAILS_VIEW);
+		userTypePartnerToViews.add(Constant.View.REPORT_COMPANY_EARNINGS_VIEW);
+		userTypePartnerToViews.add(Constant.View.REPORT_PROJECT_DETAILS_VIEW);
+		userTypePartnerToViews.add(Constant.View.REPORT_SUMMARY_COMPANY_IVA_VIEW);
+		userTypePartnerToViews.add(Constant.View.REPORT_SUMMARY_COMPANY_CATEGORIES_VIEW);
+		userTypePartnerToViews.add(Constant.View.REPORT_SUMMARY_COMPANY_CATEGORIES_HUMAN_VIEW);
 		
 		userTypePartnerToViews.add(Constant.View.CHANGEPASSWORD);
 		userTypePartnerToViews.add(Constant.View.UPDATEPROFILEUSER);
@@ -457,11 +477,23 @@ public class WebvaadinUI extends UI {
 				case "Crear liquidación":
 					UI.getCurrent().getNavigator().navigateTo(Constant.View.CREATELIQUIDATION);
 					break;
-				case "Proyectos con mas ganancias":
-					UI.getCurrent().getNavigator().navigateTo(Constant.View.REPORTS_COMPANY_EARNINGS_VIEW);
+				case "Catálogo liquidaciones":
+					UI.getCurrent().getNavigator().navigateTo(Constant.View.CATALOGLIQUIDATIONS);
 					break;
-				case "Detalle por Proyecto":
-					UI.getCurrent().getNavigator().navigateTo(Constant.View.REPORTS_PROJECT_DETAILS_VIEW);
+				case "Proyectos con mas ganancias":
+					UI.getCurrent().getNavigator().navigateTo(Constant.View.REPORT_COMPANY_EARNINGS_VIEW);
+					break;
+				case "Detalles por proyecto":
+					UI.getCurrent().getNavigator().navigateTo(Constant.View.REPORT_PROJECT_DETAILS_VIEW);
+					break;
+				case "Resumen de IVA":
+					UI.getCurrent().getNavigator().navigateTo(Constant.View.REPORT_SUMMARY_COMPANY_IVA_VIEW);
+					break;
+				case "Rubros de la empresa":
+					UI.getCurrent().getNavigator().navigateTo(Constant.View.REPORT_SUMMARY_COMPANY_CATEGORIES_VIEW);
+					break;
+				case "Rubros humanos":
+					UI.getCurrent().getNavigator().navigateTo(Constant.View.REPORT_SUMMARY_COMPANY_CATEGORIES_HUMAN_VIEW);
 					break;
 				default:
 					new PopupWindow("AVISO",
@@ -531,18 +563,18 @@ public class WebvaadinUI extends UI {
 			//Liquidaciones
 			MenuItem liquidation = menuBar.addItem("Liquidaciones", null,null);
 			liquidation.addItem("Crear liquidación", null, mainMenuBarCommand);
+			liquidation.addItem("Catálogo liquidaciones",null,mainMenuBarCommand);
 			
 		}
 		
 		if(RequestContext.getRequestContext().getUserType() == 2)
 		{
 			MenuItem reports = menuBar.addItem("Reportes", null, null);
-
-			MenuItem companyReport = reports.addItem("Empresa", null, null);
-			companyReport.addItem("Proyectos con mas ganancias", null, mainMenuBarCommand);
-			
-			MenuItem projectReport = reports.addItem("Proyectos", null, null);
-			projectReport.addItem("Detalle por Proyecto", null, mainMenuBarCommand);
+			reports.addItem("Proyectos con mas ganancias", null, mainMenuBarCommand);
+			reports.addItem("Resumen de IVA", null, mainMenuBarCommand);
+			reports.addItem("Rubros de la empresa", null, mainMenuBarCommand);
+			reports.addItem("Rubros humanos", null, mainMenuBarCommand);
+			reports.addItem("Detalles por proyecto", null, mainMenuBarCommand);
 		}
 	}
 

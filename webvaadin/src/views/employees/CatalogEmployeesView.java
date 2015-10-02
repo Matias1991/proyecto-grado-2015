@@ -2,6 +2,7 @@ package views.employees;
 
 import java.text.SimpleDateFormat;
 import java.util.Collection;
+import java.util.Locale;
 
 import servicelayer.service.ServiceWebStub.VOSalarySummary;
 import views.BaseView;
@@ -81,50 +82,54 @@ public class CatalogEmployeesView extends BaseView {
 	private OptionGroup optEmployeeType;
 	private ComboBox cboVersion;
 
-	public CatalogEmployeesView() {		
-		super("Empleados", "Catálogo empleados");		
+	public CatalogEmployeesView() {
+		super("Empleados", "Catálogo empleados");
 		buildMainLayout();
 		buildTabSeet();
 		setCompositionRoot(mainLayout);
-		
+
 		lblMessage = new Label("");
-		mainLayout.addComponent(lblMessage, "top:120px;left:0.0px;");		
-		
-		cboVersion.addValueChangeListener(new  ValueChangeListener() {
-			
+		mainLayout.addComponent(lblMessage, "top:120px;left:0.0px;");
+
+		cboVersion.addValueChangeListener(new ValueChangeListener() {
+
 			@Override
-			public void valueChange(ValueChangeEvent event) {				
-				if(cboVersion.getValue() != null){
-					BeanItem<Employee> item = beanContainer.getItem(catalogEmployeesGrid.getSelectedRow());
-					if(item != null){						
-						SalarySummary versionEmployees = EmployeeController.GetVersionEmployee(item.getBean().getId(), (Integer)cboVersion.getValue());																
-						loadEmployee(item.getBean(),versionEmployees.toVOSalarySummary());
-					}else{
-						cleanInputs();						
+			public void valueChange(ValueChangeEvent event) {
+				if (cboVersion.getValue() != null) {
+					BeanItem<Employee> item = beanContainer
+							.getItem(catalogEmployeesGrid.getSelectedRow());
+					if (item != null) {
+						SalarySummary versionEmployees = EmployeeController
+								.GetVersionEmployee(item.getBean().getId(),
+										(Integer) cboVersion.getValue());
+						loadEmployee(item.getBean(),
+								versionEmployees.toVOSalarySummary());
+					} else {
+						cleanInputs();
 					}
-				}else{
+				} else {
 					cleanInputs();
 				}
 			}
 		});
 	}
-		
-	public void buildTabSeet(){
+
+	public void buildTabSeet() {
 		// Email
 		txtEmail = new TextField();
 		txtEmail.setCaption("Correo electrónico");
 		txtEmail.setImmediate(false);
 		txtEmail.setWidth("390px");
 		txtEmail.setHeight("-1px");
-		
+
 		// Direccion
 		txtAddress = new TextField();
 		txtAddress.setCaption("Dirección");
 		txtAddress.setImmediate(false);
 		txtAddress.setWidth("390px");
 		txtAddress.setHeight("-1px");
-		
-		//Celular
+
+		// Celular
 		txtCellphone = new TextField();
 		txtCellphone.setCaption("Celular");
 		txtCellphone.setImmediate(false);
@@ -137,7 +142,8 @@ public class CatalogEmployeesView extends BaseView {
 		txtNominalSalary.setImmediate(false);
 		txtNominalSalary.setWidth("-1px");
 		txtNominalSalary.setHeight("-1px");
-		txtNominalSalary.setNullRepresentation("");	
+		txtNominalSalary.setNullRepresentation("");
+		txtNominalSalary.setLocale(Locale.US);
 		txtNominalSalary.setConverter(new StringToDoubleConverter());
 
 		// Tickets
@@ -147,6 +153,7 @@ public class CatalogEmployeesView extends BaseView {
 		txtTickets.setWidth("-1px");
 		txtTickets.setHeight("-1px");
 		txtTickets.setNullRepresentation("");
+		txtTickets.setLocale(Locale.US);
 		txtTickets.setConverter(new StringToDoubleConverter());
 
 		// RET
@@ -156,6 +163,7 @@ public class CatalogEmployeesView extends BaseView {
 		txtRet.setWidth("-1px");
 		txtRet.setHeight("-1px");
 		txtRet.setNullRepresentation("");
+		txtRet.setLocale(Locale.US);
 		txtRet.setConverter(new StringToDoubleConverter());
 
 		// IRPF
@@ -165,6 +173,7 @@ public class CatalogEmployeesView extends BaseView {
 		txtIrpf.setWidth("-1px");
 		txtIrpf.setHeight("-1px");
 		txtIrpf.setNullRepresentation("");
+		txtIrpf.setLocale(Locale.US);
 		txtIrpf.setConverter(new StringToDoubleConverter());
 
 		// BSE
@@ -174,6 +183,7 @@ public class CatalogEmployeesView extends BaseView {
 		txtBse.setWidth("-1px");
 		txtBse.setHeight("-1px");
 		txtBse.setNullRepresentation("");
+		txtBse.setLocale(Locale.US);
 		txtBse.setConverter(new StringToDoubleConverter());
 
 		// Horas mensuales
@@ -192,6 +202,7 @@ public class CatalogEmployeesView extends BaseView {
 		txtCostSaleHour.setWidth("-1px");
 		txtCostSaleHour.setHeight("-1px");
 		txtCostSaleHour.setNullRepresentation("");
+		txtCostSaleHour.setLocale(Locale.US);
 		txtCostSaleHour.setConverter(new StringToDoubleConverter());
 
 		// Porcentaje aporte FONASA Personal
@@ -202,7 +213,8 @@ public class CatalogEmployeesView extends BaseView {
 		txtPercentagePersonalFonasaContribution.setWidth("-1px");
 		txtPercentagePersonalFonasaContribution.setHeight("-1px");
 		txtPercentagePersonalFonasaContribution.setNullRepresentation("");
-		txtPercentagePersonalFonasaContribution.setConverter(new StringToDoubleConverter());
+		txtPercentagePersonalFonasaContribution
+				.setConverter(new StringToDoubleConverter());
 
 		// Aporte Jubilatorio Personal
 		txtPersonalRetirementContribution = new TextField();
@@ -212,7 +224,9 @@ public class CatalogEmployeesView extends BaseView {
 		txtPersonalRetirementContribution.setWidth("-1px");
 		txtPersonalRetirementContribution.setHeight("-1px");
 		txtPersonalRetirementContribution.setNullRepresentation("");
-		txtPersonalRetirementContribution.setConverter(new StringToDoubleConverter());
+		txtPersonalRetirementContribution.setLocale(Locale.US);
+		txtPersonalRetirementContribution
+				.setConverter(new StringToDoubleConverter());
 
 		// Aporte Jubilatorio Patronal
 		txtEmployerRetirementContribution = new TextField();
@@ -222,7 +236,9 @@ public class CatalogEmployeesView extends BaseView {
 		txtEmployerRetirementContribution.setWidth("-1px");
 		txtEmployerRetirementContribution.setHeight("-1px");
 		txtEmployerRetirementContribution.setNullRepresentation("");
-		txtEmployerRetirementContribution.setConverter(new StringToDoubleConverter());
+		txtEmployerRetirementContribution.setLocale(Locale.US);
+		txtEmployerRetirementContribution
+				.setConverter(new StringToDoubleConverter());
 
 		// Aporte FRL Personal
 		txtPersonalFrlContribution = new TextField();
@@ -231,6 +247,7 @@ public class CatalogEmployeesView extends BaseView {
 		txtPersonalFrlContribution.setWidth("-1px");
 		txtPersonalFrlContribution.setHeight("-1px");
 		txtPersonalFrlContribution.setNullRepresentation("");
+		txtPersonalFrlContribution.setLocale(Locale.US);
 		txtPersonalFrlContribution.setConverter(new StringToDoubleConverter());
 
 		// Aporte FRL Patronal
@@ -240,6 +257,7 @@ public class CatalogEmployeesView extends BaseView {
 		txtEmployerFrlContribution.setWidth("-1px");
 		txtEmployerFrlContribution.setHeight("-1px");
 		txtEmployerFrlContribution.setNullRepresentation("");
+		txtEmployerFrlContribution.setLocale(Locale.US);
 		txtEmployerFrlContribution.setConverter(new StringToDoubleConverter());
 
 		// Aporte FONASA Personal
@@ -249,7 +267,9 @@ public class CatalogEmployeesView extends BaseView {
 		txtPersonalFonasaContribution.setWidth("-1px");
 		txtPersonalFonasaContribution.setHeight("-1px");
 		txtPersonalFonasaContribution.setNullRepresentation("");
-		txtPersonalFonasaContribution.setConverter(new StringToDoubleConverter());
+		txtPersonalFonasaContribution.setLocale(Locale.US);
+		txtPersonalFonasaContribution
+				.setConverter(new StringToDoubleConverter());
 
 		// Aporte FONASA Patronal
 		txtEmployerFonasaContribution = new TextField();
@@ -258,7 +278,9 @@ public class CatalogEmployeesView extends BaseView {
 		txtEmployerFonasaContribution.setWidth("-1px");
 		txtEmployerFonasaContribution.setHeight("-1px");
 		txtEmployerFonasaContribution.setNullRepresentation("");
-		txtEmployerFonasaContribution.setConverter(new StringToDoubleConverter());
+		txtEmployerFonasaContribution.setLocale(Locale.US);
+		txtEmployerFonasaContribution
+				.setConverter(new StringToDoubleConverter());
 
 		// Tickets Patronal
 		txtTicketsEmployer = new TextField();
@@ -267,6 +289,7 @@ public class CatalogEmployeesView extends BaseView {
 		txtTicketsEmployer.setWidth("-1px");
 		txtTicketsEmployer.setHeight("-1px");
 		txtTicketsEmployer.setNullRepresentation("");
+		txtTicketsEmployer.setLocale(Locale.US);
 		txtTicketsEmployer.setConverter(new StringToDoubleConverter());
 
 		// Total Descuentos
@@ -276,6 +299,7 @@ public class CatalogEmployeesView extends BaseView {
 		txtTotalDiscounts.setWidth("-1px");
 		txtTotalDiscounts.setHeight("-1px");
 		txtTotalDiscounts.setNullRepresentation("");
+		txtTotalDiscounts.setLocale(Locale.US);
 		txtTotalDiscounts.setConverter(new StringToDoubleConverter());
 
 		// Total Aportes Patronales
@@ -285,7 +309,9 @@ public class CatalogEmployeesView extends BaseView {
 		txtTotalEmployersContribution.setWidth("-1px");
 		txtTotalEmployersContribution.setHeight("-1px");
 		txtTotalEmployersContribution.setNullRepresentation("");
-		txtTotalEmployersContribution.setConverter(new StringToDoubleConverter());
+		txtTotalEmployersContribution.setLocale(Locale.US);
+		txtTotalEmployersContribution
+				.setConverter(new StringToDoubleConverter());
 
 		// Nominal Sin Aportes
 		txtNominalWithoutContribution = new TextField();
@@ -294,7 +320,9 @@ public class CatalogEmployeesView extends BaseView {
 		txtNominalWithoutContribution.setWidth("-1px");
 		txtNominalWithoutContribution.setHeight("-1px");
 		txtNominalWithoutContribution.setNullRepresentation("");
-		txtNominalWithoutContribution.setConverter(new StringToDoubleConverter());
+		txtNominalWithoutContribution.setLocale(Locale.US);
+		txtNominalWithoutContribution
+				.setConverter(new StringToDoubleConverter());
 
 		// Prevision Despido
 		txtDismisalPrevension = new TextField();
@@ -303,6 +331,7 @@ public class CatalogEmployeesView extends BaseView {
 		txtDismisalPrevension.setWidth("-1px");
 		txtDismisalPrevension.setHeight("-1px");
 		txtDismisalPrevension.setNullRepresentation("");
+		txtDismisalPrevension.setLocale(Locale.US);
 		txtDismisalPrevension.setConverter(new StringToDoubleConverter());
 
 		// Incidencia Sueldo
@@ -312,16 +341,18 @@ public class CatalogEmployeesView extends BaseView {
 		txtIncidenceSalary.setWidth("-1px");
 		txtIncidenceSalary.setHeight("-1px");
 		txtIncidenceSalary.setNullRepresentation("");
+		txtIncidenceSalary.setLocale(Locale.US);
 		txtIncidenceSalary.setConverter(new StringToDoubleConverter());
-		
-		//Incidencia Tickets
+
+		// Incidencia Tickets
 		txtIncidenceTickets = new TextField();
 		txtIncidenceTickets.setCaption("Incidencia Tickets");
 		txtIncidenceTickets.setImmediate(true);
 		txtIncidenceTickets.setWidth("-1px");
 		txtIncidenceTickets.setHeight("-1px");
 		txtIncidenceTickets.setNullRepresentation("");
-		txtIncidenceTickets.setConverter(new StringToDoubleConverter());		
+		txtIncidenceTickets.setLocale(Locale.US);
+		txtIncidenceTickets.setConverter(new StringToDoubleConverter());
 
 		// Sueldos a Pagar
 		txtSalaryToPay = new TextField();
@@ -330,6 +361,7 @@ public class CatalogEmployeesView extends BaseView {
 		txtSalaryToPay.setWidth("-1px");
 		txtSalaryToPay.setHeight("-1px");
 		txtSalaryToPay.setNullRepresentation("");
+		txtSalaryToPay.setLocale(Locale.US);
 		txtSalaryToPay.setConverter(new StringToDoubleConverter());
 
 		// Costo Mensual
@@ -339,6 +371,7 @@ public class CatalogEmployeesView extends BaseView {
 		txtCostMonth.setWidth("-1px");
 		txtCostMonth.setHeight("-1px");
 		txtCostMonth.setNullRepresentation("");
+		txtCostMonth.setLocale(Locale.US);
 		txtCostMonth.setConverter(new StringToDoubleConverter());
 
 		// Costo Hora Meerkat
@@ -348,21 +381,22 @@ public class CatalogEmployeesView extends BaseView {
 		txtCostRealHour.setWidth("-1px");
 		txtCostRealHour.setHeight("-1px");
 		txtCostRealHour.setNullRepresentation("");
+		txtCostRealHour.setLocale(Locale.US);
 		txtCostRealHour.setConverter(new StringToDoubleConverter());
-		
-		//Tipo empleado
+
+		// Tipo empleado
 		optEmployeeType = new OptionGroup();
 		optEmployeeType.addItems("Empleado", "Socio");
 
 		// TAB 1
 		GridLayout tab1 = new GridLayout(2, 5);
 		tab1.setSpacing(true);
-		tab1.addComponent(txtAddress, 0, 0,1,0);
-		tab1.addComponent(txtEmail, 0, 1,1,1);
-		tab1.addComponent(txtCellphone,0,2);
-		tab1.addComponent(optEmployeeType,1,2);
+		tab1.addComponent(txtAddress, 0, 0, 1, 0);
+		tab1.addComponent(txtEmail, 0, 1, 1, 1);
+		tab1.addComponent(txtCellphone, 0, 2);
+		tab1.addComponent(optEmployeeType, 1, 2);
 		tabEmployee.addTab(tab1, "Datos personales");
-		
+
 		// TAB 2
 		GridLayout tab2 = new GridLayout(2, 5);
 		tab2.setSpacing(true);
@@ -375,43 +409,44 @@ public class CatalogEmployeesView extends BaseView {
 		tab2.addComponent(txtRet, 0, 3);
 		tab2.addComponent(txtCostSaleHour, 1, 3);
 		tabEmployee.addTab(tab2, "Costos 1");
-		
-		//TAB 2
-		GridLayout tab3 = new GridLayout(2,4);
+
+		// TAB 2
+		GridLayout tab3 = new GridLayout(2, 4);
 		tab3.setSpacing(true);
-		tab3.addComponent(txtPersonalRetirementContribution,0,0);
-		tab3.addComponent(txtEmployerRetirementContribution,1,0);
-		tab3.addComponent(txtPersonalFrlContribution,0,1);
-		tab3.addComponent(txtEmployerFrlContribution,1,1);
-		tab3.addComponent(txtPersonalFonasaContribution,0,2);
-		tab3.addComponent(txtEmployerFonasaContribution,1,2);
-		tab3.addComponent(txtTotalDiscounts,0,3);
-		tab3.addComponent(txtTicketsEmployer,1,3);		
-		tabEmployee.addTab(tab3, "Costos 2");		
-		
-		//tab4
-		GridLayout tab4 = new GridLayout(2,4);
+		tab3.addComponent(txtPersonalRetirementContribution, 0, 0);
+		tab3.addComponent(txtEmployerRetirementContribution, 1, 0);
+		tab3.addComponent(txtPersonalFrlContribution, 0, 1);
+		tab3.addComponent(txtEmployerFrlContribution, 1, 1);
+		tab3.addComponent(txtPersonalFonasaContribution, 0, 2);
+		tab3.addComponent(txtEmployerFonasaContribution, 1, 2);
+		tab3.addComponent(txtTotalDiscounts, 0, 3);
+		tab3.addComponent(txtTicketsEmployer, 1, 3);
+		tabEmployee.addTab(tab3, "Costos 2");
+
+		// tab4
+		GridLayout tab4 = new GridLayout(2, 4);
 		tab4.setSpacing(true);
-		tab4.addComponent(txtNominalWithoutContribution,0,0);
-		tab4.addComponent(txtTotalEmployersContribution,1,0);				
-		tab4.addComponent(txtIncidenceSalary,0,1);
-		tab4.addComponent(txtIncidenceTickets,1,1);
-		tab4.addComponent(txtDismisalPrevension,0,2);		
-		tab4.addComponent(txtCostMonth,1,2);
-		tab4.addComponent(txtCostRealHour,0,3);
-		tab4.addComponent(txtSalaryToPay,1,3);	
+		tab4.addComponent(txtNominalWithoutContribution, 0, 0);
+		tab4.addComponent(txtTotalEmployersContribution, 1, 0);
+		tab4.addComponent(txtIncidenceSalary, 0, 1);
+		tab4.addComponent(txtIncidenceTickets, 1, 1);
+		tab4.addComponent(txtDismisalPrevension, 0, 2);
+		tab4.addComponent(txtCostMonth, 1, 2);
+		tab4.addComponent(txtCostRealHour, 0, 3);
+		tab4.addComponent(txtSalaryToPay, 1, 3);
 		tabEmployee.addTab(tab4, "Costos 3");
 	}
-	
+
 	@SuppressWarnings("serial")
 	public void buildGrid() {
 		Collection<Employee> employees = EmployeeController.GetEmployees();
 
 		if (employees != null && employees.size() > 0) {
-			lblMessage.setValue("");			
+			lblMessage.setValue("");
 			cboVersion.setVisible(true);
 			tabEmployee.setVisible(true);
-			beanContainer = new BeanItemContainer<Employee>(Employee.class,employees);
+			beanContainer = new BeanItemContainer<Employee>(Employee.class,
+					employees);
 
 			catalogEmployeesGrid = new Grid(beanContainer);
 			catalogEmployeesGrid.removeColumn("id");
@@ -426,22 +461,22 @@ public class CatalogEmployeesView extends BaseView {
 			catalogEmployeesGrid.removeColumn("cellPhone");
 			catalogEmployeesGrid.removeColumn("deleted");
 
-
 			catalogEmployeesGrid.setColumnOrder("name", "lastName");
 
 			catalogEmployeesGrid.getColumn("name").setWidth(192.05);
 			catalogEmployeesGrid.getColumn("name").setHeaderCaption("Nombre");
-			catalogEmployeesGrid.getColumn("lastName").setHeaderCaption("Apellido");			
+			catalogEmployeesGrid.getColumn("lastName").setHeaderCaption(
+					"Apellido");
 			catalogEmployeesGrid.setWidth(380, Unit.PIXELS);
 			catalogEmployeesGrid.setHeight(310, Unit.PIXELS);
 			catalogEmployeesGrid.setSelectionMode(SelectionMode.SINGLE);
 			catalogEmployeesGrid.getSelectedRows().clear();
-			
+
 			// Filtros
 			HeaderRow filterRow = catalogEmployeesGrid.appendHeaderRow();
-			
-			for (final Object pid : catalogEmployeesGrid.getContainerDataSource()
-					.getContainerPropertyIds()) {
+
+			for (final Object pid : catalogEmployeesGrid
+					.getContainerDataSource().getContainerPropertyIds()) {
 				HeaderCell cell = filterRow.getCell(pid);
 				if (cell != null) {
 					TextField txtFilter = new TextField();
@@ -461,7 +496,8 @@ public class CatalogEmployeesView extends BaseView {
 
 							container.removeContainerFilters(pid);
 							if (null != newValue && !newValue.isEmpty()) {
-								container.addContainerFilter(new SimpleStringFilter(
+								container
+										.addContainerFilter(new SimpleStringFilter(
 												pid, newValue, true, false));
 							}
 						}
@@ -469,41 +505,43 @@ public class CatalogEmployeesView extends BaseView {
 					cell.setComponent(txtFilter);
 				}
 			}
-			
-			mainLayout.addComponent(catalogEmployeesGrid, "top:34%;left:0.0px;");
-			
+
+			mainLayout
+					.addComponent(catalogEmployeesGrid, "top:34%;left:0.0px;");
+
 			catalogEmployeesGrid.addSelectionListener(new SelectionListener() {
 
 				@Override
-				public void select(SelectionEvent event) {					
-					BeanItem<Employee> item = beanContainer.getItem(catalogEmployeesGrid.getSelectedRow());
-					if(item != null){
+				public void select(SelectionEvent event) {
+					BeanItem<Employee> item = beanContainer
+							.getItem(catalogEmployeesGrid.getSelectedRow());
+					if (item != null) {
 						cboVersion.removeAllItems();
-						cboVersion.setReadOnly(true);						
-						Employee selectedEmployee = item.getBean();						
-						buildVersion(selectedEmployee.getId());						
-					}else{
+						cboVersion.setReadOnly(true);
+						Employee selectedEmployee = item.getBean();
+						buildVersion(selectedEmployee.getId());
+					} else {
 						tabEmployee.setVisible(false);
 						cboVersion.setReadOnly(false);
-						cboVersion.removeAllItems();						
-						cleanInputs();						
+						cboVersion.removeAllItems();
+						cleanInputs();
 					}
-					
+
 				}
-				
-			});					
+
+			});
 		} else {
 			lblMessage.setValue("No hay empleados para mostrar");
 			cboVersion.setVisible(false);
 			tabEmployee.setVisible(false);
-			if(catalogEmployeesGrid != null){
+			if (catalogEmployeesGrid != null) {
 				catalogEmployeesGrid.setVisible(false);
 			}
 		}
 
-	}	
-	
-	private void setReadOnlyTxt (boolean readOnly){
+	}
+
+	private void setReadOnlyTxt(boolean readOnly) {
 		txtEmail.setReadOnly(readOnly);
 		txtAddress.setReadOnly(readOnly);
 		txtNominalSalary.setReadOnly(readOnly);
@@ -528,69 +566,88 @@ public class CatalogEmployeesView extends BaseView {
 		txtIncidenceSalary.setReadOnly(readOnly);
 		txtSalaryToPay.setReadOnly(readOnly);
 		txtCostMonth.setReadOnly(readOnly);
-		txtCostRealHour.setReadOnly(readOnly);	
+		txtCostRealHour.setReadOnly(readOnly);
 		txtCellphone.setReadOnly(readOnly);
 		txtIncidenceTickets.setReadOnly(readOnly);
-		optEmployeeType.setReadOnly(readOnly);		
+		optEmployeeType.setReadOnly(readOnly);
 	}
-	
-	public void loadEmployee (Employee selectedEmployee, VOSalarySummary voSalarySummary){
+
+	public void loadEmployee(Employee selectedEmployee,
+			VOSalarySummary voSalarySummary) {
 
 		// seteo en readonly false, para poder cargar los datos
-		setReadOnlyTxt(false);	
+		setReadOnlyTxt(false);
 		txtAddress.setValue(selectedEmployee.getAddress());
 		txtEmail.setValue(selectedEmployee.getEmail());
 		txtCellphone.setValue(selectedEmployee.getCellPhone());
-		txtNominalSalary.setConvertedValue(voSalarySummary.getNominalSalary());	
-		txtTickets.setConvertedValue(voSalarySummary.getTickets());	
-		txtPercentagePersonalFonasaContribution.setConvertedValue(voSalarySummary.getPercentageTypeFONASA()*100);	
-		txtRet.setConvertedValue(voSalarySummary.getRET());	
-		txtIrpf.setConvertedValue(voSalarySummary.getIRPF());			
+		txtNominalSalary.setConvertedValue(voSalarySummary.getNominalSalary());
+		txtTickets.setConvertedValue(voSalarySummary.getTickets());
+		txtPercentagePersonalFonasaContribution
+				.setConvertedValue(voSalarySummary.getPercentageTypeFONASA() * 100);
+		txtRet.setConvertedValue(voSalarySummary.getRET());
+		txtIrpf.setConvertedValue(voSalarySummary.getIRPF());
 		txtBse.setConvertedValue(voSalarySummary.getBSE());
 		txtHours.setConvertedValue(voSalarySummary.getHours());
 		txtCostSaleHour.setConvertedValue(voSalarySummary.getCostSaleHour());
-		txtPersonalRetirementContribution.setConvertedValue(voSalarySummary.getPersonalRetirementContribution());
-		txtEmployerRetirementContribution.setConvertedValue(voSalarySummary.getEmployersContributionsRetirement());
-		txtPersonalFrlContribution.setConvertedValue(voSalarySummary.getPersonalFRLContribution());
-		txtEmployerFrlContribution.setConvertedValue(voSalarySummary.getEmployersFRLContribution());
-		txtPersonalFonasaContribution.setConvertedValue(voSalarySummary.getPersonalFONASAContribution());
-		txtEmployerFonasaContribution.setConvertedValue(voSalarySummary.getEmployersFONASAContribution());
-		txtTicketsEmployer.setConvertedValue(voSalarySummary.getTicketsEmployers());
-		txtTotalDiscounts.setConvertedValue(voSalarySummary.getTotalDiscounts());
-		txtTotalEmployersContribution.setConvertedValue(voSalarySummary.getTotalEmployerContributions());
-		txtNominalWithoutContribution.setConvertedValue(voSalarySummary.getNominalWithoutContributions());
-		txtDismisalPrevension.setConvertedValue(voSalarySummary.getDismissalPrevention());
-		txtIncidenceSalary.setConvertedValue(voSalarySummary.getIncidenceSalary());
+		txtPersonalRetirementContribution.setConvertedValue(voSalarySummary
+				.getPersonalRetirementContribution());
+		txtEmployerRetirementContribution.setConvertedValue(voSalarySummary
+				.getEmployersContributionsRetirement());
+		txtPersonalFrlContribution.setConvertedValue(voSalarySummary
+				.getPersonalFRLContribution());
+		txtEmployerFrlContribution.setConvertedValue(voSalarySummary
+				.getEmployersFRLContribution());
+		txtPersonalFonasaContribution.setConvertedValue(voSalarySummary
+				.getPersonalFONASAContribution());
+		txtEmployerFonasaContribution.setConvertedValue(voSalarySummary
+				.getEmployersFONASAContribution());
+		txtTicketsEmployer.setConvertedValue(voSalarySummary
+				.getTicketsEmployers());
+		txtTotalDiscounts
+				.setConvertedValue(voSalarySummary.getTotalDiscounts());
+		txtTotalEmployersContribution.setConvertedValue(voSalarySummary
+				.getTotalEmployerContributions());
+		txtNominalWithoutContribution.setConvertedValue(voSalarySummary
+				.getNominalWithoutContributions());
+		txtDismisalPrevension.setConvertedValue(voSalarySummary
+				.getDismissalPrevention());
+		txtIncidenceSalary.setConvertedValue(voSalarySummary
+				.getIncidenceSalary());
 		txtSalaryToPay.setConvertedValue(voSalarySummary.getSalaryToPay());
 		txtCostMonth.setConvertedValue(voSalarySummary.getCostMonth());
-		txtCostRealHour.setConvertedValue(voSalarySummary.getCostRealHour());			
-		txtIncidenceTickets.setConvertedValue(voSalarySummary.getIncidenceTickets());
+		txtCostRealHour.setConvertedValue(voSalarySummary.getCostRealHour());
+		txtIncidenceTickets.setConvertedValue(voSalarySummary
+				.getIncidenceTickets());
 		optEmployeeType.select(selectedEmployee.getEmployedType());
-		//seteo en readonly false los campos del empleado a mostrar
-		setReadOnlyTxt(true);		
+		// seteo en readonly false los campos del empleado a mostrar
+		setReadOnlyTxt(true);
 	}
-	
-	private void buildVersion(int employeeId){		
-		Collection<SalarySummary> aux = EmployeeController.GetVersions(employeeId);
-		
+
+	private void buildVersion(int employeeId) {
+		Collection<SalarySummary> aux = EmployeeController
+				.GetVersions(employeeId);
+
 		cboVersion.setReadOnly(false);
-		cboVersion.removeAllItems();	
+		cboVersion.removeAllItems();
 		for (SalarySummary salarySummaryVersion : aux) {
-			cboVersion.addItem(salarySummaryVersion.getVersion());			
-			cboVersion.setItemCaption(salarySummaryVersion.getVersion(), new SimpleDateFormat("dd-MM-yyyy").format(salarySummaryVersion.getCreatedDateTimeUTC()));
-		}		
+			cboVersion.addItem(salarySummaryVersion.getVersion());
+			cboVersion.setItemCaption(salarySummaryVersion.getVersion(),
+					new SimpleDateFormat("dd-MM-yyyy")
+							.format(salarySummaryVersion
+									.getCreatedDateTimeUTC()));
+		}
 		cboVersion.setValue(cboVersion.getItemIds().iterator().next());
 	}
-	
-	public void cleanInputs(){
-		setReadOnlyTxt(false);		
+
+	public void cleanInputs() {
+		setReadOnlyTxt(false);
 		txtAddress.clear();
 		txtEmail.clear();
 		txtCellphone.clear();
 		optEmployeeType.clear();
 		txtNominalSalary.clear();
 		txtTickets.clear();
-		txtPercentagePersonalFonasaContribution.clear();		
+		txtPercentagePersonalFonasaContribution.clear();
 		txtHours.clear();
 		txtIrpf.clear();
 		txtBse.clear();
@@ -603,28 +660,28 @@ public class CatalogEmployeesView extends BaseView {
 		txtPersonalFonasaContribution.clear();
 		txtEmployerFonasaContribution.clear();
 		txtTotalDiscounts.clear();
-		txtTicketsEmployer.clear();	
+		txtTicketsEmployer.clear();
 		txtNominalWithoutContribution.clear();
-		txtTotalEmployersContribution.clear();	
+		txtTotalEmployersContribution.clear();
 		txtIncidenceSalary.clear();
 		txtIncidenceTickets.clear();
 		txtDismisalPrevension.clear();
 		txtCostMonth.clear();
 		txtCostRealHour.clear();
-		txtSalaryToPay.clear();			
-		setReadOnlyTxt(true);		
+		txtSalaryToPay.clear();
+		setReadOnlyTxt(true);
 	}
-	
+
 	@Override
 	public void enter(ViewChangeEvent event) {
 		super.enter(event);
 		if (RequestContext.getRequestContext() != null) {
-			if(catalogEmployeesGrid != null){
+			if (catalogEmployeesGrid != null) {
 				mainLayout.removeComponent(catalogEmployeesGrid);
 			}
 			buildGrid();
 			cleanInputs();
-			cboVersion.removeAllItems();		
+			cboVersion.removeAllItems();
 			cboVersion.setReadOnly(true);
 		}
 	}
@@ -651,14 +708,14 @@ public class CatalogEmployeesView extends BaseView {
 		mainLayout.addComponent(lblTitle, "top:42.0px;left:0.0px;");
 
 		// tabEmployee
-		tabEmployee = new TabSheet();		
+		tabEmployee = new TabSheet();
 		tabEmployee.setImmediate(false);
 		tabEmployee.setWidth("-1px");
 		tabEmployee.setHeight("-1px");
 		mainLayout.addComponent(tabEmployee, "top:160.0px;left:400.0px;");
-		
-		//cboVersion
-		cboVersion = new ComboBox();		
+
+		// cboVersion
+		cboVersion = new ComboBox();
 		cboVersion.setImmediate(true);
 		cboVersion.setWidth("194px");
 		cboVersion.setHeight("30px");

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 
 import utils.PopupWindow;
 import views.BaseView;
@@ -72,29 +73,30 @@ public class CreateProjectView extends BaseView {
 
 	public CreateProjectView() {
 		super("Proyectos", "Crear proyecto");
-		
+
 		buildMainLayout();
 		setCompositionRoot(mainLayout);
 
 		optionGroupCurrency.addItems("Pesos", "Dolares");
 		optionGroupCurrency.select("Pesos");
-		
+
 		optionGroupCurrency.addValueChangeListener(new ValueChangeListener() {
 
 			@Override
 			public void valueChange(ValueChangeEvent event) {
-				if(optionGroupCurrency.getValue() == "Pesos")
+				if (optionGroupCurrency.getValue() == "Pesos")
 					txtAmount.setCaption("Imp. estimado ($)");
 				else
 					txtAmount.setCaption("Imp. estimado (U$S)");
 			}
 		});
-		
+
 		btnCancel.addClickListener(new Button.ClickListener() {
 
 			@Override
 			public void buttonClick(ClickEvent event) {
-				UI.getCurrent().getNavigator().navigateTo(Constant.View.CATALOGPROJECTS);
+				UI.getCurrent().getNavigator()
+						.navigateTo(Constant.View.CATALOGPROJECTS);
 			}
 		});
 
@@ -110,17 +112,18 @@ public class CreateProjectView extends BaseView {
 					Project newProject = new Project();
 					newProject.setName(txtName.getValue());
 					newProject.setDescription(txtDescription.getValue());
-					
-					if(txtAmount.getValue() != null)
-						newProject.setAmount((Double)(txtAmount.getConvertedValue()));
+
+					if (txtAmount.getValue() != null)
+						newProject.setAmount((Double) (txtAmount
+								.getConvertedValue()));
 					else
 						newProject.setAmount(0);
-					
-					if(optionGroupCurrency.getValue() == "Pesos")
+
+					if (optionGroupCurrency.getValue() == "Pesos")
 						newProject.setIsCurrencyDollar(false);
 					else
 						newProject.setIsCurrencyDollar(true);
-					
+
 					User manager = new User();
 					if (cboManager.getValue() != null) {
 						manager.setId((Integer) cboManager.getValue());
@@ -174,7 +177,7 @@ public class CreateProjectView extends BaseView {
 						cboManager.setValidationVisible(false);
 						txtName.setValidationVisible(false);
 						cleanInputs();
-						
+
 					}
 				}
 				btnCreate.setEnabled(true);
@@ -220,14 +223,14 @@ public class CreateProjectView extends BaseView {
 	@Override
 	public void enter(ViewChangeEvent event) {
 		super.enter(event);
-		
+
 		if (tblEmployed != null) {
 			mainLayout.removeComponent(tblEmployed);
 		}
 		if (tblEmployedHours != null) {
 			mainLayout.removeComponent(tblEmployedHours);
 		}
-		
+
 		buildTables();
 		loadComboBoxes();
 		cleanInputs();
@@ -476,8 +479,7 @@ public class CreateProjectView extends BaseView {
 		cboSeller.setTabIndex(2);
 		cboSeller.setNullSelectionAllowed(false);
 		cboSeller.setRequired(true);
-		mainLayout.addComponent(cboSeller,
-				"top:116px;right:0px;");
+		mainLayout.addComponent(cboSeller, "top:116px;right:0px;");
 
 		// cboManager
 		cboManager = new ComboBox();
@@ -488,8 +490,7 @@ public class CreateProjectView extends BaseView {
 		cboManager.setInputPrompt("Seleccione el gerente");
 		cboManager.setTabIndex(3);
 		cboManager.setNullSelectionAllowed(true);
-		mainLayout.addComponent(cboManager,
-				"top:116px;right:222px;");
+		mainLayout.addComponent(cboManager, "top:116px;right:222px;");
 
 		// cboPartner
 		cboPartner1 = new ComboBox();
@@ -501,8 +502,7 @@ public class CreateProjectView extends BaseView {
 		cboPartner1.setTabIndex(5);
 		cboPartner1.setNullSelectionAllowed(false);
 		cboPartner1.setRequired(true);
-		mainLayout.addComponent(cboPartner1,
-				"top:180.0px;right:222px;");
+		mainLayout.addComponent(cboPartner1, "top:180.0px;right:222px;");
 
 		// cboDistribution
 		cboDistribution1 = new ComboBox();
@@ -514,8 +514,7 @@ public class CreateProjectView extends BaseView {
 		cboDistribution1.setTabIndex(6);
 		cboDistribution1.setNullSelectionAllowed(false);
 		cboDistribution1.setRequired(true);
-		mainLayout.addComponent(cboDistribution1,
-				"top:245.0px;right:222px;");
+		mainLayout.addComponent(cboDistribution1, "top:245.0px;right:222px;");
 
 		// txtPartner
 		cboPartner2 = new ComboBox();
@@ -525,8 +524,7 @@ public class CreateProjectView extends BaseView {
 		cboPartner2.setHeight("-1px");
 		cboPartner2.setEnabled(false);
 		cboPartner2.setRequired(true);
-		mainLayout.addComponent(cboPartner2,
-				"top:180.0px;right:0px;");
+		mainLayout.addComponent(cboPartner2, "top:180.0px;right:0px;");
 
 		// txtDistribution
 		cboDistribution2 = new ComboBox();
@@ -536,16 +534,14 @@ public class CreateProjectView extends BaseView {
 		cboDistribution2.setHeight("-1px");
 		cboDistribution2.setEnabled(false);
 		cboDistribution2.setRequired(true);
-		mainLayout.addComponent(cboDistribution2,
-				"top:245.0px;right:0px;");
-		
+		mainLayout.addComponent(cboDistribution2, "top:245.0px;right:0px;");
+
 		// optionGroupCurrency
 		optionGroupCurrency = new OptionGroup();
 		optionGroupCurrency.setCaption("Moneda");
 		optionGroupCurrency.setImmediate(true);
 		optionGroupCurrency.setTabIndex(3);
-		mainLayout.addComponent(optionGroupCurrency,
-				"top:200.0px;left:0.0px;");
+		mainLayout.addComponent(optionGroupCurrency, "top:200.0px;left:0.0px;");
 
 		// txtAmount
 		txtAmount = new TextField();
@@ -555,9 +551,10 @@ public class CreateProjectView extends BaseView {
 		txtAmount.setHeight("-1px");
 		txtAmount.setNullRepresentation("");
 		txtAmount.setConverter(new StringToDoubleConverter());
+		txtAmount.setLocale(Locale.US);
 		txtAmount.setTabIndex(4);
 		mainLayout.addComponent(txtAmount, "top:200.0px;left:100.0px;");
-				
+
 		return mainLayout;
 	}
 

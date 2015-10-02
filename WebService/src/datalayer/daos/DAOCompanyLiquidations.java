@@ -43,8 +43,9 @@ public class DAOCompanyLiquidations implements IDAOCompanyLiquidations {
 		String insertSQL = "INSERT INTO COMPANYLIQUIDATION (COMPANYCATEGORY, CONTRIBUTION, "
 				+ "SALARYNOTPARTNERS, IRAE, IVASALE, IVAPURCHASE, PARTNER1ID, PARTNER1EARNINGSDOLLAR, "
 				+ "PARTNER1EARNINGSPESO, PARTNER2ID, PARTNER2EARNINGSDOLLAR, PARTNER2EARNINGSPESO, "
-				+ "TYPEEXCHANGE, APPLIEDDATETIMEUTC, CREATEDDATETIMEUTC) "
-				+ "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+				+ "SALARYPARTNERS, DISMISSALPREVENTION, INCIDENCESALARY, INCIDENCETICKETS, EMPLOYEESCOST, "
+				+ "TOTALEARNINGSPESO, TOTALEARNINGSDOLLAR, TYPEEXCHANGE, APPLIEDDATETIMEUTC, CREATEDDATETIMEUTC) "
+				+ "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 		try{
 			preparedStatement = this.connection.prepareStatement(insertSQL, Statement.RETURN_GENERATED_KEYS);
 			
@@ -60,9 +61,16 @@ public class DAOCompanyLiquidations implements IDAOCompanyLiquidations {
 			preparedStatement.setInt(10, obj.getPartner2().getId());
 			preparedStatement.setDouble(11, obj.getPartner2EarningsDollar());
 			preparedStatement.setDouble(12, obj.getPartner2EarningsPeso());
-			preparedStatement.setDouble(13, obj.getTypeExchange());
-			preparedStatement.setTimestamp(14, new Timestamp(obj.getAppliedDateTimeUTC().getTime()));
-			preparedStatement.setTimestamp(15, new Timestamp(obj.getCreatedDateTimeUTC().getTime()));
+			preparedStatement.setDouble(13, obj.getSalaryPartners());
+			preparedStatement.setDouble(14, obj.getDismissalPrevention());
+			preparedStatement.setDouble(15, obj.getIncidenceSalary());
+			preparedStatement.setDouble(16, obj.getIncidenceTickets());
+			preparedStatement.setDouble(17, obj.getEmployeesCost());
+			preparedStatement.setDouble(18, obj.getTotalEarningsPeso());
+			preparedStatement.setDouble(19, obj.getTotalEarningsDollar());			
+			preparedStatement.setDouble(20, obj.getTypeExchange());
+			preparedStatement.setTimestamp(21, new Timestamp(obj.getAppliedDateTimeUTC().getTime()));
+			preparedStatement.setTimestamp(22, new Timestamp(obj.getCreatedDateTimeUTC().getTime()));
 			
 			preparedStatement.executeUpdate();
 			
@@ -178,6 +186,73 @@ public class DAOCompanyLiquidations implements IDAOCompanyLiquidations {
 
 		return companyLiquidation;	
 	}
+	
+	@Override
+	public ArrayList<CompanyLiquidation> getCompanyLiquidations(Date date) throws ServerException{
+		ArrayList<CompanyLiquidation> companyLiquidations = new ArrayList<CompanyLiquidation>();
+		PreparedStatement preparedStatement = null;
+		ResultSet rs = null;
+		try {
+			
+			StringBuilder strBuilder = new StringBuilder();
+			strBuilder.append("Select * from CompanyLiquidation ");
+			strBuilder.append("WHERE year(AppliedDateTimeUTC) = year(?) ");
+
+			preparedStatement = this.connection.prepareStatement(strBuilder.toString());
+			
+			preparedStatement.setTimestamp(1, new Timestamp(date.getTime()));
+			rs = preparedStatement.executeQuery();
+			
+			if (rs.next()) {
+				companyLiquidations.add(BuildCompanyLiquidation(rs));
+			}
+			
+		} catch (SQLException e) {
+			throw new ServerException(e);
+		} finally {
+			try {
+				if (preparedStatement != null)
+					preparedStatement.close();
+				if (rs != null)
+					rs.close();
+			} catch (SQLException e) {
+				LoggerMSMP.setLog(e.getMessage());
+			}
+		}
+
+		return companyLiquidations;	
+	}
+	
+	@Override
+	public double getTypeExchange(Date appliedDate) throws ServerException {
+		double typeExchange = 0.0;
+		PreparedStatement preparedStatement = null;
+		ResultSet rs = null;
+		try {
+			String getSQL = "SELECT typeExchange FROM COMPANYLIQUIDATION WHERE AppliedDateTimeUTC = ?";
+			preparedStatement = this.connection.prepareStatement(getSQL);
+			preparedStatement.setTimestamp(1, new Timestamp(appliedDate.getTime()));
+			rs = preparedStatement.executeQuery();
+			
+			if(rs.next()){
+				typeExchange = rs.getDouble("typeExchange");
+			}
+			
+		} catch (SQLException e) {
+			throw new ServerException(e);
+		} finally {
+			try {
+				if (preparedStatement != null)
+					preparedStatement.close();
+				if (rs != null)
+					rs.close();
+			} catch (SQLException e) {
+				LoggerMSMP.setLog(e.getMessage());
+			}
+		}
+
+		return typeExchange;
+	}
 
 	private CompanyLiquidation BuildCompanyLiquidation(ResultSet rs) throws SQLException {
 		int _id = rs.getInt("id");
@@ -196,6 +271,13 @@ public class DAOCompanyLiquidations implements IDAOCompanyLiquidations {
 		double typeExchange = rs.getDouble("typeExchange");
 		Date appliedDateTimeUTC = rs.getTimestamp("appliedDateTimeUTC");
 		Date createdDateTimeUTC = rs.getTimestamp("createdDateTimeUTC");
+		double dismissalPrevention = rs.getDouble("dismissalPrevention");
+		double employeesCost = rs.getDouble("employeesCost");
+		double incidenceSalary = rs.getDouble("incidenceSalary");
+		double incidenceTickets = rs.getDouble("incidenceTickets");		
+		double salaryPartners = rs.getDouble("salaryPartners");
+		double totalEarningsDollar = rs.getDouble("totalEarningsDollar");
+		double totalEarningsPeso = rs.getDouble("totalEarningsPeso");
 		
 		CompanyLiquidation companyLiquidation = new CompanyLiquidation();
 		companyLiquidation.setId(_id);
@@ -214,6 +296,13 @@ public class DAOCompanyLiquidations implements IDAOCompanyLiquidations {
 		companyLiquidation.setTypeExchange(typeExchange);
 		companyLiquidation.setAppliedDateTimeUTC(appliedDateTimeUTC);
 		companyLiquidation.setCreatedDateTimeUTC(createdDateTimeUTC);
+		companyLiquidation.setEmployeesCost(employeesCost);
+		companyLiquidation.setDismissalPrevention(dismissalPrevention);
+		companyLiquidation.setIncidenceSalary(incidenceSalary);
+		companyLiquidation.setIncidenceTickets(incidenceTickets);
+		companyLiquidation.setSalaryPartners(salaryPartners);
+		companyLiquidation.setTotalEarningsDollar(totalEarningsDollar);
+		companyLiquidation.setTotalEarningsPeso(totalEarningsPeso);
 		
 		return companyLiquidation;
 		}
