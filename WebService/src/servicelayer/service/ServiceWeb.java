@@ -1395,6 +1395,8 @@ public class ServiceWeb extends ServiceBase {
 			ThrowServerExceptionAndLogError(e, "obtener liquidaciones de proyectos para mostrar");
 		} catch (InterruptedException e) {
 			throw new RuntimeException(Constants.TRANSACTION_ERROR);
+		}catch (ClientException e) {
+			throw new RuntimeException(e.getMessage());
 		} catch (Exception e) {
 			ThrowGenericExceptionAndLogError(e);
 		} finally {
