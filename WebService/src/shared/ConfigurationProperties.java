@@ -8,6 +8,7 @@ import shared.exceptions.ServerException;
 
 public class ConfigurationProperties {
 	
+	/*
 	public static String GetConfigValue(String key) throws ServerException
 	{
 		Properties properties = new Properties();
@@ -35,4 +36,5 @@ public class ConfigurationProperties {
 		
 		return properties.getProperty(key);
 	}
+	*/
 }

@@ -3,10 +3,12 @@ package servicelayer.core;
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 
 import datalayer.daos.DAOManager;
 import servicelayer.entity.businessEntity.Employed;
 import servicelayer.entity.businessEntity.EmployedType;
+import servicelayer.entity.businessEntity.GlobalConfiguration;
 import servicelayer.entity.businessEntity.SalarySummary;
 import shared.ConfigurationProperties;
 import shared.exceptions.ClientException;
@@ -37,7 +39,8 @@ public class CoreEmployed implements ICoreEmployed {
 		// si falla un de ellas se revierten los cambios
 		DAOManager daoManager = new DAOManager();
 		try {
-			int countPartners = daoManager.getDAOEmployees().getEmployedByType(2).size();
+			int countPartners = daoManager.getDAOEmployees()
+					.getEmployedByType(2).size();
 			if (countPartners >= 2
 					&& employed.getEmployedType() == EmployedType.PARTNER) {
 				throw new ClientException(
@@ -119,9 +122,9 @@ public class CoreEmployed implements ICoreEmployed {
 			Employed employed = daoManager.getDAOEmployees().getObject(id);
 			if (employed != null) {
 				// DELETE ALL SALARY SUMMARIES
-//				employed.setIDAOSalarySummaries(daoManager
-//						.getDAOSalarySummaries());
-//				employed.deleteSalarySummaries();
+				// employed.setIDAOSalarySummaries(daoManager
+				// .getDAOSalarySummaries());
+				// employed.deleteSalarySummaries();
 
 				// DELETE EMPLOYED
 				daoManager.getDAOEmployees().delete(id);
@@ -138,8 +141,9 @@ public class CoreEmployed implements ICoreEmployed {
 	}
 
 	@Override
-	public void updateEmployed(int id, Employed employed, SalarySummary salarySummary)
-			throws ServerException, ClientException {
+	public void updateEmployed(int id, Employed employed,
+			SalarySummary salarySummary) throws ServerException,
+			ClientException {
 		DAOManager daoManager = new DAOManager();
 
 		try {
@@ -168,7 +172,8 @@ public class CoreEmployed implements ICoreEmployed {
 					daoManager.getDAOEmployees().update(id, employed);
 
 					// CREATE NEW VERSION OF SALARY SUMMARY
-					SalarySummary currentSalarySummary = currentEmployed.getLatestVersionSalarySummary();
+					SalarySummary currentSalarySummary = currentEmployed
+							.getLatestVersionSalarySummary();
 					SalarySummary calculateSalarySummary = calculateSalarySummary(salarySummary);
 					if (updatedSalarySummaries(currentSalarySummary,
 							calculateSalarySummary)) {
@@ -178,14 +183,19 @@ public class CoreEmployed implements ICoreEmployed {
 										.getCreatedDateTimeUTC())
 								.equals(DateFormat.getDateInstance().format(
 										new Date()))) {
-							calculateSalarySummary.setCreatedDateTimeUTC(new Date());
-							currentEmployed.addNewSalarySummary(calculateSalarySummary);
+							calculateSalarySummary
+									.setCreatedDateTimeUTC(new Date());
+							currentEmployed
+									.addNewSalarySummary(calculateSalarySummary);
 						} else {
 							// Actualizar el mismo registro que esta
 							// salarySummary.setCreatedDateTimeUTC(currentSalarySummary.getCreatedDateTimeUTC());
-							calculateSalarySummary.setCreatedDateTimeUTC(new Date());
-							calculateSalarySummary.setId(currentSalarySummary.getId());
-							currentEmployed.updateSalarySummary(calculateSalarySummary);
+							calculateSalarySummary
+									.setCreatedDateTimeUTC(new Date());
+							calculateSalarySummary.setId(currentSalarySummary
+									.getId());
+							currentEmployed
+									.updateSalarySummary(calculateSalarySummary);
 						}
 					}
 
@@ -235,10 +245,11 @@ public class CoreEmployed implements ICoreEmployed {
 			Employed employed = daoManager.getDAOEmployees().getObject(
 					employedId);
 			if (employed != null) {
-				employed.setIDAOSalarySummaries(daoManager.getDAOSalarySummaries());
-				
-				//version -1, indica la ultima version
-				if(version == -1)
+				employed.setIDAOSalarySummaries(daoManager
+						.getDAOSalarySummaries());
+
+				// version -1, indica la ultima version
+				if (version == -1)
 					salarySummary = employed.getLatestVersionSalarySummary();
 				else
 					salarySummary = employed.getSalarySummaryByVersion(version);
@@ -253,10 +264,9 @@ public class CoreEmployed implements ICoreEmployed {
 		return salarySummary;
 	}
 
-	
 	@Override
-	public ArrayList<SalarySummary> getAllSalarySummaryVersion(
-			int employedId) throws ServerException, ClientException {
+	public ArrayList<SalarySummary> getAllSalarySummaryVersion(int employedId)
+			throws ServerException, ClientException {
 		ArrayList<SalarySummary> list = new ArrayList<SalarySummary>();
 
 		DAOManager daoManager = new DAOManager();
@@ -266,7 +276,8 @@ public class CoreEmployed implements ICoreEmployed {
 			if (employed != null) {
 				employed.setIDAOSalarySummaries(daoManager
 						.getDAOSalarySummaries());
-				ArrayList<SalarySummary> aux = employed.getAllSalarySummaryVersion(employedId);
+				ArrayList<SalarySummary> aux = employed
+						.getAllSalarySummaryVersion(employedId);
 
 				for (SalarySummary salarySummary : aux) {
 					SalarySummary voSSV = new SalarySummary();
@@ -293,29 +304,44 @@ public class CoreEmployed implements ICoreEmployed {
 		SalarySummary newSalarySummary = new SalarySummary();
 
 		double percentage_persoanl_retirement_contribution = Double
-				.parseDouble(ConfigurationProperties
-						.GetConfigValue("PERCENTAGE_PERSONAL_RETIREMENT_CONTRIBUTION"));
+				.parseDouble(CoreGlobalConfiguration.GetInstance()
+						.getConfigurationValueByCode(
+								"PERCENTAGE_PERSONAL_RETIREMENT_CONTRIBUTION"));
+
 		double percentage_employers_contributions_retirement = Double
-				.parseDouble(ConfigurationProperties
-						.GetConfigValue("PERCENTAGE_EMPLOYERS_CONTRIBUTIONS_RETIREMENT"));
+				.parseDouble(CoreGlobalConfiguration
+						.GetInstance()
+						.getConfigurationValueByCode(
+								"PERCENTAGE_EMPLOYERS_CONTRIBUTIONS_RETIREMENT"));
+
 		double percentage_employers_FONASA_contribution = Double
-				.parseDouble(ConfigurationProperties
-						.GetConfigValue("PERCENTAGE_EMPLOYERS_FONASA_CONTRIBUTION"));
+				.parseDouble(CoreGlobalConfiguration.GetInstance()
+						.getConfigurationValueByCode(
+								"PERCENTAGE_EMPLOYERS_FONASA_CONTRIBUTION"));
+
 		double percentage_FRL_contribution = Double
-				.parseDouble(ConfigurationProperties
-						.GetConfigValue("PERCENTAGE_FRL_CONTRIBUTION"));
+				.parseDouble(CoreGlobalConfiguration.GetInstance()
+						.getConfigurationValueByCode(
+								"PERCENTAGE_FRL_CONTRIBUTION"));
+
 		double percentage_tickets_employers = Double
-				.parseDouble(ConfigurationProperties
-						.GetConfigValue("PERCENTAGE_TICKETS_EMPLOYERS"));
-		double var1_prev = Double.parseDouble(ConfigurationProperties
-				.GetConfigValue("VAR_1_PREV"));
-		double var2_prev = Double.parseDouble(ConfigurationProperties
-				.GetConfigValue("VAR_2_PREV"));
-		double var3_prev = Double.parseDouble(ConfigurationProperties
-				.GetConfigValue("VAR_3_PREV"));
+				.parseDouble(CoreGlobalConfiguration.GetInstance()
+						.getConfigurationValueByCode(
+								"PERCENTAGE_TICKETS_EMPLOYERS"));
+
+		double var1_prev = Double.parseDouble(CoreGlobalConfiguration
+				.GetInstance().getConfigurationValueByCode("VAR_1_PREV"));
+
+		double var2_prev = Double.parseDouble(CoreGlobalConfiguration
+				.GetInstance().getConfigurationValueByCode("VAR_2_PREV"));
+
+		double var3_prev = Double.parseDouble(CoreGlobalConfiguration
+				.GetInstance().getConfigurationValueByCode("VAR_3_PREV"));
+
 		double percentage_incidence_salary = Double
-				.parseDouble(ConfigurationProperties
-						.GetConfigValue("PERCENTAGE_INCIDENCE_SALARY"));
+				.parseDouble(CoreGlobalConfiguration.GetInstance()
+						.getConfigurationValueByCode(
+								"PERCENTAGE_INCIDENCE_SALARY"));
 
 		newSalarySummary.setNominalSalary(salarySummary.getNominalSalary());
 		newSalarySummary.setTickets(salarySummary.getTickets());
@@ -480,38 +506,42 @@ public class CoreEmployed implements ICoreEmployed {
 	}
 
 	@Override
-	public ArrayList<Employed> getEmployedByType(int employedTypeId) throws ServerException,
-			ClientException {
+	public ArrayList<Employed> getEmployedByType(int employedTypeId)
+			throws ServerException, ClientException {
 		DAOManager daoManager = new DAOManager();
 		try {
-			return daoManager.getDAOEmployees().getEmployedByType(employedTypeId);
+			return daoManager.getDAOEmployees().getEmployedByType(
+					employedTypeId);
 
 		} catch (ServerException e) {
 			throw e;
 		} finally {
 			daoManager.close();
 		}
-		
+
 	}
-	
+
 	@Override
-	public ArrayList<SalarySummary> getSalarySummariesLatestVersionUpToDate(Date to) throws ServerException, ClientException {
+	public ArrayList<SalarySummary> getSalarySummariesLatestVersionUpToDate(
+			Date to) throws ServerException, ClientException {
 		ArrayList<SalarySummary> salaries = new ArrayList<SalarySummary>();
 		DAOManager daoManager = new DAOManager();
-		
-		try{
-			ArrayList<Employed> employees = daoManager.getDAOEmployees().getEmployeesToDate(to);
+
+		try {
+			ArrayList<Employed> employees = daoManager.getDAOEmployees()
+					.getEmployeesToDate(to);
 			for (Employed employed : employees) {
-				employed.setIDAOSalarySummaries(daoManager.getDAOSalarySummaries());
+				employed.setIDAOSalarySummaries(daoManager
+						.getDAOSalarySummaries());
 				salaries.add(employed.getSalarySummaryToDate(to));
-			}			
-			
+			}
+
 			return salaries;
-		}catch (ServerException e){
+		} catch (ServerException e) {
 			throw e;
-		}finally{
+		} finally {
 			daoManager.close();
-		}		
+		}
 	}
 
 	@Override
@@ -526,7 +556,6 @@ public class CoreEmployed implements ICoreEmployed {
 		} finally {
 			daoManager.close();
 		}
-
 
 	}
 

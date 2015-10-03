@@ -26,14 +26,6 @@ public class DAOCompanyLiquidations implements IDAOCompanyLiquidations {
 	public DAOCompanyLiquidations(Connection connection){
 		this.connection = connection;
 	}
-	
-	public DAOCompanyLiquidations() throws ServerException{
-		try{
-			this.connection = new ManageConnection().GetConnection();
-		}catch (Exception e){
-			throw new ServerException(e);
-		}
-	}
 
 	@Override
 	public int insert(CompanyLiquidation obj) throws ServerException {

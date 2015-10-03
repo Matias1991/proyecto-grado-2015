@@ -150,12 +150,12 @@ public class CoreProjectLiquidation implements ICoreProjectLiquidation {
 						projectLiquidation.setEarnings(projectLiquidation.getTotalBills() - Math.abs(projectLiquidation.getTotalCostCategoriesHuman()) - Math.abs(projectLiquidation.getTotalCostCategoriesMaterial()) - Math.abs((projectLiquidation.getTotalCostEmployees())));				
 				}			
 				
-				//Calcula el importe de la reserva
-				projectLiquidation.setReserve(projectLiquidation.getEarnings() * Double.parseDouble(ConfigurationProperties.GetConfigValue("PERCENTAGE_RESERVE")));
+				//Calcula el importe de la reserva				
+				projectLiquidation.setReserve(projectLiquidation.getEarnings() * Double.parseDouble(CoreGlobalConfiguration.GetInstance().getConfigurationValueByCode("PERCENTAGE_RESERVE")));
 				projectLiquidation.setEarnings(projectLiquidation.getEarnings() - Math.abs(projectLiquidation.getReserve()));
 				
 				//Calcula el importe de la venta
-				projectLiquidation.setSale(projectLiquidation.getEarnings() * Double.parseDouble(ConfigurationProperties.GetConfigValue("PERCENTAGE_SALE")));
+				projectLiquidation.setSale(projectLiquidation.getEarnings() * Double.parseDouble(CoreGlobalConfiguration.GetInstance().getConfigurationValueByCode("PERCENTAGE_SALE")));
 				projectLiquidation.setEarnings(projectLiquidation.getEarnings() - Math.abs(projectLiquidation.getSale()));
 				
 				calculatePartnersEarnings(projectLiquidation, 0, typeExchange, to);

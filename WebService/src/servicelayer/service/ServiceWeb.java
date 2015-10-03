@@ -9,6 +9,7 @@ import servicelayer.core.CoreCategory;
 import servicelayer.core.CoreCharge;
 import servicelayer.core.CoreCompanyLiquidation;
 import servicelayer.core.CoreEmployed;
+import servicelayer.core.CoreGlobalConfiguration;
 import servicelayer.core.CoreProjectLiquidation;
 import servicelayer.core.CoreProject;
 import servicelayer.core.CoreUser;
@@ -28,6 +29,7 @@ import servicelayer.entity.valueObject.VOCharge;
 import servicelayer.entity.valueObject.VOCompanyLiquidation;
 import servicelayer.entity.valueObject.VODistributionType;
 import servicelayer.entity.valueObject.VOEmployed;
+import servicelayer.entity.valueObject.VOGlobalConfiguration;
 import servicelayer.entity.valueObject.VOProject;
 import servicelayer.entity.valueObject.VOProjectLiquidation;
 import servicelayer.entity.valueObject.VOSalarySummary;
@@ -37,6 +39,7 @@ import servicelayer.service.builder.CategoryBuilder;
 import servicelayer.service.builder.ChargeBuilder;
 import servicelayer.service.builder.CompanyLiquidationBuilder;
 import servicelayer.service.builder.EmployedBuilder;
+import servicelayer.service.builder.GlobalConfigurationBuilder;
 import servicelayer.service.builder.ProjectLiquidationBuilder;
 import servicelayer.service.builder.ProjectBuilder;
 import servicelayer.service.builder.SalarySummaryBuilder;
@@ -49,6 +52,7 @@ import shared.interfaces.core.ICoreCategory;
 import shared.interfaces.core.ICoreCharge;
 import shared.interfaces.core.ICoreCompanyLiquidation;
 import shared.interfaces.core.ICoreEmployed;
+import shared.interfaces.core.ICoreGlobalConfiguration;
 import shared.interfaces.core.ICoreProjectLiquidation;
 import shared.interfaces.core.ICoreProject;
 import shared.interfaces.core.ICoreUser;
@@ -67,7 +71,8 @@ public class ServiceWeb extends ServiceBase {
 	private ICoreCharge iCoreCharge = null;
 	private ICoreProjectLiquidation iCoreProjectLiquidation = null;
 	private ICoreCompanyLiquidation iCoreCompanyLiquidation = null;
-
+	private ICoreGlobalConfiguration iCoreGlobalConfiguration = null;
+	
 	// Builder's para mapear
 	// value objects a entidades de negocio
 	// value objects a entidades de negocio
@@ -80,7 +85,8 @@ public class ServiceWeb extends ServiceBase {
 	private static SalarySummaryBuilder salarySummaryBuilder = new SalarySummaryBuilder();
 	private static ProjectLiquidationBuilder projectLiquidationBuilder = new ProjectLiquidationBuilder();
 	private static CompanyLiquidationBuilder companyLiquidationBuilder = new CompanyLiquidationBuilder();
-
+	private static GlobalConfigurationBuilder globalConfigurationBuilder = new GlobalConfigurationBuilder();
+	
 	public ServiceWeb() {
 		try {
 			transactionLock.tryLock(Constants.DEFAULT_TRANSACTION_TIME,
@@ -94,6 +100,7 @@ public class ServiceWeb extends ServiceBase {
 			iCoreCharge = CoreCharge.GetInstance();
 			iCoreProjectLiquidation = CoreProjectLiquidation.GetInstance();
 			iCoreCompanyLiquidation = CoreCompanyLiquidation.GetInstance();
+			iCoreGlobalConfiguration = CoreGlobalConfiguration.GetInstance();
 
 		} catch (Exception e) {
 			ThrowGenericExceptionAndLogError(e);
@@ -1605,6 +1612,42 @@ public class ServiceWeb extends ServiceBase {
 			transactionLock.unlock();
 		}
 		return 0;
+	}
+	
+	public VOGlobalConfiguration[] getGlobalConfigurations(){
+		try{
+			transactionLock.tryLock(Constants.DEFAULT_TRANSACTION_TIME, TimeUnit.SECONDS);			
+		
+			return globalConfigurationBuilder.BuildArrayVOObject(VOGlobalConfiguration.class, iCoreGlobalConfiguration.getGlobalConfigurations());
+			
+		} catch (ServerException e) {
+			ThrowServerExceptionAndLogError(e, "obtener liquidaciones de proyectos para mostrar");
+		} catch (InterruptedException e) {
+			throw new RuntimeException(Constants.TRANSACTION_ERROR);
+		} catch (Exception e) {
+			ThrowGenericExceptionAndLogError(e);
+		} finally {
+			transactionLock.unlock();
+		}
+		return null;
+	}
+	
+	public VOGlobalConfiguration updateGlobalConfiguration(int id, VOGlobalConfiguration voGlobalConfiguration){
+		try{
+			transactionLock.tryLock(Constants.DEFAULT_TRANSACTION_TIME, TimeUnit.SECONDS);			
+		
+			return globalConfigurationBuilder.BuildVOObject(iCoreGlobalConfiguration.update(id, globalConfigurationBuilder.BuildBusinessObject(voGlobalConfiguration)));
+			
+		} catch (ServerException e) {
+			ThrowServerExceptionAndLogError(e, "obtener liquidaciones de proyectos para mostrar");
+		} catch (InterruptedException e) {
+			throw new RuntimeException(Constants.TRANSACTION_ERROR);
+		} catch (Exception e) {
+			ThrowGenericExceptionAndLogError(e);
+		} finally {
+			transactionLock.unlock();
+		}
+		return null;
 	}
 }
 
