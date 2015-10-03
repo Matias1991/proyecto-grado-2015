@@ -74,5 +74,9 @@ public class Constant {
 		public static final String REPORT_SUMMARY_COMPANY_IVA_VIEW = "ReportSummaryCompanyIVAView";
 		public static final String REPORT_SUMMARY_COMPANY_CATEGORIES_VIEW = "ReportSummaryCompanyCategoriesView";
 		public static final String REPORT_SUMMARY_COMPANY_CATEGORIES_HUMAN_VIEW = "ReportSummaryCompanyCategoriesHumanView";
+		
+		//Configuraciones globales
+		public static final String GLOBAL_CONFIGURATIONS_CATALOG_VIEW = "CatalogGlobalConfigurationsView";
+		public static final String GLOBAL_CONFIGURATION_UPDATE_VIEW = "UpdateGlobalConfigurationView";
 	}
 }

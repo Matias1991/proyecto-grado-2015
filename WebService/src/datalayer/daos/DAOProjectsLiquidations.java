@@ -27,14 +27,6 @@ public class DAOProjectsLiquidations implements IDAOProjectsLiquidations {
 	public DAOProjectsLiquidations(Connection connection){
 		this.connection = connection;
 	}
-	
-	public DAOProjectsLiquidations() throws ServerException{
-		try{
-			this.connection = new ManageConnection().GetConnection();
-		}catch (Exception e){
-			throw new ServerException(e);
-		}
-	}
 
 	@Override
 	public void delete(int id) throws ServerException {

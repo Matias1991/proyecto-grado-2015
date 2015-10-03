@@ -269,4 +269,14 @@ CREATE TABLE IF NOT EXISTS CompanyLiquidation
 	FOREIGN KEY FK_CompanyLiquidation_Employed_2 (Partner2Id) REFERENCES Employed (Id)		
 );
 
+CREATE TABLE IF NOT EXISTS GlobalConfiguration
+(
+	Id                  INTEGER NOT NULL AUTO_INCREMENT,
+	Code               	VARCHAR(50) NULL,
+	Value               VARCHAR(50) NULL,
+	Description			VARCHAR(250) NULL,
+	PRIMARY KEY (Id)
+);
+
+
 

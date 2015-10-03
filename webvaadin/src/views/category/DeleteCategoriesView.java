@@ -112,7 +112,7 @@ public class DeleteCategoriesView extends BaseView {
 			grid.removeColumn("projectId");
 			grid.removeColumn("categoryTypeId");
 			grid.removeColumn("categoryType");
-			grid.removeColumn("createdDateTimeUTC");
+			grid.removeColumn("appliedDateTimeUTC");
 			grid.removeColumn("isRRHH");
 			grid.removeColumn("typeExchange");
 			grid.removeColumn("isDollarToShow");

@@ -733,13 +733,13 @@ public class CreateLiquidationView extends BaseView {
 
 	private void buildComboProjects() {
 		cboProject.removeAllItems();
+		cboProject.addItem(-1);
+		cboProject.setItemCaption(-1, "MeerkatSys(Empresa)");
 		Collection<Project> projects = ProjectController.getProjects();
 		for (Project aux : projects) {
 			cboProject.addItem(aux.getId());
 			cboProject.setItemCaption(aux.getId(), aux.getName());
 		}
-		cboProject.addItem(-1);
-		cboProject.setItemCaption(-1, "MeerkatSys(Empresa)");
 	}
 
 	private void cleanTab() {
@@ -797,10 +797,14 @@ public class CreateLiquidationView extends BaseView {
 	}
 
 	private void switchTabSummary(boolean isCompany) {
-		if (tabDetails.getTab(tab5) != null)
-			tabDetails.removeTab(tabDetails.getTab(tab5));
-		if (tabDetails.getTab(tab6) != null)
-			tabDetails.removeTab(tabDetails.getTab(tab6));
+		boolean companySummarySelected = tabDetails.getSelectedTab().equals(
+				tab6);
+		boolean projectSummarySelected = tabDetails.getSelectedTab().equals(
+				tab5);
+		if (tab5 != null)
+			tabDetails.removeComponent(tab5);
+		if (tab6 != null)
+			tabDetails.removeComponent(tab6);
 		if (isCompany) {
 			// TAB6
 			tab6 = new GridLayout(3, 12);
@@ -845,6 +849,16 @@ public class CreateLiquidationView extends BaseView {
 			tab5.addComponent(txtPartner2Earnings, 0, 8);
 			tabDetails.addTab(tab5, "Resumen");
 		}
+		if (companySummarySelected)
+			if (isCompany)
+				tabDetails.setSelectedTab(tab6);
+			else
+				tabDetails.setSelectedTab(tab5);
+		if (projectSummarySelected)
+			if (isCompany)
+				tabDetails.setSelectedTab(tab6);
+			else
+				tabDetails.setSelectedTab(tab5);
 	}
 
 	private void cleanInputs() {

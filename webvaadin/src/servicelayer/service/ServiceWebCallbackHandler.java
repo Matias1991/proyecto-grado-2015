@@ -237,6 +237,22 @@
             }
                 
            /**
+            * auto generated Axis2 call back method for updateGlobalConfiguration method
+            * override this method for handling normal response from updateGlobalConfiguration operation
+            */
+           public void receiveResultupdateGlobalConfiguration(
+                    servicelayer.service.ServiceWebStub.UpdateGlobalConfigurationResponse result
+                        ) {
+           }
+
+          /**
+           * auto generated Axis2 Error handler
+           * override this method for handling error response from updateGlobalConfiguration operation
+           */
+            public void receiveErrorupdateGlobalConfiguration(java.lang.Exception e) {
+            }
+                
+           /**
             * auto generated Axis2 call back method for getBillsByProject method
             * override this method for handling normal response from getBillsByProject operation
             */
@@ -285,22 +301,6 @@
             }
                 
            /**
-            * auto generated Axis2 call back method for getCompanyLiquidations method
-            * override this method for handling normal response from getCompanyLiquidations operation
-            */
-           public void receiveResultgetCompanyLiquidations(
-                    servicelayer.service.ServiceWebStub.GetCompanyLiquidationsResponse result
-                        ) {
-           }
-
-          /**
-           * auto generated Axis2 Error handler
-           * override this method for handling error response from getCompanyLiquidations operation
-           */
-            public void receiveErrorgetCompanyLiquidations(java.lang.Exception e) {
-            }
-                
-           /**
             * auto generated Axis2 call back method for forgotPassword method
             * override this method for handling normal response from forgotPassword operation
             */
@@ -317,19 +317,19 @@
             }
                 
            /**
-            * auto generated Axis2 call back method for insertProject method
-            * override this method for handling normal response from insertProject operation
+            * auto generated Axis2 call back method for getGlobalConfigurations method
+            * override this method for handling normal response from getGlobalConfigurations operation
             */
-           public void receiveResultinsertProject(
-                    servicelayer.service.ServiceWebStub.InsertProjectResponse result
+           public void receiveResultgetGlobalConfigurations(
+                    servicelayer.service.ServiceWebStub.GetGlobalConfigurationsResponse result
                         ) {
            }
 
           /**
            * auto generated Axis2 Error handler
-           * override this method for handling error response from insertProject operation
+           * override this method for handling error response from getGlobalConfigurations operation
            */
-            public void receiveErrorinsertProject(java.lang.Exception e) {
+            public void receiveErrorgetGlobalConfigurations(java.lang.Exception e) {
             }
                 
            /**
@@ -378,6 +378,38 @@
            * override this method for handling error response from getAllSalarySummaryVersion operation
            */
             public void receiveErrorgetAllSalarySummaryVersion(java.lang.Exception e) {
+            }
+                
+           /**
+            * auto generated Axis2 call back method for getCompanyLiquidations method
+            * override this method for handling normal response from getCompanyLiquidations operation
+            */
+           public void receiveResultgetCompanyLiquidations(
+                    servicelayer.service.ServiceWebStub.GetCompanyLiquidationsResponse result
+                        ) {
+           }
+
+          /**
+           * auto generated Axis2 Error handler
+           * override this method for handling error response from getCompanyLiquidations operation
+           */
+            public void receiveErrorgetCompanyLiquidations(java.lang.Exception e) {
+            }
+                
+           /**
+            * auto generated Axis2 call back method for insertProject method
+            * override this method for handling normal response from insertProject operation
+            */
+           public void receiveResultinsertProject(
+                    servicelayer.service.ServiceWebStub.InsertProjectResponse result
+                        ) {
+           }
+
+          /**
+           * auto generated Axis2 Error handler
+           * override this method for handling error response from insertProject operation
+           */
+            public void receiveErrorinsertProject(java.lang.Exception e) {
             }
                 
            /**

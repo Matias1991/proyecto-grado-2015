@@ -24,14 +24,6 @@ public class DAOCategories implements IDAOCategroy {
 
 	private Connection connection;
 
-	public DAOCategories() throws ServerException {
-		try {
-			this.connection = new ManageConnection().GetConnection();
-		} catch (Exception e) {
-			throw new ServerException(e);
-		}
-	}
-
 	public DAOCategories(Connection connection) {
 		this.connection = connection;
 	}

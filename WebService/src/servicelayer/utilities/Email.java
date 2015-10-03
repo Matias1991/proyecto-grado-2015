@@ -14,6 +14,7 @@ import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 
+import servicelayer.core.CoreGlobalConfiguration;
 import servicelayer.entity.businessEntity.User;
 import shared.ConfigurationProperties;
 import shared.exceptions.EmailException;
@@ -68,8 +69,8 @@ public class Email {
 		String fromEmail = null;
 		try {
 
-			final String username = ConfigurationProperties.GetConfigValue("SMTP_GMAIL_USER");
-			final String password = ConfigurationProperties.GetConfigValue("SMTP_GMAIL_PASSWORD");
+			final String username = CoreGlobalConfiguration.GetInstance().getConfigurationValueByCode("SMTP_GMAIL_USER");
+			final String password =  CoreGlobalConfiguration.GetInstance().getConfigurationValueByCode("SMTP_GMAIL_PASSWORD");
 
 			fromEmail = username;
 			

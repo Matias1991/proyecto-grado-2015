@@ -196,18 +196,16 @@ public class CoreUser implements ICoreUser {
 										.toMinutes(duration);
 							}
 
-							if (diffInMinutes > Integer
-									.parseInt(ConfigurationProperties
-											.GetConfigValue("EXPIRATION_TIME_ATTEMPTS_IN_MINUTES"))) {
+							int time_attempts_in_minutes = Integer.parseInt(daoManager.getDAOGlobalConfigurations().getConfigurationValueByCode("EXPIRATION_TIME_ATTEMPTS_IN_MINUTES"));
+							int max_attempts_login = Integer.parseInt(daoManager.getDAOGlobalConfigurations().getConfigurationValueByCode("MAX_ATTEMPTS_LOGIN"));
+							
+							if (diffInMinutes > time_attempts_in_minutes) {
 								daoManager.getDAOUsers().update(user.getId(),
 										UserStatus.ACTIVE, 1, now);
 							} else {
 								int attempts = user.getAttempts() + 1;
 
-								int maxAttemptsLogin = Integer
-										.parseInt(ConfigurationProperties
-												.GetConfigValue("MAX_ATTEMPTS_LOGIN"));
-								if (attempts >= maxAttemptsLogin) {
+								if (attempts >= max_attempts_login) {
 									daoManager.getDAOUsers().update(
 											user.getId(), UserStatus.BLOCKED,
 											attempts, now);

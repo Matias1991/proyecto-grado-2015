@@ -9,6 +9,7 @@ import shared.interfaces.dataLayer.IDAOBills;
 import shared.interfaces.dataLayer.IDAOCategroy;
 import shared.interfaces.dataLayer.IDAOCharges;
 import shared.interfaces.dataLayer.IDAOCompanyLiquidations;
+import shared.interfaces.dataLayer.IDAOGlobalConfigurations;
 import shared.interfaces.dataLayer.IDAOProjectsLiquidations;
 import shared.interfaces.dataLayer.IDAOProjectEmployees;
 import shared.interfaces.dataLayer.IDAOEmployees;
@@ -33,12 +34,15 @@ public class DAOManager implements IDAOManager{
 	private IDAOProjectPartners iDAOPartnerProjects;
 	private IDAOProjectsLiquidations iDAOProjectsLiquidations;
 	private IDAOCompanyLiquidations iDAOCompanyLiquidations;
-		
+	private IDAOGlobalConfigurations iDAOGlobalConfiguration;
+	
 	public DAOManager() throws ServerException
 	{
 		try {
+		
 			connection = new ManageConnection().GetConnection();
 			connection.setAutoCommit(false);
+			
 		} catch (ClassNotFoundException | SQLException | IOException e) {
 			throw new ServerException(e);
 		}
@@ -175,5 +179,12 @@ public class DAOManager implements IDAOManager{
 			return new DAOCompanyLiquidations(connection);
 		}
 		return iDAOCompanyLiquidations;		
+	}
+	
+	public IDAOGlobalConfigurations getDAOGlobalConfigurations(){
+		if(iDAOGlobalConfiguration == null){
+			return new DAOGlobalConfigurations(connection);
+		}
+		return iDAOGlobalConfiguration;		
 	}
 }
