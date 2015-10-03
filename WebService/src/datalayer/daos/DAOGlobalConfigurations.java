@@ -41,7 +41,7 @@ public class DAOGlobalConfigurations implements IDAOGlobalConfigurations{
 			
 			StringBuilder strBuilder = new StringBuilder();
 			strBuilder.append("UPDATE GlobalConfiguration ");
-			strBuilder.append("SET VALUE = ?, DESCRIPTION = ?");
+			strBuilder.append("SET VALUE = ?, DESCRIPTION = ? ");
 			strBuilder.append("WHERE ID = ?");
 			
 			preparedStatement = this.connection.prepareStatement(strBuilder.toString());
@@ -74,7 +74,7 @@ public class DAOGlobalConfigurations implements IDAOGlobalConfigurations{
 			sql = "SELECT * FROM GlobalConfiguration WHERE ID = ?";
 			preparedStatement = this.connection.prepareStatement(sql);
 			preparedStatement.setInt(1, id);
-			rs = preparedStatement.executeQuery(sql);
+			rs = preparedStatement.executeQuery();
 
 			if (rs.next()) {
 				globalConfiguration = BuildGlobalConfiguration(rs);

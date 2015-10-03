@@ -24,6 +24,8 @@ import views.employees.CatalogEmployeesView;
 import views.employees.CreateEmployeeView;
 import views.employees.DeleteEmployeeView;
 import views.employees.UpdateEmployeeView;
+import views.globalConfiguration.CatalogGlobalConfigurationsView;
+import views.globalConfiguration.UpdateGlobalConfigurationView;
 import views.liquidation.CatalogLiquidationsView;
 import views.liquidation.CreateLiquidationView;
 import views.profile.ChangePasswordView;
@@ -211,6 +213,13 @@ public class WebvaadinUI extends UI {
 			case View.REPORT_SUMMARY_COMPANY_CATEGORIES_HUMAN_VIEW:
 				view = new ReportSummaryCompanyCategoriesHumanView();
 				break;
+				
+			case View.GLOBAL_CONFIGURATIONS_CATALOG_VIEW:
+				view = new CatalogGlobalConfigurationsView();
+				break;
+			case View.GLOBAL_CONFIGURATION_UPDATE_VIEW:
+				view = new UpdateGlobalConfigurationView();
+				break;
 		}
 		
 		return view;
@@ -230,6 +239,8 @@ public class WebvaadinUI extends UI {
 		userTypeAdminToViews.add(Constant.View.FORGOTPASSWORD);
 		userTypeAdminToViews.add(Constant.View.RESETPASSWORD);
 		userTypeAdminToViews.add(Constant.View.UNLOCKUSER);
+		userTypeAdminToViews.add(Constant.View.GLOBAL_CONFIGURATIONS_CATALOG_VIEW);
+		userTypeAdminToViews.add(Constant.View.GLOBAL_CONFIGURATION_UPDATE_VIEW);
 		
 		userTypeAdminToViews.add(Constant.View.CHANGEPASSWORD);
 		userTypeAdminToViews.add(Constant.View.UPDATEPROFILEUSER);
@@ -495,6 +506,12 @@ public class WebvaadinUI extends UI {
 				case "Rubros humanos":
 					UI.getCurrent().getNavigator().navigateTo(Constant.View.REPORT_SUMMARY_COMPANY_CATEGORIES_HUMAN_VIEW);
 					break;
+				case "Modificar configuración":
+					UI.getCurrent().getNavigator().navigateTo(Constant.View.GLOBAL_CONFIGURATION_UPDATE_VIEW);
+					break;
+				case "Catálogo configuraciones":
+					UI.getCurrent().getNavigator().navigateTo(Constant.View.GLOBAL_CONFIGURATIONS_CATALOG_VIEW);
+					break;
 				default:
 					new PopupWindow("AVISO",
 							"No hay configuracion para el item: "
@@ -521,6 +538,10 @@ public class WebvaadinUI extends UI {
 			usersAdmin.addItem("Catálogo usuarios", null, mainMenuBarCommand);
 			usersAdmin.addItem("Resetear contraseña", null, mainMenuBarCommand);
 			usersAdmin.addItem("Desbloquear usuarios", null, mainMenuBarCommand);
+			
+			MenuItem configuracion = menuBar.addItem("Configuraciones globales", null, null);
+			configuracion.addItem("Modificar configuración", null, mainMenuBarCommand);
+			configuracion.addItem("Catálogo configuraciones", null, mainMenuBarCommand);
 		}
 		if(RequestContext.getRequestContext().getUserType() == 2)
 		{
