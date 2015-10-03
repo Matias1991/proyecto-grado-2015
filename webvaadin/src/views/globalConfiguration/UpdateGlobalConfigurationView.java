@@ -261,7 +261,7 @@ public class UpdateGlobalConfigurationView extends BaseView {
 		txtValue.setRequired(true);
 		txtValue.setTabIndex(2);
 		txtValue.setNullRepresentation("");
-		mainLayout.addComponent(txtValue, "top:240.0px;right:0px;");
+		mainLayout.addComponent(txtValue, "top:230.0px;right:0px;");
 
 		// btnUpdate
 		btnUpdate = new Button();
