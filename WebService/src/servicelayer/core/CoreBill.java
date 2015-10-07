@@ -172,6 +172,27 @@ public class CoreBill implements ICoreBill {
 		}
 		return bills;
 	}
+	
+	@Override
+	public ArrayList<Bill> getBills(Date date, int projectId)
+			throws ServerException {
+		ArrayList<Bill> bills;
+
+		DAOManager daoManager = new DAOManager();
+		try {
+			bills = daoManager.getDAOBills().getBills(date, projectId);
+
+			for (Bill bill : bills) {
+				buildTotalAmountAndTotalCharged(bill);
+			}
+
+		} catch (ServerException e) {
+			throw e;
+		} finally {
+			daoManager.close();
+		}
+		return bills;
+	}
 
 	@Override
 	public ArrayList<Bill> getNotLiquidatedBills(User userContext) throws ServerException {

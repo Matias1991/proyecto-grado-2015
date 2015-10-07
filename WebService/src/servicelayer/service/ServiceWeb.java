@@ -875,6 +875,27 @@ public class ServiceWeb extends ServiceBase {
 		}
 		return null;
 	}
+	
+	//Utilizado esta operacion para reportes por lo cual no tiene userContextId
+	public VOBill[] getAllBillsByYearAndProject(Date date, int projectId) {
+		try {
+			transactionLock.tryLock(Constants.DEFAULT_TRANSACTION_TIME,
+					TimeUnit.SECONDS);
+
+			return billBuilder.BuildArrayVOObject(VOBill.class,
+					iCoreBill.getBills(date, projectId));
+
+		} catch (ServerException e) {
+			ThrowServerExceptionAndLogError(e, "obtener todas las facturas");
+		} catch (InterruptedException e) {
+			throw new RuntimeException(Constants.TRANSACTION_ERROR);
+		} catch (Exception e) {
+			ThrowGenericExceptionAndLogError(e);
+		} finally {
+			transactionLock.unlock();
+		}
+		return null;
+	}
 
 	public VOBill[] getBillsByFilters(Date from, Date to, boolean isLiquidated,
 			boolean withCharges, int userContextId) {

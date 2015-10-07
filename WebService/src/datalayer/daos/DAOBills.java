@@ -363,6 +363,52 @@ public class DAOBills implements IDAOBills {
 
 		return bills;
 	}
+	
+	@Override
+	public ArrayList<Bill> getBills(Date date, int projectId)
+			throws ServerException {
+		ArrayList<Bill> bills = new ArrayList<Bill>();
+		PreparedStatement preparedStatement = null;
+		ResultSet rs = null;
+		try {
+
+			StringBuilder sql = new StringBuilder();
+			sql.append("SELECT B.*, P.Name as ProjectName, P.Closed as ProjectClosed FROM BILL B ");
+			sql.append("INNER JOIN PROJECT P ON P.Id = B.ProjectId ");
+			sql.append("WHERE B.ProjectId =  ? ");
+			sql.append("AND year(B.AppliedDateTimeUTC) = year(?) ");
+			sql.append("ORDER BY B.AppliedDateTimeUTC DESC");
+
+			preparedStatement = this.connection
+					.prepareStatement(sql.toString());
+			preparedStatement.setInt(1, projectId);
+			preparedStatement.setTimestamp(2, new Timestamp(setFirstDayOfMonth(date).getTime()));
+
+			rs = preparedStatement.executeQuery();
+
+			while (rs.next()) {
+				Bill bill = BuildBill(rs);
+				if (bill.getProject() != null) {
+					bill.getProject().setName(rs.getString("projectName"));
+				}
+				bills.add(bill);
+			}
+
+		} catch (SQLException e) {
+			throw new ServerException(e);
+		} finally {
+			try {
+				if (preparedStatement != null)
+					preparedStatement.close();
+				if (rs != null)
+					rs.close();
+			} catch (SQLException e) {
+				LoggerMSMP.setLog(e.getMessage());
+			}
+		}
+
+		return bills;
+	}
 
 	@Override
 	public ArrayList<Bill> getBills(Date from, Date to, boolean isLiquidated,
@@ -733,5 +779,4 @@ public class DAOBills implements IDAOBills {
 		}
 		return result;
 	}
-
 }

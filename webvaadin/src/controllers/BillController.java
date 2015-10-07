@@ -10,6 +10,7 @@ import org.apache.axis2.AxisFault;
 import servicelayer.service.ServiceWebStub;
 import servicelayer.service.ServiceWebStub.DeleteBills;
 import servicelayer.service.ServiceWebStub.GetAllBillsByFilters;
+import servicelayer.service.ServiceWebStub.GetAllBillsByYearAndProject;
 import servicelayer.service.ServiceWebStub.GetBills;
 import servicelayer.service.ServiceWebStub.GetBillsByFilters;
 import servicelayer.service.ServiceWebStub.GetBillsByFiltersWithCharges;
@@ -134,6 +135,38 @@ public class BillController {
 			getAllBillsByFilters.setUserContextId(RequestContext.getRequestContext().getId());
 			
 			VOBill [] voBills = service.getAllBillsByFilters(getAllBillsByFilters).get_return();
+
+			if(voBills != null)
+			{
+				for(VOBill voBill : voBills)
+				{
+					Bill bill = new Bill(voBill);
+					bills.add(bill);
+				}
+			}
+			
+		} catch (AxisFault e) {
+			String error = e.getMessage().replace("<faultstring>", "");
+			new PopupWindow("ERROR", error.replace("</faultstring>", ""));
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
+		
+		return bills;
+	}
+	
+	public static Collection<Bill> getAllBillsByYearAndProject(Date date, int projectId)
+	{
+		Collection<Bill> bills = new ArrayList<Bill>();
+		
+		try {
+			ServiceWebStub service = new ServiceWebStub();
+			GetAllBillsByYearAndProject getAllBillsByYearAndProject = new GetAllBillsByYearAndProject();
+			
+			getAllBillsByYearAndProject.setDate(date);
+			getAllBillsByYearAndProject.setProjectId(projectId);
+			
+			VOBill [] voBills = service.getAllBillsByYearAndProject(getAllBillsByYearAndProject).get_return();
 
 			if(voBills != null)
 			{

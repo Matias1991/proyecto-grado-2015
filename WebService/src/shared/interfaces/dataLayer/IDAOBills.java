@@ -16,6 +16,9 @@ public interface IDAOBills extends IDAOBase<Bill> {
 
 	ArrayList<Bill> getBills(Date from, Date to, boolean isLiquidated, User userContext)
 			throws ServerException;
+	
+	ArrayList<Bill> getBills(Date date, int projectId)
+			throws ServerException;
 
 	ArrayList<Bill> getBills(Date from, Date to, boolean isLiquidated,
 			boolean withCharges, User userContext) throws ServerException;

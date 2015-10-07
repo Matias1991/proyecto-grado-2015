@@ -34,6 +34,7 @@ import views.project.CatalogProjectView;
 import views.project.CreateProjectView;
 import views.project.DeleteProjectView;
 import views.project.UpdateProjectView;
+import views.reports.ReportProjectDetailsAmountChargedView;
 import views.reports.ReportProjectDetailsView;
 import views.reports.ReportCompanyEarningsView;
 import views.reports.ReportSummaryCompanyCategoriesHumanView;
@@ -213,6 +214,9 @@ public class WebvaadinUI extends UI {
 			case View.REPORT_SUMMARY_COMPANY_CATEGORIES_HUMAN_VIEW:
 				view = new ReportSummaryCompanyCategoriesHumanView();
 				break;
+			case View.REPORT_PROJECT_DETAILS_AMOUNT_CHARGED_VIEW:
+				view = new ReportProjectDetailsAmountChargedView();
+				break;
 				
 			case View.GLOBAL_CONFIGURATIONS_CATALOG_VIEW:
 				view = new CatalogGlobalConfigurationsView();
@@ -279,6 +283,7 @@ public class WebvaadinUI extends UI {
 		userTypePartnerToViews.add(Constant.View.REPORT_SUMMARY_COMPANY_IVA_VIEW);
 		userTypePartnerToViews.add(Constant.View.REPORT_SUMMARY_COMPANY_CATEGORIES_VIEW);
 		userTypePartnerToViews.add(Constant.View.REPORT_SUMMARY_COMPANY_CATEGORIES_HUMAN_VIEW);
+		userTypePartnerToViews.add(Constant.View.REPORT_PROJECT_DETAILS_AMOUNT_CHARGED_VIEW);
 		
 		userTypePartnerToViews.add(Constant.View.CHANGEPASSWORD);
 		userTypePartnerToViews.add(Constant.View.UPDATEPROFILEUSER);
@@ -506,6 +511,9 @@ public class WebvaadinUI extends UI {
 				case "Rubros humanos":
 					UI.getCurrent().getNavigator().navigateTo(Constant.View.REPORT_SUMMARY_COMPANY_CATEGORIES_HUMAN_VIEW);
 					break;
+				case "Importes a cobrar":
+					UI.getCurrent().getNavigator().navigateTo(Constant.View.REPORT_PROJECT_DETAILS_AMOUNT_CHARGED_VIEW);
+					break;
 				case "Modificar configuración":
 					UI.getCurrent().getNavigator().navigateTo(Constant.View.GLOBAL_CONFIGURATION_UPDATE_VIEW);
 					break;
@@ -596,6 +604,7 @@ public class WebvaadinUI extends UI {
 			reports.addItem("Rubros de la empresa", null, mainMenuBarCommand);
 			reports.addItem("Rubros humanos", null, mainMenuBarCommand);
 			reports.addItem("Detalles por proyecto", null, mainMenuBarCommand);
+			reports.addItem("Importes a cobrar", null, mainMenuBarCommand);
 		}
 	}
 

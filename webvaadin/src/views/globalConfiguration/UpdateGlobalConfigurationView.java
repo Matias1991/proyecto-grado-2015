@@ -49,7 +49,7 @@ public class UpdateGlobalConfigurationView extends BaseView {
 
 	public UpdateGlobalConfigurationView() {
 
-		super("Facturas", "Modificar facturas");
+		super("Configuraciones globales", "Modificar configuración");
 
 		buildMainLayout();
 		setCompositionRoot(mainLayout);

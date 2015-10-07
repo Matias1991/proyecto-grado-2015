@@ -765,6 +765,22 @@
             }
                 
            /**
+            * auto generated Axis2 call back method for getAllBillsByYearAndProject method
+            * override this method for handling normal response from getAllBillsByYearAndProject operation
+            */
+           public void receiveResultgetAllBillsByYearAndProject(
+                    servicelayer.service.ServiceWebStub.GetAllBillsByYearAndProjectResponse result
+                        ) {
+           }
+
+          /**
+           * auto generated Axis2 Error handler
+           * override this method for handling error response from getAllBillsByYearAndProject operation
+           */
+            public void receiveErrorgetAllBillsByYearAndProject(java.lang.Exception e) {
+            }
+                
+           /**
             * auto generated Axis2 call back method for getAllVersionsSalarySummary method
             * override this method for handling normal response from getAllVersionsSalarySummary operation
             */
