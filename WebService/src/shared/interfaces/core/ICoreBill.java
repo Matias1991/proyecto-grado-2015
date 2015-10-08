@@ -24,21 +24,22 @@ public interface ICoreBill {
 
 	ArrayList<Bill> getBills() throws ServerException;
 
-	ArrayList<Bill> getBills(Date from, Date to, boolean isLiquidated, User userContext)
-			throws ServerException;
-	
-	ArrayList<Bill> getBills(Date date, int projectId)
-			throws ServerException;
+	ArrayList<Bill> getBills(Date from, Date to, boolean isLiquidated,
+			User userContext) throws ServerException;
+
+	ArrayList<Bill> getBills(Date date, int projectId) throws ServerException;
 
 	ArrayList<Bill> getBills(Date from, Date to, boolean isLiquidated,
 			boolean withCharges, User userContext) throws ServerException;
 
-	ArrayList<Bill> getBills(Date from, Date to, User userContext) throws ServerException;
+	ArrayList<Bill> getBills(Date from, Date to, User userContext)
+			throws ServerException;
 
-	ArrayList<Bill> getBillsWithCharges(Date from, Date to, User userContext) throws ServerException;
-	
+	ArrayList<Bill> getBillsWithCharges(Date from, Date to, User userContext)
+			throws ServerException;
+
 	ArrayList<Bill> getBills(int projectId) throws ServerException;
-	
+
 	boolean liquidateBill(int billId) throws ServerException;
 
 	double getTotalAmount(double amount, IVA_Type ivaType);
@@ -46,4 +47,6 @@ public interface ICoreBill {
 	ArrayList<Bill> getNotLiquidatedBills(User userContext)
 			throws ServerException;
 
+	double getTotalAmountBills(int projectId, Date from, Date to)
+			throws Exception;
 }

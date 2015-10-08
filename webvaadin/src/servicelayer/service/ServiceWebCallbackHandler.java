@@ -973,6 +973,22 @@
             }
                 
            /**
+            * auto generated Axis2 call back method for getTotalAmountBills method
+            * override this method for handling normal response from getTotalAmountBills operation
+            */
+           public void receiveResultgetTotalAmountBills(
+                    servicelayer.service.ServiceWebStub.GetTotalAmountBillsResponse result
+                        ) {
+           }
+
+          /**
+           * auto generated Axis2 Error handler
+           * override this method for handling error response from getTotalAmountBills operation
+           */
+            public void receiveErrorgetTotalAmountBills(java.lang.Exception e) {
+            }
+                
+           /**
             * auto generated Axis2 call back method for getProjectLiquidationsPreview method
             * override this method for handling normal response from getProjectLiquidationsPreview operation
             */

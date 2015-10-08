@@ -75,6 +75,7 @@ public class Constant {
 		public static final String REPORT_SUMMARY_COMPANY_CATEGORIES_VIEW = "ReportSummaryCompanyCategoriesView";
 		public static final String REPORT_SUMMARY_COMPANY_CATEGORIES_HUMAN_VIEW = "ReportSummaryCompanyCategoriesHumanView";
 		public static final String REPORT_PROJECT_DETAILS_AMOUNT_CHARGED_VIEW = "ReportProjectDetailsAmountChargedView";
+		public static final String REPORT_PROJECT_AMOUNT_ESTIMATED_VIEW = "ReportProjectAmountEstimatedView";
 		
 		//Configuraciones globales
 		public static final String GLOBAL_CONFIGURATIONS_CATALOG_VIEW = "CatalogGlobalConfigurationsView";

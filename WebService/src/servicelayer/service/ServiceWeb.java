@@ -897,6 +897,25 @@ public class ServiceWeb extends ServiceBase {
 		return null;
 	}
 
+	public double getTotalAmountBills(int projectId, Date from, Date to) {
+		try {
+			transactionLock.tryLock(Constants.DEFAULT_TRANSACTION_TIME,
+					TimeUnit.SECONDS);
+
+			return iCoreBill.getTotalAmountBills(projectId, from, to);
+
+		} catch (ServerException e) {
+			ThrowServerExceptionAndLogError(e, "obtener todas las facturas");
+		} catch (InterruptedException e) {
+			throw new RuntimeException(Constants.TRANSACTION_ERROR);
+		} catch (Exception e) {
+			ThrowGenericExceptionAndLogError(e);
+		} finally {
+			transactionLock.unlock();
+		}
+		return 0;
+	}
+	
 	public VOBill[] getBillsByFilters(Date from, Date to, boolean isLiquidated,
 			boolean withCharges, int userContextId) {
 		try {

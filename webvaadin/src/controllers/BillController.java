@@ -15,6 +15,7 @@ import servicelayer.service.ServiceWebStub.GetBills;
 import servicelayer.service.ServiceWebStub.GetBillsByFilters;
 import servicelayer.service.ServiceWebStub.GetBillsByFiltersWithCharges;
 import servicelayer.service.ServiceWebStub.GetBillsByProject;
+import servicelayer.service.ServiceWebStub.GetTotalAmountBills;
 import servicelayer.service.ServiceWebStub.InsertBill;
 import servicelayer.service.ServiceWebStub.UpdateBill;
 import servicelayer.service.ServiceWebStub.VOBill;
@@ -307,6 +308,29 @@ public class BillController {
 			deleteBills.setIds(ids);
 			
 			result = service.deleteBills(deleteBills).get_return();
+			
+		} catch (AxisFault e) {
+			String error = e.getMessage().replace("<faultstring>", "");
+			new PopupWindow("ERROR", error.replace("</faultstring>", ""));
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
+		
+		return result;
+	}
+	
+	public static double getTotalAmountBills(int projectId, Date from, Date to)
+	{
+		double result = 0;
+		try {
+			ServiceWebStub service = new ServiceWebStub();
+			GetTotalAmountBills getTotalAmountBills = new GetTotalAmountBills();
+			
+			getTotalAmountBills.setProjectId(projectId);
+			getTotalAmountBills.setFrom(from);
+			getTotalAmountBills.setTo(to);
+			
+			result = service.getTotalAmountBills(getTotalAmountBills).get_return();
 			
 		} catch (AxisFault e) {
 			String error = e.getMessage().replace("<faultstring>", "");

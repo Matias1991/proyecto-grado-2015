@@ -385,4 +385,19 @@ public class CoreBill implements ICoreBill {
 		}
 		return result;
 	}
+
+	@Override
+	public double getTotalAmountBills(int projectId, Date from, Date to)
+			throws Exception {
+		DAOManager daoManager = new DAOManager();
+		try {
+			
+			return daoManager.getDAOBills().getTotalAmountBills(projectId, from, to);
+
+		} catch (ServerException e) {
+			throw e;
+		} finally {
+			daoManager.close();
+		}
+	}
 }

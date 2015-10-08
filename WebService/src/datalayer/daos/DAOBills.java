@@ -717,6 +717,76 @@ public class DAOBills implements IDAOBills {
 		return bills;
 	}
 
+	@Override
+	public boolean liquidateBill(int billId) throws ServerException {
+		boolean result = false;
+		PreparedStatement preparedStatement = null;
+
+		String updateSQL = "UPDATE BILL SET ISLIQUIDATED = 1 WHERE ID = ?";
+
+		try {
+			preparedStatement = this.connection.prepareStatement(updateSQL);
+
+			preparedStatement.setInt(1, billId);
+			preparedStatement.executeUpdate();
+
+			result = true;
+
+		} catch (SQLException e) {
+			throw new ServerException(e);
+		}
+		return result;
+	}
+
+	@Override
+	public double getTotalAmountBills(int projectId, Date from, Date to)
+			throws ServerException {
+		double totalAmount = 0;
+		PreparedStatement preparedStatement = null;
+		ResultSet rs = null;
+		try {
+
+			StringBuilder sql = new StringBuilder();
+			sql.append("SELECT CASE WHEN B.IVA_TYPEID = 3 THEN SUM(B.AmountPeso * 1.22) WHEN B.IVA_TYPEID = 2 THEN SUM(B.AmountPeso * 1.10) WHEN B.IVA_TYPEID = 1 THEN SUM(B.AmountPeso) END as AmountPeso, ");
+			sql.append("CASE WHEN B.IVA_TYPEID = 3 THEN SUM(B.AmountDollar * 1.22) WHEN B.IVA_TYPEID = 2 THEN SUM(B.AmountDollar * 1.10) WHEN B.IVA_TYPEID = 1 THEN SUM(B.AmountDollar) END as AmountDollar, ");
+			sql.append("P.IsCurrencyDollar FROM Bill B ");
+			sql.append("INNER JOIN PROJECT P ON P.Id = B.ProjectId ");
+			sql.append("WHERE B.AppliedDateTimeUTC between ? AND ? ");
+			sql.append("AND B.ProjectId = ? ");
+			sql.append("GROUP BY B.ProjectId");
+
+			preparedStatement = this.connection
+					.prepareStatement(sql.toString());
+
+			preparedStatement.setTimestamp(1, new Timestamp(setFirstDayOfMonth(from).getTime()));
+			preparedStatement.setTimestamp(2, new Timestamp(setFirstDayOfMonth(to).getTime()));
+			preparedStatement.setInt(3, projectId);
+			
+			rs = preparedStatement.executeQuery();
+
+			if (rs.next()) {
+				if(rs.getBoolean("isCurrencyDollar"))
+					totalAmount = rs.getDouble("AmountDollar");
+				else
+					totalAmount = rs.getDouble("AmountPeso");
+			}
+
+		} catch (SQLException e) {
+			throw new ServerException(e);
+		} finally {
+			try {
+				if (preparedStatement != null)
+					preparedStatement.close();
+				if (rs != null)
+					rs.close();
+			} catch (SQLException e) {
+				LoggerMSMP.setLog(e.getMessage());
+			}
+		}
+
+		return totalAmount;
+	}
+	
 	Date setFirstDayOfMonth(Date date) {
 		Calendar cal = Calendar.getInstance();
 		cal.setTime(date);
@@ -757,26 +827,5 @@ public class DAOBills implements IDAOBills {
 		bill.setAmountPeso(amountPeso);
 
 		return bill;
-	}
-
-	@Override
-	public boolean liquidateBill(int billId) throws ServerException {
-		boolean result = false;
-		PreparedStatement preparedStatement = null;
-
-		String updateSQL = "UPDATE BILL SET ISLIQUIDATED = 1 WHERE ID = ?";
-
-		try {
-			preparedStatement = this.connection.prepareStatement(updateSQL);
-
-			preparedStatement.setInt(1, billId);
-			preparedStatement.executeUpdate();
-
-			result = true;
-
-		} catch (SQLException e) {
-			throw new ServerException(e);
-		}
-		return result;
 	}
 }
