@@ -519,7 +519,7 @@ public class WebvaadinUI extends UI {
 				case "Importes a cobrar":
 					UI.getCurrent().getNavigator().navigateTo(Constant.View.REPORT_PROJECT_DETAILS_AMOUNT_CHARGED_VIEW);
 					break;
-				case "Importe estimado":
+				case "Importes estimados":
 					UI.getCurrent().getNavigator().navigateTo(Constant.View.REPORT_PROJECT_AMOUNT_ESTIMATED_VIEW);
 					break;
 				case "Modificar configuración":
@@ -613,7 +613,7 @@ public class WebvaadinUI extends UI {
 			reports.addItem("Rubros humanos", null, mainMenuBarCommand);
 			reports.addItem("Detalles por proyecto", null, mainMenuBarCommand);
 			reports.addItem("Importes a cobrar", null, mainMenuBarCommand);
-			reports.addItem("Importe estimado", null, mainMenuBarCommand);
+			reports.addItem("Importes estimados", null, mainMenuBarCommand);
 		}
 	}
 

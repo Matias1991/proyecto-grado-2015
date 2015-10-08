@@ -77,7 +77,7 @@ public class ReportProjectAmountEstimatedView extends BaseView {
 	 */
 	public ReportProjectAmountEstimatedView() {
 		
-		super("Reportes", "Importe estimado");
+		super("Reportes", "Importes estimados");
 		
 		buildMainLayout();
 		setCompositionRoot(mainLayout);
