@@ -123,13 +123,15 @@ public class UpdateGlobalConfigurationView extends BaseView {
 
 			billsGrid = new Grid(beanContainer);
 			billsGrid.removeColumn("id");
-			billsGrid.setColumnOrder("code", "description", "value");
+			billsGrid.removeColumn("code");
+			billsGrid.setColumnOrder("description", "value");
 
-			billsGrid.getColumn("code").setHeaderCaption("Código");
 			billsGrid.getColumn("description").setHeaderCaption("Descripción");
 			billsGrid.getColumn("value").setHeaderCaption(
 					"Valor");
-			billsGrid.getColumn("description").setWidth(200);
+			billsGrid.getColumn("description").setWidth(500);
+			billsGrid.getColumn("description").setMaximumWidth(100);
+			billsGrid.getColumn("description").setMaximumWidth(500);
 			billsGrid.setWidth(600, Unit.PIXELS);
 			billsGrid.setHeight(515, Unit.PIXELS);
 			billsGrid.setSelectionMode(SelectionMode.SINGLE);
