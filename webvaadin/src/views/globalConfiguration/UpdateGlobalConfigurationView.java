@@ -89,7 +89,7 @@ public class UpdateGlobalConfigurationView extends BaseView {
 
 			@Override
 			public void buttonClick(ClickEvent event) {
-				UI.getCurrent().getNavigator().navigateTo(Constant.View.BILLS);
+				UI.getCurrent().getNavigator().navigateTo(Constant.View.GLOBAL_CONFIGURATIONS_CATALOG_VIEW);
 			}
 		});
 
@@ -102,6 +102,8 @@ public class UpdateGlobalConfigurationView extends BaseView {
 		
 		txtDescription.setValidationVisible(false);
 		txtValue.setValidationVisible(false);
+		
+		btnUpdate.setEnabled(false);
 	}
 
 	void buildEntityData(GlobalConfiguration globalConfiguration) {
@@ -203,6 +205,7 @@ public class UpdateGlobalConfigurationView extends BaseView {
 	}
 
 	void setEnabledEditionInputs(boolean enabled) {
+		btnUpdate.setEnabled(enabled);
 		txtDescription.setEnabled(enabled);
 		txtValue.setEnabled(enabled);
 	}
