@@ -40,9 +40,10 @@
  }
  
  .titleLabelHome{
- font-size: 18pt;
+ font-size: 30pt;
  text-align: center;
- margin-left:12%;
+ margin-left:10%;
+ margin-top:10px;
  }
  
  .subTitleLabelProjects{
@@ -77,6 +78,11 @@
 .update-bill-lblInformation
 {
 	font-size: 11px;
+}
+
+.logo-img
+{
+cursor:pointer;
 } 
   
 }

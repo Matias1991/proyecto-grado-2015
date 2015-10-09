@@ -38,12 +38,15 @@ public class BaseView extends CustomComponent implements View {
 		{
 			if(!WebvaadinUI.USERS_T0_VIEWS.get(RequestContext.getRequestContext().getUserType()).contains(this.getClass().getSimpleName()))
 			{
+				UI.getCurrent().getNavigator().navigateTo(Constant.View.MAIN_MENU);
+				/*
 				if(RequestContext.getRequestContext().getUserType() == 1)
 					UI.getCurrent().getNavigator().navigateTo(Constant.View.CATALOGUSERS);
 				else if(RequestContext.getRequestContext().getUserType() == 2)
 					UI.getCurrent().getNavigator().navigateTo(Constant.View.CATALOGEMPLOYEES);
 				else if(RequestContext.getRequestContext().getUserType() == 3)
 					UI.getCurrent().getNavigator().navigateTo(Constant.View.CATALOGPROJECTS);
+				*/
 			}
 			else
 				((WebvaadinUI)UI.getCurrent()).changeToMainMenu();

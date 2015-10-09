@@ -22,6 +22,7 @@ public class Constant {
 	public class View
 	{
 		public static final String LOGIN = "LoginView";
+		public static final String MAIN_MENU = "MainMenuView";
 		
 		// Usuarios
 		public static final String CREATEUSER = "CreateUserView";

@@ -425,7 +425,7 @@ public class CreateChargeView extends BaseView {
 		txtDescription.setCaption("Descripción");
 		txtDescription.setImmediate(true);
 		txtDescription.setWidth("250px");
-		txtDescription.setHeight("-1px");
+		txtDescription.setHeight("58px");
 		txtDescription.setMaxLength(240);
 		txtDescription.setRows(2);
 		txtDescription.setTabIndex(4);
