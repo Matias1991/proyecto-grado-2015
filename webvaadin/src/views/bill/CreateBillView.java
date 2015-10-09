@@ -128,8 +128,8 @@ public class CreateBillView extends BaseView {
 						|| !popupDateFieldAppliedDate.isValid()
 						|| !cboxProject.isValid()) {
 					txtAmount.setRequiredError("Es requerido");
-					txtDescription.setRequiredError("Es requerido");
 					txtAmount.setConversionError("Debe ser numérico");
+					txtDescription.setRequiredError("Es requerido");
 					popupDateFieldAppliedDate.setRequiredError("Es requerido");
 					txtCode.setRequiredError("Es requerido");
 					cboxProject.setRequiredError("Es requerido");
@@ -184,23 +184,33 @@ public class CreateBillView extends BaseView {
 	}
 
 	void buildTotalAmount() {
-		if (cboxIVA_Types.getValue() != null && txtAmount.getValue() != null) {
-
-			if ((int) cboxIVA_Types.getValue() == 1)// - 0%
-			{
-				txtTotalAmount.setConvertedValue((Double) txtAmount
-						.getConvertedValue());
-			} else if ((int) cboxIVA_Types.getValue() == 2)// - 10%
-			{
-				txtTotalAmount.setConvertedValue((Double) txtAmount
-						.getConvertedValue() * 1.10);
-			} else if ((int) cboxIVA_Types.getValue() == 3)// - 22%
-			{
-				txtTotalAmount.setConvertedValue((Double) txtAmount
-						.getConvertedValue() * 1.22);
-			}
-		} else
-			txtTotalAmount.clear();
+		
+		if(!txtAmount.isValid())
+		{
+			txtAmount.setValidationVisible(true);
+			txtAmount.setRequiredError("Es requerido");
+			txtAmount.setConversionError("Debe ser numérico");
+		}
+		else
+		{
+			if (cboxIVA_Types.getValue() != null && txtAmount.getValue() != null) {
+	
+				if ((int) cboxIVA_Types.getValue() == 1)// - 0%
+				{
+					txtTotalAmount.setConvertedValue((Double) txtAmount
+							.getConvertedValue());
+				} else if ((int) cboxIVA_Types.getValue() == 2)// - 10%
+				{
+					txtTotalAmount.setConvertedValue((Double) txtAmount
+							.getConvertedValue() * 1.10);
+				} else if ((int) cboxIVA_Types.getValue() == 3)// - 22%
+				{
+					txtTotalAmount.setConvertedValue((Double) txtAmount
+							.getConvertedValue() * 1.22);
+				}
+			} else
+				txtTotalAmount.clear();
+		}
 	}
 
 	@Override

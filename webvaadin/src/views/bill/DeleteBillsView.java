@@ -177,6 +177,9 @@ public class DeleteBillsView extends BaseView {
 			billsGrid.removeColumn("amountChargedToShow");
 			billsGrid.removeColumn("amountReceivableToShow");
 			billsGrid.removeColumn("description");
+			billsGrid.removeColumn("totalAmount");
+			billsGrid.removeColumn("amountCharged");
+			billsGrid.removeColumn("amountReceivable");
 			billsGrid.setColumnOrder("code", "totalAmountToShow",
 					"typeExchangeToShow", "ivaTypeToShow",
 					"appliedDateTimeUTCToShow", "projectName");

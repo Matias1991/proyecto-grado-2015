@@ -9,14 +9,12 @@ public class VOCharge implements Serializable{
 	private int id;
 	private String number;
 	private String description;
-	private double amountPeso;
-	private double amountDollar;
-	private boolean isCurrencyDollar;
-	private double typeExchange;
+	private double amount;
 	private Date createdDateTimeUTC;
 	private int billId;
 	private String billCode;
 	private String billDescription;
+	private boolean billIsCurrencyDollar;
 	
 	public int getId() {
 		return id;
@@ -42,36 +40,12 @@ public class VOCharge implements Serializable{
 		this.description = description;
 	}
 
-	public double getAmountPeso() {
-		return amountPeso;
+	public double getAmount() {
+		return amount;
 	}
 
-	public void setAmountPeso(double amountPeso) {
-		this.amountPeso = amountPeso;
-	}
-
-	public double getAmountDollar() {
-		return amountDollar;
-	}
-
-	public void setAmountDollar(double amountDollar) {
-		this.amountDollar = amountDollar;
-	}
-
-	public boolean getIsCurrencyDollar() {
-		return isCurrencyDollar;
-	}
-
-	public void setIsCurrencyDollar(boolean isCurrencyDollar) {
-		this.isCurrencyDollar = isCurrencyDollar;
-	}
-
-	public double getTypeExchange() {
-		return typeExchange;
-	}
-
-	public void setTypeExchange(double typeExchange) {
-		this.typeExchange = typeExchange;
+	public void setAmount(double amount) {
+		this.amount = amount;
 	}
 
 	public Date getCreatedDateTimeUTC() {
@@ -104,5 +78,13 @@ public class VOCharge implements Serializable{
 
 	public void setBillId(int billId) {
 		this.billId = billId;
+	}
+
+	public boolean getBillIsCurrencyDollar() {
+		return billIsCurrencyDollar;
+	}
+
+	public void setBillIsCurrencyDollar(boolean billIsCurrencyDollar) {
+		this.billIsCurrencyDollar = billIsCurrencyDollar;
 	}
 }

@@ -375,6 +375,9 @@ public class UpdateBillView extends BaseView {
 			billsGrid.removeColumn("amountToShow");
 			billsGrid.removeColumn("amountChargedToShow");
 			billsGrid.removeColumn("amountReceivableToShow");
+			billsGrid.removeColumn("totalAmount");
+			billsGrid.removeColumn("amountCharged");
+			billsGrid.removeColumn("amountReceivable");
 			billsGrid.setColumnOrder("code", "description",
 					"totalAmountToShow", "ivaTypeToShow");
 

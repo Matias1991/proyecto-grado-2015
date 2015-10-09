@@ -13,15 +13,13 @@ public class ChargeBuilder extends BaseBuilder<VOCharge, Charge>{
 		voCharge.setId(businessObject.getId());
 		voCharge.setNumber(businessObject.getNumber());
 		voCharge.setDescription(businessObject.getDescription());
-		voCharge.setAmountPeso(businessObject.getAmountPeso());
-		voCharge.setAmountDollar(businessObject.getAmountDollar());
-		voCharge.setIsCurrencyDollar(businessObject.getIsCurrencyDollar());
-		voCharge.setTypeExchange(businessObject.getTypeExchange());
+		voCharge.setAmount(businessObject.getAmount());
 		voCharge.setCreatedDateTimeUTC(businessObject.getCreatedDateTimeUTC());
 		if(businessObject.getBill() != null)
 		{
 			voCharge.setBillCode(businessObject.getBill().getCode());
 			voCharge.setBillDescription(businessObject.getBill().getDescription());
+			voCharge.setBillIsCurrencyDollar(businessObject.getBill().getIsCurrencyDollar());
 		}
 		return voCharge;
 	}
@@ -33,10 +31,7 @@ public class ChargeBuilder extends BaseBuilder<VOCharge, Charge>{
 		charge.setId(voObject.getId());
 		charge.setNumber(voObject.getNumber());
 		charge.setDescription(voObject.getDescription());
-		charge.setAmountPeso(voObject.getAmountPeso());
-		charge.setAmountDollar(voObject.getAmountDollar());
-		charge.setIsCurrencyDollar(voObject.getIsCurrencyDollar());
-		charge.setTypeExchange(voObject.getTypeExchange());
+		charge.setAmount(voObject.getAmount());
 		if(voObject.getBillId() != 0)
 			charge.setBill(new Bill(voObject.getBillId()));
 		

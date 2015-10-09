@@ -32,9 +32,6 @@ public class CoreCharge implements ICoreCharge {
 		try {
 
 			if (daoManager.getDAOCharges().getCharge(charge.getNumber()) == null) {
-				if (charge.getIsCurrencyDollar()) {
-					charge.setAmountPeso(charge.getAmountDollar() * charge.getTypeExchange());
-				}
 				
 				chargeAmountExceedsBillAmountAndThrowException(charge, false);
 				
@@ -66,11 +63,6 @@ public class CoreCharge implements ICoreCharge {
 		
 		DAOManager daoManager = new DAOManager();
 		try {
-			
-			if (charge.getIsCurrencyDollar()) {
-				charge.setAmountPeso(charge.getAmountDollar()
-						* charge.getTypeExchange());
-			}
 
 			chargeAmountExceedsBillAmountAndThrowException(charge, true);
 			
@@ -177,23 +169,20 @@ public class CoreCharge implements ICoreCharge {
 		if(update)
 		{
 			Charge currentCharge = getCharge(charge.getId());
-			if(bill.getIsCurrencyDollar())
-				amoutCharged = amoutCharged - currentCharge.getAmountDollar();
-			else
-				amoutCharged = amoutCharged - currentCharge.getAmountPeso();
+			amoutCharged = amoutCharged - currentCharge.getAmount();
 		}
 		
 		double amountCurrentCharge = 0;
 		
 		if(bill.getIsCurrencyDollar())
 		{
-			amountCurrentCharge += charge.getAmountDollar();
+			amountCurrentCharge += charge.getAmount();
 			if((amoutCharged + amountCurrentCharge) > bill.getTotalAmountDollar())
 				throw new ClientException("Este cobro no se puede emitir, supera el monto de la factura");
 		}
 		else 
 		{
-			amountCurrentCharge += charge.getAmountPeso();
+			amountCurrentCharge += charge.getAmount();
 			if((amoutCharged + amountCurrentCharge) > bill.getTotalAmountPeso())
 				throw new ClientException("Este cobro no se puede emitir, supera el monto de la factura");
 		}

@@ -332,13 +332,9 @@ public class CoreBill implements ICoreBill {
 			// obtener los cobros de la factura
 			ArrayList<Charge> charges = bill.getCharges();
 
-			// obtiene todos los cobros para esa factura y suma en monto de los
-			// cobros en dolares
+			// obtiene todos los cobros para esa factura y suma el monto de los cobros
 			for (Charge charge : charges) {
-				if (charge.getIsCurrencyDollar())
-					amountCharged += charge.getAmountDollar();
-				else
-					amountCharged += charge.getAmountPeso();
+				amountCharged += charge.getAmount();
 			}
 
 		} catch (ServerException e) {
