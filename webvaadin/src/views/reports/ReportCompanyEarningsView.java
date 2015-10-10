@@ -196,7 +196,7 @@ public class ReportCompanyEarningsView extends BaseView {
 					.setPad(1.05f)
 					.setTickOptions(
 						new AxisTickRenderer()
-							.setFormatString(currency + "%d")));
+							.setFormatString(currency + " %d")));
 
 		Options options = new Options()
 			.setSeriesDefaults(seriesDefaults)
@@ -247,7 +247,7 @@ public class ReportCompanyEarningsView extends BaseView {
 				
 		if(projectLiquidations.size() > 0)
 		{
-			chartDollar = buildChart(projectLiquidations, "U$");
+			chartDollar = buildChart(projectLiquidations, "U$S");
 			
 			chartDollar.setWidth(100, Unit.PERCENTAGE);
 			chartDollar.setHeight(350, Unit.PIXELS);

@@ -313,7 +313,7 @@ public class ReportProjectDetailsView extends BaseView {
 					.setPad(1.05f)
 					.setTickOptions(
 						new AxisTickRenderer()
-							.setFormatString(currency + "%d")));
+							.setFormatString(currency + " %d")));
 
 		Options options = new Options()
 			.setSeriesDefaults(seriesDefaults)

@@ -132,7 +132,7 @@ public class ModifyUserView extends BaseView {
 	}
 	
 	public void buildGrid(){
-		Collection<User> users = UserController.GetUsers();
+		Collection<User> users = UserController.getUsers();
 		
 		if(users != null && users.size() > 0){
 			container = new BeanItemContainer<User>(User.class,users);
