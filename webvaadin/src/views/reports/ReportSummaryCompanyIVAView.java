@@ -12,10 +12,13 @@ import org.dussan.vaadin.dcharts.data.DataSeries;
 import org.dussan.vaadin.dcharts.data.Ticks;
 import org.dussan.vaadin.dcharts.metadata.LegendPlacements;
 import org.dussan.vaadin.dcharts.metadata.SeriesToggles;
+import org.dussan.vaadin.dcharts.metadata.TooltipAxes;
 import org.dussan.vaadin.dcharts.metadata.XYaxes;
+import org.dussan.vaadin.dcharts.metadata.locations.TooltipLocations;
 import org.dussan.vaadin.dcharts.metadata.renderers.AxisRenderers;
 import org.dussan.vaadin.dcharts.metadata.renderers.SeriesRenderers;
 import org.dussan.vaadin.dcharts.options.Axes;
+import org.dussan.vaadin.dcharts.options.Highlighter;
 import org.dussan.vaadin.dcharts.options.Legend;
 import org.dussan.vaadin.dcharts.options.Options;
 import org.dussan.vaadin.dcharts.options.Series;
@@ -148,6 +151,14 @@ public class ReportSummaryCompanyIVAView extends BaseView {
 					.setSeriesToggleReplot(true))
 			.setPlacement(LegendPlacements.OUTSIDE_GRID);
 
+		Highlighter highlighter = new Highlighter()
+			.setShow(true)
+			.setShowTooltip(true)
+			.setTooltipAlwaysVisible(true)
+			.setKeepTooltipInsideChart(true)
+			.setTooltipLocation(TooltipLocations.NORTH)
+			.setTooltipAxes(TooltipAxes.XY_BAR);
+		
 		Axes axes = new Axes()
 			.addAxis(
 				new XYaxis()
@@ -160,12 +171,13 @@ public class ReportSummaryCompanyIVAView extends BaseView {
 					.setPad(1.05f)
 					.setTickOptions(
 						new AxisTickRenderer()
-							.setFormatString("$%d")));
+							.setFormatString("$ %d")));
 
 		Options options = new Options()
 			.setSeriesDefaults(seriesDefaults)
 			.setSeries(series)
 			.setLegend(legend)
+			.setHighlighter(highlighter)
 			.setAxes(axes);
 
 		return new DCharts()

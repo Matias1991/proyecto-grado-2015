@@ -174,7 +174,7 @@ public class ReportSummaryCompanyCategoriesView extends BaseView {
 			new XYaxis(XYaxes.Y)
 				.setTickOptions(
 					new AxisTickRenderer()
-						.setFormatString((isCurrencyDollar ? "U$S" : "$") + "%d")));
+						.setFormatString((isCurrencyDollar ? "U$S" : "$") + " %d")));
 
 		Options options = new Options()
 			.setAxesDefaults(axesDefaults)

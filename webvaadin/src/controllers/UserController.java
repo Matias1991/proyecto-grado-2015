@@ -23,7 +23,7 @@ import entities.User;
 
 public class UserController {
 
-	public static Collection<User> GetUsers()
+	public static Collection<User> getUsers()
 	{
 		Collection<User> users = new ArrayList<User>();
 		
@@ -49,7 +49,7 @@ public class UserController {
 		return users;
 	}
 
-	public static boolean DeleteUser(int id)
+	public static boolean deleteUser(int id)
 	{
 		boolean result = false;
 		try {

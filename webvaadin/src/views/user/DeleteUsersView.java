@@ -66,7 +66,7 @@ public class DeleteUsersView extends BaseView {
 									BeanItem<User> item = container
 											.getItem(grid.getSelectedRow());
 
-									if (UserController.DeleteUser(item
+									if (UserController.deleteUser(item
 											.getBean().getId())) {
 										grid.getContainerDataSource()
 												.removeItem(
@@ -84,7 +84,7 @@ public class DeleteUsersView extends BaseView {
 	}
 
 	public void buildGrid() {
-		Collection<User> users = UserController.GetUsers();
+		Collection<User> users = UserController.getUsers();
 
 		container = new BeanItemContainer<User>(User.class, users);
 

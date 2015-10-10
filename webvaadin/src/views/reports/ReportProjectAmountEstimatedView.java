@@ -94,10 +94,10 @@ public class ReportProjectAmountEstimatedView extends BaseView {
 					
 					Project project = getProjectById(id);
 					if(project.getIsCurrencyDollar())
-						buildChartDollar(id, project.getAmount());
+						buildChart(id, project.getAmount(), "U$S");
 					else
 						
-						buildChartPeso(id, project.getAmount());
+						buildChart(id, project.getAmount(), "$");
 				}
 			}
 		});
@@ -111,10 +111,10 @@ public class ReportProjectAmountEstimatedView extends BaseView {
 					
 					Project project = getProjectById(id);
 					if(project.getIsCurrencyDollar())
-						buildChartDollar(id, project.getAmount());
+						buildChart(id, project.getAmount(), "U$S");
 					else
 						
-						buildChartPeso(id, project.getAmount());
+						buildChart(id, project.getAmount(), "$");
 				}
 			}
 		});
@@ -128,10 +128,10 @@ public class ReportProjectAmountEstimatedView extends BaseView {
 					
 					Project project = getProjectById(id);
 					if(project.getIsCurrencyDollar())
-						buildChartDollar(id, project.getAmount());
+						buildChart(id, project.getAmount(), "U$S");
 					else
 						
-						buildChartPeso(id, project.getAmount());
+						buildChart(id, project.getAmount(), "$");
 				}
 			}
 		});
@@ -204,7 +204,7 @@ public class ReportProjectAmountEstimatedView extends BaseView {
 					.setPad(1.05f)
 					.setTickOptions(
 						new AxisTickRenderer()
-							.setFormatString(currency + "%d")));
+							.setFormatString(currency + " %d")));
 
 		Options options = new Options()
 			.setSeriesDefaults(seriesDefaults)
@@ -219,7 +219,7 @@ public class ReportProjectAmountEstimatedView extends BaseView {
 			.show();
 	}
 	
-	public void buildChartPeso(int projectId, double estimatedAmount){
+	public void buildChart(int projectId, double estimatedAmount, String currency){
 
 		if (chart != null) {
 			mainLayout.removeComponent(chart);
@@ -227,30 +227,22 @@ public class ReportProjectAmountEstimatedView extends BaseView {
 		
 		//Chart pesos
 		double totalAmountBills =  BillController.getTotalAmountBills(projectId, popupDateFieldFrom.getValue(), popupDateFieldTo.getValue());
+		
+		if(totalAmountBills != 0)
+		{
+			lblMessage.setValue("");
 			
-		chart = buildChart(totalAmountBills, "$", estimatedAmount);
-		
-		chart.setWidth(100, Unit.PERCENTAGE);
-		chart.setHeight(350, Unit.PIXELS);
-		
-		mainLayout.addComponent(chart, "top:19%;left:0px;");
-	}
-	
-	void buildChartDollar(int projectId, double estimatedAmount){
-		
-		if (chart != null) {
-			mainLayout.removeComponent(chart);
+			chart = buildChart(totalAmountBills, "$", estimatedAmount);
+			
+			chart.setWidth(100, Unit.PERCENTAGE);
+			chart.setHeight(350, Unit.PIXELS);
+			
+			mainLayout.addComponent(chart, "top:19%;left:0px;");
 		}
-		
-		//Chart dolares
-		double totalAmountBills =  BillController.getTotalAmountBills(projectId, popupDateFieldFrom.getValue(), popupDateFieldTo.getValue());
-
-		chart = buildChart(totalAmountBills, "U$S" , estimatedAmount);
-		
-		chart.setWidth(100, Unit.PERCENTAGE);
-		chart.setHeight(350, Unit.PIXELS);
-		
-		mainLayout.addComponent(chart, "top:19%;left:0px;");
+		else
+		{
+			lblMessage.setValue("No hay datos en el periodo seleccionado para ese proyecto");
+		}
 	}
 
 	double getTotalAmountBills(Bill[] bills)
