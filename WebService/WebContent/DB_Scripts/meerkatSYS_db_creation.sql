@@ -112,7 +112,7 @@ CREATE TABLE IF NOT EXISTS Project
 	ManagerId		INTEGER NULL,
 	Amount 			DECIMAL(10,2) NULL,
 	IsCurrencyDollar	BIT NULL,
-	SellerId		INTEGER NOT NULL,
+	SellerId		INTEGER NULL,
 	CreatedDateTimeUTC  TIMESTAMP NULL,
 	UpdatedDateTimeUTC  TIMESTAMP NULL,
 	Closed		BIT NULL,
