@@ -76,6 +76,8 @@ public class DeleteProjectView extends BaseView {
 																.getSelectedRow());
 									}
 									btnDelete.setEnabled(false);
+								}else{
+									btnDelete.setEnabled(true);
 								}
 							}
 						});
