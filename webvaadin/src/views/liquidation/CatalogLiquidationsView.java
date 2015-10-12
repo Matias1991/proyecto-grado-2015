@@ -239,7 +239,7 @@ public class CatalogLiquidationsView extends BaseView {
 
 		// dateMonth
 		dateMonth = new PopupDateField();
-		dateMonth.setCaption("Correspondiente al mes");
+		dateMonth.setCaption("Liquidación del mes");
 		dateMonth.setImmediate(true);
 		dateMonth.setWidth("250px");
 		dateMonth.setHeight("-1px");
@@ -247,14 +247,14 @@ public class CatalogLiquidationsView extends BaseView {
 		dateMonth.setDateFormat("MM-yyyy");
 		dateMonth.setResolution(Resolution.MONTH);
 		dateMonth.setValue(new Date());
-		dateMonth.setInputPrompt("Seleccione mes a liquidar");
+		dateMonth.setInputPrompt("Seleccione mes");
 		dateMonth.setDateOutOfRangeMessage("Fecha no válida");
 		dateMonth.setParseErrorMessage("Formato de fecha no válida");
 		mainLayout.addComponent(dateMonth, "top:116.0px;left:0.0px;");
 
 		// tabDetails
 		tabDetails = new TabSheet();
-		tabDetails.setCaption("Vista previa de proyectos a liquidar");
+		tabDetails.setCaption("Detalle del proyecto liquidado");
 		tabDetails.setImmediate(true);
 		tabDetails.setWidth("800px");
 		tabDetails.setHeight("340px");

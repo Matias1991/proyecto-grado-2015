@@ -90,11 +90,12 @@ public class CoreCategory implements ICoreCategory {
 			Category category = daoManager.getDAOCategories().getObject(id);
 			if (category == null) {
 				throw new ClientException("No existe rubro con ese id");
-			} else {
+			} else if(CoreCompanyLiquidation.GetInstance().existLiquidation(category.getAppliedDateTimeUTC())){
+					throw new ClientException("El rubro ya fue liquidado");
+			}else{
 				daoManager.getDAOCategories().delete(id);
 				daoManager.commit();
-			}
-
+			}			
 		} catch (ServerException e) {
 			daoManager.rollback();
 			throw e;
@@ -158,7 +159,12 @@ public class CoreCategory implements ICoreCategory {
 					if (categoriesByDescription.size() > 0)
 						throw new ClientException(
 								"Ese rubro ya esta asosicado al proyecto seleccionado");
-				}
+				}				
+				
+			}
+			
+			if(CoreCompanyLiquidation.GetInstance().existLiquidation(categoryUpdate.getAppliedDateTimeUTC())){
+				throw new ClientException("El mes ya fue liquidado");
 			}
 
 			if (changeCategory(categoryOld, categoryUpdate)) {
@@ -251,14 +257,26 @@ public class CoreCategory implements ICoreCategory {
 			throws ServerException, ClientException {
 
 		DAOManager daoManager = new DAOManager();
+		ArrayList<Category> categories = null;
 		try {
-			return daoManager.getDAOCategories().getCategoriesByProject(
+			categories = daoManager.getDAOCategories().getCategoriesByProject(
 					projectId);
+			
+			if(categories != null && categories.size() > 0){
+				for(Category category : categories){
+					if(category.getIsCurrencyDollar())
+						category.setTotalAmountDollar(getTotalAmount(category.getAmountDollar(), category.getIvaType()));
+					else
+						category.setTotalAmountPeso(getTotalAmount(category.getAmountPeso(), category.getIvaType()));
+				}
+			}
+			
 		} catch (ServerException e) {
 			throw e;
 		} finally {
 			daoManager.close();
 		}
+		return categories;
 	}
 
 	@Override

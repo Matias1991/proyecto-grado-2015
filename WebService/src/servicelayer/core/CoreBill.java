@@ -300,6 +300,15 @@ public class CoreBill implements ICoreBill {
 		DAOManager daoManager = new DAOManager();
 		try {
 			bills = daoManager.getDAOBills().getBills(projectId);
+			if(bills != null && bills.size() > 0){
+				for(Bill bill : bills){
+					if(bill.getIsCurrencyDollar())
+						bill.setTotalAmountDollar(getTotalAmount(bill.getAmountDollar(), bill.getIvaType()));
+					else
+						bill.setTotalAmountPeso(getTotalAmount(bill.getAmountPeso(), bill.getIvaType()));
+				}
+					
+			}
 
 		} catch (ServerException e) {
 			throw e;

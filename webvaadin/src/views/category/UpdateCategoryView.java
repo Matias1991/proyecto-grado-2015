@@ -177,10 +177,7 @@ public class UpdateCategoryView extends BaseView {
 				}
 
 				if ((categoryType.getValue().equals("Proyecto") && !cboProject
-						.isValid()) // || (categoryType.getValue() == "Proyecto"
-									// && cboProject.getValue() == null)
-						|| (optCurrency.getValue() == "Dolares" && !txtTypeExchange
-								.isValid())) {
+						.isValid()) || (optCurrency.getValue() == "Dolares" && !txtTypeExchange.isValid())) {
 					cboProject.setRequiredError("Es requerido");
 					txtTypeExchange.setRequiredError("Es requerido");
 					txtTypeExchange.setConversionError("Debe ser numérico");

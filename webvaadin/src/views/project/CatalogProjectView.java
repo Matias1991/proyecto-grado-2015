@@ -396,17 +396,17 @@ public class CatalogProjectView extends BaseView {
 			categoriesGrid.removeColumn("typeExchange");
 			categoriesGrid.removeColumn("ivaTypeId");
 			categoriesGrid.removeColumn("ivaTypeToShow");
-			categoriesGrid.removeColumn("totalAmountToShow");
+			categoriesGrid.removeColumn("amountToShow");
 			categoriesGrid.removeColumn("categoryTypeToShow");
 			categoriesGrid.removeColumn("isDollarToShow");
 
-			categoriesGrid.setColumnOrder("description", "amountToShow",
+			categoriesGrid.setColumnOrder("description", "totalAmountToShow",
 					"typeExchangeToShow", "isRRHHToShow");
 
 			categoriesGrid.getColumn("description").setWidth(192.05);
 			categoriesGrid.getColumn("description").setHeaderCaption(
 					"Descripcion");
-			categoriesGrid.getColumn("amountToShow").setHeaderCaption("Monto");
+			categoriesGrid.getColumn("totalAmountToShow").setHeaderCaption("Importe IVA incl.");
 			categoriesGrid.getColumn("typeExchangeToShow").setHeaderCaption(
 					"Tipo de cambio");
 			categoriesGrid.getColumn("isRRHHToShow").setHeaderCaption(
@@ -462,26 +462,25 @@ public class CatalogProjectView extends BaseView {
 			billGrid.removeColumn("amountDollar");
 			billGrid.removeColumn("amountReceivableToShow");
 			billGrid.removeColumn("appliedDateTimeUTC");
-			//billGrid.removeColumn("appliedDateTimeUTCToShow");
 			billGrid.removeColumn("isCurrencyDollar");
 			billGrid.removeColumn("ivaType");
 			billGrid.removeColumn("id");
 			billGrid.removeColumn("ivaTypeToShow");
 			billGrid.removeColumn("projectId");
 			billGrid.removeColumn("projectName");
-			billGrid.removeColumn("totalAmountToShow");
+			billGrid.removeColumn("amountToShow");
 			billGrid.removeColumn("typeExchange");
 			billGrid.removeColumn("amountCharged");
 			billGrid.removeColumn("amountReceivable");
 			billGrid.removeColumn("totalAmount");
 
-			billGrid.setColumnOrder("code", "description", "amountToShow",
+			billGrid.setColumnOrder("code", "description", "totalAmountToShow",
 					"typeExchangeToShow");
 
 			billGrid.getColumn("description").setWidth(192.05);
 			billGrid.getColumn("code").setHeaderCaption("Código");
 			billGrid.getColumn("description").setHeaderCaption("Descripción");
-			billGrid.getColumn("amountToShow").setHeaderCaption("Importe");
+			billGrid.getColumn("totalAmountToShow").setHeaderCaption("Importe IVA incl.");
 			billGrid.getColumn("typeExchangeToShow").setHeaderCaption(
 					"Tipo de cambio");
 			billGrid.getColumn("appliedDateTimeUTCToShow").setHeaderCaption("Mes correspondiente");
