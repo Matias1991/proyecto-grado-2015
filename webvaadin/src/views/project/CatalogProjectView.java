@@ -305,9 +305,11 @@ public class CatalogProjectView extends BaseView {
 			txtAmount.setValue("");
 		}
 
-		if (projectToShow.getSeller() != null) {
+		if (projectToShow.getSeller().getName() != null) {
 			txtSeller.setValue(projectToShow.getSeller().getName() + " "
 					+ projectToShow.getSeller().getLastName());
+		}else{
+			txtSeller.setValue("");
 		}
 
 		if (projectToShow.getManager() != null
@@ -386,7 +388,6 @@ public class CatalogProjectView extends BaseView {
 			categoriesGrid.removeColumn("categoryTypeId");
 			categoriesGrid.removeColumn("categoryType");
 			categoriesGrid.removeColumn("projectId");
-			;
 			categoriesGrid.removeColumn("isRRHH");
 			categoriesGrid.removeColumn("appliedDateTimeUTC");
 			categoriesGrid.removeColumn("createDateTimeUTCToShow");
@@ -461,7 +462,7 @@ public class CatalogProjectView extends BaseView {
 			billGrid.removeColumn("amountDollar");
 			billGrid.removeColumn("amountReceivableToShow");
 			billGrid.removeColumn("appliedDateTimeUTC");
-			billGrid.removeColumn("appliedDateTimeUTCToShow");
+			//billGrid.removeColumn("appliedDateTimeUTCToShow");
 			billGrid.removeColumn("isCurrencyDollar");
 			billGrid.removeColumn("ivaType");
 			billGrid.removeColumn("id");
@@ -470,6 +471,9 @@ public class CatalogProjectView extends BaseView {
 			billGrid.removeColumn("projectName");
 			billGrid.removeColumn("totalAmountToShow");
 			billGrid.removeColumn("typeExchange");
+			billGrid.removeColumn("amountCharged");
+			billGrid.removeColumn("amountReceivable");
+			billGrid.removeColumn("totalAmount");
 
 			billGrid.setColumnOrder("code", "description", "amountToShow",
 					"typeExchangeToShow");
@@ -480,6 +484,7 @@ public class CatalogProjectView extends BaseView {
 			billGrid.getColumn("amountToShow").setHeaderCaption("Importe");
 			billGrid.getColumn("typeExchangeToShow").setHeaderCaption(
 					"Tipo de cambio");
+			billGrid.getColumn("appliedDateTimeUTCToShow").setHeaderCaption("Mes correspondiente");
 			billGrid.setWidth(100, Unit.PERCENTAGE);
 			billGrid.setHeight(300, Unit.PIXELS);
 			billGrid.setSelectionMode(SelectionMode.SINGLE);
