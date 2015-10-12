@@ -55,9 +55,11 @@ public class Project{
 			this.manager.setLastName(voProject.getManagerLastName());
 		}
 		this.seller = new Employee();
-		this.seller.setId(voProject.getSellerId());
-		this.seller.setName(voProject.getSellerName());
-		this.seller.setLastName(voProject.getSellerLastname());
+		if(voProject.getSellerId() != 0){
+			this.seller.setId(voProject.getSellerId());
+			this.seller.setName(voProject.getSellerName());
+			this.seller.setLastName(voProject.getSellerLastname());
+		}
 		
 		employedHours = new ArrayList<ProjectEmployed>();
 		if(voProject.getVoEmployedProjects() != null){

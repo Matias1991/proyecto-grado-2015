@@ -1012,11 +1012,14 @@ public class CreateLiquidationView extends BaseView {
 					txtReserve.setConvertedValue(projectLiquidation
 							.getReserve());
 					txtSale.setConvertedValue(projectLiquidation.getSale());
-					txtSeller.setValue(projectLiquidation.getProject()
-							.getSeller().getName()
-							+ " "
-							+ projectLiquidation.getProject().getSeller()
-									.getLastName());
+					if (projectLiquidation.getProject().getSeller().getName() != null)
+						txtSeller.setValue(projectLiquidation.getProject()
+								.getSeller().getName()
+								+ " "
+								+ projectLiquidation.getProject().getSeller()
+										.getLastName());
+					else
+						txtSeller.setValue("");
 					txtTotalBills.setConvertedValue(projectLiquidation
 							.getTotalBills());
 					txtTotalCostCategoriesHuman
