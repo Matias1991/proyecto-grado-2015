@@ -681,13 +681,13 @@ public class ServiceWeb extends ServiceBase {
 		return null;
 	}
 	
-	public VOCategory[] getCategoriesByDescriptionAndCurrency(String description, boolean isCurrencyDollar, Date date) {
+	public VOCategory[] getCategoriesByNameAndCurrency(String name, boolean isCurrencyDollar, Date date) {
 		try {
 			transactionLock.tryLock(Constants.DEFAULT_TRANSACTION_TIME,
 					TimeUnit.SECONDS);
 			
 			return categoryBuilder.BuildArrayVOObject(VOCategory.class,
-					iCoreCategory.getCategories(description, isCurrencyDollar, date));
+					iCoreCategory.getCategories(name, isCurrencyDollar, date));
 			
 		} catch (ServerException e) {
 			ThrowServerExceptionAndLogError(e, "obtener todos los rubros");

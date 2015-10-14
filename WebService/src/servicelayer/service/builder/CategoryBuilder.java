@@ -12,6 +12,7 @@ public class CategoryBuilder extends BaseBuilder<VOCategory, Category>{
 		
 		VOCategory voCategory = new VOCategory();
 		voCategory.setId(businessObject.getId());
+		voCategory.setName(businessObject.getName());
 		voCategory.setDescription(businessObject.getDescription());
 		voCategory.setAmountPeso(businessObject.getAmountPeso());
 		voCategory.setAmountDollar(businessObject.getAmountDollar());
@@ -40,6 +41,7 @@ public class CategoryBuilder extends BaseBuilder<VOCategory, Category>{
 		
 		Category category = new Category();
 		category.setId(voObject.getId());
+		category.setName(voObject.getName());
 		category.setVersion(voObject.getVersion());
 		category.setDescription(voObject.getDescription());
 		category.setAmountPeso(voObject.getAmountPeso());

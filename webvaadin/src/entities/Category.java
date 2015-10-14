@@ -9,6 +9,7 @@ import servicelayer.service.ServiceWebStub.VOCategory;
 public class Category {
 
 	private int id;
+	private String name;
 	private String description;
 	private double amountPeso;
 	private double amountDollar;
@@ -32,6 +33,7 @@ public class Category {
 	public Category(VOCategory voCategory)
 	{
 		this.id = voCategory.getId();
+		this.name = voCategory.getName();
 		this.setDescription(voCategory.getDescription());
 		this.setAmountPeso(voCategory.getAmountPeso());
 		this.setAmountDollar(voCategory.getAmountDollar());
@@ -71,6 +73,14 @@ public class Category {
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+	
+	public String getName() {
+		return name;
+	}
+	
+	public void setName(String name){
+		this.name = name;
 	}
 
 	public double getAmountPeso() {

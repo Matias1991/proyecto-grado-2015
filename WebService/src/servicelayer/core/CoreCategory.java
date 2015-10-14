@@ -37,7 +37,7 @@ public class CoreCategory implements ICoreCategory {
 			if (category.getCategoryType() == CategoryType.COMPANY) {
 				if (daoManager
 						.getDAOCategories()
-						.getCategories(category.getDescription(),
+						.getCategories(category.getName(),
 								CategoryType.COMPANY).size() > 0)
 					throw new ClientException(
 							"Ya existe un rubro con esta descripcion");
@@ -45,23 +45,23 @@ public class CoreCategory implements ICoreCategory {
 
 			if (category.getCategoryType() == CategoryType.PROJECT
 					&& !category.getIsRRHH()) {
-				ArrayList<Category> categoriesByDescription = daoManager
+				ArrayList<Category> categoriesByName = daoManager
 						.getDAOCategories().getCategories(
-								category.getDescription(),
+								category.getName(),
 								category.getProject().getId());
-				if (categoriesByDescription.size() > 0)
+				if (categoriesByName.size() > 0)
 					throw new ClientException(
 							"Ya existe un rubro con esta descripcion");
 			}
 
 			if (category.getCategoryType() == CategoryType.PROJECT
 					&& category.getIsRRHH()) {
-				ArrayList<Category> categoriesByDescription = daoManager
+				ArrayList<Category> categoriesByName = daoManager
 						.getDAOCategories().getCategories(
-								category.getDescription(),
+								category.getName(),
 								category.getProject().getId());
 
-				if (categoriesByDescription.size() > 0)
+				if (categoriesByName.size() > 0)
 					throw new ClientException(
 							"Ese rubro ya esta asosicado al proyecto seleccionado");
 			}
@@ -125,7 +125,7 @@ public class CoreCategory implements ICoreCategory {
 					if (daoManager
 							.getDAOCategories()
 							.getCategoriesLastVersion(
-									categoryOld.getDescription(),
+									categoryOld.getName(),
 									CategoryType.COMPANY).size() > 0
 							&& !categoryUpdate.getCategoryType().equals(
 									categoryOld.getCategoryType()))
@@ -138,11 +138,11 @@ public class CoreCategory implements ICoreCategory {
 						&& !categoryUpdate.getIsRRHH()
 						&& categoryOld.getProject().getId() != categoryUpdate
 								.getProject().getId()) {
-					ArrayList<Category> categoriesByDescription = daoManager
+					ArrayList<Category> categoriesByName = daoManager
 							.getDAOCategories().getCategoriesLastVersion(
-									categoryOld.getDescription(),
+									categoryOld.getName(),
 									categoryUpdate.getProject().getId());
-					if (categoriesByDescription.size() > 0)
+					if (categoriesByName.size() > 0)
 						throw new ClientException(
 								"Ya existe un rubro con esta descripcion");
 				}
@@ -152,11 +152,11 @@ public class CoreCategory implements ICoreCategory {
 						&& categoryUpdate.getIsRRHH()
 						&& categoryOld.getProject().getId() != categoryUpdate
 								.getProject().getId()) {
-					ArrayList<Category> categoriesByDescription = daoManager
+					ArrayList<Category> categoriesByName = daoManager
 							.getDAOCategories().getCategoriesLastVersion(
-									categoryOld.getDescription(),
+									categoryOld.getName(),
 									categoryUpdate.getProject().getId());
-					if (categoriesByDescription.size() > 0)
+					if (categoriesByName.size() > 0)
 						throw new ClientException(
 								"Ese rubro ya esta asosicado al proyecto seleccionado");
 				}				
@@ -168,7 +168,7 @@ public class CoreCategory implements ICoreCategory {
 			}
 
 			if (changeCategory(categoryOld, categoryUpdate)) {
-				categoryUpdate.setDescription(categoryOld.getDescription());
+				categoryUpdate.setName(categoryOld.getName());				
 				categoryUpdate.setId(categoryOld.getId());
 				categoryUpdate.setVersion(categoryOld.getVersion());
 				if (categoryUpdate.getIsCurrencyDollar()) {
@@ -332,12 +332,12 @@ public class CoreCategory implements ICoreCategory {
 	}
 
 	@Override
-	public ArrayList<Category> getCategories(String description,
+	public ArrayList<Category> getCategories(String name,
 			boolean isCurrencyDollar, Date date) throws ServerException {
 		DAOManager daoManager = new DAOManager();
 		try {
 
-			return daoManager.getDAOCategories().getCategories(description,
+			return daoManager.getDAOCategories().getCategories(name,
 					isCurrencyDollar, date);
 
 		} catch (ServerException e) {
@@ -351,6 +351,10 @@ public class CoreCategory implements ICoreCategory {
 		boolean change = false;
 
 		if (toUpdate.getAmountPeso() != oldCategory.getAmountPeso()) {
+			change = true;
+		}
+		
+		if(toUpdate.getDescription() != oldCategory.getDescription()){
 			change = true;
 		}
 

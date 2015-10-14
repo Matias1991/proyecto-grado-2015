@@ -12,7 +12,7 @@ import servicelayer.service.ServiceWebStub.DeleteCategory;
 import servicelayer.service.ServiceWebStub.GetCategories;
 import servicelayer.service.ServiceWebStub.GetCategoriesAllVersions;
 import servicelayer.service.ServiceWebStub.GetCategoriesByDate;
-import servicelayer.service.ServiceWebStub.GetCategoriesByDescriptionAndCurrency;
+import servicelayer.service.ServiceWebStub.GetCategoriesByNameAndCurrency;
 import servicelayer.service.ServiceWebStub.GetCategoriesByProject;
 import servicelayer.service.ServiceWebStub.InsertCategory;
 import servicelayer.service.ServiceWebStub.UpdateCategory;
@@ -30,6 +30,7 @@ public class CategoryController {
 			InsertCategory createCategory = new InsertCategory();
 
 			VOCategory voCategory = new VOCategory();
+			voCategory.setName(category.getName());
 			voCategory.setDescription(category.getDescription());
 			voCategory.setAmountPeso(category.getAmountPeso());
 			voCategory.setAmountDollar(category.getAmountDollar());
@@ -200,6 +201,7 @@ public class CategoryController {
 	public static Category modifyCategory(Category cat, int idCategory) {
 		Category category = null;
 		VOCategory result = new VOCategory();
+		result.setName(cat.getName());
 		result.setDescription(cat.getDescription());
 		result.setIsCurrencyDollar(cat.isCurrencyDollar());
 		result.setAmountDollar(cat.getAmountDollar());
@@ -262,19 +264,19 @@ public class CategoryController {
 		return categories;
 	}
 	
-	public static Collection<Category> getCategories(String description, boolean isCurrencyDollar, Date date) {
+	public static Collection<Category> getCategories(String name, boolean isCurrencyDollar, Date date) {
 		Collection<Category> categories = new ArrayList<Category>();
 
 		try {
 			ServiceWebStub service = new ServiceWebStub();
-			GetCategoriesByDescriptionAndCurrency getCategoriesByDescriptionAndCurrency = new GetCategoriesByDescriptionAndCurrency();
+			GetCategoriesByNameAndCurrency getCategoriesByNameAndCurrency = new GetCategoriesByNameAndCurrency();
 			
-			getCategoriesByDescriptionAndCurrency.setDescription(description);
-			getCategoriesByDescriptionAndCurrency.setIsCurrencyDollar(isCurrencyDollar);
-			getCategoriesByDescriptionAndCurrency.setDate(date);
+			getCategoriesByNameAndCurrency.setName(name);
+			getCategoriesByNameAndCurrency.setIsCurrencyDollar(isCurrencyDollar);
+			getCategoriesByNameAndCurrency.setDate(date);
 			
-			VOCategory[] voCategories = service.getCategoriesByDescriptionAndCurrency(
-					getCategoriesByDescriptionAndCurrency).get_return();
+			VOCategory[] voCategories = service.getCategoriesByNameAndCurrency(
+					getCategoriesByNameAndCurrency).get_return();
 
 			if (voCategories != null) {
 				for (VOCategory voCategory : voCategories) {

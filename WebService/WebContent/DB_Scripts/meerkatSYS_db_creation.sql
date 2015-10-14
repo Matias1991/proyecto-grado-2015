@@ -124,8 +124,9 @@ CREATE TABLE IF NOT EXISTS Project
 CREATE TABLE IF NOT EXISTS Category
 (
 	Id                  INTEGER NOT NULL AUTO_INCREMENT,
-	Version              INTEGER NOT NULL,
-	Description         VARCHAR(120) NULL,
+	Version             INTEGER NOT NULL,
+	Name				VARCHAR(50) NULL,				
+	Description         VARCHAR(250) NULL,
 	AmountPeso 			DECIMAL(10,2) NULL,
 	AmountDollar 		DECIMAL(10,2) NULL,
 	IsCurrencyDollar	BIT NULL,

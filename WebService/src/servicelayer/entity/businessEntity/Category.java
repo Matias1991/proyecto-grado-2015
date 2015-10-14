@@ -8,6 +8,7 @@ public class Category {
 
 	private int id;
 	private int version;
+	private String name;
 	private String description;
 	private double amountPeso;
 	private double amountDollar;
@@ -40,6 +41,14 @@ public class Category {
 
 	public void setVersion(int version) {
 		this.version = version;
+	}
+	
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public String getDescription() {

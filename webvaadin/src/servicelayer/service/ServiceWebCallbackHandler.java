@@ -301,6 +301,22 @@
             }
                 
            /**
+            * auto generated Axis2 call back method for getCompanyLiquidations method
+            * override this method for handling normal response from getCompanyLiquidations operation
+            */
+           public void receiveResultgetCompanyLiquidations(
+                    servicelayer.service.ServiceWebStub.GetCompanyLiquidationsResponse result
+                        ) {
+           }
+
+          /**
+           * auto generated Axis2 Error handler
+           * override this method for handling error response from getCompanyLiquidations operation
+           */
+            public void receiveErrorgetCompanyLiquidations(java.lang.Exception e) {
+            }
+                
+           /**
             * auto generated Axis2 call back method for forgotPassword method
             * override this method for handling normal response from forgotPassword operation
             */
@@ -333,19 +349,19 @@
             }
                 
            /**
-            * auto generated Axis2 call back method for getCategoriesByDescriptionAndCurrency method
-            * override this method for handling normal response from getCategoriesByDescriptionAndCurrency operation
+            * auto generated Axis2 call back method for insertProject method
+            * override this method for handling normal response from insertProject operation
             */
-           public void receiveResultgetCategoriesByDescriptionAndCurrency(
-                    servicelayer.service.ServiceWebStub.GetCategoriesByDescriptionAndCurrencyResponse result
+           public void receiveResultinsertProject(
+                    servicelayer.service.ServiceWebStub.InsertProjectResponse result
                         ) {
            }
 
           /**
            * auto generated Axis2 Error handler
-           * override this method for handling error response from getCategoriesByDescriptionAndCurrency operation
+           * override this method for handling error response from insertProject operation
            */
-            public void receiveErrorgetCategoriesByDescriptionAndCurrency(java.lang.Exception e) {
+            public void receiveErrorinsertProject(java.lang.Exception e) {
             }
                 
            /**
@@ -378,38 +394,6 @@
            * override this method for handling error response from getAllSalarySummaryVersion operation
            */
             public void receiveErrorgetAllSalarySummaryVersion(java.lang.Exception e) {
-            }
-                
-           /**
-            * auto generated Axis2 call back method for getCompanyLiquidations method
-            * override this method for handling normal response from getCompanyLiquidations operation
-            */
-           public void receiveResultgetCompanyLiquidations(
-                    servicelayer.service.ServiceWebStub.GetCompanyLiquidationsResponse result
-                        ) {
-           }
-
-          /**
-           * auto generated Axis2 Error handler
-           * override this method for handling error response from getCompanyLiquidations operation
-           */
-            public void receiveErrorgetCompanyLiquidations(java.lang.Exception e) {
-            }
-                
-           /**
-            * auto generated Axis2 call back method for insertProject method
-            * override this method for handling normal response from insertProject operation
-            */
-           public void receiveResultinsertProject(
-                    servicelayer.service.ServiceWebStub.InsertProjectResponse result
-                        ) {
-           }
-
-          /**
-           * auto generated Axis2 Error handler
-           * override this method for handling error response from insertProject operation
-           */
-            public void receiveErrorinsertProject(java.lang.Exception e) {
             }
                 
            /**
@@ -941,22 +925,6 @@
             }
                 
            /**
-            * auto generated Axis2 call back method for getBillsByFilters method
-            * override this method for handling normal response from getBillsByFilters operation
-            */
-           public void receiveResultgetBillsByFilters(
-                    servicelayer.service.ServiceWebStub.GetBillsByFiltersResponse result
-                        ) {
-           }
-
-          /**
-           * auto generated Axis2 Error handler
-           * override this method for handling error response from getBillsByFilters operation
-           */
-            public void receiveErrorgetBillsByFilters(java.lang.Exception e) {
-            }
-                
-           /**
             * auto generated Axis2 call back method for updateCharge method
             * override this method for handling normal response from updateCharge operation
             */
@@ -970,6 +938,38 @@
            * override this method for handling error response from updateCharge operation
            */
             public void receiveErrorupdateCharge(java.lang.Exception e) {
+            }
+                
+           /**
+            * auto generated Axis2 call back method for getCategoriesByNameAndCurrency method
+            * override this method for handling normal response from getCategoriesByNameAndCurrency operation
+            */
+           public void receiveResultgetCategoriesByNameAndCurrency(
+                    servicelayer.service.ServiceWebStub.GetCategoriesByNameAndCurrencyResponse result
+                        ) {
+           }
+
+          /**
+           * auto generated Axis2 Error handler
+           * override this method for handling error response from getCategoriesByNameAndCurrency operation
+           */
+            public void receiveErrorgetCategoriesByNameAndCurrency(java.lang.Exception e) {
+            }
+                
+           /**
+            * auto generated Axis2 call back method for getBillsByFilters method
+            * override this method for handling normal response from getBillsByFilters operation
+            */
+           public void receiveResultgetBillsByFilters(
+                    servicelayer.service.ServiceWebStub.GetBillsByFiltersResponse result
+                        ) {
+           }
+
+          /**
+           * auto generated Axis2 Error handler
+           * override this method for handling error response from getBillsByFilters operation
+           */
+            public void receiveErrorgetBillsByFilters(java.lang.Exception e) {
             }
                 
            /**
