@@ -1403,7 +1403,7 @@ public class ServiceWeb extends ServiceBase {
 			if(companyLiquidation.getCategoriesHuman() != null)
 				voCompanyLiquidation.setCategoriesHuman(categoryBuilder.BuildArrayVOObject(VOCategory.class, companyLiquidation.getCategoriesHuman()));
 			if(companyLiquidation.getCategoriesMaterial() != null)
-				voCompanyLiquidation.setCategoryMaterial(categoryBuilder.BuildArrayVOObject(VOCategory.class, companyLiquidation.getCategoriesMaterial()));
+				voCompanyLiquidation.setCategoriesMaterial(categoryBuilder.BuildArrayVOObject(VOCategory.class, companyLiquidation.getCategoriesMaterial()));
 			if(companyLiquidation.getEmployees() != null)
 				voCompanyLiquidation.setEmployees(projectBuilder.BuildVOEmployedProjects(companyLiquidation.getEmployees()));
 			
@@ -1495,7 +1495,7 @@ public class ServiceWeb extends ServiceBase {
 			voCompanyLiquidation.setPartner2(employedBuilder.BuildVOObject(companyLiquidation.getPartner2()));
 			voCompanyLiquidation.setEmployees(projectBuilder.BuildVOEmployedProjects(companyLiquidation.getEmployees()));
 			voCompanyLiquidation.setCategoriesHuman(categoryBuilder.BuildArrayVOObject(VOCategory.class, companyLiquidation.getCategoriesHuman()));
-			voCompanyLiquidation.setCategoriesHuman(categoryBuilder.BuildArrayVOObject(VOCategory.class, companyLiquidation.getCategoriesMaterial()));
+			voCompanyLiquidation.setCategoriesMaterial(categoryBuilder.BuildArrayVOObject(VOCategory.class, companyLiquidation.getCategoriesMaterial()));
 			
 			return voCompanyLiquidation;
 			

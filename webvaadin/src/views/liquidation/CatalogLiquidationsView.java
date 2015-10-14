@@ -156,17 +156,20 @@ public class CatalogLiquidationsView extends BaseView {
 							.toString());
 					projectLiquidation = null;
 					companyLiquidation = null;
-					if (selection != -1)
+					if (selection != -1){
 						projectLiquidation = LiquidationController
 								.getProjectLiquidation(dateMonth.getValue(),
 										Integer.parseInt(cboProject.getValue()
 												.toString()), RequestContext
 												.getRequestContext().getId());
-					else
+						tabDetails.getTab(tab1).setEnabled(true);
+					}else{
 						companyLiquidation = LiquidationController
 								.getCompanyLiquidation(dateMonth.getValue(),
 										RequestContext.getRequestContext()
 												.getId());
+						tabDetails.getTab(tab1).setEnabled(false);
+					}
 					buildTab();
 				} else {
 					if (!dateMonth.isValid()) {
@@ -949,6 +952,10 @@ public class CatalogLiquidationsView extends BaseView {
 				grdBills.removeColumn("projectId");
 				grdBills.removeColumn("typeExchange");
 				grdBills.removeColumn("projectName");
+				grdBills.removeColumn("amountCharged");
+				grdBills.removeColumn("amountReceivable");
+				grdBills.removeColumn("totalAmount");
+				
 
 				grdBills.setColumnOrder("code", "description",
 						"appliedDateTimeUTCToShow", "amountToShow",
@@ -1003,15 +1010,14 @@ public class CatalogLiquidationsView extends BaseView {
 				grdCategoriesHuman.removeColumn("categoryTypeToShow");
 				grdCategoriesHuman.removeColumn("isDollarToShow");
 				grdCategoriesHuman.removeColumn("isRRHHToShow");
+				grdCategoriesHuman.removeColumn("description");
 
-				grdCategoriesHuman.setColumnOrder("description",
+				grdCategoriesHuman.setColumnOrder("name",
 						"createDateTimeUTCToShow", "amountToShow",
 						"ivaTypeToShow", "totalAmountToShow",
 						"typeExchangeToShow");
-
-				grdCategoriesHuman.getColumn("description").setWidth(192.05);
-				grdCategoriesHuman.getColumn("description").setHeaderCaption(
-						"Descripción");
+				
+				grdCategoriesHuman.getColumn("name").setHeaderCaption("Nombre");
 				grdCategoriesHuman.getColumn("createDateTimeUTCToShow")
 						.setHeaderCaption("Fecha");
 				grdCategoriesHuman.getColumn("amountToShow").setHeaderCaption(
@@ -1057,15 +1063,14 @@ public class CatalogLiquidationsView extends BaseView {
 				grdCategoriesMaterial.removeColumn("categoryTypeToShow");
 				grdCategoriesMaterial.removeColumn("isDollarToShow");
 				grdCategoriesMaterial.removeColumn("isRRHHToShow");
+				grdCategoriesMaterial.removeColumn("description");
 
-				grdCategoriesMaterial.setColumnOrder("description",
+				grdCategoriesMaterial.setColumnOrder("name",
 						"createDateTimeUTCToShow", "amountToShow",
 						"ivaTypeToShow", "totalAmountToShow",
 						"typeExchangeToShow");
-
-				grdCategoriesMaterial.getColumn("description").setWidth(192.05);
-				grdCategoriesMaterial.getColumn("description")
-						.setHeaderCaption("Descripción");
+				
+				grdCategoriesMaterial.getColumn("name").setHeaderCaption("Nombre");		
 				grdCategoriesMaterial.getColumn("createDateTimeUTCToShow")
 						.setHeaderCaption("Fecha");
 				grdCategoriesMaterial.getColumn("amountToShow")

@@ -337,6 +337,10 @@ public class CoreProjectLiquidation implements ICoreProjectLiquidation {
 			if(associatedBills != null){
 				for(Bill bill : daoManager.getDAOBills().getBills(appliedDate, to, true, userContext)){					
 					if(bill.getProject().getId() == projectId){
+						if(bill.getIsCurrencyDollar())
+							bill.setTotalAmountDollar(CoreBill.GetInstance().getTotalAmount(bill.getAmountDollar(), bill.getIvaType()));
+						else
+							bill.setTotalAmountPeso(CoreBill.GetInstance().getTotalAmount(bill.getAmountPeso(), bill.getIvaType()));
 						associatedBills.add(bill);
 					}
 				}
@@ -350,6 +354,11 @@ public class CoreProjectLiquidation implements ICoreProjectLiquidation {
 			ArrayList<Category> categories = projectLiquidation.getProject().getCategories(appliedDate, to);
 			if (categories != null && categories.size() > 0) {
 				for (Category category : categories) {
+					if(category.getIsCurrencyDollar())
+						category.setTotalAmountDollar(CoreCategory.GetInstance().getTotalAmount(category.getAmountDollar(), category.getIvaType()));
+					else
+						category.setTotalAmountPeso(CoreCategory.GetInstance().getTotalAmount(category.getAmountPeso(), category.getIvaType()));
+					
 					if (category.getIsRRHH()) {
 						associatedCategoriesHuman.add(category);
 					} else {

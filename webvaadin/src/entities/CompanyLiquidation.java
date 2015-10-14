@@ -76,8 +76,8 @@ public class CompanyLiquidation {
 			}
 			
 			this.categoriesMaterial = new ArrayList<Category>();
-			if(voCompanyLiquidation.getCategoryMaterial() != null){
-				for(VOCategory voCategory : voCompanyLiquidation.getCategoryMaterial()){
+			if(voCompanyLiquidation.getCategoriesMaterial() != null){
+				for(VOCategory voCategory : voCompanyLiquidation.getCategoriesMaterial()){
 					if(voCategory != null){
 						categoriesMaterial.add(new Category(voCategory));
 					}
