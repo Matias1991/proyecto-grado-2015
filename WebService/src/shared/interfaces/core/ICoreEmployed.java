@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import servicelayer.entity.businessEntity.Employed;
+import servicelayer.entity.businessEntity.EmployedType;
 import servicelayer.entity.businessEntity.SalarySummary;
 import shared.exceptions.ClientException;
 import shared.exceptions.ServerException;
@@ -17,7 +18,7 @@ public interface ICoreEmployed {
 
 	Employed getEmployed(int id) throws ServerException, ClientException;
 
-	SalarySummary estimateSalarySummary(SalarySummary voSummarySalary)
+	SalarySummary estimateSalarySummary(SalarySummary voSummarySalary, boolean isPartner)
 			throws ServerException;
 
 	void deleteEmployed(int id) throws ServerException, ClientException;

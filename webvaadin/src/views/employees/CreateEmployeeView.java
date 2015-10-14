@@ -176,6 +176,7 @@ public class CreateEmployeeView extends BaseView {
 		cboPercentagePersonalFonasaContribution.setHeight("-1px");
 		cboPercentagePersonalFonasaContribution.setRequired(true);
 		cboPercentagePersonalFonasaContribution.setLocale(Locale.US);
+		cboPercentagePersonalFonasaContribution.addItems(Double.valueOf("0"));
 		cboPercentagePersonalFonasaContribution.addItems(Double.valueOf("2"));
 		cboPercentagePersonalFonasaContribution.addItems(Double.valueOf("3"));
 		cboPercentagePersonalFonasaContribution.addItems(Double.valueOf("4.5"));
@@ -441,7 +442,7 @@ public class CreateEmployeeView extends BaseView {
 									.getValue() / 100);
 
 					SalarySummary aux = EmployeeController
-							.estimateEmployee(estimateSalarySummary);
+							.estimateEmployee(estimateSalarySummary, optEmployeeType.getValue().toString());
 					if (aux != null) {
 						changeReadOnlyState(false);
 

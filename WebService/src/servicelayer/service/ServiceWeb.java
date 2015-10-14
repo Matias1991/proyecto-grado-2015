@@ -17,6 +17,7 @@ import servicelayer.entity.businessEntity.Bill;
 import servicelayer.entity.businessEntity.ChanelType;
 import servicelayer.entity.businessEntity.CompanyLiquidation;
 import servicelayer.entity.businessEntity.Employed;
+import servicelayer.entity.businessEntity.EmployedType;
 import servicelayer.entity.businessEntity.Project;
 import servicelayer.entity.businessEntity.ProjectEmployed;
 import servicelayer.entity.businessEntity.ProjectLiquidation;
@@ -450,14 +451,14 @@ public class ServiceWeb extends ServiceBase {
 		return null;
 	}
 
-	public VOSalarySummary estimateSalarySummary(VOSalarySummary voSalarySummary) {
+	public VOSalarySummary estimateSalarySummary(VOSalarySummary voSalarySummary, boolean isPartner) {
 		try {
 			transactionLock.tryLock(Constants.DEFAULT_TRANSACTION_TIME,
 					TimeUnit.SECONDS);
 
 			SalarySummary salarySummary = iCoreEmployed
 					.estimateSalarySummary(employedBuilder
-							.BuildBusinessSalarySummary(voSalarySummary));
+							.BuildBusinessSalarySummary(voSalarySummary), isPartner);
 			return employedBuilder.BuildVOSalarySummary(salarySummary);
 
 		} catch (ServerException e) {
