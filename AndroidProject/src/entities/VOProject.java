@@ -18,10 +18,6 @@ public class VOProject {
 	public VOProject(SoapObject object) {
 		new Deserialization().SoapDeserialize(this, object);
 
-		// 'this' is the instance itself ,
-		// object is the SoapObject received from response when we call new
-		// Person(soapobject)
-
 		this.id = Integer.parseInt(object.getProperty(4).toString());
 		this.name = object.getProperty(9).toString();
 		this.isCurrencyDollar = Boolean.parseBoolean(object.getProperty(5)

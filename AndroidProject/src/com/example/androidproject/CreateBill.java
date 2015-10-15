@@ -4,11 +4,13 @@ import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import com.example.androidproject.alerts.AlertDialogManager;
 import com.example.androidproject.controllers.BillController;
 import com.example.androidproject.controllers.ProjectController;
+import com.example.androidproject.controllers.ReportsController;
 
 import entities.VOBill;
 import entities.VOProject;
@@ -197,6 +199,8 @@ public class CreateBill extends Activity {
 		btnCreate.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
 				if (validateFields()) {
+					
+					
 					BillController billController = new BillController(
 							getResources().getString(R.string.ip_server));
 					try {
@@ -385,6 +389,9 @@ public class CreateBill extends Activity {
 	}
 
 	boolean validateFields() {
+		
+		
+		
 		StringBuilder strBuilder = new StringBuilder();
 		if (txtCode.getText().toString().trim().length() == 0)
 			strBuilder.append("Código \n");

@@ -9,6 +9,9 @@
     <string name="title_activity_partner_menu">Menu usuario socio</string>
     <string name="title_activity_mainMenu">Menu</string>
     <string name="title_activity_create_bill">Crear factura</string>
+    <string name="title_activity_reports">Reportes</string>
+    <string name="title_activity_reportCompanyEarnings">Reporte ganancias</string>
+    <string name="title_activity_project_information">Información de proyectos</string>
     <string name="title_activity_create_charge">Crear cobro</string>
     <string name="title_section1">Section 1</string>
     <string name="title_section2">Section 2</string>

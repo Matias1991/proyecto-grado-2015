@@ -29,18 +29,23 @@ public final class R {
         public static final int TextView03=0x7f080015;
         public static final int TextView04=0x7f08001d;
         public static final int TextView06=0x7f080021;
-        public static final int action_settings=0x7f08002a;
+        public static final int action_settings=0x7f080036;
         public static final int btnCancel=0x7f08000a;
         public static final int btnCreate=0x7f080009;
         public static final int btnCreateBill=0x7f080027;
         public static final int btnCreateCharge=0x7f080028;
+        public static final int btnLiquidations=0x7f080035;
         public static final int btnLogin=0x7f080026;
         public static final int btnLoginApp=0x7f080010;
-        public static final int btnLogout=0x7f080029;
+        public static final int btnLogout=0x7f08002a;
+        public static final int btnProjectInfo=0x7f080034;
+        public static final int btnProjectsWithMoreEarnings=0x7f080033;
+        public static final int btnReports=0x7f080029;
         public static final int lblTitle=0x7f080011;
         public static final int linearLayout1=0x7f080002;
         public static final int spinnerBills=0x7f08000b;
         public static final int spinnerIVATypes=0x7f080006;
+        public static final int spinnerProjectInfo=0x7f08002c;
         public static final int spinnerProjects=0x7f080003;
         public static final int tableRow1=0x7f080013;
         public static final int tableRow10=0x7f080014;
@@ -59,11 +64,18 @@ public final class R {
         public static final int txtChargeNumber=0x7f08000c;
         public static final int txtCode=0x7f080000;
         public static final int txtDateApplied=0x7f080008;
+        public static final int txtDateInfoProject=0x7f08002b;
         public static final int txtDescription=0x7f080001;
+        public static final int txtEarningsPartner1=0x7f08002d;
+        public static final int txtEarningsPartner2=0x7f080030;
         public static final int txtEmail=0x7f080022;
         public static final int txtLastName=0x7f08001e;
         public static final int txtName=0x7f08001a;
+        public static final int txtPartner1Name=0x7f08002e;
+        public static final int txtPartner2Name=0x7f08002f;
         public static final int txtPasswordApp=0x7f08000e;
+        public static final int txtReserve=0x7f080031;
+        public static final int txtTotalBills=0x7f080032;
         public static final int txtTypeExchange=0x7f080005;
         public static final int txtUserId=0x7f080024;
         public static final int txtUserName=0x7f080016;
@@ -75,30 +87,37 @@ public final class R {
         public static final int activity_login=0x7f030002;
         public static final int activity_main=0x7f030003;
         public static final int activity_main_menu=0x7f030004;
+        public static final int activity_project_information=0x7f030005;
+        public static final int activity_reports=0x7f030006;
     }
     public static final class menu {
         public static final int create_bill=0x7f070000;
         public static final int create_charge=0x7f070001;
         public static final int main=0x7f070002;
         public static final int partner_menu=0x7f070003;
-        public static final int search_user=0x7f070004;
+        public static final int project_information=0x7f070004;
+        public static final int reports=0x7f070005;
+        public static final int search_user=0x7f070006;
     }
     public static final class string {
         public static final int action_settings=0x7f050002;
         public static final int app_name=0x7f050000;
         public static final int autocompletetextview=0x7f050003;
         public static final int hello_world=0x7f050001;
-        public static final int ip_server=0x7f05000e;
-        public static final int ivaTypes=0x7f05000c;
-        public static final int projects=0x7f05000d;
+        public static final int ip_server=0x7f050011;
+        public static final int ivaTypes=0x7f05000f;
+        public static final int projects=0x7f050010;
         public static final int title_activity_create_bill=0x7f050007;
-        public static final int title_activity_create_charge=0x7f050008;
+        public static final int title_activity_create_charge=0x7f05000b;
         public static final int title_activity_mainMenu=0x7f050006;
         public static final int title_activity_partner_menu=0x7f050005;
+        public static final int title_activity_project_information=0x7f05000a;
+        public static final int title_activity_reportCompanyEarnings=0x7f050009;
+        public static final int title_activity_reports=0x7f050008;
         public static final int title_activity_search_user=0x7f050004;
-        public static final int title_section1=0x7f050009;
-        public static final int title_section2=0x7f05000a;
-        public static final int title_section3=0x7f05000b;
+        public static final int title_section1=0x7f05000c;
+        public static final int title_section2=0x7f05000d;
+        public static final int title_section3=0x7f05000e;
     }
     public static final class style {
         /** 

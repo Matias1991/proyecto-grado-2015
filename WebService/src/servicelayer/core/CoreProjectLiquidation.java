@@ -318,69 +318,69 @@ public class CoreProjectLiquidation implements ICoreProjectLiquidation {
 			cal.setTime(month);
 			cal.set(Calendar.DATE, cal.getActualMaximum(Calendar.DATE));
 			Date to = cal.getTime();
+			if(projectLiquidation != null) {
+				projectLiquidation.setEmployedPartner1(CoreEmployed.GetInstance().getEmployed(projectLiquidation.getEmployedPartner1().getId()));
+				projectLiquidation.setEmployedPartner2(CoreEmployed.GetInstance().getEmployed(projectLiquidation.getEmployedPartner2().getId()));
+				projectLiquidation.setProject(CoreProject.GetInstance().getProject(projectLiquidation.getProject().getId()));
+				
+				// Cargo los socios
+				projectLiquidation.getProject().setiDAOPartnerProject(daoManager.getDAOPartnerProjects());			
 			
-			projectLiquidation.setEmployedPartner1(CoreEmployed.GetInstance().getEmployed(projectLiquidation.getEmployedPartner1().getId()));
-			projectLiquidation.setEmployedPartner2(CoreEmployed.GetInstance().getEmployed(projectLiquidation.getEmployedPartner2().getId()));
-			projectLiquidation.setProject(CoreProject.GetInstance().getProject(projectLiquidation.getProject().getId()));
-			
-			// Cargo los socios
-			projectLiquidation.getProject().setiDAOPartnerProject(daoManager.getDAOPartnerProjects());			
-		
-			projectLiquidation.setPartner1(projectLiquidation.getProject().getProjectPartner().get(0));
-			projectLiquidation.getPartner1().setEmployed(CoreEmployed.GetInstance().getEmployed(projectLiquidation.getProject().getProjectPartner().get(0).getEmployed().getId()));
-			
-			projectLiquidation.setPartner2(projectLiquidation.getProject().getProjectPartner().get(1));	
-			projectLiquidation.getPartner2().setEmployed(CoreEmployed.GetInstance().getEmployed(projectLiquidation.getProject().getProjectPartner().get(1).getEmployed().getId()));
-									
-			//Facturas
-			ArrayList<Bill> associatedBills = new ArrayList<Bill>();
-			if(associatedBills != null){
-				for(Bill bill : daoManager.getDAOBills().getBills(appliedDate, to, true, userContext)){					
-					if(bill.getProject().getId() == projectId){
-						if(bill.getIsCurrencyDollar())
-							bill.setTotalAmountDollar(CoreBill.GetInstance().getTotalAmount(bill.getAmountDollar(), bill.getIvaType()));
+				projectLiquidation.setPartner1(projectLiquidation.getProject().getProjectPartner().get(0));
+				projectLiquidation.getPartner1().setEmployed(CoreEmployed.GetInstance().getEmployed(projectLiquidation.getProject().getProjectPartner().get(0).getEmployed().getId()));
+				
+				projectLiquidation.setPartner2(projectLiquidation.getProject().getProjectPartner().get(1));	
+				projectLiquidation.getPartner2().setEmployed(CoreEmployed.GetInstance().getEmployed(projectLiquidation.getProject().getProjectPartner().get(1).getEmployed().getId()));
+										
+				//Facturas
+				ArrayList<Bill> associatedBills = new ArrayList<Bill>();
+				if(associatedBills != null){
+					for(Bill bill : daoManager.getDAOBills().getBills(appliedDate, to, true, userContext)){					
+						if(bill.getProject().getId() == projectId){
+							if(bill.getIsCurrencyDollar())
+								bill.setTotalAmountDollar(CoreBill.GetInstance().getTotalAmount(bill.getAmountDollar(), bill.getIvaType()));
+							else
+								bill.setTotalAmountPeso(CoreBill.GetInstance().getTotalAmount(bill.getAmountPeso(), bill.getIvaType()));
+							associatedBills.add(bill);
+						}
+					}
+				}
+				projectLiquidation.setBills(associatedBills);
+				
+				//Rubros humanos y materiales			
+				projectLiquidation.getProject().setiDAOCategories(daoManager.getDAOCategories());
+				ArrayList<Category> associatedCategoriesHuman = new ArrayList<Category>();
+				ArrayList<Category> associatedCategoriesMaterial = new ArrayList<Category>();
+				ArrayList<Category> categories = projectLiquidation.getProject().getCategories(appliedDate, to);
+				if (categories != null && categories.size() > 0) {
+					for (Category category : categories) {
+						if(category.getIsCurrencyDollar())
+							category.setTotalAmountDollar(CoreCategory.GetInstance().getTotalAmount(category.getAmountDollar(), category.getIvaType()));
 						else
-							bill.setTotalAmountPeso(CoreBill.GetInstance().getTotalAmount(bill.getAmountPeso(), bill.getIvaType()));
-						associatedBills.add(bill);
+							category.setTotalAmountPeso(CoreCategory.GetInstance().getTotalAmount(category.getAmountPeso(), category.getIvaType()));
+						
+						if (category.getIsRRHH()) {
+							associatedCategoriesHuman.add(category);
+						} else {
+							associatedCategoriesMaterial.add(category);
+						}
 					}
 				}
-			}
-			projectLiquidation.setBills(associatedBills);
-			
-			//Rubros humanos y materiales			
-			projectLiquidation.getProject().setiDAOCategories(daoManager.getDAOCategories());
-			ArrayList<Category> associatedCategoriesHuman = new ArrayList<Category>();
-			ArrayList<Category> associatedCategoriesMaterial = new ArrayList<Category>();
-			ArrayList<Category> categories = projectLiquidation.getProject().getCategories(appliedDate, to);
-			if (categories != null && categories.size() > 0) {
-				for (Category category : categories) {
-					if(category.getIsCurrencyDollar())
-						category.setTotalAmountDollar(CoreCategory.GetInstance().getTotalAmount(category.getAmountDollar(), category.getIvaType()));
-					else
-						category.setTotalAmountPeso(CoreCategory.GetInstance().getTotalAmount(category.getAmountPeso(), category.getIvaType()));
-					
-					if (category.getIsRRHH()) {
-						associatedCategoriesHuman.add(category);
-					} else {
-						associatedCategoriesMaterial.add(category);
+				projectLiquidation.setCategoriesHuman(associatedCategoriesHuman);
+				projectLiquidation.setCategoriesMaterial(associatedCategoriesMaterial);
+				
+				//Empleados
+				projectLiquidation.getProject().setiDAOProjectEmployees(daoManager.getDAOEmployedProjects());
+				ArrayList<ProjectEmployed> associatedEmployees = projectLiquidation.getProject().getProjectEmployees();
+				if(associatedEmployees != null && associatedEmployees.size() > 0){
+					for(ProjectEmployed projectEmployed : associatedEmployees){
+						Employed employed = CoreEmployed.GetInstance().getEmployed(projectEmployed.getEmployed().getId());
+						projectEmployed.setEmployed(employed);
+						employed.setIDAOSalarySummaries(daoManager.getDAOSalarySummaries());									
 					}
 				}
+				projectLiquidation.setEmployees(associatedEmployees);
 			}
-			projectLiquidation.setCategoriesHuman(associatedCategoriesHuman);
-			projectLiquidation.setCategoriesMaterial(associatedCategoriesMaterial);
-			
-			//Empleados
-			projectLiquidation.getProject().setiDAOProjectEmployees(daoManager.getDAOEmployedProjects());
-			ArrayList<ProjectEmployed> associatedEmployees = projectLiquidation.getProject().getProjectEmployees();
-			if(associatedEmployees != null && associatedEmployees.size() > 0){
-				for(ProjectEmployed projectEmployed : associatedEmployees){
-					Employed employed = CoreEmployed.GetInstance().getEmployed(projectEmployed.getEmployed().getId());
-					projectEmployed.setEmployed(employed);
-					employed.setIDAOSalarySummaries(daoManager.getDAOSalarySummaries());									
-				}
-			}
-			projectLiquidation.setEmployees(associatedEmployees);
-			
 		} catch (ServerException e) {
 			daoManager.rollback();
 			throw e;

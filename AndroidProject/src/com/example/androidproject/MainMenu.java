@@ -26,6 +26,7 @@ public class MainMenu extends Activity {
 
 		final Button btnCreateBill = (Button) findViewById(R.id.btnCreateBill);
 		final Button btnCreateCharge = (Button) findViewById(R.id.btnCreateCharge);
+		final Button btnReports = (Button) findViewById(R.id.btnReports);
 		final Button btnLogout = (Button) findViewById(R.id.btnLogout);
 
 		btnCreateBill.setOnClickListener(new View.OnClickListener() {
@@ -43,16 +44,6 @@ public class MainMenu extends Activity {
 
 			@Override
 			public void onClick(View v) {
-				// new AlertDialog.Builder(MainMenu.this)
-				// .setTitle("Atencion")
-				// .setMessage("No existe implementacion aún.")
-				// .setPositiveButton(android.R.string.yes, new
-				// DialogInterface.OnClickListener() {
-				// public void onClick(DialogInterface dialog, int which) {
-				// }
-				// })
-				// .setIcon(android.R.drawable.ic_dialog_alert)
-				// .show();
 				Intent i = new Intent(getApplicationContext(),
 						CreateCharge.class);
 				startActivity(i);
@@ -61,6 +52,17 @@ public class MainMenu extends Activity {
 			}
 		});
 
+		btnReports.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				Intent i = new Intent(getApplicationContext(),
+						Reports.class);
+				startActivity(i);
+				finish();
+			}
+		});
+		
 		btnLogout.setOnClickListener(new View.OnClickListener() {
 
 			@Override
