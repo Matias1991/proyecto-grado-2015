@@ -44,6 +44,6 @@
         android:layout_alignRight="@+id/btnProjectInfo"
         android:layout_below="@+id/btnProjectInfo"
         android:layout_marginTop="34dp"
-        android:text="Liquidaciones" />
+        android:text="Información de la empresa" />
     
 </RelativeLayout>

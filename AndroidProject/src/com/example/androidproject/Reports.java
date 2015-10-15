@@ -35,8 +35,8 @@ public class Reports extends Activity {
 			@Override
 			public void onClick(View v) {
 				new AlertDialog.Builder(Reports.this)
-						.setTitle("Atento")
-						.setMessage("Aun no va a ningun lado")
+						.setTitle("Atención")
+						.setMessage("Apunta a la grafica")
 						.setPositiveButton(android.R.string.yes,
 								new DialogInterface.OnClickListener() {
 									public void onClick(DialogInterface dialog,
@@ -65,8 +65,8 @@ public class Reports extends Activity {
 			@Override
 			public void onClick(View v) {
 				new AlertDialog.Builder(Reports.this)
-				.setTitle("Atento")
-				.setMessage("Aun no va a ningun lado")
+				.setTitle("Atención")
+				.setMessage("En construcción")
 				.setPositiveButton(android.R.string.yes,
 								new DialogInterface.OnClickListener() {
 							public void onClick(DialogInterface dialog, int which) {
