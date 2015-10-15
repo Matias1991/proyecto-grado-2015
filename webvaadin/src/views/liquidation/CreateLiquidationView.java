@@ -1012,11 +1012,14 @@ public class CreateLiquidationView extends BaseView {
 					txtReserve.setConvertedValue(projectLiquidation
 							.getReserve());
 					txtSale.setConvertedValue(projectLiquidation.getSale());
-					txtSeller.setValue(projectLiquidation.getProject()
-							.getSeller().getName()
-							+ " "
-							+ projectLiquidation.getProject().getSeller()
-									.getLastName());
+					if (projectLiquidation.getProject().getSeller().getName() != null)
+						txtSeller.setValue(projectLiquidation.getProject()
+								.getSeller().getName()
+								+ " "
+								+ projectLiquidation.getProject().getSeller()
+										.getLastName());
+					else
+						txtSeller.setValue("");
 					txtTotalBills.setConvertedValue(projectLiquidation
 							.getTotalBills());
 					txtTotalCostCategoriesHuman
@@ -1057,6 +1060,9 @@ public class CreateLiquidationView extends BaseView {
 				grdBills.removeColumn("projectId");
 				grdBills.removeColumn("typeExchange");
 				grdBills.removeColumn("projectName");
+				grdBills.removeColumn("amountCharged");
+				grdBills.removeColumn("amountReceivable");
+				grdBills.removeColumn("totalAmount");
 
 				grdBills.setColumnOrder("code", "description",
 						"appliedDateTimeUTCToShow", "amountToShow",
@@ -1111,15 +1117,14 @@ public class CreateLiquidationView extends BaseView {
 				grdCategoriesHuman.removeColumn("categoryTypeToShow");
 				grdCategoriesHuman.removeColumn("isDollarToShow");
 				grdCategoriesHuman.removeColumn("isRRHHToShow");
+				grdCategoriesHuman.removeColumn("description");
 
-				grdCategoriesHuman.setColumnOrder("description",
+				grdCategoriesHuman.setColumnOrder("name",
 						"createDateTimeUTCToShow", "amountToShow",
 						"ivaTypeToShow", "totalAmountToShow",
 						"typeExchangeToShow");
-
-				grdCategoriesHuman.getColumn("description").setWidth(192.05);
-				grdCategoriesHuman.getColumn("description").setHeaderCaption(
-						"Descripción");
+				
+				grdCategoriesHuman.getColumn("name").setHeaderCaption("Nombre");				
 				grdCategoriesHuman.getColumn("createDateTimeUTCToShow")
 						.setHeaderCaption("Fecha");
 				grdCategoriesHuman.getColumn("amountToShow").setHeaderCaption(
@@ -1166,15 +1171,14 @@ public class CreateLiquidationView extends BaseView {
 				grdCategoriesMaterial.removeColumn("categoryTypeToShow");
 				grdCategoriesMaterial.removeColumn("isDollarToShow");
 				grdCategoriesMaterial.removeColumn("isRRHHToShow");
+				grdCategoriesMaterial.removeColumn("description");
 
-				grdCategoriesMaterial.setColumnOrder("description",
+				grdCategoriesMaterial.setColumnOrder("name",
 						"createDateTimeUTCToShow", "amountToShow",
 						"ivaTypeToShow", "totalAmountToShow",
 						"typeExchangeToShow");
-
-				grdCategoriesMaterial.getColumn("description").setWidth(192.05);
-				grdCategoriesMaterial.getColumn("description")
-						.setHeaderCaption("Descripción");
+				
+				grdCategoriesMaterial.getColumn("name").setHeaderCaption("Nombre");				
 				grdCategoriesMaterial.getColumn("createDateTimeUTCToShow")
 						.setHeaderCaption("Fecha");
 				grdCategoriesMaterial.getColumn("amountToShow")

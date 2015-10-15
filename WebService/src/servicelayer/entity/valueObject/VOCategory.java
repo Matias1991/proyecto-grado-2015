@@ -7,6 +7,7 @@ public class VOCategory implements Serializable {
 
 	private int id;
 	private int version;
+	private String name;
 	private String description;
 	private boolean isCurrencyDollar;
 	private double typeExchange;
@@ -160,5 +161,12 @@ public class VOCategory implements Serializable {
 	public void setTotalAmountPeso(double totalAmountPeso) {
 		this.totalAmountPeso = totalAmountPeso;
 	}
-	
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}	
 }

@@ -10,17 +10,14 @@ public class Charge {
 	private int id;
 	private String number;
 	private String description;
-    private double amountPeso;
-	private double amountDollar;
-    private boolean isCurrencyDollar;
-    private double typeExchange;
+    private double amount;
     private Date createdDateTimeUTC;
     private int billId;
     private String billCode;
     private String billDescription;
+    private boolean billIsCurrencyDollar;
     private String createdDateTimeUTCToShow;
     private String amountToShow;
-    private String typeExchangeToShow;
     
     public Charge()
     {
@@ -32,28 +29,24 @@ public class Charge {
     	this.id = voCharge.getId();
     	this.number = voCharge.getNumber();
     	this.description = voCharge.getDescription();
-    	this.amountDollar = voCharge.getAmountDollar();
-    	this.amountPeso = voCharge.getAmountPeso();
-    	this.isCurrencyDollar = voCharge.getIsCurrencyDollar();
-    	this.typeExchange = voCharge.getTypeExchange();
+    	this.amount = voCharge.getAmount();
     	this.createdDateTimeUTC = voCharge.getCreatedDateTimeUTC();
     	if(voCharge.getBillCode() != null)
     	{
     		this.billCode = voCharge.getBillCode();
     		this.billDescription = voCharge.getBillDescription();
+    		this.billIsCurrencyDollar = voCharge.getBillIsCurrencyDollar();
     	}
     	
     	this.setCreatedDateTimeUTCToShow(new SimpleDateFormat("dd/MM/yyyy").format(createdDateTimeUTC));
     	
-    	if(isCurrencyDollar)
+    	if(this.billIsCurrencyDollar)
     	{
-    		this.amountToShow = new DecimalFormat("U$S ###,###.###").format(this.amountDollar);
-    		this.typeExchangeToShow = String.valueOf(this.typeExchange);
+    		this.amountToShow = new DecimalFormat("U$S ###,###.###").format(this.amount);
     	}
     	else
     	{
-    		this.amountToShow = new DecimalFormat("$ ###,###.###").format(this.amountPeso);
-    		this.typeExchangeToShow = "N/A";
+    		this.amountToShow = new DecimalFormat("$ ###,###.###").format(this.amount);
     	}
     }
     
@@ -75,29 +68,11 @@ public class Charge {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	public double getAmountPeso() {
-		return amountPeso;
+	public double getAmount() {
+		return amount;
 	}
-	public void setAmountPeso(double amountPeso) {
-		this.amountPeso = amountPeso;
-	}
-	public double getAmountDollar() {
-		return amountDollar;
-	}
-	public void setAmountDollar(double amountDollar) {
-		this.amountDollar = amountDollar;
-	}
-	public boolean getIsCurrencyDollar() {
-		return isCurrencyDollar;
-	}
-	public void setIsCurrencyDollar(boolean isCurrencyDollar) {
-		this.isCurrencyDollar = isCurrencyDollar;
-	}
-	public double getTypeExchange() {
-		return typeExchange;
-	}
-	public void setTypeExchange(double typeExchange) {
-		this.typeExchange = typeExchange;
+	public void setAmount(double amount) {
+		this.amount = amount;
 	}
 	public Date getCreatedDateTimeUTC() {
 		return createdDateTimeUTC;
@@ -128,12 +103,6 @@ public class Charge {
 	}
 	public void setAmountToShow(String amountToShow) {
 		this.amountToShow = amountToShow;
-	}
-	public String getTypeExchangeToShow() {
-		return typeExchangeToShow;
-	}
-	public void setTypeExchangeToShow(String typeExchangeToShow) {
-		this.typeExchangeToShow = typeExchangeToShow;
 	}
 
 	public String getBillCode() {

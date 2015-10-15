@@ -49,7 +49,11 @@ public class DAOProjects implements IDAOProjects {
 			}else{
 				preparedStatement.setInt(3, obj.getManager().getId());
 			}
-			preparedStatement.setInt(4, obj.getSeller().getId());
+			if(obj.getSeller().getId() == 0){
+				preparedStatement.setNull(4, java.sql.Types.INTEGER);
+			}else{
+				preparedStatement.setInt(4, obj.getSeller().getId());
+			}			
 			preparedStatement.setDouble(5, obj.getAmount());
 			preparedStatement.setBoolean(6, obj.getIsCurrencyDollar());
 			preparedStatement.setTimestamp(7, new Timestamp(obj
@@ -122,7 +126,11 @@ public class DAOProjects implements IDAOProjects {
 			}else{
 				preparedStatement.setInt(2, obj.getManager().getId());
 			}
-			preparedStatement.setInt(3, obj.getSeller().getId());
+			if(obj.getSeller().getId() == 0){
+				preparedStatement.setNull(3, java.sql.Types.INTEGER);
+			}else{
+				preparedStatement.setInt(3, obj.getSeller().getId());
+			}		
 			preparedStatement.setDouble(4, obj.getAmount());
 			preparedStatement.setBoolean(5, obj.getIsCurrencyDollar());
 			preparedStatement.setTimestamp(6, new Timestamp(new Date().getTime()));

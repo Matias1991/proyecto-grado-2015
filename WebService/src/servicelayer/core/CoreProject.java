@@ -104,7 +104,8 @@ public class CoreProject implements ICoreProject {
 			if(project.getManager() != null)
 				project.setManager(CoreUser.GetInstance().getUser(project.getManager().getId()));
 			// Seller
-			project.setSeller(CoreEmployed.GetInstance().getEmployed(project.getSeller().getId()));
+			if(project.getSeller() != null)
+				project.setSeller(CoreEmployed.GetInstance().getEmployed(project.getSeller().getId()));
 			
 			return project;
 		} catch (ServerException e) {

@@ -30,10 +30,7 @@ public class ChargeController {
 			VOCharge voCharge = new VOCharge();
 			voCharge.setDescription(charge.getDescription());
 			voCharge.setNumber(charge.getNumber());
-			voCharge.setAmountPeso(charge.getAmountPeso());
-			voCharge.setAmountDollar(charge.getAmountDollar());
-			voCharge.setIsCurrencyDollar(charge.getIsCurrencyDollar());
-			voCharge.setTypeExchange(charge.getTypeExchange());
+			voCharge.setAmount(charge.getAmount());
 			voCharge.setCreatedDateTimeUTC(charge.getCreatedDateTimeUTC());
 			voCharge.setBillId(charge.getBillId());
 			
@@ -91,10 +88,7 @@ public class ChargeController {
 			
 			VOCharge voCharge = new VOCharge();
 			voCharge.setDescription(charge.getDescription());
-			voCharge.setAmountPeso(charge.getAmountPeso());
-			voCharge.setAmountDollar(charge.getAmountDollar());
-			voCharge.setIsCurrencyDollar(charge.getIsCurrencyDollar());
-			voCharge.setTypeExchange(charge.getTypeExchange());
+			voCharge.setAmount(charge.getAmount());
 			voCharge.setId(charge.getId());
 			voCharge.setBillId(charge.getBillId());
 			

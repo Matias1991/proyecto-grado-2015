@@ -17,6 +17,7 @@ import servicelayer.entity.businessEntity.Bill;
 import servicelayer.entity.businessEntity.ChanelType;
 import servicelayer.entity.businessEntity.CompanyLiquidation;
 import servicelayer.entity.businessEntity.Employed;
+import servicelayer.entity.businessEntity.EmployedType;
 import servicelayer.entity.businessEntity.Project;
 import servicelayer.entity.businessEntity.ProjectEmployed;
 import servicelayer.entity.businessEntity.ProjectLiquidation;
@@ -450,14 +451,14 @@ public class ServiceWeb extends ServiceBase {
 		return null;
 	}
 
-	public VOSalarySummary estimateSalarySummary(VOSalarySummary voSalarySummary) {
+	public VOSalarySummary estimateSalarySummary(VOSalarySummary voSalarySummary, boolean isPartner) {
 		try {
 			transactionLock.tryLock(Constants.DEFAULT_TRANSACTION_TIME,
 					TimeUnit.SECONDS);
 
 			SalarySummary salarySummary = iCoreEmployed
 					.estimateSalarySummary(employedBuilder
-							.BuildBusinessSalarySummary(voSalarySummary));
+							.BuildBusinessSalarySummary(voSalarySummary), isPartner);
 			return employedBuilder.BuildVOSalarySummary(salarySummary);
 
 		} catch (ServerException e) {
@@ -680,13 +681,13 @@ public class ServiceWeb extends ServiceBase {
 		return null;
 	}
 	
-	public VOCategory[] getCategoriesByDescriptionAndCurrency(String description, boolean isCurrencyDollar, Date date) {
+	public VOCategory[] getCategoriesByNameAndCurrency(String name, boolean isCurrencyDollar, Date date) {
 		try {
 			transactionLock.tryLock(Constants.DEFAULT_TRANSACTION_TIME,
 					TimeUnit.SECONDS);
 			
 			return categoryBuilder.BuildArrayVOObject(VOCategory.class,
-					iCoreCategory.getCategories(description, isCurrencyDollar, date));
+					iCoreCategory.getCategories(name, isCurrencyDollar, date));
 			
 		} catch (ServerException e) {
 			ThrowServerExceptionAndLogError(e, "obtener todos los rubros");
@@ -875,7 +876,47 @@ public class ServiceWeb extends ServiceBase {
 		}
 		return null;
 	}
+	
+	//Utilizado esta operacion para reportes por lo cual no tiene userContextId
+	public VOBill[] getAllBillsByYearAndProject(Date date, int projectId) {
+		try {
+			transactionLock.tryLock(Constants.DEFAULT_TRANSACTION_TIME,
+					TimeUnit.SECONDS);
 
+			return billBuilder.BuildArrayVOObject(VOBill.class,
+					iCoreBill.getBills(date, projectId));
+
+		} catch (ServerException e) {
+			ThrowServerExceptionAndLogError(e, "obtener todas las facturas");
+		} catch (InterruptedException e) {
+			throw new RuntimeException(Constants.TRANSACTION_ERROR);
+		} catch (Exception e) {
+			ThrowGenericExceptionAndLogError(e);
+		} finally {
+			transactionLock.unlock();
+		}
+		return null;
+	}
+
+	public double getTotalAmountBills(int projectId, Date from, Date to) {
+		try {
+			transactionLock.tryLock(Constants.DEFAULT_TRANSACTION_TIME,
+					TimeUnit.SECONDS);
+
+			return iCoreBill.getTotalAmountBills(projectId, from, to);
+
+		} catch (ServerException e) {
+			ThrowServerExceptionAndLogError(e, "obtener todas las facturas");
+		} catch (InterruptedException e) {
+			throw new RuntimeException(Constants.TRANSACTION_ERROR);
+		} catch (Exception e) {
+			ThrowGenericExceptionAndLogError(e);
+		} finally {
+			transactionLock.unlock();
+		}
+		return 0;
+	}
+	
 	public VOBill[] getBillsByFilters(Date from, Date to, boolean isLiquidated,
 			boolean withCharges, int userContextId) {
 		try {
@@ -1362,7 +1403,7 @@ public class ServiceWeb extends ServiceBase {
 			if(companyLiquidation.getCategoriesHuman() != null)
 				voCompanyLiquidation.setCategoriesHuman(categoryBuilder.BuildArrayVOObject(VOCategory.class, companyLiquidation.getCategoriesHuman()));
 			if(companyLiquidation.getCategoriesMaterial() != null)
-				voCompanyLiquidation.setCategoryMaterial(categoryBuilder.BuildArrayVOObject(VOCategory.class, companyLiquidation.getCategoriesMaterial()));
+				voCompanyLiquidation.setCategoriesMaterial(categoryBuilder.BuildArrayVOObject(VOCategory.class, companyLiquidation.getCategoriesMaterial()));
 			if(companyLiquidation.getEmployees() != null)
 				voCompanyLiquidation.setEmployees(projectBuilder.BuildVOEmployedProjects(companyLiquidation.getEmployees()));
 			
@@ -1454,7 +1495,7 @@ public class ServiceWeb extends ServiceBase {
 			voCompanyLiquidation.setPartner2(employedBuilder.BuildVOObject(companyLiquidation.getPartner2()));
 			voCompanyLiquidation.setEmployees(projectBuilder.BuildVOEmployedProjects(companyLiquidation.getEmployees()));
 			voCompanyLiquidation.setCategoriesHuman(categoryBuilder.BuildArrayVOObject(VOCategory.class, companyLiquidation.getCategoriesHuman()));
-			voCompanyLiquidation.setCategoriesHuman(categoryBuilder.BuildArrayVOObject(VOCategory.class, companyLiquidation.getCategoriesMaterial()));
+			voCompanyLiquidation.setCategoriesMaterial(categoryBuilder.BuildArrayVOObject(VOCategory.class, companyLiquidation.getCategoriesMaterial()));
 			
 			return voCompanyLiquidation;
 			

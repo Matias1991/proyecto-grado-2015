@@ -8,6 +8,7 @@ import utils.PopupWindow;
 import views.BaseView;
 import views.ForgotPasswordView;
 import views.LoginView;
+import views.MainMenuView;
 import views.bill.CatalogBillsView;
 import views.bill.CreateBillView;
 import views.bill.DeleteBillsView;
@@ -34,6 +35,8 @@ import views.project.CatalogProjectView;
 import views.project.CreateProjectView;
 import views.project.DeleteProjectView;
 import views.project.UpdateProjectView;
+import views.reports.ReportProjectAmountEstimatedView;
+import views.reports.ReportProjectDetailsAmountChargedView;
 import views.reports.ReportProjectDetailsView;
 import views.reports.ReportCompanyEarningsView;
 import views.reports.ReportSummaryCompanyCategoriesHumanView;
@@ -49,11 +52,14 @@ import views.user.UnlockUserView;
 import com.vaadin.annotations.PreserveOnRefresh;
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.Widgetset;
+import com.vaadin.event.MouseEvents.ClickListener;
 import com.vaadin.navigator.Navigator;
 import com.vaadin.navigator.Navigator.ComponentContainerViewDisplay;
 import com.vaadin.server.ThemeResource;
 import com.vaadin.server.VaadinRequest;
+import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Alignment;
+import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.GridLayout;
 import com.vaadin.ui.Image;
 import com.vaadin.ui.Label;
@@ -213,6 +219,12 @@ public class WebvaadinUI extends UI {
 			case View.REPORT_SUMMARY_COMPANY_CATEGORIES_HUMAN_VIEW:
 				view = new ReportSummaryCompanyCategoriesHumanView();
 				break;
+			case View.REPORT_PROJECT_DETAILS_AMOUNT_CHARGED_VIEW:
+				view = new ReportProjectDetailsAmountChargedView();
+				break;
+			case View.REPORT_PROJECT_AMOUNT_ESTIMATED_VIEW:
+				view = new ReportProjectAmountEstimatedView();
+				break;
 				
 			case View.GLOBAL_CONFIGURATIONS_CATALOG_VIEW:
 				view = new CatalogGlobalConfigurationsView();
@@ -279,6 +291,8 @@ public class WebvaadinUI extends UI {
 		userTypePartnerToViews.add(Constant.View.REPORT_SUMMARY_COMPANY_IVA_VIEW);
 		userTypePartnerToViews.add(Constant.View.REPORT_SUMMARY_COMPANY_CATEGORIES_VIEW);
 		userTypePartnerToViews.add(Constant.View.REPORT_SUMMARY_COMPANY_CATEGORIES_HUMAN_VIEW);
+		userTypePartnerToViews.add(Constant.View.REPORT_PROJECT_DETAILS_AMOUNT_CHARGED_VIEW);
+		userTypePartnerToViews.add(Constant.View.REPORT_PROJECT_AMOUNT_ESTIMATED_VIEW);
 		
 		userTypePartnerToViews.add(Constant.View.CHANGEPASSWORD);
 		userTypePartnerToViews.add(Constant.View.UPDATEPROFILEUSER);
@@ -317,6 +331,8 @@ public class WebvaadinUI extends UI {
 			navigator.addView(view, getContructorByView(view));
 		}
 		
+		navigator.addView(Constant.View.MAIN_MENU, new MainMenuView());
+		
 		//navigator.addView(Constant.View.CHANGEPASSWORD, getContructorByView(Constant.View.CHANGEPASSWORD));
 	}
 	
@@ -338,15 +354,37 @@ public class WebvaadinUI extends UI {
 		Image logo = new Image(null, new ThemeResource("./images/logoV2.png"));
 		logo.setWidth(100, Unit.PERCENTAGE);
 		logo.setHeight("35px");
+		logo.setStyleName("logo-img");
 		mainLayout.addComponent(logo, 0, 0, 1, 0);
 
 		/**
 		 * Titulo Bienvenida
 		 */
-		lblTitle = new Label(
-				"Bienvenido al Sistema de Gestion y Liquidaciones de Proyectos");
-		lblTitle.setWidth(80, Unit.PERCENTAGE);
+		
+		logo.addListener(new ClickListener() {
+
+			@Override
+			public void click(com.vaadin.event.MouseEvents.ClickEvent event) {
+				if(RequestContext.getRequestContext() != null)
+					UI.getCurrent().getNavigator().navigateTo(Constant.View.MAIN_MENU);
+				else
+					UI.getCurrent().getNavigator().navigateTo(Constant.View.LOGIN);
+			}
+        });
+		
+		lblTitle = new Label();
 		lblTitle.setStyleName("titleLabelHome");
+		lblTitle.setImmediate(false);
+		lblTitle.setWidth("-1px");
+		lblTitle.setHeight("-1px");
+		lblTitle.setContentMode(ContentMode.HTML);
+		StringBuilder strBuilder = new StringBuilder();
+		strBuilder
+				.append("<b>M</b>eerkat <b>S</b>YS <b>M</b>anage <b>P</b>rojects");
+		lblTitle.setValue(strBuilder.toString());
+		
+		lblTitle.setWidth(80, Unit.PERCENTAGE);
+		
 		lblTitle2 = new Label("");
 
 		/**
@@ -382,12 +420,15 @@ public class WebvaadinUI extends UI {
 
 			buildInternalViews();
 			
+			UI.getCurrent().getNavigator().navigateTo(Constant.View.MAIN_MENU);
+			/*
 			if(RequestContext.getRequestContext().getUserType() == 1)
-				UI.getCurrent().getNavigator().navigateTo(Constant.View.CATALOGUSERS);
+				UI.getCurrent().getNavigator().navigateTo(Constant.View.MAIN_MENU);
 			else if(RequestContext.getRequestContext().getUserType() == 2)
 				UI.getCurrent().getNavigator().navigateTo(Constant.View.CATALOGEMPLOYEES);
 			else if(RequestContext.getRequestContext().getUserType() == 3)
 				UI.getCurrent().getNavigator().navigateTo(Constant.View.CATALOGPROJECTS);
+			*/
 		}
 
 		return mainLayout;
@@ -506,6 +547,12 @@ public class WebvaadinUI extends UI {
 				case "Rubros humanos":
 					UI.getCurrent().getNavigator().navigateTo(Constant.View.REPORT_SUMMARY_COMPANY_CATEGORIES_HUMAN_VIEW);
 					break;
+				case "Importes a cobrar":
+					UI.getCurrent().getNavigator().navigateTo(Constant.View.REPORT_PROJECT_DETAILS_AMOUNT_CHARGED_VIEW);
+					break;
+				case "Importes estimados":
+					UI.getCurrent().getNavigator().navigateTo(Constant.View.REPORT_PROJECT_AMOUNT_ESTIMATED_VIEW);
+					break;
 				case "Modificar configuración":
 					UI.getCurrent().getNavigator().navigateTo(Constant.View.GLOBAL_CONFIGURATION_UPDATE_VIEW);
 					break;
@@ -596,6 +643,8 @@ public class WebvaadinUI extends UI {
 			reports.addItem("Rubros de la empresa", null, mainMenuBarCommand);
 			reports.addItem("Rubros humanos", null, mainMenuBarCommand);
 			reports.addItem("Detalles por proyecto", null, mainMenuBarCommand);
+			reports.addItem("Importes a cobrar", null, mainMenuBarCommand);
+			reports.addItem("Importes estimados", null, mainMenuBarCommand);
 		}
 	}
 

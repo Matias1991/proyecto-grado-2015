@@ -72,7 +72,7 @@ public class EmployeeController {
 		return result;
 	}
 
-	public static SalarySummary estimateEmployee(SalarySummary salarySummary) {
+	public static SalarySummary estimateEmployee(SalarySummary salarySummary, String employedType) {
 
 		SalarySummary result = null;
 
@@ -82,6 +82,11 @@ public class EmployeeController {
 
 			estimateSalarySummary.setVoSalarySummary(salarySummary
 					.toVOSalarySummary());
+			boolean isPartner = false;
+			if(employedType.equals("Socio"))
+				isPartner = true;
+			estimateSalarySummary.setIsPartner(isPartner);
+						
 			result = new SalarySummary(service.estimateSalarySummary(
 					estimateSalarySummary).get_return());
 

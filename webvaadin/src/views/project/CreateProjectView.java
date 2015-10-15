@@ -104,7 +104,6 @@ public class CreateProjectView extends BaseView {
 			@Override
 			public void buttonClick(ClickEvent event) {
 				btnCreate.setEnabled(false);
-				cboSeller.setValidationVisible(true);
 				cboManager.setValidationVisible(true);
 				txtName.setValidationVisible(true);
 
@@ -131,7 +130,8 @@ public class CreateProjectView extends BaseView {
 					}
 
 					Employee seller = new Employee();
-					seller.setId((Integer) cboSeller.getValue());
+					if (cboSeller.getValue() != null)
+						seller.setId((Integer) cboSeller.getValue());
 					newProject.setSeller(seller);
 
 					List<ProjectEmployed> listEmployedHours = new ArrayList<ProjectEmployed>();
@@ -173,7 +173,6 @@ public class CreateProjectView extends BaseView {
 					if (result) {
 						new PopupWindow("AVISO",
 								"Proyecto creado correctamente");
-						cboSeller.setValidationVisible(false);
 						cboManager.setValidationVisible(false);
 						txtName.setValidationVisible(false);
 						cleanInputs();
@@ -234,7 +233,6 @@ public class CreateProjectView extends BaseView {
 		buildTables();
 		loadComboBoxes();
 		cleanInputs();
-		cboSeller.setValidationVisible(false);
 		cboManager.setValidationVisible(false);
 		txtName.setValidationVisible(false);
 
@@ -477,8 +475,6 @@ public class CreateProjectView extends BaseView {
 		cboSeller.setCaption("Vendedor");
 		cboSeller.setInputPrompt("Seleccione el vendedor");
 		cboSeller.setTabIndex(2);
-		cboSeller.setNullSelectionAllowed(false);
-		cboSeller.setRequired(true);
 		mainLayout.addComponent(cboSeller, "top:116px;right:0px;");
 
 		// cboManager
@@ -562,11 +558,10 @@ public class CreateProjectView extends BaseView {
 		boolean valid = true;
 		String requiredMessage = "Es requerido";
 
-		if (!txtName.isValid() || !cboSeller.isValid()
-				|| !cboPartner1.isValid() || !cboDistribution2.isValid()
-				|| !cboPartner2.isValid() || !cboDistribution2.isValid()) {
+		if (!txtName.isValid() || !cboPartner1.isValid()
+				|| !cboDistribution2.isValid() || !cboPartner2.isValid()
+				|| !cboDistribution2.isValid()) {
 			txtName.setRequiredError(requiredMessage);
-			cboSeller.setRequiredError(requiredMessage);
 			cboPartner1.setRequiredError(requiredMessage);
 			cboDistribution1.setRequiredError(requiredMessage);
 			cboPartner2.setRequiredError(requiredMessage);

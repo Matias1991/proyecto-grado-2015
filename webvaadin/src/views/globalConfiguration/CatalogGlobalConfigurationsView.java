@@ -56,14 +56,12 @@ public class CatalogGlobalConfigurationsView extends BaseView {
 
 			billsGrid = new Grid(beanContainer);
 			billsGrid.removeColumn("id");
-			billsGrid.setColumnOrder("code", "description", "value");
+			billsGrid.removeColumn("code");
+			billsGrid.setColumnOrder("description", "value");
 
-			billsGrid.getColumn("code").setHeaderCaption("Código");
 			billsGrid.getColumn("description").setHeaderCaption("Descripción");
 			billsGrid.getColumn("value").setHeaderCaption(
 					"Valor");
-
-			billsGrid.getColumn("description").setWidth(200);
 
 			billsGrid.setWidth(100, Unit.PERCENTAGE);
 			billsGrid.setHeight(100, Unit.PERCENTAGE);

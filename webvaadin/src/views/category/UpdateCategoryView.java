@@ -75,6 +75,7 @@ public class UpdateCategoryView extends BaseView {
 	private ComboBox cboxIvaTypes;
 	private TextField txtTotalAmount;
 	private Collection<Project> projects;
+	private TextField txtName;
 
 	public UpdateCategoryView() {
 
@@ -166,9 +167,9 @@ public class UpdateCategoryView extends BaseView {
 
 				boolean valid = true;
 
-				if (!txtDescription.isValid() || !txtAmount.isValid()
+				if (!txtName.isValid() || !txtAmount.isValid()
 						|| !cboxIvaTypes.isValid() || !creationDate.isValid()) {
-					txtDescription.setRequiredError("Es requerido");
+					txtName.setRequiredError("Es requerido");
 					cboxIvaTypes.setRequiredError("Es requerido");
 					txtAmount.setRequiredError("Es requerido");
 					txtAmount.setConversionError("Debe ser numérico");
@@ -177,10 +178,7 @@ public class UpdateCategoryView extends BaseView {
 				}
 
 				if ((categoryType.getValue().equals("Proyecto") && !cboProject
-						.isValid()) // || (categoryType.getValue() == "Proyecto"
-									// && cboProject.getValue() == null)
-						|| (optCurrency.getValue() == "Dolares" && !txtTypeExchange
-								.isValid())) {
+						.isValid()) || (optCurrency.getValue() == "Dolares" && !txtTypeExchange.isValid())) {
 					cboProject.setRequiredError("Es requerido");
 					txtTypeExchange.setRequiredError("Es requerido");
 					txtTypeExchange.setConversionError("Debe ser numérico");
@@ -203,6 +201,8 @@ public class UpdateCategoryView extends BaseView {
 
 				if (valid) {
 					Category category = new Category();
+					
+					category.setDescription(txtDescription.getValue());
 
 					if (categoryType.getValue().equals("Empresa")) {
 						category.setCategoryTypeId(1);
@@ -283,6 +283,7 @@ public class UpdateCategoryView extends BaseView {
 			grid = new Grid(container);
 			// oculto columnas que no me interesa mostrar
 			grid.removeColumn("id");
+			grid.removeColumn("description");
 			grid.removeColumn("projectId");
 			grid.removeColumn("categoryTypeId");
 			grid.removeColumn("categoryType");
@@ -302,10 +303,9 @@ public class UpdateCategoryView extends BaseView {
 			grid.removeColumn("ivaTypeId");
 			grid.removeColumn("totalAmountToShow");
 
-			grid.getColumn("description").setHeaderCaption("Descripción");
-			grid.getColumn("description").setWidth(200);
+			grid.getColumn("name").setHeaderCaption("Nombre");			
 			grid.getColumn("projectName").setHeaderCaption("Proyecto");
-			grid.setColumnOrder("description", "projectName");
+			grid.setColumnOrder("name", "projectName");
 			grid.setWidth("330px");
 			grid.setHeight("456px");
 			grid.setSelectionMode(SelectionMode.SINGLE);
@@ -371,9 +371,10 @@ public class UpdateCategoryView extends BaseView {
 							txtTypeExchange.setVisible(false);
 							txtTypeExchange.setValue("");
 						}
-						txtDescription.setEnabled(true);
 						txtDescription.setValue(catToModify.getDescription());
-						txtDescription.setEnabled(false);
+						txtName.setEnabled(true);
+						txtName.setValue(catToModify.getName());
+						txtName.setEnabled(false);
 						categoryType.setReadOnly(false);
 						categoryType.select(catToModify.getCategoryTypeToShow());
 						if (RequestContext.getRequestContext().getUserType() == UserType.USER_TYPE_MANAGER) {
@@ -427,6 +428,7 @@ public class UpdateCategoryView extends BaseView {
 
 	private void setComponentsReadOnly(boolean readOnly) {
 		txtAmount.setReadOnly(readOnly);
+		txtName.setReadOnly(readOnly);
 		txtDescription.setReadOnly(readOnly);
 		if (RequestContext.getRequestContext().getUserType() == UserType.USER_TYPE_MANAGER) {
 			categoryType.setReadOnly(true);
@@ -445,6 +447,7 @@ public class UpdateCategoryView extends BaseView {
 		btnCancel.setVisible(visible);
 		btnUpdate.setVisible(visible);
 		txtDescription.setVisible(visible);
+		txtName.setVisible(visible);
 		categoryType.setVisible(visible);
 		creationDate.setVisible(visible);
 		isRRHH.setVisible(visible);
@@ -465,6 +468,7 @@ public class UpdateCategoryView extends BaseView {
 			buildGrid();
 			setComponentsReadOnly(false);
 			txtDescription.clear();
+			txtName.clear();
 			txtAmount.clear();
 			setComponentsReadOnly(true);
 			enablePanelProject(false);
@@ -480,7 +484,7 @@ public class UpdateCategoryView extends BaseView {
 
 			cboxIvaTypes.setValue(3);
 			cboxIvaTypes.setReadOnly(true);
-
+			
 			cleanInputs();
 			btnUpdate.setEnabled(false);
 
@@ -492,7 +496,8 @@ public class UpdateCategoryView extends BaseView {
 
 	void cleanInputs() {
 		setComponentsReadOnly(false);
-		txtDescription.setValidationVisible(false);
+		txtName.setValidationVisible(false);
+		txtName.setValue("");
 		txtDescription.setValue("");
 		cboProject.setValidationVisible(false);
 		txtAmount.setValidationVisible(false);
@@ -530,17 +535,26 @@ public class UpdateCategoryView extends BaseView {
 		lblTitle.setValue(getBreadCrumbToShow());
 		mainLayout.addComponent(lblTitle, "top:42.0px;left:0.0px;");
 
-		// txtDescripcion
+		// txtDescription
 		txtDescription = new TextArea();
 		txtDescription.setCaption("Descripción");
 		txtDescription.setImmediate(true);
-		txtDescription.setWidth("240px");
-		txtDescription.setHeight("58px");
-		txtDescription.setTabIndex(1);
-		txtDescription.setMaxLength(240);
-		txtDescription.setRows(2);
+		txtDescription.setWidth("250px");
+		txtDescription.setHeight("120px");		
+		txtDescription.setMaxLength(250);
+		txtDescription.setRows(5);
 		txtDescription.setNullRepresentation("");
-		mainLayout.addComponent(txtDescription, "top:152.0px;left:345.0px;");
+		mainLayout.addComponent(txtDescription, "top:152.0px;left:610.0px;");
+		
+		// txtName
+		txtName = new TextField();
+		txtName.setCaption("Nombre");
+		txtName.setImmediate(true);
+		txtName.setWidth("240px");
+		txtName.setTabIndex(1);
+		txtName.setRequired(true);
+		txtName.setNullRepresentation("");
+		mainLayout.addComponent(txtName,"top:152.0px;left:345.0px;");
 
 		// creationDate
 		creationDate = new PopupDateField();
@@ -569,7 +583,7 @@ public class UpdateCategoryView extends BaseView {
 		isRRHH.setImmediate(false);
 		isRRHH.setWidth("-1px");
 		isRRHH.setHeight("-1px");
-		mainLayout.addComponent(isRRHH, "top:304.0px;left:480.0px;");
+		mainLayout.addComponent(isRRHH, "top:309.0px;left:480.0px;");
 
 		// optCurrency
 		optCurrency = new OptionGroup();
@@ -671,7 +685,7 @@ public class UpdateCategoryView extends BaseView {
 		cboProject.setInputPrompt("Seleccione el proyecto");
 		cboProject.setNullSelectionAllowed(false);
 		cboProject.setRequired(true);
-		mainLayout.addComponent(cboProject, "top:152.0px;left:610.0px;");
+		mainLayout.addComponent(cboProject, "top:309.0px;left:610.0px;");
 
 		return mainLayout;
 	}

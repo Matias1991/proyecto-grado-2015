@@ -49,7 +49,7 @@ public class UpdateGlobalConfigurationView extends BaseView {
 
 	public UpdateGlobalConfigurationView() {
 
-		super("Facturas", "Modificar facturas");
+		super("Configuraciones globales", "Modificar configuración");
 
 		buildMainLayout();
 		setCompositionRoot(mainLayout);
@@ -89,7 +89,7 @@ public class UpdateGlobalConfigurationView extends BaseView {
 
 			@Override
 			public void buttonClick(ClickEvent event) {
-				UI.getCurrent().getNavigator().navigateTo(Constant.View.BILLS);
+				UI.getCurrent().getNavigator().navigateTo(Constant.View.GLOBAL_CONFIGURATIONS_CATALOG_VIEW);
 			}
 		});
 
@@ -102,6 +102,8 @@ public class UpdateGlobalConfigurationView extends BaseView {
 		
 		txtDescription.setValidationVisible(false);
 		txtValue.setValidationVisible(false);
+		
+		btnUpdate.setEnabled(false);
 	}
 
 	void buildEntityData(GlobalConfiguration globalConfiguration) {
@@ -123,13 +125,15 @@ public class UpdateGlobalConfigurationView extends BaseView {
 
 			billsGrid = new Grid(beanContainer);
 			billsGrid.removeColumn("id");
-			billsGrid.setColumnOrder("code", "description", "value");
+			billsGrid.removeColumn("code");
+			billsGrid.setColumnOrder("description", "value");
 
-			billsGrid.getColumn("code").setHeaderCaption("Código");
 			billsGrid.getColumn("description").setHeaderCaption("Descripción");
 			billsGrid.getColumn("value").setHeaderCaption(
 					"Valor");
-			billsGrid.getColumn("description").setWidth(200);
+			billsGrid.getColumn("description").setWidth(500);
+			billsGrid.getColumn("description").setMaximumWidth(100);
+			billsGrid.getColumn("description").setMaximumWidth(500);
 			billsGrid.setWidth(600, Unit.PIXELS);
 			billsGrid.setHeight(515, Unit.PIXELS);
 			billsGrid.setSelectionMode(SelectionMode.SINGLE);
@@ -201,6 +205,7 @@ public class UpdateGlobalConfigurationView extends BaseView {
 	}
 
 	void setEnabledEditionInputs(boolean enabled) {
+		btnUpdate.setEnabled(enabled);
 		txtDescription.setEnabled(enabled);
 		txtValue.setEnabled(enabled);
 	}

@@ -131,6 +131,9 @@ public class CatalogBillsView extends BaseView {
 			billsGrid.removeColumn("isCurrencyDollar");
 			billsGrid.removeColumn("typeExchange");
 			billsGrid.removeColumn("ivaType");
+			billsGrid.removeColumn("totalAmount");
+			billsGrid.removeColumn("amountCharged");
+			billsGrid.removeColumn("amountReceivable");
 			billsGrid.setColumnOrder("code", "description", "amountToShow",
 					"ivaTypeToShow", "totalAmountToShow", "typeExchangeToShow",
 					"amountChargedToShow", "amountReceivableToShow",

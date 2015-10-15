@@ -115,9 +115,10 @@ public class CatalogCategoriesView extends BaseView {
 			categoriesGrid.removeColumn("currencyDollar");
 			categoriesGrid.removeColumn("categoryTypeToShow");
 			categoriesGrid.removeColumn("ivaTypeId");
-			categoriesGrid.setColumnOrder("description", "amountToShow",
+			categoriesGrid.setColumnOrder("name","description", "amountToShow",
 					"ivaTypeToShow", "totalAmountToShow", "typeExchangeToShow",
 					"projectName", "createDateTimeUTCToShow", "isRRHHToShow");
+			categoriesGrid.getColumn("name").setHeaderCaption("Nombre");
 			categoriesGrid.getColumn("description").setHeaderCaption(
 					"Descripción");
 			categoriesGrid.getColumn("description").setWidth(200);

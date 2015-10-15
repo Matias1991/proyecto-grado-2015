@@ -172,6 +172,27 @@ public class CoreBill implements ICoreBill {
 		}
 		return bills;
 	}
+	
+	@Override
+	public ArrayList<Bill> getBills(Date date, int projectId)
+			throws ServerException {
+		ArrayList<Bill> bills;
+
+		DAOManager daoManager = new DAOManager();
+		try {
+			bills = daoManager.getDAOBills().getBills(date, projectId);
+
+			for (Bill bill : bills) {
+				buildTotalAmountAndTotalCharged(bill);
+			}
+
+		} catch (ServerException e) {
+			throw e;
+		} finally {
+			daoManager.close();
+		}
+		return bills;
+	}
 
 	@Override
 	public ArrayList<Bill> getNotLiquidatedBills(User userContext) throws ServerException {
@@ -279,6 +300,15 @@ public class CoreBill implements ICoreBill {
 		DAOManager daoManager = new DAOManager();
 		try {
 			bills = daoManager.getDAOBills().getBills(projectId);
+			if(bills != null && bills.size() > 0){
+				for(Bill bill : bills){
+					if(bill.getIsCurrencyDollar())
+						bill.setTotalAmountDollar(getTotalAmount(bill.getAmountDollar(), bill.getIvaType()));
+					else
+						bill.setTotalAmountPeso(getTotalAmount(bill.getAmountPeso(), bill.getIvaType()));
+				}
+					
+			}
 
 		} catch (ServerException e) {
 			throw e;
@@ -311,13 +341,9 @@ public class CoreBill implements ICoreBill {
 			// obtener los cobros de la factura
 			ArrayList<Charge> charges = bill.getCharges();
 
-			// obtiene todos los cobros para esa factura y suma en monto de los
-			// cobros en dolares
+			// obtiene todos los cobros para esa factura y suma el monto de los cobros
 			for (Charge charge : charges) {
-				if (charge.getIsCurrencyDollar())
-					amountCharged += charge.getAmountDollar();
-				else
-					amountCharged += charge.getAmountPeso();
+				amountCharged += charge.getAmount();
 			}
 
 		} catch (ServerException e) {
@@ -363,5 +389,20 @@ public class CoreBill implements ICoreBill {
 			daoManager.close();
 		}
 		return result;
+	}
+
+	@Override
+	public double getTotalAmountBills(int projectId, Date from, Date to)
+			throws Exception {
+		DAOManager daoManager = new DAOManager();
+		try {
+			
+			return daoManager.getDAOBills().getTotalAmountBills(projectId, from, to);
+
+		} catch (ServerException e) {
+			throw e;
+		} finally {
+			daoManager.close();
+		}
 	}
 }

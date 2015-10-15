@@ -76,6 +76,8 @@ public class DeleteProjectView extends BaseView {
 																.getSelectedRow());
 									}
 									btnDelete.setEnabled(false);
+								}else{
+									btnDelete.setEnabled(true);
 								}
 							}
 						});
@@ -102,8 +104,10 @@ public class DeleteProjectView extends BaseView {
 			catalogProjectsGrid.removeColumn("employedHours");
 			catalogProjectsGrid.removeColumn("distributions");
 			catalogProjectsGrid.removeColumn("projectPartners");
+			catalogProjectsGrid.removeColumn("amount");
+			catalogProjectsGrid.removeColumn("isCurrencyDollar");
 			catalogProjectsGrid.setColumnOrder("name", "description",
-					"closedToShow", "createDateTimeUTCToShow");
+					"closedToShow", "createDateTimeUTCToShow", "amountToShow");
 
 			catalogProjectsGrid.getColumn("name").setHeaderCaption("Nombre");
 			catalogProjectsGrid.getColumn("description").setHeaderCaption(
@@ -112,6 +116,8 @@ public class DeleteProjectView extends BaseView {
 					"Abierto");
 			catalogProjectsGrid.getColumn("createDateTimeUTCToShow")
 					.setHeaderCaption("Fecha creación");
+			catalogProjectsGrid.getColumn("amountToShow").setHeaderCaption(
+					"Monto estimado");
 			catalogProjectsGrid.setWidth(100, Unit.PERCENTAGE);
 			catalogProjectsGrid.setHeight(100, Unit.PERCENTAGE);
 			catalogProjectsGrid.setSelectionMode(SelectionMode.SINGLE);

@@ -31,24 +31,21 @@ public class DAOCharges implements IDAOCharges {
 	public int insert(Charge obj) throws ServerException {
 		PreparedStatement preparedStatement = null;
 
-		String insertSQL = "INSERT INTO CHARGE (NUMBER, DESCRIPTION, AMOUNTPESO, AMOUNTDOLLAR, ISCURRENCYDOLLAR, TYPEEXCHANGE, CREATEDDATETIMEUTC, BILLID) VALUES"
-				+ "(?,?,?,?,?,?,?,?)";
+		String insertSQL = "INSERT INTO CHARGE (NUMBER, DESCRIPTION, AMOUNT, CREATEDDATETIMEUTC, BILLID) VALUES"
+				+ "(?,?,?,?,?)";
 
 		try {
 			preparedStatement = this.connection.prepareStatement(insertSQL);
 
 			preparedStatement.setString(1, obj.getNumber());
 			preparedStatement.setString(2, obj.getDescription());
-			preparedStatement.setDouble(3, obj.getAmountPeso());
-			preparedStatement.setDouble(4, obj.getAmountDollar());
-			preparedStatement.setBoolean(5, obj.getIsCurrencyDollar());
-			preparedStatement.setDouble(6, obj.getTypeExchange());
-			preparedStatement.setTimestamp(7, new Timestamp(obj
+			preparedStatement.setDouble(3, obj.getAmount());
+			preparedStatement.setTimestamp(4, new Timestamp(obj
 					.getCreatedDateTimeUTC().getTime()));
 			if (obj.getBill() != null)
-				preparedStatement.setInt(8, obj.getBill().getId());
+				preparedStatement.setInt(5, obj.getBill().getId());
 			else
-				preparedStatement.setNull(8, java.sql.Types.INTEGER);
+				preparedStatement.setNull(5, java.sql.Types.INTEGER);
 
 			preparedStatement.executeUpdate();
 
@@ -139,17 +136,15 @@ public class DAOCharges implements IDAOCharges {
 		PreparedStatement preparedStatement = null;
 
 		String updateSQL = "UPDATE CHARGE " + "SET DESCRIPTION = ?, "
-				+ "AMOUNTPESO = ?, " + "AMOUNTDOLLAR = ?, "
-				+ "TYPEEXCHANGE = ? " + "WHERE id = ?";
+				+ "AMOUNT = ? "
+				+ "WHERE id = ?";
 
 		try {
 			preparedStatement = this.connection.prepareStatement(updateSQL);
 
 			preparedStatement.setString(1, obj.getDescription());
-			preparedStatement.setDouble(2, obj.getAmountPeso());
-			preparedStatement.setDouble(3, obj.getAmountDollar());
-			preparedStatement.setDouble(4, obj.getTypeExchange());
-			preparedStatement.setInt(5, id);
+			preparedStatement.setDouble(2, obj.getAmount());
+			preparedStatement.setInt(3, id);
 
 			preparedStatement.executeUpdate();
 
@@ -244,7 +239,7 @@ public class DAOCharges implements IDAOCharges {
 		try {
 
 			StringBuilder sql = new StringBuilder();
-			sql.append("SELECT C.*, B.Code as BillCode, B.Description as BillDescription FROM CHARGE C ");
+			sql.append("SELECT C.*, B.Code as BillCode, B.Description as BillDescription, B.IsCurrencyDollar as BillCurrencyDollar FROM CHARGE C ");
 			sql.append("INNER JOIN BILL B ON B.Id = C.BillId ");
 			sql.append("INNER JOIN Project P ON P.Id = B.ProjectId ");
 			sql.append("WHERE B.IsLiquidated = ? AND P.Closed = ? ");
@@ -267,6 +262,7 @@ public class DAOCharges implements IDAOCharges {
 					charge.getBill().setCode(rs.getString("billCode"));
 					charge.getBill().setDescription(
 							rs.getString("billDescription"));
+					charge.getBill().setIsCurrencyDollar(rs.getBoolean("billCurrencyDollar"));
 				}
 				charges.add(charge);
 			}
@@ -368,7 +364,7 @@ public class DAOCharges implements IDAOCharges {
 		try {
 
 			StringBuilder sql = new StringBuilder();
-			sql.append("SELECT C.*, B.Code as BillCode, B.Description as BillDescription FROM CHARGE C ");
+			sql.append("SELECT C.*, B.Code as BillCode, B.Description as BillDescription, B.IsCurrencyDollar as BillCurrencyDollar FROM CHARGE C ");
 			sql.append("INNER JOIN BILL B ON B.Id = C.BillId ");
 			if(userContext.getUserType() == UserType.MANAGER)
 			{
@@ -390,6 +386,7 @@ public class DAOCharges implements IDAOCharges {
 					charge.getBill().setCode(rs.getString("billCode"));
 					charge.getBill().setDescription(
 							rs.getString("billDescription"));
+					charge.getBill().setIsCurrencyDollar(rs.getBoolean("billCurrencyDollar"));
 				}
 				charges.add(charge);
 			}
@@ -414,10 +411,7 @@ public class DAOCharges implements IDAOCharges {
 		int _id = rs.getInt("id");
 		String number = rs.getString("number");
 		String description = rs.getString("description");
-		double amountPeso = rs.getDouble("amountPeso");
-		double amountDollar = rs.getDouble("amountDollar");
-		boolean isCurrencyDollar = rs.getBoolean("isCurrencyDollar");
-		double typeExchange = rs.getDouble("typeExchange");
+		double amount = rs.getDouble("amount");
 		Date createdDateTimeUTC = rs.getTimestamp("createdDateTimeUTC");
 		int billId = rs.getInt("billId");
 
@@ -425,17 +419,10 @@ public class DAOCharges implements IDAOCharges {
 		charge.setId(_id);
 		charge.setNumber(number);
 		charge.setDescription(description);
-		charge.setIsCurrencyDollar(isCurrencyDollar);
-		charge.setTypeExchange(typeExchange);
+		charge.setAmount(amount);
 		charge.setCreatedDateTimeUTC(createdDateTimeUTC);
 		if (billId != 0)
 			charge.setBill(new Bill(billId));
-
-		if (charge.getIsCurrencyDollar()) {
-			charge.setAmountDollar(amountDollar);
-			charge.setTypeExchange(typeExchange);
-		} else
-			charge.setAmountPeso(amountPeso);
 
 		return charge;
 	}

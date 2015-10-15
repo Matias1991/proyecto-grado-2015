@@ -39,9 +39,7 @@ public class ProjectBuilder extends BaseBuilder<VOProject, Project> {
 		voProject.setClosed(businessObject.getClosed());
 		voProject.setCreatedDateTimeUTC(businessObject.getCreatedDateTimeUTC());
 		voProject.setUpdatedDateTimeUTC(businessObject.getUpdatedDateTimeUTC());
-		// voProject.setVoEmployedProjects(BuildVOEmployedProjects(businessObject.getiDAOEmployedProject().getEmployeesProject(businessObject.getId())));
-		// voProject.setVoPartnerProjects(BuildVOPartnerProjects(businessObject.getiDAOPartnerProject().getPartnersProject(businessObject.getId())));
-
+	
 		return voProject;
 	}
 
@@ -54,8 +52,6 @@ public class ProjectBuilder extends BaseBuilder<VOProject, Project> {
 		project.setDescription(voObject.getDescription());
 		project.setAmount(voObject.getAmount());
 		project.setIsCurrencyDollar(voObject.getIsCurrencyDollar());
-//		project.setiDAOEmployedProject(voObject.getVoEmployedProjects());
-		// project.setiDAOPartnerProject(iDAOPartnerProject);
 		User manager = new User();
 		if (voObject.getManagerId() != 0) {
 			manager.setId(voObject.getManagerId());
@@ -64,9 +60,11 @@ public class ProjectBuilder extends BaseBuilder<VOProject, Project> {
 		}
 		project.setManager(manager);
 		Employed seller = new Employed();
-		seller.setId(voObject.getSellerId());
-		seller.setName(voObject.getSellerName());
-		seller.setLastName(voObject.getSellerLastname());
+		if(voObject.getSellerId() != 0){
+			seller.setId(voObject.getSellerId());
+			seller.setName(voObject.getSellerName());
+			seller.setLastName(voObject.getSellerLastname());
+		}
 		project.setSeller(seller);
 		project.setClosed(voObject.isClosed());
 		project.setCreatedDateTimeUTC(voObject.getCreatedDateTimeUTC());

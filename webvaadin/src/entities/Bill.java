@@ -26,9 +26,12 @@ public class Bill {
     private String amountToShow;
     private String typeExchangeToShow;
    	private String amountChargedToShow;
+   	private double amountCharged;
+   	private double totalAmount;
     private String totalAmountToShow;
     private String ivaTypeToShow;
     private String amountReceivableToShow;
+    private double amountReceivable;
     
     public Bill()
     {
@@ -56,21 +59,27 @@ public class Bill {
     	if(isCurrencyDollar)
     	{
     		this.amountToShow = new DecimalFormat("U$S ###,###.###").format(this.amountDollar);
+    		this.amountCharged = voBill.getAmountChargedDollar();
     		this.amountChargedToShow = new DecimalFormat("U$S ###,###.###").format(voBill.getAmountChargedDollar());
     		this.typeExchangeToShow = String.valueOf(this.typeExchange);
     		
+    		this.totalAmount = voBill.getTotalAmountDollar();
     		this.totalAmountToShow = new DecimalFormat("U$S ###,###.###").format(voBill.getTotalAmountDollar());
     		
+    		this.amountReceivable = voBill.getTotalAmountDollar() - voBill.getAmountChargedDollar();
     		this.amountReceivableToShow = new DecimalFormat("U$S ###,###.###").format(voBill.getTotalAmountDollar() - voBill.getAmountChargedDollar());
     	}
     	else
     	{
     		this.amountToShow = new DecimalFormat("$ ###,###.###").format(this.amountPeso);
+    		this.amountCharged = voBill.getAmountChargedPeso();
     		this.amountChargedToShow = new DecimalFormat("$ ###,###.###").format(voBill.getAmountChargedPeso());
     		this.typeExchangeToShow = "N/A";
     		
+    		this.totalAmount = voBill.getTotalAmountPeso();
     		this.totalAmountToShow = new DecimalFormat("$ ###,###.###").format(voBill.getTotalAmountPeso());
     		
+    		this.amountReceivable = voBill.getTotalAmountPeso() - voBill.getAmountChargedPeso();
     		this.amountReceivableToShow = new DecimalFormat("$ ###,###.###").format(voBill.getTotalAmountPeso() - voBill.getAmountChargedPeso());
     	}
     	
@@ -78,6 +87,30 @@ public class Bill {
     	this.ivaTypeToShow = getIvaTypeToShow(voBill.getIvaType());    	
     }
     
+	public double getAmountCharged() {
+		return amountCharged;
+	}
+
+	public void setAmountCharged(double amountCharged) {
+		this.amountCharged = amountCharged;
+	}
+
+	public double getTotalAmount() {
+		return totalAmount;
+	}
+
+	public void setTotalAmount(double totalAmount) {
+		this.totalAmount = totalAmount;
+	}
+
+	public double getAmountReceivable() {
+		return amountReceivable;
+	}
+
+	public void setAmountReceivable(double amountReceivable) {
+		this.amountReceivable = amountReceivable;
+	}
+
 	public int getId() {
 		return id;
 	}

@@ -123,21 +123,16 @@ public class DeleteChargesView extends BaseView {
 			billsGrid.removeColumn("id");
 			billsGrid.removeColumn("billId");
 			billsGrid.removeColumn("createdDateTimeUTC");
-			billsGrid.removeColumn("amountPeso");
-			billsGrid.removeColumn("amountDollar");
-			billsGrid.removeColumn("isCurrencyDollar");
-			billsGrid.removeColumn("typeExchange");
+			billsGrid.removeColumn("amount");
 			billsGrid.removeColumn("billDescription");
 			billsGrid.setColumnOrder("number", "description", "amountToShow",
-					"typeExchangeToShow", "createdDateTimeUTCToShow",
+					"createdDateTimeUTCToShow",
 					"billCode");
 
 			billsGrid.getColumn("number").setHeaderCaption("N° de recibo");
 			billsGrid.getColumn("description").setHeaderCaption(
 					"Descripción cobro");
 			billsGrid.getColumn("amountToShow").setHeaderCaption("Importe");
-			billsGrid.getColumn("typeExchangeToShow").setHeaderCaption(
-					"Tipo de cambio");
 			billsGrid.getColumn("createdDateTimeUTCToShow").setHeaderCaption(
 					"Fecha de creación");
 			billsGrid.getColumn("billCode").setHeaderCaption(

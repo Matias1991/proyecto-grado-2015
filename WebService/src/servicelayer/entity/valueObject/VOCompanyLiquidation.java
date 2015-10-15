@@ -29,7 +29,7 @@ public class VOCompanyLiquidation implements Serializable {
 	private Date appliedDateTimeUTC;
 	private Date CreatedDateTimeUTC;
 	private VOCategory[] categoriesHuman;
-	private VOCategory[] categoryMaterial;
+	private VOCategory[] categoriesMaterial;
 	private VOProjectEmployed[] employees;
 	private double totalEarningsPeso;
 	private double totalEarningsDollar;
@@ -166,11 +166,11 @@ public class VOCompanyLiquidation implements Serializable {
 	public void setCategoriesHuman(VOCategory[] categoriesHuman) {
 		this.categoriesHuman = categoriesHuman;
 	}
-	public VOCategory[] getCategoryMaterial() {
-		return categoryMaterial;
+	public VOCategory[] getCategoriesMaterial() {
+		return categoriesMaterial;
 	}
-	public void setCategoryMaterial(VOCategory[] categoryMaterial) {
-		this.categoryMaterial = categoryMaterial;
+	public void setCategoriesMaterial(VOCategory[] categoryMaterial) {
+		this.categoriesMaterial = categoryMaterial;
 	}
 	public VOProjectEmployed[] getEmployees() {
 		return employees;

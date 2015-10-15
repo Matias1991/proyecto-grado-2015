@@ -364,8 +364,13 @@ public class CoreCompanyLiquidation implements ICoreCompanyLiquidation {
 	public boolean existLiquidation(Date month) throws ServerException {
 		DAOManager daoManager = new DAOManager();
 		try {
+			Calendar cal = Calendar.getInstance();
+			cal.setTime(month);
+			cal.set(Calendar.DAY_OF_MONTH, 01);
+			Date appliedDate = cal.getTime();
+			
 			return daoManager.getDAOCompanyLiquidations().existLiquidation(
-					month);
+					appliedDate);
 		} catch (ServerException e) {
 			daoManager.rollback();
 			throw e;

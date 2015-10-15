@@ -10,10 +10,12 @@ import org.apache.axis2.AxisFault;
 import servicelayer.service.ServiceWebStub;
 import servicelayer.service.ServiceWebStub.DeleteBills;
 import servicelayer.service.ServiceWebStub.GetAllBillsByFilters;
+import servicelayer.service.ServiceWebStub.GetAllBillsByYearAndProject;
 import servicelayer.service.ServiceWebStub.GetBills;
 import servicelayer.service.ServiceWebStub.GetBillsByFilters;
 import servicelayer.service.ServiceWebStub.GetBillsByFiltersWithCharges;
 import servicelayer.service.ServiceWebStub.GetBillsByProject;
+import servicelayer.service.ServiceWebStub.GetTotalAmountBills;
 import servicelayer.service.ServiceWebStub.InsertBill;
 import servicelayer.service.ServiceWebStub.UpdateBill;
 import servicelayer.service.ServiceWebStub.VOBill;
@@ -154,6 +156,38 @@ public class BillController {
 		return bills;
 	}
 	
+	public static Collection<Bill> getAllBillsByYearAndProject(Date date, int projectId)
+	{
+		Collection<Bill> bills = new ArrayList<Bill>();
+		
+		try {
+			ServiceWebStub service = new ServiceWebStub();
+			GetAllBillsByYearAndProject getAllBillsByYearAndProject = new GetAllBillsByYearAndProject();
+			
+			getAllBillsByYearAndProject.setDate(date);
+			getAllBillsByYearAndProject.setProjectId(projectId);
+			
+			VOBill [] voBills = service.getAllBillsByYearAndProject(getAllBillsByYearAndProject).get_return();
+
+			if(voBills != null)
+			{
+				for(VOBill voBill : voBills)
+				{
+					Bill bill = new Bill(voBill);
+					bills.add(bill);
+				}
+			}
+			
+		} catch (AxisFault e) {
+			String error = e.getMessage().replace("<faultstring>", "");
+			new PopupWindow("ERROR", error.replace("</faultstring>", ""));
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
+		
+		return bills;
+	}
+	
 	public static Collection<Bill> getBillsByFiltersAndActiveProjects(Date from, Date to, boolean isLiquidated, boolean withCharges)
 	{
 		Collection<Bill> bills = new ArrayList<Bill>();
@@ -274,6 +308,29 @@ public class BillController {
 			deleteBills.setIds(ids);
 			
 			result = service.deleteBills(deleteBills).get_return();
+			
+		} catch (AxisFault e) {
+			String error = e.getMessage().replace("<faultstring>", "");
+			new PopupWindow("ERROR", error.replace("</faultstring>", ""));
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
+		
+		return result;
+	}
+	
+	public static double getTotalAmountBills(int projectId, Date from, Date to)
+	{
+		double result = 0;
+		try {
+			ServiceWebStub service = new ServiceWebStub();
+			GetTotalAmountBills getTotalAmountBills = new GetTotalAmountBills();
+			
+			getTotalAmountBills.setProjectId(projectId);
+			getTotalAmountBills.setFrom(from);
+			getTotalAmountBills.setTo(to);
+			
+			result = service.getTotalAmountBills(getTotalAmountBills).get_return();
 			
 		} catch (AxisFault e) {
 			String error = e.getMessage().replace("<faultstring>", "");

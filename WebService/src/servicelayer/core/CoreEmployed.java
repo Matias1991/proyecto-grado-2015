@@ -57,7 +57,10 @@ public class CoreEmployed implements ICoreEmployed {
 
 				employed.setId(newEmployedId);
 				employed.setDeleted(false);
-				SalarySummary calculateSalarySummary = calculateSalarySummary(salarySummary);
+				boolean isPartner = false;
+				if(employed.getEmployedType() == EmployedType.PARTNER)
+					isPartner = true;
+				SalarySummary calculateSalarySummary = calculateSalarySummary(salarySummary,isPartner);
 				calculateSalarySummary.setCreatedDateTimeUTC(new Date());
 				// add new salary summary for employed
 				employed.addNewSalarySummary(calculateSalarySummary);
@@ -107,9 +110,9 @@ public class CoreEmployed implements ICoreEmployed {
 	}
 
 	@Override
-	public SalarySummary estimateSalarySummary(SalarySummary voSummarySalary)
+	public SalarySummary estimateSalarySummary(SalarySummary voSummarySalary, boolean isPartner)
 			throws ServerException {
-		SalarySummary salarySummary = calculateSalarySummary(voSummarySalary);
+		SalarySummary salarySummary = calculateSalarySummary(voSummarySalary, isPartner);
 
 		return salarySummary;
 	}
@@ -174,7 +177,10 @@ public class CoreEmployed implements ICoreEmployed {
 					// CREATE NEW VERSION OF SALARY SUMMARY
 					SalarySummary currentSalarySummary = currentEmployed
 							.getLatestVersionSalarySummary();
-					SalarySummary calculateSalarySummary = calculateSalarySummary(salarySummary);
+					boolean isPartner = false;
+					if(employed.getEmployedType() == EmployedType.PARTNER)
+						isPartner = true;
+					SalarySummary calculateSalarySummary = calculateSalarySummary(salarySummary, isPartner);
 					if (updatedSalarySummaries(currentSalarySummary,
 							calculateSalarySummary)) {
 						if (!DateFormat
@@ -299,7 +305,7 @@ public class CoreEmployed implements ICoreEmployed {
 		return list;
 	}
 
-	SalarySummary calculateSalarySummary(SalarySummary salarySummary)
+	SalarySummary calculateSalarySummary(SalarySummary salarySummary, boolean isPartner)
 			throws ServerException {
 		SalarySummary newSalarySummary = new SalarySummary();
 
@@ -365,16 +371,24 @@ public class CoreEmployed implements ICoreEmployed {
 				.setEmployersContributionsRetirement(employersContributionsRetirement);
 
 		// aporte FONASA personal
-		double personalFONASAContribution = salarySummary.getNominalSalary()
-				* salarySummary.getPercentageTypeFONASA();
-		newSalarySummary
-				.setPersonalFONASAContribution(personalFONASAContribution);
+		if(!isPartner){
+			double personalFONASAContribution = salarySummary.getNominalSalary()
+					* salarySummary.getPercentageTypeFONASA();
+			newSalarySummary
+					.setPersonalFONASAContribution(personalFONASAContribution);
+		}else{
+			newSalarySummary.setPersonalFONASAContribution(0.0);
+		}
 
 		// aporte FONASA patronal
-		double employersFONASAContribution = salarySummary.getNominalSalary()
-				* percentage_employers_FONASA_contribution;
-		newSalarySummary
-				.setEmployersFONASAContribution(employersFONASAContribution);
+		if(!isPartner){
+			double employersFONASAContribution = salarySummary.getNominalSalary()
+					* percentage_employers_FONASA_contribution;
+			newSalarySummary
+					.setEmployersFONASAContribution(employersFONASAContribution);
+		}else{
+			newSalarySummary.setEmployersFONASAContribution(0.0);
+		}
 
 		// aporte FRL personal
 		double personalFRLContribution = salarySummary.getNominalSalary()
@@ -419,22 +433,34 @@ public class CoreEmployed implements ICoreEmployed {
 
 		// prevencion de despido
 		// =(nominal/12)+((nominal/12)*var3)+(nominal/30*var1*var2)
-		double nominal = newSalarySummary.getNominalSalary();
-		double dismissalPrevention = (nominal / 12)
-				+ ((nominal / 12) * var3_prev)
-				+ (nominal / 30 * var1_prev * var2_prev);
-		newSalarySummary.setDismissalPrevention(dismissalPrevention);
+		if(!isPartner){
+			double nominal = newSalarySummary.getNominalSalary();
+			double dismissalPrevention = (nominal / 12)
+					+ ((nominal / 12) * var3_prev)
+					+ (nominal / 30 * var1_prev * var2_prev);
+			newSalarySummary.setDismissalPrevention(dismissalPrevention);
+		}else{
+			newSalarySummary.setDismissalPrevention(0.0);
+		}
 
 		// incidencia sueldo
-		double incidenceSalary = newSalarySummary.getNominalSalary()
-				* percentage_incidence_salary;
-		newSalarySummary.setIncidenceSalary(incidenceSalary);
+		if(!isPartner){
+			double incidenceSalary = newSalarySummary.getNominalSalary()
+					* percentage_incidence_salary;
+			newSalarySummary.setIncidenceSalary(incidenceSalary);
+		}else{
+			newSalarySummary.setIncidenceSalary(0.0);
+		}
 
 		// incidencia tickets
 		// =(nominal/12)+((nominal/12)*var3)
-		double tickets = newSalarySummary.getTickets();
-		double incidenceTickets = (tickets / 12) + ((tickets / 12) * var3_prev);
-		newSalarySummary.setIncidenceTickets(incidenceTickets);
+		if(!isPartner){
+			double tickets = newSalarySummary.getTickets();
+			double incidenceTickets = (tickets / 12) + ((tickets / 12) * var3_prev);
+			newSalarySummary.setIncidenceTickets(incidenceTickets);
+		}else{
+			newSalarySummary.setIncidenceTickets(0.0);
+		}
 
 		// salario a pagar(sueldo liquido del empleado)
 		// nominal + tickets - total descuentos - ret

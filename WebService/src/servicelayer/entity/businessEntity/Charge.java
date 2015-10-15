@@ -2,17 +2,12 @@ package servicelayer.entity.businessEntity;
 
 import java.util.Date;
 
-import servicelayer.entity.valueObject.VOCharge;
-
 public class Charge {
 
 	private int id;
 	private String number;
 	private String description;
-	private double amountPeso;
-	private double amountDollar;
-	private boolean isCurrencyDollar;
-	private double typeExchange;
+	private double amount;
 	private Date createdDateTimeUTC;
 	private Bill bill;
 
@@ -44,38 +39,14 @@ public class Charge {
 		this.description = description;
 	}
 
-	public double getAmountPeso() {
-		return amountPeso;
+	public double getAmount() {
+		return amount;
 	}
 
-	public void setAmountPeso(double amountPeso) {
-		this.amountPeso = amountPeso;
+	public void setAmount(double amount) {
+		this.amount = amount;
 	}
-
-	public double getAmountDollar() {
-		return amountDollar;
-	}
-
-	public void setAmountDollar(double amountDollar) {
-		this.amountDollar = amountDollar;
-	}
-
-	public boolean getIsCurrencyDollar() {
-		return isCurrencyDollar;
-	}
-
-	public void setIsCurrencyDollar(boolean isCurrencyDollar) {
-		this.isCurrencyDollar = isCurrencyDollar;
-	}
-
-	public double getTypeExchange() {
-		return typeExchange;
-	}
-
-	public void setTypeExchange(double typeExchange) {
-		this.typeExchange = typeExchange;
-	}
-
+	
 	public Date getCreatedDateTimeUTC() {
 		return createdDateTimeUTC;
 	}

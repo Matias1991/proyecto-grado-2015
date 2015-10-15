@@ -521,7 +521,6 @@ public class CatalogEmployeesView extends BaseView {
 						Employee selectedEmployee = item.getBean();
 						buildVersion(selectedEmployee.getId());
 					} else {
-						tabEmployee.setVisible(false);
 						cboVersion.setReadOnly(false);
 						cboVersion.removeAllItems();
 						cleanInputs();
