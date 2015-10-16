@@ -25,29 +25,36 @@ public class Reports extends Activity {
 
 		session = new UserSession(getApplicationContext());
 		
-		final Button btnCompanyEarnings = (Button) findViewById(R.id.btnProjectsWithMoreEarnings);
+		final Button btnCompanyEarningsDollar = (Button) findViewById(R.id.btnProjectsWithMoreEarningsDollar);
+		final Button btnCompanyEarningPeso = (Button) findViewById(R.id.btnProjectsWithMoreEarningsPeso);
 		final Button btnInfoProjects = (Button) findViewById(R.id.btnProjectInfo);
 		final Button btnLiquidations = (Button) findViewById(R.id.btnLiquidations);
 		
 		
-		btnCompanyEarnings.setOnClickListener(new View.OnClickListener() {
+		btnCompanyEarningsDollar.setOnClickListener(new View.OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
-				new AlertDialog.Builder(Reports.this)
-						.setTitle("Atención")
-						.setMessage("Apunta a la grafica")
-						.setPositiveButton(android.R.string.yes,
-								new DialogInterface.OnClickListener() {
-									public void onClick(DialogInterface dialog,
-											int which) {
-									}
-								}).setIcon(android.R.drawable.ic_dialog_alert)
-						.show();
+
+				Intent i = new Intent(getApplicationContext(),
+						ReportsCompanyEarningsDollar.class);
+				startActivity(i);
+				finish();
 			}
 		});
 
+		btnCompanyEarningPeso.setOnClickListener(new View.OnClickListener() {
 
+			@Override
+			public void onClick(View v) {
+
+				Intent i = new Intent(getApplicationContext(),
+						ReportsCompanyEarningsPeso.class);
+				startActivity(i);
+				finish();
+			}
+		});
+		
 		btnInfoProjects.setOnClickListener(new View.OnClickListener() {
 
 			@Override

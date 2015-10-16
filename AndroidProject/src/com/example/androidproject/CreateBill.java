@@ -136,7 +136,6 @@ public class CreateBill extends Activity {
 			@Override
 			public void onItemSelected(AdapterView<?> arg0, View arg1,
 					int arg2, long arg3) {
-				// TODO Auto-generated method stub
 
 				String selCat = ivaTypes.getItemAtPosition(arg2).toString();
 
@@ -171,7 +170,6 @@ public class CreateBill extends Activity {
 			@Override
 			public void onItemSelected(AdapterView<?> arg0, View arg1,
 					int arg2, long arg3) {
-				// TODO Auto-generated method stub
 
 				String selCat = projects.getItemAtPosition(arg2).toString();
 
@@ -191,7 +189,6 @@ public class CreateBill extends Activity {
 
 			@Override
 			public void onNothingSelected(AdapterView<?> arg0) {
-				// TODO Auto-generated method stub
 
 			}
 		});

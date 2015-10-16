@@ -2,7 +2,6 @@
 <resources>
 
     <string name="app_name">MSMP - MeerkatSYS</string>
-    <string name="hello_world">Hello world123!</string>
     <string name="action_settings">Settings</string>
     <string name="autocompletetextview">AutoCompleteTextView</string>
     <string name="title_activity_search_user">SearchUser</string>
@@ -10,7 +9,8 @@
     <string name="title_activity_mainMenu">Menu</string>
     <string name="title_activity_create_bill">Crear factura</string>
     <string name="title_activity_reports">Reportes</string>
-    <string name="title_activity_reportCompanyEarnings">Reporte ganancias</string>
+    <string name="title_activity_reportCompanyEarningsDollar">Proy. en U$S con más ganancias</string>
+    <string name="title_activity_reportCompanyEarningsPeso">Proy. en $ con más ganancias</string>
     <string name="title_activity_project_information">Información de proyectos</string>
     <string name="title_activity_create_charge">Crear cobro</string>
     <string name="title_section1">Section 1</string>

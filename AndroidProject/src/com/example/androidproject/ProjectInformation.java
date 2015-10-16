@@ -61,11 +61,10 @@ public class ProjectInformation extends Activity {
 		txtTotalBills = (TextView) findViewById(R.id.txtTotalBills);
 		txtDate = (TextView) findViewById(R.id.txtDateInfoProject);
 
-		buildProjects();
+		loadProjects();
 
 		final ReportsController reportController = new ReportsController(
 				getResources().getString(R.string.ip_server));
-		
 
 		projects.setOnItemSelectedListener(new OnItemSelectedListener() {
 
@@ -76,14 +75,15 @@ public class ProjectInformation extends Activity {
 				String selProj = projects.getItemAtPosition(arg2).toString();
 
 				try {
-					if (selProj != "Seleccione el proyecto" && format
-							.parse(txtDate.getText().toString()) != null) {
+					if (selProj != "Seleccione el proyecto"
+							&& format.parse(txtDate.getText().toString()) != null) {
 
 						try {
 							VOProject voProject = getProject(selProj);
 							ArrayList<VOProjectLiquidation> projectList = reportController
-									.getProjectsInfo(format
-											.parse(txtDate.getText().toString()), voProject.getId());
+									.getProjectsInfo(format.parse(txtDate
+											.getText().toString()), voProject
+											.getId());
 
 							if (projectList.size() > 0) {
 								txtPartner1Name.setVisibility(View.VISIBLE);
@@ -155,14 +155,14 @@ public class ProjectInformation extends Activity {
 
 			}
 		});
-		
+
 		txtDate.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
 				createDialogWithoutDateField().show();
 				try {
-					if(format.parse(txtDate.getText().toString()) != null){
+					if (format.parse(txtDate.getText().toString()) != null) {
 						projects.setVisibility(View.INVISIBLE);
 					} else {
 						projects.setVisibility(View.VISIBLE);
@@ -194,16 +194,14 @@ public class ProjectInformation extends Activity {
 		return super.onOptionsItemSelected(item);
 	}
 
-	public void buildProjects() {
-
-		projects = (Spinner) findViewById(R.id.spinnerProjectInfo);
-		List<String> list = new ArrayList<String>();
-
-		ProjectController proj = new ProjectController(getResources()
-				.getString(R.string.ip_server));
-		int userContextId = Integer.parseInt(session.getUserDetails().get(
-				"UserId"));
+	public void loadProjects() {
 		try {
+			List<String> list = new ArrayList<String>();
+
+			ProjectController proj = new ProjectController(getResources()
+					.getString(R.string.ip_server));
+			int userContextId = Integer.parseInt(session.getUserDetails().get(
+					"UserId"));
 
 			listProjects = proj.getActiveProjects(userContextId);
 
@@ -211,17 +209,10 @@ public class ProjectInformation extends Activity {
 			for (VOProject voProject : listProjects) {
 				list.add(voProject.getName());
 			}
-
 		} catch (Exception e) {
-			alert.showAlertDialog(ProjectInformation.this, "Error",
-					e.getMessage());
+			e.printStackTrace();
 		}
 
-		ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,
-				android.R.layout.simple_spinner_item, list);
-		dataAdapter
-				.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-		projects.setAdapter(dataAdapter);
 	}
 
 	VOProject getProject(String name) {
@@ -233,7 +224,6 @@ public class ProjectInformation extends Activity {
 		return null;
 	}
 
-
 	DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
 
 		@Override
@@ -244,7 +234,7 @@ public class ProjectInformation extends Activity {
 		}
 
 	};
-	
+
 	private DatePickerDialog createDialogWithoutDateField() {
 		DatePickerDialog dpd = new DatePickerDialog(this, date,
 				myCalendar.get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),

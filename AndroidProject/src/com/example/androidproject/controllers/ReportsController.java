@@ -32,7 +32,8 @@ public class ReportsController {
 						server);
 	}
 
-	public ArrayList<VOProjectLiquidation> getProjectsLiquidationsWithMoreEarnings(Date from, Date to)
+	@SuppressWarnings("deprecation")
+	public ArrayList<VOProjectLiquidation> getProjectsLiquidationsWithMoreEarnings(boolean isDollar)
 			throws Exception {
 		ArrayList<VOProjectLiquidation> result = new ArrayList<VOProjectLiquidation>();
 
@@ -40,16 +41,20 @@ public class ReportsController {
 		SoapObject request = new SoapObject(NAMESPACE, MORE_EARNINGS_METHOD_NAME);
 		
 		Calendar cal = Calendar.getInstance();
-		cal.setTime(new Date());
-		cal.set(2015, 05, 01, 0, 0, 0);
+		Date date = new Date();
+		cal.setTime(date);
+		cal.set(2015, 04, 01, 0, 0, 0);
+//		cal.set(Calendar.YEAR, date.getYear());
+//		cal.set(Calendar.MONTH, date.getMonth() - 7);
+//		cal.set(Calendar.DAY_OF_MONTH, 01);
 		
 		PropertyInfo dateFrom = new PropertyInfo();
 		dateFrom.setName("dateFrom");
 		dateFrom.setValue(cal.getTime());
 		dateFrom.setType(Date.class);
 		request.addProperty(dateFrom);
-		
-		cal.set(2015, 10, 9, 0, 0, 0);
+
+		cal.set(2015, 10, 01, 0, 0, 0);
 		
 		PropertyInfo dateTo = new PropertyInfo();
 		dateTo.setName("dateTo");
@@ -59,7 +64,7 @@ public class ReportsController {
 
 		PropertyInfo isCurrencyDollar = new PropertyInfo();
 		isCurrencyDollar.setName("isCurrencyDollar");
-		isCurrencyDollar.setValue(true);
+		isCurrencyDollar.setValue(isDollar);
 		isCurrencyDollar.setType(Boolean.class);
 		request.addProperty(isCurrencyDollar);		
 

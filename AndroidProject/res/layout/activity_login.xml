@@ -34,7 +34,7 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="21dp"
-        android:text="Bienvenido al Sistema de Gestion y Liquidaciones de Proyectos"
+        android:text="Meerkat SYS Manage Projects"
         android:textAlignment="center"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 

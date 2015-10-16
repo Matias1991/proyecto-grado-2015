@@ -8,42 +8,43 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".Reports" >
 
-<!--     <RelativeLayout -->
-<!--         android:id="@+id/reportsLayout" -->
-<!--         android:layout_width="wrap_content" -->
-<!--         android:layout_height="wrap_content" -->
-<!--         android:layout_alignParentTop="true" -->
-<!--         android:layout_marginTop="183dp" > -->
-<!--     </RelativeLayout> -->
-
-    <Button
-        android:id="@+id/btnProjectsWithMoreEarnings"
-        style="@style/AppTheme"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="63dp"
-        android:text="Proyectos con mayor ganancia" />
-
-    <Button
-        android:id="@+id/btnProjectInfo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/btnProjectsWithMoreEarnings"
-        android:layout_alignRight="@+id/btnProjectsWithMoreEarnings"
-        android:layout_below="@+id/btnProjectsWithMoreEarnings"
-        android:layout_marginTop="39dp"
-        android:text="Información de Proyectos" />
-
     <Button
         android:id="@+id/btnLiquidations"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/btnProjectInfo"
-        android:layout_alignRight="@+id/btnProjectInfo"
-        android:layout_below="@+id/btnProjectInfo"
-        android:layout_marginTop="34dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="70dp"
         android:text="Información de la empresa" />
+
+    <Button
+        android:id="@+id/btnProjectInfo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/btnLiquidations"
+        android:layout_alignLeft="@+id/btnProjectsWithMoreEarningsDollar"
+        android:layout_alignRight="@+id/btnProjectsWithMoreEarningsDollar"
+        android:layout_marginBottom="35dp"
+        android:text="Información de Proyectos" />
+
+    <Button
+        android:id="@+id/btnProjectsWithMoreEarningsPeso"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/btnProjectsWithMoreEarnings"
+        android:layout_alignRight="@+id/btnProjectsWithMoreEarnings"
+        android:layout_below="@+id/btnProjectsWithMoreEarnings"
+        android:layout_marginTop="34dp"
+        android:text="Proy. $ con mayor ganancia" />
+
+    <Button
+        android:id="@+id/btnProjectsWithMoreEarningsDollar"
+        style="@style/AppTheme"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/btnProjectsWithMoreEarningsPeso"
+        android:layout_below="@+id/btnProjectsWithMoreEarningsPeso"
+        android:layout_marginTop="39dp"
+        android:text="Proy. U$S con mayor ganancia" />
     
 </RelativeLayout>

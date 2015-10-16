@@ -41,6 +41,19 @@
         <activity
             android:name=".Reports"
             android:label="@string/title_activity_reports" >
+        </activity>
+        <activity
+            android:name=".ReportsCompanyEarningsDollar"
+            android:label="@string/title_activity_reportCompanyEarningsDollar" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".ReportsCompanyEarningsPeso"
+            android:label="@string/title_activity_reportCompanyEarningsPeso" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
