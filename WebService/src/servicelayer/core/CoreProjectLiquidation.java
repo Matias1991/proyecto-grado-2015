@@ -50,10 +50,14 @@ public class CoreProjectLiquidation implements ICoreProjectLiquidation {
 			cal.setTime(month);
 			cal.set(Calendar.DATE, cal.getActualMaximum(Calendar.DATE));
 			Date to = cal.getTime();
+			
+			cal.setTime(from);
+			cal.add(Calendar.MONTH, 01);
+			Date toPlusOne = cal.getTime();
 
 			// Obtengo el proyectos a liquidar
 			ArrayList<Project> projects = CoreProject.GetInstance()
-					.getProjectsReadyToLiquidate(from, to, projectId);
+					.getProjectsReadyToLiquidate(from, toPlusOne, projectId);
 			if(projects != null && projects.size() > 0){
 				project = projects.get(0);
 				
@@ -138,9 +142,9 @@ public class CoreProjectLiquidation implements ICoreProjectLiquidation {
 						employed.setIDAOSalarySummaries(daoManager.getDAOSalarySummaries());
 						double costEmployee = 0.0;
 						if(projectLiquidation.isCurrencyDollar())
-							costEmployee = (employed.getSalarySummaryToDate(to).getCostRealHour() * projectEmployed.getHours())/typeExchange;
+							costEmployee = (employed.getSalarySummaryToDate(toPlusOne).getCostRealHour() * projectEmployed.getHours())/typeExchange;
 						else
-							costEmployee = employed.getSalarySummaryToDate(to).getCostRealHour() * projectEmployed.getHours();
+							costEmployee = employed.getSalarySummaryToDate(toPlusOne).getCostRealHour() * projectEmployed.getHours();
 						projectLiquidation.setTotalCostEmployees(projectLiquidation.getTotalCostEmployees() + costEmployee);					
 					}
 				}
@@ -211,6 +215,10 @@ public class CoreProjectLiquidation implements ICoreProjectLiquidation {
 	public void calculatePartnersEarnings(ProjectLiquidation projectLiquidation, double companyCostToSubstract, double typeExchange, Date to) throws ServerException{
 		DAOManager daoManager = new DAOManager();
 		try{
+			Calendar cal = Calendar.getInstance();
+			cal.setTime(to);
+			cal.add(Calendar.DATE, 01);
+			Date toPlusOne = cal.getTime();
 						
 			projectLiquidation.getProject().setiDAOProjectEmployees(daoManager.getDAOEmployedProjects());
 			
@@ -243,14 +251,14 @@ public class CoreProjectLiquidation implements ICoreProjectLiquidation {
 				for(ProjectEmployed projectEmployed : projectLiquidation.getProject().getProjectEmployees()){				
 					projectEmployed.getEmployed().setIDAOSalarySummaries(daoManager.getDAOSalarySummaries());
 					if(projectEmployed.getEmployed().getId() == projectLiquidation.getPartner1().getEmployed().getId()){
-						double totalHoursCost = projectEmployed.getHours() * projectEmployed.getEmployed().getSalarySummaryToDate(to).getCostRealHour();				
+						double totalHoursCost = projectEmployed.getHours() * projectEmployed.getEmployed().getSalarySummaryToDate(toPlusOne).getCostRealHour();				
 						if(projectLiquidation.isCurrencyDollar())
 							projectLiquidation.setPartner1Earning(projectLiquidation.getPartner1Earning() + (totalHoursCost / typeExchange));
 						else
 							projectLiquidation.setPartner1Earning(projectLiquidation.getPartner1Earning() + totalHoursCost);					
 					}
 					if(projectEmployed.getEmployed().getId() == projectLiquidation.getPartner2().getEmployed().getId()){
-						double totalHoursCost = projectEmployed.getHours() * projectEmployed.getEmployed().getSalarySummaryToDate(to).getCostRealHour();				
+						double totalHoursCost = projectEmployed.getHours() * projectEmployed.getEmployed().getSalarySummaryToDate(toPlusOne).getCostRealHour();				
 						if(projectLiquidation.isCurrencyDollar())
 							projectLiquidation.setPartner2Earning(projectLiquidation.getPartner2Earning() + (totalHoursCost / typeExchange));
 						else

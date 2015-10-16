@@ -2,6 +2,7 @@ package servicelayer.core;
 
 import java.text.DateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 
 import servicelayer.entity.businessEntity.DistributionType;
@@ -285,8 +286,13 @@ public class CoreProject implements ICoreProject {
 			throws ServerException {
 		
 		DAOManager daoManager = new DAOManager();
+		
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(to);
+		cal.add(Calendar.DATE, 01);
+		Date toPlusOne = cal.getTime();
 		try {
-			return daoManager.getDAOProjects().getProjectsReadyToLiquidate(from, to, projectId);
+			return daoManager.getDAOProjects().getProjectsReadyToLiquidate(from, toPlusOne, projectId);
 		} catch (ServerException e) {
 			throw e;
 		} finally {

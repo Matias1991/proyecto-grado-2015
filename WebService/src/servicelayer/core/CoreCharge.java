@@ -1,7 +1,12 @@
 package servicelayer.core;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Date;
+
+import javax.annotation.processing.RoundEnvironment;
 
 import servicelayer.entity.businessEntity.Bill;
 import servicelayer.entity.businessEntity.Charge;
@@ -176,15 +181,23 @@ public class CoreCharge implements ICoreCharge {
 		
 		if(bill.getIsCurrencyDollar())
 		{
-			amountCurrentCharge += charge.getAmount();
-			if((amoutCharged + amountCurrentCharge) > bill.getTotalAmountDollar())
+			amountCurrentCharge += charge.getAmount();	
+			
+			if((amoutCharged + amountCurrentCharge) >  roundDouble(bill.getTotalAmountDollar()))
 				throw new ClientException("Este cobro no se puede emitir, supera el monto de la factura");
 		}
 		else 
 		{
 			amountCurrentCharge += charge.getAmount();
-			if((amoutCharged + amountCurrentCharge) > bill.getTotalAmountPeso())
+			if((amoutCharged + amountCurrentCharge) > roundDouble(bill.getTotalAmountPeso()))
 				throw new ClientException("Este cobro no se puede emitir, supera el monto de la factura");
 		}
+	}
+	
+	//Redondea a dos decimales
+	private double roundDouble(double value){
+		BigDecimal aux = new BigDecimal(value);
+		aux = aux.setScale(2,RoundingMode.HALF_UP);
+		return aux.doubleValue();
 	}
 }
