@@ -430,7 +430,7 @@ public class CreateCategoryView extends BaseView {
 		txtTypeExchange.setConverter(new StringToDoubleConverter());
 		txtTypeExchange.setLocale(Locale.US);
 		mainLayout.addComponent(txtTypeExchange,
-				"top:447.0px;right:372.0px;left:175.0px;");
+				"top:375.0px;right:372.0px;left:130.0px;");
 
 		// txtAmount
 		txtAmount = new TextField();
@@ -477,7 +477,7 @@ public class CreateCategoryView extends BaseView {
 		btnCreate.setHeight("-1px");
 		btnCreate.setTabIndex(3);
 		mainLayout.addComponent(btnCreate,
-				"top:550.0px;right:500.0px;left:0.0px;");
+				"top:515.0px;right:500.0px;left:0.0px;");
 
 		// btnCancel
 		btnCancel = new Button();
@@ -487,7 +487,7 @@ public class CreateCategoryView extends BaseView {
 		btnCancel.setHeight("-1px");
 		btnCancel.setTabIndex(4);
 		mainLayout.addComponent(btnCancel,
-				"top:550.0px;right:340.0px;left:140.0px;");
+				"top:515.0px;right:340.0px;left:140.0px;");
 
 		// cboProject
 		cboProject = new ComboBox();

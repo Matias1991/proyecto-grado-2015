@@ -66,6 +66,10 @@ public class CoreCompanyLiquidation implements ICoreCompanyLiquidation {
 			cal.setTime(month);
 			cal.set(Calendar.DATE, cal.getActualMaximum(Calendar.DATE));
 			Date to = cal.getTime();
+			
+			cal.setTime(to);
+			cal.add(Calendar.DATE, 01);
+			Date toPlusOne = cal.getTime();
 
 			// Controlo si existe una liquidacion para el mes seleccionado
 			if (!existLiquidation(from)) {
@@ -92,7 +96,7 @@ public class CoreCompanyLiquidation implements ICoreCompanyLiquidation {
 						userContext);
 
 				// Obtengo todos los empleados hasta el ultimo dia del mes
-				employees = daoManager.getDAOEmployees().getEmployeesToDate(to);
+				employees = daoManager.getDAOEmployees().getEmployeesToDate(toPlusOne);
 
 				if (projects != null && projects.size() > 0) {
 					// Calcular la ganancia parcial
@@ -119,7 +123,7 @@ public class CoreCompanyLiquidation implements ICoreCompanyLiquidation {
 						employed.setIDAOSalarySummaries(daoManager
 								.getDAOSalarySummaries());
 						SalarySummary salarySummary = employed
-								.getSalarySummaryToDate(to);
+								.getSalarySummaryToDate(toPlusOne);
 
 						// total de aportes
 						companyLiquidation
