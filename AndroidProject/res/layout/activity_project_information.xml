@@ -23,8 +23,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="59dp"
-        android:visibility="invisible" />
+        android:layout_marginTop="59dp" />
 
     <TableLayout
         android:layout_width="wrap_content"
@@ -42,7 +41,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="25dp"
-                android:text="122" />
+                android:text="" />
         </TableRow>
 
         <TableRow
@@ -61,7 +60,7 @@
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="25dp"
-                    android:text="123" />
+                    android:text="" />
             </TableRow>
         </TableRow>
 
@@ -81,7 +80,7 @@
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="25dp"
-                    android:text="456" />
+                    android:text="" />
             </TableRow>
         </TableRow>
 
@@ -101,7 +100,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="41dp"
                     android:layout_marginTop="25dp"
-                    android:text="456" />
+                    android:text="" />
             </TableRow>
         </TableRow>
 
@@ -115,7 +114,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="25dp"
-                android:text="hjk" />
+                android:text="" />
         </TableRow>
 
         <TableRow
@@ -127,7 +126,7 @@
                 android:id="@+id/txtTotalBills"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="ghj" />
+                android:text="" />
         </TableRow>
     </TableLayout>
 
