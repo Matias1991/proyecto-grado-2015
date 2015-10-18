@@ -13,10 +13,12 @@ import org.achartengine.renderer.XYMultipleSeriesRenderer;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.Canvas.VertexMode;
 import android.graphics.Paint.Align;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.LinearLayout;
 
 import com.example.androidproject.alerts.AlertDialogManager;
 import com.example.androidproject.controllers.ReportsController;
@@ -48,9 +50,12 @@ public class ReportsCompanyEarningsDollar extends Activity {
 
 		XYMultipleSeriesRenderer renderer = getBarRenderer();
 		chartSettings(renderer, projects);
-		Intent intent = ChartFactory.getBarChartIntent(this,
-				getBarDataset(projects), renderer, Type.DEFAULT);
-		startActivity(intent);
+		
+//		Intent intent = ChartFactory.getBarChartIntent(this,
+//				getBarDataset(projects), renderer, Type.DEFAULT);
+//		startActivity(intent);
+		LinearLayout linearLayout = (LinearLayout)findViewById(R.id.reportsCompanyEarningsDollar);
+		linearLayout.addView(ChartFactory.getBarChartView(this, getBarDataset(projects), renderer, Type.DEFAULT));
 	}
 
 	@Override

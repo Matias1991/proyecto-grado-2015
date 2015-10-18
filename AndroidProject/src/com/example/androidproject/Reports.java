@@ -39,7 +39,7 @@ public class Reports extends Activity {
 				Intent i = new Intent(getApplicationContext(),
 						ReportsCompanyEarningsDollar.class);
 				startActivity(i);
-				finish();
+				//finish();
 			}
 		});
 
@@ -51,7 +51,7 @@ public class Reports extends Activity {
 				Intent i = new Intent(getApplicationContext(),
 						ReportsCompanyEarningsPeso.class);
 				startActivity(i);
-				finish();
+				//finish();
 			}
 		});
 		
@@ -62,7 +62,7 @@ public class Reports extends Activity {
 
 				Intent i = new Intent(getApplicationContext(), ProjectInformation.class);
 				startActivity(i);
-				finish();
+				//finish();
 			}
 		});
 		
@@ -71,10 +71,15 @@ public class Reports extends Activity {
 
 			@Override
 			public void onClick(View v) {
-
-				Intent i = new Intent(getApplicationContext(), CompanyInformation.class);
-				startActivity(i);
-				finish();
+				new AlertDialog.Builder(Reports.this)
+				.setTitle("Atención")
+				.setMessage("En construcción")
+				.setPositiveButton(android.R.string.yes,
+								new DialogInterface.OnClickListener() {
+							public void onClick(DialogInterface dialog, int which) {
+							}
+						}).setIcon(android.R.drawable.ic_dialog_alert)
+				.show();
 			}
 		});
 
