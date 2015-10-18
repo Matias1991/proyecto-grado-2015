@@ -60,120 +60,134 @@ public class ProjectInformation extends Activity {
 		txtReserve = (TextView) findViewById(R.id.txtReserve);
 		txtTotalBills = (TextView) findViewById(R.id.txtTotalBills);
 		txtDate = (TextView) findViewById(R.id.txtDateInfoProject);
-
+		projects = (Spinner) findViewById(R.id.spinnerProjectInfo);
+		
 		loadProjects();
 
 		final ReportsController reportController = new ReportsController(
 				getResources().getString(R.string.ip_server));
 
-		projects.setOnItemSelectedListener(new OnItemSelectedListener() {
+		if(projects != null){
+			projects.setOnItemSelectedListener(new OnItemSelectedListener() {
 
-			@Override
-			public void onItemSelected(AdapterView<?> arg0, View arg1,
-					int arg2, long arg3) {
+				@Override
+				public void onItemSelected(AdapterView<?> arg0, View arg1,
+						int arg2, long arg3) {
 
-				String selProj = projects.getItemAtPosition(arg2).toString();
+					String selProj = projects.getItemAtPosition(arg2).toString();
 
-				try {
-					if (selProj != "Seleccione el proyecto"
-							&& format.parse(txtDate.getText().toString()) != null) {
+					try {
+						if (selProj != "Seleccione el proyecto"
+								&& format.parse(txtDate.getText().toString()) != null) {
 
-						try {
-							VOProject voProject = getProject(selProj);
-							ArrayList<VOProjectLiquidation> projectList = reportController
-									.getProjectsInfo(format.parse(txtDate
-											.getText().toString()), voProject
-											.getId());
+							try {
+								VOProject voProject = getProject(selProj);
+								ArrayList<VOProjectLiquidation> projectList = reportController
+										.getProjectsInfo(format.parse(txtDate
+												.getText().toString()), voProject
+												.getId());
 
-							if (projectList.size() > 0) {
-								txtPartner1Name.setVisibility(View.VISIBLE);
-								txtPartner2Name.setVisibility(View.VISIBLE);
-								for (VOProjectLiquidation voProjectLiquidation : projectList) {
-									txtPartner1Name.setText("Socio: "
-											+ voProjectLiquidation
-													.getPartner1Name()
-											+ " "
-											+ voProjectLiquidation
-													.getPartner1Lastname());
-									txtPartner2Name.setText("Socio: "
-											+ voProjectLiquidation
-													.getPartner2Name()
-											+ " "
-											+ voProjectLiquidation
-													.getPartner2Lastname());
-									if (voProjectLiquidation.isCurrencyDollar()) {
-										txtEarningsPartner1.setText("Ganancia: U$S "
-												+ String.valueOf(voProjectLiquidation
-														.getPartner1Earning()));
-										txtEarningsPartner2.setText("Ganancia: U$S "
-												+ String.valueOf(voProjectLiquidation
-														.getPartner2Earning()));
-										txtReserve.setText("Reserva: U$S "
-												+ String.valueOf(voProjectLiquidation
-														.getReserve()));
-										txtTotalBills.setText("Facturación total: U$S "
-												+ String.valueOf(voProjectLiquidation
-														.getReserve()));
-									} else {
-										txtEarningsPartner1.setText("Ganancia: $ "
-												+ String.valueOf(voProjectLiquidation
-														.getPartner1Earning()));
-										txtEarningsPartner2.setText("Ganancia: $ "
-												+ String.valueOf(voProjectLiquidation
-														.getPartner2Earning()));
-										txtReserve.setText("Reserva: $ "
-												+ String.valueOf(voProjectLiquidation
-														.getReserve()));
-										txtTotalBills.setText("Facturación total: $ "
-												+ String.valueOf(voProjectLiquidation
-														.getReserve()));
+								if (projectList.size() > 0) {
+									txtPartner1Name.setVisibility(View.VISIBLE);
+									txtPartner2Name.setVisibility(View.VISIBLE);
+									for (VOProjectLiquidation voProjectLiquidation : projectList) {
+										txtPartner1Name.setText("Socio: "
+												+ voProjectLiquidation
+														.getPartner1Name()
+												+ " "
+												+ voProjectLiquidation
+														.getPartner1Lastname());
+										txtPartner2Name.setText("Socio: "
+												+ voProjectLiquidation
+														.getPartner2Name()
+												+ " "
+												+ voProjectLiquidation
+														.getPartner2Lastname());
+										if (voProjectLiquidation.isCurrencyDollar()) {
+											txtEarningsPartner1.setText("Ganancia: U$S "
+													+ String.valueOf(voProjectLiquidation
+															.getPartner1Earning()));
+											txtEarningsPartner2.setText("Ganancia: U$S "
+													+ String.valueOf(voProjectLiquidation
+															.getPartner2Earning()));
+											txtReserve.setText("Reserva: U$S "
+													+ String.valueOf(voProjectLiquidation
+															.getReserve()));
+											txtTotalBills.setText("Facturación total: U$S "
+													+ String.valueOf(voProjectLiquidation
+															.getReserve()));
+										} else {
+											txtEarningsPartner1.setText("Ganancia: $ "
+													+ String.valueOf(voProjectLiquidation
+															.getPartner1Earning()));
+											txtEarningsPartner2.setText("Ganancia: $ "
+													+ String.valueOf(voProjectLiquidation
+															.getPartner2Earning()));
+											txtReserve.setText("Reserva: $ "
+													+ String.valueOf(voProjectLiquidation
+															.getReserve()));
+											txtTotalBills.setText("Facturación total: $ "
+													+ String.valueOf(voProjectLiquidation
+															.getTotalBills()));
+										}
+
 									}
 
+								} else {
+									alert.showAlertDialog(ProjectInformation.this,
+											"Atención",
+											"No hay información para el proyecto seleccionado");
 								}
 
-							} else {
-								alert.showAlertDialog(ProjectInformation.this,
-										"Atención",
-										"No hay información para el proyecto seleccionado");
+							} catch (Exception e) {
+								e.printStackTrace();
 							}
-
-						} catch (Exception e) {
-							e.printStackTrace();
+						} else {
+							txtPartner1Name.setText("");
+							txtPartner2Name.setText("");
 						}
-					} else {
-						txtPartner1Name.setText("");
-						txtPartner2Name.setText("");
+					} catch (ParseException e) {
+						alert.showAlertDialog(ProjectInformation.this, "Error",
+								e.getMessage());
 					}
-				} catch (ParseException e) {
-					alert.showAlertDialog(ProjectInformation.this, "Error",
-							e.getMessage());
 				}
-			}
 
-			@Override
-			public void onNothingSelected(AdapterView<?> arg0) {
+				@Override
+				public void onNothingSelected(AdapterView<?> arg0) {
 
-			}
-		});
-
+				}
+			});
+	
+		} else {
+			new AlertDialog.Builder(ProjectInformation.this)
+			.setTitle("Atención")
+			.setMessage("No hay proyectos cargados en el sistema")
+			.setPositiveButton(android.R.string.yes,
+							new DialogInterface.OnClickListener() {
+						public void onClick(DialogInterface dialog, int which) {
+						}
+					}).setIcon(android.R.drawable.ic_dialog_alert)
+			.show();
+		}
+		
 		txtDate.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
 				createDialogWithoutDateField().show();
-				try {
-					if (format.parse(txtDate.getText().toString()) != null) {
-						projects.setVisibility(View.INVISIBLE);
-					} else {
-						projects.setVisibility(View.VISIBLE);
-					}
-				} catch (ParseException e) {
-					e.printStackTrace();
-				}
 			}
 		});
 
 	}
+	
+	private void updateLabel() {
+
+		String myFormat = "MM-yyyy"; // In which you need put here
+		SimpleDateFormat sdf = new SimpleDateFormat(myFormat);
+
+		txtDate.setText(sdf.format(myCalendar.getTime()));
+	}
+
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -209,6 +223,13 @@ public class ProjectInformation extends Activity {
 			for (VOProject voProject : listProjects) {
 				list.add(voProject.getName());
 			}
+			
+			ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,
+					android.R.layout.simple_spinner_item, list);
+			dataAdapter
+					.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+			projects.setAdapter(dataAdapter);
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -231,6 +252,7 @@ public class ProjectInformation extends Activity {
 				int dayOfMonth) {
 			myCalendar.set(Calendar.YEAR, year);
 			myCalendar.set(Calendar.MONTH, monthOfYear);
+			updateLabel();
 		}
 
 	};
