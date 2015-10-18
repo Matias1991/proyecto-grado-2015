@@ -35,18 +35,19 @@ public class VOProjectLiquidation implements KvmSerializable {
 
 	public VOProjectLiquidation(SoapObject object) {
 		new Deserialization().SoapDeserialize(this, object);
+		
 
-		this.id = Integer.parseInt(object.getProperty(8).toString());
-		this.earnings = Double.parseDouble(object.getProperty(8).toString());
-		this.reserve = Double.parseDouble(object.getProperty(18).toString());
-		this.project = new VOProject((SoapObject) object.getProperty(16));
-		this.partner1Name = object.getProperty(11).toString();
-		this.partner1Lastname = object.getProperty(10).toString();
-		this.partner2Name = object.getProperty(15).toString();
-		this.partner2Lastname = object.getProperty(14).toString();
-		this.isCurrencyDollar = Boolean.parseBoolean(object.getProperty(5).toString());
-		this.partner1Earning = Double.parseDouble(object.getProperty(9).toString());
-		this.partner2Earning = Double.parseDouble(object.getProperty(20).toString());
+		this.id = Integer.parseInt(object.getProperty("id").toString());
+		this.earnings = Double.parseDouble(object.getProperty("earnings").toString());
+		this.reserve = Double.parseDouble(object.getProperty("reserve").toString());
+		this.project = new VOProject((SoapObject) object.getProperty("project"));
+		this.partner1Name = object.getProperty("partner1Name").toString();
+		this.partner1Lastname = object.getProperty("partner1Lastname").toString();
+		this.partner2Name = object.getProperty("partner2Name").toString();
+		this.partner2Lastname = object.getProperty("partner2Lastname").toString();
+		this.isCurrencyDollar = Boolean.parseBoolean(object.getProperty("currencyDollar").toString());
+		this.partner1Earning = Double.parseDouble(object.getProperty("partner1Earning").toString());
+		this.partner2Earning = Double.parseDouble(object.getProperty("partner2Earning").toString());
 	}
 
 	public int getId() {

@@ -111,14 +111,10 @@ public class ReportsController {
 
 		// Create request
 		SoapObject request = new SoapObject(NAMESPACE, INFO_PROJECT__METHOD_NAME);
-		
-		Calendar cal = Calendar.getInstance();
-		cal.setTime(new Date());
-		cal.set(2015, 10, 01, 0, 0, 0);
-		
+			
 		PropertyInfo liquidationDate = new PropertyInfo();
 		liquidationDate.setName("month");
-		liquidationDate.setValue(cal.getTime());
+		liquidationDate.setValue(month);
 		liquidationDate.setType(Date.class);
 		request.addProperty(liquidationDate);
 

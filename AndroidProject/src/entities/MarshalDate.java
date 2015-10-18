@@ -17,18 +17,18 @@ public class MarshalDate implements Marshal {
 			String name, PropertyInfo expected) throws IOException,
 			XmlPullParserException {
 
-		return IsoDate.stringToDate(parser.nextText(), IsoDate.DATE_TIME);
+		return IsoDate.stringToDate(parser.nextText(), IsoDate.DATE);
 
 	}
 
 	public void register(SoapSerializationEnvelope cm) {
-		cm.addMapping(cm.xsd, "DateTime", Date.class, this);
+		cm.addMapping(cm.xsd, "dateTime", Date.class, this);
 
 	}
 
 	public void writeInstance(XmlSerializer writer, Object obj)
 			throws IOException {
-		writer.text(IsoDate.dateToString((Date) obj, IsoDate.DATE_TIME));
+		writer.text(IsoDate.dateToString((Date) obj, IsoDate.DATE));
 	}
 
 }
