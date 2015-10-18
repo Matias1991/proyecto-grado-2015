@@ -71,15 +71,10 @@ public class Reports extends Activity {
 
 			@Override
 			public void onClick(View v) {
-				new AlertDialog.Builder(Reports.this)
-				.setTitle("Atención")
-				.setMessage("En construcción")
-				.setPositiveButton(android.R.string.yes,
-								new DialogInterface.OnClickListener() {
-							public void onClick(DialogInterface dialog, int which) {
-							}
-						}).setIcon(android.R.drawable.ic_dialog_alert)
-				.show();
+
+				Intent i = new Intent(getApplicationContext(), CompanyInformation.class);
+				startActivity(i);
+				finish();
 			}
 		});
 
