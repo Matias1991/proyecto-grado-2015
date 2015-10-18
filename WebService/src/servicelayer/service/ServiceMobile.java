@@ -201,8 +201,6 @@ public class ServiceMobile extends ServiceBase{
 			for(ProjectLiquidation projectLiquidation : projectsLiquidations){
 				VOProjectLiquidation voProjectLiquidation = projectLiquidationBuilder.BuildVOObject(projectLiquidation);
 				voProjectLiquidation.setProject(projectBuilder.BuildVOObject(projectLiquidation.getProject()));
-//				if(projectLiquidation.getBills() != null)
-//					voProjectLiquidation.setBills(billBuilder.BuildArrayVOObject(VOBill.class, projectLiquidation.getBills()));
 				voProjectsLiquidations[i] = voProjectLiquidation;
 				i++;
 			}
@@ -228,8 +226,7 @@ public class ServiceMobile extends ServiceBase{
 			ProjectLiquidation liquidation =  iCoreProjectLiquidation.getProjectLiquidationByDate(month, projectId, userContext);
 			VOProjectLiquidation voLiquidation = null;
 			if(liquidation != null){
-				voLiquidation = projectLiquidationBuilder.BuildVOObject(liquidation);			
-//				voLiquidation.setBills(billBuilder.BuildArrayVOObject(VOBill.class, liquidation.getBills()));
+				voLiquidation = projectLiquidationBuilder.BuildVOObject(liquidation);
 				voLiquidation.setEmployees(projectBuilder.BuildVOEmployedProjects(liquidation.getEmployees()));
 				voLiquidation.setProject(projectBuilder.BuildVOObject(liquidation.getProject()));
 			}

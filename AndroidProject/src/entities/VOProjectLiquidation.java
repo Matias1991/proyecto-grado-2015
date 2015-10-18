@@ -35,16 +35,17 @@ public class VOProjectLiquidation implements KvmSerializable {
 
 	public VOProjectLiquidation(SoapObject object) {
 		new Deserialization().SoapDeserialize(this, object);
-		
-
+	
 		this.id = Integer.parseInt(object.getProperty("id").toString());
 		this.earnings = Double.parseDouble(object.getProperty("earnings").toString());
 		this.reserve = Double.parseDouble(object.getProperty("reserve").toString());
 		this.project = new VOProject((SoapObject) object.getProperty("project"));
-		this.partner1Name = object.getProperty("partner1Name").toString();
-		this.partner1Lastname = object.getProperty("partner1Lastname").toString();
-		this.partner2Name = object.getProperty("partner2Name").toString();
-		this.partner2Lastname = object.getProperty("partner2Lastname").toString();
+		if(object.getProperty("partner1Lastname") != null){
+			this.partner1Name = object.getProperty("partner1Name").toString();
+			this.partner1Lastname = object.getProperty("partner1Lastname").toString();
+			this.partner2Name = object.getProperty("partner2Name").toString();
+			this.partner2Lastname = object.getProperty("partner2Lastname").toString();
+		}
 		this.isCurrencyDollar = Boolean.parseBoolean(object.getProperty("currencyDollar").toString());
 		this.partner1Earning = Double.parseDouble(object.getProperty("partner1Earning").toString());
 		this.partner2Earning = Double.parseDouble(object.getProperty("partner2Earning").toString());
