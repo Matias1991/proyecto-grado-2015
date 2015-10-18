@@ -39,7 +39,7 @@ public class Reports extends Activity {
 				Intent i = new Intent(getApplicationContext(),
 						ReportsCompanyEarningsDollar.class);
 				startActivity(i);
-				finish();
+				//finish();
 			}
 		});
 
@@ -51,7 +51,7 @@ public class Reports extends Activity {
 				Intent i = new Intent(getApplicationContext(),
 						ReportsCompanyEarningsPeso.class);
 				startActivity(i);
-				finish();
+				//finish();
 			}
 		});
 		
@@ -62,7 +62,7 @@ public class Reports extends Activity {
 
 				Intent i = new Intent(getApplicationContext(), ProjectInformation.class);
 				startActivity(i);
-				finish();
+				//finish();
 			}
 		});
 		

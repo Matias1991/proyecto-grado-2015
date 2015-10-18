@@ -17,6 +17,7 @@ import android.graphics.Paint.Align;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.LinearLayout;
 
 import com.example.androidproject.alerts.AlertDialogManager;
 import com.example.androidproject.controllers.ReportsController;
@@ -48,9 +49,11 @@ public class ReportsCompanyEarningsPeso extends Activity {
 
 		XYMultipleSeriesRenderer renderer = getBarRenderer();
 		chartSettings(renderer, projects);
-		Intent intent = ChartFactory.getBarChartIntent(this,
-				getBarDataset(projects), renderer, Type.DEFAULT);
-		startActivity(intent);
+//		Intent intent = ChartFactory.getBarChartIntent(this,
+//				getBarDataset(projects), renderer, Type.DEFAULT);
+//		startActivity(intent);
+		LinearLayout linearLayout = (LinearLayout)findViewById(R.id.reportsCompanyEarningsPeso);
+		linearLayout.addView(ChartFactory.getBarChartView(this, getBarDataset(projects), renderer, Type.DEFAULT));
 	}
 
 	@Override

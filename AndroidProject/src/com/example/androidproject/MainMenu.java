@@ -36,7 +36,7 @@ public class MainMenu extends Activity {
 
 				Intent i = new Intent(getApplicationContext(), CreateBill.class);
 				startActivity(i);
-				finish();
+				//finish();
 			}
 		});
 
@@ -47,7 +47,7 @@ public class MainMenu extends Activity {
 				Intent i = new Intent(getApplicationContext(),
 						CreateCharge.class);
 				startActivity(i);
-				finish();
+				//finish();
 
 			}
 		});
@@ -59,7 +59,7 @@ public class MainMenu extends Activity {
 				Intent i = new Intent(getApplicationContext(),
 						Reports.class);
 				startActivity(i);
-				finish();
+				//finish();
 			}
 		});
 		
@@ -89,5 +89,10 @@ public class MainMenu extends Activity {
 			return true;
 		}
 		return super.onOptionsItemSelected(item);
+	}
+	
+	@Override
+	public void onBackPressed(){
+		finish();
 	}
 }
