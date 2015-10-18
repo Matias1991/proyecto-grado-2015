@@ -7,6 +7,8 @@ import java.util.Date;
 
 import org.apache.axis2.AxisFault;
 
+import java.util.Calendar;
+
 import servicelayer.service.ServiceWebStub;
 import servicelayer.service.ServiceWebStub.DeleteCategory;
 import servicelayer.service.ServiceWebStub.GetCategories;
@@ -268,12 +270,18 @@ public class CategoryController {
 		Collection<Category> categories = new ArrayList<Category>();
 
 		try {
+			Calendar cal = Calendar.getInstance();
+			cal.setTime(date);
+			cal.set(Calendar.HOUR_OF_DAY, 0);
+			cal.set(Calendar.MINUTE,0);
+			cal.set(Calendar.SECOND,0);
+			Date applied = cal.getTime();
 			ServiceWebStub service = new ServiceWebStub();
 			GetCategoriesByNameAndCurrency getCategoriesByNameAndCurrency = new GetCategoriesByNameAndCurrency();
 			
 			getCategoriesByNameAndCurrency.setName(name);
 			getCategoriesByNameAndCurrency.setIsCurrencyDollar(isCurrencyDollar);
-			getCategoriesByNameAndCurrency.setDate(date);
+			getCategoriesByNameAndCurrency.setDate(applied);
 			
 			VOCategory[] voCategories = service.getCategoriesByNameAndCurrency(
 					getCategoriesByNameAndCurrency).get_return();

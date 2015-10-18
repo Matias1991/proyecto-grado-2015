@@ -195,7 +195,7 @@ public class DAOCompanyLiquidations implements IDAOCompanyLiquidations {
 			preparedStatement.setTimestamp(1, new Timestamp(date.getTime()));
 			rs = preparedStatement.executeQuery();
 			
-			if (rs.next()) {
+			while (rs.next()) {
 				companyLiquidations.add(BuildCompanyLiquidation(rs));
 			}
 			

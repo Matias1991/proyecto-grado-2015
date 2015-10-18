@@ -7,6 +7,8 @@ import java.util.Date;
 
 import org.apache.axis2.AxisFault;
 
+import java.util.Calendar;
+
 import servicelayer.service.ServiceWebStub;
 import servicelayer.service.ServiceWebStub.CreateLiquidation;
 import servicelayer.service.ServiceWebStub.ExistLiquidation;

@@ -142,25 +142,25 @@ public class ReportProjectDetailsView extends BaseView {
 	{
 		DataSeries dataSeries = new DataSeries();
 
-		dataSeries.add(projectLiquidationsByMonth.get(1).getEarnings(), 
-					   projectLiquidationsByMonth.get(2).getEarnings(), 
-					   projectLiquidationsByMonth.get(3).getEarnings());
+		dataSeries.add(projectLiquidationsByMonth.get(0).getEarnings(), 
+					   projectLiquidationsByMonth.get(1).getEarnings(), 
+					   projectLiquidationsByMonth.get(2).getEarnings());
 		
-		dataSeries.add(projectLiquidationsByMonth.get(1).getReserve(), 
-					   projectLiquidationsByMonth.get(2).getReserve(), 
-					   projectLiquidationsByMonth.get(3).getReserve());
+		dataSeries.add(projectLiquidationsByMonth.get(0).getReserve(), 
+					   projectLiquidationsByMonth.get(1).getReserve(), 
+					   projectLiquidationsByMonth.get(2).getReserve());
 		
-		dataSeries.add(projectLiquidationsByMonth.get(1).getTotalCostEmployees(), 
-					   projectLiquidationsByMonth.get(2).getTotalCostEmployees(), 
-					   projectLiquidationsByMonth.get(3).getTotalCostEmployees());
+		dataSeries.add(projectLiquidationsByMonth.get(0).getTotalCostEmployees(), 
+					   projectLiquidationsByMonth.get(1).getTotalCostEmployees(), 
+					   projectLiquidationsByMonth.get(2).getTotalCostEmployees());
 		
-		dataSeries.add(projectLiquidationsByMonth.get(1).getTotalCostCategoriesHuman(), 
-					   projectLiquidationsByMonth.get(2).getTotalCostCategoriesHuman(), 
-					   projectLiquidationsByMonth.get(3).getTotalCostCategoriesHuman());
+		dataSeries.add(projectLiquidationsByMonth.get(0).getTotalCostCategoriesHuman(), 
+					   projectLiquidationsByMonth.get(1).getTotalCostCategoriesHuman(), 
+					   projectLiquidationsByMonth.get(2).getTotalCostCategoriesHuman());
 		
-		dataSeries.add(projectLiquidationsByMonth.get(1).getTotalCostCategoriesMaterial(), 
-					   projectLiquidationsByMonth.get(2).getTotalCostCategoriesMaterial(), 
-					   projectLiquidationsByMonth.get(3).getTotalCostCategoriesMaterial());
+		dataSeries.add(projectLiquidationsByMonth.get(0).getTotalCostCategoriesMaterial(), 
+					   projectLiquidationsByMonth.get(1).getTotalCostCategoriesMaterial(), 
+					   projectLiquidationsByMonth.get(2).getTotalCostCategoriesMaterial());
 		
 		Ticks ticks = new Ticks();
 		ticks.add("Enero");
@@ -175,25 +175,25 @@ public class ReportProjectDetailsView extends BaseView {
 	{
 		DataSeries dataSeries = new DataSeries();
 	
-		dataSeries.add(projectLiquidationsByMonth.get(4).getEarnings(), 
-					   projectLiquidationsByMonth.get(5).getEarnings(), 
-					   projectLiquidationsByMonth.get(6).getEarnings());
+		dataSeries.add(projectLiquidationsByMonth.get(3).getEarnings(), 
+					   projectLiquidationsByMonth.get(4).getEarnings(), 
+					   projectLiquidationsByMonth.get(5).getEarnings());
 		
-		dataSeries.add(projectLiquidationsByMonth.get(4).getReserve(), 
-					   projectLiquidationsByMonth.get(5).getReserve(), 
-					   projectLiquidationsByMonth.get(6).getReserve());
+		dataSeries.add(projectLiquidationsByMonth.get(3).getReserve(), 
+					   projectLiquidationsByMonth.get(4).getReserve(), 
+					   projectLiquidationsByMonth.get(5).getReserve());
 		
-		dataSeries.add(projectLiquidationsByMonth.get(4).getTotalCostEmployees(), 
-					   projectLiquidationsByMonth.get(5).getTotalCostEmployees(), 
-					   projectLiquidationsByMonth.get(6).getTotalCostEmployees());
+		dataSeries.add(projectLiquidationsByMonth.get(3).getTotalCostEmployees(), 
+					   projectLiquidationsByMonth.get(4).getTotalCostEmployees(), 
+					   projectLiquidationsByMonth.get(5).getTotalCostEmployees());
 		
-		dataSeries.add(projectLiquidationsByMonth.get(4).getTotalCostCategoriesHuman(), 
-					   projectLiquidationsByMonth.get(5).getTotalCostCategoriesHuman(), 
-					   projectLiquidationsByMonth.get(6).getTotalCostCategoriesHuman());
+		dataSeries.add(projectLiquidationsByMonth.get(3).getTotalCostCategoriesHuman(), 
+					   projectLiquidationsByMonth.get(4).getTotalCostCategoriesHuman(), 
+					   projectLiquidationsByMonth.get(5).getTotalCostCategoriesHuman());
 		
-		dataSeries.add(projectLiquidationsByMonth.get(4).getTotalCostCategoriesMaterial(), 
-					   projectLiquidationsByMonth.get(5).getTotalCostCategoriesMaterial(), 
-					   projectLiquidationsByMonth.get(6).getTotalCostCategoriesMaterial());
+		dataSeries.add(projectLiquidationsByMonth.get(3).getTotalCostCategoriesMaterial(), 
+					   projectLiquidationsByMonth.get(4).getTotalCostCategoriesMaterial(), 
+					   projectLiquidationsByMonth.get(5).getTotalCostCategoriesMaterial());
 		
 		
 		Ticks ticks = new Ticks();
@@ -209,25 +209,25 @@ public class ReportProjectDetailsView extends BaseView {
 	{
 		DataSeries dataSeries = new DataSeries();
 	
-		dataSeries.add(projectLiquidationsByMonth.get(7).getEarnings(), 
-					   projectLiquidationsByMonth.get(8).getEarnings(), 
-					   projectLiquidationsByMonth.get(9).getEarnings());
+		dataSeries.add(projectLiquidationsByMonth.get(6).getEarnings(), 
+					   projectLiquidationsByMonth.get(7).getEarnings(), 
+					   projectLiquidationsByMonth.get(8).getEarnings());
 		
-		dataSeries.add(projectLiquidationsByMonth.get(7).getReserve(), 
-					   projectLiquidationsByMonth.get(8).getReserve(), 
-					   projectLiquidationsByMonth.get(9).getReserve());
+		dataSeries.add(projectLiquidationsByMonth.get(6).getReserve(), 
+					   projectLiquidationsByMonth.get(7).getReserve(), 
+					   projectLiquidationsByMonth.get(8).getReserve());
 		
-		dataSeries.add(projectLiquidationsByMonth.get(7).getTotalCostEmployees(), 
-					   projectLiquidationsByMonth.get(8).getTotalCostEmployees(), 
-					   projectLiquidationsByMonth.get(9).getTotalCostEmployees());
+		dataSeries.add(projectLiquidationsByMonth.get(6).getTotalCostEmployees(), 
+					   projectLiquidationsByMonth.get(7).getTotalCostEmployees(), 
+					   projectLiquidationsByMonth.get(8).getTotalCostEmployees());
 		
-		dataSeries.add(projectLiquidationsByMonth.get(7).getTotalCostCategoriesHuman(), 
-					   projectLiquidationsByMonth.get(8).getTotalCostCategoriesHuman(), 
-					   projectLiquidationsByMonth.get(9).getTotalCostCategoriesHuman());
+		dataSeries.add(projectLiquidationsByMonth.get(6).getTotalCostCategoriesHuman(), 
+					   projectLiquidationsByMonth.get(7).getTotalCostCategoriesHuman(), 
+					   projectLiquidationsByMonth.get(8).getTotalCostCategoriesHuman());
 		
-		dataSeries.add(projectLiquidationsByMonth.get(7).getTotalCostCategoriesMaterial(), 
-					   projectLiquidationsByMonth.get(8).getTotalCostCategoriesMaterial(), 
-					   projectLiquidationsByMonth.get(9).getTotalCostCategoriesMaterial());
+		dataSeries.add(projectLiquidationsByMonth.get(6).getTotalCostCategoriesMaterial(), 
+					   projectLiquidationsByMonth.get(7).getTotalCostCategoriesMaterial(), 
+					   projectLiquidationsByMonth.get(8).getTotalCostCategoriesMaterial());
 		
 		
 		Ticks ticks = new Ticks();
@@ -243,25 +243,25 @@ public class ReportProjectDetailsView extends BaseView {
 	{
 		DataSeries dataSeries = new DataSeries();
 	
-		dataSeries.add(projectLiquidationsByMonth.get(10).getEarnings(), 
-					   projectLiquidationsByMonth.get(11).getEarnings(), 
-					   projectLiquidationsByMonth.get(12).getEarnings());
+		dataSeries.add(projectLiquidationsByMonth.get(9).getEarnings(), 
+					   projectLiquidationsByMonth.get(10).getEarnings(), 
+					   projectLiquidationsByMonth.get(11).getEarnings());
 		
-		dataSeries.add(projectLiquidationsByMonth.get(10).getReserve(), 
-					   projectLiquidationsByMonth.get(11).getReserve(), 
-					   projectLiquidationsByMonth.get(12).getReserve());
+		dataSeries.add(projectLiquidationsByMonth.get(9).getReserve(), 
+					   projectLiquidationsByMonth.get(10).getReserve(), 
+					   projectLiquidationsByMonth.get(11).getReserve());
 		
-		dataSeries.add(projectLiquidationsByMonth.get(10).getTotalCostEmployees(), 
-					   projectLiquidationsByMonth.get(11).getTotalCostEmployees(), 
-					   projectLiquidationsByMonth.get(12).getTotalCostEmployees());
+		dataSeries.add(projectLiquidationsByMonth.get(9).getTotalCostEmployees(), 
+					   projectLiquidationsByMonth.get(10).getTotalCostEmployees(), 
+					   projectLiquidationsByMonth.get(11).getTotalCostEmployees());
 		
-		dataSeries.add(projectLiquidationsByMonth.get(10).getTotalCostCategoriesHuman(), 
-					   projectLiquidationsByMonth.get(11).getTotalCostCategoriesHuman(), 
-					   projectLiquidationsByMonth.get(12).getTotalCostCategoriesHuman());
+		dataSeries.add(projectLiquidationsByMonth.get(9).getTotalCostCategoriesHuman(), 
+					   projectLiquidationsByMonth.get(10).getTotalCostCategoriesHuman(), 
+					   projectLiquidationsByMonth.get(11).getTotalCostCategoriesHuman());
 		
-		dataSeries.add(projectLiquidationsByMonth.get(10).getTotalCostCategoriesMaterial(), 
-					   projectLiquidationsByMonth.get(11).getTotalCostCategoriesMaterial(), 
-					   projectLiquidationsByMonth.get(12).getTotalCostCategoriesMaterial());
+		dataSeries.add(projectLiquidationsByMonth.get(9).getTotalCostCategoriesMaterial(), 
+					   projectLiquidationsByMonth.get(10).getTotalCostCategoriesMaterial(), 
+					   projectLiquidationsByMonth.get(11).getTotalCostCategoriesMaterial());
 		
 		
 		Ticks ticks = new Ticks();
@@ -371,6 +371,7 @@ public class ReportProjectDetailsView extends BaseView {
 	HashMap<Integer, ProjectLiquidation> buildProjectLiquidacions(ProjectLiquidation[] projectLiquidations)
 	{
 		HashMap<Integer, ProjectLiquidation> projectLiquidacionByMonth = new HashMap<Integer, ProjectLiquidation>();
+		projectLiquidacionByMonth.put(0, new ProjectLiquidation());
 		projectLiquidacionByMonth.put(1, new ProjectLiquidation());
 		projectLiquidacionByMonth.put(2, new ProjectLiquidation());
 		projectLiquidacionByMonth.put(3, new ProjectLiquidation());
@@ -382,7 +383,6 @@ public class ReportProjectDetailsView extends BaseView {
 		projectLiquidacionByMonth.put(9, new ProjectLiquidation());
 		projectLiquidacionByMonth.put(10, new ProjectLiquidation());
 		projectLiquidacionByMonth.put(11, new ProjectLiquidation());
-		projectLiquidacionByMonth.put(12, new ProjectLiquidation());
 		
 		for(int i = 0; i< projectLiquidations.length; i++)
 		{

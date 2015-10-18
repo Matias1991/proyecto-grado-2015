@@ -125,7 +125,7 @@ public class ReportSummaryCompanyCategoriesHumanView extends BaseView {
 	Table buildTable(Collection<Category> categories, boolean isCurrencyDollar, String titleTable)
 	{
 		Table table = new Table(titleTable);
-		table.addContainerProperty("Proyeto", String.class, null);
+		table.addContainerProperty("Proyecto", String.class, null);
 		table.addContainerProperty("Importe", String.class, null);
 		table.addContainerProperty("Iva", String.class, null);
 		table.addContainerProperty("Total", String.class, null);
@@ -187,7 +187,7 @@ public class ReportSummaryCompanyCategoriesHumanView extends BaseView {
 		
 		// Set the footers
 		table.setFooterVisible(true);
-		table.setColumnFooter("Proyeto", "Total");
+		table.setColumnFooter("Proyecto", "Total");
 		table.setColumnFooter("Importe", totalAmountToShow);
 		table.setColumnFooter("Iva", totalIvaToShow);
 		table.setColumnFooter("Total", totalToShow);
@@ -267,11 +267,11 @@ public class ReportSummaryCompanyCategoriesHumanView extends BaseView {
 			
 			for(Category category : categories)
 			{
-				if(category.getIsRRHH() && !categories_RRHH.containsKey(category.getDescription()))
+				if(category.getIsRRHH() && !categories_RRHH.containsKey(category.getName()))
 				{
-					categories_RRHH.put(category.getDescription(), category);
+					categories_RRHH.put(category.getName(), category);
 					cboxCategories.addItem(category.getId());
-					cboxCategories.setItemCaption(category.getId(), category.getDescription());
+					cboxCategories.setItemCaption(category.getId(), category.getName());
 				}
 			}
 			

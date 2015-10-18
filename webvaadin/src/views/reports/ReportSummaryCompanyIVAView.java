@@ -105,8 +105,9 @@ public class ReportSummaryCompanyIVAView extends BaseView {
 		
 		HashMap<Integer, CompanyLiquidation> companyLiquidationsByMonth = buildCompanyLiquidacions(array);
 		
-		dataSeries.add(companyLiquidationsByMonth.get(1).getIVAPurchase(), 
-					   companyLiquidationsByMonth.get(2).getIVAPurchase(), 
+		dataSeries.add(companyLiquidationsByMonth.get(0).getIVAPurchase(), 
+					   companyLiquidationsByMonth.get(1).getIVAPurchase(), 
+					   companyLiquidationsByMonth.get(2).getIVAPurchase(),
 					   companyLiquidationsByMonth.get(3).getIVAPurchase(),
 					   companyLiquidationsByMonth.get(4).getIVAPurchase(),
 					   companyLiquidationsByMonth.get(5).getIVAPurchase(),
@@ -115,11 +116,11 @@ public class ReportSummaryCompanyIVAView extends BaseView {
 					   companyLiquidationsByMonth.get(8).getIVAPurchase(),
 					   companyLiquidationsByMonth.get(9).getIVAPurchase(),
 					   companyLiquidationsByMonth.get(10).getIVAPurchase(),
-					   companyLiquidationsByMonth.get(11).getIVAPurchase(),
-					   companyLiquidationsByMonth.get(12).getIVAPurchase());
+					   companyLiquidationsByMonth.get(11).getIVAPurchase());
 		
-		dataSeries.add(companyLiquidationsByMonth.get(1).getIVASale(), 
-					   companyLiquidationsByMonth.get(2).getIVASale(), 
+		dataSeries.add(companyLiquidationsByMonth.get(0).getIVASale(), 
+					   companyLiquidationsByMonth.get(1).getIVASale(), 
+					   companyLiquidationsByMonth.get(2).getIVASale(),
 					   companyLiquidationsByMonth.get(3).getIVASale(),
 					   companyLiquidationsByMonth.get(4).getIVASale(),
 					   companyLiquidationsByMonth.get(5).getIVASale(),
@@ -128,8 +129,7 @@ public class ReportSummaryCompanyIVAView extends BaseView {
 					   companyLiquidationsByMonth.get(8).getIVASale(),
 					   companyLiquidationsByMonth.get(9).getIVASale(),
 					   companyLiquidationsByMonth.get(10).getIVASale(),
-					   companyLiquidationsByMonth.get(11).getIVASale(),
-					   companyLiquidationsByMonth.get(12).getIVASale());
+					   companyLiquidationsByMonth.get(11).getIVASale());
 		
 		SeriesDefaults seriesDefaults = new SeriesDefaults()
 			.setFillToZero(true)
@@ -214,6 +214,7 @@ public class ReportSummaryCompanyIVAView extends BaseView {
 	HashMap<Integer, CompanyLiquidation> buildCompanyLiquidacions(CompanyLiquidation[] companyLiquidations)
 	{
 		HashMap<Integer, CompanyLiquidation> companyLiquidacionByMonth = new HashMap<Integer, CompanyLiquidation>();
+		companyLiquidacionByMonth.put(0, new CompanyLiquidation());
 		companyLiquidacionByMonth.put(1, new CompanyLiquidation());
 		companyLiquidacionByMonth.put(2, new CompanyLiquidation());
 		companyLiquidacionByMonth.put(3, new CompanyLiquidation());
@@ -225,7 +226,6 @@ public class ReportSummaryCompanyIVAView extends BaseView {
 		companyLiquidacionByMonth.put(9, new CompanyLiquidation());
 		companyLiquidacionByMonth.put(10, new CompanyLiquidation());
 		companyLiquidacionByMonth.put(11, new CompanyLiquidation());
-		companyLiquidacionByMonth.put(12, new CompanyLiquidation());
 		
 		for(int i = 0; i< companyLiquidations.length; i++)
 		{

@@ -393,17 +393,19 @@ public class DAOCategories implements IDAOCategroy {
 		try {
 
 			StringBuilder sql = new StringBuilder();
-			sql.append("SELECT C_1.*, P.NAME as ProjectName ");
+			sql.append("SELECT C_1.*, P_1.NAME as ProjectName ");
 			sql.append("FROM CATEGORY C_1 ");
-			sql.append("LEFT OUTER JOIN PROJECT P ON P.Id = C_1.ProjectId ");
+			sql.append("LEFT OUTER JOIN PROJECT P_1 ON P_1.Id = C_1.ProjectId ");
 			sql.append("WHERE C_1.AppliedDateTimeUTC = ? AND C_1.name = ? AND C_1.isCurrencyDollar = ? AND (C_1.Id, C_1.Version) in (SELECT C_2.Id, MAX(VERSION)");
-			sql.append("FROM CATEGORY C_2 LEFT OUTER JOIN PROJECT P ON P.Id = C_2.ProjectId ");
+			sql.append("FROM CATEGORY C_2 LEFT OUTER JOIN PROJECT P_2 ON P_2.Id = C_2.ProjectId ");
+			sql.append("WHERE C_2.AppliedDateTimeUTC = ? ");
 			sql.append("GROUP BY C_2.Id ) ");
 			
 			preparedStatement = this.connection.prepareStatement(sql.toString());
 			preparedStatement.setTimestamp(1, new Timestamp(date.getTime()));
 			preparedStatement.setString(2, name);
 			preparedStatement.setBoolean(3, isCurrencyDollar);
+			preparedStatement.setTimestamp(4, new Timestamp(date.getTime()));
 			rs = preparedStatement.executeQuery();
 
 			while (rs.next()) {
@@ -479,11 +481,11 @@ public class DAOCategories implements IDAOCategroy {
 			sql.append("LEFT OUTER JOIN PROJECT P ON P.Id = C_1.ProjectId ");
 			sql.append("WHERE (C_1.Id, C_1.Version) in (SELECT C_2.Id, MAX(VERSION) ");
 			sql.append("FROM CATEGORY C_2 LEFT OUTER JOIN PROJECT P ON P.Id = C_2.ProjectId ");
+			sql.append("WHERE APPLIEDDATETIMEUTC between ? AND ? ");
 			sql.append("GROUP BY C_2.Id ) ");
 			if (userContext.getUserType() == UserType.MANAGER) {
 				sql.append("AND P.ManagerId = ? ");
-			}
-			sql.append("AND APPLIEDDATETIMEUTC between ? AND ? ");
+			}			
 			sql.append("ORDER BY APPLIEDDATETIMEUTC DESC");
 
 			preparedStatement = this.connection
@@ -544,8 +546,8 @@ public class DAOCategories implements IDAOCategroy {
 			sql.append("FROM CATEGORY C_1 ");
 			sql.append("WHERE C_1.projectId = ? AND (C_1.Id, C_1.Version) in (SELECT C_2.Id, MAX(VERSION) ");
 			sql.append("FROM CATEGORY C_2 ");
-			sql.append("GROUP BY C_2.Id ) ");
-			sql.append("AND APPLIEDDATETIMEUTC between ? AND ? ");
+			sql.append("WHERE APPLIEDDATETIMEUTC between ? AND ? ");
+			sql.append("GROUP BY C_2.Id ) ");			
 			sql.append("ORDER BY APPLIEDDATETIMEUTC DESC");
 
 			preparedStatement = this.connection

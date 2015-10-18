@@ -131,8 +131,9 @@ public class ReportSummaryCompanyCategoriesView extends BaseView {
 		
 		if(isCurrencyDollar)
 		{
-			dataSeries.add(categoriesByMonth.get(1).getAmountDollar(), 
-					   	   categoriesByMonth.get(2).getAmountDollar(), 
+			dataSeries.add(categoriesByMonth.get(0).getAmountDollar(), 
+					   	   categoriesByMonth.get(1).getAmountDollar(), 
+					       categoriesByMonth.get(2).getAmountDollar(),
 					       categoriesByMonth.get(3).getAmountDollar(),
 					       categoriesByMonth.get(4).getAmountDollar(),
 					       categoriesByMonth.get(5).getAmountDollar(),
@@ -141,13 +142,13 @@ public class ReportSummaryCompanyCategoriesView extends BaseView {
 					       categoriesByMonth.get(8).getAmountDollar(),
 					       categoriesByMonth.get(9).getAmountDollar(),
 					       categoriesByMonth.get(10).getAmountDollar(),
-					       categoriesByMonth.get(11).getAmountDollar(),
-					       categoriesByMonth.get(12).getAmountDollar());
+					       categoriesByMonth.get(11).getAmountDollar());
 		}
 		else
 		{
-			dataSeries.add(categoriesByMonth.get(1).getAmountPeso(), 
-				   	   categoriesByMonth.get(2).getAmountPeso(), 
+			dataSeries.add(categoriesByMonth.get(0).getAmountPeso(), 
+				   	   categoriesByMonth.get(1).getAmountPeso(), 
+				       categoriesByMonth.get(2).getAmountPeso(),
 				       categoriesByMonth.get(3).getAmountPeso(),
 				       categoriesByMonth.get(4).getAmountPeso(),
 				       categoriesByMonth.get(5).getAmountPeso(),
@@ -156,8 +157,7 @@ public class ReportSummaryCompanyCategoriesView extends BaseView {
 				       categoriesByMonth.get(8).getAmountPeso(),
 				       categoriesByMonth.get(9).getAmountPeso(),
 				       categoriesByMonth.get(10).getAmountPeso(),
-				       categoriesByMonth.get(11).getAmountPeso(),
-				       categoriesByMonth.get(12).getAmountPeso());
+				       categoriesByMonth.get(11).getAmountPeso());
 		}
 		
 		AxesDefaults axesDefaults = new AxesDefaults()
@@ -214,6 +214,7 @@ public class ReportSummaryCompanyCategoriesView extends BaseView {
 	HashMap<Integer, Category> buildCategories(Category[] categories)
 	{
 		HashMap<Integer, Category> categoriesByMonth = new HashMap<Integer, Category>();
+		categoriesByMonth.put(0, new Category());
 		categoriesByMonth.put(1, new Category());
 		categoriesByMonth.put(2, new Category());
 		categoriesByMonth.put(3, new Category());
@@ -225,7 +226,6 @@ public class ReportSummaryCompanyCategoriesView extends BaseView {
 		categoriesByMonth.put(9, new Category());
 		categoriesByMonth.put(10, new Category());
 		categoriesByMonth.put(11, new Category());
-		categoriesByMonth.put(12, new Category());
 		
 		for(int i = 0; i< categories.length; i++)
 		{
@@ -259,7 +259,7 @@ public class ReportSummaryCompanyCategoriesView extends BaseView {
 				if(category.getCategoryTypeId() == 1)
 				{
 					cboxCategories.addItem(category.getId());
-					cboxCategories.setItemCaption(category.getId(), category.getDescription());
+					cboxCategories.setItemCaption(category.getId(), category.getName());
 				}
 			}
 			

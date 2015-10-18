@@ -1,6 +1,7 @@
 package servicelayer.core;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 
 import datalayer.daos.DAOManager;
@@ -32,12 +33,20 @@ public class CoreBill implements ICoreBill {
 
 		DAOManager daoManager = new DAOManager();
 		try {
-			if (bill.getIsCurrencyDollar()) {
-				bill.setAmountPeso(bill.getAmountDollar()
-						* bill.getTypeExchange());
-			}
-			daoManager.getDAOBills().insert(bill);
-			daoManager.commit();
+			Calendar cal = Calendar.getInstance();
+			cal.setTime(bill.getAppliedDateTimeUTC());
+			cal.set(Calendar.DATE, 01);
+			
+			if(!daoManager.getDAOCompanyLiquidations().existLiquidation(cal.getTime())){
+				if (bill.getIsCurrencyDollar()) {
+					bill.setAmountPeso(bill.getAmountDollar()
+							* bill.getTypeExchange());
+				}
+				daoManager.getDAOBills().insert(bill);
+				daoManager.commit();
+		}else{
+			throw new ClientException("El mes correspondiente ya fue liquidado");
+		}
 
 		} catch (ServerException e) {
 			daoManager.rollback();

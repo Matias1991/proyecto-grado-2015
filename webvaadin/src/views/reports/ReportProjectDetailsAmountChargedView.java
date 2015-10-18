@@ -139,8 +139,9 @@ public class ReportProjectDetailsAmountChargedView extends BaseView {
 		
 		HashMap<Integer, ReportAmountCharged> projectLiquidationsByMonth = buildReport(array);
 		
-		dataSeries.add(projectLiquidationsByMonth.get(1).getTotalAmount(), 
-					   projectLiquidationsByMonth.get(2).getTotalAmount(), 
+		dataSeries.add(projectLiquidationsByMonth.get(0).getTotalAmount(), 
+					   projectLiquidationsByMonth.get(1).getTotalAmount(), 
+					   projectLiquidationsByMonth.get(2).getTotalAmount(),
 					   projectLiquidationsByMonth.get(3).getTotalAmount(),
 					   projectLiquidationsByMonth.get(4).getTotalAmount(),
 					   projectLiquidationsByMonth.get(5).getTotalAmount(),
@@ -149,11 +150,11 @@ public class ReportProjectDetailsAmountChargedView extends BaseView {
 					   projectLiquidationsByMonth.get(8).getTotalAmount(),
 					   projectLiquidationsByMonth.get(9).getTotalAmount(),
 					   projectLiquidationsByMonth.get(10).getTotalAmount(),
-					   projectLiquidationsByMonth.get(11).getTotalAmount(),
-					   projectLiquidationsByMonth.get(12).getTotalAmount());
+					   projectLiquidationsByMonth.get(11).getTotalAmount());
 		
-		dataSeries.add(projectLiquidationsByMonth.get(1).getAmountCharged(), 
-					   projectLiquidationsByMonth.get(2).getAmountCharged(), 
+		dataSeries.add(projectLiquidationsByMonth.get(0).getAmountCharged(), 
+					   projectLiquidationsByMonth.get(1).getAmountCharged(), 
+					   projectLiquidationsByMonth.get(2).getAmountCharged(),
 					   projectLiquidationsByMonth.get(3).getAmountCharged(),
 					   projectLiquidationsByMonth.get(4).getAmountCharged(),
 					   projectLiquidationsByMonth.get(5).getAmountCharged(),
@@ -162,11 +163,11 @@ public class ReportProjectDetailsAmountChargedView extends BaseView {
 					   projectLiquidationsByMonth.get(8).getAmountCharged(),
 					   projectLiquidationsByMonth.get(9).getAmountCharged(),
 					   projectLiquidationsByMonth.get(10).getAmountCharged(),
-					   projectLiquidationsByMonth.get(11).getAmountCharged(),
-					   projectLiquidationsByMonth.get(12).getAmountCharged());
+					   projectLiquidationsByMonth.get(11).getAmountCharged());
 		
-		dataSeries.add(projectLiquidationsByMonth.get(1).getAmountReceivable(), 
-					   projectLiquidationsByMonth.get(2).getAmountReceivable(), 
+		dataSeries.add(projectLiquidationsByMonth.get(0).getAmountReceivable(), 
+					   projectLiquidationsByMonth.get(1).getAmountReceivable(), 
+					   projectLiquidationsByMonth.get(2).getAmountReceivable(),
 					   projectLiquidationsByMonth.get(3).getAmountReceivable(),
 					   projectLiquidationsByMonth.get(4).getAmountReceivable(),
 					   projectLiquidationsByMonth.get(5).getAmountReceivable(),
@@ -175,8 +176,7 @@ public class ReportProjectDetailsAmountChargedView extends BaseView {
 					   projectLiquidationsByMonth.get(8).getAmountReceivable(),
 					   projectLiquidationsByMonth.get(9).getAmountReceivable(),
 					   projectLiquidationsByMonth.get(10).getAmountReceivable(),
-					   projectLiquidationsByMonth.get(11).getAmountReceivable(),
-					   projectLiquidationsByMonth.get(12).getAmountReceivable());
+					   projectLiquidationsByMonth.get(11).getAmountReceivable());
 		
 		SeriesDefaults seriesDefaults = new SeriesDefaults()
 			.setFillToZero(true)
@@ -291,6 +291,7 @@ public class ReportProjectDetailsAmountChargedView extends BaseView {
 	HashMap<Integer, ReportAmountCharged> buildReport(Bill[] bills)
 	{
 		HashMap<Integer, ReportAmountCharged> reportByMonth = new HashMap<Integer, ReportAmountCharged>();
+		reportByMonth.put(0, new ReportAmountCharged());
 		reportByMonth.put(1, new ReportAmountCharged());
 		reportByMonth.put(2, new ReportAmountCharged());
 		reportByMonth.put(3, new ReportAmountCharged());
@@ -302,7 +303,6 @@ public class ReportProjectDetailsAmountChargedView extends BaseView {
 		reportByMonth.put(9, new ReportAmountCharged());
 		reportByMonth.put(10, new ReportAmountCharged());
 		reportByMonth.put(11, new ReportAmountCharged());
-		reportByMonth.put(12, new ReportAmountCharged());
 		
 		for(int i = 0; i< bills.length; i++)
 		{
