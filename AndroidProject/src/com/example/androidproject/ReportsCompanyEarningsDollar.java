@@ -19,6 +19,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 import com.example.androidproject.alerts.AlertDialogManager;
 import com.example.androidproject.controllers.ReportsController;
@@ -54,8 +55,11 @@ public class ReportsCompanyEarningsDollar extends Activity {
 //		Intent intent = ChartFactory.getBarChartIntent(this,
 //				getBarDataset(projects), renderer, Type.DEFAULT);
 //		startActivity(intent);
-		LinearLayout linearLayout = (LinearLayout)findViewById(R.id.reportsCompanyEarningsDollar);
-		linearLayout.addView(ChartFactory.getBarChartView(this, getBarDataset(projects), renderer, Type.DEFAULT));
+		
+		RelativeLayout layout = (RelativeLayout) findViewById(R.id.chartRelativeLayout);
+		layout.addView(ChartFactory.getBarChartView(this, getBarDataset(projects), renderer, Type.DEFAULT));
+		//LinearLayout linearLayout = (LinearLayout)findViewById(R.id.reportsCompanyEarningsDollar);
+		//linearLayout.addView(ChartFactory.getBarChartView(this, getBarDataset(projects), renderer, Type.DEFAULT));
 	}
 
 	@Override
@@ -79,7 +83,7 @@ public class ReportsCompanyEarningsDollar extends Activity {
 
 	private XYMultipleSeriesDataset getBarDataset(ArrayList<VOProjectLiquidation> projects) {
 		XYSeries earningsS = new XYSeries("Ganancia");
-		XYSeries reserveS = new XYSeries("Reserva");
+		XYSeries reserveS = new XYSeries("Reserva 2");
 
 		int i = 1;
 		for (VOProjectLiquidation project : projects) {

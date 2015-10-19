@@ -70,6 +70,12 @@ public class MainMenu extends Activity {
 				session.logoutUser();
 			}
 		});
+		
+		if(session.getUserDetails().get("UserType") != "PARTNER" || session.getUserDetails().get("UserType") == null)
+		{
+			btnReports.setBackgroundDrawable(null);
+			btnReports.setVisibility(View.GONE);
+		}
 	}
 
 	@Override

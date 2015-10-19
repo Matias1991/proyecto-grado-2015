@@ -9,21 +9,12 @@
     tools:context="com.example.androidproject.MainMenu" >
 
     <Button
-        android:id="@+id/btnCreateBill"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="47dp"
-        android:text="Crear factura"
-        android:width="150dp" />
-
-    <Button
         android:id="@+id/btnCreateCharge"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/btnCreateBill"
         android:layout_below="@+id/btnCreateBill"
-        android:layout_marginTop="48dp"
+        android:layout_marginTop="19dp"
         android:text="Crear cobro"
         android:width="150dp" />
 
@@ -33,17 +24,27 @@
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/btnCreateCharge"
         android:layout_below="@+id/btnCreateCharge"
-        android:layout_marginTop="48dp"
+        android:layout_marginTop="21dp"
         android:text="Reportes"
+        android:width="150dp" />
+
+    <Button
+        android:id="@+id/btnCreateBill"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="24dp"
+        android:text="Crear factura"
         android:width="150dp" />
 
     <Button
         android:id="@+id/btnLogout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/btnCreateCharge"
+        android:layout_alignLeft="@+id/btnReports"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="48dp"
+        android:layout_marginBottom="26dp"
         android:text="Cerrar sesion"
         android:width="150dp" />
 

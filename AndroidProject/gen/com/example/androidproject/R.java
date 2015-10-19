@@ -29,7 +29,7 @@ public final class R {
         public static final int TextView03=0x7f080022;
         public static final int TextView04=0x7f080026;
         public static final int TextView06=0x7f080029;
-        public static final int action_settings=0x7f08003d;
+        public static final int action_settings=0x7f08003c;
         public static final int btnCancel=0x7f08001a;
         public static final int btnCreate=0x7f080019;
         public static final int btnCreateBill=0x7f08002e;
@@ -39,14 +39,13 @@ public final class R {
         public static final int btnLoginApp=0x7f080020;
         public static final int btnLogout=0x7f080031;
         public static final int btnProjectInfo=0x7f080037;
-        public static final int btnProjectsWithMoreEarnings=0x7f08003a;
         public static final int btnProjectsWithMoreEarningsDollar=0x7f080038;
         public static final int btnProjectsWithMoreEarningsPeso=0x7f080039;
         public static final int btnReports=0x7f080030;
+        public static final int chartRelativeLayout=0x7f08003a;
         public static final int lblTitle=0x7f080021;
         public static final int linearLayout1=0x7f080012;
-        public static final int reportsCompanyEarningsDollar=0x7f08003b;
-        public static final int reportsCompanyEarningsPeso=0x7f08003c;
+        public static final int reportsCompanyEarningsPeso=0x7f08003b;
         public static final int spinnerBills=0x7f08001b;
         public static final int spinnerIVATypes=0x7f080016;
         public static final int spinnerProjectInfo=0x7f080033;

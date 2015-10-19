@@ -10,6 +10,7 @@ public class VOUser {
 	private String name;
 	private String lastName;
 	private String email;
+	private int userType;
 
 	public VOUser(SoapObject object) {
 		new Deserialization().SoapDeserialize(this, object);
@@ -23,6 +24,7 @@ public class VOUser {
 		this.lastName = object.getProperty(2).toString();
 		this.name = object.getProperty(3).toString();
 		this.userName = object.getProperty(5).toString();
+		this.userType = Integer.parseInt(object.getProperty(7).toString());
 	}
 
 	public int getId() {
@@ -71,5 +73,19 @@ public class VOUser {
 
 	public void setEmail(String email) {
 		this.email = email;
+	}
+	
+	public String getUserType()
+	{
+		if(this.userType == 2)
+		{
+			return "PARTNER";
+		}
+		else if(this.userType == 3) 
+		{
+			return "MANAGER";
+		}
+		else
+			return "";
 	}
 }
