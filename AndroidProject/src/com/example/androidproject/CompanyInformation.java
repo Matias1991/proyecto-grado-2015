@@ -28,7 +28,7 @@ public class CompanyInformation extends Activity {
 	UserSession session;
 
 	private TextView txtPartner1Name, txtPartner2Name, txtEarningsPartner1,
-			txtEarningsPartner2, txtDate, txtIVACompra, txtIVAVenta;
+			txtEarningsPartner2, txtDate, txtIVAPurchase, txtIVASale;
 	Calendar myCalendar = Calendar.getInstance();
 
 	ArrayList<VOProject> listProjects;
@@ -46,17 +46,22 @@ public class CompanyInformation extends Activity {
 		txtPartner2Name = (TextView) findViewById(R.id.txtPartner2Name);
 		txtEarningsPartner1 = (TextView) findViewById(R.id.txtEarningsPartner1);
 		txtEarningsPartner2 = (TextView) findViewById(R.id.txtEarningsPartner2);
+		txtIVAPurchase = (TextView) findViewById(R.id.txtIVAPurchase);
+		txtIVASale = (TextView) findViewById(R.id.txtIVASale);
 		txtDate = (TextView) findViewById(R.id.txtDateInfoCompany);
 
 		final ReportsController reportController = new ReportsController(
 				getResources().getString(R.string.ip_server));
 		
 		try {
-			ArrayList<VOCompanyLiquidation> projectList = reportController
-					.getCompanyInfo(
-//						format.parse(txtDate.getText().toString()),
+			VOCompanyLiquidation voCompanyInformation =  reportController
+					.getCompanyInfo(//format.parse(txtDate.getText().toString()),
 							new Date(),
 							2);
+			if(voCompanyInformation != null){
+				txtIVAPurchase.setText("IVA compra $ " + String.valueOf(voCompanyInformation.getIVAPurchase()));
+				txtIVASale.setText("IVA venta $ " + String.valueOf(voCompanyInformation.getIVASale()));
+			}
 		} catch (Exception e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
@@ -68,19 +73,6 @@ public class CompanyInformation extends Activity {
 			public void onClick(View v) {
 				createDialogWithoutDateField().show();
 
-				try {
-					ArrayList<VOCompanyLiquidation> projectList = reportController
-							.getCompanyInfo(
-//									format.parse(txtDate.getText().toString()),
-									new Date(),
-									2);
-				} catch (ParseException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (Exception e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
 			}
 
 		});

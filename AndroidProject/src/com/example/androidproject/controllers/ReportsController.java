@@ -166,9 +166,9 @@ public class ReportsController {
 	
 
 	
-	public ArrayList<VOCompanyLiquidation> getCompanyInfo(Date month, int id)
+	public VOCompanyLiquidation getCompanyInfo(Date month, int id)
 			throws Exception {
-		ArrayList<VOCompanyLiquidation> result = new ArrayList<VOCompanyLiquidation>();
+		VOCompanyLiquidation result = null;
 
 		// Create request
 		SoapObject request = new SoapObject(NAMESPACE, INFO_COMPANY_METHOD_NAME);
@@ -207,13 +207,13 @@ public class ReportsController {
 			androidHttpTransport.call(INFO_COMPANY_SOAP_ACTION, envelope);
 
 			SoapObject response = (SoapObject) envelope.bodyIn;
-			if(response != null){
-				for (int i = 0; i < response.getPropertyCount(); i++) {
-					SoapObject object = (SoapObject) response.getProperty(i);
-					if(object != null){
-						result.add(new VOCompanyLiquidation(object));						
-					}
-				}				
+			if (response != null) {
+
+				SoapObject object = (SoapObject) response.getProperty(0);
+				if (object != null) {
+					result = new VOCompanyLiquidation(object);
+
+				}
 			}
 
 		} catch (Exception e) {

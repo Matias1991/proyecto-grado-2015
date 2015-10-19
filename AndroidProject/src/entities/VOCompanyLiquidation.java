@@ -298,52 +298,32 @@ public class VOCompanyLiquidation implements KvmSerializable {
 		System.out.println("getPropertyInfo");
 		switch (arg0) {
 		case 0:
-			arg2.type = PropertyInfo.INTEGER_CLASS;
-			arg2.name = "id";
+			arg2.type = Double.class;
+			arg2.name = "IVAPurchase";
 			break;
 		case 1:
 			arg2.type = Double.class;
-			arg2.name = "reserve";
+			arg2.name = "IVASale";
 			break;
-		case 2:
+		case 15:
 			arg2.type = Double.class;
-			arg2.name = "earnings";
+			arg2.name = "irae";
 			break;
-		case 3:
-			arg2.type = VOProject.class;
-			arg2.name = "project";
-			break;
-		case 4:
-			arg2.type = String.class;
-			arg2.name = "partner1Name";
-			break;
-		case 5:
-			arg2.type = String.class;
-			arg2.name = "partner1Lastname";
-			break;
-		case 6:
-			arg2.type = String.class;
-			arg2.name = "partner2Name";
-			break;
-		case 7:
-			arg2.type = String.class;
-			arg2.name = "partner2Lastname";
-			break;
-		case 8:
-			arg2.type = Boolean.class;
-			arg2.name = "isCurrencyDollar";
-			break;
-		case 9:
+		case 20:
 			arg2.type = Double.class;
-			arg2.name = "partner1Earning";
+			arg2.name = "partner2EarningsDollar";
 			break;
-		case 10:
+		case 21:
 			arg2.type = Double.class;
-			arg2.name = "partner2Earning";
+			arg2.name = "partner2EarningsPeso";
 			break;
-		case 11:
+		case 24:
 			arg2.type = Double.class;
-			arg2.name = "totalBills";
+			arg2.name = "totalEarningsDollar";
+			break;
+		case 25:
+			arg2.type = Double.class;
+			arg2.name = "totalEarningsPeso";
 			break;
 		default:
 			break;
@@ -352,45 +332,29 @@ public class VOCompanyLiquidation implements KvmSerializable {
 
 	@Override
 	public void setProperty(int arg0, Object arg1) {
-//		System.out.println("setProperty");
-//		switch (arg0) {
-//		case 0:
-//			id = Integer.parseInt(arg1.toString());
-//			break;
-//		case 1:
-//			reserve = Double.parseDouble(arg1.toString());
-//			break;
-//		case 2:
-//			earnings = Double.parseDouble(arg1.toString());
-//			break;
-//		case 3:
-//			// project
-//			break;
-//		case 4:
-//			partner1Name = arg1.toString();
-//			break;
-//		case 5:
-//			partner1Lastname = arg1.toString();
-//			break;
-//		case 6:
-//			partner2Name = arg1.toString();
-//			break;
-//		case 7:
-//			partner2Lastname = arg1.toString();
-//			break;
-//		case 8:
-//			isCurrencyDollar = Boolean.getBoolean(arg1.toString());
-//			break;
-//		case 9:
-//			partner1Earning = Double.parseDouble(arg1.toString());
-//			break;
-//		case 10:
-//			partner2Earning = Double.parseDouble(arg1.toString());
-//			break;
-//		case 11:
-//			totalBills = Double.parseDouble(arg1.toString());
-//			break;
-//		}
+		switch (arg0) {
+		case 0:
+			IVAPurchase = Double.parseDouble(arg1.toString());
+			break;
+		case 1:
+			IVASale = Double.parseDouble(arg1.toString());
+			break;
+		case 15:
+			irae = Double.parseDouble(arg1.toString());
+			break;
+		case 20:
+			partner2EarningsDollar = Double.parseDouble(arg1.toString());
+			break;
+		case 21:
+			partner2EarningsPeso = Double.parseDouble(arg1.toString());
+			break;
+		case 24:
+			totalEarningsDollar = Double.parseDouble(arg1.toString());
+			break;
+		case 25:
+			totalEarningsPeso = Double.parseDouble(arg1.toString());
+			break;
+		}
 	}
 
 }
