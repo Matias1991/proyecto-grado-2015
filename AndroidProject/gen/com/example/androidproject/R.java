@@ -32,8 +32,8 @@ public final class R {
         public static final int action_settings=0x7f08003c;
         public static final int btnCancel=0x7f08001a;
         public static final int btnCreate=0x7f080019;
-        public static final int btnCreateBill=0x7f08002e;
-        public static final int btnCreateCharge=0x7f08002f;
+        public static final int btnCreateBill=0x7f08002f;
+        public static final int btnCreateCharge=0x7f08002e;
         public static final int btnLiquidations=0x7f080036;
         public static final int btnLogin=0x7f08002d;
         public static final int btnLoginApp=0x7f080020;

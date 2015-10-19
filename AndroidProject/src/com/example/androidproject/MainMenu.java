@@ -22,13 +22,19 @@ public class MainMenu extends Activity {
 
 		session = new UserSession(getApplicationContext());
 
-		session.checkLogin();
-
 		final Button btnCreateBill = (Button) findViewById(R.id.btnCreateBill);
 		final Button btnCreateCharge = (Button) findViewById(R.id.btnCreateCharge);
 		final Button btnReports = (Button) findViewById(R.id.btnReports);
 		final Button btnLogout = (Button) findViewById(R.id.btnLogout);
 
+		session.checkLogin();
+
+		if(session.getUserDetails().get("UserType") == "MANAGER")
+		{
+			btnReports.setBackgroundDrawable(null);
+			btnReports.setVisibility(View.GONE);
+		}
+	
 		btnCreateBill.setOnClickListener(new View.OnClickListener() {
 
 			@Override
@@ -70,12 +76,6 @@ public class MainMenu extends Activity {
 				session.logoutUser();
 			}
 		});
-		
-		if(session.getUserDetails().get("UserType") != "PARTNER" || session.getUserDetails().get("UserType") == null)
-		{
-			btnReports.setBackgroundDrawable(null);
-			btnReports.setVisibility(View.GONE);
-		}
 	}
 
 	@Override
