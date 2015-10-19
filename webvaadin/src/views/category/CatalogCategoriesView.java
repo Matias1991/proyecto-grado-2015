@@ -40,7 +40,6 @@ public class CatalogCategoriesView extends BaseView {
 	private Grid categoriesGrid;
 	private BeanItemContainer<Category> beanContainer;
 	private Label lblMessage;
-	private PopupDateField popupDateFieldTo;
 	private PopupDateField popupDateFieldFrom;
 
 	public CatalogCategoriesView() {
@@ -61,15 +60,6 @@ public class CatalogCategoriesView extends BaseView {
 				buildGrid();
 			}
 		});
-
-		popupDateFieldTo.addValueChangeListener(new ValueChangeListener() {
-			private static final long serialVersionUID = 1L;
-
-			@Override
-			public void valueChange(ValueChangeEvent event) {
-				buildGrid();
-			}
-		});
 	}
 
 	void builInputs() {
@@ -78,17 +68,13 @@ public class CatalogCategoriesView extends BaseView {
 		popupDateFieldFrom.setValue(cal.getTime());
 		popupDateFieldFrom.setDateFormat("MM-yyyy");
 		popupDateFieldFrom.setResolution(Resolution.MONTH);
-
-		popupDateFieldTo.setValue(new Date());
-		popupDateFieldTo.setDateFormat("MM-yyyy");
-		popupDateFieldTo.setResolution(Resolution.MONTH);
-
 	}
 
 	public void buildGrid() {
+		
 		Collection<Category> categories = CategoryController
 				.getCategoriesByDate(popupDateFieldFrom.getValue(),
-						popupDateFieldTo.getValue());
+						popupDateFieldFrom.getValue());
 
 		if (categories != null && categories.size() > 0) {
 
@@ -210,21 +196,12 @@ public class CatalogCategoriesView extends BaseView {
 
 		// popupDateFieldFrom
 		popupDateFieldFrom = new PopupDateField();
-		popupDateFieldFrom.setCaption("Desde");
+		popupDateFieldFrom.setCaption("Mes");
 		popupDateFieldFrom.setImmediate(true);
 		popupDateFieldFrom.setWidth("120px");
 		popupDateFieldFrom.setHeight("-1px");
 		popupDateFieldFrom.setRequired(true);
 		mainLayout.addComponent(popupDateFieldFrom, "top:120.0px;left:0.0px;");
-
-		// popupDateFieldTo
-		popupDateFieldTo = new PopupDateField();
-		popupDateFieldTo.setCaption("Hasta");
-		popupDateFieldTo.setImmediate(true);
-		popupDateFieldTo.setWidth("120px");
-		popupDateFieldTo.setHeight("-1px");
-		popupDateFieldTo.setRequired(true);
-		mainLayout.addComponent(popupDateFieldTo, "top:120.0px;left:140.0px;");
 
 		// lblTitle
 		lblTitle = new Label();
