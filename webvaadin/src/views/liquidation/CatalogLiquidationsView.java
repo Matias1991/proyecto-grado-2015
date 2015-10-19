@@ -398,7 +398,7 @@ public class CatalogLiquidationsView extends BaseView {
 		// Compania
 		// txtCompanyCategory
 		txtCompanyCategory = new TextField();
-		txtCompanyCategory.setCaption("Costos compañía");
+		txtCompanyCategory.setCaption("Costos compañía ($)");
 		txtCompanyCategory.setImmediate(true);
 		txtCompanyCategory.setWidth("155px");
 		txtCompanyCategory.setHeight("-1px");
@@ -408,7 +408,7 @@ public class CatalogLiquidationsView extends BaseView {
 
 		// txtContribution
 		txtContribution = new TextField();
-		txtContribution.setCaption("Contribución");
+		txtContribution.setCaption("Contribución ($)");
 		txtContribution.setImmediate(true);
 		txtContribution.setWidth("155px");
 		txtContribution.setHeight("-1px");
@@ -418,7 +418,7 @@ public class CatalogLiquidationsView extends BaseView {
 
 		// txtDismissalPrevention
 		txtDismissalPrevention = new TextField();
-		txtDismissalPrevention.setCaption("Previsión despido");
+		txtDismissalPrevention.setCaption("Previsión despido ($)");
 		txtDismissalPrevention.setImmediate(true);
 		txtDismissalPrevention.setWidth("155px");
 		txtDismissalPrevention.setHeight("-1px");
@@ -428,7 +428,7 @@ public class CatalogLiquidationsView extends BaseView {
 
 		// txtEmployeesCost
 		txtEmployeesCost = new TextField();
-		txtEmployeesCost.setCaption("Costos empleados");
+		txtEmployeesCost.setCaption("Costos empleados ($)");
 		txtEmployeesCost.setImmediate(true);
 		txtEmployeesCost.setWidth("155px");
 		txtEmployeesCost.setHeight("-1px");
@@ -438,7 +438,7 @@ public class CatalogLiquidationsView extends BaseView {
 
 		// txtIncidenceSalary
 		txtIncidenceSalary = new TextField();
-		txtIncidenceSalary.setCaption("Incidencia salario");
+		txtIncidenceSalary.setCaption("Incidencia salario ($)");
 		txtIncidenceSalary.setImmediate(true);
 		txtIncidenceSalary.setWidth("155px");
 		txtIncidenceSalary.setHeight("-1px");
@@ -448,7 +448,7 @@ public class CatalogLiquidationsView extends BaseView {
 
 		// txtIncidenceTickets
 		txtIncidenceTickets = new TextField();
-		txtIncidenceTickets.setCaption("Incidencia tickets");
+		txtIncidenceTickets.setCaption("Incidencia tickets ($)");
 		txtIncidenceTickets.setImmediate(true);
 		txtIncidenceTickets.setWidth("155px");
 		txtIncidenceTickets.setHeight("-1px");
@@ -458,7 +458,7 @@ public class CatalogLiquidationsView extends BaseView {
 
 		// txtIrae
 		txtIrae = new TextField();
-		txtIrae.setCaption("IRAE");
+		txtIrae.setCaption("IRAE ($)");
 		txtIrae.setImmediate(true);
 		txtIrae.setWidth("155px");
 		txtIrae.setHeight("-1px");
@@ -468,7 +468,7 @@ public class CatalogLiquidationsView extends BaseView {
 
 		// txtIvaPurchase
 		txtIvaPurchase = new TextField();
-		txtIvaPurchase.setCaption("IVA compra");
+		txtIvaPurchase.setCaption("IVA compra ($)");
 		txtIvaPurchase.setImmediate(true);
 		txtIvaPurchase.setWidth("155px");
 		txtIvaPurchase.setHeight("-1px");
@@ -478,7 +478,7 @@ public class CatalogLiquidationsView extends BaseView {
 
 		// txtIvaSale
 		txtIvaSale = new TextField();
-		txtIvaSale.setCaption("IVA venta");
+		txtIvaSale.setCaption("IVA venta ($)");
 		txtIvaSale.setImmediate(true);
 		txtIvaSale.setWidth("155px");
 		txtIvaSale.setHeight("-1px");
@@ -528,7 +528,7 @@ public class CatalogLiquidationsView extends BaseView {
 
 		// txtSalaryNotPartners
 		txtSalaryNotPartners = new TextField();
-		txtSalaryNotPartners.setCaption("Salario no socios");
+		txtSalaryNotPartners.setCaption("Salario no socios ($)");
 		txtSalaryNotPartners.setImmediate(true);
 		txtSalaryNotPartners.setWidth("155px");
 		txtSalaryNotPartners.setHeight("-1px");
@@ -538,7 +538,7 @@ public class CatalogLiquidationsView extends BaseView {
 
 		// txtSalaryPartners
 		txtSalaryPartners = new TextField();
-		txtSalaryPartners.setCaption("Salario socios");
+		txtSalaryPartners.setCaption("Salario socios ($)");
 		txtSalaryPartners.setImmediate(true);
 		txtSalaryPartners.setWidth("155px");
 		txtSalaryPartners.setHeight("-1px");
@@ -930,6 +930,32 @@ public class CatalogLiquidationsView extends BaseView {
 						tabDetails.removeTab(tabDetails.getTab(tab6));
 					if (tabDetails.getTab(tab5) == null)
 						tabDetails.addComponent(tab5);
+					
+					if(projectLiquidation.isCurrencyDollar())
+					{
+						txtTotalBills.setCaption("Facturación total (U$S)");
+						txtSale.setCaption("Venta (U$S)");
+						txtReserve.setCaption("Reserva (U$S)");
+						txtTotalCostCategoriesHuman.setCaption("Total rubros humanos (U$S)");
+						txtTotalCostCategoriesMaterial.setCaption("Total rubros materiales (U$S)");
+						txtTotalCostEmployees.setCaption("Total costos empleados (U$S)");
+						txtEarnings.setCaption("Ganancia (U$S)");
+						txtPartner1Earnings.setCaption("Ganancia socio (U$S)");
+						txtPartner2Earnings.setCaption("Ganancia socio (U$S)");
+					}
+					else
+					{
+						txtTotalBills.setCaption("Facturación total ($)");
+						txtSale.setCaption("Venta ($)");
+						txtReserve.setCaption("Reserva ($)");
+						txtTotalCostCategoriesHuman.setCaption("Total rubros humanos ($)");
+						txtTotalCostCategoriesMaterial.setCaption("Total rubros materiales ($)");
+						txtTotalCostEmployees.setCaption("Total costos empleados ($)");
+						txtEarnings.setCaption("Ganancia ($)");
+						txtPartner1Earnings.setCaption("Ganancia socio ($)");
+						txtPartner2Earnings.setCaption("Ganancia socio ($)");
+					}
+					
 					readOnlyInputs(true);
 				} else {
 					cleanInputs();
