@@ -601,7 +601,6 @@ public class WebvaadinUI extends UI {
 		}
 		if(RequestContext.getRequestContext().getUserType() == 2 || RequestContext.getRequestContext().getUserType() == 3) // todo lo compartido entre socio y gerente
 		{
-
 			// Proyectos
 			project = menuBar.addItem("Proyectos", null, null);
 			if(RequestContext.getRequestContext().getUserType() == 2)
@@ -628,15 +627,15 @@ public class WebvaadinUI extends UI {
 			charge.addItem("Modificar cobros", null, mainMenuBarCommand);
 			charge.addItem("Eliminar cobros", null, mainMenuBarCommand);
 			charge.addItem("Catálogo cobros", null, mainMenuBarCommand);	
+		}
+		
+		if(RequestContext.getRequestContext().getUserType() == 2)
+		{
 			//Liquidaciones
 			MenuItem liquidation = menuBar.addItem("Liquidaciones", null,null);
 			liquidation.addItem("Crear liquidación", null, mainMenuBarCommand);
 			liquidation.addItem("Catálogo liquidaciones",null,mainMenuBarCommand);
 			
-		}
-		
-		if(RequestContext.getRequestContext().getUserType() == 2)
-		{
 			MenuItem reports = menuBar.addItem("Reportes", null, null);
 			reports.addItem("Proyectos con mas ganancias", null, mainMenuBarCommand);
 			reports.addItem("Resumen de IVA", null, mainMenuBarCommand);
