@@ -13,6 +13,7 @@ import org.ksoap2.transport.HttpTransportSE;
 import com.example.androidproject.HandleError;
 
 import entities.MarshalDate;
+import entities.VOCompanyLiquidation;
 import entities.VOProject;
 import entities.VOProjectLiquidation;
 
@@ -23,7 +24,9 @@ public class ReportsController {
 	private final String MORE_EARNINGS_SOAP_ACTION = "urn:getProjectsLiquidationsWithMoreEarnings";
 	private final String MORE_EARNINGS_METHOD_NAME = "getProjectsLiquidationsWithMoreEarnings";
 	private final String INFO_PROJECT_SOAP_ACTION = "urn:getProjectLiquidation";
-	private final String INFO_PROJECT__METHOD_NAME = "getProjectLiquidation";
+	private final String INFO_PROJECT_METHOD_NAME = "getProjectLiquidation";
+	private final String INFO_COMPANY_SOAP_ACTION = "urn:getCompanyLiquidation";
+	private final String INFO_COMPANY_METHOD_NAME = "getCompanyLiquidation";
 	
 
 	public ReportsController(String server) {
@@ -110,7 +113,7 @@ public class ReportsController {
 		ArrayList<VOProjectLiquidation> result = new ArrayList<VOProjectLiquidation>();
 
 		// Create request
-		SoapObject request = new SoapObject(NAMESPACE, INFO_PROJECT__METHOD_NAME);
+		SoapObject request = new SoapObject(NAMESPACE, INFO_PROJECT_METHOD_NAME);
 			
 		PropertyInfo liquidationDate = new PropertyInfo();
 		liquidationDate.setName("month");
@@ -151,6 +154,64 @@ public class ReportsController {
 					SoapObject object = (SoapObject) response.getProperty(i);
 					if(object != null){
 						result.add(new VOProjectLiquidation(object));						
+					}
+				}				
+			}
+
+		} catch (Exception e) {
+			throw new Exception(HandleError.getMessageError(envelope));
+		}
+		return result;
+	}
+	
+
+	
+	public ArrayList<VOCompanyLiquidation> getCompanyInfo(Date month, int id)
+			throws Exception {
+		ArrayList<VOCompanyLiquidation> result = new ArrayList<VOCompanyLiquidation>();
+
+		// Create request
+		SoapObject request = new SoapObject(NAMESPACE, INFO_COMPANY_METHOD_NAME);
+
+		Calendar cal = Calendar.getInstance();
+		Date date = new Date();
+		cal.setTime(date);
+		cal.set(2015, 04, 01, 0, 0, 0);	
+		
+		
+		PropertyInfo liquidationDate = new PropertyInfo();
+		liquidationDate.setName("month");
+		liquidationDate.setValue(cal.getTime());
+		liquidationDate.setType(Date.class);
+		request.addProperty(liquidationDate);
+
+		PropertyInfo userContextId = new PropertyInfo();
+		userContextId.setName("userContextId");
+		/* Harcode tipo de usuario en 2 = SOCIO */
+		userContextId.setValue(2);
+		userContextId.setType(Integer.class);
+		request.addProperty(userContextId);
+
+		// Create envelope
+		SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(
+				SoapEnvelope.VER11);
+
+		envelope.dotNet = true;
+		envelope.setOutputSoapObject(request);
+		MarshalDate mDate = new MarshalDate();
+		mDate.register(envelope);
+		
+		HttpTransportSE androidHttpTransport = new HttpTransportSE(URL);
+
+		try {
+			androidHttpTransport.call(INFO_COMPANY_SOAP_ACTION, envelope);
+
+			SoapObject response = (SoapObject) envelope.bodyIn;
+			if(response != null){
+				for (int i = 0; i < response.getPropertyCount(); i++) {
+					SoapObject object = (SoapObject) response.getProperty(i);
+					if(object != null){
+						result.add(new VOCompanyLiquidation(object));						
 					}
 				}				
 			}

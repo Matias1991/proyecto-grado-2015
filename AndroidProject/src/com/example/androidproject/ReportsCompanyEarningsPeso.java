@@ -49,9 +49,6 @@ public class ReportsCompanyEarningsPeso extends Activity {
 
 		XYMultipleSeriesRenderer renderer = getBarRenderer();
 		chartSettings(renderer, projects);
-//		Intent intent = ChartFactory.getBarChartIntent(this,
-//				getBarDataset(projects), renderer, Type.DEFAULT);
-//		startActivity(intent);
 		LinearLayout linearLayout = (LinearLayout)findViewById(R.id.reportsCompanyEarningsPeso);
 		linearLayout.addView(ChartFactory.getBarChartView(this, getBarDataset(projects), renderer, Type.DEFAULT));
 	}
