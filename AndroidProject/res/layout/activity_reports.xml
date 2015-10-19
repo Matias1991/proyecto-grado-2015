@@ -24,7 +24,7 @@
         android:layout_alignRight="@+id/btnLiquidations"
         android:layout_below="@+id/btnLiquidations"
         android:layout_marginTop="22dp"
-        android:text="Información de Proyectos" />
+        android:text="Información de proyectos" />
 
     <Button
         android:id="@+id/btnProjectsWithMoreEarningsDollar"

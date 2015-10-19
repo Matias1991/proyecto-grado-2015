@@ -115,7 +115,7 @@ public class ProjectInformation extends Activity {
 															.getReserve()));
 											txtTotalBills.setText("Facturación total: U$S "
 													+ String.valueOf(voProjectLiquidation
-															.getReserve()));
+															.getTotalBills()));
 										} else {
 											txtEarningsPartner1.setText("Ganancia: $ "
 													+ String.valueOf(voProjectLiquidation

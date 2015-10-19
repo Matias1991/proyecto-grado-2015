@@ -16,6 +16,7 @@
         android:ems="10"
         android:hint="Seleccione al mes"
         android:inputType="date" />
+
     <TableLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -23,25 +24,80 @@
         android:layout_centerHorizontal="true" >
 
         <TableRow
-            android:id="@+id/tableRow6"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" >
-
-            <TextView
-                android:id="@+id/txtEarningsPartner1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="25dp"
-                android:text="" />
-        </TableRow>
-
-        <TableRow
-            android:id="@+id/tableRow1"
+            android:id="@+id/tableRow2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" >
 
             <TableRow
-                android:id="@+id/tableRow10"
+                android:id="@+id/tableRow3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" >
+
+                <TextView
+                    android:id="@+id/txtPartner1Name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="25dp"
+                    android:text="" />
+            </TableRow>
+
+            <TableRow
+                android:id="@+id/tableRow4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" >
+
+                <TextView
+                    android:id="@+id/txtCompanyEarningsPartner1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="25dp"
+                    android:text="" />
+            </TableRow>
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/tableRow5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" >
+
+            <TableRow
+                android:id="@+id/tableRow6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" >
+
+                <TextView
+                    android:id="@+id/txtEmpty1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="25dp"
+                    android:text="" />
+            </TableRow>
+
+            <TableRow
+                android:id="@+id/tableRow7"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" >
+
+                <TextView
+                    android:id="@+id/txtCompanyEarningsPartner1Dollar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="18dp"
+                    android:text="" />
+            </TableRow>
+        </TableRow>
+		
+		<TableRow
+            android:id="@+id/tableRow10"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" >
+
+            <TableRow
+                android:id="@+id/tableRow11"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" >
 
@@ -53,40 +109,14 @@
                     android:layout_marginTop="25dp"
                     android:text="" />
             </TableRow>
-        </TableRow>
-
-        <TableRow
-            android:id="@+id/tableRow2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" >
 
             <TableRow
-                android:id="@+id/tableRow11"
+                android:id="@+id/tableRow12"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" >
 
                 <TextView
-                    android:id="@+id/txtEarningsPartner2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginTop="25dp"
-                    android:text="" />
-            </TableRow>
-        </TableRow>
-
-        <TableRow
-            android:id="@+id/tableRow3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" >
-
-            <TableRow
-                android:id="@+id/tableRow8"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" >
-
-                <TextView
-                    android:id="@+id/txtPartner1Name"
+                    android:id="@+id/txtCompanyEarningsPartner2"
                     android:layout_width="57dp"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="41dp"
@@ -95,8 +125,43 @@
             </TableRow>
         </TableRow>
 
+       
         <TableRow
-            android:id="@+id/tableRow4"
+            android:id="@+id/tableRow13"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" >
+
+            <TableRow
+                android:id="@+id/tableRow14"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" >
+
+                <TextView
+                    android:id="@+id/txtEmpty2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="25dp"
+                    android:text="" />
+            </TableRow>
+
+            <TableRow
+                android:id="@+id/tableRow15"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" >
+
+                <TextView
+                    android:id="@+id/txtCompanyEarningsPartner2Dollar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="18dp"
+                    android:text="" />
+            </TableRow>
+        </TableRow>
+        
+        <TableRow
+            android:id="@+id/tableRow16"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" >
 
@@ -109,7 +174,7 @@
         </TableRow>
 
         <TableRow
-            android:id="@+id/tableRow7"
+            android:id="@+id/tableRow17"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" >
 
@@ -117,8 +182,10 @@
                 android:id="@+id/txtIVAPurchase"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="25dp"
                 android:text="" />
         </TableRow>
+
     </TableLayout>
 
 </RelativeLayout>

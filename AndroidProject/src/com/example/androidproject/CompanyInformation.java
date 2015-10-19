@@ -1,6 +1,5 @@
 package com.example.androidproject;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -27,8 +26,9 @@ public class CompanyInformation extends Activity {
 
 	UserSession session;
 
-	private TextView txtPartner1Name, txtPartner2Name, txtEarningsPartner1,
-			txtEarningsPartner2, txtDate, txtIVAPurchase, txtIVASale;
+	private TextView txtPartner1Name, txtPartner2Name, txtCompanyEarningsPartner1,txtCompanyEarningsPartner1Dollar,
+	txtCompanyEarningsPartner2, txtDate, txtIVAPurchase, txtIVASale,
+	txtCompanyEarningsPartner2Dollar;
 	Calendar myCalendar = Calendar.getInstance();
 
 	ArrayList<VOProject> listProjects;
@@ -44,12 +44,14 @@ public class CompanyInformation extends Activity {
 
 		txtPartner1Name = (TextView) findViewById(R.id.txtPartner1Name);
 		txtPartner2Name = (TextView) findViewById(R.id.txtPartner2Name);
-		txtEarningsPartner1 = (TextView) findViewById(R.id.txtEarningsPartner1);
-		txtEarningsPartner2 = (TextView) findViewById(R.id.txtEarningsPartner2);
+		txtDate = (TextView) findViewById(R.id.txtDateInfoCompany);
+		txtCompanyEarningsPartner1Dollar = (TextView) findViewById(R.id.txtCompanyEarningsPartner1Dollar);
+		txtCompanyEarningsPartner2Dollar = (TextView) findViewById(R.id.txtCompanyEarningsPartner2Dollar);
+		txtCompanyEarningsPartner1 = (TextView) findViewById(R.id.txtCompanyEarningsPartner1);
+		txtCompanyEarningsPartner2 = (TextView) findViewById(R.id.txtCompanyEarningsPartner2);
 		txtIVAPurchase = (TextView) findViewById(R.id.txtIVAPurchase);
 		txtIVASale = (TextView) findViewById(R.id.txtIVASale);
-		txtDate = (TextView) findViewById(R.id.txtDateInfoCompany);
-
+		
 		final ReportsController reportController = new ReportsController(
 				getResources().getString(R.string.ip_server));
 		
@@ -59,8 +61,14 @@ public class CompanyInformation extends Activity {
 							new Date(),
 							2);
 			if(voCompanyInformation != null){
+				txtPartner1Name.setText(voCompanyInformation.getPartner1FullName());
+				txtPartner2Name.setText(voCompanyInformation.getPartner2FullName());
 				txtIVAPurchase.setText("IVA compra $ " + String.valueOf(voCompanyInformation.getIVAPurchase()));
 				txtIVASale.setText("IVA venta $ " + String.valueOf(voCompanyInformation.getIVASale()));
+				txtCompanyEarningsPartner1Dollar.setText("$ " + voCompanyInformation.getPartner1EarningsDollar());
+				txtCompanyEarningsPartner2Dollar.setText("U$S " + voCompanyInformation.getPartner2EarningsDollar());
+				txtCompanyEarningsPartner2.setText("$ " + String.valueOf(voCompanyInformation.getPartner2EarningsPeso()));
+				txtCompanyEarningsPartner1.setText("$ " + String.valueOf(voCompanyInformation.getPartner1EarningsPeso()));
 			}
 		} catch (Exception e1) {
 			// TODO Auto-generated catch block
@@ -88,9 +96,6 @@ public class CompanyInformation extends Activity {
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		// Handle action bar item clicks here. The action bar will
-		// automatically handle clicks on the Home/Up button, so long
-		// as you specify a parent activity in AndroidManifest.xml.
 		int id = item.getItemId();
 		if (id == R.id.action_settings) {
 			return true;

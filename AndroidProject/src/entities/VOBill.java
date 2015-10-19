@@ -48,13 +48,7 @@ public class VOBill implements KvmSerializable {
 				.toString());
 		this.projectId = Integer.parseInt(object.getProperty(12).toString());
 		this.ivaType = Integer.parseInt(object.getProperty(9).toString());
-		// Parseo de fecha
-		// try {
-		// this.appliedDateTimeUTC =
-		// formatter.parse(object.getProperty(4).toString());
-		// } catch (ParseException e) {
-		// e.printStackTrace();
-		// }
+
 	}
 
 	public int getId() {

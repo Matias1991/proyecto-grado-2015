@@ -22,10 +22,10 @@ public class VOCompanyLiquidation implements KvmSerializable {
 	private double employeesCost;
 	private double IVASale;
 	private double IVAPurchase;
-	// private VOEmployed partner1;
+	private VOEmployed partner1;
 	private double partner1EarningsDollar;
 	private double partner1EarningsPeso;
-	// private VOEmployed partner2;
+	private VOEmployed partner2;
 	private double partner2EarningsDollar;
 	private double partner2EarningsPeso;
 	private double typeExchange;
@@ -71,7 +71,10 @@ public class VOCompanyLiquidation implements KvmSerializable {
 				"totalEarningsPeso").toString());
 		this.totalEarningsDollar = Double.parseDouble(object.getProperty(
 				"totalEarningsDollar").toString());
-
+		this.partner1 = new VOEmployed(
+				(SoapObject) object.getProperty("partner1"));
+		this.partner2 = new VOEmployed(
+				(SoapObject) object.getProperty("partner2"));
 	}
 
 	public int getId() {
@@ -170,13 +173,13 @@ public class VOCompanyLiquidation implements KvmSerializable {
 		IVAPurchase = iVAPurchase;
 	}
 
-//	public VOEmployed getPartner1() {
-//		return partner1;
-//	}
-//
-//	public void setPartner1(VOEmployed partner1) {
-//		this.partner1 = partner1;
-//	}
+	// public VOEmployed getPartner1() {
+	// return partner1;
+	// }
+	//
+	// public void setPartner1(VOEmployed partner1) {
+	// this.partner1 = partner1;
+	// }
 
 	public double getPartner1EarningsDollar() {
 		return partner1EarningsDollar;
@@ -194,13 +197,13 @@ public class VOCompanyLiquidation implements KvmSerializable {
 		this.partner1EarningsPeso = partner1EarningsPeso;
 	}
 
-//	public VOEmployed getPartner2() {
-//		return partner2;
-//	}
-//
-//	public void setPartner2(VOEmployed partner2) {
-//		this.partner2 = partner2;
-//	}
+	// public VOEmployed getPartner2() {
+	// return partner2;
+	// }
+	//
+	// public void setPartner2(VOEmployed partner2) {
+	// this.partner2 = partner2;
+	// }
 
 	public double getPartner2EarningsDollar() {
 		return partner2EarningsDollar;
@@ -240,6 +243,30 @@ public class VOCompanyLiquidation implements KvmSerializable {
 
 	public void setTotalEarningsDollar(double totalEarningsDollar) {
 		this.totalEarningsDollar = totalEarningsDollar;
+	}
+	
+	public VOEmployed getPartner1() {
+		return partner1;
+	}
+
+	public void setPartner1(VOEmployed partner1) {
+		this.partner1 = partner1;
+	}
+	
+	public VOEmployed getPartner2() {
+		return partner2;
+	}
+
+	public void setPartner2(VOEmployed partner2) {
+		this.partner2 = partner2;
+	}
+
+	public String getPartner1FullName(){
+		return this.partner1.getName() + " " + this.partner1.getLastName();
+	}
+
+	public String getPartner2FullName(){
+		return this.partner2.getName() + " " + this.partner2.getLastName();
 	}
 
 	@Override

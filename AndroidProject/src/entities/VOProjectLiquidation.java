@@ -49,6 +49,7 @@ public class VOProjectLiquidation implements KvmSerializable {
 		this.isCurrencyDollar = Boolean.parseBoolean(object.getProperty("currencyDollar").toString());
 		this.partner1Earning = Double.parseDouble(object.getProperty("partner1Earning").toString());
 		this.partner2Earning = Double.parseDouble(object.getProperty("partner2Earning").toString());
+		this.totalBills = Double.parseDouble(object.getProperty("totalBills").toString());
 	}
 
 	public int getId() {
