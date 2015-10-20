@@ -44,24 +44,27 @@ public class ReportsController {
 		SoapObject request = new SoapObject(NAMESPACE, MORE_EARNINGS_METHOD_NAME);
 		
 		Calendar cal = Calendar.getInstance();
-		Date date = new Date();
-		cal.setTime(date);
-		cal.set(2015, 04, 01, 0, 0, 0);
-//		cal.set(Calendar.YEAR, date.getYear());
-//		cal.set(Calendar.MONTH, date.getMonth() - 7);
-//		cal.set(Calendar.DAY_OF_MONTH, 01);
+		cal.setTime(new Date());
+		cal.set(Calendar.DAY_OF_MONTH, 01);
+		cal.set(Calendar.MONTH,Calendar.JANUARY);
+		cal.set(Calendar.HOUR_OF_DAY,00);
+		cal.set(Calendar.MINUTE,00);
+		cal.set(Calendar.SECOND,00);
+		Date from = cal.getTime();
+		
+		cal.set(Calendar.MONTH, Calendar.DECEMBER);
+		Date to = cal.getTime();
+
 		
 		PropertyInfo dateFrom = new PropertyInfo();
 		dateFrom.setName("dateFrom");
-		dateFrom.setValue(cal.getTime());
+		dateFrom.setValue(from);
 		dateFrom.setType(Date.class);
 		request.addProperty(dateFrom);
-
-		cal.set(2015, 10, 01, 0, 0, 0);
-		
+			
 		PropertyInfo dateTo = new PropertyInfo();
 		dateTo.setName("dateTo");
-		dateTo.setValue(cal.getTime());
+		dateTo.setValue(to);
 		dateTo.setType(Date.class);
 		request.addProperty(dateTo);
 
