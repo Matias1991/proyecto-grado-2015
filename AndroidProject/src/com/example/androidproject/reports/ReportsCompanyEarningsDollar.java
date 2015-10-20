@@ -1,8 +1,6 @@
 package com.example.androidproject.reports;
 
 import java.util.ArrayList;
-import java.util.Date;
-
 import org.achartengine.ChartFactory;
 import org.achartengine.chart.BarChart.Type;
 import org.achartengine.model.XYMultipleSeriesDataset;
@@ -11,14 +9,11 @@ import org.achartengine.renderer.SimpleSeriesRenderer;
 import org.achartengine.renderer.XYMultipleSeriesRenderer;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.Canvas.VertexMode;
 import android.graphics.Paint.Align;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import com.example.androidproject.R;
@@ -55,7 +50,7 @@ public class ReportsCompanyEarningsDollar extends Activity {
 			e.printStackTrace();
 		}
 
-		XYMultipleSeriesRenderer renderer = getBarRenderer();
+		XYMultipleSeriesRenderer renderer = new XYMultipleSeriesRenderer();
 		chartSettings(renderer, projects);
 		
 //		Intent intent = ChartFactory.getBarChartIntent(this,
@@ -88,8 +83,8 @@ public class ReportsCompanyEarningsDollar extends Activity {
 	}
 
 	private XYMultipleSeriesDataset getBarDataset(ArrayList<VOProjectLiquidation> projects) {
-		XYSeries earningsS = new XYSeries("Ganancia");
-		XYSeries reserveS = new XYSeries("Reserva 2");
+		XYSeries earningsS = new XYSeries("Ganancia (U$S)");
+		XYSeries reserveS = new XYSeries("Reserva (U$S)");
 
 		int i = 1;
 		for (VOProjectLiquidation project : projects) {
@@ -105,26 +100,8 @@ public class ReportsCompanyEarningsDollar extends Activity {
 		return dataset;
 	}
 
-	// To display Android AChartEngine bar chart we need to create a bars
-	// renderer
-	public XYMultipleSeriesRenderer getBarRenderer() {
-		XYMultipleSeriesRenderer renderer = new XYMultipleSeriesRenderer();
-		renderer.setAxisTitleTextSize(16);
-		renderer.setChartTitleTextSize(25);
-		renderer.setLabelsTextSize(20);
-		renderer.setLegendTextSize(20);
-		renderer.setMargins(new int[] { 40, 40, 15, 0 });
-		SimpleSeriesRenderer r = new SimpleSeriesRenderer();
-		r.setColor(Color.BLUE);
-		renderer.addSeriesRenderer(r);
-		r = new SimpleSeriesRenderer();
-		r.setColor(Color.RED);
-		renderer.addSeriesRenderer(r);
-		return renderer;
-	}
-
 	private void chartSettings(XYMultipleSeriesRenderer renderer, ArrayList<VOProjectLiquidation> projects) {
-		renderer.setChartTitle("Proyectos en U$S con mayor ganancia en los últimos 6 meses");
+		renderer.setChartTitle("Proyectos en dólares con mayor ganancia del año corriente");
 		double maxNum = 0.0;
 		double minNum = 0.0;
 		if(projects != null){
@@ -152,16 +129,36 @@ public class ReportsCompanyEarningsDollar extends Activity {
 				i++;
 			}
 		}
-
+	
 		renderer.setYAxisMax(maxNum + 1);
 		renderer.setYAxisMin(minNum - 1);
 
-		renderer.setXAxisMin(2);
-		renderer.setXAxisMax(10);
+		renderer.setXAxisMin(0);
+		renderer.setXAxisMax(6);
 		renderer.setYLabelsAlign(Align.RIGHT);
 		renderer.setBarSpacing(0.5);
 		renderer.setShowGrid(true);
 		renderer.setGridColor(Color.GRAY);
-		renderer.setXLabels(0); // sets the number of integer labels to appear
+		renderer.setXLabels(0); // sets the number of integer labels to appear		
+		
+		renderer.setAxisTitleTextSize(30);
+	    renderer.setChartTitleTextSize(30);
+	    renderer.setLabelsTextSize(30);
+	    renderer.setLegendTextSize(30);
+	    renderer.setXLabelsAngle(45);
+	    renderer.setYTitle("U$S");
+	    renderer.setMargins(new int[] {70, 60, 200, 0});
+	    SimpleSeriesRenderer r = new SimpleSeriesRenderer();
+	    r.setColor(Color.BLUE);
+	    r.setChartValuesTextSize(30);
+	    r.setDisplayChartValues(true);
+	    renderer.addSeriesRenderer(r);
+	    r = new SimpleSeriesRenderer();
+	    r.setColor(Color.CYAN);
+	    r.setChartValuesTextSize(30);
+	    r.setDisplayChartValues(true);
+	    renderer.addSeriesRenderer(r);
+	    renderer.setBackgroundColor(Color.BLACK);
+	    renderer.setApplyBackgroundColor(true);
 	}
 }
