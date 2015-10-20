@@ -14,7 +14,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:ems="10"
-        android:hint="Seleccione al mes"
+        android:hint="Seleccione el mes"
         android:inputType="date" />
 
     <Spinner

@@ -51,14 +51,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/txtDescription"
-        android:layout_below="@+id/txtDescription"
-        android:layout_marginTop="24dp" >
+        android:layout_below="@+id/txtDescription">
 
         <EditText
             android:id="@+id/txtAmount"
             android:layout_width="152dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="21dp"
+            android:layout_marginTop="24dp"
             android:ems="10"
             android:hint="Importe"
             android:inputType="numberDecimal" >

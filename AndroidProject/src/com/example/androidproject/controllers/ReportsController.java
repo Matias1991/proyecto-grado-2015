@@ -14,7 +14,6 @@ import com.example.androidproject.HandleError;
 
 import entities.MarshalDate;
 import entities.VOCompanyLiquidation;
-import entities.VOProject;
 import entities.VOProjectLiquidation;
 
 public class ReportsController {
@@ -164,24 +163,16 @@ public class ReportsController {
 		return result;
 	}
 	
-
-	
 	public VOCompanyLiquidation getCompanyInfo(Date month, int id)
 			throws Exception {
 		VOCompanyLiquidation result = null;
 
 		// Create request
 		SoapObject request = new SoapObject(NAMESPACE, INFO_COMPANY_METHOD_NAME);
-
-		Calendar cal = Calendar.getInstance();
-		Date date = new Date();
-		cal.setTime(date);
-		cal.set(2015, 04, 01, 0, 0, 0);	
-		
 		
 		PropertyInfo liquidationDate = new PropertyInfo();
 		liquidationDate.setName("month");
-		liquidationDate.setValue(cal.getTime());
+		liquidationDate.setValue(month);
 		liquidationDate.setType(Date.class);
 		request.addProperty(liquidationDate);
 

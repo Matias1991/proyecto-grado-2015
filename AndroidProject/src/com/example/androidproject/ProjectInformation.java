@@ -11,21 +11,20 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.textservice.TextInfo;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.AdapterView.OnItemSelectedListener;
 
 import com.example.androidproject.alerts.AlertDialogManager;
 import com.example.androidproject.controllers.ProjectController;
@@ -43,9 +42,12 @@ public class ProjectInformation extends Activity {
 			txtPartner2Name, txtEarningsPartner1, txtEarningsPartner2, txtDate;
 	ArrayList<VOProject> listProjects;
 	Calendar myCalendar = Calendar.getInstance();
+	String selProj = "";
 
 	SimpleDateFormat format = new SimpleDateFormat("MM-yyyy");
 	AlertDialogManager alert = new AlertDialogManager();
+	final ReportsController reportController = new ReportsController(
+			getResources().getString(R.string.ip_server));
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -64,8 +66,6 @@ public class ProjectInformation extends Activity {
 		
 		loadProjects();
 
-		final ReportsController reportController = new ReportsController(
-				getResources().getString(R.string.ip_server));
 
 		if(projects != null){
 			projects.setOnItemSelectedListener(new OnItemSelectedListener() {
@@ -74,82 +74,10 @@ public class ProjectInformation extends Activity {
 				public void onItemSelected(AdapterView<?> arg0, View arg1,
 						int arg2, long arg3) {
 
-					String selProj = projects.getItemAtPosition(arg2).toString();
+					selProj = projects.getItemAtPosition(arg2).toString();
 
-					try {
-						if (selProj != "Seleccione el proyecto"
-								&& format.parse(txtDate.getText().toString()) != null) {
+					loadInformation();
 
-							try {
-								VOProject voProject = getProject(selProj);
-								ArrayList<VOProjectLiquidation> projectList = reportController
-										.getProjectsInfo(format.parse(txtDate
-												.getText().toString()), voProject
-												.getId());
-
-								if (projectList.size() > 0) {
-									txtPartner1Name.setVisibility(View.VISIBLE);
-									txtPartner2Name.setVisibility(View.VISIBLE);
-									for (VOProjectLiquidation voProjectLiquidation : projectList) {
-										txtPartner1Name.setText("Socio: "
-												+ voProjectLiquidation
-														.getPartner1Name()
-												+ " "
-												+ voProjectLiquidation
-														.getPartner1Lastname());
-										txtPartner2Name.setText("Socio: "
-												+ voProjectLiquidation
-														.getPartner2Name()
-												+ " "
-												+ voProjectLiquidation
-														.getPartner2Lastname());
-										if (voProjectLiquidation.isCurrencyDollar()) {
-											txtEarningsPartner1.setText("Ganancia: U$S "
-													+ String.valueOf(voProjectLiquidation
-															.getPartner1Earning()));
-											txtEarningsPartner2.setText("Ganancia: U$S "
-													+ String.valueOf(voProjectLiquidation
-															.getPartner2Earning()));
-											txtReserve.setText("Reserva: U$S "
-													+ String.valueOf(voProjectLiquidation
-															.getReserve()));
-											txtTotalBills.setText("Facturación total: U$S "
-													+ String.valueOf(voProjectLiquidation
-															.getTotalBills()));
-										} else {
-											txtEarningsPartner1.setText("Ganancia: $ "
-													+ String.valueOf(voProjectLiquidation
-															.getPartner1Earning()));
-											txtEarningsPartner2.setText("Ganancia: $ "
-													+ String.valueOf(voProjectLiquidation
-															.getPartner2Earning()));
-											txtReserve.setText("Reserva: $ "
-													+ String.valueOf(voProjectLiquidation
-															.getReserve()));
-											txtTotalBills.setText("Facturación total: $ "
-													+ String.valueOf(voProjectLiquidation
-															.getTotalBills()));
-										}
-
-									}
-
-								} else {
-									alert.showAlertDialog(ProjectInformation.this,
-											"Atención",
-											"No hay información para el proyecto seleccionado");
-								}
-
-							} catch (Exception e) {
-								e.printStackTrace();
-							}
-						} else {
-							txtPartner1Name.setText("");
-							txtPartner2Name.setText("");
-						}
-					} catch (ParseException e) {
-						alert.showAlertDialog(ProjectInformation.this, "Error",
-								e.getMessage());
-					}
 				}
 
 				@Override
@@ -175,6 +103,25 @@ public class ProjectInformation extends Activity {
 			@Override
 			public void onClick(View v) {
 				createDialogWithoutDateField().show();
+			}
+		});
+		
+		txtDate.addTextChangedListener(new TextWatcher() {
+
+			@Override
+			public void beforeTextChanged(CharSequence s, int start, int count,
+					int after) {
+			}
+
+			@Override
+			public void onTextChanged(CharSequence s, int start, int before,
+					int count) {
+				loadInformation();
+			}
+
+			@Override
+			public void afterTextChanged(Editable s) {
+				
 			}
 		});
 
@@ -284,6 +231,76 @@ public class ProjectInformation extends Activity {
 		} catch (Exception ex) {
 		}
 		return dpd;
+	}
+	
+	private void loadInformation(){
+		try {
+			if (selProj != null && selProj != "Seleccione el proyecto"
+					&& format.parse(txtDate.getText().toString()) != null) {
+
+				try {
+					VOProject voProject = getProject(selProj);
+					ArrayList<VOProjectLiquidation> projectList = reportController
+							.getProjectsInfo(format.parse(txtDate
+									.getText().toString()), voProject
+									.getId());
+
+					if (projectList.size() > 0) {
+						txtPartner1Name.setVisibility(View.VISIBLE);
+						txtPartner2Name.setVisibility(View.VISIBLE);
+						for (VOProjectLiquidation voProjectLiquidation : projectList) {
+							txtPartner1Name.setText(voProjectLiquidation
+											.getPartner1Name()
+									+ " " + voProjectLiquidation
+											.getPartner1Lastname());
+							txtPartner2Name.setText(voProjectLiquidation
+											.getPartner2Name()
+									+ " "
+									+ voProjectLiquidation
+											.getPartner2Lastname());
+							if (voProjectLiquidation.isCurrencyDollar()) {
+								txtEarningsPartner1.setText("U$S "
+										+ String.valueOf(voProjectLiquidation
+												.getPartner1Earning()));
+								txtEarningsPartner2.setText("U$S "
+										+ String.valueOf(voProjectLiquidation
+												.getPartner2Earning()));
+								txtReserve.setText("Reserva: U$S "
+										+ String.valueOf(voProjectLiquidation
+												.getReserve()));
+								txtTotalBills.setText("Facturación total: U$S "
+										+ String.valueOf(voProjectLiquidation
+												.getTotalBills()));
+							} else {
+								txtEarningsPartner1.setText("$ "
+										+ String.valueOf(voProjectLiquidation
+												.getPartner1Earning()));
+								txtEarningsPartner2.setText("$ "
+										+ String.valueOf(voProjectLiquidation
+												.getPartner2Earning()));
+								txtReserve.setText("Reserva: $ "
+										+ String.valueOf(voProjectLiquidation
+												.getReserve()));
+								txtTotalBills.setText("Facturación total: $ "
+										+ String.valueOf(voProjectLiquidation
+												.getTotalBills()));
+							}
+
+						}
+
+					} else {
+						alert.showAlertDialog(ProjectInformation.this,
+								"Atención",
+								"No hay información para el proyecto seleccionado");
+					}
+
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			} 
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 }

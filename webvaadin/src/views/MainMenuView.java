@@ -33,10 +33,10 @@ public class MainMenuView extends BaseView {
 		label_Title.setValue("<i><b>Bienvenido al Sistema de Gestión y Liquidaciones de Proyectos</b></i>");
 		
 		StringBuilder strBuilder = new StringBuilder();
-		strBuilder.append("<p><b>MSMP (Meerkat SYS Manage Project)</b> Es un producto de software que tiene la finalidad de llevar a cabo la <br />Gestión y Liquidación de proyectos de la empresa, a través de los distintos módulos proporcionados por el sistema.<p>");
+		strBuilder.append("<p><b>MSMP (Meerkat SYS Manage Project)</b> es un producto de software que tiene la finalidad de llevar a cabo la <br />Gestión y Liquidación de proyectos de la empresa, a través de los distintos módulos proporcionados por el sistema.<p>");
 		strBuilder.append("<p>Entre las principales funcionalidades ofrecidas por el sistema se encuentra el manejo de proyectos <br />y a partir de ellos poder realizar liquidaciones sobre los mismos.</p>");
-		strBuilder.append("<p>También cuenta con un modulo de <b>CMI(Control de Mando Integral)</b>, para que los socios de la empresa <br />puedan tener una perspectiva financiera real y medir cuantitativamente los resultados obtenidos.</p>");
-		strBuilder.append("<p>En función del módulo <b>CMI</b> se permite evaluar los datos de la empresa a lo largo de un cierto periodo, basándose <br />en la visualización mediante graficas y tablas detalladas con los datos, para que luego esta información <br />pueda ser utilizada de ayuda para los socios de la empresa en la toma de desiciones.</p>");
+		strBuilder.append("<p>También cuenta con un módulo de <b>CMI(Control de Mando Integral)</b>, para que los socios de la empresa <br />puedan tener una perspectiva financiera real y medir cuantitativamente los resultados obtenidos.</p>");
+		strBuilder.append("<p>En función del módulo <b>CMI</b> se permite evaluar los datos de la empresa a lo largo de un cierto período, basándose <br />en la visualización mediante gráficas y tablas detalladas con los datos, para que luego esta información <br />pueda ser de ayuda para los socios de la empresa en la toma de desiciones.</p>");
 		label_Description.setValue(strBuilder.toString());
 		// TODO add user code here
 	}
