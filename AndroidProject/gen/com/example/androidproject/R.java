@@ -67,9 +67,9 @@ public final class R {
         public static final int tableRow7=0x7f080009;
         public static final int tableRow8=0x7f080032;
         public static final int tableRow9=0x7f080035;
-        public static final int txtAmount=0x7f080028;
         public static final int txtAmountWithIVA=0x7f080022;
         public static final int txtAmountWithoutIVA=0x7f08001f;
+        public static final int txtChargeAmount=0x7f080028;
         public static final int txtChargeNumber=0x7f080027;
         public static final int txtCode=0x7f08001b;
         public static final int txtCompanyEarningsPartner1=0x7f080005;

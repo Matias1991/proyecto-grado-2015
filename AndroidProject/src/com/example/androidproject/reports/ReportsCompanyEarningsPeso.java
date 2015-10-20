@@ -1,4 +1,4 @@
-package com.example.androidproject;
+package com.example.androidproject.reports;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -13,20 +13,24 @@ import org.achartengine.renderer.XYMultipleSeriesRenderer;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.Canvas.VertexMode;
 import android.graphics.Paint.Align;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 
+import com.example.androidproject.R;
+import com.example.androidproject.UserSession;
+import com.example.androidproject.R.id;
+import com.example.androidproject.R.layout;
+import com.example.androidproject.R.menu;
+import com.example.androidproject.R.string;
 import com.example.androidproject.alerts.AlertDialogManager;
 import com.example.androidproject.controllers.ReportsController;
 
 import entities.VOProjectLiquidation;
 
-public class ReportsCompanyEarningsDollar extends Activity {
+public class ReportsCompanyEarningsPeso extends Activity {
 
 	UserSession session;
 
@@ -35,7 +39,7 @@ public class ReportsCompanyEarningsDollar extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_reports_company_earnings_dollar);
+		setContentView(R.layout.activity_reports_company_earnings_peso);
 		ArrayList<VOProjectLiquidation> projects = null;
 
 		session = new UserSession(getApplicationContext());
@@ -44,22 +48,15 @@ public class ReportsCompanyEarningsDollar extends Activity {
 				getResources().getString(R.string.ip_server));
 		try {
 			projects = reportController
-					.getProjectsLiquidationsWithMoreEarnings(true);
+					.getProjectsLiquidationsWithMoreEarnings(false);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
 		XYMultipleSeriesRenderer renderer = getBarRenderer();
 		chartSettings(renderer, projects);
-		
-//		Intent intent = ChartFactory.getBarChartIntent(this,
-//				getBarDataset(projects), renderer, Type.DEFAULT);
-//		startActivity(intent);
-		
-		RelativeLayout layout = (RelativeLayout) findViewById(R.id.chartRelativeLayout);
-		layout.addView(ChartFactory.getBarChartView(this, getBarDataset(projects), renderer, Type.DEFAULT));
-		//LinearLayout linearLayout = (LinearLayout)findViewById(R.id.reportsCompanyEarningsDollar);
-		//linearLayout.addView(ChartFactory.getBarChartView(this, getBarDataset(projects), renderer, Type.DEFAULT));
+		LinearLayout linearLayout = (LinearLayout)findViewById(R.id.reportsCompanyEarningsPeso);
+		linearLayout.addView(ChartFactory.getBarChartView(this, getBarDataset(projects), renderer, Type.DEFAULT));
 	}
 
 	@Override
@@ -82,8 +79,8 @@ public class ReportsCompanyEarningsDollar extends Activity {
 	}
 
 	private XYMultipleSeriesDataset getBarDataset(ArrayList<VOProjectLiquidation> projects) {
-		XYSeries earningsS = new XYSeries("Ganancia");
-		XYSeries reserveS = new XYSeries("Reserva 2");
+		XYSeries earningsS = new XYSeries("Ganancia ($)");
+		XYSeries reserveS = new XYSeries("Reserva ($)");
 
 		int i = 1;
 		for (VOProjectLiquidation project : projects) {
@@ -118,7 +115,7 @@ public class ReportsCompanyEarningsDollar extends Activity {
 	}
 
 	private void chartSettings(XYMultipleSeriesRenderer renderer, ArrayList<VOProjectLiquidation> projects) {
-		renderer.setChartTitle("Proyectos en U$S con mayor ganancia en los últimos 6 meses");
+		renderer.setChartTitle("Proyectos en $ con mayor ganancia en los últimos 6 meses");
 		double maxNum = 0.0;
 		double minNum = 0.0;
 		if(projects != null){

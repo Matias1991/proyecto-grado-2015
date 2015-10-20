@@ -39,24 +39,24 @@
             android:label="@string/title_activity_create_charge" >
         </activity>
         <activity
-            android:name=".Reports"
+            android:name="com.example.androidproject.reports.Reports"
             android:label="@string/title_activity_reports" >
         </activity>
         <activity
-            android:name=".ReportsCompanyEarningsDollar"
+            android:name="com.example.androidproject.reports.ReportsCompanyEarningsDollar"
             android:label="@string/title_activity_reportCompanyEarningsDollar" >
         </activity>
         <activity
-            android:name=".ReportsCompanyEarningsPeso"
+            android:name="com.example.androidproject.reports.ReportsCompanyEarningsPeso"
             android:label="@string/title_activity_reportCompanyEarningsPeso" >
         </activity>
         <activity android:name="org.achartengine.GraphicalActivity" />
         <activity
-            android:name=".ProjectInformation"
+            android:name="com.example.androidproject.reports.ProjectInformation"
             android:label="@string/title_activity_project_information" >
         </activity>
         <activity
-            android:name=".CompanyInformation"
+            android:name="com.example.androidproject.reports.CompanyInformation"
             android:label="@string/title_activity_project_information" >
         </activity>
     </application>

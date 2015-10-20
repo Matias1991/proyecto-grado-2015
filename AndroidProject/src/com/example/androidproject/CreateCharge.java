@@ -149,12 +149,14 @@ public class CreateCharge extends Activity {
 		txtChargeNumber.setText("");
 		txtDescription.setText("");
 		txtAmount.setText("");
+		projects.setSelection(0);
+		bills.setSelection(0);
 	}
 
 	void buildFields() {
 		txtChargeNumber = (TextView) findViewById(R.id.txtChargeNumber);
 		txtDescription = (TextView) findViewById(R.id.txtDescription);
-		txtAmount = (TextView) findViewById(R.id.txtAmount);
+		txtAmount = (TextView) findViewById(R.id.txtChargeAmount);
 		btnCreate = (Button) findViewById(R.id.btnCreate);
 		btnCancel = (Button) findViewById(R.id.btnCancel);
 	}
