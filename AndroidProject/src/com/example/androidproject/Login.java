@@ -1,17 +1,15 @@
 package com.example.androidproject;
 
-import com.example.androidproject.alerts.AlertDialogManager;
-import com.example.androidproject.controllers.UserController;
-
 import android.app.Activity;
 import android.content.Intent;
-import android.content.res.Resources;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
+
+import com.example.androidproject.alerts.AlertDialogManager;
+import com.example.androidproject.controllers.UserController;
 
 public class Login extends Activity {
 
@@ -21,10 +19,7 @@ public class Login extends Activity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		// StrictMode.ThreadPolicy policy = new
-		// StrictMode.ThreadPolicy.Builder().permitAll().build();
-		// StrictMode.setThreadPolicy(policy);
-
+		
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_login);
 

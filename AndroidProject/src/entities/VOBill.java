@@ -11,8 +11,6 @@ import org.ksoap2.serialization.SoapObject;
 
 import com.example.androidproject.Deserialization;
 
-import android.text.format.DateFormat;
-
 public class VOBill implements KvmSerializable {
 
 	private int id;
@@ -269,7 +267,6 @@ public class VOBill implements KvmSerializable {
 			try {
 				appliedDateTimeUTC = format.parse(arg1.toString());
 			} catch (ParseException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			break;

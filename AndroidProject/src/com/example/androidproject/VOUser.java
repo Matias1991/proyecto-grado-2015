@@ -15,10 +15,6 @@ public class VOUser {
 	public VOUser(SoapObject object) {
 		new Deserialization().SoapDeserialize(this, object);
 
-		// 'this' is the instance itself ,
-		// object is the SoapObject received from response when we call new
-		// Person(soapobject)
-
 		this.email = object.getProperty(0).toString();
 		this.id = Integer.parseInt(object.getProperty(1).toString());
 		this.lastName = object.getProperty(2).toString();
@@ -74,18 +70,13 @@ public class VOUser {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	
-	public String getUserType()
-	{
-		if(this.userType == 2)
-		{
+
+	public String getUserType() {
+		if (this.userType == 2) {
 			return "PARTNER";
-		}
-		else if(this.userType == 3) 
-		{
+		} else if (this.userType == 3) {
 			return "MANAGER";
-		}
-		else
+		} else
 			return "";
 	}
 }

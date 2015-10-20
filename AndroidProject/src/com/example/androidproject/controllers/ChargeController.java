@@ -9,9 +9,7 @@ import org.ksoap2.transport.HttpTransportSE;
 
 import com.example.androidproject.HandleError;
 
-import entities.MarshalDate;
 import entities.MarshalDouble;
-import entities.VOBill;
 import entities.VOCharge;
 
 public class ChargeController {

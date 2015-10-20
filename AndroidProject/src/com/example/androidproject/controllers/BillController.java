@@ -1,7 +1,6 @@
 package com.example.androidproject.controllers;
 
 import java.util.ArrayList;
-import java.util.Date;
 
 import org.ksoap2.SoapEnvelope;
 import org.ksoap2.serialization.PropertyInfo;
@@ -15,7 +14,6 @@ import com.example.androidproject.HandleError;
 import entities.MarshalDate;
 import entities.MarshalDouble;
 import entities.VOBill;
-import entities.VOProject;
 
 public class BillController {
 

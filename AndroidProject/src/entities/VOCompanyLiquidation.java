@@ -173,14 +173,6 @@ public class VOCompanyLiquidation implements KvmSerializable {
 		IVAPurchase = iVAPurchase;
 	}
 
-	// public VOEmployed getPartner1() {
-	// return partner1;
-	// }
-	//
-	// public void setPartner1(VOEmployed partner1) {
-	// this.partner1 = partner1;
-	// }
-
 	public double getPartner1EarningsDollar() {
 		return partner1EarningsDollar;
 	}
@@ -196,14 +188,6 @@ public class VOCompanyLiquidation implements KvmSerializable {
 	public void setPartner1EarningsPeso(double partner1EarningsPeso) {
 		this.partner1EarningsPeso = partner1EarningsPeso;
 	}
-
-	// public VOEmployed getPartner2() {
-	// return partner2;
-	// }
-	//
-	// public void setPartner2(VOEmployed partner2) {
-	// this.partner2 = partner2;
-	// }
 
 	public double getPartner2EarningsDollar() {
 		return partner2EarningsDollar;

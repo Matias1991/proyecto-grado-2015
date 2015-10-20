@@ -255,9 +255,6 @@ public class VOProjectLiquidation implements KvmSerializable {
 		case 2:
 			earnings = Double.parseDouble(arg1.toString());
 			break;
-		case 3:
-//			 project
-			break;
 		case 4:
 			partner1Name = arg1.toString();
 			break;

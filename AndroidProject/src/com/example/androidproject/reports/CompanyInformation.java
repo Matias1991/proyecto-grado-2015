@@ -18,10 +18,6 @@ import android.widget.TextView;
 
 import com.example.androidproject.R;
 import com.example.androidproject.UserSession;
-import com.example.androidproject.R.id;
-import com.example.androidproject.R.layout;
-import com.example.androidproject.R.menu;
-import com.example.androidproject.R.string;
 import com.example.androidproject.alerts.AlertDialogManager;
 import com.example.androidproject.controllers.ReportsController;
 
@@ -61,9 +57,7 @@ public class CompanyInformation extends Activity {
 		
 		try {
 			VOCompanyLiquidation voCompanyInformation =  reportController
-					.getCompanyInfo(//format.parse(txtDate.getText().toString()),
-							new Date(),
-							2);
+					.getCompanyInfo(format.parse(txtDate.getText().toString()), 2);
 			if(voCompanyInformation != null){
 				txtPartner1Name.setText(voCompanyInformation.getPartner1FullName());
 				txtPartner2Name.setText(voCompanyInformation.getPartner2FullName());
@@ -73,7 +67,6 @@ public class CompanyInformation extends Activity {
 				txtCompanyEarningsPartner1.setText("$ " + String.valueOf(voCompanyInformation.getPartner1EarningsPeso()));
 			}
 		} catch (Exception e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 

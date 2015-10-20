@@ -2,12 +2,12 @@ package com.example.androidproject;
 
 import java.util.HashMap;
 
-import com.example.androidproject.controllers.UserController;
-
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
+
+import com.example.androidproject.controllers.UserController;
 
 public class UserSession {
 
@@ -40,7 +40,7 @@ public class UserSession {
 
 	// password
 	public static final String KEY_PASSWORD = "Password";
-	
+
 	// user type
 	public static final String KEY_USER_TYPE = "UserType";
 
@@ -67,7 +67,7 @@ public class UserSession {
 
 		// Storing email in preferences
 		editor.putString(KEY_EMAIL, voUser.getEmail());
-		
+
 		// Storing email in preferences
 		editor.putString(KEY_USER_TYPE, voUser.getUserType());
 
@@ -119,7 +119,7 @@ public class UserSession {
 
 		// user email id
 		user.put(KEY_EMAIL, pref.getString(KEY_EMAIL, null));
-		
+
 		user.put(KEY_USER_TYPE, pref.getString(KEY_USER_TYPE, null));
 
 		// return user

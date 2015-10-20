@@ -4,17 +4,8 @@ import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
-import java.util.NavigableMap;
 
-import com.example.androidproject.alerts.AlertDialogManager;
-import com.example.androidproject.controllers.BillController;
-import com.example.androidproject.controllers.ProjectController;
-import com.example.androidproject.controllers.ReportsController;
-
-import entities.VOBill;
-import entities.VOProject;
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.Intent;
@@ -33,6 +24,13 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.Spinner;
 import android.widget.TextView;
+
+import com.example.androidproject.alerts.AlertDialogManager;
+import com.example.androidproject.controllers.BillController;
+import com.example.androidproject.controllers.ProjectController;
+
+import entities.VOBill;
+import entities.VOProject;
 
 public class CreateBill extends Activity {
 
@@ -86,7 +84,6 @@ public class CreateBill extends Activity {
 
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
 				createDialogWithoutDateField().show();
 			}
 		});
@@ -98,7 +95,7 @@ public class CreateBill extends Activity {
 					int count) {
 
 				double totalAmount = 0;
-				if (!s.equals("")) { // do your work here }
+				if (!s.equals("")) { 
 					if (!txtAmountWithoutIVA.getText().toString().matches("")) {
 						double amount = Double.parseDouble(txtAmountWithoutIVA
 								.getText().toString());
@@ -122,13 +119,12 @@ public class CreateBill extends Activity {
 			@Override
 			public void beforeTextChanged(CharSequence s, int start, int count,
 					int after) {
-				// TODO Auto-generated method stub
-
+				
 			}
 
 			@Override
 			public void afterTextChanged(Editable s) {
-				// TODO Auto-generated method stub
+				
 			}
 		});
 
@@ -161,8 +157,7 @@ public class CreateBill extends Activity {
 
 			@Override
 			public void onNothingSelected(AdapterView<?> arg0) {
-				// TODO Auto-generated method stub
-
+			
 			}
 		});
 
@@ -248,7 +243,6 @@ public class CreateBill extends Activity {
 									"Ocurrio un error al crear la factura.");
 
 					} catch (Exception e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 				}
@@ -279,7 +273,6 @@ public class CreateBill extends Activity {
 		@Override
 		public void onDateSet(DatePicker view, int year, int monthOfYear,
 				int dayOfMonth) {
-			// TODO Auto-generated method stub
 			myCalendar.set(Calendar.YEAR, year);
 			myCalendar.set(Calendar.MONTH, monthOfYear);
 			updateLabel();
