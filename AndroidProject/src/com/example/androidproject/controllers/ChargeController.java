@@ -46,7 +46,7 @@ public class ChargeController {
 		// Set output SOAP object
 		envelope.setOutputSoapObject(request);
 
-		envelope.addMapping(NAMESPACE, "voCharge", new VOCharge().getClass());
+		envelope.addMapping(NAMESPACE, "VOCharge", new VOCharge().getClass());
 		MarshalDouble mDouble = new MarshalDouble();
 		mDouble.register(envelope);
 

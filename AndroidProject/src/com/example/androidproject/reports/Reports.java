@@ -1,8 +1,6 @@
 package com.example.androidproject.reports;
 
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -12,9 +10,6 @@ import android.widget.Button;
 
 import com.example.androidproject.R;
 import com.example.androidproject.UserSession;
-import com.example.androidproject.R.id;
-import com.example.androidproject.R.layout;
-import com.example.androidproject.R.menu;
 import com.example.androidproject.alerts.AlertDialogManager;
 
 public class Reports extends Activity {

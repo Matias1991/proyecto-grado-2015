@@ -1,6 +1,7 @@
 package com.example.androidproject.reports;
 
 import java.util.ArrayList;
+
 import org.achartengine.ChartFactory;
 import org.achartengine.chart.BarChart.Type;
 import org.achartengine.model.XYMultipleSeriesDataset;
@@ -18,10 +19,6 @@ import android.widget.LinearLayout;
 
 import com.example.androidproject.R;
 import com.example.androidproject.UserSession;
-import com.example.androidproject.R.id;
-import com.example.androidproject.R.layout;
-import com.example.androidproject.R.menu;
-import com.example.androidproject.R.string;
 import com.example.androidproject.alerts.AlertDialogManager;
 import com.example.androidproject.controllers.ReportsController;
 

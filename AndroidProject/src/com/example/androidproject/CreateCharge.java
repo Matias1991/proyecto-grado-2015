@@ -84,7 +84,8 @@ public class CreateCharge extends Activity {
 
 						voCharge.setBillId(getBill(
 								bills.getSelectedItem().toString()).getId());
-
+						voCharge.setAmount(Double.parseDouble(txtAmount
+								.getText().toString()));
 						if (getBill(bills.getSelectedItem().toString())
 								.getIsCurrencyDollar()) {
 							voCharge.setAmountDollar(Double
@@ -151,6 +152,7 @@ public class CreateCharge extends Activity {
 		txtAmount.setText("");
 		projects.setSelection(0);
 		bills.setSelection(0);
+		bills.setEnabled(false);
 	}
 
 	void buildFields() {

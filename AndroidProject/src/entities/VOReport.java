@@ -8,8 +8,6 @@ import java.util.Hashtable;
 import org.ksoap2.serialization.KvmSerializable;
 import org.ksoap2.serialization.PropertyInfo;
 
-import android.R.integer;
-
 public class VOReport implements KvmSerializable {
 	private static final long serialVersionUID = 1L;
 
@@ -32,9 +30,6 @@ public class VOReport implements KvmSerializable {
 	private double partner1Earning;
 	private double partner2Earning;
 	private double totalBills;
-	private double totalCostCategoriesHuman;
-	private double totalCostCategoriesMaterial;
-	private double totalCostEmployees;
 	private VOProject project;
 
 	public VOProject getProject() {
@@ -188,32 +183,7 @@ public class VOReport implements KvmSerializable {
 	public void setTotalBills(double totalBills) {
 		this.totalBills = totalBills;
 	}
-
-	public double getTotalCostCategoriesHuman() {
-		return totalCostCategoriesHuman;
-	}
-
-	public void setTotalCostCategoriesHuman(double totalCostCategoriesHuman) {
-		this.totalCostCategoriesHuman = totalCostCategoriesHuman;
-	}
-
-	public double getTotalCostCategoriesMaterial() {
-		return totalCostCategoriesMaterial;
-	}
-
-	public void setTotalCostCategoriesMaterial(
-			double totalCostCategoriesMaterial) {
-		this.totalCostCategoriesMaterial = totalCostCategoriesMaterial;
-	}
-
-	public double getTotalCostEmployees() {
-		return totalCostEmployees;
-	}
-
-	public void setTotalCostEmployees(double totalCostEmployees) {
-		this.totalCostEmployees = totalCostEmployees;
-	}
-
+	
 	@Override
 	public Object getProperty(int arg0) {
 
@@ -248,12 +218,6 @@ public class VOReport implements KvmSerializable {
 			return partner2Earning;
 		case 14:
 			return totalBills;
-		case 15:
-			return totalCostCategoriesHuman;
-		case 16:
-			return totalCostCategoriesMaterial;
-		case 17:
-			return totalCostEmployees;
 		case 18:
 			return project;
 		}
@@ -407,15 +371,6 @@ public class VOReport implements KvmSerializable {
 			break;
 		case 14:
 			totalBills = Double.parseDouble(arg1.toString());
-			break;
-		case 15:
-			totalCostCategoriesHuman = Double.parseDouble(arg1.toString());
-			break;
-		case 16:
-			totalCostCategoriesMaterial = Double.parseDouble(arg1.toString());
-			break;
-		case 17:
-			totalCostEmployees = Double.parseDouble(arg1.toString());
 			break;
 		}
 	}

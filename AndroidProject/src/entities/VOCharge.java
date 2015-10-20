@@ -16,6 +16,7 @@ public class VOCharge implements KvmSerializable {
 	private String description;
 	private double amountPeso;
 	private double amountDollar;
+	private double amount;
 	private boolean isCurrencyDollar;
 	private double typeExchange;
 	private Date createdDateTimeUTC;
@@ -40,12 +41,7 @@ public class VOCharge implements KvmSerializable {
 				.toString());
 		this.typeExchange = Double
 				.parseDouble(object.getProperty(6).toString());
-		// this.createdDateTimeUTC
 		this.billId = Integer.parseInt(object.getProperty(7).toString());
-		// this.billCode
-		// this.billDescription
-		// this.amountChargedDollar
-		// this.amountChargedPeso
 	}
 
 	public int getId() {
@@ -134,6 +130,14 @@ public class VOCharge implements KvmSerializable {
 
 	public void setBillId(int billId) {
 		this.billId = billId;
+	}
+
+	public double getAmount() {
+		return amount;
+	}
+
+	public void setAmount(double amount) {
+		this.amount = amount;
 	}
 
 	@Override

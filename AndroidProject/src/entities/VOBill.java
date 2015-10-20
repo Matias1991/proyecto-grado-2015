@@ -282,15 +282,3 @@ public class VOBill implements KvmSerializable {
 		}
 	}
 }
-
-/*
- * 
- * voBill.setDescription(bill.getDescription()); voBill.setCode(bill.getCode());
- * voBill.setAmountPeso(bill.getAmountPeso());
- * voBill.setAmountDollar(bill.getAmountDollar());
- * voBill.setIsCurrencyDollar(bill.getIsCurrencyDollar());
- * voBill.setTypeExchange(bill.getTypeExchange());
- * voBill.setAppliedDateTimeUTC(bill.getAppliedDateTimeUTC());
- * voBill.setProjectId(bill.getProjectId());
- * voBill.setIvaType(bill.getIvaType());
- */
