@@ -224,6 +224,7 @@ public class DAOProjectsLiquidations implements IDAOProjectsLiquidations {
 			strBuilder.append("INNER JOIN PROJECT P ON P.ID = PL.ProjectId ");
 			strBuilder.append("WHERE appliedDateTimeUTC between ? and ? ");
 			strBuilder.append("AND PL.isCurrencyDollar = ? ");
+			strBuilder.append("GROUP BY PL.projectId ");
 			strBuilder.append("ORDER BY Earning DESC ");
 			strBuilder.append("LIMIT ?");
 
