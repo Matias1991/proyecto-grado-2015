@@ -77,7 +77,7 @@ public class CreateCharge extends Activity {
 							getResources().getString(R.string.ip_server));
 					try {
 						VOCharge voCharge = new VOCharge();
-						voCharge.setChargeCode(txtChargeNumber.getText()
+						voCharge.setNumber(txtChargeNumber.getText()
 								.toString());
 						voCharge.setDescription(txtDescription.getText()
 								.toString());
@@ -85,17 +85,7 @@ public class CreateCharge extends Activity {
 						voCharge.setBillId(getBill(
 								bills.getSelectedItem().toString()).getId());
 						voCharge.setAmount(Double.parseDouble(txtAmount
-								.getText().toString()));
-						if (getBill(bills.getSelectedItem().toString())
-								.getIsCurrencyDollar()) {
-							voCharge.setAmountDollar(Double
-									.parseDouble(txtAmount.getText().toString()));
-							voCharge.setIsCurrencyDollar(true);
-						} else {
-							voCharge.setAmountPeso(Double.parseDouble(txtAmount
-									.getText().toString()));
-							voCharge.setIsCurrencyDollar(false);
-						}
+								.getText().toString()));						
 
 						boolean result = chargeController
 								.createCharge(voCharge);
