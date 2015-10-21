@@ -1,30 +1,9 @@
 package views.reports;
 
-import java.lang.reflect.Array;
 import java.text.DecimalFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
-import java.util.Date;
 import java.util.HashMap;
-
-import org.dussan.vaadin.dcharts.DCharts;
-import org.dussan.vaadin.dcharts.base.elements.XYaxis;
-import org.dussan.vaadin.dcharts.base.elements.XYseries;
-import org.dussan.vaadin.dcharts.data.DataSeries;
-import org.dussan.vaadin.dcharts.data.Ticks;
-import org.dussan.vaadin.dcharts.metadata.LegendPlacements;
-import org.dussan.vaadin.dcharts.metadata.SeriesToggles;
-import org.dussan.vaadin.dcharts.metadata.XYaxes;
-import org.dussan.vaadin.dcharts.metadata.renderers.AxisRenderers;
-import org.dussan.vaadin.dcharts.metadata.renderers.SeriesRenderers;
-import org.dussan.vaadin.dcharts.options.Axes;
-import org.dussan.vaadin.dcharts.options.Legend;
-import org.dussan.vaadin.dcharts.options.Options;
-import org.dussan.vaadin.dcharts.options.Series;
-import org.dussan.vaadin.dcharts.options.SeriesDefaults;
-import org.dussan.vaadin.dcharts.renderers.legend.EnhancedLegendRenderer;
-import org.dussan.vaadin.dcharts.renderers.tick.AxisTickRenderer;
 
 import views.BaseView;
 
@@ -35,16 +14,12 @@ import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.shared.ui.datefield.Resolution;
 import com.vaadin.ui.AbsoluteLayout;
 import com.vaadin.ui.ComboBox;
-import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.PopupDateField;
 import com.vaadin.ui.Table;
 
 import controllers.CategoryController;
-import controllers.LiquidationController;
 import entities.Category;
-import entities.CompanyLiquidation;
-import entities.ProjectLiquidation;
 import entities.RequestContext;
 
 public class ReportSummaryCompanyCategoriesHumanView extends BaseView {
@@ -98,7 +73,6 @@ public class ReportSummaryCompanyCategoriesHumanView extends BaseView {
 			}
 		});
 		
-		// TODO add user code here
 	}
 	
 	void buildTables()

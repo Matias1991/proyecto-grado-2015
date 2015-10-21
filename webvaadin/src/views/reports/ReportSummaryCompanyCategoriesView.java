@@ -7,24 +7,14 @@ import java.util.HashMap;
 
 import org.dussan.vaadin.dcharts.DCharts;
 import org.dussan.vaadin.dcharts.base.elements.XYaxis;
-import org.dussan.vaadin.dcharts.base.elements.XYseries;
 import org.dussan.vaadin.dcharts.data.DataSeries;
 import org.dussan.vaadin.dcharts.data.Ticks;
-import org.dussan.vaadin.dcharts.events.click.ChartDataClickEvent;
-import org.dussan.vaadin.dcharts.events.click.ChartDataClickHandler;
-import org.dussan.vaadin.dcharts.metadata.LegendPlacements;
-import org.dussan.vaadin.dcharts.metadata.SeriesToggles;
 import org.dussan.vaadin.dcharts.metadata.XYaxes;
 import org.dussan.vaadin.dcharts.metadata.renderers.AxisRenderers;
 import org.dussan.vaadin.dcharts.metadata.renderers.LabelRenderers;
-import org.dussan.vaadin.dcharts.metadata.renderers.SeriesRenderers;
 import org.dussan.vaadin.dcharts.options.Axes;
 import org.dussan.vaadin.dcharts.options.AxesDefaults;
-import org.dussan.vaadin.dcharts.options.Legend;
 import org.dussan.vaadin.dcharts.options.Options;
-import org.dussan.vaadin.dcharts.options.Series;
-import org.dussan.vaadin.dcharts.options.SeriesDefaults;
-import org.dussan.vaadin.dcharts.renderers.legend.EnhancedLegendRenderer;
 import org.dussan.vaadin.dcharts.renderers.tick.AxisTickRenderer;
 
 import views.BaseView;
@@ -36,17 +26,11 @@ import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.shared.ui.datefield.Resolution;
 import com.vaadin.ui.AbsoluteLayout;
 import com.vaadin.ui.ComboBox;
-import com.vaadin.ui.CustomComponent;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.PopupDateField;
 
 import controllers.CategoryController;
-import controllers.LiquidationController;
-import controllers.ProjectController;
 import entities.Category;
-import entities.CompanyLiquidation;
-import entities.Project;
-import entities.ProjectLiquidation;
 import entities.RequestContext;
 
 public class ReportSummaryCompanyCategoriesView extends BaseView {
@@ -104,7 +88,6 @@ public class ReportSummaryCompanyCategoriesView extends BaseView {
 			}
 		});
 		
-		// TODO add user code here
 	}
 
 	void buildInputs()

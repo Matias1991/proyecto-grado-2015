@@ -93,7 +93,6 @@ public class UpdateGlobalConfigurationView extends BaseView {
 			}
 		});
 
-		// TODO add user code here
 	}
 
 	void clearInputs() {

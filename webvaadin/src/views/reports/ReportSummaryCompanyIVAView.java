@@ -82,7 +82,6 @@ public class ReportSummaryCompanyIVAView extends BaseView {
 			}
 		});
 		
-		// TODO add user code here
 	}
 
 	void buildInputs()

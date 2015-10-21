@@ -40,14 +40,11 @@ public class ForgotPasswordView extends BaseView {
 		buildMainLayout();
 		setCompositionRoot(mainLayout);
 
-		// TODO add user code here
-		
 		//Evento click Aceptar
 		btnAccept.addClickListener(new Button.ClickListener() {
 			
 			@Override
 			public void buttonClick(ClickEvent event) {
-				// TODO Auto-generated method stub
 				txtEmail.setValidationVisible(true);
 				
 				if(txtEmail.isValid()){
@@ -69,7 +66,6 @@ public class ForgotPasswordView extends BaseView {
 			
 			@Override
 			public void buttonClick(ClickEvent event) {
-				// TODO Auto-generated method stub
 				txtEmail.setValidationVisible(false);
 				txtEmail.clear();
 				UI.getCurrent().getNavigator().navigateTo(Constant.View.LOGIN);
@@ -82,8 +78,6 @@ public class ForgotPasswordView extends BaseView {
 
 	@Override
 	public void enter(ViewChangeEvent event) {
-		// TODO Auto-generated method stub
-		//super.enter(event);
 		mainLayout.removeComponent(txtEmail);
 		mainLayout.addComponent(txtEmail, "top:90.0px;left:0.0px;");
 	}

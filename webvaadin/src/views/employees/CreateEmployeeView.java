@@ -405,7 +405,6 @@ public class CreateEmployeeView extends BaseView {
 
 			@Override
 			public void buttonClick(ClickEvent event) {
-				// TODO Auto-generated method stub
 				if (validateEstimateEmployee()) {
 					SalarySummary estimateSalarySummary = new SalarySummary();
 					estimateSalarySummary
@@ -558,7 +557,6 @@ public class CreateEmployeeView extends BaseView {
 
 			@Override
 			public void buttonClick(ClickEvent event) {
-				// TODO Auto-generated method stub
 				UI.getCurrent().getNavigator()
 						.navigateTo(Constant.View.CATALOGEMPLOYEES);
 			}

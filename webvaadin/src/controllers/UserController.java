@@ -253,30 +253,7 @@ public class UserController {
 	}
 	
 	public static Collection<User> getUsersByStatusAndType(int status, int type){
-//		Collection<User> users = new ArrayList<User>();
-//		
-//		try {
-//			ServiceWebStub service = new ServiceWebStub();
-//			GetUsersByStatusAndType getUsers = new GetUsersByStatusAndType();
-//			getUsers.setUserStatusId(status);
-//			getUsers.setUserTypeId(type);
-//			
-//			VOUser [] voUsers = service.getUsersByStatusAndType(getUsers).get_return();
-//
-//			if(voUsers != null){
-//				for(VOUser voUser : voUsers){
-//					User user = new User(voUser);
-//					users.add(user);
-//				}
-//			}
-//			
-//		} catch (AxisFault e) {
-//			String error = e.getMessage().replace("<faultstring>", "");
-//			new PopupWindow("ERROR", error.replace("</faultstring>", ""));
-//		} catch (RemoteException e) {
-//			e.printStackTrace();
-//		}
-//		
+
 		return null;		
 	}
 	

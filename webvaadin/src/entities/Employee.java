@@ -191,7 +191,7 @@ public class Employee {
 		voEmployed.setLastName(this.lastName);
 		voEmployed.setName(this.name);
 		voEmployed.setUpdatedDateTimeUTC(this.updatedDateTimeUTC);		
-		//voEmployed.setVOSalarySummaries(param);
+		
 		if(this.salarySummary != null){
 			voEmployed.setVOSalarySummary(this.salarySummary.toVOSalarySummary());
 		}else{

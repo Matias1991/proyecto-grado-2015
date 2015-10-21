@@ -8,12 +8,9 @@ import org.apache.axis2.AxisFault;
 
 import servicelayer.service.ServiceWebStub;
 import servicelayer.service.ServiceWebStub.GetGlobalConfigurations;
-import servicelayer.service.ServiceWebStub.UpdateBill;
 import servicelayer.service.ServiceWebStub.UpdateGlobalConfiguration;
-import servicelayer.service.ServiceWebStub.VOBill;
 import servicelayer.service.ServiceWebStub.VOGlobalConfiguration;
 import utils.PopupWindow;
-import entities.Bill;
 import entities.GlobalConfiguration;
 
 public class GlobalConfigurationController {

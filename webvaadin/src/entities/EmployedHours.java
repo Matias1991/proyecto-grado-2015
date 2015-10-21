@@ -20,18 +20,6 @@ public class EmployedHours {
 	public EmployedHours(){
 		
 	}
-	
-	public EmployedHours(VOProjectEmployed voEmployedProject){
-//		this.id = voEmployedProject.getEmployed().getId();
-//		this.name = voEmployedProject.getEmployed().getName();
-//		this.lastName = voEmployedProject.getEmployed().getLastName();
-//		this.hours = voEmployedProject.getHours();
-//		this.createdDateTimeUTC = voEmployedProject.getCreatedDateTimeUTC();
-//		this.updatedDateTimeUTC = voEmployedProject.getUpdatedDateTimeUTC();
-//		this.enabled = voEmployedProject.getEnabled();
-//		this.version = voEmployedProject.getVersion();
-		
-	}
 
 	public int getId() {
 		return id;

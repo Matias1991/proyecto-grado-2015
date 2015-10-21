@@ -179,7 +179,6 @@ public class UpdateChargeView extends BaseView {
 			}
 		});
 
-		// TODO add user code here
 	}
 
 	void builInputs() {

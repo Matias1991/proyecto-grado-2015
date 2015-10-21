@@ -35,10 +35,10 @@ import views.project.CatalogProjectView;
 import views.project.CreateProjectView;
 import views.project.DeleteProjectView;
 import views.project.UpdateProjectView;
+import views.reports.ReportCompanyEarningsView;
 import views.reports.ReportProjectAmountEstimatedView;
 import views.reports.ReportProjectDetailsAmountChargedView;
 import views.reports.ReportProjectDetailsView;
-import views.reports.ReportCompanyEarningsView;
 import views.reports.ReportSummaryCompanyCategoriesHumanView;
 import views.reports.ReportSummaryCompanyCategoriesView;
 import views.reports.ReportSummaryCompanyIVAView;
@@ -59,7 +59,6 @@ import com.vaadin.server.ThemeResource;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Alignment;
-import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.GridLayout;
 import com.vaadin.ui.Image;
 import com.vaadin.ui.Label;
@@ -69,8 +68,8 @@ import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 
 import entities.Constant;
-import entities.RequestContext;
 import entities.Constant.View;
+import entities.RequestContext;
 
 @SuppressWarnings("serial")
 @Theme("webvaadin")
@@ -446,7 +445,6 @@ public class WebvaadinUI extends UI {
 		
 			@Override
 			public void menuSelected(MenuItem selectedItem) {
-				// TODO Auto-generated method stub
 				switch (selectedItem.getText()) {
 				case "Crear usuario":					
 					UI.getCurrent().getNavigator().navigateTo(Constant.View.CREATEUSER);
@@ -659,7 +657,6 @@ public class WebvaadinUI extends UI {
 
 			@Override
 			public void menuSelected(MenuItem selectedItem) {
-				// TODO Auto-generated method stub
 				switch (selectedItem.getText()) {
 				case "Salir":
 					RequestContext.setRequestContext(null);

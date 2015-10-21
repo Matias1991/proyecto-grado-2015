@@ -44,8 +44,6 @@ public class LoginView extends BaseView {
 	public LoginView() {
 		buildMainLayout();
 		setCompositionRoot(mainLayout);
-
-		// TODO add user code here
 		
 		//Link de olivdar contraseña
 		lnkForgotPassword.setImmediate(true);
@@ -56,7 +54,6 @@ public class LoginView extends BaseView {
 
 			@Override
 			public void buttonClick(ClickEvent event) {
-				// TODO Auto-generated method stub
 				txtUsername.setValidationVisible(true);
 				txtPassword.setValidationVisible(true);
 				
@@ -95,7 +92,6 @@ public class LoginView extends BaseView {
 
 	@Override
 	public void enter(ViewChangeEvent event) {
-		// TODO Auto-generated method stub
 		if(RequestContext.getRequestContext() == null)
 		{
 			//WebvaadinUI.changeToLogin();

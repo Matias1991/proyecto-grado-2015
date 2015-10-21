@@ -1,7 +1,6 @@
 package utils;
 
 import com.example.webvaadin.WebvaadinUI;
-import com.vaadin.ui.Label;
 import com.vaadin.ui.TextArea;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
@@ -16,7 +15,6 @@ public class PopupWindow extends Window{
 		TextArea textMessage = new TextArea();
 		content.addComponent(textMessage);
 		
-		//content.addComponent(new Label(message));		
 		content.setMargin(true);
 		setContent(content);
 		

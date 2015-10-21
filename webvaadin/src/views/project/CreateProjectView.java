@@ -187,7 +187,6 @@ public class CreateProjectView extends BaseView {
 
 			@Override
 			public void valueChange(ValueChangeEvent event) {
-				// TODO Auto-generated method stub
 				for (Object aux : cboPartner1.getItemIds()) {
 					if (aux != cboPartner1.getValue()) {
 						cboPartner2.select(aux);
@@ -307,13 +306,11 @@ public class CreateProjectView extends BaseView {
 
 			@Override
 			public AcceptCriterion getAcceptCriterion() {
-				// TODO Auto-generated method stub
 				return AcceptItem.ALL;
 			}
 
 			@Override
 			public void drop(DragAndDropEvent event) {
-				// TODO Auto-generated method stub
 				final DataBoundTransferable t = (DataBoundTransferable) event
 						.getTransferable();
 				Object ItemId = (Object) t.getItemId();
@@ -326,13 +323,11 @@ public class CreateProjectView extends BaseView {
 
 			@Override
 			public AcceptCriterion getAcceptCriterion() {
-				// TODO Auto-generated method stub
 				return AcceptItem.ALL;
 			}
 
 			@Override
 			public void drop(DragAndDropEvent event) {
-				// TODO Auto-generated method stub
 				final DataBoundTransferable t = (DataBoundTransferable) event
 						.getTransferable();
 				Object ItemId = (Object) t.getItemId();

@@ -52,7 +52,6 @@ public class CatalogUsersView extends BaseView{
 		lblMessage = new Label("");
 		mainLayout.addComponent(lblMessage, "top:80.0px;left:0.0px;");
 		
-		// TODO add user code here
 	}
 
 	public void buildGrid(){
@@ -119,7 +118,6 @@ public class CatalogUsersView extends BaseView{
 
 	@Override
 	public void enter(ViewChangeEvent event) {
-		// TODO Auto-generated method stub
 		super.enter(event);		
 		if(RequestContext.getRequestContext() != null){
 			if(catalogUsersGrid != null){

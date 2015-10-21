@@ -6,17 +6,6 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.Locale;
 
-import org.dussan.vaadin.dcharts.DCharts;
-import org.dussan.vaadin.dcharts.base.elements.XYaxis;
-import org.dussan.vaadin.dcharts.data.DataSeries;
-import org.dussan.vaadin.dcharts.data.Ticks;
-import org.dussan.vaadin.dcharts.metadata.renderers.AxisRenderers;
-import org.dussan.vaadin.dcharts.metadata.renderers.SeriesRenderers;
-import org.dussan.vaadin.dcharts.options.Axes;
-import org.dussan.vaadin.dcharts.options.Highlighter;
-import org.dussan.vaadin.dcharts.options.Options;
-import org.dussan.vaadin.dcharts.options.SeriesDefaults;
-
 import utils.PopupWindow;
 import views.BaseView;
 
@@ -234,8 +223,6 @@ public class UpdateBillView extends BaseView {
 				UI.getCurrent().getNavigator().navigateTo(Constant.View.BILLS);
 			}
 		});
-
-		// TODO add user code here
 	}
 
 	Project getProjectById(int id) {

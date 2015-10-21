@@ -38,7 +38,6 @@ public class MainMenuView extends BaseView {
 		strBuilder.append("<p>También cuenta con un modulo de <b>CMI(Control de Mando Integral)</b>, para que los socios de la empresa <br />puedan tener una perspectiva financiera real y medir cuantitativamente los resultados obtenidos.</p>");
 		strBuilder.append("<p>En función del módulo <b>CMI</b> se permite evaluar los datos de la empresa a lo largo de un cierto periodo, basándose <br />en la visualización mediante graficas y tablas detalladas con los datos, para que luego esta información <br />pueda ser utilizada de ayuda para los socios de la empresa en la toma de desiciones.</p>");
 		label_Description.setValue(strBuilder.toString());
-		// TODO add user code here
 	}
 	
 	@Override
