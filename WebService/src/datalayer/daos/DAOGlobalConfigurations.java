@@ -77,7 +77,7 @@ public class DAOGlobalConfigurations implements IDAOGlobalConfigurations{
 			rs = preparedStatement.executeQuery();
 
 			if (rs.next()) {
-				globalConfiguration = BuildGlobalConfiguration(rs);
+				globalConfiguration = buildGlobalConfiguration(rs);
 			}
 
 		} catch (SQLException e) {
@@ -109,7 +109,7 @@ public class DAOGlobalConfigurations implements IDAOGlobalConfigurations{
 			rs = preparedStatement.executeQuery(sql);
 
 			while (rs.next()) {
-				users.add(BuildGlobalConfiguration(rs));
+				users.add(buildGlobalConfiguration(rs));
 			}
 
 		} catch (SQLException e) {
@@ -160,7 +160,7 @@ public class DAOGlobalConfigurations implements IDAOGlobalConfigurations{
 		return value;
 	}
 	
-	GlobalConfiguration BuildGlobalConfiguration(ResultSet rs) throws SQLException {
+	GlobalConfiguration buildGlobalConfiguration(ResultSet rs) throws SQLException {
 		int _id = rs.getInt("id");
 		String code = rs.getString("code");
 		String value = rs.getString("value");

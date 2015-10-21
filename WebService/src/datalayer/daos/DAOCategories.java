@@ -17,9 +17,9 @@ import servicelayer.entity.businessEntity.User;
 import servicelayer.entity.businessEntity.UserType;
 import shared.LoggerMSMP;
 import shared.exceptions.ServerException;
-import shared.interfaces.dataLayer.IDAOCategroy;
+import shared.interfaces.dataLayer.IDAOCategroies;
 
-public class DAOCategories implements IDAOCategroy {
+public class DAOCategories implements IDAOCategroies {
 
 	private Connection connection;
 
@@ -31,32 +31,33 @@ public class DAOCategories implements IDAOCategroy {
 	public int insert(Category obj) throws ServerException {
 		PreparedStatement preparedStatement = null;
 
-		String insertSQL = "INSERT INTO CATEGORY (VERSION, NAME, DESCRIPTION, AMOUNTPESO, AMOUNTDOLLAR, ISCURRENCYDOLLAR, "
+		String insertSQL = "INSERT INTO CATEGORY (ID, VERSION, NAME, DESCRIPTION, AMOUNTPESO, AMOUNTDOLLAR, ISCURRENCYDOLLAR, "
 				+ "TYPEEXCHANGE, IVA_TYPEID, APPLIEDDATETIMEUTC, PROJECTID, CATEGORYTYPE, ISRRHH, UPDATEDDATETIMEUTC) VALUES"
-				+ "(?,?,?,?,?,?,?,?,?,?,?,?,?)";
+				+ "(?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 
 		try {
 			preparedStatement = this.connection.prepareStatement(insertSQL);
 
-			preparedStatement.setInt(1, 1);
-			preparedStatement.setString(2,obj.getName());
-			preparedStatement.setString(3, obj.getDescription());
-			preparedStatement.setDouble(4, obj.getAmountPeso());
-			preparedStatement.setDouble(5, obj.getAmountDollar());
-			preparedStatement.setBoolean(6, obj.getIsCurrencyDollar());
-			preparedStatement.setDouble(7, obj.getTypeExchange());
-			preparedStatement.setInt(8, obj.getIvaTypeId());
+			preparedStatement.setInt(1, nextId());
+			preparedStatement.setInt(2, 1);
+			preparedStatement.setString(3,obj.getName());
+			preparedStatement.setString(4, obj.getDescription());
+			preparedStatement.setDouble(5, obj.getAmountPeso());
+			preparedStatement.setDouble(6, obj.getAmountDollar());
+			preparedStatement.setBoolean(7, obj.getIsCurrencyDollar());
+			preparedStatement.setDouble(8, obj.getTypeExchange());
+			preparedStatement.setInt(9, obj.getIvaTypeId());
 			preparedStatement.setTimestamp(
-					9,
+					10,
 					new Timestamp(setFirstDayOfMonth(
 							obj.getAppliedDateTimeUTC()).getTime()));
 			if (obj.getProject() != null)
-				preparedStatement.setInt(10, obj.getProject().getId());
+				preparedStatement.setInt(11, obj.getProject().getId());
 			else
-				preparedStatement.setNull(10, java.sql.Types.INTEGER);
-			preparedStatement.setInt(11, obj.getCategoryType().getValue());
-			preparedStatement.setBoolean(12, obj.getIsRRHH());
-			preparedStatement.setTimestamp(13,
+				preparedStatement.setNull(11, java.sql.Types.INTEGER);
+			preparedStatement.setInt(12, obj.getCategoryType().getValue());
+			preparedStatement.setBoolean(13, obj.getIsRRHH());
+			preparedStatement.setTimestamp(14,
 					new Timestamp(new Date().getTime()));
 
 			preparedStatement.executeUpdate();
@@ -101,67 +102,37 @@ public class DAOCategories implements IDAOCategroy {
 	}
 
 	@Override
-	public void update(int change, Category obj) throws ServerException {
+	public void update(int id, Category obj) throws ServerException {
 		PreparedStatement preparedStatement = null;
 
 		String updateSQL = "";
 		try {
 
 			// Si cambió el rubro el mismo día modifico el registro anterior
-			if (change == 0) {
-				updateSQL = "UPDATE CATEGORY SET DESCRIPTION = ?, AMOUNTPESO = ?, APPLIEDDATETIMEUTC = ?, "
-						+ "PROJECTID = ?, CATEGORYTYPE = ?, ISRRHH = ?, UPDATEDDATETIMEUTC = ?,"
-						+ "AMOUNTDOLLAR = ?, ISCURRENCYDOLLAR = ?, TYPEEXCHANGE = ?, IVA_TYPEID = ?"
-						+ "  WHERE ID = ? AND VERSION = ?";
-				preparedStatement = this.connection.prepareStatement(updateSQL);
-				
-				preparedStatement.setString(1, obj.getDescription());
-				preparedStatement.setDouble(2, obj.getAmountPeso());
-				preparedStatement.setTimestamp(3, new Timestamp(obj
-						.getAppliedDateTimeUTC().getTime()));
-				if (obj.getProject() != null)
-					preparedStatement.setInt(4, obj.getProject().getId());
-				else
-					preparedStatement.setNull(4, java.sql.Types.INTEGER);
-				preparedStatement.setInt(5, obj.getCategoryType().getValue());
-				preparedStatement.setBoolean(6, obj.getIsRRHH());
-				preparedStatement.setTimestamp(7,
-						new Timestamp(new Date().getTime()));
-				preparedStatement.setDouble(8, obj.getAmountDollar());
-				preparedStatement.setBoolean(9, obj.getIsCurrencyDollar());
-				preparedStatement.setDouble(10, obj.getTypeExchange());
-				preparedStatement.setInt(11, obj.getIvaTypeId());
-				preparedStatement.setInt(12, obj.getId());
-				preparedStatement.setInt(13, obj.getVersion());
+			updateSQL = "UPDATE CATEGORY SET DESCRIPTION = ?, AMOUNTPESO = ?, APPLIEDDATETIMEUTC = ?, "
+					+ "PROJECTID = ?, CATEGORYTYPE = ?, ISRRHH = ?, UPDATEDDATETIMEUTC = ?,"
+					+ "AMOUNTDOLLAR = ?, ISCURRENCYDOLLAR = ?, TYPEEXCHANGE = ?, IVA_TYPEID = ?"
+					+ "  WHERE ID = ? AND VERSION = ?";
+			preparedStatement = this.connection.prepareStatement(updateSQL);
 
-			} else {
-				updateSQL = "INSERT INTO CATEGORY (VERSION, NAME, DESCRIPTION, AMOUNTPESO, AMOUNTDOLLAR, ISCURRENCYDOLLAR, TYPEEXCHANGE,"
-						+ " IVA_TYPEID, APPLIEDDATETIMEUTC, PROJECTID, CATEGORYTYPE, ISRRHH, ID, UPDATEDDATETIMEUTC) VALUES"
-						+ "(?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
-
-				preparedStatement = this.connection.prepareStatement(updateSQL);
-
-				preparedStatement.setInt(1, obj.getVersion() + 1);
-				preparedStatement.setString(2,obj.getName());
-				preparedStatement.setString(3, obj.getDescription());
-				preparedStatement.setDouble(4, obj.getAmountPeso());
-				preparedStatement.setDouble(5, obj.getAmountDollar());
-				preparedStatement.setBoolean(6, obj.getIsCurrencyDollar());
-				preparedStatement.setDouble(7, obj.getTypeExchange());
-				preparedStatement.setInt(8, obj.getIvaTypeId());
-				preparedStatement.setTimestamp(9, new Timestamp(
-						setFirstDayOfMonth(obj.getAppliedDateTimeUTC())
-								.getTime()));
-				if (obj.getProject() != null)
-					preparedStatement.setInt(10, obj.getProject().getId());
-				else
-					preparedStatement.setNull(10, java.sql.Types.INTEGER);
-				preparedStatement.setInt(11, obj.getCategoryType().getValue());
-				preparedStatement.setBoolean(12, obj.getIsRRHH());
-				preparedStatement.setInt(13, obj.getId());
-				preparedStatement.setTimestamp(14,
-						new Timestamp(new Date().getTime()));
-			}
+			preparedStatement.setString(1, obj.getDescription());
+			preparedStatement.setDouble(2, obj.getAmountPeso());
+			preparedStatement.setTimestamp(3, new Timestamp(obj
+					.getAppliedDateTimeUTC().getTime()));
+			if (obj.getProject() != null)
+				preparedStatement.setInt(4, obj.getProject().getId());
+			else
+				preparedStatement.setNull(4, java.sql.Types.INTEGER);
+			preparedStatement.setInt(5, obj.getCategoryType().getValue());
+			preparedStatement.setBoolean(6, obj.getIsRRHH());
+			preparedStatement.setTimestamp(7,
+					new Timestamp(new Date().getTime()));
+			preparedStatement.setDouble(8, obj.getAmountDollar());
+			preparedStatement.setBoolean(9, obj.getIsCurrencyDollar());
+			preparedStatement.setDouble(10, obj.getTypeExchange());
+			preparedStatement.setInt(11, obj.getIvaTypeId());
+			preparedStatement.setInt(12, id);
+			preparedStatement.setInt(13, obj.getVersion());
 
 			preparedStatement.executeUpdate();
 
@@ -177,6 +148,57 @@ public class DAOCategories implements IDAOCategroy {
 				}
 			}
 		}
+	}
+
+	@Override
+	public int insertNewVersion(Category obj) throws ServerException {
+		PreparedStatement preparedStatement = null;
+
+		try {
+			String updateSQL = "INSERT INTO CATEGORY (VERSION, NAME, DESCRIPTION, AMOUNTPESO, AMOUNTDOLLAR, ISCURRENCYDOLLAR, TYPEEXCHANGE,"
+					+ " IVA_TYPEID, APPLIEDDATETIMEUTC, PROJECTID, CATEGORYTYPE, ISRRHH, ID, UPDATEDDATETIMEUTC) VALUES"
+					+ "(?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+
+			preparedStatement = this.connection.prepareStatement(updateSQL);
+
+			preparedStatement.setInt(1, obj.getVersion() + 1);
+			preparedStatement.setString(2, obj.getName());
+			preparedStatement.setString(3, obj.getDescription());
+			preparedStatement.setDouble(4, obj.getAmountPeso());
+			preparedStatement.setDouble(5, obj.getAmountDollar());
+			preparedStatement.setBoolean(6, obj.getIsCurrencyDollar());
+			preparedStatement.setDouble(7, obj.getTypeExchange());
+			preparedStatement.setInt(8, obj.getIvaTypeId());
+			preparedStatement.setTimestamp(
+					9,
+					new Timestamp(setFirstDayOfMonth(
+							obj.getAppliedDateTimeUTC()).getTime()));
+			if (obj.getProject() != null)
+				preparedStatement.setInt(10, obj.getProject().getId());
+			else
+				preparedStatement.setNull(10, java.sql.Types.INTEGER);
+			preparedStatement.setInt(11, obj.getCategoryType().getValue());
+			preparedStatement.setBoolean(12, obj.getIsRRHH());
+			preparedStatement.setInt(13, obj.getId());
+			preparedStatement.setTimestamp(14,
+					new Timestamp(new Date().getTime()));
+
+			preparedStatement.executeUpdate();
+
+		} catch (SQLException e) {
+			throw new ServerException(e);
+		} finally {
+
+			if (preparedStatement != null) {
+				try {
+					preparedStatement.close();
+				} catch (SQLException e) {
+					LoggerMSMP.setLog(e.getMessage());
+				}
+			}
+		}
+
+		return 0;
 	}
 
 	@Override
@@ -227,7 +249,7 @@ public class DAOCategories implements IDAOCategroy {
 			rs = preparedStatement.executeQuery();
 
 			while (rs.next()) {
-				category = BuildCategory(rs);
+				category = buildCategory(rs);
 			}
 		} catch (SQLException e) {
 			throw new ServerException(e);
@@ -269,7 +291,7 @@ public class DAOCategories implements IDAOCategroy {
 			rs = preparedStatement.executeQuery();
 
 			while (rs.next()) {
-				Category category = BuildCategory(rs);
+				Category category = buildCategory(rs);
 				if (category.getProject() != null) {
 					category.getProject().setName(rs.getString("projectName"));
 					category.getProject().setClosed(
@@ -324,7 +346,7 @@ public class DAOCategories implements IDAOCategroy {
 			rs = preparedStatement.executeQuery();
 
 			while (rs.next()) {
-				Category category = BuildCategory(rs);
+				Category category = buildCategory(rs);
 				if (category.getProject() != null) {
 					category.getProject().setName(rs.getString("projectName"));
 					category.getProject().setClosed(
@@ -365,7 +387,7 @@ public class DAOCategories implements IDAOCategroy {
 			rs = preparedStatement.executeQuery();
 
 			while (rs.next()) {
-				categories.add(BuildCategory(rs));
+				categories.add(buildCategory(rs));
 			}
 		} catch (SQLException e) {
 			throw new ServerException(e);
@@ -408,7 +430,7 @@ public class DAOCategories implements IDAOCategroy {
 			rs = preparedStatement.executeQuery();
 
 			while (rs.next()) {
-				Category category = BuildCategory(rs);
+				Category category = buildCategory(rs);
 				if (category.getProject() != null) {
 					category.getProject().setName(rs.getString("projectName"));
 				}
@@ -445,7 +467,7 @@ public class DAOCategories implements IDAOCategroy {
 			rs = preparedStatement.executeQuery();
 
 			while (rs.next()) {
-				categories.add(BuildCategory(rs));
+				categories.add(buildCategory(rs));
 			}
 		} catch (SQLException e) {
 			throw new ServerException(e);
@@ -504,7 +526,7 @@ public class DAOCategories implements IDAOCategroy {
 			rs = preparedStatement.executeQuery();
 
 			while (rs.next()) {
-				Category category = BuildCategory(rs);
+				Category category = buildCategory(rs);
 				if (category.getProject() != null) {
 					category.getProject().setName(rs.getString("projectName"));
 					category.getProject().setClosed(
@@ -560,7 +582,7 @@ public class DAOCategories implements IDAOCategroy {
 			rs = preparedStatement.executeQuery();
 
 			while (rs.next()) {
-				Category category = BuildCategory(rs);
+				Category category = buildCategory(rs);
 				categories.add(category);
 			}
 
@@ -599,7 +621,7 @@ public class DAOCategories implements IDAOCategroy {
 			rs = preparedStatement.executeQuery();
 
 			while (rs.next()) {
-				categories.add(BuildCategory(rs));
+				categories.add(buildCategory(rs));
 			}
 		} catch (SQLException e) {
 			throw new ServerException(e);
@@ -636,7 +658,7 @@ public class DAOCategories implements IDAOCategroy {
 			rs = preparedStatement.executeQuery();
 
 			while (rs.next()) {
-				categories.add(BuildCategory(rs));
+				categories.add(buildCategory(rs));
 			}
 		} catch (SQLException e) {
 			throw new ServerException(e);
@@ -658,7 +680,7 @@ public class DAOCategories implements IDAOCategroy {
 	public ArrayList<Category> getCategoriesByProject(int idProject)
 			throws ServerException {
 		ArrayList<Category> categories = new ArrayList<Category>();
-		;
+		
 		PreparedStatement preparedStatement = null;
 		ResultSet rs = null;
 		try {
@@ -671,7 +693,7 @@ public class DAOCategories implements IDAOCategroy {
 			rs = preparedStatement.executeQuery();
 
 			while (rs.next()) {
-				categories.add(BuildCategory(rs));
+				categories.add(buildCategory(rs));
 			}
 		} catch (SQLException e) {
 			throw new ServerException(e);
@@ -705,7 +727,7 @@ public class DAOCategories implements IDAOCategroy {
 			rs = preparedStatement.executeQuery();
 
 			while (rs.next()) {
-				categories.add(BuildCategory(rs));
+				categories.add(buildCategory(rs));
 			}
 		} catch (SQLException e) {
 			throw new ServerException(e);
@@ -723,7 +745,7 @@ public class DAOCategories implements IDAOCategroy {
 		return categories;
 	}
 
-	private Category BuildCategory(ResultSet rs) throws SQLException {
+	private Category buildCategory(ResultSet rs) throws SQLException {
 		int _id = rs.getInt("id");
 		String name = rs.getString("name");
 		String description = rs.getString("description");
@@ -768,4 +790,35 @@ public class DAOCategories implements IDAOCategroy {
 
 		return cal.getTime();
 	}
+	
+	public int nextId () throws ServerException {
+		PreparedStatement preparedStatement = null;
+		ResultSet rs = null;
+		int maxId = 1;
+		String select = "SELECT MAX(ID) as maxId FROM category;";
+
+		try {
+			preparedStatement = this.connection.prepareStatement(select);
+			rs = preparedStatement.executeQuery();
+
+			if (rs.next()) {
+				maxId = rs.getInt("maxId");
+			}
+
+		} catch (SQLException e) {
+			throw new ServerException(e);
+		} finally {
+
+			if (preparedStatement != null) {
+				try {
+					preparedStatement.close();
+				} catch (SQLException e) {
+					LoggerMSMP.setLog(e.getMessage());
+				}
+			}
+		}
+
+		return maxId + 1;
+	}
+
 }

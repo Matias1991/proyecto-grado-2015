@@ -130,7 +130,7 @@ public class DAOUsers implements IDAOUsers {
 			rs = preparedStatement.executeQuery();
 
 			while (rs.next()) {
-				user = BuildUser(rs);
+				user = buildUser(rs);
 			}
 		} catch (SQLException e) {
 			throw new ServerException(e);
@@ -161,7 +161,7 @@ public class DAOUsers implements IDAOUsers {
 			rs = preparedStatement.executeQuery(sql);
 
 			while (rs.next()) {
-				users.add(BuildUser(rs));
+				users.add(buildUser(rs));
 			}
 
 		} catch (SQLException e) {
@@ -196,7 +196,7 @@ public class DAOUsers implements IDAOUsers {
 			rs = preparedStatement.executeQuery();
 
 			while (rs.next()) {
-				users.add(BuildUser(rs));
+				users.add(buildUser(rs));
 			}
 
 		} catch (SQLException e) {
@@ -229,7 +229,7 @@ public class DAOUsers implements IDAOUsers {
 			rs = preparedStatement.executeQuery();
 
 			while (rs.next()) {
-				user = BuildUser(rs);
+				user = buildUser(rs);
 			}
 
 		} catch (SQLException e) {
@@ -262,7 +262,7 @@ public class DAOUsers implements IDAOUsers {
 			rs = preparedStatement.executeQuery();
 
 			while (rs.next()) {
-				user = BuildUser(rs);
+				user = buildUser(rs);
 			}
 
 		} catch (SQLException e) {
@@ -373,7 +373,7 @@ public class DAOUsers implements IDAOUsers {
 			rs = preparedStatement.executeQuery();
 
 			while (rs.next()) {
-				users.add(BuildUser(rs));
+				users.add(buildUser(rs));
 			}
 
 		} catch (SQLException e) {
@@ -392,7 +392,7 @@ public class DAOUsers implements IDAOUsers {
 		return users;
 	}
 
-	User BuildUser(ResultSet rs) throws SQLException {
+	User buildUser(ResultSet rs) throws SQLException {
 		int _id = rs.getInt("id");
 		String userName = rs.getString("userName");
 		String name = rs.getString("name");
@@ -468,7 +468,7 @@ public class DAOUsers implements IDAOUsers {
 			rs = preparedStatement.executeQuery();
 
 			while (rs.next()) {
-				users.add(BuildUser(rs));
+				users.add(buildUser(rs));
 			}
 
 		} catch (SQLException e) {

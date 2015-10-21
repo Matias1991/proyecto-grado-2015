@@ -192,7 +192,7 @@ public class DAOBills implements IDAOBills {
 			rs = preparedStatement.executeQuery();
 
 			while (rs.next()) {
-				bill = BuildBill(rs);
+				bill = buildBill(rs);
 			}
 		} catch (SQLException e) {
 			throw new ServerException(e);
@@ -226,7 +226,7 @@ public class DAOBills implements IDAOBills {
 			rs = preparedStatement.executeQuery();
 
 			while (rs.next()) {
-				bills.add(BuildBill(rs));
+				bills.add(buildBill(rs));
 			}
 
 		} catch (SQLException e) {
@@ -259,7 +259,7 @@ public class DAOBills implements IDAOBills {
 			rs = preparedStatement.executeQuery();
 
 			while (rs.next()) {
-				bill = BuildBill(rs);
+				bill = buildBill(rs);
 			}
 		} catch (SQLException e) {
 			throw new ServerException(e);
@@ -290,7 +290,7 @@ public class DAOBills implements IDAOBills {
 			rs = preparedStatement.executeQuery();
 
 			while (rs.next()) {
-				bill = BuildBill(rs);
+				bill = buildBill(rs);
 			}
 		} catch (SQLException e) {
 			throw new ServerException(e);
@@ -339,7 +339,7 @@ public class DAOBills implements IDAOBills {
 			rs = preparedStatement.executeQuery();
 
 			while (rs.next()) {
-				Bill bill = BuildBill(rs);
+				Bill bill = buildBill(rs);
 				if (bill.getProject() != null) {
 					bill.getProject().setName(rs.getString("projectName"));
 					bill.getProject().setClosed(rs.getBoolean("projectClosed"));
@@ -386,7 +386,7 @@ public class DAOBills implements IDAOBills {
 			rs = preparedStatement.executeQuery();
 
 			while (rs.next()) {
-				Bill bill = BuildBill(rs);
+				Bill bill = buildBill(rs);
 				if (bill.getProject() != null) {
 					bill.getProject().setName(rs.getString("projectName"));
 				}
@@ -446,7 +446,7 @@ public class DAOBills implements IDAOBills {
 			rs = preparedStatement.executeQuery();
 
 			while (rs.next()) {
-				Bill bill = BuildBill(rs);
+				Bill bill = buildBill(rs);
 				if (bill.getProject() != null) {
 					bill.getProject().setName(rs.getString("projectName"));
 					bill.getProject().setClosed(rs.getBoolean("projectClosed"));
@@ -499,7 +499,7 @@ public class DAOBills implements IDAOBills {
 			rs = preparedStatement.executeQuery();
 
 			while (rs.next()) {
-				Bill bill = BuildBill(rs);
+				Bill bill = buildBill(rs);
 				if (bill.getProject() != null) {
 					bill.getProject().setName(rs.getString("projectName"));
 					bill.getProject().setClosed(rs.getBoolean("projectClosed"));
@@ -548,7 +548,7 @@ public class DAOBills implements IDAOBills {
 			rs = preparedStatement.executeQuery();
 
 			while (rs.next()) {
-				Bill bill = BuildBill(rs);
+				Bill bill = buildBill(rs);
 				bills.add(bill);
 			}
 
@@ -600,7 +600,7 @@ public class DAOBills implements IDAOBills {
 			rs = preparedStatement.executeQuery();
 
 			while (rs.next()) {
-				Bill bill = BuildBill(rs);
+				Bill bill = buildBill(rs);
 				if (bill.getProject() != null) {
 					bill.getProject().setName(rs.getString("projectName"));
 					bill.getProject().setClosed(rs.getBoolean("projectClosed"));
@@ -651,7 +651,7 @@ public class DAOBills implements IDAOBills {
 			rs = preparedStatement.executeQuery();
 
 			while (rs.next()) {
-				Bill bill = BuildBill(rs);
+				Bill bill = buildBill(rs);
 				bills.add(bill);
 			}
 
@@ -694,7 +694,7 @@ public class DAOBills implements IDAOBills {
 			rs = preparedStatement.executeQuery();
 
 			while (rs.next()) {
-				Bill bill = BuildBill(rs);
+				Bill bill = buildBill(rs);
 				if (bill.getProject() != null)
 					bill.getProject().setName(rs.getString("projectName"));
 				bills.add(bill);
@@ -794,7 +794,7 @@ public class DAOBills implements IDAOBills {
 		return cal.getTime();
 	}
 
-	private Bill BuildBill(ResultSet rs) throws SQLException {
+	private Bill buildBill(ResultSet rs) throws SQLException {
 		int _id = rs.getInt("id");
 		String code = rs.getString("code");
 		String description = rs.getString("description");

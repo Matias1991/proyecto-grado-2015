@@ -91,7 +91,7 @@ public class DAOEmployees implements IDAOEmployees {
 			preparedStatement.setInt(1, employedTypeId);
 			rs = preparedStatement.executeQuery();
 			while (rs.next()) {
-				partners.add(BuildEmployed(rs));
+				partners.add(buildEmployed(rs));
 			}			
 			
 		} catch (SQLException e) {
@@ -154,7 +154,7 @@ public class DAOEmployees implements IDAOEmployees {
 			rs = preparedStatement.executeQuery();
 
 			while (rs.next()) {
-				employed = BuildEmployed(rs);
+				employed = buildEmployed(rs);
 			}
 		} catch (SQLException e) {
 			throw new ServerException(e);
@@ -185,7 +185,7 @@ public class DAOEmployees implements IDAOEmployees {
 			rs = preparedStatement.executeQuery(sql);
 
 			while (rs.next()) {
-				employees.add(BuildEmployed(rs));
+				employees.add(buildEmployed(rs));
 			}
 
 		} catch (SQLException e) {
@@ -234,7 +234,7 @@ public class DAOEmployees implements IDAOEmployees {
 		}
 	}
 
-	Employed BuildEmployed(ResultSet rs) throws SQLException, ServerException {
+	Employed buildEmployed(ResultSet rs) throws SQLException, ServerException {
 		int _id = rs.getInt("id");
 		String name = rs.getString("name");
 		String lastName = rs.getString("lastName");
@@ -319,7 +319,7 @@ public class DAOEmployees implements IDAOEmployees {
 			rs = preparedStatement.executeQuery();
 
 			while (rs.next()) {
-				employees.add(BuildEmployed(rs));
+				employees.add(buildEmployed(rs));
 			}
 
 		} catch (SQLException e) {

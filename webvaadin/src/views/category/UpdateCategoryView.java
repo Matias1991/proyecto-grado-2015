@@ -250,9 +250,10 @@ public class UpdateCategoryView extends BaseView {
 					setComponentsReadOnly(true);
 					cleanInputs();
 
-				} else {
-					btnUpdate.setEnabled(true);
-				}
+				} 
+				
+				btnUpdate.setEnabled(true);
+				
 
 			}
 		});

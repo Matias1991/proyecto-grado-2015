@@ -8,7 +8,7 @@ import servicelayer.entity.businessEntity.CategoryType;
 import servicelayer.entity.businessEntity.User;
 import shared.exceptions.ServerException;
 
-public interface IDAOCategroy extends IDAOBase<Category> {
+public interface IDAOCategroies extends IDAOBase<Category> {
 
 	ArrayList<Category> getCategories(String description,
 			CategoryType categoryType) throws ServerException;
@@ -38,4 +38,6 @@ public interface IDAOCategroy extends IDAOBase<Category> {
 
 	ArrayList<Category> getCategoriesAllVersions(int id, Date date)
 			throws ServerException;
+
+	int insertNewVersion(Category obj) throws ServerException;
 }

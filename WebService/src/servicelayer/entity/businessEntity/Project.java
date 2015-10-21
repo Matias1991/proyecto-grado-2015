@@ -5,7 +5,7 @@ import java.util.Date;
 
 import shared.exceptions.ServerException;
 import shared.interfaces.dataLayer.IDAOBills;
-import shared.interfaces.dataLayer.IDAOCategroy;
+import shared.interfaces.dataLayer.IDAOCategroies;
 import shared.interfaces.dataLayer.IDAOProjectEmployees;
 import shared.interfaces.dataLayer.IDAOProjectPartners;
 
@@ -24,7 +24,7 @@ public class Project {
 	private IDAOProjectEmployees iDAOProjectEmployees;
 	private IDAOProjectPartners iDAOProjectPartners;
 	private IDAOBills iDAOBills;
-	private IDAOCategroy iDAOCategories;
+	private IDAOCategroies iDAOCategories;
 
 	public Project() {
 	}
@@ -138,7 +138,7 @@ public class Project {
 		this.iDAOBills = iDAOBills;
 	}
 
-	public void setiDAOCategories(IDAOCategroy iDAOCategories) {
+	public void setiDAOCategories(IDAOCategroies iDAOCategories) {
 		this.iDAOCategories = iDAOCategories;
 	}
 

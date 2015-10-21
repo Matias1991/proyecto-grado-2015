@@ -298,7 +298,7 @@ public class DAOProjects implements IDAOProjects {
 			rs = preparedStatement.executeQuery(sql);
 
 			while (rs.next()) {		
-				DistributionType distribution = BuildDistributions(rs);
+				DistributionType distribution = buildDistributions(rs);
 				distributions.add(distribution);
 			}
 
@@ -437,7 +437,7 @@ public class DAOProjects implements IDAOProjects {
 		return project;
 	}
 	
-	DistributionType BuildDistributions(ResultSet rs) throws SQLException, ServerException{
+	DistributionType buildDistributions(ResultSet rs) throws SQLException, ServerException{
 		int _id = rs.getInt("id");
 		String value = rs.getString("value");
 		String description = rs.getString("description");

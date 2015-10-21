@@ -98,8 +98,9 @@ public class UserController {
 		return result;
 	}
 	
-	public static void modifyUser(User user, int idUser)
+	public static boolean modifyUser(User user, int idUser)
 	{
+		boolean result = false;
 		try {
 			ServiceWebStub service = new ServiceWebStub();
 			UpdateUser modifyUser = new UpdateUser();
@@ -115,12 +116,14 @@ public class UserController {
 			
 			service.updateUser(modifyUser).get_return();
 			
+			result = true;
 		} catch (AxisFault e) {
 			String error = e.getMessage().replace("<faultstring>", "");
 			new PopupWindow("ERROR", error.replace("</faultstring>", ""));
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		}
+		return result;
 	}
 	
 	public static boolean changePassword(int idUser, String oldPassword, String newPassword)

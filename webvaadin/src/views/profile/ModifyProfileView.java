@@ -67,9 +67,9 @@ public class ModifyProfileView extends BaseView {
 					user.setName(txtName.getValue());
 					user.setUserTypeId(userToShow.getUserType());
 
-					UserController.modifyUser(user, idUser);
-
-					new PopupWindow("AVISO", "Perfil modificado correctamente");
+					if(UserController.modifyUser(user, idUser)){
+						new PopupWindow("AVISO", "Perfil modificado correctamente");
+					}
 					
 				}
 				btnModify.setEnabled(true);
@@ -80,12 +80,7 @@ public class ModifyProfileView extends BaseView {
 
 			@Override
 			public void buttonClick(ClickEvent event) {
-				if(RequestContext.getRequestContext().getUserType() == 1)
-					UI.getCurrent().getNavigator().navigateTo(Constant.View.CATALOGUSERS);
-				else if(RequestContext.getRequestContext().getUserType() == 2)
-					UI.getCurrent().getNavigator().navigateTo(Constant.View.CATALOGEMPLOYEES);
-				else if(RequestContext.getRequestContext().getUserType() == 3)
-					UI.getCurrent().getNavigator().navigateTo(Constant.View.CATALOGPROJECTS);
+				UI.getCurrent().getNavigator().navigateTo(Constant.View.MAIN_MENU);	
 			}
 		});
 

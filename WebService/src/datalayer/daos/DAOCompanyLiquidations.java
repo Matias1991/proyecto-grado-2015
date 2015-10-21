@@ -155,7 +155,7 @@ public class DAOCompanyLiquidations implements IDAOCompanyLiquidations {
 			rs = preparedStatement.executeQuery();
 			
 			if (rs.next()) {
-				companyLiquidation = BuildCompanyLiquidation(rs);
+				companyLiquidation = buildCompanyLiquidation(rs);
 			}
 			
 		} catch (SQLException e) {
@@ -191,7 +191,7 @@ public class DAOCompanyLiquidations implements IDAOCompanyLiquidations {
 			rs = preparedStatement.executeQuery();
 			
 			while (rs.next()) {
-				companyLiquidations.add(BuildCompanyLiquidation(rs));
+				companyLiquidations.add(buildCompanyLiquidation(rs));
 			}
 			
 		} catch (SQLException e) {
@@ -241,7 +241,7 @@ public class DAOCompanyLiquidations implements IDAOCompanyLiquidations {
 		return typeExchange;
 	}
 
-	private CompanyLiquidation BuildCompanyLiquidation(ResultSet rs) throws SQLException {
+	private CompanyLiquidation buildCompanyLiquidation(ResultSet rs) throws SQLException {
 		int _id = rs.getInt("id");
 		double companyCategory = rs.getDouble("companyCategory");
 		double contribution = rs.getDouble("contribution");

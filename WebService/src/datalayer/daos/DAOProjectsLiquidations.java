@@ -160,7 +160,7 @@ public class DAOProjectsLiquidations implements IDAOProjectsLiquidations {
 			rs = preparedStatement.executeQuery();
 
 			while (rs.next()) {
-				ProjectLiquidation projectLiquidation = BuildProjectLiquidation(rs);
+				ProjectLiquidation projectLiquidation = buildProjectLiquidation(rs);
 				projectsLiquidations.add(projectLiquidation);
 			}
 
@@ -197,7 +197,7 @@ public class DAOProjectsLiquidations implements IDAOProjectsLiquidations {
 			rs = preparedStatement.executeQuery();
 
 			while (rs.next()) {
-				projectLiquidation = BuildProjectLiquidation(rs);
+				projectLiquidation = buildProjectLiquidation(rs);
 			}
 
 		} catch (SQLException e) {
@@ -298,7 +298,7 @@ public class DAOProjectsLiquidations implements IDAOProjectsLiquidations {
 			rs = preparedStatement.executeQuery();
 
 			while (rs.next()) {
-				ProjectLiquidation projectLiquidation = BuildProjectLiquidation(rs);
+				ProjectLiquidation projectLiquidation = buildProjectLiquidation(rs);
 				projectsLiquidations.add(projectLiquidation);
 			}
 
@@ -319,7 +319,7 @@ public class DAOProjectsLiquidations implements IDAOProjectsLiquidations {
 
 	}
 
-	private ProjectLiquidation BuildProjectLiquidation(ResultSet rs)
+	private ProjectLiquidation buildProjectLiquidation(ResultSet rs)
 			throws SQLException {
 		int _id = rs.getInt("id");
 		Project project = new Project(rs.getInt("projectId"));

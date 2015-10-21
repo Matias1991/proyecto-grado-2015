@@ -79,12 +79,7 @@ public class ChangePasswordView extends BaseView {
 			@Override
 			public void buttonClick(ClickEvent event) {
 				cleanInputs();
-				if(RequestContext.getRequestContext().getUserType() == 1)
-					UI.getCurrent().getNavigator().navigateTo(Constant.View.CATALOGUSERS);
-				else if(RequestContext.getRequestContext().getUserType() == 2)
-					UI.getCurrent().getNavigator().navigateTo(Constant.View.CATALOGEMPLOYEES);
-				else if(RequestContext.getRequestContext().getUserType() == 3)
-					UI.getCurrent().getNavigator().navigateTo(Constant.View.CATALOGPROJECTS);			
+				UI.getCurrent().getNavigator().navigateTo(Constant.View.MAIN_MENU);				
 			}
 		});
 	}

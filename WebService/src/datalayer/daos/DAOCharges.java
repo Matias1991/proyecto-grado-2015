@@ -171,7 +171,7 @@ public class DAOCharges implements IDAOCharges {
 			rs = preparedStatement.executeQuery();
 
 			while (rs.next()) {
-				charge = BuildCharge(rs);
+				charge = buildCharge(rs);
 			}
 		} catch (SQLException e) {
 			throw new ServerException(e);
@@ -204,7 +204,7 @@ public class DAOCharges implements IDAOCharges {
 			rs = preparedStatement.executeQuery();
 
 			while (rs.next()) {
-				Charge charge = BuildCharge(rs);
+				Charge charge = buildCharge(rs);
 				if (charge.getBill() != null) {
 					charge.getBill().setCode(rs.getString("billCode"));
 					charge.getBill().setDescription(
@@ -256,7 +256,7 @@ public class DAOCharges implements IDAOCharges {
 			rs = preparedStatement.executeQuery();
 
 			while (rs.next()) {
-				Charge charge = BuildCharge(rs);
+				Charge charge = buildCharge(rs);
 				if (charge.getBill() != null) {
 					charge.getBill().setCode(rs.getString("billCode"));
 					charge.getBill().setDescription(
@@ -295,7 +295,7 @@ public class DAOCharges implements IDAOCharges {
 			rs = preparedStatement.executeQuery();
 
 			while (rs.next()) {
-				charge = BuildCharge(rs);
+				charge = buildCharge(rs);
 			}
 		} catch (SQLException e) {
 			throw new ServerException(e);
@@ -331,7 +331,7 @@ public class DAOCharges implements IDAOCharges {
 			rs = preparedStatement.executeQuery();
 
 			while (rs.next()) {
-				Charge charge = BuildCharge(rs);
+				Charge charge = buildCharge(rs);
 				if (charge.getBill() != null)
 					charge.getBill().setDescription(
 							rs.getString("billDescription"));
@@ -380,7 +380,7 @@ public class DAOCharges implements IDAOCharges {
 			rs = preparedStatement.executeQuery();
 
 			while (rs.next()) {
-				Charge charge = BuildCharge(rs);
+				Charge charge = buildCharge(rs);
 				if (charge.getBill() != null) {
 					charge.getBill().setCode(rs.getString("billCode"));
 					charge.getBill().setDescription(
@@ -406,7 +406,7 @@ public class DAOCharges implements IDAOCharges {
 		return charges;
 	}
 
-	private Charge BuildCharge(ResultSet rs) throws SQLException {
+	private Charge buildCharge(ResultSet rs) throws SQLException {
 		int _id = rs.getInt("id");
 		String number = rs.getString("number");
 		String description = rs.getString("description");

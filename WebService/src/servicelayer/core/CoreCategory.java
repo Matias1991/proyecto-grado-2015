@@ -37,7 +37,7 @@ public class CoreCategory implements ICoreCategory {
 						.getCategories(category.getName(),
 								CategoryType.COMPANY).size() > 0)
 					throw new ClientException(
-							"Ya existe un rubro con esta descripcion");
+							"Ya existe un rubro con ese nombre");
 			}
 
 			if (category.getCategoryType() == CategoryType.PROJECT
@@ -48,7 +48,7 @@ public class CoreCategory implements ICoreCategory {
 								category.getProject().getId());
 				if (categoriesByName.size() > 0)
 					throw new ClientException(
-							"Ya existe un rubro con esta descripcion");
+							"Ya existe un rubro con ese nombre");
 			}
 
 			if (category.getCategoryType() == CategoryType.PROJECT
@@ -127,7 +127,7 @@ public class CoreCategory implements ICoreCategory {
 							&& !categoryUpdate.getCategoryType().equals(
 									categoryOld.getCategoryType()))
 						throw new ClientException(
-								"Ya existe un rubro con esta descripcion");
+								"Ya existe un rubro con ese nombre");
 				}
 
 				if (categoryUpdate.getCategoryType() == CategoryType.PROJECT
@@ -141,7 +141,7 @@ public class CoreCategory implements ICoreCategory {
 									categoryUpdate.getProject().getId());
 					if (categoriesByName.size() > 0)
 						throw new ClientException(
-								"Ya existe un rubro con esta descripcion");
+								"Ya existe un rubro con ese nombre");
 				}
 
 				if (categoryUpdate.getCategoryType() == CategoryType.PROJECT
@@ -184,9 +184,9 @@ public class CoreCategory implements ICoreCategory {
 								.format(categoryOld.getUpdatedDateTimeUTC())
 								.equals(DateFormat.getDateInstance().format(
 										new Date()))) {
-					daoManager.getDAOCategories().update(0, categoryUpdate);
+					daoManager.getDAOCategories().update(categoryOld.getId(), categoryUpdate);
 				} else {
-					daoManager.getDAOCategories().update(1, categoryUpdate);
+					daoManager.getDAOCategories().insertNewVersion(categoryUpdate);
 				}
 			}
 

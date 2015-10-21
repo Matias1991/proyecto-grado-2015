@@ -88,7 +88,7 @@ public class DAOProjectPartners implements IDAOProjectPartners {
 			rs = preparedStatement.executeQuery();
 
 			while (rs.next()) {
-				ProjectPartner projectPartner = BuildProjectPartner(rs);
+				ProjectPartner projectPartner = buildProjectPartner(rs);
 				projectPartners.add(projectPartner);
 			}
 		} catch (SQLException e) {
@@ -141,7 +141,7 @@ public class DAOProjectPartners implements IDAOProjectPartners {
 	}
 
 	
-	private ProjectPartner BuildProjectPartner (ResultSet rs) throws SQLException {
+	private ProjectPartner buildProjectPartner (ResultSet rs) throws SQLException {
 		int projectId = rs.getInt("projectId");
 		int employedId = rs.getInt("employedId");
 		String employedName = rs.getString("Name");

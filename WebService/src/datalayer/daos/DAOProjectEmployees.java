@@ -82,7 +82,7 @@ public class DAOProjectEmployees implements IDAOProjectEmployees {
 			rs = preparedStatement.executeQuery();
 
 			while (rs.next()) {
-				ProjectEmployed projectEmployed = BuildProjectEmployees(rs);
+				ProjectEmployed projectEmployed = buildProjectEmployees(rs);
 				projectEmployees.add(projectEmployed);
 			}
 
@@ -125,7 +125,7 @@ public class DAOProjectEmployees implements IDAOProjectEmployees {
 			rs = preparedStatement.executeQuery();
 
 			while (rs.next()) {
-				projectEmployed = BuildProjectEmployees(rs);
+				projectEmployed = buildProjectEmployees(rs);
 			}
 
 		} catch (SQLException e) {
@@ -171,7 +171,7 @@ public class DAOProjectEmployees implements IDAOProjectEmployees {
 		}
 	}
 	
-	ProjectEmployed BuildProjectEmployees(ResultSet rs) throws SQLException {
+	ProjectEmployed buildProjectEmployees(ResultSet rs) throws SQLException {
 		int employedId = rs.getInt("employedId");
 		int version = rs.getInt("version");
 		int hours = rs.getInt("hours");

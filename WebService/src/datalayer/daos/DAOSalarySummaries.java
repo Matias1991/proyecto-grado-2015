@@ -233,7 +233,7 @@ public class DAOSalarySummaries implements IDAOSalarySummaries {
 			rs = preparedStatement.executeQuery();
 
 			if (rs.next()) {
-				salarySummary = BuildSalarySummary(rs);
+				salarySummary = buildSalarySummary(rs);
 			}
 
 		} catch (SQLException e) {
@@ -313,7 +313,7 @@ public class DAOSalarySummaries implements IDAOSalarySummaries {
 			rs = preparedStatement.executeQuery();
 
 			if (rs.next()) {
-				salarySummary = BuildSalarySummary(rs);
+				salarySummary = buildSalarySummary(rs);
 			}
 
 		} catch (SQLException e) {
@@ -365,7 +365,7 @@ public class DAOSalarySummaries implements IDAOSalarySummaries {
 		return latestVersion;
 	}
 
-	SalarySummary BuildSalarySummary(ResultSet rs) throws SQLException {
+	SalarySummary buildSalarySummary(ResultSet rs) throws SQLException {
 		int _id = rs.getInt("id");
 		int version = rs.getInt("version");
 		double nominalSalary = rs.getDouble("nominalSalary");
@@ -494,7 +494,7 @@ public class DAOSalarySummaries implements IDAOSalarySummaries {
 			
 			rs = preparedStatement.executeQuery();
 			if(rs.next()) {
-				result = BuildSalarySummary(rs);
+				result = buildSalarySummary(rs);
 			}
 
 		} catch (SQLException e) {
