@@ -3,7 +3,6 @@ package servicelayer.entity.businessEntity;
 import java.util.ArrayList;
 import java.util.Date;
 
-import servicelayer.entity.valueObject.VOProject;
 import shared.exceptions.ServerException;
 import shared.interfaces.dataLayer.IDAOBills;
 import shared.interfaces.dataLayer.IDAOCategroy;
@@ -46,22 +45,6 @@ public class Project {
 		this.createdDateTimeUTC = createdDateTimeUTC;
 		this.updatedDateTimeUTC = updatedDateTimeUTC;
 	}
-
-//	public Project(VOProject voProject, IDAOProjectEmployees idaoEmployedProject, IDAOProjectPartners idaoPartnerProject) {
-//		this.name = voProject.getName();
-//		this.description = voProject.getDescription();
-//		if (voProject.getSellerId() != 0) {
-//			this.seller = new Employed(voProject.getSellerId());
-//		}
-//		if (voProject.getManagerId() != 0) {
-//			this.manager = new User(voProject.getManagerId());
-//		}
-//		this.updatedDateTimeUTC = voProject.getUpdatedDateTimeUTC();
-//		this.createdDateTimeUTC = voProject.getCreatedDateTimeUTC();
-//		this.closed = voProject.isClosed();
-//		this.iDAOProjectEmployees = idaoEmployedProject;
-//		this.iDAOProjectPartners = idaoPartnerProject;
-//	}
 
 	public int getId() {
 		return id;

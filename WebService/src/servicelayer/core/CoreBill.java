@@ -4,15 +4,14 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
-import datalayer.daos.DAOManager;
 import servicelayer.entity.businessEntity.Bill;
 import servicelayer.entity.businessEntity.Charge;
 import servicelayer.entity.businessEntity.IVA_Type;
-import servicelayer.entity.businessEntity.Project;
 import servicelayer.entity.businessEntity.User;
 import shared.exceptions.ClientException;
 import shared.exceptions.ServerException;
 import shared.interfaces.core.ICoreBill;
+import datalayer.daos.DAOManager;
 
 public class CoreBill implements ICoreBill {
 

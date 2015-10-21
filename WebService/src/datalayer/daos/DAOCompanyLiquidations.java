@@ -9,12 +9,8 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
 
-import datalayer.utilities.ManageConnection;
-import servicelayer.entity.businessEntity.Bill;
 import servicelayer.entity.businessEntity.CompanyLiquidation;
 import servicelayer.entity.businessEntity.Employed;
-import servicelayer.entity.businessEntity.IVA_Type;
-import servicelayer.entity.businessEntity.Project;
 import shared.LoggerMSMP;
 import shared.exceptions.ServerException;
 import shared.interfaces.dataLayer.IDAOCompanyLiquidations;
@@ -89,31 +85,30 @@ public class DAOCompanyLiquidations implements IDAOCompanyLiquidations {
 
 	@Override
 	public void delete(int id) throws ServerException {
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	public void update(int id, CompanyLiquidation obj) throws ServerException {
-		// TODO Auto-generated method stub
+		
 		
 	}
 
 	@Override
 	public boolean exist(int id) throws ServerException {
-		// TODO Auto-generated method stub
+		
 		return false;
 	}
 
 	@Override
 	public CompanyLiquidation getObject(int id) throws ServerException {
-		// TODO Auto-generated method stub
+		
 		return null;
 	}
 
 	@Override
 	public ArrayList<CompanyLiquidation> getObjects() throws ServerException {
-		// TODO Auto-generated method stub
+		
 		return null;
 	}
 

@@ -3,7 +3,6 @@ package shared.interfaces.core;
 import java.util.ArrayList;
 import java.util.Date;
 
-import datalayer.daos.DAOManager;
 import servicelayer.entity.businessEntity.ProjectLiquidation;
 import servicelayer.entity.businessEntity.User;
 import shared.exceptions.ClientException;

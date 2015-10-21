@@ -8,7 +8,6 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
 
-import servicelayer.entity.businessEntity.Bill;
 import servicelayer.entity.businessEntity.DistributionType;
 import servicelayer.entity.businessEntity.Employed;
 import servicelayer.entity.businessEntity.Project;

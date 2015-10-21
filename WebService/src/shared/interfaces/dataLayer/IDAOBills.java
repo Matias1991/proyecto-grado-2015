@@ -5,7 +5,6 @@ import java.util.Date;
 
 import servicelayer.entity.businessEntity.Bill;
 import servicelayer.entity.businessEntity.User;
-import servicelayer.entity.businessEntity.UserType;
 import shared.exceptions.ServerException;
 
 public interface IDAOBills extends IDAOBase<Bill> {

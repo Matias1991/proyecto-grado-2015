@@ -2,7 +2,7 @@ package servicelayer.entity.businessEntity;
 
 import java.util.ArrayList;
 import java.util.Date;
-import servicelayer.entity.valueObject.VOEmployed;
+
 import shared.exceptions.ServerException;
 import shared.interfaces.dataLayer.IDAOSalarySummaries;
 

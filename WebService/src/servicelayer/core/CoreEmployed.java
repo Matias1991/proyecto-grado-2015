@@ -3,17 +3,14 @@ package servicelayer.core;
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 
-import datalayer.daos.DAOManager;
 import servicelayer.entity.businessEntity.Employed;
 import servicelayer.entity.businessEntity.EmployedType;
-import servicelayer.entity.businessEntity.GlobalConfiguration;
 import servicelayer.entity.businessEntity.SalarySummary;
-import shared.ConfigurationProperties;
 import shared.exceptions.ClientException;
 import shared.exceptions.ServerException;
 import shared.interfaces.core.ICoreEmployed;
+import datalayer.daos.DAOManager;
 
 public class CoreEmployed implements ICoreEmployed {
 

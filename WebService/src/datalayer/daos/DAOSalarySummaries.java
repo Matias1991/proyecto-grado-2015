@@ -185,7 +185,7 @@ public class DAOSalarySummaries implements IDAOSalarySummaries {
 	@Override
 	public void delete(int employedId, int salarySummaryId)
 			throws ServerException {
-		// TODO Auto-generated method stub
+		
 
 	}
 
@@ -255,7 +255,7 @@ public class DAOSalarySummaries implements IDAOSalarySummaries {
 	@Override
 	public ArrayList<SalarySummary> getSalarySummaries(int employedId)
 			throws ServerException {
-		// TODO Auto-generated method stub
+		
 		return null;
 	}
 

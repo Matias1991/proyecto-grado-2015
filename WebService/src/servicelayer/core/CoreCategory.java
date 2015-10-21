@@ -4,17 +4,14 @@ import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
-import datalayer.daos.DAOCategories;
-import datalayer.daos.DAOManager;
 import servicelayer.entity.businessEntity.Category;
 import servicelayer.entity.businessEntity.CategoryType;
 import servicelayer.entity.businessEntity.IVA_Type;
 import servicelayer.entity.businessEntity.User;
-import servicelayer.entity.valueObject.VOCategory;
 import shared.exceptions.ClientException;
 import shared.exceptions.ServerException;
 import shared.interfaces.core.ICoreCategory;
-import shared.interfaces.dataLayer.IDAOCategroy;
+import datalayer.daos.DAOManager;
 
 public class CoreCategory implements ICoreCategory {
 

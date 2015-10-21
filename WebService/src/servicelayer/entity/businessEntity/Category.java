@@ -2,8 +2,6 @@ package servicelayer.entity.businessEntity;
 
 import java.util.Date;
 
-import servicelayer.entity.valueObject.VOCategory;
-
 public class Category {
 
 	private int id;

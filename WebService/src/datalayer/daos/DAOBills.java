@@ -176,7 +176,6 @@ public class DAOBills implements IDAOBills {
 
 	@Override
 	public boolean exist(int id) throws ServerException {
-		// TODO Auto-generated method stub
 		return false;
 	}
 

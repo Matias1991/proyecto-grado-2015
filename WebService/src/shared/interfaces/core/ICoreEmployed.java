@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import servicelayer.entity.businessEntity.Employed;
-import servicelayer.entity.businessEntity.EmployedType;
 import servicelayer.entity.businessEntity.SalarySummary;
 import shared.exceptions.ClientException;
 import shared.exceptions.ServerException;

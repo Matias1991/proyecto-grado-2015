@@ -3,8 +3,6 @@ package servicelayer.service.builder;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 
-import shared.exceptions.ServerException;
-
 public abstract class BaseBuilder<VO, BusinessObject>{
 
 	public VO[] BuildArrayVOObject(Class<VO> c, ArrayList<BusinessObject> businessObjects){

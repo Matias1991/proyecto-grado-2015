@@ -6,7 +6,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 
 import servicelayer.entity.businessEntity.DistributionType;
@@ -19,8 +18,6 @@ import shared.exceptions.ServerException;
 import shared.interfaces.dataLayer.IDAOProjects;
 
 import com.mysql.jdbc.Statement;
-
-import datalayer.utilities.ManageConnection;
 
 public class DAOProjects implements IDAOProjects {
 
@@ -144,7 +141,7 @@ public class DAOProjects implements IDAOProjects {
 	
 	@Override
 	public boolean exist(int id) throws ServerException {
-		// TODO Auto-generated method stub
+		
 		return false;
 	}
 

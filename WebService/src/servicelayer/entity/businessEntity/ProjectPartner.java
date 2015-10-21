@@ -2,8 +2,6 @@ package servicelayer.entity.businessEntity;
 
 import java.util.Date;
 
-import servicelayer.entity.valueObject.VOProjectPartner;
-
 public class ProjectPartner {
 	private Project project;
 	private Employed employed;
@@ -15,17 +13,6 @@ public class ProjectPartner {
 
 	public ProjectPartner() {
 
-	}
-
-	public ProjectPartner(VOProjectPartner voPartnerProject) {
-		// this.project = new Project(voPartnerProject.getProject());
-		//todo:cambiar para que no utilice VO a nivel de la logica de negocio
-		//this.employed = new Employed(voPartnerProject.getEmployed());
-		this.distributionType = new DistributionType(voPartnerProject.getDistributionType().getId(), voPartnerProject.getDistributionType().getValue(), voPartnerProject.getDistributionType().getDescription());		
-		this.version = voPartnerProject.getVersion();
-		this.enabled = voPartnerProject.isEnabled();
-		this.createdDateTimeUTC = voPartnerProject.getCreatedDateTimeUTC();
-		this.updatedDateTimeUTC = voPartnerProject.getUpdatedDateTimeUTC();
 	}
 
 	public Project getProject() {

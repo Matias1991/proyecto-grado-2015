@@ -31,7 +31,6 @@ public class ProjectLiquidation implements Comparable{
 	private ArrayList<Category> categoriesHuman;
 	private ArrayList<Category> categoriesMaterial;
 	private ArrayList<ProjectEmployed> employees;
-	//private ArrayList<ProjectPartner> partners;
 		
 	public ProjectLiquidation(){
 	}
@@ -71,7 +70,6 @@ public class ProjectLiquidation implements Comparable{
 		this.categoriesHuman = categoriesHuman;
 		this.categoriesMaterial = categoriesMaterial;
 		this.employees = employees;
-		//this.partners = partners;
 	}
 
 	public int getId() {
@@ -276,7 +274,7 @@ public class ProjectLiquidation implements Comparable{
 
 	@Override
 	public int compareTo(Object arg0) {
-		// TODO Auto-generated method stub
+		
 		return (int) (((ProjectLiquidation)arg0).getCompanyCostPercentage() - this.companyCostPercentage);
 	}	
 }

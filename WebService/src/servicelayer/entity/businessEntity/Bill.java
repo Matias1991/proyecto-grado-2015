@@ -3,7 +3,6 @@ package servicelayer.entity.businessEntity;
 import java.util.ArrayList;
 import java.util.Date;
 
-import servicelayer.entity.valueObject.VOBill;
 import shared.exceptions.ServerException;
 import shared.interfaces.dataLayer.IDAOCharges;
 

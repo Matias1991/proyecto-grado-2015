@@ -3,7 +3,6 @@ package servicelayer.service.builder;
 import servicelayer.entity.businessEntity.Bill;
 import servicelayer.entity.businessEntity.IVA_Type;
 import servicelayer.entity.businessEntity.Project;
-import servicelayer.entity.businessEntity.UserStatus;
 import servicelayer.entity.valueObject.VOBill;
 
 public class BillBuilder extends BaseBuilder<VOBill, Bill>{

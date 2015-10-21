@@ -45,7 +45,7 @@ public class ProjectBuilder extends BaseBuilder<VOProject, Project> {
 
 	@Override
 	public Project BuildBusinessObject(VOProject voObject) {
-		// TODO Auto-generated method stub
+		
 		Project project = new Project();
 		project.setId(voObject.getId());
 		project.setName(voObject.getName());

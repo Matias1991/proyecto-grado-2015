@@ -155,7 +155,6 @@ public class DAOCharges implements IDAOCharges {
 
 	@Override
 	public boolean exist(int id) throws ServerException {
-		// TODO Auto-generated method stub
 		return false;
 	}
 

@@ -23,13 +23,13 @@ public class DAOGlobalConfigurations implements IDAOGlobalConfigurations{
 	
 	@Override
 	public int insert(GlobalConfiguration obj) throws ServerException {
-		// TODO Auto-generated method stub
+		
 		return 0;
 	}
 
 	@Override
 	public void delete(int id) throws ServerException {
-		// TODO Auto-generated method stub
+		
 		
 	}
 
@@ -59,7 +59,7 @@ public class DAOGlobalConfigurations implements IDAOGlobalConfigurations{
 
 	@Override
 	public boolean exist(int id) throws ServerException {
-		// TODO Auto-generated method stub
+		
 		return false;
 	}
 

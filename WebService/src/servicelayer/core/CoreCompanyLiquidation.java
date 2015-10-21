@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
-import datalayer.daos.DAOManager;
 import servicelayer.entity.businessEntity.Bill;
 import servicelayer.entity.businessEntity.Category;
 import servicelayer.entity.businessEntity.CategoryType;
@@ -17,10 +16,10 @@ import servicelayer.entity.businessEntity.ProjectEmployed;
 import servicelayer.entity.businessEntity.ProjectLiquidation;
 import servicelayer.entity.businessEntity.SalarySummary;
 import servicelayer.entity.businessEntity.User;
-import shared.ConfigurationProperties;
 import shared.exceptions.ClientException;
 import shared.exceptions.ServerException;
 import shared.interfaces.core.ICoreCompanyLiquidation;
+import datalayer.daos.DAOManager;
 
 public class CoreCompanyLiquidation implements ICoreCompanyLiquidation {
 

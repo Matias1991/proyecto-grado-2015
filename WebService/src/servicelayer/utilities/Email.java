@@ -16,7 +16,6 @@ import javax.mail.internet.MimeMultipart;
 
 import servicelayer.core.CoreGlobalConfiguration;
 import servicelayer.entity.businessEntity.User;
-import shared.ConfigurationProperties;
 import shared.exceptions.EmailException;
 import shared.exceptions.ServerException;
 

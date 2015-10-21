@@ -6,20 +6,18 @@ import java.util.Date;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
-import datalayer.daos.DAOManager;
 import servicelayer.entity.businessEntity.ChanelType;
 import servicelayer.entity.businessEntity.User;
 import servicelayer.entity.businessEntity.UserStatus;
 import servicelayer.entity.businessEntity.UserType;
-import servicelayer.entity.valueObject.VOUser;
 import servicelayer.utilities.Email;
 import servicelayer.utilities.HashMD5;
-import shared.ConfigurationProperties;
 import shared.exceptions.ClientException;
 import shared.exceptions.EmailException;
 import shared.exceptions.ServerException;
 import shared.interfaces.core.ICoreUser;
 import shared.interfaces.dataLayer.IDAOUsers;
+import datalayer.daos.DAOManager;
 
 public class CoreUser implements ICoreUser {
 
@@ -162,9 +160,8 @@ public class CoreUser implements ICoreUser {
 		User user = null;
 		DAOManager daoManager = new DAOManager();
 		try {
-			// tOdo: move this to UI
 			String hashPassword = HashMD5.Encrypt(password);
-			//
+			
 			user = daoManager.getDAOUsers().getUserByUserName(userName);
 			if (user != null) {
 				if (user.getUserStatus() == UserStatus.ACTIVE) {

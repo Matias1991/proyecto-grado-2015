@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import servicelayer.entity.businessEntity.Category;
-import servicelayer.entity.businessEntity.CategoryType;
 import servicelayer.entity.businessEntity.IVA_Type;
 import servicelayer.entity.businessEntity.User;
 import shared.exceptions.ClientException;

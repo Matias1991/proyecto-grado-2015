@@ -2,11 +2,8 @@ package servicelayer.core;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Date;
-
-import javax.annotation.processing.RoundEnvironment;
 
 import servicelayer.entity.businessEntity.Bill;
 import servicelayer.entity.businessEntity.Charge;
@@ -58,7 +55,7 @@ public class CoreCharge implements ICoreCharge {
 
 	@Override
 	public void deleteCharge(int id) throws ServerException, ClientException {
-		// TODO Auto-generated method stub
+		
 
 	}
 

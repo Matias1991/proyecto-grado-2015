@@ -36,7 +36,7 @@ public class CompanyLiquidationBuilder extends BaseBuilder<VOCompanyLiquidation,
 
 	@Override
 	public CompanyLiquidation BuildBusinessObject(VOCompanyLiquidation voObject) {
-		// TODO Auto-generated method stub
+		
 		return null;
 	}
 

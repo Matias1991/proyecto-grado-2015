@@ -9,14 +9,14 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
-import com.mysql.jdbc.Statement;
-
 import servicelayer.entity.businessEntity.Employed;
-import servicelayer.entity.businessEntity.ProjectEmployed;
 import servicelayer.entity.businessEntity.EmployedType;
+import servicelayer.entity.businessEntity.ProjectEmployed;
 import shared.LoggerMSMP;
 import shared.exceptions.ServerException;
 import shared.interfaces.dataLayer.IDAOEmployees;
+
+import com.mysql.jdbc.Statement;
 
 public class DAOEmployees implements IDAOEmployees {
 
@@ -137,7 +137,7 @@ public class DAOEmployees implements IDAOEmployees {
 
 	@Override
 	public boolean exist(int id) {
-		// TODO Auto-generated method stub
+		
 		return false;
 	}
 
