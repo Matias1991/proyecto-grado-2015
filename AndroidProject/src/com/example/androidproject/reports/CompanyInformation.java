@@ -6,8 +6,12 @@ import java.util.Calendar;
 import java.util.Date;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -55,21 +59,59 @@ public class CompanyInformation extends Activity {
 		final ReportsController reportController = new ReportsController(
 				getResources().getString(R.string.ip_server));
 		
-		try {
-			VOCompanyLiquidation voCompanyInformation =  reportController
-					.getCompanyInfo(format.parse(txtDate.getText().toString()), 2);
-			if(voCompanyInformation != null){
-				txtPartner1Name.setText(voCompanyInformation.getPartner1FullName());
-				txtPartner2Name.setText(voCompanyInformation.getPartner2FullName());
-				txtCompanyEarningsPartner1Dollar.setText("$ " + voCompanyInformation.getPartner1EarningsDollar());
-				txtCompanyEarningsPartner2Dollar.setText("U$S " + voCompanyInformation.getPartner2EarningsDollar());
-				txtCompanyEarningsPartner2.setText("$ " + String.valueOf(voCompanyInformation.getPartner2EarningsPeso()));
-				txtCompanyEarningsPartner1.setText("$ " + String.valueOf(voCompanyInformation.getPartner1EarningsPeso()));
-			}
-		} catch (Exception e1) {
-			e1.printStackTrace();
-		}
+	
+		txtDate.addTextChangedListener(new TextWatcher() {
 
+			@Override
+			public void afterTextChanged(Editable s) {
+			}
+
+			@Override
+			public void beforeTextChanged(CharSequence s, int start, int count,
+					int after) {
+			}
+
+			@Override
+			public void onTextChanged(CharSequence s, int start, int before,
+					int count) {
+				if (s.length() != 0){
+					try {
+						VOCompanyLiquidation voCompanyInformation =  reportController
+								.getCompanyInfo(format.parse(txtDate.getText().toString()), 2);
+						if(voCompanyInformation != null && voCompanyInformation.getPartner1FullName() != null){
+							txtPartner1Name.setText(voCompanyInformation.getPartner1FullName());
+							txtPartner2Name.setText(voCompanyInformation.getPartner2FullName());
+							txtCompanyEarningsPartner1Dollar.setText("U$S " + voCompanyInformation.getPartner1EarningsDollar());
+							txtCompanyEarningsPartner2Dollar.setText("U$S " + voCompanyInformation.getPartner2EarningsDollar());
+							txtCompanyEarningsPartner2.setText("$ " + String.valueOf(voCompanyInformation.getPartner2EarningsPeso()));
+							txtCompanyEarningsPartner1.setText("$ " + String.valueOf(voCompanyInformation.getPartner1EarningsPeso()));
+						}	else {
+							new AlertDialog.Builder(CompanyInformation.this)
+							.setTitle("Atención")
+							.setMessage("No hay información para mostrar")
+							.setPositiveButton(android.R.string.yes,
+											new DialogInterface.OnClickListener() {
+										public void onClick(DialogInterface dialog, int which) {
+										}
+									}).setIcon(android.R.drawable.ic_dialog_alert)
+							.show();
+						}
+					} catch (Exception e1) {
+						new AlertDialog.Builder(CompanyInformation.this)
+						.setTitle("Atención")
+						.setMessage("No hay información para mostrar")
+						.setPositiveButton(android.R.string.yes,
+										new DialogInterface.OnClickListener() {
+									public void onClick(DialogInterface dialog, int which) {
+									}
+								}).setIcon(android.R.drawable.ic_dialog_alert)
+						.show();
+					}
+				}
+					
+			}
+		});
+		
 		txtDate.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -105,9 +147,18 @@ public class CompanyInformation extends Activity {
 				int dayOfMonth) {
 			myCalendar.set(Calendar.YEAR, year);
 			myCalendar.set(Calendar.MONTH, monthOfYear);
+			updateLabel();
 		}
 
 	};
+
+	private void updateLabel() {
+
+		String myFormat = "MM-yyyy"; // In which you need put here
+		SimpleDateFormat sdf = new SimpleDateFormat(myFormat);
+
+		txtDate.setText(sdf.format(myCalendar.getTime()));
+	}
 
 	private DatePickerDialog createDialogWithoutDateField() {
 		DatePickerDialog dpd = new DatePickerDialog(this, date,

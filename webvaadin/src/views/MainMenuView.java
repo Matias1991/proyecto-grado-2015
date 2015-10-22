@@ -35,7 +35,7 @@ public class MainMenuView extends BaseView {
 		StringBuilder strBuilder = new StringBuilder();
 		strBuilder.append("<p><b>MSMP (Meerkat SYS Manage Project)</b> es un producto de software que tiene la finalidad de llevar a cabo la <br />gestión y liquidación de proyectos de la empresa, a través de los distintos módulos proporcionados por el sistema.<p>");
 		strBuilder.append("<p>Entre las principales funcionalidades ofrecidas por el sistema se encuentra el manejo de proyectos <br />y a partir de ellos poder realizar liquidaciones sobre los mismos.</p>");
-		strBuilder.append("<p>También cuenta con un módulo de <b>CMI (Control de Mando Integral)</b>, para que los socios de la empresa <br />puedan tener una perspectiva financiera real y medir cuantitativamente los resultados obtenidos.</p>");
+		strBuilder.append("<p>También cuenta con un módulo de <b>CMI (Cuadro de Mando Integral)</b>, para que los socios de la empresa <br />puedan tener una perspectiva financiera real y medir cuantitativamente los resultados obtenidos.</p>");
 		strBuilder.append("<p>En función del módulo <b>CMI</b> se permite evaluar los datos de la empresa a lo largo de un cierto período, mediante <br />la visualización de gráficas y tablas detalladas con los datos, para que luego esta información <br />pueda ser de ayuda en la toma de desiciones por los socios de la empresa.</p>");
 		label_Description.setValue(strBuilder.toString());
 	}

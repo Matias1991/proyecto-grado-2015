@@ -11,6 +11,8 @@ import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -37,8 +39,7 @@ public class ProjectInformation extends Activity {
 	UserSession session;
 
 	private Spinner projects;
-	private TextView txtPartner1Name, txtReserve, txtTotalBills,
-			txtPartner2Name, txtEarningsPartner1, txtEarningsPartner2, txtDate;
+	private TextView txtReserve, txtTotalBills, txtEarningsPartner1, txtEarningsPartner2, txtDate;
 	ArrayList<VOProject> listProjects;
 	Calendar myCalendar = Calendar.getInstance();
 
@@ -51,8 +52,6 @@ public class ProjectInformation extends Activity {
 		setContentView(R.layout.activity_project_information);
 		session = new UserSession(getApplicationContext());
 
-		txtPartner1Name = (TextView) findViewById(R.id.txtPartner1Name);
-		txtPartner2Name = (TextView) findViewById(R.id.txtPartner2Name);
 		txtEarningsPartner1 = (TextView) findViewById(R.id.txtEarningsPartner1);
 		txtEarningsPartner2 = (TextView) findViewById(R.id.txtEarningsPartner2);
 		txtReserve = (TextView) findViewById(R.id.txtReserve);
@@ -86,26 +85,17 @@ public class ProjectInformation extends Activity {
 												.getId());
 
 								if (projectList.size() > 0) {
-									txtPartner1Name.setVisibility(View.VISIBLE);
-									txtPartner2Name.setVisibility(View.VISIBLE);
 									for (VOProjectLiquidation voProjectLiquidation : projectList) {
-										txtPartner1Name.setText("Socio: "
-												+ voProjectLiquidation
-														.getPartner1Name()
-												+ " "
-												+ voProjectLiquidation
-														.getPartner1Lastname());
-										txtPartner2Name.setText("Socio: "
-												+ voProjectLiquidation
-														.getPartner2Name()
-												+ " "
-												+ voProjectLiquidation
-														.getPartner2Lastname());
+
+										String partner1FullName = voProjectLiquidation.getPartner1Name() + " " + 
+												voProjectLiquidation.getPartner1Lastname();
+										String partner2fullName = voProjectLiquidation.getPartner2Name()
+												+ " " + voProjectLiquidation.getPartner2Lastname();
 										if (voProjectLiquidation.isCurrencyDollar()) {
-											txtEarningsPartner1.setText("Ganancia: U$S "
+											txtEarningsPartner1.setText(partner1FullName + " U$S "
 													+ String.valueOf(voProjectLiquidation
 															.getPartner1Earning()));
-											txtEarningsPartner2.setText("Ganancia: U$S "
+											txtEarningsPartner2.setText( partner2fullName + " U$S "
 													+ String.valueOf(voProjectLiquidation
 															.getPartner2Earning()));
 											txtReserve.setText("Reserva: U$S "
@@ -115,10 +105,10 @@ public class ProjectInformation extends Activity {
 													+ String.valueOf(voProjectLiquidation
 															.getTotalBills()));
 										} else {
-											txtEarningsPartner1.setText("Ganancia: $ "
+											txtEarningsPartner1.setText(partner1FullName + " $ "
 													+ String.valueOf(voProjectLiquidation
 															.getPartner1Earning()));
-											txtEarningsPartner2.setText("Ganancia: $ "
+											txtEarningsPartner2.setText(partner2fullName + " $ "
 													+ String.valueOf(voProjectLiquidation
 															.getPartner2Earning()));
 											txtReserve.setText("Reserva: $ "
@@ -140,10 +130,7 @@ public class ProjectInformation extends Activity {
 							} catch (Exception e) {
 								e.printStackTrace();
 							}
-						} else {
-							txtPartner1Name.setText("");
-							txtPartner2Name.setText("");
-						}
+						} 
 					} catch (ParseException e) {
 						alert.showAlertDialog(ProjectInformation.this, "Error",
 								e.getMessage());
@@ -176,6 +163,26 @@ public class ProjectInformation extends Activity {
 			}
 		});
 
+		txtDate.addTextChangedListener(new TextWatcher() {
+
+			@Override
+			public void afterTextChanged(Editable s) {
+			}
+
+			@Override
+			public void beforeTextChanged(CharSequence s, int start, int count,
+					int after) {
+			}
+
+			@Override
+			public void onTextChanged(CharSequence s, int start, int before,
+					int count) {
+				if (s.length() != 0){
+					projects.setSelection(0);
+				}
+					
+			}
+		});
 	}
 	
 	private void updateLabel() {

@@ -38,9 +38,9 @@ public final class R {
         public static final int btnLogin=0x7f080033;
         public static final int btnLoginApp=0x7f080025;
         public static final int btnLogout=0x7f080037;
-        public static final int btnProjectInfo=0x7f08003f;
-        public static final int btnProjectsWithMoreEarningsDollar=0x7f080040;
-        public static final int btnProjectsWithMoreEarningsPeso=0x7f080041;
+        public static final int btnProjectInfo=0x7f080040;
+        public static final int btnProjectsWithMoreEarningsDollar=0x7f080041;
+        public static final int btnProjectsWithMoreEarningsPeso=0x7f08003f;
         public static final int btnReports=0x7f080036;
         public static final int chartRelativeLayout=0x7f080042;
         public static final int lblTitle=0x7f080026;

@@ -12,10 +12,10 @@
         android:id="@+id/txtDateInfoCompany"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
         android:layout_marginTop="8dp"
         android:ems="10"
-        android:hint="Seleccione al mes"
-        android:layout_centerHorizontal="true"
+        android:hint="Seleccione el mes"
         android:inputType="date" />
 
     <TableLayout
@@ -53,6 +53,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
+                    android:layout_marginLeft="12dp"
                     android:layout_marginTop="25dp"
                     android:text="" />
             </TableRow>
@@ -65,8 +66,8 @@
 
             <TableRow
                 android:id="@+id/tableRow6"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" >
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" >
 
                 <TextView
                     android:id="@+id/txtEmpty1"
@@ -87,8 +88,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
+                    android:layout_marginLeft="12dp"
                     android:layout_marginTop="18dp"
                     android:text="" />
+
             </TableRow>
         </TableRow>
 
@@ -113,16 +116,17 @@
 
             <TableRow
                 android:id="@+id/tableRow12"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" >
+                android:layout_width="wrap_content">
 
                 <TextView
                     android:id="@+id/txtCompanyEarningsPartner2"
-                    android:layout_width="57dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="41dp"
+                    android:layout_marginLeft="12dp"
                     android:layout_marginTop="25dp"
+                    android:layout_weight="1"
                     android:text="" />
+
             </TableRow>
         </TableRow>
 
@@ -155,8 +159,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
+                    android:layout_marginLeft="12dp"
                     android:layout_marginTop="18dp"
                     android:text="" />
+
             </TableRow>
         </TableRow>
     </TableLayout>
