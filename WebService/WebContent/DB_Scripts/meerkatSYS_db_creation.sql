@@ -123,7 +123,7 @@ CREATE TABLE IF NOT EXISTS Project
 
 CREATE TABLE IF NOT EXISTS Category
 (
-	Id                  INTEGER NOT NULL AUTO_INCREMENT,
+	Id                  INTEGER NOT NULL,
 	Version             INTEGER NOT NULL,
 	Name				VARCHAR(50) NULL,				
 	Description         VARCHAR(250) NULL,
@@ -156,7 +156,7 @@ CREATE TABLE IF NOT EXISTS Bill
 	AppliedDateTimeUTC  DATE NULL,
 	IsLiquidated		BIT NULL,
 	ProjectId			INTEGER NULL,
-	PRIMARY KEY (Id, ProjectId),
+	PRIMARY KEY (Id),
 	FOREIGN KEY FK_Bill_Project (ProjectId) REFERENCES Project (Id),
 	FOREIGN KEY FK_Bill_IVA_Type (IVA_TypeId) REFERENCES IVA_Type (Id)
 );
@@ -169,7 +169,7 @@ CREATE TABLE IF NOT EXISTS Charge
 	Amount	 			DECIMAL(10,2) NULL,
 	CreatedDateTimeUTC  DATETIME NULL,
 	BillId			INTEGER NULL,
-	PRIMARY KEY (Id, BillId),
+	PRIMARY KEY (Id),
 	UNIQUE KEY `number` (`Number`),
 	FOREIGN KEY FK_Charge_Bill (BillId) REFERENCES Bill (Id)
 );
