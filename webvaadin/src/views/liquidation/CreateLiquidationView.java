@@ -96,20 +96,15 @@ public class CreateLiquidationView extends BaseView {
 	private TextField txtTotalEarningsPeso;
 	private TextField txtTotalEarningsDollar;
 	// project
-	private TextField txtEarnings;
 	private TextField txtPartner1;
 	private TextField txtPartner2;
 	private TextField txtPartner1Distribution;
 	private TextField txtPartner2Distribution;
-	private TextField txtReserve;
-	private TextField txtSale;
 	private TextField txtSeller;
 	private TextField txtTotalBills;
 	private TextField txtTotalCostCategoriesHuman;
 	private TextField txtTotalCostCategoriesMaterial;
 	private TextField txtTotalCostEmployees;
-	private TextField txtPartner1Earnings;
-	private TextField txtPartner2Earnings;
 
 	private static final long serialVersionUID = 1L;
 
@@ -386,16 +381,6 @@ public class CreateLiquidationView extends BaseView {
 		txtPartner2.setHeight("-1px");
 		txtPartner2.setNullRepresentation("");
 
-		// txtEarnings
-		txtEarnings = new TextField();
-		txtEarnings.setCaption("Ganancia");
-		txtEarnings.setImmediate(true);
-		txtEarnings.setWidth("155px");
-		txtEarnings.setHeight("-1px");
-		txtEarnings.setNullRepresentation("");
-		txtEarnings.setLocale(Locale.US);
-		txtEarnings.setConverter(new StringToDoubleConverter());
-
 		// txtPartner1Distribution
 		txtPartner1Distribution = new TextField();
 		txtPartner1Distribution.setCaption("Distribución");
@@ -412,16 +397,6 @@ public class CreateLiquidationView extends BaseView {
 		txtPartner2Distribution.setHeight("-1px");
 		txtPartner2Distribution.setNullRepresentation("");
 
-		// txtReserve
-		txtReserve = new TextField();
-		txtReserve.setCaption("Reserva");
-		txtReserve.setImmediate(true);
-		txtReserve.setWidth("155px");
-		txtReserve.setHeight("-1px");
-		txtReserve.setNullRepresentation("");
-		txtReserve.setLocale(Locale.US);
-		txtReserve.setConverter(new StringToDoubleConverter());
-
 		// txtSeller
 		txtSeller = new TextField();
 		txtSeller.setCaption("Vendedor");
@@ -429,16 +404,6 @@ public class CreateLiquidationView extends BaseView {
 		txtSeller.setWidth("200px");
 		txtSeller.setHeight("-1px");
 		txtSeller.setNullRepresentation("");
-
-		// txtSale
-		txtSale = new TextField();
-		txtSale.setCaption("Venta");
-		txtSale.setImmediate(true);
-		txtSale.setWidth("155px");
-		txtSale.setHeight("-1px");
-		txtSale.setNullRepresentation("");
-		txtSale.setLocale(Locale.US);
-		txtSale.setConverter(new StringToDoubleConverter());
 
 		// txtTotalBills
 		txtTotalBills = new TextField();
@@ -480,26 +445,6 @@ public class CreateLiquidationView extends BaseView {
 		txtTotalCostEmployees.setNullRepresentation("");
 		txtTotalCostEmployees.setLocale(Locale.US);
 		txtTotalCostEmployees.setConverter(new StringToDoubleConverter());
-
-		// txtPartner1Earnings
-		txtPartner1Earnings = new TextField();
-		txtPartner1Earnings.setCaption("Ganancia socio");
-		txtPartner1Earnings.setImmediate(true);
-		txtPartner1Earnings.setWidth("155px");
-		txtPartner1Earnings.setHeight("-1px");
-		txtPartner1Earnings.setNullRepresentation("");
-		txtPartner1Earnings.setLocale(Locale.US);
-		txtPartner1Earnings.setConverter(new StringToDoubleConverter());
-
-		// txtPartner2Earnings
-		txtPartner2Earnings = new TextField();
-		txtPartner2Earnings.setCaption("Ganancia socio");
-		txtPartner2Earnings.setImmediate(true);
-		txtPartner2Earnings.setWidth("155px");
-		txtPartner2Earnings.setHeight("-1px");
-		txtPartner2Earnings.setNullRepresentation("");
-		txtPartner2Earnings.setLocale(Locale.US);
-		txtPartner2Earnings.setConverter(new StringToDoubleConverter());
 
 		// Compania
 		// txtCompanyCategory
@@ -777,20 +722,15 @@ public class CreateLiquidationView extends BaseView {
 		txtSalaryPartners.clear();
 		txtCompanyPartner1.clear();
 		txtCompanyPartner2.clear();
-		txtEarnings.clear();
 		txtPartner1.clear();
 		txtPartner2.clear();
 		txtPartner1Distribution.clear();
 		txtPartner2Distribution.clear();
-		txtReserve.clear();
-		txtSale.clear();
 		txtSeller.clear();
 		txtTotalBills.clear();
 		txtTotalCostCategoriesHuman.clear();
 		txtTotalCostCategoriesMaterial.clear();
 		txtTotalCostEmployees.clear();
-		txtPartner1Earnings.clear();
-		txtPartner2Earnings.clear();
 		txtTotalEarningsDollar.clear();
 		txtTotalEarningsPeso.clear();
 		readOnlyInputs(true);
@@ -834,19 +774,14 @@ public class CreateLiquidationView extends BaseView {
 			tab5 = new GridLayout(3, 9);
 			tab5.setSpacing(true);
 			tab5.addComponent(txtTotalBills, 0, 0);
-			tab5.addComponent(txtSeller, 1, 1, 2, 1);
-			tab5.addComponent(txtSale, 0, 1);
-			tab5.addComponent(txtReserve, 0, 2);
-			tab5.addComponent(txtTotalCostCategoriesHuman, 0, 3);
+			tab5.addComponent(txtSeller, 0, 1);
+			tab5.addComponent(txtTotalCostCategoriesHuman, 0, 2);
 			tab5.addComponent(txtTotalCostCategoriesMaterial, 0, 4);
 			tab5.addComponent(txtTotalCostEmployees, 0, 5);
-			tab5.addComponent(txtEarnings, 0, 6);
-			tab5.addComponent(txtPartner1, 2, 7);
-			tab5.addComponent(txtPartner1Distribution, 1, 7);
-			tab5.addComponent(txtPartner1Earnings, 0, 7);
-			tab5.addComponent(txtPartner2, 2, 8);
-			tab5.addComponent(txtPartner2Distribution, 1, 8);
-			tab5.addComponent(txtPartner2Earnings, 0, 8);
+			tab5.addComponent(txtPartner1, 0, 6);
+			tab5.addComponent(txtPartner1Distribution, 1, 6);
+			tab5.addComponent(txtPartner2, 0, 7);
+			tab5.addComponent(txtPartner2Distribution, 1, 7);
 			tabDetails.addTab(tab5, "Resumen");
 		}
 		if (companySummarySelected)
@@ -887,20 +822,15 @@ public class CreateLiquidationView extends BaseView {
 		txtSalaryPartners.setReadOnly(readOnly);
 		txtCompanyPartner1.setReadOnly(readOnly);
 		txtCompanyPartner2.setReadOnly(readOnly);
-		txtEarnings.setReadOnly(readOnly);
 		txtPartner1.setReadOnly(readOnly);
 		txtPartner2.setReadOnly(readOnly);
 		txtPartner1Distribution.setReadOnly(readOnly);
 		txtPartner2Distribution.setReadOnly(readOnly);
-		txtReserve.setReadOnly(readOnly);
-		txtSale.setReadOnly(readOnly);
 		txtSeller.setReadOnly(readOnly);
 		txtTotalBills.setReadOnly(readOnly);
 		txtTotalCostCategoriesHuman.setReadOnly(readOnly);
 		txtTotalCostCategoriesMaterial.setReadOnly(readOnly);
 		txtTotalCostEmployees.setReadOnly(readOnly);
-		txtPartner1Earnings.setReadOnly(readOnly);
-		txtPartner2Earnings.setReadOnly(readOnly);
 		txtTotalEarningsDollar.setReadOnly(readOnly);
 		txtTotalEarningsPeso.setReadOnly(readOnly);
 	}
@@ -999,19 +929,10 @@ public class CreateLiquidationView extends BaseView {
 							+ " " + projectLiquidation.getPartner1Lastname());
 					txtPartner1Distribution.setValue(projectLiquidation
 							.getPartner1Distribution());
-					txtPartner1Earnings.setConvertedValue(projectLiquidation
-							.getPartner1Earning());
 					txtPartner2.setValue(projectLiquidation.getPartner2Name()
 							+ " " + projectLiquidation.getPartner2Lastname());
 					txtPartner2Distribution.setValue(projectLiquidation
 							.getPartner2Distribution());
-					txtPartner2Earnings.setConvertedValue(projectLiquidation
-							.getPartner2Earning());
-					txtEarnings.setConvertedValue(projectLiquidation
-							.getEarnings());
-					txtReserve.setConvertedValue(projectLiquidation
-							.getReserve());
-					txtSale.setConvertedValue(projectLiquidation.getSale());
 					if (projectLiquidation.getProject().getSeller().getName() != null)
 						txtSeller.setValue(projectLiquidation.getProject()
 								.getSeller().getName()

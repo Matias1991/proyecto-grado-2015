@@ -149,6 +149,7 @@ public class CoreProjectLiquidation implements ICoreProjectLiquidation {
 				}
 				projectLiquidation.setEmployees(associatedEmployees);			
 				
+				
 				//Calcula la ganancia intermedia del proyecto
 				if(projectLiquidation.getTotalBills() == 0){
 					projectLiquidation.setEarnings(projectLiquidation.getTotalBills() - Math.abs(projectLiquidation.getTotalCostCategoriesHuman()) - Math.abs(projectLiquidation.getTotalCostCategoriesMaterial()));
@@ -156,18 +157,6 @@ public class CoreProjectLiquidation implements ICoreProjectLiquidation {
 						projectLiquidation.setEarnings(projectLiquidation.getTotalBills() - Math.abs(projectLiquidation.getTotalCostCategoriesHuman()) - Math.abs(projectLiquidation.getTotalCostCategoriesMaterial()) - Math.abs((projectLiquidation.getTotalCostEmployees())));				
 				}			
 				
-				//Calcula el importe de la reserva				
-				projectLiquidation.setReserve(projectLiquidation.getEarnings() * Double.parseDouble(CoreGlobalConfiguration.GetInstance().getConfigurationValueByCode("PERCENTAGE_RESERVE")));
-				projectLiquidation.setEarnings(projectLiquidation.getEarnings() - Math.abs(projectLiquidation.getReserve()));
-				
-				//Calcula el importe de la venta en caso de tener un vendedor
-				if(project.getSeller().getId() != 0)
-					projectLiquidation.setSale(projectLiquidation.getEarnings() * Double.parseDouble(CoreGlobalConfiguration.GetInstance().getConfigurationValueByCode("PERCENTAGE_SALE")));
-				else
-					projectLiquidation.setSale(0.0);
-				projectLiquidation.setEarnings(projectLiquidation.getEarnings() - Math.abs(projectLiquidation.getSale()));
-								
-				calculatePartnersEarnings(projectLiquidation, 0, typeExchange, to);
 			}else
 				throw new ClientException("El proyecto seleccionado no existe en el período");
 			
@@ -179,7 +168,7 @@ public class CoreProjectLiquidation implements ICoreProjectLiquidation {
 		}
 		return projectLiquidation;
 	}	
-		
+	
 	@Override
 	public ArrayList<ProjectLiquidation> getProjectsLiquidationsByDate(Date month) throws ServerException, ClientException{
 		DAOManager daoManager = new DAOManager();
@@ -220,13 +209,24 @@ public class CoreProjectLiquidation implements ICoreProjectLiquidation {
 			Date toPlusOne = cal.getTime();
 						
 			projectLiquidation.getProject().setiDAOProjectEmployees(daoManager.getDAOEmployedProjects());
-			
+
 			//obtener la ganancia
 			if(projectLiquidation.isCurrencyDollar())
 				projectLiquidation.setEarnings(projectLiquidation.getEarnings() - (companyCostToSubstract/typeExchange));
 			else
 				projectLiquidation.setEarnings(projectLiquidation.getEarnings() - companyCostToSubstract);
 			
+			//Calcula el importe de la reserva				
+			projectLiquidation.setReserve(projectLiquidation.getEarnings() * Double.parseDouble(CoreGlobalConfiguration.GetInstance().getConfigurationValueByCode("PERCENTAGE_RESERVE")));
+			projectLiquidation.setEarnings(projectLiquidation.getEarnings() - Math.abs(projectLiquidation.getReserve()));
+			
+			//Calcula el importe de la venta en caso de tener un vendedor
+			if(projectLiquidation.getProject().getSeller().getId() != 0)
+				projectLiquidation.setSale(projectLiquidation.getEarnings() * Double.parseDouble(CoreGlobalConfiguration.GetInstance().getConfigurationValueByCode("PERCENTAGE_SALE")));
+			else
+				projectLiquidation.setSale(0.0);
+			projectLiquidation.setEarnings(projectLiquidation.getEarnings() - Math.abs(projectLiquidation.getSale()));
+				
 			//Calcula la distribucion de la ganancias para cada unoa de los socios
 			if(projectLiquidation.getEarnings() > 0){			
 				projectLiquidation.setPartner1Earning(getPartnerEarning(projectLiquidation.getEarnings(), projectLiquidation.getPartner1().getDistributionType()));
