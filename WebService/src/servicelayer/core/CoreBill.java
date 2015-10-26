@@ -182,13 +182,13 @@ public class CoreBill implements ICoreBill {
 	}
 	
 	@Override
-	public ArrayList<Bill> getBills(Date date, int projectId)
+	public ArrayList<Bill> getBills(Date date, boolean isCurrencyDollar)
 			throws ServerException {
 		ArrayList<Bill> bills;
 
 		DAOManager daoManager = new DAOManager();
 		try {
-			bills = daoManager.getDAOBills().getBills(date, projectId);
+			bills = daoManager.getDAOBills().getBills(date, isCurrencyDollar);
 
 			for (Bill bill : bills) {
 				buildTotalAmountAndTotalCharged(bill);

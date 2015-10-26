@@ -93,6 +93,22 @@
             }
                 
            /**
+            * auto generated Axis2 call back method for getAllBillsByYear method
+            * override this method for handling normal response from getAllBillsByYear operation
+            */
+           public void receiveResultgetAllBillsByYear(
+                    servicelayer.service.ServiceWebStub.GetAllBillsByYearResponse result
+                        ) {
+           }
+
+          /**
+           * auto generated Axis2 Error handler
+           * override this method for handling error response from getAllBillsByYear operation
+           */
+            public void receiveErrorgetAllBillsByYear(java.lang.Exception e) {
+            }
+                
+           /**
             * auto generated Axis2 call back method for updateBill method
             * override this method for handling normal response from updateBill operation
             */
@@ -109,22 +125,6 @@
             }
                 
            /**
-            * auto generated Axis2 call back method for unlockUser method
-            * override this method for handling normal response from unlockUser operation
-            */
-           public void receiveResultunlockUser(
-                    servicelayer.service.ServiceWebStub.UnlockUserResponse result
-                        ) {
-           }
-
-          /**
-           * auto generated Axis2 Error handler
-           * override this method for handling error response from unlockUser operation
-           */
-            public void receiveErrorunlockUser(java.lang.Exception e) {
-            }
-                
-           /**
             * auto generated Axis2 call back method for getBills method
             * override this method for handling normal response from getBills operation
             */
@@ -138,6 +138,22 @@
            * override this method for handling error response from getBills operation
            */
             public void receiveErrorgetBills(java.lang.Exception e) {
+            }
+                
+           /**
+            * auto generated Axis2 call back method for unlockUser method
+            * override this method for handling normal response from unlockUser operation
+            */
+           public void receiveResultunlockUser(
+                    servicelayer.service.ServiceWebStub.UnlockUserResponse result
+                        ) {
+           }
+
+          /**
+           * auto generated Axis2 Error handler
+           * override this method for handling error response from unlockUser operation
+           */
+            public void receiveErrorunlockUser(java.lang.Exception e) {
             }
                 
            /**
@@ -746,22 +762,6 @@
            * override this method for handling error response from getProjectLiquidations operation
            */
             public void receiveErrorgetProjectLiquidations(java.lang.Exception e) {
-            }
-                
-           /**
-            * auto generated Axis2 call back method for getAllBillsByYearAndProject method
-            * override this method for handling normal response from getAllBillsByYearAndProject operation
-            */
-           public void receiveResultgetAllBillsByYearAndProject(
-                    servicelayer.service.ServiceWebStub.GetAllBillsByYearAndProjectResponse result
-                        ) {
-           }
-
-          /**
-           * auto generated Axis2 Error handler
-           * override this method for handling error response from getAllBillsByYearAndProject operation
-           */
-            public void receiveErrorgetAllBillsByYearAndProject(java.lang.Exception e) {
             }
                 
            /**

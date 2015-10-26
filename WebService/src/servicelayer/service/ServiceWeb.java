@@ -877,13 +877,13 @@ public class ServiceWeb extends ServiceBase {
 	}
 	
 	//Utilizado esta operacion para reportes por lo cual no tiene userContextId
-	public VOBill[] getAllBillsByYearAndProject(Date date, int projectId) {
+	public VOBill[] getAllBillsByYear(Date date, boolean isCurrencyDollar) {
 		try {
 			transactionLock.tryLock(Constants.DEFAULT_TRANSACTION_TIME,
 					TimeUnit.SECONDS);
 
 			return billBuilder.BuildArrayVOObject(VOBill.class,
-					iCoreBill.getBills(date, projectId));
+					iCoreBill.getBills(date, isCurrencyDollar));
 
 		} catch (ServerException e) {
 			ThrowServerExceptionAndLogError(e, "obtener todas las facturas");

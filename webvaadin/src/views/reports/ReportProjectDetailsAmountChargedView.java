@@ -1,30 +1,9 @@
 package views.reports;
 
-import java.lang.reflect.Array;
+import java.text.DecimalFormat;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.HashMap;
-
-import org.dussan.vaadin.dcharts.DCharts;
-import org.dussan.vaadin.dcharts.base.elements.XYaxis;
-import org.dussan.vaadin.dcharts.base.elements.XYseries;
-import org.dussan.vaadin.dcharts.data.DataSeries;
-import org.dussan.vaadin.dcharts.data.Ticks;
-import org.dussan.vaadin.dcharts.metadata.LegendPlacements;
-import org.dussan.vaadin.dcharts.metadata.SeriesToggles;
-import org.dussan.vaadin.dcharts.metadata.TooltipAxes;
-import org.dussan.vaadin.dcharts.metadata.XYaxes;
-import org.dussan.vaadin.dcharts.metadata.locations.TooltipLocations;
-import org.dussan.vaadin.dcharts.metadata.renderers.AxisRenderers;
-import org.dussan.vaadin.dcharts.metadata.renderers.SeriesRenderers;
-import org.dussan.vaadin.dcharts.options.Axes;
-import org.dussan.vaadin.dcharts.options.Highlighter;
-import org.dussan.vaadin.dcharts.options.Legend;
-import org.dussan.vaadin.dcharts.options.Options;
-import org.dussan.vaadin.dcharts.options.Series;
-import org.dussan.vaadin.dcharts.options.SeriesDefaults;
-import org.dussan.vaadin.dcharts.renderers.legend.EnhancedLegendRenderer;
-import org.dussan.vaadin.dcharts.renderers.tick.AxisTickRenderer;
 
 import views.BaseView;
 
@@ -34,14 +13,13 @@ import com.vaadin.data.Property.ValueChangeListener;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
 import com.vaadin.shared.ui.datefield.Resolution;
 import com.vaadin.ui.AbsoluteLayout;
-import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.PopupDateField;
+import com.vaadin.ui.Table;
 
 import controllers.BillController;
-import controllers.ProjectController;
 import entities.Bill;
-import entities.Project;
+import entities.Category;
 import entities.ReportAmountCharged;
 import entities.RequestContext;
 
@@ -55,10 +33,9 @@ public class ReportProjectDetailsAmountChargedView extends BaseView {
 	private AbsoluteLayout mainLayout;
 	private PopupDateField popupDateFieldYear;
 	private Label lblTitle;
-	private ComboBox cboxProject;
-	private DCharts chart;
-	private Collection<Project> projects;
 	private Label lblMessage;
+	private Table tablePeso;
+	private Table tableDollar;
 	/**
 	 * The constructor should first build the main layout, set the
 	 * composition root and then do any custom initialization.
@@ -76,36 +53,12 @@ public class ReportProjectDetailsAmountChargedView extends BaseView {
 		lblMessage = new Label("");
 		mainLayout.addComponent(lblMessage, "top:155.0px;left:0.0px;");
 		
-		cboxProject.addValueChangeListener(new ValueChangeListener() {
-
-			@Override
-			public void valueChange(ValueChangeEvent event) {
-				if (cboxProject.getValue() != null && popupDateFieldYear.getValue() != null) {
-					int id = (int) cboxProject.getValue();
-					
-					Project project = getProjectById(id);
-					if(project.getIsCurrencyDollar())
-						buildChartDollar(id);
-					else
-						
-						buildChartPeso(id);
-				}
-			}
-		});
-		
 		popupDateFieldYear.addValueChangeListener(new ValueChangeListener() {
 
 			@Override
 			public void valueChange(ValueChangeEvent event) {
-				if (cboxProject.getValue() != null && popupDateFieldYear.getValue() != null) {
-					int id = (int) cboxProject.getValue();
-					
-					Project project = getProjectById(id);
-					if(project.getIsCurrencyDollar())
-						buildChartDollar(id);
-					else
-						
-						buildChartPeso(id);
+				if (popupDateFieldYear.getValue() != null) {
+					buildTables();
 				}
 			}
 		});
@@ -118,225 +71,166 @@ public class ReportProjectDetailsAmountChargedView extends BaseView {
 		popupDateFieldYear.setValue(cal.getTime());
 		popupDateFieldYear.setDateFormat("yyyy");
 		popupDateFieldYear.setResolution(Resolution.YEAR);
-		
-		if (chart != null) {
-			mainLayout.removeComponent(chart);
-		}
 	}
-	
-	DCharts buildChart(Collection<Bill> bills, String currency)
+
+	void buildTables()
 	{
-		DataSeries dataSeries = new DataSeries();
+		if(tablePeso != null)
+			mainLayout.removeComponent(tablePeso);
+		if(tableDollar != null)
+			mainLayout.removeComponent(tableDollar);
 		
-		Bill[] array = (Bill[]) Array.newInstance(Bill.class, bills.size());
-		bills.toArray(array);
+		tablePeso = null;
+		tableDollar = null;
 		
-		HashMap<Integer, ReportAmountCharged> projectLiquidationsByMonth = buildReport(array);
-		
-		dataSeries.add(projectLiquidationsByMonth.get(0).getTotalAmount(), 
-					   projectLiquidationsByMonth.get(1).getTotalAmount(), 
-					   projectLiquidationsByMonth.get(2).getTotalAmount(),
-					   projectLiquidationsByMonth.get(3).getTotalAmount(),
-					   projectLiquidationsByMonth.get(4).getTotalAmount(),
-					   projectLiquidationsByMonth.get(5).getTotalAmount(),
-					   projectLiquidationsByMonth.get(6).getTotalAmount(),
-					   projectLiquidationsByMonth.get(7).getTotalAmount(),
-					   projectLiquidationsByMonth.get(8).getTotalAmount(),
-					   projectLiquidationsByMonth.get(9).getTotalAmount(),
-					   projectLiquidationsByMonth.get(10).getTotalAmount(),
-					   projectLiquidationsByMonth.get(11).getTotalAmount());
-		
-		dataSeries.add(projectLiquidationsByMonth.get(0).getAmountCharged(), 
-					   projectLiquidationsByMonth.get(1).getAmountCharged(), 
-					   projectLiquidationsByMonth.get(2).getAmountCharged(),
-					   projectLiquidationsByMonth.get(3).getAmountCharged(),
-					   projectLiquidationsByMonth.get(4).getAmountCharged(),
-					   projectLiquidationsByMonth.get(5).getAmountCharged(),
-					   projectLiquidationsByMonth.get(6).getAmountCharged(),
-					   projectLiquidationsByMonth.get(7).getAmountCharged(),
-					   projectLiquidationsByMonth.get(8).getAmountCharged(),
-					   projectLiquidationsByMonth.get(9).getAmountCharged(),
-					   projectLiquidationsByMonth.get(10).getAmountCharged(),
-					   projectLiquidationsByMonth.get(11).getAmountCharged());
-		
-		dataSeries.add(projectLiquidationsByMonth.get(0).getAmountReceivable(), 
-					   projectLiquidationsByMonth.get(1).getAmountReceivable(), 
-					   projectLiquidationsByMonth.get(2).getAmountReceivable(),
-					   projectLiquidationsByMonth.get(3).getAmountReceivable(),
-					   projectLiquidationsByMonth.get(4).getAmountReceivable(),
-					   projectLiquidationsByMonth.get(5).getAmountReceivable(),
-					   projectLiquidationsByMonth.get(6).getAmountReceivable(),
-					   projectLiquidationsByMonth.get(7).getAmountReceivable(),
-					   projectLiquidationsByMonth.get(8).getAmountReceivable(),
-					   projectLiquidationsByMonth.get(9).getAmountReceivable(),
-					   projectLiquidationsByMonth.get(10).getAmountReceivable(),
-					   projectLiquidationsByMonth.get(11).getAmountReceivable());
-		
-		SeriesDefaults seriesDefaults = new SeriesDefaults()
-			.setFillToZero(true)
-			.setRenderer(SeriesRenderers.BAR);
-
-		Series series = new Series()
-			.addSeries(
-				new XYseries()
-					.setLabel("Total facturación IVA incl. "))
-		.addSeries(
-				new XYseries()
-					.setLabel("Total importe cobrado"))
-		.addSeries(
-				new XYseries()
-					.setLabel("Total importe a cobrar"));
-		
-		Legend legend = new Legend()
-			.setShow(true)
-			.setRendererOptions(
-				new EnhancedLegendRenderer()
-					.setSeriesToggle(SeriesToggles.SLOW)
-					.setSeriesToggleReplot(true))
-			.setPlacement(LegendPlacements.OUTSIDE_GRID);
-
-		Highlighter highlighter = new Highlighter()
-			.setShow(true)
-			.setShowTooltip(true)
-			.setTooltipAlwaysVisible(true)
-			.setKeepTooltipInsideChart(true)
-			.setTooltipLocation(TooltipLocations.NORTH)
-			.setTooltipAxes(TooltipAxes.XY_BAR);
-		
-		Axes axes = new Axes()
-			.addAxis(
-				new XYaxis()
-					.setRenderer(AxisRenderers.CATEGORY)
-					.setTicks(
-		                new Ticks()
-		                    .add("Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Set", "Oct", "Nov", "Dic")))
-			.addAxis(
-				new XYaxis(XYaxes.Y)
-					.setPad(1.05f)
-					.setTickOptions(
-						new AxisTickRenderer()
-							.setFormatString(currency + " %d")));
-
-		Options options = new Options()
-			.setSeriesDefaults(seriesDefaults)
-			.setSeries(series)
-			.setLegend(legend)
-			.setHighlighter(highlighter)
-			.setAxes(axes);
-
-		return new DCharts()
-			.setDataSeries(dataSeries)
-			.setOptions(options)
-			.show();
+		boolean buildTablePeso = buildTablePeso();
+		boolean buildTableDollar = buildTableDollar();
+		if(!buildTablePeso && !buildTableDollar)
+			lblMessage.setValue("No hay datos en el mes seleccionado para mostrar");
+		else
+			lblMessage.setValue("");
 	}
 	
-	public void buildChartPeso(int projectId){
-
-		if (chart != null) {
-			mainLayout.removeComponent(chart);
-		}
-		
-		//Chart pesos
-		Collection<Bill> bills =  BillController.getAllBillsByYearAndProject(popupDateFieldYear.getValue(), projectId);
+	boolean buildTablePeso()
+	{
+		HashMap<Integer, ReportAmountCharged> bills = buildReport(BillController.getAllBillsByYear(popupDateFieldYear.getValue(), false));
 		
 		if(bills.size() > 0)
-		{	
-			lblMessage.setValue("");
+		{
+			tablePeso = buildTable(bills, false, "Tipo de Moneda - $");
+		
+			tablePeso.setWidth(49, Unit.PERCENTAGE);
+		
+			mainLayout.addComponent(tablePeso, "top:20%;left:0px;");
 			
-			chart = buildChart(bills, "$");
+			return true;
+		}
+		else
+			return false;
+	}
+	
+	boolean buildTableDollar()
+	{
+		HashMap<Integer, ReportAmountCharged> bills = buildReport(BillController.getAllBillsByYear(popupDateFieldYear.getValue(), true));
+
+		if(bills.size() > 0)
+		{
+			tableDollar = buildTable(bills, true, "Tipo de Moneda - U$S");
+		
+			tableDollar.setWidth(440, Unit.PIXELS);
 			
-			chart.setWidth(100, Unit.PERCENTAGE);
-			chart.setHeight(350, Unit.PIXELS);
+			if(tablePeso != null)
+				mainLayout.addComponent(tableDollar, "top:20%;left:50%;");
+			else
+				mainLayout.addComponent(tableDollar, "top:20%;left:0px;");
 			
-			mainLayout.addComponent(chart, "top:19%;left:0px;");
+			return true;
+		}
+		else
+			return false;
+	}
+	
+	Table buildTable(HashMap<Integer, ReportAmountCharged> result, boolean isCurrencyDollar, String titleTable)
+	{
+		Table table = new Table(titleTable);
+		table.addContainerProperty("Proyecto", String.class, null);
+		table.addContainerProperty("Importe cobrado", String.class, null);
+		table.addContainerProperty("Importe a cobrar", String.class, null);
+		table.addContainerProperty("Facturación IVA incl.", String.class, null);
+		
+		double totalAmount = 0, totalAmountCharged = 0, totalAmountReceivable = 0;
+		String totalAmountToShow = null, totalAmountChargedToShow = null, totalAmountReceivableToShow = null;
+		int i = 2;
+		for(ReportAmountCharged value : result.values())
+		{
+			String amountToShow = null, amountChargedToShow = null, amountReceivableToShow = null;
+
+			totalAmount += value.getTotalAmount();
+			totalAmountCharged += value.getAmountCharged();
+			totalAmountReceivable += value.getAmountReceivable();
+			
+			if(isCurrencyDollar)
+			{
+				amountToShow = new DecimalFormat("U$S ###,###.###").format(value.getTotalAmount());
+				amountChargedToShow = new DecimalFormat("U$S ###,###.###").format(value.getAmountCharged());
+				amountReceivableToShow = new DecimalFormat("U$S ###,###.###").format(value.getAmountReceivable());
+			}
+			else
+			{
+				amountToShow = new DecimalFormat("$ ###,###.###").format(value.getTotalAmount());
+				amountChargedToShow = new DecimalFormat("$ ###,###.###").format(value.getAmountCharged());
+				amountReceivableToShow = new DecimalFormat("$ ###,###.###").format(value.getAmountReceivable());
+			}
+			
+			table.addItem(new Object [] {value.getProjectName(), amountChargedToShow, amountReceivableToShow , amountToShow}, i);
+			i++;
+		}
+		
+		if(isCurrencyDollar)
+		{
+			totalAmountToShow = new DecimalFormat("U$S ###,###.###").format(totalAmount);
+			totalAmountChargedToShow = new DecimalFormat("U$S ###,###.###").format(totalAmountCharged);
+			totalAmountReceivableToShow = new DecimalFormat("U$S ###,###.###").format(totalAmountReceivable);
 		}
 		else
 		{
-			lblMessage.setValue("No hay datos en el año seleccionado para ese proyecto");
+			totalAmountToShow = new DecimalFormat("$ ###,###.###").format(totalAmount);
+			totalAmountChargedToShow = new DecimalFormat("$ ###,###.###").format(totalAmountCharged);
+			totalAmountReceivableToShow = new DecimalFormat("$ ###,###.###").format(totalAmountReceivable);
 		}
+		
+		// Set the footers
+		table.setFooterVisible(true);
+		table.setColumnFooter("Proyecto", "Total");
+		table.setColumnFooter("Importe cobrado", totalAmountChargedToShow);
+		table.setColumnFooter("Importe a cobrar", totalAmountReceivableToShow);
+		table.setColumnFooter("Facturación IVA incl.", totalAmountToShow);
+		
+		if(table.size() > 10)
+		{
+			// Adjust the table height a bit
+			table.setPageLength(10);
+		}
+		else
+			table.setPageLength(table.size());
+			
+		return table;
 	}
 	
-	void buildChartDollar(int projectId){
-		
-		if (chart != null) {
-			mainLayout.removeComponent(chart);
-		}
-		
-		//Chart dolares
-		Collection<Bill> bills =  BillController.getAllBillsByYearAndProject(popupDateFieldYear.getValue(), projectId);
-								
-		if(bills.size() > 0)
-		{	
-			lblMessage.setValue("");
-			
-			chart = buildChart(bills, "U$S");
-			
-			chart.setWidth(100, Unit.PERCENTAGE);
-			chart.setHeight(350, Unit.PIXELS);
-			
-			mainLayout.addComponent(chart, "top:19%;left:0px;");
-		}
-		else 
-		{
-			lblMessage.setValue("No hay datos en el año seleccionado para ese proyecto");
-		}
-	}
-
-	HashMap<Integer, ReportAmountCharged> buildReport(Bill[] bills)
+	HashMap<Integer, ReportAmountCharged> buildReport(Collection<Bill> bills)
 	{
-		HashMap<Integer, ReportAmountCharged> reportByMonth = new HashMap<Integer, ReportAmountCharged>();
-		reportByMonth.put(0, new ReportAmountCharged());
-		reportByMonth.put(1, new ReportAmountCharged());
-		reportByMonth.put(2, new ReportAmountCharged());
-		reportByMonth.put(3, new ReportAmountCharged());
-		reportByMonth.put(4, new ReportAmountCharged());
-		reportByMonth.put(5, new ReportAmountCharged());
-		reportByMonth.put(6, new ReportAmountCharged());
-		reportByMonth.put(7, new ReportAmountCharged());
-		reportByMonth.put(8, new ReportAmountCharged());
-		reportByMonth.put(9, new ReportAmountCharged());
-		reportByMonth.put(10, new ReportAmountCharged());
-		reportByMonth.put(11, new ReportAmountCharged());
+		HashMap<Integer, ReportAmountCharged> result = new HashMap<Integer, ReportAmountCharged>();
 		
-		for(int i = 0; i< bills.length; i++)
+		for(Bill bill : bills)
 		{
-			int month = bills[i].getAppliedDateTimeUTC().getMonth();
-			
-			ReportAmountCharged aux = reportByMonth.get(month);
-			double amountCharged = aux.getAmountCharged() + bills[i].getAmountCharged();
-			double totalAmount = aux.getTotalAmount() + bills[i].getTotalAmount();
-			double receivable = aux.getAmountReceivable() + bills[i].getAmountReceivable();
-			reportByMonth.put(month, new ReportAmountCharged(totalAmount, amountCharged, receivable));
-		}
-
-		return reportByMonth;
-	}
-
-	Project getProjectById(int id)
-	{
-		for(Project p : projects)
-		{
-			if(p.getId() == id)
+			if(!result.containsKey(bill.getProjectId()))
 			{
-				return p;
+				ReportAmountCharged aux = new ReportAmountCharged();
+				aux.setAmountCharged(bill.getAmountCharged());
+				aux.setTotalAmount(bill.getTotalAmount());
+				aux.setAmountReceivable(bill.getAmountReceivable());
+				aux.setProjectName(bill.getProjectName());
+				result.put(bill.getProjectId(), aux);
+			}
+			else
+			{
+				ReportAmountCharged aux = result.get(bill.getProjectId());
+				double amountCharged = aux.getAmountCharged() + bill.getAmountCharged();
+				double totalAmount = aux.getTotalAmount() + bill.getTotalAmount();
+				double receivable = aux.getAmountReceivable() + bill.getAmountReceivable();
+				result.put(bill.getProjectId(), new ReportAmountCharged(bill.getProjectName(), totalAmount, amountCharged, receivable));
 			}
 		}
-		return null;
+
+		return result;
 	}
 	
 	@Override
 	public void enter(ViewChangeEvent event) {
 		super.enter(event);
 		if(RequestContext.getRequestContext() != null){
-			projects = ProjectController.getActiveProjects();
-			cboxProject.removeAllItems();
-			for(Project project : projects)
-			{
-				cboxProject.addItem(project.getId());
-				cboxProject.setItemCaption(project.getId(), project.getName());
-			}
-			
 			buildInputs();
+			buildTables();
 		}
 	}
 	
@@ -371,17 +265,6 @@ public class ReportProjectDetailsAmountChargedView extends BaseView {
 		popupDateFieldYear.setRequired(true);
 		mainLayout.addComponent(popupDateFieldYear, "top:105.0px;left:0.0px;");
 		
-		// cboxProject
-		cboxProject = new ComboBox();
-		cboxProject.setCaption("Proyecto");
-		cboxProject.setImmediate(true);
-		cboxProject.setWidth("245px");
-		cboxProject.setHeight("-1px");
-		cboxProject.setRequired(true);
-		cboxProject.setInputPrompt("Seleccione el proyecto");
-		cboxProject.setTabIndex(3);
-		mainLayout.addComponent(cboxProject, "top:105.0px;left:120.0px;");
-
 		return mainLayout;
 	}
 

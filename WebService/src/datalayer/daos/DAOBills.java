@@ -364,7 +364,7 @@ public class DAOBills implements IDAOBills {
 	}
 	
 	@Override
-	public ArrayList<Bill> getBills(Date date, int projectId)
+	public ArrayList<Bill> getBills(Date date, boolean isCurrencyDollar)
 			throws ServerException {
 		ArrayList<Bill> bills = new ArrayList<Bill>();
 		PreparedStatement preparedStatement = null;
@@ -374,14 +374,14 @@ public class DAOBills implements IDAOBills {
 			StringBuilder sql = new StringBuilder();
 			sql.append("SELECT B.*, P.Name as ProjectName, P.Closed as ProjectClosed FROM BILL B ");
 			sql.append("INNER JOIN PROJECT P ON P.Id = B.ProjectId ");
-			sql.append("WHERE B.ProjectId =  ? ");
-			sql.append("AND year(B.AppliedDateTimeUTC) = year(?) ");
+			sql.append("WHERE year(B.AppliedDateTimeUTC) = year(?) ");
+			sql.append("AND B.IsCurrencyDollar = ? ");
 			sql.append("ORDER BY B.AppliedDateTimeUTC DESC");
 
 			preparedStatement = this.connection
 					.prepareStatement(sql.toString());
-			preparedStatement.setInt(1, projectId);
-			preparedStatement.setTimestamp(2, new Timestamp(setFirstDayOfMonth(date).getTime()));
+			preparedStatement.setTimestamp(1, new Timestamp(setFirstDayOfMonth(date).getTime()));
+			preparedStatement.setBoolean(2, isCurrencyDollar);
 
 			rs = preparedStatement.executeQuery();
 

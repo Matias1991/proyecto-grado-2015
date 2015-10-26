@@ -10,7 +10,7 @@ import org.apache.axis2.AxisFault;
 import servicelayer.service.ServiceWebStub;
 import servicelayer.service.ServiceWebStub.DeleteBills;
 import servicelayer.service.ServiceWebStub.GetAllBillsByFilters;
-import servicelayer.service.ServiceWebStub.GetAllBillsByYearAndProject;
+import servicelayer.service.ServiceWebStub.GetAllBillsByYear;
 import servicelayer.service.ServiceWebStub.GetBills;
 import servicelayer.service.ServiceWebStub.GetBillsByFilters;
 import servicelayer.service.ServiceWebStub.GetBillsByFiltersWithCharges;
@@ -156,18 +156,18 @@ public class BillController {
 		return bills;
 	}
 	
-	public static Collection<Bill> getAllBillsByYearAndProject(Date date, int projectId)
+	public static Collection<Bill> getAllBillsByYear(Date date, boolean isCurrencyDollar)
 	{
 		Collection<Bill> bills = new ArrayList<Bill>();
 		
 		try {
 			ServiceWebStub service = new ServiceWebStub();
-			GetAllBillsByYearAndProject getAllBillsByYearAndProject = new GetAllBillsByYearAndProject();
+			GetAllBillsByYear getAllBillsByYear = new GetAllBillsByYear();
 			
-			getAllBillsByYearAndProject.setDate(date);
-			getAllBillsByYearAndProject.setProjectId(projectId);
+			getAllBillsByYear.setDate(date);
+			getAllBillsByYear.setIsCurrencyDollar(isCurrencyDollar);
 			
-			VOBill [] voBills = service.getAllBillsByYearAndProject(getAllBillsByYearAndProject).get_return();
+			VOBill [] voBills = service.getAllBillsByYear(getAllBillsByYear).get_return();
 
 			if(voBills != null)
 			{
