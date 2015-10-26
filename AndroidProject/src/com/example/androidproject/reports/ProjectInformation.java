@@ -1,5 +1,6 @@
 package com.example.androidproject.reports;
 
+import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -92,31 +93,23 @@ public class ProjectInformation extends Activity {
 										String partner2fullName = voProjectLiquidation.getPartner2Name()
 												+ " " + voProjectLiquidation.getPartner2Lastname();
 										if (voProjectLiquidation.isCurrencyDollar()) {
-											txtEarningsPartner1.setText(partner1FullName + " U$S "
-													+ String.valueOf(voProjectLiquidation
-															.getPartner1Earning()));
-											txtEarningsPartner2.setText( partner2fullName + " U$S "
-													+ String.valueOf(voProjectLiquidation
-															.getPartner2Earning()));
-											txtReserve.setText("Reserva: U$S "
-													+ String.valueOf(voProjectLiquidation
-															.getReserve()));
-											txtTotalBills.setText("Facturación total: U$S "
-													+ String.valueOf(voProjectLiquidation
-															.getTotalBills()));
+											txtEarningsPartner1.setText(partner1FullName + " "
+													+ new DecimalFormat("U$S ###,###.###").format(voProjectLiquidation.getPartner1Earning()));
+											txtEarningsPartner2.setText( partner2fullName + " "
+													+ new DecimalFormat("U$S ###,###.###").format(voProjectLiquidation.getPartner2Earning()));
+											txtReserve.setText("Reserva: "
+													+ new DecimalFormat("U$S ###,###.###").format(voProjectLiquidation.getReserve()));
+											txtTotalBills.setText("Facturación total: "
+													+ new DecimalFormat("U$S ###,###.###").format(voProjectLiquidation.getTotalBills()));
 										} else {
-											txtEarningsPartner1.setText(partner1FullName + " $ "
-													+ String.valueOf(voProjectLiquidation
-															.getPartner1Earning()));
-											txtEarningsPartner2.setText(partner2fullName + " $ "
-													+ String.valueOf(voProjectLiquidation
-															.getPartner2Earning()));
-											txtReserve.setText("Reserva: $ "
-													+ String.valueOf(voProjectLiquidation
-															.getReserve()));
-											txtTotalBills.setText("Facturación total: $ "
-													+ String.valueOf(voProjectLiquidation
-															.getTotalBills()));
+											txtEarningsPartner1.setText(partner1FullName + " "
+													+ new DecimalFormat("$ ###,###.###").format(voProjectLiquidation.getPartner1Earning()));
+											txtEarningsPartner2.setText( partner2fullName + " "
+													+ new DecimalFormat("$ ###,###.###").format(voProjectLiquidation.getPartner2Earning()));
+											txtReserve.setText("Reserva: "
+													+ new DecimalFormat("$ ###,###.###").format(voProjectLiquidation.getReserve()));
+											txtTotalBills.setText("Facturación total: "
+													+ new DecimalFormat("$ ###,###.###").format(voProjectLiquidation.getTotalBills()));
 										}
 
 									}

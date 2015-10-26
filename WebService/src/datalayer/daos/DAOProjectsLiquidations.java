@@ -5,7 +5,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 
 import servicelayer.entity.businessEntity.Employed;
@@ -225,10 +228,11 @@ public class DAOProjectsLiquidations implements IDAOProjectsLiquidations {
 		PreparedStatement preparedStatement = null;
 		ResultSet rs = null;
 		try {
-
+		        
 			StringBuilder strBuilder = new StringBuilder();
 			strBuilder
-					.append("Select PL.*, P.Name from ProjectLiquidation PL ");
+					.append("Select sum(earning) as SUM_EARNING, sum(reserve) AS SUM_RESERVE, PL.projectId, p.name  ");
+			strBuilder.append("from ProjectLiquidation PL ");
 			strBuilder.append("INNER JOIN PROJECT P ON P.ID = PL.ProjectId ");
 			strBuilder.append("WHERE appliedDateTimeUTC between ? and ? ");
 			strBuilder.append("AND PL.isCurrencyDollar = ? ");
@@ -239,8 +243,8 @@ public class DAOProjectsLiquidations implements IDAOProjectsLiquidations {
 			preparedStatement = this.connection.prepareStatement(strBuilder
 					.toString());
 
-			preparedStatement.setTimestamp(1, new Timestamp(from.getTime()));
-			preparedStatement.setTimestamp(2, new Timestamp(to.getTime()));
+			preparedStatement.setTimestamp(1, new Timestamp(setFirstDayOfMonth(from).getTime()));
+			preparedStatement.setTimestamp(2, new Timestamp(setFirstDayOfMonth(to).getTime()));
 			preparedStatement.setBoolean(3, isCurrencyDollar);
 			preparedStatement.setInt(4, count);
 			rs = preparedStatement.executeQuery();
@@ -250,9 +254,9 @@ public class DAOProjectsLiquidations implements IDAOProjectsLiquidations {
 				Project project = new Project(rs.getInt("projectId"));
 				project.setName(rs.getString("name"));
 				projectLiquidation.setProject(project);
-				double earning = rs.getDouble("earning");
+				double earning = rs.getDouble("SUM_EARNING");
 				projectLiquidation.setEarnings(earning);
-				double reserve = rs.getDouble("reserve");
+				double reserve = rs.getDouble("SUM_RESERVE");
 				projectLiquidation.setReserve(reserve);
 
 				projectsLiquidations.add(projectLiquidation);
@@ -319,6 +323,18 @@ public class DAOProjectsLiquidations implements IDAOProjectsLiquidations {
 
 	}
 
+	Date setFirstDayOfMonth(Date date) {
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(date);
+		cal.set(Calendar.DAY_OF_MONTH, 01);
+		cal.set(Calendar.HOUR_OF_DAY, 0);
+		cal.set(Calendar.MINUTE, 0);
+		cal.set(Calendar.SECOND, 0);
+		cal.set(Calendar.MILLISECOND, 0);
+
+		return cal.getTime();
+	}
+	
 	private ProjectLiquidation buildProjectLiquidation(ResultSet rs)
 			throws SQLException {
 		int _id = rs.getInt("id");

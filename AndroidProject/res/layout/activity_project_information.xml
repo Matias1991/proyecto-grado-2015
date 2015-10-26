@@ -8,23 +8,6 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".ProjectInformation" >
 
-    <EditText
-        android:id="@+id/txtDateInfoProject"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:ems="10"
-        android:hint="Seleccione el mes"
-        android:inputType="date" />
-
-    <Spinner
-        android:id="@+id/spinnerProjectInfo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="59dp" />
-
     <TableLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -91,5 +74,27 @@
                 android:text="" />
         </TableRow>
     </TableLayout>
+
+    <Spinner
+        android:id="@+id/spinnerProjectInfo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/txtDateInfoProject"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="11dp" />
+
+    <EditText
+        android:id="@+id/txtDateInfoProject"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/spinnerProjectInfo"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="22dp"
+        android:ems="10"
+        android:hint="Seleccione el mes"
+        android:inputType="date" >
+
+        <requestFocus />
+    </EditText>
 
 </RelativeLayout>

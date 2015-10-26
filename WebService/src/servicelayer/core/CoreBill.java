@@ -99,15 +99,24 @@ public class CoreBill implements ICoreBill {
 
 		DAOManager daoManager = new DAOManager();
 		try {
-			if (bill.getIsCurrencyDollar()) {
-				bill.setAmountPeso(bill.getAmountDollar()
-						* bill.getTypeExchange());
+			Calendar cal = Calendar.getInstance();
+			cal.setTime(bill.getAppliedDateTimeUTC());
+			cal.set(Calendar.DATE, 01);
+			
+			if(!daoManager.getDAOCompanyLiquidations().existLiquidation(cal.getTime())){
+				
+				if (bill.getIsCurrencyDollar()) {
+					bill.setAmountPeso(bill.getAmountDollar()
+							* bill.getTypeExchange());
+				}
+	
+				daoManager.getDAOBills().update(id, bill);
+				daoManager.commit();
+	
+				return getBill(id);
 			}
-
-			daoManager.getDAOBills().update(id, bill);
-			daoManager.commit();
-
-			return getBill(id);
+			else
+				throw new ClientException("El mes correspondiente ya fue liquidado");
 
 		} catch (ServerException e) {
 			daoManager.rollback();

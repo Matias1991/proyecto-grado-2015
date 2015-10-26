@@ -2,6 +2,7 @@ package servicelayer.core;
 
 import java.text.DateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 
 import servicelayer.entity.businessEntity.Category;
@@ -31,45 +32,55 @@ public class CoreCategory implements ICoreCategory {
 		DAOManager daoManager = new DAOManager();
 		try {
 
-			if (category.getCategoryType() == CategoryType.COMPANY) {
-				if (daoManager
-						.getDAOCategories()
-						.getCategories(category.getName(),
-								CategoryType.COMPANY).size() > 0)
-					throw new ClientException(
-							"Ya existe un rubro con ese nombre");
-			}
+			Calendar cal = Calendar.getInstance();
+			cal.setTime(category.getAppliedDateTimeUTC());
+			cal.set(Calendar.DATE, 01);
 
-			if (category.getCategoryType() == CategoryType.PROJECT
-					&& !category.getIsRRHH()) {
-				ArrayList<Category> categoriesByName = daoManager
-						.getDAOCategories().getCategories(
-								category.getName(),
-								category.getProject().getId());
-				if (categoriesByName.size() > 0)
-					throw new ClientException(
-							"Ya existe un rubro con ese nombre");
-			}
+			if (!daoManager.getDAOCompanyLiquidations().existLiquidation(
+					cal.getTime())) {
 
-			if (category.getCategoryType() == CategoryType.PROJECT
-					&& category.getIsRRHH()) {
-				ArrayList<Category> categoriesByName = daoManager
-						.getDAOCategories().getCategories(
-								category.getName(),
-								category.getProject().getId());
+				if (category.getCategoryType() == CategoryType.COMPANY) {
+					if (daoManager
+							.getDAOCategories()
+							.getCategories(category.getName(),
+									CategoryType.COMPANY).size() > 0)
+						throw new ClientException(
+								"Ya existe un rubro con ese nombre");
+				}
 
-				if (categoriesByName.size() > 0)
-					throw new ClientException(
-							"Ese rubro ya esta asosicado al proyecto seleccionado");
-			}
+				if (category.getCategoryType() == CategoryType.PROJECT
+						&& !category.getIsRRHH()) {
+					ArrayList<Category> categoriesByName = daoManager
+							.getDAOCategories().getCategories(
+									category.getName(),
+									category.getProject().getId());
+					if (categoriesByName.size() > 0)
+						throw new ClientException(
+								"Ya existe un rubro con ese nombre");
+				}
 
-			if (category.getIsCurrencyDollar()) {
-				category.setAmountPeso(category.getAmountDollar()
-						* category.getTypeExchange());
-			}
+				if (category.getCategoryType() == CategoryType.PROJECT
+						&& category.getIsRRHH()) {
+					ArrayList<Category> categoriesByName = daoManager
+							.getDAOCategories().getCategories(
+									category.getName(),
+									category.getProject().getId());
 
-			daoManager.getDAOCategories().insert(category);
-			daoManager.commit();
+					if (categoriesByName.size() > 0)
+						throw new ClientException(
+								"Ese rubro ya esta asosicado al proyecto seleccionado");
+				}
+
+				if (category.getIsCurrencyDollar()) {
+					category.setAmountPeso(category.getAmountDollar()
+							* category.getTypeExchange());
+				}
+
+				daoManager.getDAOCategories().insert(category);
+				daoManager.commit();
+			} else
+				throw new ClientException(
+						"El mes correspondiente ya fue liquidado");
 
 		} catch (ServerException e) {
 			daoManager.rollback();
@@ -87,12 +98,13 @@ public class CoreCategory implements ICoreCategory {
 			Category category = daoManager.getDAOCategories().getObject(id);
 			if (category == null) {
 				throw new ClientException("No existe rubro con ese id");
-			} else if(CoreCompanyLiquidation.GetInstance().existLiquidation(category.getAppliedDateTimeUTC())){
-					throw new ClientException("El rubro ya fue liquidado");
-			}else{
+			} else if (CoreCompanyLiquidation.GetInstance().existLiquidation(
+					category.getAppliedDateTimeUTC())) {
+				throw new ClientException("El rubro ya fue liquidado");
+			} else {
 				daoManager.getDAOCategories().delete(id);
 				daoManager.commit();
-			}			
+			}
 		} catch (ServerException e) {
 			daoManager.rollback();
 			throw e;
@@ -121,8 +133,7 @@ public class CoreCategory implements ICoreCategory {
 				if (categoryUpdate.getCategoryType() == CategoryType.COMPANY) {
 					if (daoManager
 							.getDAOCategories()
-							.getCategoriesLastVersion(
-									categoryOld.getName(),
+							.getCategoriesLastVersion(categoryOld.getName(),
 									CategoryType.COMPANY).size() > 0
 							&& !categoryUpdate.getCategoryType().equals(
 									categoryOld.getCategoryType()))
@@ -156,16 +167,17 @@ public class CoreCategory implements ICoreCategory {
 					if (categoriesByName.size() > 0)
 						throw new ClientException(
 								"Ese rubro ya esta asosicado al proyecto seleccionado");
-				}				
-				
+				}
+
 			}
-			
-			if(CoreCompanyLiquidation.GetInstance().existLiquidation(categoryUpdate.getAppliedDateTimeUTC())){
+
+			if (CoreCompanyLiquidation.GetInstance().existLiquidation(
+					categoryUpdate.getAppliedDateTimeUTC())) {
 				throw new ClientException("El mes ya fue liquidado");
 			}
 
 			if (changeCategory(categoryOld, categoryUpdate)) {
-				categoryUpdate.setName(categoryOld.getName());				
+				categoryUpdate.setName(categoryOld.getName());
 				categoryUpdate.setId(categoryOld.getId());
 				categoryUpdate.setVersion(categoryOld.getVersion());
 				if (categoryUpdate.getIsCurrencyDollar()) {
@@ -184,9 +196,11 @@ public class CoreCategory implements ICoreCategory {
 								.format(categoryOld.getUpdatedDateTimeUTC())
 								.equals(DateFormat.getDateInstance().format(
 										new Date()))) {
-					daoManager.getDAOCategories().update(categoryOld.getId(), categoryUpdate);
+					daoManager.getDAOCategories().update(categoryOld.getId(),
+							categoryUpdate);
 				} else {
-					daoManager.getDAOCategories().insertNewVersion(categoryUpdate);
+					daoManager.getDAOCategories().insertNewVersion(
+							categoryUpdate);
 				}
 			}
 
@@ -258,16 +272,19 @@ public class CoreCategory implements ICoreCategory {
 		try {
 			categories = daoManager.getDAOCategories().getCategoriesByProject(
 					projectId);
-			
-			if(categories != null && categories.size() > 0){
-				for(Category category : categories){
-					if(category.getIsCurrencyDollar())
-						category.setTotalAmountDollar(getTotalAmount(category.getAmountDollar(), category.getIvaType()));
+
+			if (categories != null && categories.size() > 0) {
+				for (Category category : categories) {
+					if (category.getIsCurrencyDollar())
+						category.setTotalAmountDollar(getTotalAmount(
+								category.getAmountDollar(),
+								category.getIvaType()));
 					else
-						category.setTotalAmountPeso(getTotalAmount(category.getAmountPeso(), category.getIvaType()));
+						category.setTotalAmountPeso(getTotalAmount(
+								category.getAmountPeso(), category.getIvaType()));
 				}
 			}
-			
+
 		} catch (ServerException e) {
 			throw e;
 		} finally {
@@ -350,8 +367,8 @@ public class CoreCategory implements ICoreCategory {
 		if (toUpdate.getAmountPeso() != oldCategory.getAmountPeso()) {
 			change = true;
 		}
-		
-		if(toUpdate.getDescription() != oldCategory.getDescription()){
+
+		if (toUpdate.getDescription() != oldCategory.getDescription()) {
 			change = true;
 		}
 

@@ -48,7 +48,7 @@ public final class R {
         public static final int reportsCompanyEarningsPeso=0x7f080043;
         public static final int spinnerBills=0x7f080020;
         public static final int spinnerIVATypes=0x7f08001b;
-        public static final int spinnerProjectInfo=0x7f080039;
+        public static final int spinnerProjectInfo=0x7f080038;
         public static final int spinnerProjects=0x7f080018;
         public static final int tableRow1=0x7f080027;
         public static final int tableRow10=0x7f08000b;
@@ -76,10 +76,10 @@ public final class R {
         public static final int txtCompanyEarningsPartner2Dollar=0x7f080014;
         public static final int txtDateApplied=0x7f08001d;
         public static final int txtDateInfoCompany=0x7f080000;
-        public static final int txtDateInfoProject=0x7f080038;
+        public static final int txtDateInfoProject=0x7f08003d;
         public static final int txtDescription=0x7f080016;
-        public static final int txtEarningsPartner1=0x7f08003a;
-        public static final int txtEarningsPartner2=0x7f08003b;
+        public static final int txtEarningsPartner1=0x7f080039;
+        public static final int txtEarningsPartner2=0x7f08003a;
         public static final int txtEmail=0x7f080031;
         public static final int txtEmpty1=0x7f080008;
         public static final int txtEmpty2=0x7f080012;
@@ -88,8 +88,8 @@ public final class R {
         public static final int txtPartner1Name=0x7f080003;
         public static final int txtPartner2Name=0x7f08000d;
         public static final int txtPasswordApp=0x7f080023;
-        public static final int txtReserve=0x7f08003c;
-        public static final int txtTotalBills=0x7f08003d;
+        public static final int txtReserve=0x7f08003b;
+        public static final int txtTotalBills=0x7f08003c;
         public static final int txtTypeExchange=0x7f08001a;
         public static final int txtUserId=0x7f080032;
         public static final int txtUserName=0x7f080029;

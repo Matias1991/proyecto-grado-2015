@@ -1,5 +1,6 @@
 package com.example.androidproject.reports;
 
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -79,12 +80,14 @@ public class CompanyInformation extends Activity {
 						VOCompanyLiquidation voCompanyInformation =  reportController
 								.getCompanyInfo(format.parse(txtDate.getText().toString()), 2);
 						if(voCompanyInformation != null && voCompanyInformation.getPartner1FullName() != null){
+							
+							
 							txtPartner1Name.setText(voCompanyInformation.getPartner1FullName());
 							txtPartner2Name.setText(voCompanyInformation.getPartner2FullName());
-							txtCompanyEarningsPartner1Dollar.setText("U$S " + voCompanyInformation.getPartner1EarningsDollar());
-							txtCompanyEarningsPartner2Dollar.setText("U$S " + voCompanyInformation.getPartner2EarningsDollar());
-							txtCompanyEarningsPartner2.setText("$ " + String.valueOf(voCompanyInformation.getPartner2EarningsPeso()));
-							txtCompanyEarningsPartner1.setText("$ " + String.valueOf(voCompanyInformation.getPartner1EarningsPeso()));
+							txtCompanyEarningsPartner1Dollar.setText(new DecimalFormat("U$S ###,###.###").format(voCompanyInformation.getPartner1EarningsDollar()));
+							txtCompanyEarningsPartner2Dollar.setText(new DecimalFormat("U$S ###,###.###").format(voCompanyInformation.getPartner2EarningsDollar()));
+							txtCompanyEarningsPartner2.setText(new DecimalFormat("$ ###,###.###").format(voCompanyInformation.getPartner2EarningsPeso()));
+							txtCompanyEarningsPartner1.setText(new DecimalFormat("$ ###,###.###").format(voCompanyInformation.getPartner1EarningsPeso()));
 						}	else {
 							new AlertDialog.Builder(CompanyInformation.this)
 							.setTitle("Atención")

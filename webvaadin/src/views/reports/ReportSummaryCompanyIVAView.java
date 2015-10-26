@@ -130,6 +130,19 @@ public class ReportSummaryCompanyIVAView extends BaseView {
 					   companyLiquidationsByMonth.get(10).getIVASale(),
 					   companyLiquidationsByMonth.get(11).getIVASale());
 		
+		dataSeries.add(companyLiquidationsByMonth.get(0).getIVASale() - companyLiquidationsByMonth.get(0).getIVAPurchase(), 
+				   companyLiquidationsByMonth.get(1).getIVASale() - companyLiquidationsByMonth.get(1).getIVAPurchase(), 
+				   companyLiquidationsByMonth.get(2).getIVASale() - companyLiquidationsByMonth.get(2).getIVAPurchase(),
+				   companyLiquidationsByMonth.get(3).getIVASale() - companyLiquidationsByMonth.get(3).getIVAPurchase(),
+				   companyLiquidationsByMonth.get(4).getIVASale() - companyLiquidationsByMonth.get(4).getIVAPurchase(),
+				   companyLiquidationsByMonth.get(5).getIVASale() - companyLiquidationsByMonth.get(5).getIVAPurchase(),
+				   companyLiquidationsByMonth.get(6).getIVASale() - companyLiquidationsByMonth.get(6).getIVAPurchase(),
+				   companyLiquidationsByMonth.get(7).getIVASale() - companyLiquidationsByMonth.get(7).getIVAPurchase(),
+				   companyLiquidationsByMonth.get(8).getIVASale() - companyLiquidationsByMonth.get(8).getIVAPurchase(),
+				   companyLiquidationsByMonth.get(9).getIVASale() - companyLiquidationsByMonth.get(9).getIVAPurchase(),
+				   companyLiquidationsByMonth.get(10).getIVASale() - companyLiquidationsByMonth.get(10).getIVAPurchase(),
+				   companyLiquidationsByMonth.get(11).getIVASale() - companyLiquidationsByMonth.get(11).getIVAPurchase());
+		
 		SeriesDefaults seriesDefaults = new SeriesDefaults()
 			.setFillToZero(true)
 			.setRenderer(SeriesRenderers.BAR);
@@ -140,7 +153,10 @@ public class ReportSummaryCompanyIVAView extends BaseView {
 					.setLabel("IVA Compra en $"))
 		.addSeries(
 				new XYseries()
-					.setLabel("IVA Venta en $"));
+					.setLabel("IVA Venta en $"))
+		.addSeries(
+				new XYseries()
+					.setLabel("IVA a pagar en $"));
 		
 		Legend legend = new Legend()
 			.setShow(true)
