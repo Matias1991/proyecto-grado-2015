@@ -86,7 +86,7 @@ public class ReportProjectDetailsAmountChargedView extends BaseView {
 		boolean buildTablePeso = buildTablePeso();
 		boolean buildTableDollar = buildTableDollar();
 		if(!buildTablePeso && !buildTableDollar)
-			lblMessage.setValue("No hay datos en el mes seleccionado para mostrar");
+			lblMessage.setValue("No hay datos en el año seleccionado para mostrar");
 		else
 			lblMessage.setValue("");
 	}
@@ -99,7 +99,7 @@ public class ReportProjectDetailsAmountChargedView extends BaseView {
 		{
 			tablePeso = buildTable(bills, false, "Tipo de Moneda - $");
 		
-			tablePeso.setWidth(49, Unit.PERCENTAGE);
+			tablePeso.setWidth(100, Unit.PERCENTAGE);
 		
 			mainLayout.addComponent(tablePeso, "top:20%;left:0px;");
 			
@@ -117,10 +117,10 @@ public class ReportProjectDetailsAmountChargedView extends BaseView {
 		{
 			tableDollar = buildTable(bills, true, "Tipo de Moneda - U$S");
 		
-			tableDollar.setWidth(440, Unit.PIXELS);
+			tableDollar.setWidth(100, Unit.PERCENTAGE);
 			
 			if(tablePeso != null)
-				mainLayout.addComponent(tableDollar, "top:20%;left:50%;");
+				mainLayout.addComponent(tableDollar, "top:77%;left:0px;");
 			else
 				mainLayout.addComponent(tableDollar, "top:20%;left:0px;");
 			
