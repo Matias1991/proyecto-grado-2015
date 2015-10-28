@@ -243,7 +243,8 @@ public class CreateBill extends Activity {
 									"Ocurrio un error al crear la factura.");
 
 					} catch (Exception e) {
-						e.printStackTrace();
+						alert.showAlertDialog(CreateBill.this, "Error",
+								e.getMessage());
 					}
 				}
 			}
